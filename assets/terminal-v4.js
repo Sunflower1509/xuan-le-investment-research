@@ -3,6 +3,7 @@
 
   const source = window.RESEARCH_DATA;
   if (!source || !Array.isArray(source.reports) || !Array.isArray(source.coverage)) return;
+  const dailySource = window.DAILY_MARKET_INSIGHTS;
 
   const reports = [...source.reports];
   const coverage = [...source.coverage];
@@ -58,6 +59,9 @@
     priorityGrid: document.querySelector("[data-role='priority-grid']"),
     actionTable: document.querySelector("[data-role='action-table']"),
     exclusionList: document.querySelector("[data-role='exclusion-list']"),
+    dailyInsight: document.querySelector("[data-role='daily-insight']"),
+    dailyArchive: document.querySelector("[data-role='daily-archive-list']"),
+    dailyIssueCount: document.querySelector("[data-role='daily-issue-count']"),
     toast: document.querySelector("[data-role='toast']")
   };
 
@@ -90,6 +94,76 @@
     if (!value) return "—";
     const [year, month, day] = value.split("-");
     return `${day}/${month}/${year}`;
+  };
+
+  const dailyEntries = Array.isArray(dailySource?.entries)
+    ? [...dailySource.entries].sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))
+    : [];
+  let activeDailyId = dailyEntries[0]?.id || null;
+
+  const renderDailyInsight = (id = activeDailyId) => {
+    if (!refs.dailyInsight || !refs.dailyArchive) return;
+    const entry = dailyEntries.find((item) => item.id === id) || dailyEntries[0];
+    if (!entry) {
+      refs.dailyInsight.innerHTML = `<div class="daily-empty"><strong>Chưa có bản nhận định.</strong><p>Thêm bản đầu tiên vào assets/daily-insights.js.</p></div>`;
+      refs.dailyArchive.innerHTML = "";
+      if (refs.dailyIssueCount) refs.dailyIssueCount.textContent = "0";
+      return;
+    }
+    activeDailyId = entry.id;
+    if (refs.dailyIssueCount) refs.dailyIssueCount.textContent = dailyEntries.length;
+    refs.dailyArchive.innerHTML = dailyEntries.map((item, index) => `
+      <button class="daily-archive-item${item.id === activeDailyId ? " active" : ""}" type="button" data-action="show-daily-insight" data-id="${escapeHtml(item.id)}" aria-pressed="${item.id === activeDailyId}">
+        <span><i>${index === 0 ? "MỚI NHẤT" : escapeHtml(item.edition)}</i><time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
+        <strong>${escapeHtml(item.title)}</strong>
+        <small>${escapeHtml(item.sentimentLabel)} • ${escapeHtml(item.readingTime)}</small>
+      </button>`).join("");
+
+    refs.dailyInsight.innerHTML = `
+      <header class="daily-insight-header">
+        <div class="daily-insight-meta">
+          <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
+          <span>${escapeHtml(entry.dataStatus)}</span>
+          <time datetime="${escapeHtml(entry.date)}">Phiên ${date(entry.date)}</time>
+        </div>
+        <h3>${escapeHtml(entry.title)}</h3>
+        <p class="daily-thesis">${escapeHtml(entry.thesis)}</p>
+        <div class="daily-byline">
+          <span class="advisor-avatar">XL</span>
+          <div><strong>${escapeHtml(entry.author)}</strong><span>${escapeHtml(entry.role)} • ${escapeHtml(entry.publishedAt)}</span></div>
+          <small>${escapeHtml(entry.readingTime)}</small>
+        </div>
+      </header>
+
+      <div class="daily-metrics">${entry.metrics.map((metric) => `
+        <div class="daily-metric ${escapeHtml(metric.tone)}">
+          <span>${escapeHtml(metric.label)}</span><strong>${escapeHtml(metric.value)}</strong><small>${escapeHtml(metric.change)}</small>
+        </div>`).join("")}</div>
+
+      <div class="daily-analysis-grid">
+        <section class="daily-analysis-panel market-context">
+          <div class="daily-panel-heading"><span>01</span><div><small>Market backdrop</small><h4>Bối cảnh phiên</h4></div></div>
+          <ul>${entry.backdrop.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          <p class="daily-focus"><svg><use href="#i-chart"></use></svg>${escapeHtml(entry.focus)}</p>
+        </section>
+
+        <section class="daily-analysis-panel level-panel">
+          <div class="daily-panel-heading"><span>02</span><div><small>Key evidence</small><h4>Mốc cần quan sát</h4></div></div>
+          <div class="daily-levels">${entry.levels.map((item) => `
+            <article><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><p>${escapeHtml(item.note)}</p></article>`).join("")}</div>
+        </section>
+
+        <section class="daily-analysis-panel playbook-panel">
+          <div class="daily-panel-heading"><span>03</span><div><small>Decision discipline</small><h4>Kế hoạch IF–THEN</h4></div></div>
+          <div class="daily-playbook">${entry.playbook.map((item) => `
+            <article><div><span>IF</span><p>${escapeHtml(item.if)}</p></div><div><span>THEN</span><p>${escapeHtml(item.then)}</p></div></article>`).join("")}</div>
+        </section>
+      </div>
+
+      <footer class="daily-insight-footer">
+        <div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phân biệt dữ liệu và nhận định</strong>${escapeHtml(entry.inference)}</p></div>
+        <div class="daily-sources"><span>Nguồn kiểm chứng</span><div>${entry.sources.map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a>`).join("")}</div></div>
+      </footer>`;
   };
 
   const statusText = {
@@ -566,6 +640,10 @@
     if (action === "set-sector") { state.sector = target.dataset.sector; renderFilters(); renderResearch(); }
     if (action === "set-status") { state.status = target.dataset.status; renderFilters(); renderResearch(); }
     if (action === "share-report") shareReport(target.dataset.id);
+    if (action === "show-daily-insight") {
+      renderDailyInsight(target.dataset.id);
+      if (window.matchMedia("(max-width: 980px)").matches) refs.dailyInsight?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     if (action === "no-report") toast("Mã này đã được phân tích nhưng chưa có báo cáo PDF trong thư viện.");
     if (action === "focus-ticker") {
       setTab("coverage");
@@ -608,9 +686,10 @@
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["overview", "action-radar", "dashboard", "research", "framework"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["daily-market", "overview", "action-radar", "dashboard", "research", "framework"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
+  renderDailyInsight();
   updateCounts();
   renderActionRadar();
   renderDashboard();
