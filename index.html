@@ -12,9 +12,10 @@
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
   <link rel="stylesheet" href="assets/typography-v3.css?v=20260718">
-  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260721b">
+  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260721c">
   <script defer src="assets/research-data.js?v=20260721"></script>
-  <script defer src="assets/terminal-v4.js?v=20260721b"></script>
+  <script defer src="assets/daily-insights.js?v=20260721"></script>
+  <script defer src="assets/terminal-v4.js?v=20260721c"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -47,6 +48,7 @@
         <span class="brand-copy"><strong>Xuân Lê TVS</strong><small>Institutional Research</small></span>
       </a>
       <nav class="desktop-nav" aria-label="Điều hướng chính">
+        <a href="#daily-market">Nhận định ngày</a>
         <a href="#overview">Tổng quan</a>
         <a href="#action-radar">Ưu tiên</a>
         <a href="#dashboard">Dashboard</a>
@@ -65,6 +67,32 @@
   </header>
 
   <main id="main-content">
+    <section class="daily-market-section" id="daily-market" aria-labelledby="daily-market-title">
+      <div class="terminal-container">
+        <div class="daily-market-heading">
+          <div>
+            <p class="terminal-eyebrow">Daily Market View • Xuân Lê TVS</p>
+            <h2 id="daily-market-title">Nhận định thị trường<br><span>hàng ngày.</span></h2>
+          </div>
+          <div class="daily-market-promise">
+            <span class="signal-dot"></span>
+            <div><strong>Bản mới nhất luôn hiển thị đầu tiên</strong><small>Khóa dữ liệu theo phiên • Lưu lịch sử • Dẫn nguồn</small></div>
+          </div>
+        </div>
+
+        <div class="daily-market-shell">
+          <aside class="daily-archive" aria-label="Lịch sử nhận định thị trường">
+            <div class="daily-archive-head"><span>Research archive</span><strong><span data-role="daily-issue-count">0</span> bản</strong></div>
+            <div class="daily-archive-list" data-role="daily-archive-list"><div class="panel-loading">Đang nạp lịch sử…</div></div>
+            <p class="daily-archive-note"><svg><use href="#i-shield"></use></svg>Mỗi bản giữ nguyên dữ liệu và nguồn tại thời điểm phát hành.</p>
+          </aside>
+          <article class="daily-insight" data-role="daily-insight" aria-live="polite">
+            <div class="panel-loading">Đang nạp nhận định mới nhất…</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="terminal-hero" id="overview">
       <div class="hero-light"></div>
       <div class="terminal-container hero-grid">
@@ -93,9 +121,9 @@
               <article class="market-tile negative"><div><span>VN-INDEX</span><strong>1.743,51</strong><small>−43,94 · −2,46%</small></div><svg viewBox="0 0 100 36"><path d="M2 5 15 8 27 7 39 15 51 14 63 22 75 24 87 31 98 29"></path></svg></article>
               <article class="market-tile negative"><div><span>VN30</span><strong>1.887,32</strong><small>−44,33 · −2,29%</small></div><svg viewBox="0 0 100 36"><path d="M2 4 14 9 27 8 39 16 51 13 64 23 76 21 88 30 98 32"></path></svg></article>
               <article class="market-tile negative"><div><span>HNX-INDEX</span><strong>284,41</strong><small>−7,29 · −2,50%</small></div><svg viewBox="0 0 100 36"><path d="M2 6 14 7 26 13 38 11 50 19 62 18 74 27 86 25 98 33"></path></svg></article>
-              <article class="market-tile breadth"><div><span>ĐỘ RỘNG HOSE</span><strong>44 / 26 / 263</strong><small>tăng / tham chiếu / giảm · 33 sàn</small></div><svg viewBox="0 0 100 36"><path d="M4 29h12V18H4zm20 0h12V23H24zm20 0h12V9H44zm20 0h12V5H64zm20 0h12V2H84z"></path></svg></article>
+              <article class="market-tile breadth"><div><span>ĐỘ RỘNG HOSE</span><strong>45 / 26 / 296</strong><small>tăng / tham chiếu / giảm · 33 sàn</small></div><svg viewBox="0 0 100 36"><path d="M4 29h12V18H4zm20 0h12V23H24zm20 0h12V9H44zm20 0h12V5H64zm20 0h12V2H84z"></path></svg></article>
             </div>
-            <a class="market-source" href="https://vtcnews.vn/vn-index-boc-hoi-gan-44-diem-ar1030123.html" target="_blank" rel="noreferrer">Nguồn đối chiếu phiên: VTC News • dữ liệu giá từng mã: Simplize ↗</a>
+            <a class="market-source" href="https://www.bsc.com.vn/bao-cao/15664-bsc-brief-20-07-thi-truong-chim-trong-sac-do/" target="_blank" rel="noreferrer">Nguồn đối chiếu phiên: BSC Brief • dữ liệu giá từng mã: Simplize ↗</a>
           </div>
           <div class="hero-trust-grid">
             <div><svg><use href="#i-shield"></use></svg><span><strong>Quản trị rủi ro</strong>Biên an toàn trước hành động</span></div>
@@ -236,10 +264,10 @@
   </footer>
 
   <nav class="mobile-nav" aria-label="Điều hướng di động">
+    <a href="#daily-market"><svg><use href="#i-message"></use></svg><span>Nhận định</span></a>
     <a href="#action-radar"><svg><use href="#i-chart"></use></svg><span>Ưu tiên</span></a>
     <a href="#research"><svg><use href="#i-file"></use></svg><span>Research</span></a>
     <button type="button" data-action="open-command"><svg><use href="#i-search"></use></svg><span>Tìm kiếm</span></button>
-    <button type="button" data-action="open-watchlist"><svg><use href="#i-star"></use></svg><span>Watchlist</span></button>
   </nav>
 
   <div class="compare-dock" data-role="compare-dock" hidden>
