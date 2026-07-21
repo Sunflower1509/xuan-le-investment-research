@@ -174,7 +174,7 @@
         ? `Giá thấp hơn cận dưới ${decimal(distance.value)}%`
         : distance.relation === "inside"
           ? "Giá đang trong vùng hành động"
-          : `Còn ${decimal(distance.value)}% tới cận trên vùng mua`;
+          : `Giá cao hơn cận trên ${decimal(distance.value)}%`;
       return `<article class="priority-card priority-${index + 1}">
         <div class="priority-rank"><span>ƯU TIÊN</span><strong>${String(index + 1).padStart(2, "0")}</strong></div>
         <div class="priority-card-main">
@@ -382,7 +382,7 @@
     const watched = state.watchlist.has(item.ticker);
     const distance = actionDistance(item);
     const rank = priorityRank.get(item.ticker);
-    return `<article class="coverage-card ${rank && rank <= 3 ? "coverage-priority" : ""}">
+    return `<article class="coverage-card ${rank && rank <= 3 ? "is-priority" : ""}">
       <div class="coverage-card-head"><div><h3>${escapeHtml(item.ticker)}</h3><span class="exchange">${escapeHtml(item.exchange)}</span></div><button class="icon-button ${watched ? "active" : ""}" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(item.ticker)}" aria-label="${watched ? "Bỏ khỏi" : "Thêm vào"} watchlist"><svg><use href="#i-star"></use></svg></button></div>
       <p>${escapeHtml(item.company)}</p><span class="sector">${escapeHtml(item.sector)}</span>
       <div class="coverage-quote"><div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong></div><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
