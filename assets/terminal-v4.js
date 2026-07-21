@@ -199,7 +199,7 @@
 
   const currentUpside = (item) => {
     const report = latestByTicker.get(item.ticker);
-    const base = report?.baseValue || item.action?.baseValue;
+    const base = report?.calculationBase || report?.baseValue || item.action?.baseValue;
     return Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
   };
 
@@ -303,7 +303,7 @@
     const marketPos = Number.isFinite(quote?.close)
       ? Math.min(100, Math.max(0, ((quote.close - report.rangeLow) / span) * 100))
       : null;
-    const liveGap = Number.isFinite(quote?.close) ? ((report.baseValue / quote.close) - 1) * 100 : null;
+    const liveGap = Number.isFinite(quote?.close) ? (((report.calculationBase || report.baseValue) / quote.close) - 1) * 100 : null;
     host.innerHTML = `
       <div class="featured-head">
         <div class="featured-head-top">
@@ -535,7 +535,7 @@
     if (!report) return;
     const quote = coverageByTicker.get(report.ticker);
     const action = quote?.action;
-    const liveGap = Number.isFinite(quote?.close) ? ((report.baseValue / quote.close) - 1) * 100 : null;
+    const liveGap = Number.isFinite(quote?.close) ? (((report.calculationBase || report.baseValue) / quote.close) - 1) * 100 : null;
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
     refs.reportDialogContent.innerHTML = `

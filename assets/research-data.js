@@ -38,7 +38,7 @@ window.RESEARCH_DATA = {
   reports: [
     {
       id: "VIX-20260721", ticker: "VIX", company: "Công ty Cổ phần Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-21",
-      recommendation: "CHỜ", status: "wait", marketPrice: 12500, baseValue: 9500, rangeLow: 6000, rangeHigh: 15400,
+      recommendation: "CHỜ", status: "wait", marketPrice: 12500, baseValue: 9500, calculationBase: 9524, rangeLow: 6000, rangeHigh: 15400,
       gapLabel: "−23,81% tới giá trị cơ sở tại ngày định giá", method: "Residual Income + P/B–ROE + P/E–P/B tương đối",
       summary: "Giá 12.500 đồng/cp nằm trong vùng giá trị hợp lý 6.000–15.400 đồng/cp nhưng cao hơn giá trị cơ sở 9.500 đồng/cp và chưa đáp ứng biên an toàn; khuyến nghị thực chiến giữ ở mức CHỜ.",
       file: "reports/VIX_Valuation_Report_2026-07-21.pdf", edition: "Bản mới nhất"
