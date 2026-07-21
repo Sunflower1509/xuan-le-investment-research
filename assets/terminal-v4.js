@@ -416,6 +416,20 @@
     return a.ticker.localeCompare(b.ticker);
   });
 
+  const reportVisual = (report, placement = "card") => {
+    const visual = report.visual;
+    if (!visual?.src || !visual?.sourceUrl) return "";
+    const label = visual.kind === "illustration" ? "Minh họa ngành" : "Ảnh hoạt động";
+    const sourceTitle = `Nguồn ảnh: ${visual.sourceLabel || report.company}`;
+    return `<figure class="report-visual report-visual-${escapeHtml(placement)} ${visual.kind === "illustration" ? "is-illustration" : ""}">
+      <a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(`${visual.caption}. ${sourceTitle}`)}" title="${escapeHtml(sourceTitle)}">
+        <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.caption)}" width="960" height="540" loading="lazy" decoding="async">
+        <span class="report-visual-label">${escapeHtml(label)}</span>
+      </a>
+      ${placement === "dialog" ? `<figcaption><span>${escapeHtml(visual.caption)}</span><a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer">Nguồn: ${escapeHtml(visual.sourceLabel || report.company)} ↗</a></figcaption>` : ""}
+    </figure>`;
+  };
+
   const reportCard = (report) => {
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
@@ -427,6 +441,7 @@
       <div class="report-card-topline"></div>
       <div class="report-card-head">
         <div class="report-identity"><span class="ticker-mark">${escapeHtml(report.ticker)}</span><div><h3>${escapeHtml(report.edition)}</h3><p>${escapeHtml(report.sector)} • ${escapeHtml(report.exchange)}</p></div></div>
+        ${reportVisual(report)}
         <div class="card-tools">
           <button class="${watched ? "active" : ""}" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(report.ticker)}" aria-label="${watched ? "Bỏ khỏi" : "Thêm vào"} watchlist"><svg><use href="#i-star"></use></svg></button>
           <button class="${compared ? "active" : ""}" type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}" aria-label="${compared ? "Bỏ khỏi" : "Thêm vào"} so sánh"><svg><use href="#i-compare"></use></svg></button>
@@ -540,7 +555,7 @@
     const compared = state.compare.has(report.id);
     refs.reportDialogContent.innerHTML = `
       <div class="report-dialog-hero">
-        <div class="report-dialog-head"><div><p class="terminal-eyebrow">Equity Research • ${escapeHtml(report.exchange)}</p><h2 class="report-dialog-code" id="report-dialog-title">${escapeHtml(report.ticker)}</h2><p class="report-dialog-company">${escapeHtml(report.company)}</p><p class="report-dialog-meta">${escapeHtml(report.sector)} • ${date(report.date)} • ${escapeHtml(report.edition)}</p></div><span class="status-badge ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span></div>
+        <div class="report-dialog-head"><div><p class="terminal-eyebrow">Equity Research • ${escapeHtml(report.exchange)}</p><h2 class="report-dialog-code" id="report-dialog-title">${escapeHtml(report.ticker)}</h2><p class="report-dialog-company">${escapeHtml(report.company)}</p><p class="report-dialog-meta">${escapeHtml(report.sector)} • ${date(report.date)} • ${escapeHtml(report.edition)}</p></div>${reportVisual(report, "dialog")}<span class="status-badge ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span></div>
       </div>
       <div class="report-dialog-body">
         <div class="dialog-metrics">

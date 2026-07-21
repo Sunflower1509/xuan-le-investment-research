@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa của toàn bộ 16 mã Coverage Universe được khóa tại phiên 21/07/2026 và đối chiếu chéo giữa Simplize với Stockbiz. Thiếu dữ liệu được để trống, không nội suy."
+    note: "Giá đóng cửa của toàn bộ 16 mã Coverage Universe được khóa tại phiên 21/07/2026 và đối chiếu chéo giữa Simplize với Stockbiz. Thư viện PDF chỉ giữ bản mới nhất theo từng mã; ảnh hoạt động có liên kết nguồn. Thiếu dữ liệu được để trống, không nội suy."
   },
 
   marketSession: {
@@ -41,6 +41,7 @@ window.RESEARCH_DATA = {
       recommendation: "CHỜ", status: "wait", marketPrice: 12500, baseValue: 9500, calculationBase: 9524, rangeLow: 6000, rangeHigh: 15400,
       gapLabel: "−23,81% tới giá trị cơ sở tại ngày định giá", method: "Residual Income + P/B–ROE + P/E–P/B tương đối",
       summary: "Giá 12.500 đồng/cp nằm trong vùng giá trị hợp lý 6.000–15.400 đồng/cp nhưng cao hơn giá trị cơ sở 9.500 đồng/cp và chưa đáp ứng biên an toàn; khuyến nghị thực chiến giữ ở mức CHỜ.",
+      visual: { src: "assets/images/reports/vix.webp", alt: "Đội ngũ Chứng khoán VIX tại không gian làm việc", caption: "Hoạt động tại Chứng khoán VIX", sourceLabel: "VIX Securities", sourceUrl: "https://vixs.vn/chung-khoan-vix-dat-muc-tieu-gia-nhap-nhom-loi-nhuan-nghin-ty.html" },
       file: "reports/VIX_Valuation_Report_2026-07-21.pdf", edition: "Bản mới nhất"
     },
     {
@@ -48,6 +49,7 @@ window.RESEARCH_DATA = {
       recommendation: "CHỜ", status: "wait", marketPrice: 58900, baseValue: 54200, rangeLow: 39500, rangeHigh: 68000,
       gapLabel: "−8,7% so với giá trị cơ sở tại ngày định giá", method: "P/B gắn ROE + Residual Income",
       summary: "Giá tại ngày định giá nằm trong vùng giá trị hợp lý nhưng chưa tạo biên an toàn hấp dẫn; không mua đuổi.",
+      visual: { src: "assets/images/reports/vcb.webp", alt: "Cán bộ Vietcombank sử dụng VCB Tablet hỗ trợ khách hàng", caption: "VCB Tablet trong hoạt động ngân hàng số", sourceLabel: "Vietcombank", sourceUrl: "https://www.vietcombank.com.vn/vi-VN/Trang-thong-tin-dien-tu/Articles/2025/12/24/Van-hoa-so-6_PTSPBL_Kien-tao-giai-phap-ngan-hang-so-di-dong" },
       file: "reports/VCB_Bao_cao_dinh_gia_Xuan_Le_TVS.pdf", edition: "Bản chính"
     },
     {
@@ -55,6 +57,7 @@ window.RESEARCH_DATA = {
       recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 21600, baseValue: 26000, rangeLow: 21600, rangeHigh: 30400,
       gapLabel: null, method: "DCF FCFF + kiểm chứng tương đối",
       summary: "Giá trị trung tâm 26.000 đồng/cp; vùng giá trị hợp lý 21.600–30.400 đồng/cp.",
+      visual: { src: "assets/images/reports/ddv.webp", alt: "Khu nhà máy DAP - Vinachem tại Đình Vũ", caption: "Nhà máy DAP - Vinachem", sourceLabel: "DAP - Vinachem", sourceUrl: "https://www.dap-vinachem.com.vn/" },
       file: "reports/Bao_cao_dinh_gia_DDV_20260714.pdf", edition: "Bản chính"
     },
     {
@@ -62,6 +65,7 @@ window.RESEARCH_DATA = {
       recommendation: "CHỜ", status: "wait", marketPrice: 75400, baseValue: 96900, rangeLow: 65000, rangeHigh: 103000,
       gapLabel: null, method: "DCF FCFF + định giá tương đối",
       summary: "Giá trị cơ sở 96.900 đồng/cp; vùng giá trị hợp lý 65.000–103.000 đồng/cp.",
+      visual: { src: "assets/images/reports/gas.webp", alt: "Kỹ sư vận hành hệ thống xử lý khí của PV GAS", caption: "Vận hành công trình xử lý khí", sourceLabel: "PV GAS", sourceUrl: "https://www.pvgas.com.vn/en-us/bai-viet/pv-gas-35-nam-doi-moi-sang-tao-va-tien-phong-cong-nghe-trong-nganh-cong-nghiep-khi-viet-nam" },
       file: "reports/Bao_cao_dinh_gia_GAS_2026_Xuan_Le_TVS.pdf", edition: "Bản chính"
     },
     {
@@ -69,6 +73,7 @@ window.RESEARCH_DATA = {
       recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 35900, baseValue: 31461, rangeLow: 28400, rangeHigh: 36200,
       gapLabel: "−14,1% so với giá trị cơ sở tại ngày định giá", method: "Residual Income + P/B–ROE",
       summary: "Giá trị cơ sở 31.461 đồng/cp; vùng giá trị hợp lý 28.400–36.200 đồng/cp.",
+      visual: { src: "assets/images/reports/bvs.webp", alt: "Ban lãnh đạo Chứng khoán Bảo Việt tại Đại hội đồng cổ đông thường niên 2025", caption: "Đại hội đồng cổ đông thường niên 2025", sourceLabel: "BVSC", sourceUrl: "https://www.facebook.com/ChungKhoanBaoViet.BVSC/posts/1292292632904660/" },
       file: "reports/BVS_Valuation_Report_XuanLeTVS_20260713.pdf", edition: "Bản mới nhất"
     },
     {
@@ -76,6 +81,7 @@ window.RESEARCH_DATA = {
       recommendation: "TRÁNH MUA MỚI", status: "avoid", marketPrice: 80400, baseValue: 38600, rangeLow: 29400, rangeHigh: 47800,
       gapLabel: "−108,3% biên an toàn theo công thức trong báo cáo", method: "DCF FCFF + kiểm chứng định giá tương đối",
       summary: "Chất lượng hoạt động cốt lõi cải thiện, nhưng định giá thị trường cao hơn đáng kể vùng giá trị hợp lý.",
+      visual: { src: "assets/images/reports/gee.webp", alt: "Toàn cảnh nhà máy CADIVI tại Bắc Ninh thuộc hệ sinh thái GELEX Electric", caption: "Nhà máy CADIVI thuộc GELEX Electric", sourceLabel: "CADIVI", sourceUrl: "https://cadivi.vn/vn/thanh-lap-cong-ty-tnhh-mot-thanh-vien-cadivi-mien-bac.html" },
       file: "reports/GEE_Equity_Research_Valuation_2026_Xuan_Le_TVS.pdf?v=c1eb774c", edition: "Đã kiểm tra"
     },
     {
@@ -83,6 +89,7 @@ window.RESEARCH_DATA = {
       recommendation: "LOẠI", status: "reject", marketPrice: 25500, baseValue: 19000, rangeLow: 13600, rangeHigh: 24300,
       gapLabel: null, method: "DCF FCFF chu kỳ + kiểm chứng tương đối",
       summary: "Điểm giữa 19.000 đồng/cp; vùng giá trị hợp lý 13.600–24.300 đồng/cp; không mua mới.",
+      visual: { src: "assets/images/reports/bsr.webp", alt: "Hình minh họa một tổ hợp lọc hóa dầu", caption: "Hình minh họa ngành lọc hóa dầu", sourceLabel: "Unsplash / Ali Mucci", sourceUrl: "https://unsplash.com/photos/industrial-oil-refinery-complex-under-a-clear-blue-sky-gZbjx2K7s9I", kind: "illustration" },
       file: "reports/BSR_Equity_Research_Valuation_2026.pdf", edition: "Bản chính"
     },
     {
@@ -90,6 +97,7 @@ window.RESEARCH_DATA = {
       recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 36200, baseValue: 43750, rangeLow: 37500, rangeHigh: 50000,
       gapLabel: null, method: "SOTP + DCF FCFF",
       summary: "Điểm giữa 43.750 đồng/cp; vùng giá trị hợp lý 37.500–50.000 đồng/cp.",
+      visual: { src: "assets/images/reports/pvs.webp", alt: "Hạng mục chân đế giàn Lạc Đà Vàng do PTSC M&C thi công và hạ thủy", caption: "Thi công chân đế giàn Lạc Đà Vàng", sourceLabel: "PTSC M&C", sourceUrl: "https://mc.ptsc.com.vn/news/ptsc-mc-successfully-completes-jacket-construction-for-lac-da-vang-project-and-reaches-2-million-safe-man-hours" },
       file: "reports/PVS_Valuation_Report_XuanLeTVS.pdf", edition: "Bản chính"
     },
     {
@@ -97,6 +105,7 @@ window.RESEARCH_DATA = {
       recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 33700, baseValue: 45300, rangeLow: 30600, rangeHigh: 52100,
       gapLabel: null, method: "P/B gắn ROE + Residual Income",
       summary: "Giá trị cơ sở 45.300 đồng/cp; vùng giá trị hợp lý 30.600–52.100 đồng/cp.",
+      visual: { src: "assets/images/reports/ctg.webp", alt: "Gian hàng chuyển đổi số của VietinBank tại sự kiện ngành ngân hàng", caption: "Hoạt động chuyển đổi số VietinBank", sourceLabel: "VietinBank", sourceUrl: "https://www.vietinbank.vn/vietinbank-toa-sang-tai-su-kien-chuyen-doi-so-nganh-ngan-hang-nam-2025-20250530023016-00-html" },
       file: "reports/CTG_Valuation_Report_20260710_XuanLeTVS.pdf", edition: "Bản chính"
     },
     {
@@ -104,20 +113,15 @@ window.RESEARCH_DATA = {
       recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 22950, baseValue: 29000, rangeLow: 25000, rangeHigh: 33000,
       gapLabel: null, method: "DCF FCFF chu kỳ + kiểm chứng tương đối",
       summary: "Điểm giữa 29.000 đồng/cp; vùng giá trị hợp lý 25.000–33.000 đồng/cp.",
+      visual: { src: "assets/images/reports/hpg.webp", alt: "Lò thổi oxy luyện thép tại Hòa Phát Dung Quất 2", caption: "Vận hành luyện thép tại Dung Quất 2", sourceLabel: "Hòa Phát", sourceUrl: "https://www.hoaphat.com.vn/cong-nghe/hoa-phat-khai-lo-thoi-so-2-dung-quat-2-da-san-sang.html" },
       file: "reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf", edition: "Bản chính"
-    },
-    {
-      id: "BVS-20260710", ticker: "BVS", company: "Công ty Cổ phần Chứng khoán Bảo Việt", sector: "Chứng khoán", exchange: "HNX", date: "2026-07-10",
-      recommendation: "CHỜ", status: "wait", marketPrice: 35900, baseValue: 36740, rangeLow: 27100, rangeHigh: 50700,
-      gapLabel: null, method: "P/B–ROE + Residual Income",
-      summary: "Giá trị cơ sở 36.740 đồng/cp; vùng giá trị hợp lý 27.100–50.700 đồng/cp.",
-      file: "reports/BVS_Dinh_Gia_Xuan_Le_TVS_20260710.pdf", edition: "Bản trước"
     },
     {
       id: "TVS-20260709", ticker: "TVS", company: "Công ty Cổ phần Chứng khoán Thiên Việt", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-09",
       recommendation: "CHỜ", status: "wait", marketPrice: 16150, baseValue: 13568, rangeLow: 11300, rangeHigh: 16700,
       gapLabel: null, method: "P/B–ROE + Residual Income",
       summary: "Giá trị trọng số 13.568 đồng/cp; vùng giá trị hợp lý 11.300–16.700 đồng/cp.",
+      visual: { src: "assets/images/reports/tvs.webp", alt: "Hoạt động tư vấn và kết nối khách hàng tại Chứng khoán Thiên Việt", caption: "Hoạt động tư vấn đầu tư tại TVS", sourceLabel: "Thiên Việt Securities", sourceUrl: "https://www.tvs.vn/en/news/positioned-as-a-trusted-boutique-merchant-investment-bank-tvs-comes-closer-to-investors" },
       file: "reports/Bao_cao_dinh_gia_TVS_09072026.pdf", edition: "Bản chính"
     }
   ],
