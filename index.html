@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f7f5ef">
-  <meta name="description" content="Institutional Research Terminal của Xuân Lê TVS: dashboard định giá, thư viện báo cáo PDF và danh mục cổ phiếu đã phân tích.">
+  <meta name="description" content="Institutional Research Terminal của Xuân Lê TVS: giá đóng cửa 20/07/2026, bảng ưu tiên theo khoảng cách tới vùng mua, dashboard định giá và thư viện báo cáo PDF.">
   <meta property="og:title" content="Xuân Lê TVS | Institutional Research Terminal">
   <meta property="og:description" content="Dữ liệu trước. Kết luận sau. Báo cáo định giá và không gian nghiên cứu cổ phiếu Việt Nam.">
   <meta property="og:type" content="website">
@@ -12,9 +12,9 @@
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
   <link rel="stylesheet" href="assets/typography-v3.css?v=20260718">
-  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260718">
-  <script defer src="assets/research-data.js?v=20260718"></script>
-  <script defer src="assets/terminal-v4.js?v=20260718"></script>
+  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260721">
+  <script defer src="assets/research-data.js?v=20260721"></script>
+  <script defer src="assets/terminal-v4.js?v=20260721"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -48,9 +48,9 @@
       </a>
       <nav class="desktop-nav" aria-label="Điều hướng chính">
         <a href="#overview">Tổng quan</a>
+        <a href="#action-radar">Ưu tiên</a>
         <a href="#dashboard">Dashboard</a>
         <a href="#research">Research Terminal</a>
-        <a href="#framework">Phương pháp</a>
       </nav>
       <div class="header-tools">
         <button class="command-trigger" type="button" data-action="open-command" aria-label="Mở tìm kiếm nhanh">
@@ -71,10 +71,10 @@
         <div class="hero-copy">
           <p class="terminal-eyebrow">Equity Research • Vietnam Market</p>
           <h1>Dữ liệu trước.<br><span>Kết luận sau.</span></h1>
-          <p class="hero-lead">Không gian nghiên cứu tập trung cho báo cáo định giá, dashboard quyết định và danh mục cổ phiếu Việt Nam—rõ nguồn, rõ vùng giá trị, rõ hành động.</p>
+          <p class="hero-lead">Không gian nghiên cứu tập trung cho báo cáo định giá và danh mục cổ phiếu Việt Nam—khóa giá đến hết phiên 20/07/2026, xếp hạng theo vùng hành động và tách rõ điều kiện mua.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#research"><svg><use href="#i-chart"></use></svg>Mở Research Terminal</a>
-            <button class="button button-glass" type="button" data-action="open-report" data-id="GEE-20260713"><svg><use href="#i-file"></use></svg>Báo cáo GEE</button>
+            <a class="button button-primary" href="#action-radar"><svg><use href="#i-chart"></use></svg>Xem bảng ưu tiên</a>
+            <button class="button button-glass" type="button" data-action="open-report" data-id="CTG-20260710"><svg><use href="#i-file"></use></svg>Hồ sơ CTG</button>
           </div>
           <div class="advisor-line">
             <span class="advisor-avatar">XL</span>
@@ -84,18 +84,18 @@
         </div>
 
         <div class="hero-terminal">
-          <div class="market-board" aria-label="Nhịp thị trường - dữ liệu minh họa">
+          <div class="market-board" aria-label="Nhịp thị trường chốt phiên 20 tháng 7 năm 2026">
             <div class="market-board-head">
               <div><span class="signal-dot"></span><strong>Market Pulse</strong></div>
-              <span>Minh họa • Chưa live</span>
+              <span>Chốt phiên 20.07.2026 • Đã đối chiếu</span>
             </div>
             <div class="market-board-grid">
-              <article class="market-tile negative"><div><span>VN-INDEX</span><strong>1,787.45</strong><small>−16.79 · −0.93%</small></div><svg viewBox="0 0 100 36"><path d="M2 7 12 5 21 15 31 12 41 20 51 17 61 24 71 21 82 27 98 30"></path></svg></article>
-              <article class="market-tile negative"><div><span>VN30</span><strong>1,931.65</strong><small>−10.00 · −0.52%</small></div><svg viewBox="0 0 100 36"><path d="M2 6 12 13 22 9 33 17 44 14 55 21 66 18 77 25 87 22 98 28"></path></svg></article>
-              <article class="market-tile positive"><div><span>HNX-INDEX</span><strong>291.70</strong><small>+3.38 · +1.17%</small></div><svg viewBox="0 0 100 36"><path d="M2 30 12 27 23 29 34 21 45 24 56 16 67 19 78 11 88 14 98 5"></path></svg></article>
-              <article class="market-tile negative"><div><span>HNX30</span><strong>487.77</strong><small>−7.97 · −1.61%</small></div><svg viewBox="0 0 100 36"><path d="M2 8 13 12 24 10 35 17 46 14 57 22 68 19 79 28 89 25 98 31"></path></svg></article>
+              <article class="market-tile negative"><div><span>VN-INDEX</span><strong>1.743,51</strong><small>−43,94 · −2,46%</small></div><svg viewBox="0 0 100 36"><path d="M2 5 15 8 27 7 39 15 51 14 63 22 75 24 87 31 98 29"></path></svg></article>
+              <article class="market-tile negative"><div><span>VN30</span><strong>1.887,32</strong><small>−44,33 · −2,29%</small></div><svg viewBox="0 0 100 36"><path d="M2 4 14 9 27 8 39 16 51 13 64 23 76 21 88 30 98 32"></path></svg></article>
+              <article class="market-tile negative"><div><span>HNX-INDEX</span><strong>284,41</strong><small>−7,29 · −2,50%</small></div><svg viewBox="0 0 100 36"><path d="M2 6 14 7 26 13 38 11 50 19 62 18 74 27 86 25 98 33"></path></svg></article>
+              <article class="market-tile breadth"><div><span>ĐỘ RỘNG HOSE</span><strong>44 / 26 / 263</strong><small>tăng / tham chiếu / giảm · 33 sàn</small></div><svg viewBox="0 0 100 36"><path d="M4 29h12V18H4zm20 0h12V23H24zm20 0h12V9H44zm20 0h12V5H64zm20 0h12V2H84z"></path></svg></article>
             </div>
-            <a class="market-source" href="https://iboard.ssi.com.vn/" target="_blank" rel="noreferrer">Nguồn kết nối dự kiến: SSI iBoard ↗</a>
+            <a class="market-source" href="https://vtcnews.vn/vn-index-boc-hoi-gan-44-diem-ar1030123.html" target="_blank" rel="noreferrer">Nguồn đối chiếu phiên: VTC News • dữ liệu giá từng mã: Simplize ↗</a>
           </div>
           <div class="hero-trust-grid">
             <div><svg><use href="#i-shield"></use></svg><span><strong>Quản trị rủi ro</strong>Biên an toàn trước hành động</span></div>
@@ -106,20 +106,51 @@
       </div>
     </section>
 
+    <section class="action-radar-section" id="action-radar">
+      <div class="terminal-container">
+        <div class="section-heading action-heading">
+          <div>
+            <p class="terminal-eyebrow">Action Radar • EOD 20.07.2026</p>
+            <h2>Ưu tiên theo dữ liệu.<br>Không xếp hạng bằng cảm tính.</h2>
+          </div>
+          <div class="method-card">
+            <span class="method-index">M01</span>
+            <div><strong>Khoảng cách tới vùng hành động</strong><p>Hard veto trước, khoảng cách sau. Giá vào hoặc xuyên vùng mua không đồng nghĩa “MUA NGAY”; điều kiện trong báo cáo vẫn bắt buộc.</p></div>
+          </div>
+        </div>
+
+        <div class="priority-summary" data-role="priority-summary"></div>
+        <div class="priority-grid" data-role="priority-grid"><div class="panel-loading">Đang tính bảng ưu tiên…</div></div>
+
+        <div class="action-table-shell">
+          <div class="action-table-head">
+            <div><p class="terminal-eyebrow">Valuation Entry Radar</p><h3>Toàn bộ mã có vùng mua đã khóa</h3></div>
+            <div class="data-integrity"><span class="signal-dot"></span><div><strong>Giá khóa 20.07</strong><small>TVS và BFC dùng phiên gần nhất 17.07</small></div></div>
+          </div>
+          <div class="action-table-wrap" data-role="action-table"></div>
+        </div>
+
+        <div class="exclusion-panel">
+          <div><p class="terminal-eyebrow">Veto & Revalidation</p><h3>Không đưa vào nhóm ưu tiên</h3></div>
+          <div data-role="exclusion-list"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="coverage-strip" aria-label="Quy mô thư viện nghiên cứu">
       <div class="terminal-container coverage-strip-grid">
         <div><span>Báo cáo PDF</span><strong data-role="report-count">11</strong><small>ấn phẩm định giá</small></div>
         <div><span>Coverage</span><strong data-role="coverage-count">15</strong><small>mã đã phân tích</small></div>
         <div><span>Ngành</span><strong data-role="sector-count">8</strong><small>nhóm nghiên cứu</small></div>
-        <div><span>Cập nhật</span><strong>18.07</strong><small>phiên bản terminal</small></div>
+        <div><span>Giá khóa</span><strong>20.07</strong><small>kết phiên 2026</small></div>
       </div>
     </section>
 
     <section class="terminal-section" id="dashboard">
       <div class="terminal-container">
         <div class="section-heading split-heading">
-          <div><p class="terminal-eyebrow">Decision Dashboard</p><h2>Một màn hình.<br>Đủ dữ liệu để định hướng quyết định.</h2></div>
-          <p>Dashboard chỉ tổng hợp những số liệu đã khóa trong báo cáo. Dữ liệu thị trường chưa kết nối realtime được ghi rõ trạng thái, không giả lập là dữ liệu trực tiếp.</p>
+            <div><p class="terminal-eyebrow">Decision Dashboard</p><h2>Tách giá hiện tại.<br>Tách giá trị. Tách điều kiện.</h2></div>
+          <p>Dashboard giữ nguyên số liệu lịch sử của báo cáo, đồng thời đặt cạnh giá đóng cửa 20/07/2026. Mọi khoảng cách được tính lại minh bạch; kết luận gốc không bị sửa.</p>
         </div>
         <div class="decision-grid">
           <article class="featured-research" data-role="featured-report">
@@ -158,7 +189,7 @@
 
           <div class="research-toolbar">
             <label class="terminal-search"><svg><use href="#i-search"></use></svg><span class="sr-only">Tìm báo cáo hoặc cổ phiếu</span><input id="research-search" type="search" autocomplete="off" placeholder="Tìm mã, doanh nghiệp hoặc ngành…"></label>
-            <label class="sort-control"><span>Sắp xếp</span><select id="research-sort"><option value="newest">Mới nhất</option><option value="ticker">Mã A–Z</option><option value="sector">Theo ngành</option><option value="base-desc">Giá trị cơ sở cao → thấp</option></select></label>
+            <label class="sort-control"><span>Sắp xếp</span><select id="research-sort"><option value="priority">Gần vùng hành động</option><option value="newest">Mới nhất</option><option value="ticker">Mã A–Z</option><option value="sector">Theo ngành</option><option value="base-desc">Giá trị cơ sở cao → thấp</option></select></label>
             <div class="view-switch" aria-label="Kiểu hiển thị">
               <button type="button" data-action="set-view" data-view="grid" aria-pressed="true" aria-label="Dạng lưới"><svg><use href="#i-grid"></use></svg></button>
               <button type="button" data-action="set-view" data-view="list" aria-pressed="false" aria-label="Dạng danh sách"><svg><use href="#i-list"></use></svg></button>
@@ -199,13 +230,13 @@
   <footer class="terminal-footer">
     <div class="terminal-container footer-grid">
       <div class="footer-brand"><strong>Xuân Lê TVS</strong><span>Institutional Research Terminal</span></div>
-      <p>Báo cáo định giá, dashboard và hồ sơ nghiên cứu cổ phiếu Việt Nam. Dữ liệu thị trường trong banner hiện là minh họa cho đến khi kết nối API chính thức.</p>
+      <p>Báo cáo định giá, dashboard và hồ sơ nghiên cứu cổ phiếu Việt Nam. Giá thị trường được khóa theo phiên và dẫn nguồn; website chưa phát dữ liệu realtime.</p>
       <div class="footer-contact"><a href="tel:+84977811398">0977.811.398</a><a href="https://zalo.me/0977811398" target="_blank" rel="noreferrer">Trao đổi qua Zalo ↗</a></div>
     </div>
   </footer>
 
   <nav class="mobile-nav" aria-label="Điều hướng di động">
-    <a href="#overview"><svg><use href="#i-chart"></use></svg><span>Tổng quan</span></a>
+    <a href="#action-radar"><svg><use href="#i-chart"></use></svg><span>Ưu tiên</span></a>
     <a href="#research"><svg><use href="#i-file"></use></svg><span>Research</span></a>
     <button type="button" data-action="open-command"><svg><use href="#i-search"></use></svg><span>Tìm kiếm</span></button>
     <button type="button" data-action="open-watchlist"><svg><use href="#i-star"></use></svg><span>Watchlist</span></button>
