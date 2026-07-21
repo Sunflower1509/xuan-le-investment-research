@@ -236,7 +236,7 @@
     if (refs.prioritySummary) refs.prioritySummary.innerHTML = `
       <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Có vùng mua đã khóa • Không hard veto</small></div>
       <div><span>Ưu tiên gần nhất</span><strong>${escapeHtml(priorityUniverse[0]?.ticker || "—")}</strong><small>${priorityUniverse[0] ? escapeHtml(relationLabel(priorityUniverse[0])) : "—"}</small></div>
-      <div><span>Giá đúng phiên 20/07</span><strong>${exactSession}/${coverage.length}</strong><small>${coverage.length - exactSession} mã dùng giá gần nhất và có ghi chú</small></div>
+      <div><span>Giá đúng phiên ${date(source.meta.updated)}</span><strong>${exactSession}/${coverage.length}</strong><small>${coverage.length - exactSession} mã dùng giá gần nhất và có ghi chú</small></div>
       <div><span>Veto / cần đánh giá lại</span><strong>${exclusions.length}</strong><small>Không đưa vào nhóm ưu tiên</small></div>`;
 
     if (refs.priorityGrid) refs.priorityGrid.innerHTML = priorityUniverse.slice(0, 3).map((item, index) => {
@@ -281,7 +281,7 @@
           <td><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
           <td><strong>${number(base)}</strong><span>${Number.isFinite(currentUpside(item)) ? `${signedPercent(currentUpside(item))} từ giá đóng cửa` : "—"}</span></td>
           <td><p>${escapeHtml(action.condition)}</p>${item.ticker === "GAS" ? `<span class="conditional-zone">Thăm dò có điều kiện: ${number(action.watchLow)}–${number(action.watchHigh)}</span>` : ""}</td>
-          <td><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
+          <td><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
         </tr>`;
       }).join("")}</tbody>
     </table>`;
@@ -315,13 +315,13 @@
         <div class="metric-grid">
           <div class="dashboard-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
           <div class="dashboard-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>đồng/cp</small></div>
-          <div class="dashboard-metric"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa 20/07</small></div>
+          <div class="dashboard-metric"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa ${date(source.meta.updated)}</small></div>
         </div>
         <div class="valuation-rail">
           <div class="valuation-rail-title"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)} đồng/cp</strong></div>
           <div class="value-track">
             <span class="value-marker" style="left:${basePos}%"><i></i><b>Cơ sở</b></span>
-            ${marketPos === null ? "" : `<span class="value-marker market" style="left:${marketPos}%"><i></i><b>20/07</b></span>`}
+            ${marketPos === null ? "" : `<span class="value-marker market" style="left:${marketPos}%"><i></i><b>${date(source.meta.updated)}</b></span>`}
           </div>
           <div class="rail-labels"><span>${number(report.rangeLow)}</span><span>${number(report.rangeHigh)}</span></div>
         </div>
