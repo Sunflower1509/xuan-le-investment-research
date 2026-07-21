@@ -7,6 +7,7 @@
   const reports = [...source.reports];
   const coverage = [...source.coverage];
   const reportById = new Map(reports.map((report) => [report.id, report]));
+  const coverageByTicker = new Map(coverage.map((item) => [item.ticker, item]));
   const latestByTicker = new Map();
   [...reports]
     .sort((a, b) => b.date.localeCompare(a.date))
@@ -28,7 +29,7 @@
     query: "",
     sector: "all",
     status: "all",
-    sort: "newest",
+    sort: "priority",
     view: "grid",
     watchlist: getStoredSet("xltvs-watchlist-v1"),
     compare: new Set()
@@ -53,6 +54,10 @@
     commandResults: document.querySelector("[data-role='command-results']"),
     compareDock: document.querySelector("[data-role='compare-dock']"),
     compareTickers: document.querySelector("[data-role='compare-tickers']"),
+    prioritySummary: document.querySelector("[data-role='priority-summary']"),
+    priorityGrid: document.querySelector("[data-role='priority-grid']"),
+    actionTable: document.querySelector("[data-role='action-table']"),
+    exclusionList: document.querySelector("[data-role='exclusion-list']"),
     toast: document.querySelector("[data-role='toast']")
   };
 
@@ -73,6 +78,14 @@
     ? new Intl.NumberFormat("vi-VN").format(value)
     : "—";
 
+  const decimal = (value, digits = 1) => Number.isFinite(value)
+    ? new Intl.NumberFormat("vi-VN", { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value)
+    : "—";
+
+  const signedPercent = (value) => Number.isFinite(value)
+    ? `${value > 0 ? "+" : value < 0 ? "−" : ""}${decimal(Math.abs(value), 2)}%`
+    : "—";
+
   const date = (value) => {
     if (!value) return "—";
     const [year, month, day] = value.split("-");
@@ -85,6 +98,35 @@
     avoid: "TRÁNH MUA MỚI",
     reject: "LOẠI",
     unreported: "Chưa có PDF"
+  };
+
+  const actionDistance = (item) => {
+    const action = item?.action;
+    if (!action || !Number.isFinite(item.close) || !Number.isFinite(action.zoneLow) || !Number.isFinite(action.zoneHigh)) return null;
+    if (item.close < action.zoneLow) return { value: ((action.zoneLow - item.close) / action.zoneLow) * 100, relation: "below", edge: action.zoneLow };
+    if (item.close > action.zoneHigh) return { value: ((item.close - action.zoneHigh) / action.zoneHigh) * 100, relation: "above", edge: action.zoneHigh };
+    return { value: 0, relation: "inside", edge: item.close };
+  };
+
+  const priorityUniverse = coverage
+    .filter((item) => item.action?.eligibility === "active" && actionDistance(item))
+    .sort((a, b) => actionDistance(a).value - actionDistance(b).value || a.ticker.localeCompare(b.ticker));
+  const priorityRank = new Map(priorityUniverse.map((item, index) => [item.ticker, index + 1]));
+
+  const relationLabel = (item) => {
+    const distance = actionDistance(item);
+    if (!distance) return "CHƯA ĐỦ DỮ LIỆU";
+    if (distance.relation === "inside") return "TRONG VÙNG HÀNH ĐỘNG";
+    if (distance.relation === "below") return "DƯỚI CẬN — XÁC NHẬN LẠI";
+    if (distance.value <= 12) return "GẦN VÙNG MUA";
+    if (distance.value <= 30) return "THEO DÕI KHOẢNG CÁCH";
+    return "CHƯA GẦN VÙNG MUA";
+  };
+
+  const currentUpside = (item) => {
+    const report = latestByTicker.get(item.ticker);
+    const base = report?.baseValue || item.action?.baseValue;
+    return Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
   };
 
   let toastTimer;
@@ -114,33 +156,98 @@
     document.querySelectorAll("[data-role='watchlist-count'],[data-role='watchlist-tab-count']").forEach((el) => { el.textContent = state.watchlist.size; });
   };
 
+  const renderActionRadar = () => {
+    const exclusions = coverage.filter((item) => item.action?.eligibility && item.action.eligibility !== "active");
+    const exactSession = coverage.filter((item) => item.priceDate === source.meta.updated).length;
+    if (refs.prioritySummary) refs.prioritySummary.innerHTML = `
+      <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Có vùng mua đã khóa • Không hard veto</small></div>
+      <div><span>Ưu tiên gần nhất</span><strong>${escapeHtml(priorityUniverse[0]?.ticker || "—")}</strong><small>${priorityUniverse[0] ? escapeHtml(relationLabel(priorityUniverse[0])) : "—"}</small></div>
+      <div><span>Giá đúng phiên 20/07</span><strong>${exactSession}/${coverage.length}</strong><small>${coverage.length - exactSession} mã dùng giá gần nhất và có ghi chú</small></div>
+      <div><span>Veto / cần đánh giá lại</span><strong>${exclusions.length}</strong><small>Không đưa vào nhóm ưu tiên</small></div>`;
+
+    if (refs.priorityGrid) refs.priorityGrid.innerHTML = priorityUniverse.slice(0, 3).map((item, index) => {
+      const action = item.action;
+      const distance = actionDistance(item);
+      const upside = currentUpside(item);
+      const report = item.reportId ? reportById.get(item.reportId) : null;
+      const relation = distance.relation === "below"
+        ? `Giá thấp hơn cận dưới ${decimal(distance.value)}%`
+        : distance.relation === "inside"
+          ? "Giá đang trong vùng hành động"
+          : `Còn ${decimal(distance.value)}% tới cận trên vùng mua`;
+      return `<article class="priority-card priority-${index + 1}">
+        <div class="priority-rank"><span>ƯU TIÊN</span><strong>${String(index + 1).padStart(2, "0")}</strong></div>
+        <div class="priority-card-main">
+          <div class="priority-card-head"><div><span class="priority-code">${escapeHtml(item.ticker)}</span><small>${escapeHtml(item.exchange)} • ${escapeHtml(item.sector)}</small></div><span class="priority-state ${escapeHtml(distance.relation)}">${escapeHtml(relationLabel(item))}</span></div>
+          <p class="priority-company">${escapeHtml(item.company)}</p>
+          <div class="priority-metrics">
+            <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
+            <div><span>Vùng mua đã khóa</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${date(action.basisDate)}</small></div>
+            <div><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
+          </div>
+          <div class="priority-distance"><div style="--progress:${Math.max(4, Math.min(100, 100 - distance.value * 2))}%"><span></span></div><p><strong>${escapeHtml(relation)}</strong>${escapeHtml(action.condition)}</p></div>
+          <div class="priority-actions">${report ? `<button type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Mở hồ sơ định giá</button>` : `<button type="button" data-action="focus-ticker" data-ticker="${escapeHtml(item.ticker)}">Xem trong Coverage</button>`}<a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Nguồn giá ↗</a></div>
+        </div>
+      </article>`;
+    }).join("");
+
+    if (refs.actionTable) refs.actionTable.innerHTML = `<table class="action-table">
+      <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Giá trị cơ sở</th><th>Điều kiện bắt buộc</th><th>Nguồn</th></tr></thead>
+      <tbody>${priorityUniverse.map((item, index) => {
+        const action = item.action;
+        const distance = actionDistance(item);
+        const report = latestByTicker.get(item.ticker);
+        const base = report?.baseValue || action.baseValue;
+        const distanceText = distance.relation === "inside" ? "0,0% • trong vùng" : `${decimal(distance.value)}% • ${distance.relation === "below" ? "dưới cận" : "trên cận"}`;
+        return `<tr>
+          <td><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
+          <td><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
+          <td><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
+          <td><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
+          <td><strong>${number(base)}</strong><span>${Number.isFinite(currentUpside(item)) ? `${signedPercent(currentUpside(item))} từ giá đóng cửa` : "—"}</span></td>
+          <td><p>${escapeHtml(action.condition)}</p>${item.ticker === "GAS" ? `<span class="conditional-zone">Thăm dò có điều kiện: ${number(action.watchLow)}–${number(action.watchHigh)}</span>` : ""}</td>
+          <td><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
+        </tr>`;
+      }).join("")}</tbody>
+    </table>`;
+
+    if (refs.exclusionList) refs.exclusionList.innerHTML = exclusions.map((item) => {
+      const tag = item.action.eligibility === "veto" ? "HARD VETO" : item.action.eligibility === "invalidated" ? "SETUP VÔ HIỆU" : "CẦN LÀM MỚI";
+      return `<article><div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(tag)}</span></div><p>${escapeHtml(item.action.recommendation)} • ${escapeHtml(item.action.condition)}</p><small>${number(item.close)} đồng/cp • ${date(item.priceDate)}</small></article>`;
+    }).join("");
+  };
+
   const renderFeatured = () => {
-    const report = reportById.get("VCB-20260714") || reports[0];
+    const featuredTicker = priorityUniverse.find((item) => item.reportId)?.ticker;
+    const report = latestByTicker.get(featuredTicker) || reportById.get("VCB-20260714") || reports[0];
+    const quote = coverageByTicker.get(report.ticker);
     const host = document.querySelector("[data-role='featured-report']");
     if (!host || !report) return;
     const span = Math.max(1, report.rangeHigh - report.rangeLow);
     const basePos = Math.min(100, Math.max(0, ((report.baseValue - report.rangeLow) / span) * 100));
-    const marketPos = Number.isFinite(report.marketPrice)
-      ? Math.min(100, Math.max(0, ((report.marketPrice - report.rangeLow) / span) * 100))
+    const marketPos = Number.isFinite(quote?.close)
+      ? Math.min(100, Math.max(0, ((quote.close - report.rangeLow) / span) * 100))
       : null;
+    const liveGap = Number.isFinite(quote?.close) ? ((report.baseValue / quote.close) - 1) * 100 : null;
     host.innerHTML = `
       <div class="featured-head">
         <div class="featured-head-top">
-          <div><p class="featured-kicker">01 / Báo cáo định giá nổi bật</p><h3>${escapeHtml(report.ticker)} <span>— ${escapeHtml(report.recommendation)}</span></h3><p class="featured-company">${escapeHtml(report.company)} • ${escapeHtml(report.exchange)}</p></div>
+          <div><p class="featured-kicker">01 / Mã ưu tiên theo khoảng cách</p><h3>${escapeHtml(report.ticker)} <span>— ${escapeHtml(report.recommendation)}</span></h3><p class="featured-company">${escapeHtml(report.company)} • ${escapeHtml(report.exchange)}</p></div>
           <span class="status-badge ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span>
         </div>
       </div>
       <div class="featured-body">
         <div class="metric-grid">
-          <div class="dashboard-metric"><span>Giá thị trường</span><strong>${number(report.marketPrice)}</strong><small>đồng/cp</small></div>
+          <div class="dashboard-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
           <div class="dashboard-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>đồng/cp</small></div>
-          <div class="dashboard-metric"><span>Chênh lệch cơ sở</span><strong>${escapeHtml(report.gapLabel || "—")}</strong><small>tại ngày định giá</small></div>
+          <div class="dashboard-metric"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa 20/07</small></div>
         </div>
         <div class="valuation-rail">
           <div class="valuation-rail-title"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)} đồng/cp</strong></div>
           <div class="value-track">
             <span class="value-marker" style="left:${basePos}%"><i></i><b>Cơ sở</b></span>
-            ${marketPos === null ? "" : `<span class="value-marker market" style="left:${marketPos}%"><i></i><b>Thị trường</b></span>`}
+            ${marketPos === null ? "" : `<span class="value-marker market" style="left:${marketPos}%"><i></i><b>20/07</b></span>`}
           </div>
           <div class="rail-labels"><span>${number(report.rangeLow)}</span><span>${number(report.rangeHigh)}</span></div>
         </div>
@@ -209,6 +316,11 @@
   };
 
   const sortReports = (items) => [...items].sort((a, b) => {
+    if (state.sort === "priority") {
+      const ar = priorityRank.get(a.ticker) ?? 999;
+      const br = priorityRank.get(b.ticker) ?? 999;
+      return ar - br || b.date.localeCompare(a.date);
+    }
     if (state.sort === "ticker") return a.ticker.localeCompare(b.ticker);
     if (state.sort === "sector") return a.sector.localeCompare(b.sector, "vi") || a.ticker.localeCompare(b.ticker);
     if (state.sort === "base-desc") return (b.baseValue || -1) - (a.baseValue || -1);
@@ -216,6 +328,11 @@
   });
 
   const sortCoverage = (items) => [...items].sort((a, b) => {
+    if (state.sort === "priority") {
+      const ar = priorityRank.get(a.ticker) ?? 999;
+      const br = priorityRank.get(b.ticker) ?? 999;
+      return ar - br || a.ticker.localeCompare(b.ticker);
+    }
     if (state.sort === "sector") return a.sector.localeCompare(b.sector, "vi") || a.ticker.localeCompare(b.ticker);
     if (state.sort === "newest") {
       const ad = latestByTicker.get(a.ticker)?.date || "0000-00-00";
@@ -228,6 +345,10 @@
   const reportCard = (report) => {
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
+    const quote = coverageByTicker.get(report.ticker);
+    const action = quote?.action;
+    const rank = priorityRank.get(report.ticker);
+    const distance = actionDistance(quote);
     return `<article class="report-card-v4 status-${escapeHtml(report.status)}">
       <div class="report-card-topline"></div>
       <div class="report-card-head">
@@ -239,13 +360,14 @@
       </div>
       <div class="report-card-body">
         <div>
-          <div class="report-meta-line"><span class="recommendation-label ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span><time datetime="${escapeHtml(report.date)}">${date(report.date)}</time></div>
+          <div class="report-meta-line"><span class="recommendation-label ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span><time datetime="${escapeHtml(report.date)}">PDF ${date(report.date)}</time></div>
           <h3 class="report-company">${escapeHtml(report.company)}</h3>
         </div>
         <div class="card-metrics">
-          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong></div>
-          <div class="card-metric"><span>Vùng hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
+          <div class="card-metric market"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="${quote?.changePct < 0 ? "negative" : "positive"}">${signedPercent(quote?.changePct)}</small></div>
+          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>${Number.isFinite(currentUpside(quote)) ? `${signedPercent(currentUpside(quote))} upside` : "—"}</small></div>
         </div>
+        ${action && Number.isFinite(action.zoneLow) ? `<div class="card-action-band"><span>${rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quote)}` : "—"}</small></div>` : ""}
         <p class="report-summary">${escapeHtml(report.summary)}</p>
         <div class="report-card-actions">
           <button class="details-button" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Dashboard chi tiết</button>
@@ -258,9 +380,13 @@
   const coverageCard = (item) => {
     const report = item.reportId ? reportById.get(item.reportId) : null;
     const watched = state.watchlist.has(item.ticker);
-    return `<article class="coverage-card">
+    const distance = actionDistance(item);
+    const rank = priorityRank.get(item.ticker);
+    return `<article class="coverage-card ${rank && rank <= 3 ? "coverage-priority" : ""}">
       <div class="coverage-card-head"><div><h3>${escapeHtml(item.ticker)}</h3><span class="exchange">${escapeHtml(item.exchange)}</span></div><button class="icon-button ${watched ? "active" : ""}" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(item.ticker)}" aria-label="${watched ? "Bỏ khỏi" : "Thêm vào"} watchlist"><svg><use href="#i-star"></use></svg></button></div>
       <p>${escapeHtml(item.company)}</p><span class="sector">${escapeHtml(item.sector)}</span>
+      <div class="coverage-quote"><div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong></div><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
+      ${distance ? `<div class="coverage-distance"><span>${rank ? `#${rank} • ` : ""}${escapeHtml(relationLabel(item))}</span><strong>${decimal(distance.value)}%</strong></div>` : `<div class="coverage-distance muted"><span>${escapeHtml(item.action?.recommendation || "Chưa có vùng mua")}</span><strong>—</strong></div>`}
       <div class="coverage-card-actions">
         ${report ? `<button class="primary" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">${escapeHtml(report.recommendation)}</button><button type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}">So sánh</button>` : `<button type="button" data-action="no-report">Đã phân tích • Chưa có PDF</button>`}
       </div>
@@ -301,9 +427,9 @@
     state.query = "";
     state.sector = "all";
     state.status = "all";
-    state.sort = "newest";
+    state.sort = "priority";
     refs.search.value = "";
-    refs.sort.value = "newest";
+    refs.sort.value = "priority";
     renderFilters();
     renderResearch();
   };
@@ -333,6 +459,9 @@
   const openReport = (id) => {
     const report = reportById.get(id);
     if (!report) return;
+    const quote = coverageByTicker.get(report.ticker);
+    const action = quote?.action;
+    const liveGap = Number.isFinite(quote?.close) ? ((report.baseValue / quote.close) - 1) * 100 : null;
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
     refs.reportDialogContent.innerHTML = `
@@ -341,12 +470,14 @@
       </div>
       <div class="report-dialog-body">
         <div class="dialog-metrics">
-          <div class="dialog-metric"><span>Giá thị trường</span><strong>${number(report.marketPrice)}</strong></div>
+          <div class="dialog-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
+          <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.date)}</small></div>
           <div class="dialog-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong></div>
-          <div class="dialog-metric"><span>Cận dưới</span><strong>${number(report.rangeLow)}</strong></div>
-          <div class="dialog-metric"><span>Cận trên</span><strong>${number(report.rangeHigh)}</strong></div>
+          <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
+          <div class="dialog-metric emphasis"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
+          <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>
         </div>
-        <div class="dialog-thesis"><h3>Luận điểm tóm tắt</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div><div><dt>Chênh lệch</dt><dd>${escapeHtml(report.gapLabel || "—")}</dd></div></dl></div>
+        <div class="dialog-thesis"><h3>Luận điểm và điều kiện</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái 20/07</dt><dd>${escapeHtml(relationLabel(quote))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(action?.condition || "Xem trong báo cáo PDF")}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>
       </div>
       <div class="dialog-actions">
         <a class="button button-primary" href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer"><svg><use href="#i-file"></use></svg>Mở báo cáo PDF</a>
@@ -364,8 +495,13 @@
       ["Doanh nghiệp", (r) => escapeHtml(r.company)],
       ["Ngày định giá", (r) => date(r.date)],
       ["Khuyến nghị", (r) => escapeHtml(r.recommendation)],
-      ["Giá thị trường", (r) => number(r.marketPrice)],
+      ["Đóng cửa 20/07", (r) => number(coverageByTicker.get(r.ticker)?.close)],
+      ["Giá tại ngày định giá", (r) => number(r.marketPrice)],
       ["Giá trị cơ sở", (r) => number(r.baseValue)],
+      ["Vùng mua đã khóa", (r) => {
+        const action = coverageByTicker.get(r.ticker)?.action;
+        return action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—";
+      }],
       ["Vùng giá trị", (r) => `${number(r.rangeLow)}–${number(r.rangeHigh)}`],
       ["Phương pháp", (r) => escapeHtml(r.method || "Xem trong PDF")],
       ["Báo cáo", (r) => `<a class="text-link" href="${escapeHtml(r.file)}" target="_blank" rel="noreferrer">Mở PDF ↗</a>`]
@@ -377,7 +513,7 @@
   const renderWatchlistDialog = () => {
     const items = coverage.filter((item) => state.watchlist.has(item.ticker));
     refs.watchlistContent.innerHTML = items.length
-      ? `<div class="watchlist-grid">${items.map((item) => `<div class="watchlist-item"><div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(item.company)} • ${escapeHtml(item.sector)}</span></div><div>${item.reportId ? `<button type="button" data-action="open-report" data-id="${escapeHtml(item.reportId)}" aria-label="Mở báo cáo"><svg><use href="#i-file"></use></svg></button>` : ""}<button type="button" data-action="toggle-watch" data-ticker="${escapeHtml(item.ticker)}" aria-label="Bỏ khỏi watchlist"><svg><use href="#i-close"></use></svg></button></div></div>`).join("")}</div>`
+      ? `<div class="watchlist-grid">${items.map((item) => `<div class="watchlist-item"><div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(item.company)} • ${number(item.close)} • ${date(item.priceDate)}</span></div><div>${item.reportId ? `<button type="button" data-action="open-report" data-id="${escapeHtml(item.reportId)}" aria-label="Mở báo cáo"><svg><use href="#i-file"></use></svg></button>` : ""}<button type="button" data-action="toggle-watch" data-ticker="${escapeHtml(item.ticker)}" aria-label="Bỏ khỏi watchlist"><svg><use href="#i-close"></use></svg></button></div></div>`).join("")}</div>`
       : `<div class="empty-state"><svg><use href="#i-star"></use></svg><h3>Watchlist đang trống</h3><p>Nhấn biểu tượng ngôi sao trên một mã hoặc báo cáo để lưu.</p></div>`;
   };
 
@@ -431,6 +567,13 @@
     if (action === "set-status") { state.status = target.dataset.status; renderFilters(); renderResearch(); }
     if (action === "share-report") shareReport(target.dataset.id);
     if (action === "no-report") toast("Mã này đã được phân tích nhưng chưa có báo cáo PDF trong thư viện.");
+    if (action === "focus-ticker") {
+      setTab("coverage");
+      state.query = target.dataset.ticker;
+      refs.search.value = state.query;
+      renderResearch();
+      document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" });
+    }
     if (action === "command-select") {
       refs.commandDialog.close();
       if (target.dataset.id) openReport(target.dataset.id);
@@ -465,10 +608,11 @@
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["overview", "dashboard", "research", "framework"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["overview", "action-radar", "dashboard", "research", "framework"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   updateCounts();
+  renderActionRadar();
   renderDashboard();
   renderFilters();
   renderResearch();
