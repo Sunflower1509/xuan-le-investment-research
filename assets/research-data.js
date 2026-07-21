@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa được khóa đến hết phiên 20/07/2026. Thiếu dữ liệu được để trống, không nội suy."
+    note: "Coverage universe được khóa đến hết phiên 20/07/2026; VIX dùng giá đóng cửa 21/07/2026 đúng ngày định giá trong báo cáo. Thiếu dữ liệu được để trống, không nội suy."
   },
 
   marketSession: {
@@ -36,6 +36,13 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "VIX-20260721", ticker: "VIX", company: "Công ty Cổ phần Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-21",
+      recommendation: "CHỜ", status: "wait", marketPrice: 12500, baseValue: 9500, rangeLow: 6000, rangeHigh: 15400,
+      gapLabel: "−23,81% tới giá trị cơ sở tại ngày định giá", method: "Residual Income + P/B–ROE + P/E–P/B tương đối",
+      summary: "Giá 12.500 đồng/cp nằm trong vùng giá trị hợp lý 6.000–15.400 đồng/cp nhưng cao hơn giá trị cơ sở 9.500 đồng/cp và chưa đáp ứng biên an toàn; khuyến nghị thực chiến giữ ở mức CHỜ.",
+      file: "reports/VIX_Valuation_Report_2026-07-21.pdf", edition: "Bản mới nhất"
+    },
     {
       id: "VCB-20260714", ticker: "VCB", company: "Ngân hàng TMCP Ngoại thương Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-07-14",
       recommendation: "CHỜ", status: "wait", marketPrice: 58900, baseValue: 54200, rangeLow: 39500, rangeHigh: 68000,
@@ -116,6 +123,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "VIX", company: "Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", reportId: "VIX-20260721",
+      close: 12500, priceDate: "2026-07-21", sessionDate: "2026-07-21", changePct: -2.34, volume: 44866150, priceSource: "https://web.stockbiz.vn/Stocks/VIX/HistoricalQuotes.aspx",
+      action: { zoneLow: 7500, zoneHigh: 8000, basisDate: "2026-07-21", recommendation: "CHỜ", eligibility: "active", condition: "Không mua cơ bản tại 12.500 đồng; chỉ giao dịch ngắn hạn khi đóng cửa trên 13.200 đồng với khối lượng tối thiểu 39–40 triệu cổ phiếu." }
+    },
     {
       ticker: "VCB", company: "Vietcombank", sector: "Ngân hàng", exchange: "HOSE", reportId: "VCB-20260714",
       close: 56700, priceDate: "2026-07-20", changePct: -3.08, volume: 8536800, priceSource: "https://simplize.vn/co-phieu/VCB/lich-su-gia",

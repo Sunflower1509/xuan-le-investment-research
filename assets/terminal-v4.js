@@ -551,7 +551,7 @@
           <div class="dialog-metric emphasis"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
           <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>
         </div>
-        <div class="dialog-thesis"><h3>Luận điểm và điều kiện</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái 20/07</dt><dd>${escapeHtml(relationLabel(quote))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(action?.condition || "Xem trong báo cáo PDF")}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>
+        <div class="dialog-thesis"><h3>Luận điểm và điều kiện</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái theo giá khóa</dt><dd>${escapeHtml(relationLabel(quote))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(action?.condition || "Xem trong báo cáo PDF")}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>
       </div>
       <div class="dialog-actions">
         <a class="button button-primary" href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer"><svg><use href="#i-file"></use></svg>Mở báo cáo PDF</a>
@@ -569,7 +569,7 @@
       ["Doanh nghiệp", (r) => escapeHtml(r.company)],
       ["Ngày định giá", (r) => date(r.date)],
       ["Khuyến nghị", (r) => escapeHtml(r.recommendation)],
-      ["Đóng cửa 20/07", (r) => number(coverageByTicker.get(r.ticker)?.close)],
+      ["Giá đóng cửa đã khóa", (r) => number(coverageByTicker.get(r.ticker)?.close)],
       ["Giá tại ngày định giá", (r) => number(r.marketPrice)],
       ["Giá trị cơ sở", (r) => number(r.baseValue)],
       ["Vùng mua đã khóa", (r) => {
