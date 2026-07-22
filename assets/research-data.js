@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
-    updated: "2026-07-21",
-    release: "2026-07-22",
+    updated: "2026-07-22",
+    release: "2026-07-23",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa của toàn bộ 17 mã Coverage Universe được khóa tại phiên 21/07/2026; nguồn và nguồn đối chiếu được dẫn riêng theo từng mã. Thư viện PDF chỉ giữ bản mới nhất theo từng mã; ảnh hoạt động có liên kết nguồn. Thiếu dữ liệu được để trống, không nội suy."
+    note: "Giá đóng cửa của toàn bộ 17 mã Coverage Universe được khóa tại phiên 22/07/2026; nguồn và nguồn đối chiếu được dẫn riêng theo từng mã. Riêng DDV dùng dữ liệu kết phiên Vietstock và Người Quan Sát sau khi phát hiện sai lệch ở nguồn còn lại. Thư viện PDF chỉ giữ bản mới nhất theo từng mã; ảnh hoạt động có liên kết nguồn. Thiếu dữ liệu được để trống, không nội suy."
   },
 
   marketSession: {
@@ -137,87 +137,87 @@ window.RESEARCH_DATA = {
   coverage: [
     {
       ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260722",
-      close: 26650, priceDate: "2026-07-21", changePct: -2.56, volume: 1050300, priceSource: "https://simplize.vn/co-phieu/VPX/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VPX-ctcp-chung-khoan-vpbank.htm",
+      close: 25800, priceDate: "2026-07-22", changePct: -3.19, volume: 1586300, priceSource: "https://simplize.vn/co-phieu/VPX/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VPX-ctcp-chung-khoan-vpbank.htm",
       action: { zoneLow: 25300, zoneHigh: 25800, valuationLow: 17700, valuationHigh: 19000, stop: 24400, basisDate: "2026-07-22", recommendation: "CHỜ / THĂM DÒ CÓ ĐIỀU KIỆN", eligibility: "active", condition: "Chỉ thăm dò tối đa 20–30% vị thế khi giá về 25.300–25.800, không đóng cửa dưới 25.100 và xuất hiện cầu chủ động với khối lượng ≥1,5 lần MA20; stop 24.400. Vùng mua định giá dài hạn là 17.700–19.000." }
     },
     {
       ticker: "VIX", company: "Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", reportId: "VIX-20260721",
-      close: 12500, priceDate: "2026-07-21", changePct: -2.34, volume: 41188900, priceSource: "https://simplize.vn/co-phieu/VIX/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/VIX/HistoricalQuotes.aspx",
+      close: 12100, priceDate: "2026-07-22", changePct: -3.20, volume: 80689700, priceSource: "https://simplize.vn/co-phieu/VIX/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VIX-ctcp-chung-khoan-vix.htm",
       action: { zoneLow: 7500, zoneHigh: 8000, basisDate: "2026-07-21", recommendation: "CHỜ", eligibility: "active", condition: "Không mua cơ bản tại 12.500 đồng; chỉ giao dịch ngắn hạn khi đóng cửa trên 13.200 đồng với khối lượng tối thiểu 39–40 triệu cổ phiếu." }
     },
     {
       ticker: "VCB", company: "Vietcombank", sector: "Ngân hàng", exchange: "HOSE", reportId: "VCB-20260714",
-      close: 56700, priceDate: "2026-07-21", changePct: 0.00, volume: 3413200, priceSource: "https://simplize.vn/co-phieu/VCB/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/VCB/HistoricalQuotes.aspx",
+      close: 54500, priceDate: "2026-07-22", changePct: -3.88, volume: 9173400, priceSource: "https://simplize.vn/co-phieu/VCB/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VCB-ngan-hang-tmcp-ngoai-thuong-viet-nam.htm",
       action: { zoneLow: 38000, zoneHigh: 40700, basisDate: "2026-07-14", recommendation: "CHỜ", eligibility: "active", condition: "Đầu tư giá trị; giao dịch 1–3 tuần chỉ hành động khi cấu trúc giá xác nhận." }
     },
     {
       ticker: "ACB", company: "Ngân hàng Á Châu", sector: "Ngân hàng", exchange: "HOSE", reportId: null,
-      close: 22850, priceDate: "2026-07-21", changePct: 0.00, volume: 16446800, priceSource: "https://simplize.vn/co-phieu/ACB/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/ACB/HistoricalQuotes.aspx",
+      close: 22400, priceDate: "2026-07-22", changePct: -1.97, volume: 30708700, priceSource: "https://simplize.vn/co-phieu/ACB/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/ACB-ngan-hang-tmcp-a-chau.htm",
       action: { zoneLow: 19100, zoneHigh: 20500, baseValue: 27300, basisDate: "2026-07-16", recommendation: "CHỜ – KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Vùng mua đã khóa trong phân tích ACB; PDF chưa có trong thư viện." }
     },
     {
       ticker: "CTG", company: "VietinBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "CTG-20260710",
-      close: 30900, priceDate: "2026-07-21", changePct: 0.32, volume: 5591400, priceSource: "https://simplize.vn/co-phieu/CTG/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/CTG/HistoricalQuotes.aspx",
+      close: 29700, priceDate: "2026-07-22", changePct: -3.88, volume: 15790100, priceSource: "https://simplize.vn/co-phieu/CTG/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/CTG-ngan-hang-tmcp-cong-thuong-viet-nam.htm",
       action: { zoneLow: 31700, zoneHigh: 34000, basisDate: "2026-07-10", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ tích lũy từng phần khi NPL quanh 1% và LLR trên 150%; không all-in." }
     },
     {
       ticker: "TVS", company: "Chứng khoán Thiên Việt", sector: "Chứng khoán", exchange: "HOSE", reportId: "TVS-20260709",
-      close: 14050, priceDate: "2026-07-21", changePct: -3.77, volume: 427600, priceSource: "https://simplize.vn/co-phieu/TVS/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/TVS/HistoricalQuotes.aspx",
+      close: 14150, priceDate: "2026-07-22", changePct: 0.71, volume: 207400, priceSource: "https://simplize.vn/co-phieu/TVS/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/TVS-ctcp-chung-khoan-thien-viet.htm",
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-09", recommendation: "CHỜ", eligibility: "active", condition: "Vùng MOS 25–30%; chưa có bằng chứng ROE phục hồi thì không mua mới." }
     },
     {
       ticker: "VND", company: "VNDirect", sector: "Chứng khoán", exchange: "HOSE", reportId: null,
-      close: 17150, priceDate: "2026-07-21", changePct: -0.29, volume: 11165800, priceSource: "https://simplize.vn/co-phieu/VND/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/VND/HistoricalQuotes.aspx",
+      close: 16600, priceDate: "2026-07-22", changePct: -3.21, volume: 21110400, priceSource: "https://simplize.vn/co-phieu/VND/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VND-ctcp-chung-khoan-vndirect.htm",
       action: { trigger: 18350, basisDate: "2026-06-30", recommendation: "CHỜ BREAKOUT", eligibility: "stale", condition: "Trigger kỹ thuật cũ cần đánh giá lại; không xếp chung với vùng mua định giá." }
     },
     {
       ticker: "BVS", company: "Chứng khoán Bảo Việt", sector: "Chứng khoán", exchange: "HNX", reportId: "BVS-20260713",
-      close: 28900, priceDate: "2026-07-21", changePct: 2.12, volume: 791700, priceSource: "https://simplize.vn/co-phieu/BVS/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/BVS/HistoricalQuotes.aspx",
+      close: 28500, priceDate: "2026-07-22", changePct: -1.38, volume: 1194200, priceSource: "https://simplize.vn/co-phieu/BVS/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/BVS-ctcp-chung-khoan-bao-viet.htm",
       action: { zoneLow: 19900, zoneHigh: 21300, basisDate: "2026-07-13", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ mua từng phần khi LNST 2026 và chất lượng tài sản vẫn giữ điều kiện của báo cáo." }
     },
     {
       ticker: "FPT", company: "FPT", sector: "Công nghệ", exchange: "HOSE", reportId: null,
-      close: 64800, priceDate: "2026-07-21", changePct: -3.43, volume: 7540400, priceSource: "https://simplize.vn/co-phieu/FPT/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/FPT/HistoricalQuotes.aspx",
+      close: 64600, priceDate: "2026-07-22", changePct: -0.31, volume: 10060700, priceSource: "https://simplize.vn/co-phieu/FPT/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/FPT-ctcp-fpt.htm",
       action: { zoneLow: 69000, zoneHigh: 72500, stopHigh: 69000, basisDate: "2026-07-09", recommendation: "CHỜ / CANH MUA CÓ ĐIỀU KIỆN", eligibility: "invalidated", condition: "Giá đã xuống dưới mốc stop 68.500–69.000 của thiết lập cũ; phải đánh giá lại trước khi kích hoạt." }
     },
     {
       ticker: "HPG", company: "Hòa Phát", sector: "Công nghiệp", exchange: "HOSE", reportId: "HPG-20260710",
-      close: 20800, priceDate: "2026-07-21", changePct: 0.97, volume: 27198700, priceSource: "https://simplize.vn/co-phieu/HPG/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/HPG/HistoricalQuotes.aspx",
+      close: 20700, priceDate: "2026-07-22", changePct: -0.48, volume: 43471900, priceSource: "https://simplize.vn/co-phieu/HPG/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/HPG-ctcp-tap-doan-hoa-phat.htm",
       action: { zoneLow: 17500, zoneHigh: 18750, basisDate: "2026-07-10", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Vùng MOS 25–30%; phải kiểm tra core PAT, nợ vay và dòng tiền trước khi giải ngân." }
     },
     {
       ticker: "GEE", company: "GELEX Electric", sector: "Công nghiệp", exchange: "HOSE", reportId: "GEE-20260713",
-      close: 71000, priceDate: "2026-07-21", changePct: -6.58, volume: 1105300, priceSource: "https://simplize.vn/co-phieu/GEE/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/GEE/HistoricalQuotes.aspx",
+      close: 66600, priceDate: "2026-07-22", changePct: -6.20, volume: 2359400, priceSource: "https://simplize.vn/co-phieu/GEE/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/GEE-ctcp-dien-luc-gelex.htm",
       action: { zoneLow: 27000, zoneHigh: 28900, basisDate: "2026-07-13", recommendation: "TRÁNH MUA MỚI", eligibility: "veto", condition: "Chỉ xem xét lại khi giá về vùng mua và CFO, nợ vay, biên EBIT cùng cấu trúc giá được xác nhận." }
     },
     {
       ticker: "DDV", company: "DAP - Vinachem", sector: "Hóa chất", exchange: "UPCoM", reportId: "DDV-20260713",
-      close: 19900, priceDate: "2026-07-21", changePct: -3.40, volume: 616500, priceSource: "https://simplize.vn/co-phieu/DDV/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/DDV/HistoricalQuotes.aspx",
+      close: 18900, priceDate: "2026-07-22", changePct: -4.55, volume: 418300, priceSource: "https://finance.vietstock.vn/DDV-ctcp-dap-vinachem.htm", priceSourceSecondary: "https://dulieu.nguoiquansat.vn/doanh-nghiep/ddv",
       action: { zoneLow: 15100, zoneHigh: 16200, basisDate: "2026-07-13", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ giải ngân từng phần khi CFO/tồn kho cải thiện." }
     },
     {
       ticker: "GAS", company: "PV GAS", sector: "Năng lượng", exchange: "HOSE", reportId: "GAS-20260713",
-      close: 68000, priceDate: "2026-07-21", changePct: -6.98, volume: 4293300, priceSource: "https://simplize.vn/co-phieu/GAS/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/GAS/HistoricalQuotes.aspx",
+      close: 64400, priceDate: "2026-07-22", changePct: -5.29, volume: 2734100, priceSource: "https://simplize.vn/co-phieu/GAS/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/GAS-tong-cong-ty-khi-viet-nam-ctcp.htm",
       action: { zoneLow: 58800, zoneHigh: 63000, watchLow: 67800, watchHigh: 72700, basisDate: "2026-07-13", recommendation: "CHỜ", eligibility: "active", condition: "67.800–72.700 chỉ là vùng thăm dò có điều kiện; vùng mua nền tảng vẫn là 58.800–63.000." }
     },
     {
       ticker: "PVS", company: "PTSC", sector: "Năng lượng", exchange: "HNX", reportId: "PVS-20260711",
-      close: 33700, priceDate: "2026-07-21", changePct: -8.17, volume: 12009300, priceSource: "https://simplize.vn/co-phieu/PVS/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/PVS/HistoricalQuotes.aspx",
+      close: 33100, priceDate: "2026-07-22", changePct: -1.78, volume: 4234900, priceSource: "https://simplize.vn/co-phieu/PVS/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/PVS-tong-cong-ty-co-phan-dich-vu-ky-thuat-dau-khi-viet-nam.htm",
       action: { zoneLow: 26300, zoneHigh: 28100, adjustedLow: 21900, adjustedHigh: 23400, basisDate: "2026-07-11", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Dùng vùng trước phát hành cổ phiếu 20%; vùng sau điều chỉnh chỉ áp dụng khi sự kiện có hiệu lực." }
     },
     {
       ticker: "BSR", company: "Lọc hóa dầu Bình Sơn", sector: "Năng lượng", exchange: "HOSE", reportId: "BSR-20260712",
-      close: 23050, priceDate: "2026-07-21", changePct: -6.49, volume: 14600800, priceSource: "https://simplize.vn/co-phieu/BSR/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/BSR/HistoricalQuotes.aspx",
+      close: 23000, priceDate: "2026-07-22", changePct: -0.22, volume: 7633900, priceSource: "https://simplize.vn/co-phieu/BSR/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/BSR-ctcp-tong-cong-ty-loc-hoa-dau-viet-nam.htm",
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-12", recommendation: "LOẠI – KHÔNG MUA MỚI", eligibility: "veto", condition: "Hard veto theo báo cáo; không xếp vào danh sách ưu tiên dù giá giảm." }
     },
     {
       ticker: "PNJ", company: "Vàng bạc Đá quý Phú Nhuận", sector: "Tiêu dùng", exchange: "HOSE", reportId: null,
-      close: 38150, priceDate: "2026-07-21", changePct: -6.95, volume: 9655900, priceSource: "https://simplize.vn/co-phieu/PNJ/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/PNJ/HistoricalQuotes.aspx",
+      close: 35500, priceDate: "2026-07-22", changePct: -6.95, volume: 7538000, priceSource: "https://simplize.vn/co-phieu/PNJ/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/PNJ-ctcp-vang-bac-da-quy-phu-nhuan.htm",
       action: { basisDate: "2026-07-07", recommendation: "LOẠI / TRÁNH MUA MỚI", eligibility: "veto", condition: "Không bắt đáy; thiết lập cũ đã mất hiệu lực và chưa có vùng mua mới được khóa." }
     },
     {
       ticker: "BFC", company: "Phân bón Bình Điền", sector: "Nông nghiệp", exchange: "HOSE", reportId: null,
-      close: 52500, priceDate: "2026-07-21", changePct: -2.23, volume: 155200, priceSource: "https://simplize.vn/co-phieu/BFC/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/BFC/HistoricalQuotes.aspx",
+      close: 52800, priceDate: "2026-07-22", changePct: 0.57, volume: 153900, priceSource: "https://simplize.vn/co-phieu/BFC/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/BFC-ctcp-phan-bon-binh-dien.htm",
       action: { zoneLow: 32400, zoneHigh: 34700, basisDate: "2026-07-09", recommendation: "TRÁNH MUA MỚI THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Chờ kỹ thuật; không mở mua mới theo định giá hiện tại." }
     }
   ]
