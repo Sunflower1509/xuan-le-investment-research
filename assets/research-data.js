@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-07-21",
-    release: "2026-07-21",
+    release: "2026-07-22",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa của toàn bộ 16 mã Coverage Universe được khóa tại phiên 21/07/2026 và đối chiếu chéo giữa Simplize với Stockbiz. Thư viện PDF chỉ giữ bản mới nhất theo từng mã; ảnh hoạt động có liên kết nguồn. Thiếu dữ liệu được để trống, không nội suy."
+    note: "Giá đóng cửa của toàn bộ 17 mã Coverage Universe được khóa tại phiên 21/07/2026; nguồn và nguồn đối chiếu được dẫn riêng theo từng mã. Thư viện PDF chỉ giữ bản mới nhất theo từng mã; ảnh hoạt động có liên kết nguồn. Thiếu dữ liệu được để trống, không nội suy."
   },
 
   marketSession: {
@@ -36,6 +36,14 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "VPX-20260722", ticker: "VPX", company: "Công ty Cổ phần Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-22",
+      recommendation: "CHỜ – THEO DÕI", status: "wait", marketPrice: 26650, marketPriceDate: "2026-07-21", baseValue: 25300, rangeLow: 21300, rangeHigh: 29300,
+      gapLabel: "MOS −5,3% so với điểm giữa tại ngày định giá", method: "Residual Income + P/B gắn ROE",
+      summary: "Giá 26.650 đồng/cp nằm trong vùng giá trị hợp lý 21.300–29.300 đồng/cp nhưng cao hơn điểm giữa 25.300 đồng/cp và không có biên an toàn; khuyến nghị hiện tại là CHỜ – THEO DÕI, chưa mua mới.",
+      visual: { src: "assets/images/reports/vpx.webp", alt: "Lễ niêm yết cổ phiếu VPX của Chứng khoán VPBank tại HOSE", caption: "Lễ niêm yết và phiên giao dịch đầu tiên của VPX", sourceLabel: "Tuổi Trẻ Online", sourceUrl: "https://tuoitre.vn/co-phieu-vpx-cua-vpbanks-chinh-thuc-giao-dich-tren-hose-20251211113632063.htm" },
+      file: "reports/Bao_cao_dinh_gia_VPX_Final_22072026.pdf", edition: "Bản mới nhất"
+    },
     {
       id: "VIX-20260721", ticker: "VIX", company: "Công ty Cổ phần Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-21",
       recommendation: "CHỜ", status: "wait", marketPrice: 12500, baseValue: 9500, calculationBase: 9524, rangeLow: 6000, rangeHigh: 15400,
@@ -127,6 +135,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260722",
+      close: 26650, priceDate: "2026-07-21", changePct: -2.56, volume: 1050300, priceSource: "https://simplize.vn/co-phieu/VPX/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VPX-ctcp-chung-khoan-vpbank.htm",
+      action: { zoneLow: 25300, zoneHigh: 25800, valuationLow: 17700, valuationHigh: 19000, stop: 24400, basisDate: "2026-07-22", recommendation: "CHỜ / THĂM DÒ CÓ ĐIỀU KIỆN", eligibility: "active", condition: "Chỉ thăm dò tối đa 20–30% vị thế khi giá về 25.300–25.800, không đóng cửa dưới 25.100 và xuất hiện cầu chủ động với khối lượng ≥1,5 lần MA20; stop 24.400. Vùng mua định giá dài hạn là 17.700–19.000." }
+    },
     {
       ticker: "VIX", company: "Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", reportId: "VIX-20260721",
       close: 12500, priceDate: "2026-07-21", changePct: -2.34, volume: 41188900, priceSource: "https://simplize.vn/co-phieu/VIX/lich-su-gia", priceSourceSecondary: "https://web.stockbiz.vn/Stocks/VIX/HistoricalQuotes.aspx",

@@ -560,7 +560,7 @@
       <div class="report-dialog-body">
         <div class="dialog-metrics">
           <div class="dialog-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
-          <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.date)}</small></div>
+          <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.marketPriceDate || report.date)}</small></div>
           <div class="dialog-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong></div>
           <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
           <div class="dialog-metric emphasis"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
