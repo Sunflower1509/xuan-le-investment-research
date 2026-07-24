@@ -6,8 +6,47 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-07-21T08:00:00+07:00",
+  updated: "2026-07-24",
   entries: [
+    {
+      id: "market-view-20260723",
+      date: "2026-07-23",
+      publishedAt: "23/07/2026 • Sau phiên",
+      edition: "Số 03",
+      sentiment: "cautious",
+      sentimentLabel: "THẬN TRỌNG",
+      dataStatus: "TVS Research • EOD 23.07.2026",
+      title: "Nhịp hồi kỹ thuật chưa đủ xác nhận đảo chiều",
+      thesis: "VN-Index phục hồi 30,85 điểm lên 1.699,38 điểm, nhưng giá trị giao dịch HOSE giảm 14,8% và chỉ số vẫn nằm dưới toàn bộ cụm đường trung bình quan trọng trong báo cáo TVS. Quan điểm tác nghiệp là không mua đuổi; ưu tiên tận dụng nhịp tăng để đưa tỷ trọng cổ phiếu về mức an toàn.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "4 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.699,38", change: "+30,85 • +1,85%", tone: "positive" },
+        { label: "GTGD HOSE", value: "20.034 tỷ", change: "−14,8% so với phiên trước", tone: "warning" },
+        { label: "KHỚP LỆNH HOSE", value: "17.321 tỷ", change: "−18,9% so với phiên trước", tone: "warning" },
+        { label: "KHỐI NGOẠI HSX", value: "−492 tỷ", change: "theo dữ liệu TVS Research", tone: "negative" }
+      ],
+      backdrop: [
+        "VN-Index chịu áp lực bán trong buổi sáng, lùi quanh 1.660 điểm trước khi lực cầu bắt đáy kéo chỉ số đóng cửa sát mốc 1.700.",
+        "Động lực hồi phục tập trung mạnh ở Vingroup và bất động sản; riêng nhóm bất động sản đóng góp 26,3 điểm vào VN-Index theo TVS.",
+        "RSI ở mức 30 phản ánh trạng thái quá bán, nhưng 3/4 chỉ báo động lượng và toàn bộ 9 chỉ báo trung bình động trong báo cáo vẫn cho tín hiệu bán."
+      ],
+      levels: [
+        { label: "Cản kỹ thuật đầu tiên", value: "1.744–1.773", note: "EMA200 tại 1.744 và SMA200 tại 1.773 theo TVS; VN-Index vẫn đóng cửa thấp hơn cụm này." },
+        { label: "Cụm cản ngắn hạn", value: "1.788–1.811", note: "EMA20 tại 1.788 và SMA20 tại 1.811; cần thanh khoản và độ rộng đồng thuận khi kiểm định." }
+      ],
+      playbook: [
+        { if: "Nhịp hồi tiếp diễn nhưng chỉ số vẫn dưới 1.744–1.773 và thanh khoản không cải thiện", then: "Không mua đuổi; tận dụng các phiên tăng để giảm vị thế yếu và đưa tỷ trọng cổ phiếu về mức an toàn." },
+        { if: "Chỉ số lấy lại 1.773, sau đó vượt 1.788–1.811 với độ rộng và thanh khoản cùng cải thiện", then: "Đánh giá lại mức chấp nhận rủi ro; chỉ xem xét cổ phiếu dẫn dắt có vùng mua hợp lệ, không coi việc vượt cản là tín hiệu mua tự động." }
+      ],
+      focus: "Trọng tâm: độ bền thanh khoản • phản ứng 1.744–1.773 • Vingroup/BĐS • bán ròng MBB, TCB, VCB",
+      inference: "Số liệu, chỉ báo và quan điểm giảm tỷ trọng được lấy từ báo cáo TVS ngày 23/07/2026. Các điều kiện IF–THEN là diễn giải tác nghiệp của Xuân Lê TVS từ các mốc trong báo cáo, không phải tín hiệu mua tự động hay cam kết lợi nhuận.",
+      sources: [
+        { label: "TVS Research 23.07 — PDF chính thức", url: "https://www.tvs.vn/api/files/23.07.2026_TVS_Research_cho_rang_nhip_hoi_phuc_cua_chi_so_co_the_se_khong_keo_dai.pdf" },
+        { label: "Báo Nhân Dân — Đối chiếu phiên 23.07", url: "https://nhandan.vn/post-977416.html" }
+      ]
+    },
     {
       id: "market-view-20260720",
       date: "2026-07-20",
