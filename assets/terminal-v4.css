@@ -47,8 +47,10 @@ img,svg{display:block}
 .terminal-eyebrow{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;align-items:center;gap:11px;margin:0 0 18px;font-size:.58rem;font-weight:820;display:flex}
 .terminal-eyebrow:after{content:"";background:linear-gradient(90deg,var(--gold),transparent);width:64px;height:1px}
 .hero-copy{max-width:620px}
-.hero-copy h1{letter-spacing:-.04em;margin:0;font-family:var(--font-editorial);font-size:clamp(2.85rem,3.8vw,4.75rem);font-style:italic;font-weight:650;line-height:1.01;text-wrap:balance}
-.hero-copy h1 span{color:var(--emerald);margin-top:.08em;display:block}
+.hero-copy h1{letter-spacing:-.04em;margin:0;font-family:var(--font-editorial);font-size:clamp(2.85rem,3.8vw,4.75rem);font-style:italic;font-weight:650;line-height:1.01;gap:.08em;display:grid}
+.hero-copy h1 .slogan-line{white-space:nowrap;display:block}
+.hero-copy h1 .slogan-line-primary{color:var(--navy)}
+.hero-copy h1 .slogan-line-secondary{color:var(--emerald)}
 .button{border:1px solid transparent;min-height:48px;cursor:pointer;border-radius:10px;justify-content:center;align-items:center;gap:9px;padding:0 18px;font-size:.69rem;font-weight:800;transition:transform .18s,box-shadow .18s,background .18s;display:inline-flex}
 .button svg{fill:none;stroke:currentColor;stroke-width:1.7;width:18px;height:18px}
 .button:hover{transform:translateY(-2px)}
@@ -650,7 +652,7 @@ body{font-size:17px}
 .command-trigger{min-width:42px;width:42px;justify-content:center}
 .command-trigger span,.command-trigger kbd{display:none}
 .hero-grid{grid-template-columns:minmax(340px,.9fr) minmax(400px,1.1fr);gap:24px}
-.hero-copy h1{font-size:clamp(2.75rem,5vw,3.75rem)}
+.hero-copy h1{font-size:clamp(2.2rem,4.4vw,3rem)}
 .hero-trust-grid{grid-template-columns:1fr}
 .hero-trust-grid>div{min-height:54px}
 .decision-grid{grid-template-columns:1fr}
@@ -677,7 +679,7 @@ body{padding-bottom:66px}
 .watchlist-trigger{display:none}
 .terminal-hero{min-height:auto;background-position:65% center}
 .hero-grid{grid-template-columns:1fr;gap:24px;min-height:auto;padding:34px 0}
-.hero-copy h1{font-size:clamp(2.55rem,12vw,3.35rem)}
+.hero-copy h1{font-size:clamp(1.9rem,8.2vw,2.25rem);letter-spacing:-.025em;line-height:1.12;gap:.16em}
 .advisor-line{align-items:center;flex-wrap:nowrap}
 .advisor-line>a{width:auto;margin-left:auto}
 .hero-trust-grid{grid-template-columns:1fr}
@@ -734,7 +736,7 @@ body{padding-bottom:66px}
 .report-card-head .report-identity{grid-column:1;grid-row:1}
 .report-card-head .card-tools{grid-column:2;grid-row:1}
 .report-visual-card{width:104px;grid-column:2;grid-row:2}
-.hero-copy h1{font-size:2.65rem}
+.hero-copy h1{font-size:clamp(1.9rem,8.2vw,2.15rem)}
 .advisor-line strong{font-size:.86rem}
 .advisor-line>a{font-size:.7rem}
 .coverage-strip strong{font-size:1.75rem}
