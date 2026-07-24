@@ -128,11 +128,6 @@
         </div>
         <h3>${escapeHtml(entry.title)}</h3>
         <p class="daily-thesis">${escapeHtml(entry.thesis)}</p>
-        <div class="daily-byline">
-          <span class="advisor-avatar">XL</span>
-          <div><strong>${escapeHtml(entry.author)}</strong><span>${escapeHtml(entry.role)} • ${escapeHtml(entry.publishedAt)}</span></div>
-          <small>${escapeHtml(entry.readingTime)}</small>
-        </div>
       </header>
 
       <div class="daily-metrics">${entry.metrics.map((metric) => `
