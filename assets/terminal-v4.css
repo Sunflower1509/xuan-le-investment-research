@@ -47,10 +47,10 @@ img,svg{display:block}
 .terminal-eyebrow{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;align-items:center;gap:11px;margin:0 0 18px;font-size:.58rem;font-weight:820;display:flex}
 .terminal-eyebrow:after{content:"";background:linear-gradient(90deg,var(--gold),transparent);width:64px;height:1px}
 .hero-copy{max-width:620px}
-.hero-copy h1{letter-spacing:-.04em;margin:0;font-family:var(--font-editorial);font-size:clamp(2.85rem,3.8vw,4.75rem);font-style:italic;font-weight:650;line-height:1.01;gap:.08em;display:grid}
-.hero-copy h1 .slogan-line{white-space:nowrap;display:block}
-.hero-copy h1 .slogan-line-primary{color:var(--navy)}
-.hero-copy h1 .slogan-line-secondary{color:var(--emerald)}
+.hero-copy h1{letter-spacing:-.025em;margin:0;font-family:var(--font-editorial);font-size:clamp(2.85rem,3.8vw,4.75rem);font-style:italic;font-weight:560;line-height:1.03;gap:.06em;display:grid;font-optical-sizing:auto;font-variation-settings:"wght" 560;font-feature-settings:"kern" 1,"liga" 1;text-wrap:balance}
+.hero-copy h1 .slogan-line{white-space:nowrap;width:fit-content;padding-right:.12em;display:block;position:relative}
+.hero-copy h1 .slogan-line-primary{color:var(--navy);text-shadow:0 1px 0 rgba(255,255,255,.7),0 10px 30px rgba(8,28,49,.08)}
+.hero-copy h1 .slogan-line-secondary{color:var(--emerald);text-shadow:0 1px 0 rgba(255,255,255,.7),0 10px 30px rgba(8,120,90,.1)}
 .button{border:1px solid transparent;min-height:48px;cursor:pointer;border-radius:10px;justify-content:center;align-items:center;gap:9px;padding:0 18px;font-size:.69rem;font-weight:800;transition:transform .18s,box-shadow .18s,background .18s;display:inline-flex}
 .button svg{fill:none;stroke:currentColor;stroke-width:1.7;width:18px;height:18px}
 .button:hover{transform:translateY(-2px)}
@@ -679,7 +679,7 @@ body{padding-bottom:66px}
 .watchlist-trigger{display:none}
 .terminal-hero{min-height:auto;background-position:65% center}
 .hero-grid{grid-template-columns:1fr;gap:24px;min-height:auto;padding:34px 0}
-.hero-copy h1{font-size:clamp(1.9rem,8.2vw,2.25rem);letter-spacing:-.025em;line-height:1.12;gap:.16em}
+.hero-copy h1{font-size:clamp(1.9rem,8.2vw,2.25rem);letter-spacing:-.012em;line-height:1.14;gap:.13em}
 .advisor-line{align-items:center;flex-wrap:nowrap}
 .advisor-line>a{width:auto;margin-left:auto}
 .hero-trust-grid{grid-template-columns:1fr}
@@ -736,7 +736,7 @@ body{padding-bottom:66px}
 .report-card-head .report-identity{grid-column:1;grid-row:1}
 .report-card-head .card-tools{grid-column:2;grid-row:1}
 .report-visual-card{width:104px;grid-column:2;grid-row:2}
-.hero-copy h1{font-size:clamp(1.9rem,8.2vw,2.15rem)}
+.hero-copy h1{font-size:clamp(1.86rem,7.9vw,2.1rem)}
 .advisor-line strong{font-size:.86rem}
 .advisor-line>a{font-size:.7rem}
 .coverage-strip strong{font-size:1.75rem}
