@@ -9,6 +9,45 @@ window.DAILY_MARKET_INSIGHTS = {
   updated: "2026-07-24",
   entries: [
     {
+      id: "market-view-20260724",
+      date: "2026-07-24",
+      publishedAt: "24/07/2026 • Sau phiên",
+      edition: "Số 04",
+      sentiment: "cautious",
+      sentimentLabel: "THẬN TRỌNG",
+      dataStatus: "TVS Research • EOD 24.07.2026",
+      title: "Thanh khoản suy yếu, ưu tiên giảm rủi ro",
+      thesis: "VN-Index giảm 13,27 điểm về 1.686,11 điểm trong khi giá trị giao dịch HOSE giảm 31,0% và toàn bộ 9 chỉ báo trung bình động trong báo cáo TVS tiếp tục cho tín hiệu bán. Trạng thái tác nghiệp là CHỜ: không bắt đáy; ưu tiên quan sát và tận dụng nhịp hồi nếu có để giảm tỷ trọng về mức an toàn.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "4 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.686,11", change: "−13,27 • −0,78%", tone: "negative" },
+        { label: "GTGD HOSE", value: "13.898 tỷ", change: "−31,0% so với phiên trước", tone: "warning" },
+        { label: "KHỚP LỆNH HOSE", value: "11.875 tỷ", change: "−31,8% so với phiên trước", tone: "warning" },
+        { label: "KHỐI NGOẠI HSX", value: "−1.820 tỷ", change: "bán ròng theo TVS Research", tone: "negative" }
+      ],
+      backdrop: [
+        "Áp lực bán lan tỏa từ đầu phiên; Dầu khí là nhóm ngành duy nhất tăng điểm nhưng không đủ bù sức ép từ Vingroup và phần còn lại của thị trường.",
+        "Thanh khoản HOSE giảm mạnh: khối lượng còn khoảng 590 triệu cổ phiếu và giá trị giao dịch đạt 13.898 tỷ đồng, phản ánh sự lưỡng lự của dòng tiền sau chuỗi phiên biến động.",
+        "RSI ở mức 29 cho tín hiệu mua do trạng thái quá bán, nhưng 3/4 chỉ báo động lượng và toàn bộ 9 chỉ báo trung bình động trong báo cáo vẫn cho tín hiệu bán."
+      ],
+      levels: [
+        { label: "Cản kỹ thuật gần", value: "1.744–1.778", note: "EMA200 tại 1.744, SMA200 tại 1.773 và EMA20 tại 1.778; chỉ số đang đóng cửa thấp hơn toàn bộ cụm này." },
+        { label: "Cụm cản mạnh hơn", value: "1.800–1.830", note: "SMA100 tại 1.800, SMA20/Bollinger Band tại 1.802, EMA50 tại 1.809 và SMA50 tại 1.830." }
+      ],
+      playbook: [
+        { if: "VN-Index hồi phục nhưng chưa lấy lại 1.744–1.778 hoặc thanh khoản tiếp tục thấp", then: "Không mua đuổi và không bắt đáy; tận dụng nhịp hồi để giảm vị thế yếu, hạ margin và đưa tỷ trọng về mức an toàn." },
+        { if: "Chỉ số vượt 1.778, sau đó chinh phục 1.800–1.830 với độ rộng và thanh khoản cùng cải thiện", then: "Đánh giá lại trạng thái CHỜ; chỉ xem xét cổ phiếu dẫn dắt có điểm mua hợp lệ, stoploss 3–7% và R/R tối thiểu 2:1." }
+      ],
+      focus: "Trọng tâm: thanh khoản • phản ứng 1.744–1.778 • khối ngoại bán ròng • PNJ, VIX, VHM • rủi ro tin tức doanh nghiệp",
+      inference: "Giá đóng cửa và mức biến động được dùng theo bảng số liệu TVS và đã đối chiếu chéo: 1.686,11 điểm, giảm 13,27 điểm tương đương 0,78%. Các điều kiện IF–THEN là diễn giải tác nghiệp của Xuân Lê TVS từ các chỉ báo trong báo cáo, không phải tín hiệu mua tự động hay cam kết lợi nhuận.",
+      sources: [
+        { label: "TVS Research 24.07 — PDF chính thức", url: "https://www.tvs.vn/api/files/24.07.2026_TVS_Research_duy_tri_quan_điem_than_trong_voi_chi_so_VN-Index_trong_cac_phien_toi.pdf" },
+        { label: "Báo Nhân Dân — Đối chiếu phiên 24.07", url: "https://nhandan.vn/chung-khoan-ngay-247-vn-index-giam-gan-13-diem-thanh-khoan-lao-doc-post977612.html" }
+      ]
+    },
+    {
       id: "market-view-20260723",
       date: "2026-07-23",
       publishedAt: "23/07/2026 • Sau phiên",
