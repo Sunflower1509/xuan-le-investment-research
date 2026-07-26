@@ -651,7 +651,7 @@ body{font-size:17px}
 @media (width<=980px){.desktop-nav{display:none}
 .command-trigger{min-width:42px;width:42px;justify-content:center}
 .command-trigger span,.command-trigger kbd{display:none}
-.hero-grid{grid-template-columns:minmax(340px,.9fr) minmax(400px,1.1fr);gap:24px}
+.hero-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px}
 .hero-copy h1{font-size:clamp(2.2rem,4.4vw,3rem)}
 .hero-trust-grid{grid-template-columns:1fr}
 .hero-trust-grid>div{min-height:54px}
@@ -848,6 +848,57 @@ body{padding-bottom:66px}
 .daily-metric{border-right:0!important;border-bottom:1px solid var(--line)!important}
 .daily-metric:last-child{border-bottom:0!important}
 .daily-playbook article>div{grid-template-columns:42px 1fr}
+}
+
+/* Mobile reading hardening: preserve every word inside the viewport. */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+.terminal-container,.terminal-header-inner,.hero-grid,.hero-copy,.hero-terminal,
+.daily-market-heading,.daily-market-shell,.daily-archive,.daily-archive-list,
+.daily-insight,.daily-insight-header,.daily-analysis-grid,.daily-analysis-panel,
+.daily-levels article,.daily-playbook article,.daily-playbook article>div,
+.priority-card,.priority-card-main,.priority-metrics>div,.action-table-shell,
+.research-workspace,.research-results,.report-card-v4,.coverage-card{min-width:0;max-width:100%}
+.daily-thesis,.daily-analysis-panel li,.daily-focus,.daily-levels p,.daily-playbook p,
+.daily-inference p,.priority-distance p,.action-table td,.action-table td p,
+.report-summary,.coverage-card p,.watchlist-item span{overflow-wrap:anywhere;word-break:normal}
+
+@media (width<=720px){
+  .hero-copy h1{width:100%;max-width:100%}
+  .hero-copy h1 .slogan-line{width:100%;max-width:100%;white-space:normal;padding-right:0;text-wrap:pretty}
+  .advisor-line{grid-template-columns:42px minmax(0,1fr) auto;display:grid}
+  .advisor-line>div{min-width:0}
+  .advisor-line>a{white-space:nowrap}
+  .daily-archive-list{width:100%;max-width:100%;padding-bottom:5px;overscroll-behavior-inline:contain;scroll-snap-type:x proximity}
+  .daily-archive-item{scroll-snap-align:start}
+  .daily-playbook article>div{grid-template-columns:42px minmax(0,1fr)}
+
+  .action-table-wrap{overflow:visible;padding:12px}
+  .action-table{display:block;width:100%;min-width:0}
+  .action-table thead{clip:rect(0 0 0 0);clip-path:inset(50%);width:1px;height:1px;white-space:nowrap;position:absolute;overflow:hidden}
+  .action-table tbody{grid-template-columns:1fr;gap:12px;display:grid}
+  .action-table tr{border:1px solid var(--line);background:#fff;border-radius:13px;grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);display:grid;overflow:hidden;box-shadow:0 8px 24px rgba(8,28,49,.05)}
+  .action-table td{border:0;border-bottom:1px solid var(--line-soft);min-width:0;padding:14px 15px}
+  .action-table td:nth-child(odd){border-right:1px solid var(--line-soft)}
+  .action-table td:nth-child(7),.action-table td:nth-child(8){grid-column:1/-1;border-right:0}
+  .action-table td:nth-child(8){border-bottom:0}
+  .action-table td:before{content:attr(data-label);color:var(--gold);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-size:.52rem;font-weight:850;line-height:1.35;display:block}
+  .action-table td p{max-width:none;font-size:.72rem;line-height:1.68}
+  .action-table td a{font-size:.67rem}
+  .table-ticker{font-size:1.35rem}
+}
+
+@media (width<=480px){
+  :root{--container:calc(100% - 28px)}
+  .terminal-header-inner{gap:12px}
+  .brand-monogram{width:40px;height:40px}
+  .terminal-brand{gap:9px;min-width:0}
+  .header-tools{flex:0 0 auto}
+  .action-table tr{grid-template-columns:1fr}
+  .action-table td,.action-table td:nth-child(odd),.action-table td:nth-child(7),.action-table td:nth-child(8){grid-column:1;border-right:0}
+  .action-table td:last-child{border-bottom:0}
+  .daily-insight-header,.daily-analysis-panel,.daily-insight-footer{padding-right:17px;padding-left:17px}
+  .daily-sources a{max-width:100%;overflow-wrap:anywhere}
 }
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}

@@ -228,10 +228,11 @@
   const renderActionRadar = () => {
     const exclusions = coverage.filter((item) => item.action?.eligibility && item.action.eligibility !== "active");
     const exactSession = coverage.filter((item) => item.priceDate === source.meta.updated).length;
+    const missingSession = coverage.length - exactSession;
     if (refs.prioritySummary) refs.prioritySummary.innerHTML = `
       <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Có vùng mua đã khóa • Không hard veto</small></div>
       <div><span>Ưu tiên gần nhất</span><strong>${escapeHtml(priorityUniverse[0]?.ticker || "—")}</strong><small>${priorityUniverse[0] ? escapeHtml(relationLabel(priorityUniverse[0])) : "—"}</small></div>
-      <div><span>Giá đúng phiên ${date(source.meta.updated)}</span><strong>${exactSession}/${coverage.length}</strong><small>${coverage.length - exactSession} mã dùng giá gần nhất và có ghi chú</small></div>
+      <div><span>Giá đúng phiên ${date(source.meta.updated)}</span><strong>${exactSession}/${coverage.length}</strong><small>${missingSession === 0 ? "Đủ dữ liệu EOD toàn bộ danh mục" : `${missingSession} mã dùng giá gần nhất và có ghi chú`}</small></div>
       <div><span>Veto / cần đánh giá lại</span><strong>${exclusions.length}</strong><small>Không đưa vào nhóm ưu tiên</small></div>`;
 
     if (refs.priorityGrid) refs.priorityGrid.innerHTML = priorityUniverse.slice(0, 3).map((item, index) => {
@@ -269,14 +270,14 @@
         const base = report?.baseValue || action.baseValue;
         const distanceText = distance.relation === "inside" ? "0,0% • trong vùng" : `${decimal(distance.value)}% • ${distance.relation === "below" ? "dưới cận" : "trên cận"}`;
         return `<tr>
-          <td><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
-          <td><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
-          <td><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
-          <td><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
-          <td><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
-          <td><strong>${number(base)}</strong><span>${Number.isFinite(currentUpside(item)) ? `${signedPercent(currentUpside(item))} từ giá đóng cửa` : "—"}</span></td>
-          <td><p>${escapeHtml(action.condition)}</p>${item.ticker === "GAS" ? `<span class="conditional-zone">Thăm dò có điều kiện: ${number(action.watchLow)}–${number(action.watchHigh)}</span>` : ""}</td>
-          <td><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
+          <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
+          <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
+          <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
+          <td data-label="Vùng mua tham khảo"><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
+          <td data-label="Giá trị cơ sở"><strong>${number(base)}</strong><span>${Number.isFinite(currentUpside(item)) ? `${signedPercent(currentUpside(item))} từ giá đóng cửa` : "—"}</span></td>
+          <td data-label="Điều kiện bắt buộc"><p>${escapeHtml(action.condition)}</p>${item.ticker === "GAS" ? `<span class="conditional-zone">Thăm dò có điều kiện: ${number(action.watchLow)}–${number(action.watchHigh)}</span>` : ""}</td>
+          <td data-label="Nguồn"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
         </tr>`;
       }).join("")}</tbody>
     </table>`;
