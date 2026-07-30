@@ -736,6 +736,12 @@ body{padding-bottom:66px}
 .report-card-head .report-identity{grid-column:1;grid-row:1}
 .report-card-head .card-tools{grid-column:2;grid-row:1}
 .report-visual-card{width:104px;grid-column:2;grid-row:2}
+.report-dialog-head{grid-template-columns:1fr;gap:14px}
+.report-dialog-head>div{grid-column:1;grid-row:1}
+.report-dialog-head>.status-badge{max-width:100%;white-space:normal;line-height:1.35;grid-column:1;grid-row:2;justify-self:start}
+.report-visual-dialog{width:100%;grid-column:1;grid-row:3}
+.report-dialog-company{font-size:.72rem;line-height:1.5}
+.report-dialog-meta{font-size:.54rem;line-height:1.5}
 .hero-copy h1{font-size:clamp(1.86rem,7.9vw,2.1rem)}
 .advisor-line strong{font-size:.86rem}
 .advisor-line>a{font-size:.7rem}

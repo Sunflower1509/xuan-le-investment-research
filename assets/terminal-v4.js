@@ -253,7 +253,7 @@
           <div class="priority-metrics">
             <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
             <div><span>Vùng mua đã khóa</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${date(action.basisDate)}</small></div>
-            <div><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
+            <div><span>Chênh lệch tới giá trị cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
           </div>
           <div class="priority-distance"><div style="--progress:${Math.max(4, Math.min(100, 100 - distance.value * 2))}%"><span></span></div><p><strong>${escapeHtml(relation)}</strong>${escapeHtml(action.condition)}</p></div>
           <div class="priority-actions">${report ? `<button type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Mở hồ sơ định giá</button>` : `<button type="button" data-action="focus-ticker" data-ticker="${escapeHtml(item.ticker)}">Xem trong Coverage</button>`}<a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Nguồn giá ↗</a></div>
@@ -311,7 +311,7 @@
         <div class="metric-grid">
           <div class="dashboard-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
           <div class="dashboard-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>đồng/cp</small></div>
-          <div class="dashboard-metric"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa ${date(source.meta.updated)}</small></div>
+          <div class="dashboard-metric"><span>Chênh lệch tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa ${date(source.meta.updated)}</small></div>
         </div>
         <div class="valuation-rail">
           <div class="valuation-rail-title"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)} đồng/cp</strong></div>
@@ -450,7 +450,7 @@
         </div>
         <div class="card-metrics">
           <div class="card-metric market"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="${quote?.changePct < 0 ? "negative" : "positive"}">${signedPercent(quote?.changePct)}</small></div>
-          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>${Number.isFinite(currentUpside(quote)) ? `${signedPercent(currentUpside(quote))} upside` : "—"}</small></div>
+          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>${Number.isFinite(currentUpside(quote)) ? `${signedPercent(currentUpside(quote))} từ giá đóng cửa` : "—"}</small></div>
         </div>
         ${action && Number.isFinite(action.zoneLow) ? `<div class="card-action-band"><span>${rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quote)}` : "—"}</small></div>` : ""}
         <p class="report-summary">${escapeHtml(report.summary)}</p>
@@ -559,7 +559,7 @@
           <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.marketPriceDate || report.date)}</small></div>
           <div class="dialog-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong></div>
           <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
-          <div class="dialog-metric emphasis"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
+          <div class="dialog-metric emphasis"><span>Chênh lệch tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
           <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>
         </div>
         <div class="dialog-thesis"><h3>Luận điểm và điều kiện</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái theo giá khóa</dt><dd>${escapeHtml(relationLabel(quote))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(action?.condition || "Xem trong báo cáo PDF")}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>

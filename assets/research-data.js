@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-07-29",
-    release: "2026-07-29",
+    release: "2026-07-30",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng của toàn bộ 17 mã Coverage Universe được khóa tại phiên 29/07/2026 từ dữ liệu EOD VNDIRECT. Giá đóng cửa và tỷ lệ biến động đã được đối chiếu 17/17 mã với Simplize; khối lượng giữ theo nguồn chính để nhất quán cách ghi nhận giao dịch lô lẻ. Thiết lập ngắn hạn VPX được tách khỏi xếp hạng sau khi giá đóng cửa thấp hơn stop 24.400; vùng định giá dài hạn không thay đổi."
+    note: "Giá đóng cửa, biến động và khối lượng của toàn bộ 18 mã Coverage Universe được khóa tại phiên 29/07/2026 từ dữ liệu EOD VNDIRECT. Giá đóng cửa và tỷ lệ biến động đã được đối chiếu 18/18 mã với Simplize; khối lượng giữ theo nguồn chính để nhất quán cách ghi nhận giao dịch lô lẻ. Báo cáo VCI ngày 30/07/2026 giữ nguyên khuyến nghị CHỜ - không mua mới; vùng 13.600-14.600 chỉ là vùng mua có điều kiện. Thiết lập ngắn hạn VPX vẫn được tách khỏi xếp hạng sau khi giá đóng cửa thấp hơn stop 24.400."
   },
 
   marketSession: {
@@ -36,6 +36,14 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "VCI-20260730", ticker: "VCI", company: "Công ty Cổ phần Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-30",
+      recommendation: "CHỜ - KHÔNG MUA MỚI", status: "wait", marketPrice: 20800, marketPriceDate: "2026-07-29", baseValue: 19500, calculationBase: 19478, rangeLow: 13100, rangeHigh: 26000,
+      gapLabel: "MOS -6,8% so với giá trị cơ sở tại ngày định giá", method: "Residual Income (50%) + P/B gắn ROE (35%) + P/E kiểm chứng (15%)",
+      summary: "Giá đóng cửa 20.800 đồng/cp cao hơn giá trị cơ sở 19.500 đồng/cp khoảng 6,8% và đang phản ánh ROE dài hạn khoảng 13,27%, trong khi ROE 2025 và ROE TTM proxy mới ở 8,7% và 8,28%. Báo cáo giữ khuyến nghị CHỜ - không mua mới; vùng 13.600-14.600 đồng/cp chỉ được kích hoạt khi các điều kiện CAR, đòn bẩy, OCI, vốn chủ sở hữu, LNST và pha loãng không xấu đi.",
+      visual: { src: "assets/images/reports/vci.webp", alt: "Đại diện khách mời và lãnh đạo Vietcap tại Vietcap Investment Day 2026", caption: "Vietcap Investment Day 2026", sourceLabel: "DNSE / CafeF", sourceUrl: "https://www.dnse.com.vn/senses/tin-tuc/vietcap-investment-day-2026-don-dau-cac-lan-song-dau-tu-trong-chu-ky-tang-truong-moi-35204836" },
+      file: "reports/VCI_Equity_Research_Valuation_30-07-2026.pdf", edition: "Bản mới nhất"
+    },
     {
       id: "VPX-20260722", ticker: "VPX", company: "Công ty Cổ phần Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-22",
       recommendation: "CHỜ – THEO DÕI", status: "wait", marketPrice: 26650, marketPriceDate: "2026-07-21", baseValue: 25300, rangeLow: 21300, rangeHigh: 29300,
@@ -135,6 +143,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "VCI", company: "Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", reportId: "VCI-20260730",
+      close: 20800, priceDate: "2026-07-29", changePct: 5.58, volume: 10949300, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-07-29&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCI/lich-su-gia",
+      action: { zoneLow: 13600, zoneHigh: 14600, baseValue: 19500, stop: 13203, basisDate: "2026-07-30", recommendation: "CHỜ - MUA CÓ ĐIỀU KIỆN", eligibility: "active", condition: "Không mua mới tại 20.800 đồng. Chỉ giải ngân từng phần trong vùng 13.600-14.600 khi CAR duy trì trên 250%, Margin/VCSH không vượt 1,2 lần, vốn chủ sở hữu và OCI không tiếp tục suy giảm mạnh, LNST 2026 có khả năng đạt tối thiểu khoảng 1.350 tỷ đồng và không phát hành quy mô lớn dưới BVPS; nếu các biến này xấu đi, phải cập nhật mô hình trước khi giải ngân." }
+    },
     {
       ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260722",
       close: 24150, priceDate: "2026-07-29", changePct: -2.23, volume: 1691100, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-07-29&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VPX/lich-su-gia",
