@@ -73,16 +73,6 @@ img,svg{display:block}
 .hero-trust-grid strong{color:var(--ink);margin-bottom:3px;font-size:.66rem;display:block}
 
 
-/* Coverage strip */
-.coverage-strip{border-bottom:1px solid var(--line);background:rgba(255,255,255,.56)}
-.coverage-strip-grid{grid-template-columns:repeat(4,1fr);display:grid}
-.coverage-strip-grid>div{border-right:1px solid var(--line);min-height:122px;flex-direction:column;justify-content:center;padding:22px 32px;display:flex}
-.coverage-strip-grid>div:first-child{border-left:1px solid var(--line)}
-.coverage-strip span{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.52rem;font-weight:820}
-.coverage-strip strong{letter-spacing:-.035em;margin-top:5px;font-family:var(--font-editorial);font-size:2.1rem;font-weight:700}
-.coverage-strip small{color:var(--muted);margin-top:1px;font-size:.57rem}
-
-
 /* Shared sections */
 .terminal-section{padding:var(--section-space) 0 var(--section-space-compact);scroll-margin-top:var(--header-h)}
 .terminal-section+.terminal-section{padding-top:var(--section-space-compact)}
@@ -519,7 +509,7 @@ body{font-size:17px}
 
 .terminal-eyebrow,.featured-kicker{font-size:.64rem}
 
-.hero-trust-grid span,.coverage-strip span,.coverage-strip small{font-size:.58rem}
+.hero-trust-grid span{font-size:.58rem}
 
 .hero-trust-grid strong,.data-integrity strong,.research-tabs button,.sort-control select,.filter-group button,.report-identity h3,.report-summary,.report-card-actions button,.report-card-actions a,.coverage-card p,.coverage-card-actions button{font-size:.65rem}
 
@@ -701,9 +691,6 @@ body{padding-bottom:66px}
 .advisor-line>a{width:auto;margin-left:auto}
 .hero-trust-grid{grid-template-columns:1fr}
 .hero-trust-grid>div{min-height:54px;padding:10px 12px}
-.coverage-strip-grid{grid-template-columns:repeat(2,1fr)}
-.coverage-strip-grid>div{border-bottom:1px solid var(--line);min-height:105px;padding:18px}
-.coverage-strip-grid>div:nth-child(2){border-right:0}
 .terminal-section{padding:var(--section-space) 0 var(--section-space-compact)}
 .section-heading h2{font-size:clamp(2.8rem,12vw,4rem)}
 .research-heading{align-items:flex-start;flex-direction:column}
@@ -757,7 +744,6 @@ body{padding-bottom:66px}
 .hero-copy h1{font-size:clamp(1.86rem,7.9vw,2.1rem)}
 .advisor-line strong{font-size:.86rem}
 .advisor-line>a{font-size:.7rem}
-.coverage-strip strong{font-size:1.75rem}
 .dialog-metrics{grid-template-columns:1fr}
 .compare-dock{align-items:flex-start;flex-direction:column}
 .compare-dock-actions{justify-content:space-between;width:100%}
@@ -916,3 +902,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
 *,:before,:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+/* Calibrated handoff: action system → research library. */
+.action-radar-section{padding-bottom:clamp(1rem,1.8vw,1.75rem)}
+.action-radar-section+.research-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}
