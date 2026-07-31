@@ -6,8 +6,47 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-07-24",
+  updated: "2026-07-30",
   entries: [
+    {
+      id: "market-view-20260730",
+      date: "2026-07-30",
+      publishedAt: "30/07/2026 • Sau phiên",
+      edition: "Số 05",
+      sentiment: "positive",
+      sentimentLabel: "TÍCH CỰC CÓ ĐIỀU KIỆN",
+      dataStatus: "TVS Research • EOD 30.07.2026",
+      title: "Đà hồi phục mở rộng, chờ kiểm định 1.770–1.800",
+      thesis: "VN-Index tăng 39,98 điểm lên 1.744,66 điểm, hoàn tất phiên tăng thứ ba liên tiếp với thanh khoản và độ rộng cùng cải thiện. Trạng thái tác nghiệp được nâng lên TÍCH CỰC CÓ ĐIỀU KIỆN: có thể chờ nhịp điều chỉnh để thăm dò cổ phiếu dẫn dắt có nền giá và tăng trưởng lợi nhuận, nhưng không mua đuổi khi chỉ số đang tiến vào cụm cản 1.770–1.800 điểm.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "4 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.744,66", change: "+39,98 • +2,35%", tone: "positive" },
+        { label: "GTGD HOSE", value: "20.264 tỷ", change: "+40,6% so với phiên trước", tone: "positive" },
+        { label: "KHỚP LỆNH HOSE", value: "16.663 tỷ", change: "+41,4% so với phiên trước", tone: "positive" },
+        { label: "KHỐI NGOẠI HSX", value: "+679 tỷ", change: "mua ròng; tập trung VIC, VNM, MSN", tone: "positive" }
+      ],
+      backdrop: [
+        "VN-Index vượt vùng cản ngắn hạn 1.720–1.725 điểm; độ rộng HOSE đạt 277 mã tăng, 33 mã tham chiếu và 58 mã giảm, cho thấy lực cầu lan tỏa rõ thay vì chỉ phụ thuộc một vài cổ phiếu trụ.",
+        "Ngân hàng, bất động sản và thực phẩm–đồ uống lần lượt đóng góp khoảng 14,1; 10,5 và 2,9 điểm cho VN-Index; toàn bộ 21/21 nhóm ngành được nguồn đối chiếu ghi nhận tăng điểm.",
+        "Tín hiệu kỹ thuật đã cải thiện nhưng chưa đồng thuận hoàn toàn: 3/4 chỉ báo động lượng cho tín hiệu mua, trong khi 8/9 chỉ báo trung bình động vẫn cho tín hiệu bán; chỉ số mới đứng trên EMA200 tại 1.742 điểm."
+      ],
+      levels: [
+        { label: "Điểm tựa sau breakout", value: "1.720–1.730", note: "Vùng 1.720–1.725 là kháng cự vừa vượt; 1.730 là hỗ trợ tham chiếu trong bảng kỹ thuật TVS. Chỉ coi là điểm tựa khi lực bán không tăng đột biến." },
+        { label: "Mục tiêu / vùng cản", value: "1.770–1.800", note: "Mục tiêu ngắn hạn theo TVS; bên trong vùng có SMA20 tại 1.769, SMA200 tại 1.773 và kháng cự tham chiếu 1.800 điểm." }
+      ],
+      playbook: [
+        { if: "VN-Index điều chỉnh nhưng giữ được 1.720–1.730, thanh khoản không tăng mạnh ở chiều giảm và cổ phiếu dẫn dắt vẫn giữ nền", then: "CÓ THỂ THĂM DÒ 20–30% tại mã có tăng trưởng lợi nhuận, vùng mua hợp lệ và dòng tiền xác nhận; stoploss 3–7%, chỉ nhận giao dịch có R/R tối thiểu 2:1." },
+        { if: "Chỉ số đóng cửa vượt 1.773 với độ rộng và thanh khoản duy trì tích cực; ngược lại, đóng cửa dưới 1.720", then: "Vượt 1.773: gia tăng từng phần ở vị thế đang đúng. Thủng 1.720: dừng mua mới, hạ margin và giảm các vị thế yếu; không bình quân giá xuống cơ học." }
+      ],
+      focus: "Trọng tâm: phản ứng 1.720–1.730 • cụm cản 1.770–1.800 • Ngân hàng/BĐS/Chứng khoán • độ bền thanh khoản • không mua đuổi",
+      inference: "Giá đóng cửa, thanh khoản, độ rộng, dòng vốn ngoại và các mốc kỹ thuật được lấy từ báo cáo TVS ngày 30/07/2026 và đối chiếu với Thời báo Tài chính Việt Nam. Trạng thái, tỷ trọng thăm dò, stoploss và điều kiện IF–THEN là kế hoạch tác nghiệp của Xuân Lê TVS, không phải khuyến nghị tự động hay cam kết lợi nhuận.",
+      sources: [
+        { label: "TVS Research 30.07 — PDF chính thức", url: "https://www.tvs.vn/api/files/30.07.2026_VN-Index_se_huong_toi_vung_1%2C770_-_1%2C800_%C4%91iem_trong_cac_phien_tiep_theo-v1.pdf" },
+        { label: "Thời báo Tài chính Việt Nam — Đối chiếu phiên 30.07", url: "https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-30-7-dong-tien-lan-toa-nhieu-ma-quat-khoi-vn-index-tang-but-pha-201496.html" }
+      ]
+    },
     {
       id: "market-view-20260724",
       date: "2026-07-24",
