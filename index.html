@@ -12,10 +12,10 @@
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
   <link rel="stylesheet" href="assets/typography-v3.css?v=20260726mobile1">
-  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260731sector1">
+  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260731profile1">
   <script defer src="assets/research-data.js?v=20260730eod30"></script>
   <script defer src="assets/daily-insights.js?v=20260730tvs30"></script>
-  <script defer src="assets/terminal-v4.js?v=20260730vci1"></script>
+  <script defer src="assets/terminal-v4.js?v=20260731profile1"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -51,7 +51,7 @@
         <a href="#overview">Tổng quan</a>
         <a href="#daily-market">Nhận định ngày</a>
         <a href="#action-radar">Ưu tiên</a>
-        <a href="#dashboard">Dashboard</a>
+        <a href="#dashboard">Hồ sơ nổi bật</a>
         <a href="#research">Research Terminal</a>
       </nav>
       <div class="header-tools">
@@ -135,6 +135,16 @@
         <div class="priority-summary" data-role="priority-summary"></div>
         <div class="priority-grid" data-role="priority-grid"><div class="panel-loading">Đang tính bảng ưu tiên…</div></div>
 
+        <section class="featured-profile-module" id="dashboard" aria-labelledby="featured-profile-title">
+          <div class="featured-profile-heading">
+            <div><p class="terminal-eyebrow">Decision Brief • Đồng bộ bảng ưu tiên</p><h3 id="featured-profile-title">HỒ SƠ ĐỊNH GIÁ NỔI BẬT</h3></div>
+            <div class="profile-sync-note"><span class="signal-dot"></span><div><strong>Tự động theo mã ưu tiên</strong><small>Chọn mã tại thẻ xếp hạng để đổi hồ sơ</small></div></div>
+          </div>
+          <article class="valuation-profile" data-role="featured-report" aria-live="polite">
+            <div class="panel-loading">Đang nạp hồ sơ định giá…</div>
+          </article>
+        </section>
+
         <div class="action-table-shell">
           <div class="action-table-head">
             <div><p class="terminal-eyebrow">Valuation Entry Radar</p><h3>VÙNG MUA THAM KHẢO</h3></div>
@@ -156,33 +166,6 @@
         <div><span>Coverage</span><strong data-role="coverage-count">18</strong><small>mã đã phân tích</small></div>
         <div><span>Ngành</span><strong data-role="sector-count">8</strong><small>nhóm nghiên cứu</small></div>
         <div><span>Giá khóa</span><strong>30.07</strong><small>kết phiên 2026</small></div>
-      </div>
-    </section>
-
-    <section class="terminal-section" id="dashboard">
-      <div class="terminal-container">
-        <div class="section-heading split-heading">
-            <div><p class="terminal-eyebrow">Decision Dashboard</p><h2>Tách giá hiện tại.<br>Tách giá trị. Tách điều kiện.</h2></div>
-          <p>Dashboard giữ nguyên số liệu lịch sử của báo cáo, đồng thời đặt cạnh giá đóng cửa 30/07/2026. Mọi khoảng cách được tính lại minh bạch; kết luận gốc không bị sửa.</p>
-        </div>
-        <div class="decision-grid">
-          <article class="featured-research" data-role="featured-report">
-            <div class="panel-loading">Đang nạp báo cáo nổi bật…</div>
-          </article>
-          <article class="coverage-radar">
-            <div class="panel-head"><div><span class="panel-index">02</span><div><p>Coverage Radar</p><h3>Trạng thái khuyến nghị</h3></div></div><span class="data-stamp">Theo báo cáo mới nhất</span></div>
-            <div class="radar-body">
-              <div class="recommendation-donut" data-role="recommendation-donut"><div><strong data-role="latest-report-count">13</strong><span>mã có PDF</span></div></div>
-              <div class="radar-legend" data-role="recommendation-legend"></div>
-            </div>
-            <div class="sector-mini-list" data-role="sector-mini-list"></div>
-          </article>
-          <article class="research-activity">
-            <div class="panel-head"><div><span class="panel-index">03</span><div><p>Research Flow</p><h3>Cập nhật gần nhất</h3></div></div><span class="data-stamp">Theo ngày định giá</span></div>
-            <div class="activity-list" data-role="activity-list"></div>
-            <a class="panel-link" href="#research">Xem toàn bộ thư viện <svg><use href="#i-arrow"></use></svg></a>
-          </article>
-        </div>
       </div>
     </section>
 
