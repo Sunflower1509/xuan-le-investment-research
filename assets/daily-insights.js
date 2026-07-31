@@ -6,8 +6,46 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-07-30",
+  updated: "2026-07-31",
   entries: [
+    {
+      id: "market-view-20260731",
+      date: "2026-07-31",
+      publishedAt: "31/07/2026 • Sau phiên",
+      edition: "Số 06",
+      sentiment: "watch",
+      sentimentLabel: "TÍCH LŨY CÓ ĐIỀU KIỆN",
+      dataStatus: "TVS Research • EOD 31.07.2026",
+      title: "Tích lũy 1.720–1.730, chọn lọc theo tăng trưởng",
+      thesis: "VN-Index giảm 8,9 điểm (−0,5%) còn 1.735,8 điểm sau khi gặp áp lực bán tại MA20. TVS đánh giá chỉ số cần tích lũy thêm ở 1.720–1.730 trước khi hướng tới 1.770–1.800; chỉ nên gia tăng từng phần ở cổ phiếu có triển vọng lợi nhuận 12 tháng tích cực và định giá hấp dẫn, không mua đuổi.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "3 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.735,8", change: "−8,9 • −0,5%", tone: "negative" },
+        { label: "GTGD HOSE", value: "19.022 tỷ", change: "−6,3% so với phiên trước", tone: "warning" },
+        { label: "KHỚP LỆNH HOSE", value: "15.941 tỷ", change: "−4,5% so với phiên trước", tone: "warning" },
+        { label: "KHỐI NGOẠI HSX", value: "−312 tỷ", change: "bán ròng; tập trung VHM, TCB, VPB", tone: "negative" }
+      ],
+      backdrop: [
+        "Chỉ số tăng đầu phiên nhờ nhóm Ngân hàng và VHM, nhưng quay đầu khi áp lực bán xuất hiện tại MA20 sau hơn ba phiên tăng liên tiếp.",
+        "Thanh khoản hạ nhiệt: khối lượng HOSE đạt 762 triệu cổ phiếu, giảm 11,2%; giá trị giao dịch đạt 19.022 tỷ đồng, giảm 6,3%.",
+        "Ngân hàng đóng góp tích cực khoảng 3,6 điểm, trong khi Bất động sản lấy đi khoảng 10,2 điểm; khối ngoại bán ròng 312 tỷ đồng, tập trung ở VHM, TCB và VPB."
+      ],
+      levels: [
+        { label: "Vùng tích lũy trọng tâm", value: "1.720–1.730", note: "Vùng TVS cho rằng VN-Index cần tích lũy thêm sau khi gặp áp lực bán tại MA20." },
+        { label: "Mục tiêu tham chiếu", value: "1.770–1.800", note: "Kịch bản hướng tới sau khi quá trình tích lũy hoàn tất; không phải tín hiệu mua tự động." }
+      ],
+      playbook: [
+        { if: "VN-Index giữ được 1.720–1.730 và cổ phiếu mục tiêu đồng thời có triển vọng tăng trưởng lợi nhuận 12 tháng tích cực, định giá hấp dẫn", then: "CÓ THỂ GIA TĂNG TỪNG PHẦN; giải ngân chọn lọc, không mua đuổi và chỉ hành động khi điều kiện riêng của từng mã được xác nhận." },
+        { if: "Chỉ số đóng cửa dưới 1.720 hoặc áp lực bán mở rộng cùng thanh khoản", then: "TẠM DỪNG GIA TĂNG; hạ rủi ro ở vị thế yếu và chờ thị trường thiết lập lại vùng cân bằng." }
+      ],
+      focus: "Trọng tâm: phản ứng 1.720–1.730 • mục tiêu 1.770–1.800 • độ bền thanh khoản • Ngân hàng/BĐS • bán ròng VHM, TCB, VPB",
+      inference: "Giá đóng cửa, thanh khoản, dòng vốn ngoại, đóng góp ngành và vùng giá được lấy từ báo cáo TVS ngày 31/07/2026. Hai bảng kỹ thuật trong báo cáo thể hiện trị số RSI/MA khác nhau, vì vậy website chủ động không sử dụng các trị số chưa nhất quán này. Điều kiện IF–THEN là kế hoạch tác nghiệp của Xuân Lê TVS, không phải tín hiệu mua tự động hay cam kết lợi nhuận.",
+      sources: [
+        { label: "TVS Research 31.07 — PDF gốc", url: "reports/TVS_Market_Report_2026-07-31.pdf" }
+      ]
+    },
     {
       id: "market-view-20260730",
       date: "2026-07-30",
