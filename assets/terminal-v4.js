@@ -181,7 +181,6 @@
     .filter((item) => item.action?.eligibility === "active" && actionDistance(item))
     .sort((a, b) => actionDistance(a).value - actionDistance(b).value || a.ticker.localeCompare(b.ticker));
   const priorityRank = new Map(priorityUniverse.map((item, index) => [item.ticker, index + 1]));
-  let activeFeaturedTicker = priorityUniverse[0]?.ticker || coverage[0]?.ticker || null;
 
   const relationLabel = (item) => {
     const distance = actionDistance(item);
@@ -246,10 +245,10 @@
         : distance.relation === "inside"
           ? "Giá đang trong vùng hành động"
           : `Giá cao hơn cận trên ${decimal(distance.value)}%`;
-      return `<article class="priority-card priority-${index + 1}${item.ticker === activeFeaturedTicker ? " is-featured" : ""}">
+      return `<article class="priority-card priority-${index + 1}">
         <div class="priority-rank"><span>ƯU TIÊN</span><strong>${String(index + 1).padStart(2, "0")}</strong></div>
         <div class="priority-card-main">
-          <div class="priority-card-head"><div><button class="priority-code" type="button" data-action="select-featured" data-ticker="${escapeHtml(item.ticker)}" aria-label="Mở hồ sơ định giá nổi bật ${escapeHtml(item.ticker)}">${escapeHtml(item.ticker)}</button><small>${escapeHtml(item.exchange)} • ${escapeHtml(item.sector)}</small></div><span class="priority-state ${escapeHtml(distance.relation)}">${escapeHtml(relationLabel(item))}</span></div>
+          <div class="priority-card-head"><div><strong class="priority-code">${escapeHtml(item.ticker)}</strong><small>${escapeHtml(item.exchange)} • ${escapeHtml(item.sector)}</small></div><span class="priority-state ${escapeHtml(distance.relation)}">${escapeHtml(relationLabel(item))}</span></div>
           <p class="priority-company">${escapeHtml(item.company)}</p>
           <div class="priority-metrics">
             <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
@@ -288,73 +287,6 @@
       return `<article><div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(tag)}</span></div><p>${escapeHtml(item.action.recommendation)} • ${escapeHtml(item.action.condition)}</p><small>${number(item.close)} đồng/cp • ${date(item.priceDate)}</small></article>`;
     }).join("");
   };
-
-  const renderFeatured = () => {
-    const quote = coverageByTicker.get(activeFeaturedTicker) || priorityUniverse[0] || coverage[0];
-    const report = quote ? latestByTicker.get(quote.ticker) : null;
-    const host = document.querySelector("[data-role='featured-report']");
-    if (!host || !quote) return;
-    const action = quote.action || {};
-    const target = report?.calculationBase || report?.baseValue || action.baseValue;
-    const entryLow = action.zoneLow;
-    const entryHigh = action.zoneHigh;
-    const entryMid = Number.isFinite(entryLow) && Number.isFinite(entryHigh) ? (entryLow + entryHigh) / 2 : null;
-    const stop = Number.isFinite(action.stop) ? action.stop : null;
-    const riskReward = Number.isFinite(entryMid) && Number.isFinite(stop) && Number.isFinite(target) && entryMid > stop && target > entryMid
-      ? (target - entryMid) / (entryMid - stop)
-      : null;
-    const liveGap = Number.isFinite(quote.close) && Number.isFinite(target) ? ((target / quote.close) - 1) * 100 : null;
-    const distance = actionDistance(quote);
-    const rank = priorityRank.get(quote.ticker);
-    const invalid = action.eligibility && action.eligibility !== "active";
-    const rejectByText = /LOẠI|TRÁNH|DỪNG/.test(action.recommendation || "");
-    const decision = invalid || rejectByText ? "LOẠI" : "CHỜ";
-    const decisionClass = decision === "LOẠI" ? "reject" : "wait";
-    const relation = distance ? relationLabel(quote) : "CHƯA CÓ VÙNG MUA HỢP LỆ";
-    const ifText = Number.isFinite(entryLow) && Number.isFinite(entryHigh)
-      ? `Giá tiếp cận vùng ${number(entryLow)}–${number(entryHigh)} đồng/cp; chỉ xem xét khi điều kiện bắt buộc đồng thời được xác nhận.`
-      : "Chỉ xem xét lại khi có vùng mua mới được khóa bằng dữ liệu và điều kiện rõ ràng.";
-    const sourceLinks = [
-      quote.priceSource ? `<a href="${escapeHtml(quote.priceSource)}" target="_blank" rel="noreferrer">Nguồn giá ↗</a>` : "",
-      quote.priceSourceSecondary ? `<a href="${escapeHtml(quote.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""
-    ].filter(Boolean).join("");
-    host.innerHTML = `
-      <header class="valuation-profile-head">
-        <div class="valuation-profile-identity">
-          <span class="profile-rank">${rank ? `ƯU TIÊN #${String(rank).padStart(2, "0")}` : "HỒ SƠ THEO DÕI"}</span>
-          <div><h4>${escapeHtml(quote.ticker)}</h4><p>${escapeHtml(quote.company)} • ${escapeHtml(quote.exchange)} • ${escapeHtml(quote.sector)}</p></div>
-        </div>
-        <div class="profile-verdict ${decisionClass}"><span>TRẠNG THÁI</span><strong>${decision}</strong><small>${escapeHtml(action.recommendation || report?.recommendation || "CHƯA XẾP LOẠI")}</small></div>
-      </header>
-      <div class="valuation-profile-body">
-        <div class="profile-kpi-grid">
-          <div class="profile-kpi"><span>Giá đóng cửa</span><strong>${number(quote.close)}</strong><small>${date(quote.priceDate)} • <i class="${quote.changePct < 0 ? "negative" : "positive"}">${signedPercent(quote.changePct)}</i></small></div>
-          <div class="profile-kpi action"><span>Vùng mua tham khảo</span><strong>${Number.isFinite(entryLow) && Number.isFinite(entryHigh) ? `${number(entryLow)}–${number(entryHigh)}` : "—"}</strong><small>${action.basisDate ? `Khóa ${date(action.basisDate)}` : "Chưa khóa"}</small></div>
-          <div class="profile-kpi risk"><span>Stoploss đã khóa</span><strong>${Number.isFinite(stop) ? number(stop) : "CHƯA KHÓA"}</strong><small>${Number.isFinite(stop) ? "Theo thiết lập nguồn" : "Không nội suy"}</small></div>
-          <div class="profile-kpi target"><span>Target tham chiếu</span><strong>${number(target)}</strong><small>Giá trị cơ sở • không phải cam kết</small></div>
-          <div class="profile-kpi"><span>Upside tới giá trị cơ sở</span><strong class="${Number.isFinite(liveGap) && liveGap < 0 ? "negative" : "positive"}">${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>Từ giá đóng cửa mới nhất</small></div>
-          <div class="profile-kpi"><span>R/R tại trung điểm vùng mua</span><strong>${Number.isFinite(riskReward) ? `${decimal(riskReward, 2)}:1` : "CHƯA TÍNH"}</strong><small>${Number.isFinite(riskReward) ? "Target / rủi ro tới stoploss" : "Thiếu stoploss hoặc target đã khóa"}</small></div>
-        </div>
-        <div class="profile-decision-grid">
-          <section class="profile-playbook" aria-label="Kế hoạch hành động IF THEN">
-            <div class="profile-block-title"><span>IF–THEN</span><strong>Kế hoạch hành động có điều kiện</strong></div>
-            <div class="profile-playbook-row"><b>IF</b><p>${escapeHtml(ifText)}</p></div>
-            <div class="profile-playbook-row then"><b>THEN</b><p>${escapeHtml(action.condition || "Chưa có điều kiện hành động được khóa trong dữ liệu nguồn.")}</p></div>
-          </section>
-          <aside class="profile-control">
-            <span>KIỂM SOÁT QUYẾT ĐỊNH</span>
-            <strong>${escapeHtml(relation)}</strong>
-            <p>Stoploss và R/R chỉ hiển thị khi dữ liệu nguồn đã khóa đủ biến số. Thiếu dữ liệu được giữ là “—”, không suy đoán.</p>
-          </aside>
-        </div>
-        <div class="profile-actions">
-          <div>${report ? `<button class="button button-secondary" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Mở hồ sơ chi tiết</button><a class="button button-primary" href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer"><svg><use href="#i-file"></use></svg>Mở báo cáo PDF</a>` : `<button class="button button-secondary" type="button" data-action="focus-ticker" data-ticker="${escapeHtml(quote.ticker)}">Xem trong Coverage</button>`}</div>
-          <div class="profile-sources"><span>Nguồn kiểm chứng</span>${sourceLinks}</div>
-        </div>
-      </div>`;
-  };
-
-  const renderDashboard = () => renderFeatured();
 
   const renderFilters = () => {
     const sectors = ["all", ...new Set(coverage.map((item) => item.sector))];
@@ -644,13 +576,6 @@
     if (action === "set-sector") { state.sector = target.dataset.sector; renderFilters(); renderResearch(); }
     if (action === "set-status") { state.status = target.dataset.status; renderFilters(); renderResearch(); }
     if (action === "share-report") shareReport(target.dataset.id);
-    if (action === "select-featured") {
-      activeFeaturedTicker = target.dataset.ticker;
-      renderActionRadar();
-      renderFeatured();
-      const profile = document.querySelector("#dashboard");
-      profile?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
     if (action === "show-daily-insight") {
       renderDailyInsight(target.dataset.id);
       if (window.matchMedia("(max-width: 980px)").matches) refs.dailyInsight?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -697,13 +622,12 @@
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["daily-market", "overview", "action-radar", "dashboard", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["daily-market", "overview", "action-radar", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   renderDailyInsight();
   updateCounts();
   renderActionRadar();
-  renderDashboard();
   renderFilters();
   renderResearch();
   updateCompareDock();
