@@ -13,6 +13,6 @@ h1,.section-heading h2,.brand span,.footer-brand strong,.advisor-identity h2,.da
 h1{letter-spacing:-.047em;font-weight:690;line-height:.96}.section-heading h2{letter-spacing:-.038em;font-weight:680;line-height:1.01}.brand span,.footer-brand strong{font-weight:690}.advisor-identity h2{font-weight:700;letter-spacing:-.032em}.dashboard-heading h2{font-weight:680}.detail-card h3,.report-card-copy h3{font-weight:660;line-height:1.13}.mini-cover strong,.stock-item strong{font-weight:720}
 nav a,.button,.text-link,.analyzed-label,.report-card-meta,.report-edition,.status-pill,.sector-filters button{font-variation-settings:"wght" 720;letter-spacing:.005em}
 .eyebrow,.micro-label,.card-index,.advisor-kicker,.advisor-role,.market-pulse-head,.report-preview-label{font-variation-settings:"wght" 760}
-.hero-description,.split-heading>p,.detail-card>p,.report-card-copy p{font-variation-settings:"wght" 440;letter-spacing:-.004em}
+.hero-description,.detail-card>p,.report-card-copy p{font-variation-settings:"wght" 440;letter-spacing:-.004em}
 .metric strong,.market-index span,.dashboard-heading h2 span,.verdict-row strong,.advisor-contact-copy a{font-family:var(--font-ui);font-variant-numeric:tabular-nums lining-nums;font-variation-settings:"wght" 760}
 @media (width<=560px){h1{letter-spacing:-.04em}.section-heading h2{letter-spacing:-.03em}}

@@ -697,7 +697,7 @@
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["daily-market", "overview", "action-radar", "dashboard", "research", "framework"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["daily-market", "overview", "action-radar", "dashboard", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   renderDailyInsight();
