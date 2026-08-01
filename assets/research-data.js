@@ -211,7 +211,7 @@ window.RESEARCH_DATA = {
     {
       ticker: "GAS", company: "PV GAS", sector: "Năng lượng", exchange: "HOSE", reportId: "GAS-20260713",
       close: 68600, priceDate: "2026-07-31", changePct: -0.1456, volume: 968600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GAS~date:2026-07-31&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GAS/lich-su-gia",
-      action: { zoneLow: 58800, zoneHigh: 63000, watchLow: 67800, watchHigh: 72700, basisDate: "2026-07-13", recommendation: "CHỜ", eligibility: "active", condition: "67.800–72.700 chỉ là vùng thăm dò có điều kiện; vùng mua nền tảng vẫn là 58.800–63.000." }
+      action: { zoneLow: 58800, zoneHigh: 63000, basisDate: "2026-07-13", recommendation: "CHỜ", eligibility: "active", condition: "67.800–72.700 chỉ là vùng thăm dò có điều kiện; vùng mua nền tảng vẫn là 58.800–63.000." }
     },
     {
       ticker: "PVS", company: "PTSC", sector: "Năng lượng", exchange: "HNX", reportId: "PVS-20260711",

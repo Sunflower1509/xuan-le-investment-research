@@ -139,14 +139,14 @@ img,svg{display:block}
 .action-table-head .terminal-eyebrow{margin-bottom:9px;font-size:.64rem}
 .action-table-head h3,.exclusion-panel h3{margin:0}
 .action-table-wrap{overflow-x:auto;scrollbar-color:rgba(8,120,90,.42) var(--surface-soft);scrollbar-width:thin}
-.action-table{border-collapse:collapse;width:100%;min-width:1380px}
+.action-table{border-collapse:collapse;width:100%;min-width:1240px}
 .action-table th{color:#d5dfe5;background:var(--navy);letter-spacing:.055em;text-transform:uppercase;padding:15px 16px;text-align:left;font-size:.58rem;line-height:1.35}
+.action-table th.upside-header{color:#fff;background:linear-gradient(135deg,#08785a,#0d6a53);box-shadow:inset 4px 0 0 var(--gold),inset -1px 0 rgba(255,255,255,.16);font-weight:900}
 .action-table td{border-bottom:1px solid var(--line-soft);vertical-align:top;padding:20px 16px;font-size:.68rem;line-height:1.45}
 .action-table tbody tr:hover{background:#f5faf8}
 .action-table tbody tr:last-child td{border-bottom:0}
 .action-table td strong{font-variant-numeric:tabular-nums;font-weight:720;display:block}
 .action-table td span,.action-table td em{color:var(--muted);margin-top:5px;font-size:.58rem;font-style:normal;line-height:1.5;display:block}
-.action-table td p{color:var(--slate);max-width:340px;margin:0;font-size:.64rem;line-height:1.62}
 .action-table td a{color:var(--emerald);margin-bottom:8px;font-size:.6rem;font-weight:800;line-height:1.4;display:block}
 .table-rank{width:34px;height:34px;color:#fff;background:var(--navy);border-radius:9px;place-items:center;margin:0!important;font-size:.6rem!important;font-weight:850;display:grid!important}
 .table-ticker{font-family:var(--font-editorial);font-size:1.16rem}
@@ -154,7 +154,14 @@ img,svg{display:block}
 .distance-below{color:var(--orange)}
 .distance-inside{color:var(--emerald)}
 .distance-above{color:var(--ink)}
-.conditional-zone{color:var(--emerald)!important;background:var(--emerald-pale);border-radius:6px;padding:5px 7px;display:inline-block!important}
+.action-table td.upside-cell{border-right:1px solid rgba(8,120,90,.15);border-left:1px solid rgba(8,120,90,.15);background:linear-gradient(135deg,rgba(230,244,239,.9),rgba(255,255,255,.96));box-shadow:inset 4px 0 0 var(--emerald)}
+.action-table td.upside-cell strong{letter-spacing:-.025em;font-size:1.08rem;font-weight:900;line-height:1.15}
+.action-table td.upside-cell span{color:var(--slate);font-weight:720}
+.action-table td.upside-positive strong{color:#06684e}
+.action-table td.upside-negative{border-color:rgba(191,69,75,.18);background:linear-gradient(135deg,rgba(250,233,233,.96),rgba(255,255,255,.96));box-shadow:inset 4px 0 0 var(--red)}
+.action-table td.upside-negative strong{color:#a92e37}
+.action-table td.upside-neutral{border-color:var(--line);background:var(--surface-soft);box-shadow:inset 4px 0 0 var(--muted)}
+.action-table td.upside-neutral strong{color:var(--slate)}
 .exclusion-panel{border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:20px;grid-template-columns:minmax(250px,.38fr) 1fr;gap:28px;margin-top:18px;padding:28px;display:grid}
 .exclusion-panel>.terminal-eyebrow{margin-bottom:8px}
 .exclusion-panel>[data-role=exclusion-list]{grid-template-columns:repeat(3,1fr);gap:9px;display:grid}
@@ -738,7 +745,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .priority-card,.priority-card-main,.priority-metrics>div,.action-table-shell,
 .research-workspace,.research-results,.report-card-v4,.coverage-card{min-width:0;max-width:100%}
 .daily-thesis,.daily-analysis-panel li,.daily-focus,.daily-levels p,.daily-playbook p,
-.daily-inference p,.priority-distance p,.action-table td,.action-table td p,
+.daily-inference p,.priority-distance p,.action-table td,
 .report-summary,.coverage-card p,.watchlist-item span{overflow-wrap:anywhere;word-break:normal}
 
 @media (width<=720px){
@@ -761,9 +768,10 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
   .action-table td:nth-child(7),.action-table td:nth-child(8){grid-column:1/-1;border-right:0}
   .action-table td:nth-child(8){border-bottom:0}
   .action-table td:before{content:attr(data-label);color:var(--gold);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-size:.52rem;font-weight:850;line-height:1.35;display:block}
-  .action-table td p{max-width:none;font-size:.72rem;line-height:1.68}
   .action-table td a{font-size:.67rem}
   .table-ticker{font-size:1.35rem}
+  .action-table td.upside-cell{padding-top:17px;padding-bottom:17px}
+  .action-table td.upside-cell strong{font-size:1.35rem}
 }
 
 @media (width<=480px){
