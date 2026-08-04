@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-07-31",
-    release: "2026-07-31",
+    release: "2026-08-04",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng của toàn bộ 18 mã Coverage Universe được khóa tại phiên 31/07/2026 từ dữ liệu EOD VNDIRECT. Giá đóng cửa đã được đối chiếu 18/18 mã với SSI iBoard và Simplize; tỷ lệ biến động khớp 18/18 mã với Simplize. Khối lượng giữ theo nguồn chính để nhất quán cách ghi nhận giao dịch lô lẻ trên HNX/UPCoM. Báo cáo VCI ngày 30/07/2026 giữ nguyên khuyến nghị CHỜ - không mua mới; vùng 13.600-14.600 chỉ là vùng mua có điều kiện. Thiết lập ngắn hạn VPX tiếp tục được tách khỏi xếp hạng để chờ đánh giá lại sau khi đã vi phạm stop 24.400."
+    note: "Bộ dữ liệu nền của 18 mã hiện hữu vẫn khóa tại phiên 31/07/2026 và giữ nguyên nguồn đối chiếu đã công bố. Bản cập nhật 04/08/2026 bổ sung HII, MSN và BCM bằng đúng mức giá/ngày giá ghi trong từng PDF; VPX được thay bằng báo cáo ngày 04/08/2026, còn VCI được thay bằng bản tái dựng 24 trang ngày 30/07/2026. Mỗi thẻ và mỗi dòng đều hiển thị ngày giá riêng; số liệu từ các ngày khác nhau không được trình bày như cùng một phiên. MSN Trading Desk được phân loại riêng, không dùng mục tiêu kỹ thuật làm giá trị cơ sở và không tính upside định giá."
   },
 
   marketSession: {
@@ -37,20 +37,57 @@ window.RESEARCH_DATA = {
 
   reports: [
     {
-      id: "VCI-20260730", ticker: "VCI", company: "Công ty Cổ phần Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-30",
-      recommendation: "CHỜ - KHÔNG MUA MỚI", status: "wait", marketPrice: 20800, marketPriceDate: "2026-07-29", baseValue: 19500, calculationBase: 19478, rangeLow: 13100, rangeHigh: 26000,
-      gapLabel: "MOS -6,8% so với giá trị cơ sở tại ngày định giá", method: "Residual Income (50%) + P/B gắn ROE (35%) + P/E kiểm chứng (15%)",
-      summary: "Giá đóng cửa 20.800 đồng/cp cao hơn giá trị cơ sở 19.500 đồng/cp khoảng 6,8% và đang phản ánh ROE dài hạn khoảng 13,27%, trong khi ROE 2025 và ROE TTM proxy mới ở 8,7% và 8,28%. Báo cáo giữ khuyến nghị CHỜ - không mua mới; vùng 13.600-14.600 đồng/cp chỉ được kích hoạt khi các điều kiện CAR, đòn bẩy, OCI, vốn chủ sở hữu, LNST và pha loãng không xấu đi.",
-      visual: { src: "assets/images/reports/vci.webp", alt: "Đại diện khách mời và lãnh đạo Vietcap tại Vietcap Investment Day 2026", caption: "Vietcap Investment Day 2026", sourceLabel: "DNSE / CafeF", sourceUrl: "https://www.dnse.com.vn/senses/tin-tuc/vietcap-investment-day-2026-don-dau-cac-lan-song-dau-tu-trong-chu-ky-tang-truong-moi-35204836" },
-      file: "reports/VCI_Equity_Research_Valuation_30-07-2026.pdf", edition: "Bản mới nhất"
+      id: "VPX-20260804", ticker: "VPX", company: "Công ty Cổ phần Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-04",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 25800, marketPriceDate: "2026-08-04", baseValue: 25600, rangeLow: 21700, rangeHigh: 29500,
+      gapLabel: "Giá thị trường cao hơn giá trị cơ sở khoảng 0,8% tại ngày định giá", method: "Residual Income + P/B gắn ROE; P/E và P/B ngành dùng để kiểm chứng",
+      summary: "Giá 25.800 đồng/cp cao hơn nhẹ giá trị cơ sở 25.600 đồng/cp và chưa tạo biên an toàn. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI; vùng mua định giá 17.900–19.200 đồng/cp. Vùng kỹ thuật 24.000–24.500 đồng/cp chỉ được xem xét khi dòng tiền xác nhận; mục tiêu kỹ thuật 27.800 và 29.500 đồng/cp không thay thế giá trị cơ sở.",
+      action: { zoneLow: 17900, zoneHigh: 19200, stop: null, basisDate: "2026-08-04", condition: "Không mua đuổi tại 25.800 đồng/cp. Chỉ xem xét vùng định giá 17.900–19.200; vùng kỹ thuật 24.000–24.500 phải có xác nhận dòng tiền. Ví dụ giao dịch kỹ thuật trong báo cáo dùng stop 22.900 và mục tiêu 27.800–29.500 đồng/cp." },
+      visual: { src: "assets/images/reports/vpx.webp", alt: "Lễ niêm yết cổ phiếu VPX của Chứng khoán VPBank tại HOSE", caption: "Lễ niêm yết và phiên giao dịch đầu tiên của VPX", sourceLabel: "Tuổi Trẻ Online", sourceUrl: "https://tuoitre.vn/co-phieu-vpx-cua-vpbanks-chinh-thuc-giao-dich-tren-hose-20251211113632063.htm" },
+      file: "reports/VPX_Equity_Research_04-08-2026.pdf", edition: "Bản cập nhật 04.08.2026"
     },
     {
-      id: "VPX-20260722", ticker: "VPX", company: "Công ty Cổ phần Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-22",
-      recommendation: "CHỜ – THEO DÕI", status: "wait", marketPrice: 26650, marketPriceDate: "2026-07-21", baseValue: 25300, rangeLow: 21300, rangeHigh: 29300,
-      gapLabel: "MOS −5,3% so với điểm giữa tại ngày định giá", method: "Residual Income + P/B gắn ROE",
-      summary: "Giá 26.650 đồng/cp nằm trong vùng giá trị hợp lý 21.300–29.300 đồng/cp nhưng cao hơn điểm giữa 25.300 đồng/cp và không có biên an toàn; khuyến nghị hiện tại là CHỜ – THEO DÕI, chưa mua mới.",
-      visual: { src: "assets/images/reports/vpx.webp", alt: "Lễ niêm yết cổ phiếu VPX của Chứng khoán VPBank tại HOSE", caption: "Lễ niêm yết và phiên giao dịch đầu tiên của VPX", sourceLabel: "Tuổi Trẻ Online", sourceUrl: "https://tuoitre.vn/co-phieu-vpx-cua-vpbanks-chinh-thuc-giao-dich-tren-hose-20251211113632063.htm" },
-      file: "reports/Bao_cao_dinh_gia_VPX_Final_22072026.pdf", edition: "Bản mới nhất"
+      id: "HII-20260803", ticker: "HII", company: "Công ty Cổ phần An Tiến Industries", sector: "Hóa chất", exchange: "HOSE", date: "2026-08-03",
+      recommendation: "CHỜ - THEO DÕI", status: "wait", marketPrice: 7090, marketPriceDate: "2026-07-31", baseValue: 10550, rangeLow: 8300, rangeHigh: 12800,
+      gapLabel: "Giá trị cơ sở cao hơn giá thị trường khoảng 48,8% tại ngày định giá", method: "EV/EBITDA chuẩn hóa + P/E + P/B; DCF chỉ dùng kiểm tra chéo",
+      summary: "Giá 7.090 đồng/cp thấp hơn giá trị cơ sở 10.550 đồng/cp nhưng vẫn cao hơn vùng mua định giá 5.800–6.200 đồng/cp. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI, không mua đuổi; chỉ xem xét khi dòng tiền kinh doanh, phải thu và nợ vay cải thiện.",
+      action: { zoneLow: 5800, zoneHigh: 6200, stop: 5650, basisDate: "2026-08-03", condition: "Không mua đuổi tại 7.090 đồng/cp. Chỉ giải ngân từng phần trong vùng 5.800–6.200 khi CFO, phải thu và nợ vay cùng cải thiện; stop tham khảo 5.650 đồng/cp." },
+      visual: { src: "assets/images/reports/hii.webp", alt: "Bìa báo cáo định giá HII ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá HII", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/HII_Equity_Valuation_2026.pdf", kind: "report-cover" },
+      file: "reports/HII_Equity_Valuation_2026.pdf", edition: "Bản chính"
+    },
+    {
+      id: "MSN-VALUATION-20260803", ticker: "MSN", company: "Công ty Cổ phần Tập đoàn Masan", sector: "Tiêu dùng", exchange: "HOSE", date: "2026-08-03",
+      recommendation: "CHỜ - CHƯA MUA MỚI", status: "wait", marketPrice: 68200, marketPriceDate: "2026-08-03", baseValue: 95000, rangeLow: 82000, rangeHigh: 119000,
+      gapLabel: "Giá trị điểm giữa cao hơn giá thị trường khoảng 39,3% tại ngày định giá", method: "SOTP là phương pháp chính; định giá tương đối và trung vị báo cáo độc lập dùng kiểm tra chéo",
+      summary: "Giá trị điểm giữa trọng số 95.000 đồng/cp và SOTP cơ sở 99.500 đồng/cp cho thấy dư địa so với giá 68.200 đồng/cp. Tuy nhiên, biên an toàn tới cận dưới 82.000 đồng/cp chỉ khoảng 16,8%, thấp hơn ngưỡng 25–30%; do đó báo cáo giữ khuyến nghị CHỜ - CHƯA MUA MỚI.",
+      action: { zoneLow: 57500, zoneHigh: 61500, stop: 56500, basisDate: "2026-08-03", condition: "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 đồng/cp chỉ áp dụng khi điều kiện trong báo cáo được duy trì." },
+      visual: { src: "assets/images/reports/msn.webp", alt: "Bìa báo cáo định giá Tập đoàn Masan ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá MSN", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", kind: "report-cover" },
+      file: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", edition: "Báo cáo định giá"
+    },
+    {
+      id: "MSN-TRADING-20260803", ticker: "MSN", company: "Công ty Cổ phần Tập đoàn Masan", sector: "Tiêu dùng", exchange: "HOSE", date: "2026-08-03", reportType: "trading",
+      recommendation: "QUAN SÁT - CHỜ", status: "wait", marketPrice: 67700, marketPriceDate: "2026-08-03", tradeZoneLow: 65500, tradeZoneHigh: 66300, stop: 63400, targetLow: 72500, targetHigh: 75000, breakout: 76000, timeframe: "1–6 tuần",
+      gapLabel: null, method: "Trading Desk: cấu trúc giá, dòng tiền và xác nhận kỹ thuật; không phải mô hình định giá",
+      summary: "Bản Trading Desk sử dụng dữ liệu kết thúc phiên sáng 03/08/2026, giá tham chiếu 67.700 đồng/cp. Khuyến nghị QUAN SÁT - CHỜ; vùng mua ưu tiên 65.500–66.300 chỉ có hiệu lực khi điều kiện kỹ thuật được xác nhận. Mục tiêu 72.500–75.000 và mốc breakout 76.000 đồng/cp là mục tiêu kỹ thuật, không phải giá trị hợp lý.",
+      visual: { src: "assets/images/reports/msn-trading.webp", alt: "Bìa báo cáo MSN Trading Desk ngày 03 tháng 08 năm 2026", caption: "Bìa MSN Trading Desk Research", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/MSN_Trading_Desk_Research_03-08-2026.pdf", kind: "report-cover" },
+      file: "reports/MSN_Trading_Desk_Research_03-08-2026.pdf", edition: "Trading Desk • Không phải định giá"
+    },
+    {
+      id: "BCM-20260803", ticker: "BCM", company: "Tập đoàn Đầu tư và Phát triển Công nghiệp Becamex - CTCP", sector: "Bất động sản", exchange: "HOSE", date: "2026-08-03",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 36600, marketPriceDate: "2026-08-03", baseValue: 57600, rangeLow: 44800, rangeHigh: 73600,
+      gapLabel: "Giá trị cơ sở cao hơn giá thị trường khoảng 57,4% tại ngày định giá", method: "SOTP + RNAV/NAV",
+      summary: "Giá trị cơ sở 57.600 đồng/cp cao hơn giá 36.600 đồng/cp khoảng 57,4%, nhưng biên an toàn tới cận dưới 44.800 đồng/cp chỉ khoảng 18,2%, thấp hơn ngưỡng 25–30%. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI; vùng mua định giá 31.300–33.600 đồng/cp.",
+      action: { zoneLow: 31300, zoneHigh: 33600, stop: null, basisDate: "2026-08-03", condition: "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 đồng/cp phải có xác nhận theo điều kiện trong báo cáo." },
+      visual: { src: "assets/images/reports/bcm.webp", alt: "Bìa báo cáo định giá Becamex BCM ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá BCM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/BCM_Bao_cao_dinh_gia_20260803.pdf", kind: "report-cover" },
+      file: "reports/BCM_Bao_cao_dinh_gia_20260803.pdf", edition: "Bản chính"
+    },
+    {
+      id: "VCI-20260730", ticker: "VCI", company: "Công ty Cổ phần Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-30",
+      recommendation: "CHỜ - KHÔNG MUA MỚI", status: "wait", marketPrice: 20800, marketPriceDate: "2026-07-29", baseValue: 19500, calculationBase: 19478, rangeLow: 13100, rangeHigh: 26000,
+      gapLabel: "Giá thị trường cao hơn giá trị cơ sở khoảng 6,8% tại ngày định giá", method: "Residual Income (50%) + P/B gắn ROE (35%) + P/E kiểm chứng (15%)",
+      summary: "Giá đóng cửa 20.800 đồng/cp cao hơn giá trị cơ sở 19.500 đồng/cp khoảng 6,8% và đang phản ánh ROE dài hạn khoảng 13,27%, trong khi ROE 2025 và ROE TTM proxy mới ở 8,7% và 8,28%. Báo cáo giữ khuyến nghị CHỜ - không mua mới; vùng 13.600–14.600 đồng/cp chỉ được kích hoạt khi các điều kiện CAR, đòn bẩy, OCI, vốn chủ sở hữu, LNST và pha loãng không xấu đi.",
+      action: { zoneLow: 13600, zoneHigh: 14600, stop: 13203, basisDate: "2026-07-30", condition: "Không mua mới tại 20.800 đồng/cp. Chỉ giải ngân từng phần trong vùng 13.600–14.600 khi CAR, đòn bẩy, OCI, vốn chủ sở hữu, LNST và rủi ro pha loãng cùng đáp ứng điều kiện trong báo cáo." },
+      visual: { src: "assets/images/reports/vci.webp", alt: "Đại diện khách mời và lãnh đạo Vietcap tại Vietcap Investment Day 2026", caption: "Vietcap Investment Day 2026", sourceLabel: "DNSE / CafeF", sourceUrl: "https://www.dnse.com.vn/senses/tin-tuc/vietcap-investment-day-2026-don-dau-cac-lan-song-dau-tu-trong-chu-ky-tang-truong-moi-35204836" },
+      file: "reports/VCI_Equity_Research_Valuation_Rebuilt_30-07-2026.pdf", edition: "Bản tái dựng 24 trang"
     },
     {
       id: "VIX-20260721", ticker: "VIX", company: "Công ty Cổ phần Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", date: "2026-07-21",
@@ -149,9 +186,24 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 13600, zoneHigh: 14600, baseValue: 19500, stop: 13203, basisDate: "2026-07-30", recommendation: "CHỜ - MUA CÓ ĐIỀU KIỆN", eligibility: "active", condition: "Không mua mới tại 20.800 đồng. Chỉ giải ngân từng phần trong vùng 13.600-14.600 khi CAR duy trì trên 250%, Margin/VCSH không vượt 1,2 lần, vốn chủ sở hữu và OCI không tiếp tục suy giảm mạnh, LNST 2026 có khả năng đạt tối thiểu khoảng 1.350 tỷ đồng và không phát hành quy mô lớn dưới BVPS; nếu các biến này xấu đi, phải cập nhật mô hình trước khi giải ngân." }
     },
     {
-      ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260722",
-      close: 25400, priceDate: "2026-07-31", changePct: 0, volume: 1186100, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-07-31&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VPX/lich-su-gia",
-      action: { zoneLow: 25300, zoneHigh: 25800, valuationLow: 17700, valuationHigh: 19000, stop: 24400, basisDate: "2026-07-22", recommendation: "DỪNG THIẾT LẬP / CHỜ ĐÁNH GIÁ LẠI", eligibility: "invalidated", condition: "Dù giá đóng cửa 25.400 ngày 31/07/2026 nằm trong vùng thăm dò, phiên 29/07 từng thấp hơn stop 24.400; thiết lập không tự động tái kích hoạt và tiếp tục được tách khỏi xếp hạng cho đến khi đánh giá lại. Vùng mua định giá dài hạn 17.700–19.000 không thay đổi." }
+      ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260804",
+      close: 25800, priceDate: "2026-08-04", changePct: null, volume: null, priceSource: "reports/VPX_Equity_Research_04-08-2026.pdf", priceSourceSecondary: "https://simplize.vn/co-phieu/VPX/lich-su-gia", priceNote: "Giá thị trường tại ngày định giá trong PDF ngày 04/08/2026; biến động phiên không được nêu trong báo cáo.",
+      action: { zoneLow: 17900, zoneHigh: 19200, baseValue: 25600, stop: null, basisDate: "2026-08-04", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Không mua đuổi tại 25.800 đồng/cp. Chỉ xem xét vùng định giá 17.900–19.200; vùng kỹ thuật 24.000–24.500 phải có xác nhận dòng tiền. Mục tiêu kỹ thuật 27.800–29.500 không thay thế giá trị cơ sở." }
+    },
+    {
+      ticker: "HII", company: "An Tiến Industries", sector: "Hóa chất", exchange: "HOSE", reportId: "HII-20260803",
+      close: 7090, priceDate: "2026-07-31", changePct: null, volume: null, priceSource: "reports/HII_Equity_Valuation_2026.pdf", priceNote: "Giá thị trường 31/07/2026 theo báo cáo HII; biến động phiên không được nêu trong PDF.",
+      action: { zoneLow: 5800, zoneHigh: 6200, baseValue: 10550, stop: 5650, basisDate: "2026-08-03", recommendation: "CHỜ - THEO DÕI", eligibility: "active", condition: "Không mua đuổi tại 7.090 đồng/cp. Chỉ giải ngân từng phần trong vùng 5.800–6.200 khi CFO, phải thu và nợ vay cùng cải thiện; stop tham khảo 5.650 đồng/cp." }
+    },
+    {
+      ticker: "MSN", company: "Tập đoàn Masan", sector: "Tiêu dùng", exchange: "HOSE", reportId: "MSN-VALUATION-20260803",
+      close: 68200, priceDate: "2026-08-03", changePct: null, volume: null, priceSource: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", priceSourceSecondary: "https://simplize.vn/co-phieu/MSN/lich-su-gia", priceNote: "Giá đóng cửa 03/08/2026 theo báo cáo định giá MSN; biến động phiên không được nêu trong PDF.",
+      action: { zoneLow: 57500, zoneHigh: 61500, baseValue: 95000, stop: 56500, basisDate: "2026-08-03", recommendation: "CHỜ - CHƯA MUA MỚI", eligibility: "active", condition: "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 chỉ áp dụng khi điều kiện trong báo cáo được duy trì." }
+    },
+    {
+      ticker: "BCM", company: "Becamex", sector: "Bất động sản", exchange: "HOSE", reportId: "BCM-20260803",
+      close: 36600, priceDate: "2026-08-03", changePct: null, volume: null, priceSource: "reports/BCM_Bao_cao_dinh_gia_20260803.pdf", priceSourceSecondary: "https://simplize.vn/co-phieu/BCM/lich-su-gia", priceNote: "Giá đóng cửa 03/08/2026 theo báo cáo BCM; biến động phiên không được nêu trong PDF.",
+      action: { zoneLow: 31300, zoneHigh: 33600, baseValue: 57600, stop: null, basisDate: "2026-08-03", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 phải có xác nhận theo điều kiện trong báo cáo." }
     },
     {
       ticker: "VIX", company: "Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", reportId: "VIX-20260721",

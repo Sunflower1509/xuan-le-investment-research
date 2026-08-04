@@ -11,7 +11,7 @@
   const coverageByTicker = new Map(coverage.map((item) => [item.ticker, item]));
   const latestByTicker = new Map();
   [...reports]
-    .sort((a, b) => b.date.localeCompare(a.date))
+    .sort((a, b) => b.date.localeCompare(a.date) || Number(a.reportType === "trading") - Number(b.reportType === "trading"))
     .forEach((report) => {
       if (!latestByTicker.has(report.ticker)) latestByTicker.set(report.ticker, report);
     });
@@ -89,6 +89,8 @@
   const signedPercent = (value) => Number.isFinite(value)
     ? `${value > 0 ? "+" : value < 0 ? "−" : ""}${decimal(Math.abs(value), 2)}%`
     : "—";
+
+  const marketTone = (value) => !Number.isFinite(value) ? "neutral" : value < 0 ? "negative" : value > 0 ? "positive" : "neutral";
 
   const date = (value) => {
     if (!value) return "—";
@@ -198,6 +200,32 @@
     return Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
   };
 
+  const reportQuote = (report) => {
+    if (report.reportType !== "trading") {
+      const coverageQuote = coverageByTicker.get(report.ticker);
+      if (coverageQuote) return coverageQuote;
+    }
+    return {
+      ticker: report.ticker,
+      close: report.marketPrice,
+      priceDate: report.marketPriceDate || report.date,
+      changePct: null,
+      action: report.reportType === "trading"
+        ? { zoneLow: report.tradeZoneLow, zoneHigh: report.tradeZoneHigh, basisDate: report.date, recommendation: report.recommendation }
+        : report.action
+    };
+  };
+
+  const reportAction = (report, quote = reportQuote(report)) => report.reportType === "trading"
+    ? { zoneLow: report.tradeZoneLow, zoneHigh: report.tradeZoneHigh, basisDate: report.date, recommendation: report.recommendation }
+    : quote?.action || report.action;
+
+  const reportUpside = (report, quote = reportQuote(report)) => {
+    if (report.reportType === "trading") return null;
+    const base = report.calculationBase || report.baseValue;
+    return Number.isFinite(base) && Number.isFinite(quote?.close) ? ((base / quote.close) - 1) * 100 : null;
+  };
+
   let toastTimer;
   const toast = (message) => {
     clearTimeout(toastTimer);
@@ -213,11 +241,15 @@
   const latestReports = [...latestByTicker.values()].sort((a, b) => b.date.localeCompare(a.date));
 
   const updateCounts = () => {
-    const sectors = new Set(coverage.map((item) => item.sector));
+    const sectors = new Set([...coverage, ...reports].map((item) => item.sector));
+    const pricedCount = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
+    const supplementalCount = coverage.filter((item) => item.priceDate !== source.meta.updated).length;
     document.querySelectorAll("[data-role='report-count'],[data-role='report-tab-count']").forEach((el) => { el.textContent = reports.length; });
     document.querySelectorAll("[data-role='coverage-count'],[data-role='coverage-tab-count']").forEach((el) => { el.textContent = coverage.length; });
     document.querySelectorAll("[data-role='sector-count']").forEach((el) => { el.textContent = sectors.size; });
     document.querySelectorAll("[data-role='latest-report-count']").forEach((el) => { el.textContent = latestReports.length; });
+    document.querySelectorAll("[data-role='priced-count']").forEach((el) => { el.textContent = pricedCount; });
+    document.querySelectorAll("[data-role='supplemental-price-count']").forEach((el) => { el.textContent = supplementalCount; });
     updateWatchlistCounts();
   };
 
@@ -227,12 +259,12 @@
 
   const renderActionRadar = () => {
     const exclusions = coverage.filter((item) => item.action?.eligibility && item.action.eligibility !== "active");
-    const exactSession = coverage.filter((item) => item.priceDate === source.meta.updated).length;
-    const missingSession = coverage.length - exactSession;
+    const sourcedPrices = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
+    const supplementalPrices = coverage.filter((item) => item.priceDate !== source.meta.updated).length;
     if (refs.prioritySummary) refs.prioritySummary.innerHTML = `
       <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Có vùng mua đã khóa • Không hard veto</small></div>
       <div><span>Ưu tiên gần nhất</span><strong>${escapeHtml(priorityUniverse[0]?.ticker || "—")}</strong><small>${priorityUniverse[0] ? escapeHtml(relationLabel(priorityUniverse[0])) : "—"}</small></div>
-      <div><span>Giá đúng phiên ${date(source.meta.updated)}</span><strong>${exactSession}/${coverage.length}</strong><small>${missingSession === 0 ? "Đủ dữ liệu EOD toàn bộ danh mục" : `${missingSession} mã dùng giá gần nhất và có ghi chú`}</small></div>
+      <div><span>Giá có ngày nguồn</span><strong>${sourcedPrices}/${coverage.length}</strong><small>${supplementalPrices ? `${supplementalPrices} mã theo ngày giá ghi trong PDF mới` : `Đủ dữ liệu EOD phiên ${date(source.meta.updated)}`}</small></div>
       <div><span>Veto / cần đánh giá lại</span><strong>${exclusions.length}</strong><small>Không đưa vào nhóm ưu tiên</small></div>`;
 
     if (refs.priorityGrid) refs.priorityGrid.innerHTML = priorityUniverse.slice(0, 3).map((item, index) => {
@@ -251,7 +283,7 @@
           <div class="priority-card-head"><div><strong class="priority-code">${escapeHtml(item.ticker)}</strong><small>${escapeHtml(item.exchange)} • ${escapeHtml(item.sector)}</small></div><span class="priority-state ${escapeHtml(distance.relation)}">${escapeHtml(relationLabel(item))}</span></div>
           <p class="priority-company">${escapeHtml(item.company)}</p>
           <div class="priority-metrics">
-            <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
+            <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</small></div>
             <div><span>Vùng mua đã khóa</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${date(action.basisDate)}</small></div>
             <div><span>Chênh lệch tới giá trị cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
           </div>
@@ -275,7 +307,7 @@
         return `<tr>
           <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
           <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
-          <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
+          <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
           <td data-label="Vùng mua tham khảo"><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
           <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
           <td data-label="Giá trị cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
@@ -292,7 +324,7 @@
   };
 
   const renderFilters = () => {
-    const sectors = ["all", ...new Set(coverage.map((item) => item.sector))];
+    const sectors = ["all", ...new Set([...coverage, ...reports].map((item) => item.sector))];
     refs.sectorFilters.innerHTML = sectors.map((sector) => `<button type="button" data-action="set-sector" data-sector="${escapeHtml(sector)}" aria-pressed="${sector === state.sector}">${sector === "all" ? "Tất cả ngành" : escapeHtml(sector)}</button>`).join("");
     refs.statusFilters.innerHTML = Object.entries(statusText).map(([key, label]) => `<button type="button" data-action="set-status" data-status="${key}" aria-pressed="${key === state.status}">${escapeHtml(label)}</button>`).join("");
   };
@@ -343,9 +375,9 @@
   const reportVisual = (report, placement = "card") => {
     const visual = report.visual;
     if (!visual?.src || !visual?.sourceUrl) return "";
-    const label = visual.kind === "illustration" ? "Minh họa ngành" : "Ảnh hoạt động";
-    const sourceTitle = `Nguồn ảnh: ${visual.sourceLabel || report.company}`;
-    return `<figure class="report-visual report-visual-${escapeHtml(placement)} ${visual.kind === "illustration" ? "is-illustration" : ""}">
+    const label = visual.kind === "illustration" ? "Minh họa ngành" : visual.kind === "report-cover" ? "Bìa báo cáo" : "Ảnh hoạt động";
+    const sourceTitle = `${visual.kind === "report-cover" ? "Nguồn bìa" : "Nguồn ảnh"}: ${visual.sourceLabel || report.company}`;
+    return `<figure class="report-visual report-visual-${escapeHtml(placement)} ${visual.kind === "illustration" ? "is-illustration" : visual.kind === "report-cover" ? "is-report-cover" : ""}">
       <a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(`${visual.caption}. ${sourceTitle}`)}" title="${escapeHtml(sourceTitle)}">
         <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.caption)}" width="960" height="540" loading="lazy" decoding="async">
         <span class="report-visual-label">${escapeHtml(label)}</span>
@@ -355,20 +387,28 @@
   };
 
   const reportCard = (report) => {
+    const isTrading = report.reportType === "trading";
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
-    const quote = coverageByTicker.get(report.ticker);
-    const action = quote?.action;
-    const rank = priorityRank.get(report.ticker);
-    const distance = actionDistance(quote);
-    return `<article class="report-card-v4 status-${escapeHtml(report.status)}">
+    const quote = reportQuote(report);
+    const action = reportAction(report, quote);
+    const quoteWithAction = { ...quote, action };
+    const rank = isTrading ? null : priorityRank.get(report.ticker);
+    const distance = actionDistance(quoteWithAction);
+    const upside = reportUpside(report, quote);
+    const metricMarkup = isTrading
+      ? `<div class="card-metric market"><span>Giá tham chiếu ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="neutral">Phiên sáng</small></div>
+          <div class="card-metric emphasis"><span>Mục tiêu kỹ thuật</span><strong>${number(report.targetLow)}–${number(report.targetHigh)}</strong><small>Không phải giá trị cơ sở</small></div>`
+      : `<div class="card-metric market"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="${marketTone(quote?.changePct)}">${signedPercent(quote?.changePct)}</small></div>
+          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>${Number.isFinite(upside) ? `${signedPercent(upside)} từ giá hiển thị` : "—"}</small></div>`;
+    return `<article class="report-card-v4 status-${escapeHtml(report.status)} ${isTrading ? "type-trading" : "type-valuation"}">
       <div class="report-card-topline"></div>
       <div class="report-card-head">
         <div class="report-identity"><span class="ticker-mark">${escapeHtml(report.ticker)}</span><div><h3>${escapeHtml(report.edition)}</h3><p>${escapeHtml(report.sector)} • ${escapeHtml(report.exchange)}</p></div></div>
         ${reportVisual(report)}
         <div class="card-tools">
           <button class="${watched ? "active" : ""}" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(report.ticker)}" aria-label="${watched ? "Bỏ khỏi" : "Thêm vào"} watchlist"><svg><use href="#i-star"></use></svg></button>
-          <button class="${compared ? "active" : ""}" type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}" aria-label="${compared ? "Bỏ khỏi" : "Thêm vào"} so sánh"><svg><use href="#i-compare"></use></svg></button>
+          ${isTrading ? "" : `<button class="${compared ? "active" : ""}" type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}" aria-label="${compared ? "Bỏ khỏi" : "Thêm vào"} so sánh"><svg><use href="#i-compare"></use></svg></button>`}
         </div>
       </div>
       <div class="report-card-body">
@@ -377,13 +417,12 @@
           <h3 class="report-company">${escapeHtml(report.company)}</h3>
         </div>
         <div class="card-metrics">
-          <div class="card-metric market"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="${quote?.changePct < 0 ? "negative" : "positive"}">${signedPercent(quote?.changePct)}</small></div>
-          <div class="card-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong><small>${Number.isFinite(currentUpside(quote)) ? `${signedPercent(currentUpside(quote))} từ giá đóng cửa` : "—"}</small></div>
+          ${metricMarkup}
         </div>
-        ${action && Number.isFinite(action.zoneLow) ? `<div class="card-action-band"><span>${rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quote)}` : "—"}</small></div>` : ""}
+        ${action && Number.isFinite(action.zoneLow) ? `<div class="card-action-band"><span>${isTrading ? "Vùng mua kỹ thuật" : rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quoteWithAction)}` : "—"}</small></div>` : ""}
         <p class="report-summary">${escapeHtml(report.summary)}</p>
         <div class="report-card-actions">
-          <button class="details-button" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Dashboard chi tiết</button>
+          <button class="details-button" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">${isTrading ? "Chi tiết Trading Desk" : "Dashboard chi tiết"}</button>
           <a class="pdf-button" href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer"><svg><use href="#i-file"></use></svg>PDF</a>
         </div>
       </div>
@@ -398,7 +437,7 @@
     return `<article class="coverage-card ${rank && rank <= 3 ? "is-priority" : ""}">
       <div class="coverage-card-head"><div><h3>${escapeHtml(item.ticker)}</h3><span class="exchange">${escapeHtml(item.exchange)}</span></div><button class="icon-button ${watched ? "active" : ""}" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(item.ticker)}" aria-label="${watched ? "Bỏ khỏi" : "Thêm vào"} watchlist"><svg><use href="#i-star"></use></svg></button></div>
       <p>${escapeHtml(item.company)}</p><span class="sector">${escapeHtml(item.sector)}</span>
-      <div class="coverage-quote"><div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong></div><small class="${item.changePct < 0 ? "negative" : "positive"}">${signedPercent(item.changePct)}</small></div>
+      <div class="coverage-quote"><div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong></div><small class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</small></div>
       ${distance ? `<div class="coverage-distance"><span>${rank ? `#${rank} • ` : ""}${escapeHtml(relationLabel(item))}</span><strong>${decimal(distance.value)}%</strong></div>` : `<div class="coverage-distance muted"><span>${escapeHtml(item.action?.recommendation || "Chưa có vùng mua")}</span><strong>—</strong></div>`}
       <div class="coverage-card-actions">
         ${report ? `<button class="primary" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">${escapeHtml(report.recommendation)}</button><button type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}">So sánh</button>` : `<button type="button" data-action="no-report">Đã phân tích • Chưa có PDF</button>`}
@@ -462,6 +501,7 @@
   };
 
   const toggleCompare = (id) => {
+    if (reportById.get(id)?.reportType === "trading") return toast("Trading Desk không được so sánh như báo cáo định giá.");
     if (state.compare.has(id)) state.compare.delete(id);
     else if (state.compare.size >= 3) return toast("Chỉ có thể so sánh tối đa 3 báo cáo.");
     else state.compare.add(id);
@@ -472,47 +512,60 @@
   const openReport = (id) => {
     const report = reportById.get(id);
     if (!report) return;
-    const quote = coverageByTicker.get(report.ticker);
-    const action = quote?.action;
-    const liveGap = Number.isFinite(quote?.close) ? (((report.calculationBase || report.baseValue) / quote.close) - 1) * 100 : null;
+    const isTrading = report.reportType === "trading";
+    const quote = reportQuote(report);
+    const action = reportAction(report, quote);
+    const quoteWithAction = { ...quote, action };
+    const liveGap = reportUpside(report, quote);
     const watched = state.watchlist.has(report.ticker);
     const compared = state.compare.has(report.id);
-    refs.reportDialogContent.innerHTML = `
-      <div class="report-dialog-hero">
-        <div class="report-dialog-head"><div><p class="terminal-eyebrow">Equity Research • ${escapeHtml(report.exchange)}</p><h2 class="report-dialog-code" id="report-dialog-title">${escapeHtml(report.ticker)}</h2><p class="report-dialog-company">${escapeHtml(report.company)}</p><p class="report-dialog-meta">${escapeHtml(report.sector)} • ${date(report.date)} • ${escapeHtml(report.edition)}</p></div>${reportVisual(report, "dialog")}<span class="status-badge ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span></div>
-      </div>
-      <div class="report-dialog-body">
-        <div class="dialog-metrics">
-          <div class="dialog-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small>${signedPercent(quote?.changePct)}</small></div>
+    const metrics = isTrading
+      ? `<div class="dialog-metric"><span>Giá tham chiếu</span><strong>${number(report.marketPrice)}</strong><small>${date(report.marketPriceDate || report.date)} • phiên sáng</small></div>
+          <div class="dialog-metric"><span>Khung giao dịch</span><strong>${escapeHtml(report.timeframe || "—")}</strong><small>Trading Desk</small></div>
+          <div class="dialog-metric emphasis"><span>Vùng mua ưu tiên</span><strong>${number(report.tradeZoneLow)}–${number(report.tradeZoneHigh)}</strong><small>Có điều kiện</small></div>
+          <div class="dialog-metric"><span>Stop tham khảo</span><strong>${number(report.stop)}</strong><small>Không tự động kích hoạt</small></div>
+          <div class="dialog-metric emphasis"><span>Mục tiêu kỹ thuật</span><strong>${number(report.targetLow)}–${number(report.targetHigh)}</strong><small>Không phải giá trị hợp lý</small></div>
+          <div class="dialog-metric"><span>Mốc breakout</span><strong>${number(report.breakout)}</strong><small>Yêu cầu xác nhận</small></div>`
+      : `<div class="dialog-metric"><span>Đóng cửa ${date(quote?.priceDate)}</span><strong>${number(quote?.close)}</strong><small class="${marketTone(quote?.changePct)}">${signedPercent(quote?.changePct)}</small></div>
           <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.marketPriceDate || report.date)}</small></div>
           <div class="dialog-metric emphasis"><span>Giá trị cơ sở</span><strong>${number(report.baseValue)}</strong></div>
           <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
-          <div class="dialog-metric emphasis"><span>Chênh lệch tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá đóng cửa mới</small></div>
-          <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>
+          <div class="dialog-metric emphasis"><span>Upside tới giá trị cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá hiển thị có ngày nguồn</small></div>
+          <div class="dialog-metric"><span>Vùng mua tham khảo</span><strong>${Number.isFinite(action?.zoneLow) ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>`;
+    const condition = isTrading
+      ? `Chỉ xem xét vùng ${number(report.tradeZoneLow)}–${number(report.tradeZoneHigh)} khi cấu trúc giá và dòng tiền xác nhận; stop tham khảo ${number(report.stop)}. Mục tiêu kỹ thuật không được dùng làm giá trị cơ sở.`
+      : action?.condition || "Xem trong báo cáo PDF";
+    refs.reportDialogContent.innerHTML = `
+      <div class="report-dialog-hero">
+        <div class="report-dialog-head"><div><p class="terminal-eyebrow">${isTrading ? "Trading Desk Research" : "Equity Valuation Research"} • ${escapeHtml(report.exchange)}</p><h2 class="report-dialog-code" id="report-dialog-title">${escapeHtml(report.ticker)}</h2><p class="report-dialog-company">${escapeHtml(report.company)}</p><p class="report-dialog-meta">${escapeHtml(report.sector)} • ${date(report.date)} • ${escapeHtml(report.edition)}</p></div>${reportVisual(report, "dialog")}<span class="status-badge ${escapeHtml(report.status)}">${escapeHtml(report.recommendation)}</span></div>
+      </div>
+      <div class="report-dialog-body">
+        <div class="dialog-metrics">
+          ${metrics}
         </div>
-        <div class="dialog-thesis"><h3>Luận điểm và điều kiện</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái theo giá khóa</dt><dd>${escapeHtml(relationLabel(quote))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(action?.condition || "Xem trong báo cáo PDF")}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>
+        <div class="dialog-thesis"><h3>${isTrading ? "Kịch bản giao dịch và kỷ luật" : "Luận điểm và điều kiện"}</h3><p>${escapeHtml(report.summary)}</p><dl><div><dt>Khuyến nghị gốc</dt><dd>${escapeHtml(report.recommendation)}</dd></div><div><dt>Trạng thái theo giá nguồn</dt><dd>${escapeHtml(relationLabel(quoteWithAction))}</dd></div><div><dt>Điều kiện</dt><dd>${escapeHtml(condition)}</dd></div><div><dt>Phương pháp</dt><dd>${escapeHtml(report.method || "Xem trong báo cáo PDF")}</dd></div></dl></div>
       </div>
       <div class="dialog-actions">
         <a class="button button-primary" href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer"><svg><use href="#i-file"></use></svg>Mở báo cáo PDF</a>
         <button class="button button-secondary" type="button" data-action="toggle-watch" data-ticker="${escapeHtml(report.ticker)}"><svg><use href="#i-star"></use></svg>${watched ? "Bỏ khỏi watchlist" : "Thêm watchlist"}</button>
-        <button class="button button-secondary" type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}"><svg><use href="#i-compare"></use></svg>${compared ? "Bỏ so sánh" : "Thêm so sánh"}</button>
+        ${isTrading ? "" : `<button class="button button-secondary" type="button" data-action="toggle-compare" data-id="${escapeHtml(report.id)}"><svg><use href="#i-compare"></use></svg>${compared ? "Bỏ so sánh" : "Thêm so sánh"}</button>`}
         <button class="button button-secondary" type="button" data-action="share-report" data-id="${escapeHtml(report.id)}"><svg><use href="#i-share"></use></svg>Chia sẻ</button>
       </div>`;
     refs.reportDialog.showModal();
   };
 
   const renderCompareDialog = () => {
-    const selected = [...state.compare].map((id) => reportById.get(id)).filter(Boolean);
+    const selected = [...state.compare].map((id) => reportById.get(id)).filter((report) => report && report.reportType !== "trading");
     if (selected.length < 2) return toast("Hãy chọn ít nhất 2 báo cáo để so sánh.");
     const rows = [
       ["Doanh nghiệp", (r) => escapeHtml(r.company)],
       ["Ngày định giá", (r) => date(r.date)],
       ["Khuyến nghị", (r) => escapeHtml(r.recommendation)],
-      ["Giá đóng cửa đã khóa", (r) => number(coverageByTicker.get(r.ticker)?.close)],
+      ["Giá hiển thị có ngày nguồn", (r) => `${number(reportQuote(r)?.close)} • ${date(reportQuote(r)?.priceDate)}`],
       ["Giá tại ngày định giá", (r) => number(r.marketPrice)],
       ["Giá trị cơ sở", (r) => number(r.baseValue)],
       ["Vùng mua đã khóa", (r) => {
-        const action = coverageByTicker.get(r.ticker)?.action;
+        const action = reportAction(r);
         return action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—";
       }],
       ["Vùng giá trị", (r) => `${number(r.rangeLow)}–${number(r.rangeHigh)}`],
