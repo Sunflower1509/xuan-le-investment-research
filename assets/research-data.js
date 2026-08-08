@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-08-07",
-    release: "2026-08-07",
+    release: "2026-08-08",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa và biến động của 21/21 mã được khóa tại phiên 07/08/2026 theo VNDIRECT và đối chiếu từng dòng với lịch sử giá Simplize. Khối lượng giữ theo nguồn chính VNDIRECT để nhất quán cách ghi nhận giao dịch lô lẻ trên HNX/UPCoM. Bản cập nhật chỉ thay lớp dữ liệu EOD; vùng mua, giá trị cơ sở, điều kiện hành động, khuyến nghị và số liệu lịch sử trong PDF được giữ nguyên. MSN Trading Desk tiếp tục được phân loại riêng, không dùng mục tiêu kỹ thuật làm giá trị cơ sở và không tính upside định giá."
+    note: "Giá đóng cửa, biến động và khối lượng của 24/24 mã được khóa tại phiên 07/08/2026. Bộ 21 mã hiện hữu giữ nguồn VNDIRECT và đối chiếu Simplize; VSC, SSI và VHM được khóa theo lịch sử giá Simplize và đối chiếu độc lập với nguồn doanh nghiệp/thị trường. Thư viện bổ sung ba báo cáo định giá mới VSC, SSI và VHM; hai tệp MSN và VPX gửi lại trùng hoàn toàn với bản đang công bố nên không tạo bản sao. MSN Trading Desk tiếp tục được phân loại riêng, không dùng mục tiêu kỹ thuật làm giá trị cơ sở và không tính upside định giá."
   },
 
   marketSession: {
@@ -36,6 +36,33 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "VSC-20260807", ticker: "VSC", company: "Công ty Cổ phần Container Việt Nam", sector: "Cảng biển & logistics", exchange: "HOSE", date: "2026-08-07",
+      recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 14650, marketPriceDate: "2026-08-07", baseValue: 19251, rangeLow: 14400, rangeHigh: 24200,
+      gapLabel: "Weighted fair value cao hơn giá thị trường khoảng 31,4%; MOS theo giá trị trọng số là 23,9% tại ngày định giá", method: "DCF theo FCFF có điều chỉnh tài sản đầu tư ngoài hoạt động; kiểm chứng bằng P/E, P/B và EV/EBITDA",
+      summary: "Weighted fair value đạt 19.251 đồng/cp trong vùng giá trị 14.400–24.200 đồng/cp. Tại giá 14.650 đồng/cp, MOS theo giá trị trọng số là 23,9%, vẫn thấp hơn chuẩn 25–30%; vì vậy báo cáo giữ trạng thái CHỜ / THEO DÕI và vùng mua định giá 10.100–10.800 đồng/cp. Trading overlay 1–3 tuần chỉ được kích hoạt khi giá đóng cửa vượt 15.050–15.100 đồng/cp với khối lượng tối thiểu khoảng 11,4 triệu cổ phiếu.",
+      action: { zoneLow: 10100, zoneHigh: 10800, stop: null, basisDate: "2026-08-07", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30% theo conservative floor. Thiết lập trading tách biệt: chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." },
+      visual: { src: "assets/images/reports/vsc.webp", alt: "Bìa báo cáo định giá Viconship VSC ngày 07 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VSC", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VSC_Equity_Research_2026-08-07.pdf", kind: "report-cover" },
+      file: "reports/VSC_Equity_Research_2026-08-07.pdf", edition: "Bản định giá 07.08.2026"
+    },
+    {
+      id: "VHM-20260807", ticker: "VHM", company: "Công ty Cổ phần Vinhomes", sector: "Bất động sản", exchange: "HOSE", date: "2026-08-07",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 74400, marketPriceDate: "2026-08-07", baseValue: 72259, rangeLow: 56700, rangeHigh: 85000,
+      gapLabel: "Giá intraday cao hơn Base RNAV khoảng 3,0% tại thời điểm định giá", method: "RNAV/NAV theo dự án + P/NAV; P/E, P/B và EV/EBITDA chỉ dùng kiểm chứng",
+      summary: "Ba kịch bản RNAV đạt 56.679 / 72.259 / 85.011 đồng/cp; vùng giá trị thực hành được làm tròn 56.700–85.000 đồng/cp. Giá intraday 74.400 đồng/cp cao hơn Base RNAV khoảng 2,96% và cao hơn midpoint 70.845 đồng/cp; biên an toàn không đạt chuẩn. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI và chỉ xem xét vùng 39.700–42.500 đồng/cp nếu Bear RNAV cùng các điều kiện rủi ro không xấu đi.",
+      action: { zoneLow: 39700, zoneHigh: 42500, stop: 38216, basisDate: "2026-08-07", condition: "Chỉ xem xét mua khi giá về 39.700–42.500 đồng/cp, Bear RNAV vẫn tối thiểu khoảng 56.700 đồng/cp và không xuất hiện deterioration mới. Stop tham khảo 38.216; target định giá 56.679 và 72.259 đồng/cp, không phải cam kết đạt giá trong 1–3 tuần." },
+      visual: { src: "assets/images/reports/vhm.webp", alt: "Bìa báo cáo định giá Vinhomes VHM ngày 07 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VHM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VHM_Equity_Research_2026-08-07.pdf", kind: "report-cover" },
+      file: "reports/VHM_Equity_Research_2026-08-07.pdf", edition: "Bản định giá 07.08.2026"
+    },
+    {
+      id: "SSI-20260805", ticker: "SSI", company: "Công ty Cổ phần Chứng khoán SSI", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-05",
+      recommendation: "CHỜ - KHÔNG MUA MỚI", status: "wait", marketPrice: 24400, marketPriceDate: "2026-08-05", baseValue: 20600, rangeLow: 15200, rangeHigh: 25700,
+      gapLabel: "Giá thị trường cao hơn giá trị cơ sở khoảng 18,7% tại ngày định giá", method: "Residual Income 50% + P/B gắn ROE 35% + P/E chuẩn hóa 15%",
+      summary: "Giá trị cơ sở trước quyền là 20.600 đồng/cp và khoảng giá trị hợp lý trước quyền là 15.200–25.700 đồng/cp. Giá 24.400 đồng/cp cao hơn giá trị cơ sở khoảng 18,7%, nên báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA MỚI. Vùng mua định giá 25–30% MOS là 14.400–15.400 đồng/cp trước quyền; mọi vùng kỹ thuật sau ngày GDKHQ 17/08/2026 phải dùng dữ liệu đã điều chỉnh quyền.",
+      action: { zoneLow: 14400, zoneHigh: 15400, stop: null, basisDate: "2026-08-05", condition: "Trước ngày GDKHQ 17/08/2026 không mở vị thế mới. Vùng mua định giá là 14.400–15.400 đồng/cp trước quyền; sau quyền chỉ mua thăm dò 17.800–18.200 khi giá giữ nền và khối lượng co lại, stop 17.000, target 20.000–20.700 và 21.800–22.300 đồng/cp." },
+      visual: { src: "assets/images/reports/ssi.webp", alt: "Bìa báo cáo định giá Chứng khoán SSI ngày 05 tháng 08 năm 2026", caption: "Bìa báo cáo định giá SSI", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/SSI_Equity_Research_2026-08-05.pdf", kind: "report-cover" },
+      file: "reports/SSI_Equity_Research_2026-08-05.pdf", edition: "Bản định giá 05.08.2026"
+    },
     {
       id: "VPX-20260804", ticker: "VPX", company: "Công ty Cổ phần Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-04",
       recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 25800, marketPriceDate: "2026-08-04", baseValue: 25600, rangeLow: 21700, rangeHigh: 29500,
@@ -180,6 +207,21 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "VSC", company: "Viconship", sector: "Cảng biển & logistics", exchange: "HOSE", reportId: "VSC-20260807",
+      close: 14650, priceDate: "2026-08-07", changePct: -1.6779, volume: 7140900, priceSource: "https://simplize.vn/co-phieu/VSC/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VSC-ctcp-container-viet-nam.htm",
+      action: { zoneLow: 10100, zoneHigh: 10800, baseValue: 19251, stop: null, basisDate: "2026-08-07", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30%. Trading 1–3 tuần chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." }
+    },
+    {
+      ticker: "VHM", company: "Vinhomes", sector: "Bất động sản", exchange: "HOSE", reportId: "VHM-20260807",
+      close: 73000, priceDate: "2026-08-07", changePct: -5.3178, volume: 9117200, priceSource: "https://simplize.vn/co-phieu/VHM/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VHM-ctcp-vinhomes.htm",
+      action: { zoneLow: 39700, zoneHigh: 42500, baseValue: 72259, stop: 38216, basisDate: "2026-08-07", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét mua tại 39.700–42.500 đồng/cp nếu Bear RNAV vẫn tối thiểu khoảng 56.700 đồng/cp và không có deterioration mới; stop tham khảo 38.216, target định giá 56.679–72.259 đồng/cp." }
+    },
+    {
+      ticker: "SSI", company: "Chứng khoán SSI", sector: "Chứng khoán", exchange: "HOSE", reportId: "SSI-20260805",
+      close: 24450, priceDate: "2026-08-07", changePct: 0.6173, volume: 13285400, priceSource: "https://simplize.vn/co-phieu/SSI/lich-su-gia", priceSourceSecondary: "https://www.ssi.com.vn/quan-he-nha-dau-tu/thong-tin-co-phieu-ssi",
+      action: { zoneLow: 14400, zoneHigh: 15400, baseValue: 20600, stop: null, basisDate: "2026-08-05", recommendation: "CHỜ - KHÔNG MUA MỚI", eligibility: "active", condition: "Trước ngày GDKHQ 17/08/2026 không mở vị thế mới. Vùng mua định giá là 14.400–15.400 đồng/cp trước quyền; sau quyền chỉ xem xét 17.800–18.200 khi giá giữ nền và khối lượng co lại, stop 17.000, target 20.000–20.700 và 21.800–22.300 đồng/cp." }
+    },
     {
       ticker: "VCI", company: "Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", reportId: "VCI-20260730",
       close: 21750, priceDate: "2026-08-07", changePct: 0, volume: 6367600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-08-07&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCI/lich-su-gia",
