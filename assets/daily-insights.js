@@ -6,8 +6,46 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-07-31",
+  updated: "2026-08-07",
   entries: [
+    {
+      id: "market-view-20260807",
+      date: "2026-08-07",
+      publishedAt: "07/08/2026 • Sau phiên",
+      edition: "Số 07",
+      sentiment: "cautious",
+      sentimentLabel: "THẬN TRỌNG",
+      dataStatus: "TVS Research • EOD 07.08.2026",
+      title: "Hồi phục thận trọng, chờ kiểm định vùng 1.750",
+      thesis: "VN-Index tăng 3,18 điểm (+0,19%) lên 1.768,1 điểm sau hai phiên giảm; giá trị giao dịch HOSE cải thiện nhưng chỉ số vẫn giằng co quanh 1.770 và đóng cửa dưới SMA200 tại 1.774. TVS duy trì quan điểm THẬN TRỌNG, đánh giá chỉ số có khả năng kiểm định lại vùng 1.750; ưu tiên đưa tỷ trọng cổ phiếu về mức an toàn và không mua đuổi trong các nhịp hồi.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "3 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.768,1", change: "+3,18 • +0,19%", tone: "positive" },
+        { label: "GTGD HOSE", value: "18.141 tỷ", change: "+18,4% so với phiên trước", tone: "positive" },
+        { label: "KHỚP LỆNH HOSE", value: "14.517 tỷ", change: "+14,9% so với phiên trước", tone: "positive" },
+        { label: "KHỐI NGOẠI HSX", value: "−75 tỷ", change: "bán ròng; tập trung VHM, TCB, VPB", tone: "negative" }
+      ],
+      backdrop: [
+        "Lực kéo đầu phiên đến từ nhóm Năng lượng (GAS, BSR, PLX) và Ngân hàng quốc doanh (BID, CTG), nhưng áp lực bán ở nhóm Vingroup khiến chỉ số tiếp tục giằng co quanh 1.770 điểm.",
+        "Thanh khoản cải thiện: khối lượng HOSE đạt khoảng 661 triệu cổ phiếu, tăng 13,4%; giá trị giao dịch đạt 18.141 tỷ đồng, tăng 18,4% so với phiên trước.",
+        "Ngân hàng đóng góp tích cực khoảng 7,9 điểm; Điện, nước & xăng dầu khí đốt đóng góp 3,1 điểm và Dầu khí đóng góp 2,0 điểm. Bất động sản lấy đi khoảng 13,3 điểm; khối ngoại bán ròng 75 tỷ đồng."
+      ],
+      levels: [
+        { label: "Hỗ trợ cần kiểm định", value: "quanh 1.750", note: "Vùng hỗ trợ TVS đánh giá VN-Index có khả năng quay lại kiểm định trong các phiên tiếp theo." },
+        { label: "Vùng cần lấy lại", value: "1.774–1.800", note: "SMA200 nằm tại 1.774 điểm theo bảng kỹ thuật chi tiết; 1.800 là kháng cự tham chiếu trong báo cáo. Chỉ số đóng cửa tại 1.768,1 điểm, vẫn dưới vùng này." }
+      ],
+      playbook: [
+        { if: "VN-Index kiểm định 1.750 nhưng giữ được vùng này, áp lực bán không mở rộng và độ rộng dần cân bằng", then: "TIẾP TỤC QUAN SÁT; duy trì tỷ trọng kiểm soát, chỉ xem xét mã có vùng mua và điều kiện riêng đã được xác nhận; không mua đuổi theo nhịp hồi." },
+        { if: "Chỉ số đóng cửa dưới 1.750 hoặc áp lực bán từ nhóm vốn hóa lớn và khối ngoại gia tăng", then: "GIẢM RỦI RO; đưa tỷ trọng cổ phiếu về mức an toàn, dừng mua mới và chờ thị trường thiết lập lại trạng thái cân bằng." }
+      ],
+      focus: "Trọng tâm: phản ứng quanh 1.750 • vùng 1.774–1.800 • Vingroup/BĐS • bán ròng VHM, TCB, VPB • Năng lượng và Ngân hàng quốc doanh",
+      inference: "Giá đóng cửa, thanh khoản, dòng vốn ngoại, đóng góp ngành và quan điểm kiểm định 1.750 được lấy từ báo cáo TVS ngày 07/08/2026. Bảng tổng quan ghi MA(20) tại 1.774 điểm, trong khi bảng kỹ thuật chi tiết trang 4 ghi SMA20 tại 1.745 và SMA200 tại 1.774; website sử dụng bảng kỹ thuật chi tiết và không diễn giải 1.774 là MA20. Điều kiện IF–THEN là kế hoạch tác nghiệp của Xuân Lê TVS, không phải tín hiệu mua tự động hay cam kết lợi nhuận.",
+      sources: [
+        { label: "TVS Research 07.08 — PDF gốc", url: "reports/TVS_Market_Report_2026-08-07.pdf" }
+      ]
+    },
     {
       id: "market-view-20260731",
       date: "2026-07-31",
