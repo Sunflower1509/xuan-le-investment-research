@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa và biến động của 24/24 mã được khóa tại phiên 11/08/2026. Dữ liệu được đối chiếu trực tiếp giữa VNDirect và Simplize; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, giá trị cơ sở, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa và biến động của 25/25 mã được khóa tại phiên 11/08/2026. Dữ liệu được đối chiếu trực tiếp giữa VNDirect và Simplize; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, giá trị cơ sở, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,24 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "CTG-20260811", ticker: "CTG", company: "Ngân hàng TMCP Công Thương Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-08-11",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 32300, marketPriceDate: "2026-08-11", baseValue: 44100, rangeLow: 33700, rangeHigh: 61200,
+      gapLabel: "MOS theo giá trị cơ sở là 26,76%, nhưng chỉ 4,21% so với cận dưới tại ngày định giá", method: "P/B gắn ROE + Residual Income; P/B và P/E dùng kiểm chứng",
+      summary: "Giá trị hợp lý cơ sở 44.100 đồng/cp và vùng giá trị 33.700–61.200 đồng/cp. Tại thị giá 32.300 đồng/cp, MOS so với cận dưới chỉ 4,21%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng mua valuation là 23.600–25.300 đồng/cp nếu ROE, NPL và CAR không xấu đi.",
+      action: { zoneLow: 23600, zoneHigh: 25300, baseValue: 44100, stop: null, basisDate: "2026-08-11", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá về 23.600–25.300 đồng/cp và ROE, NPL, CAR không xấu đi. Ví dụ trong báo cáo tại giá mua 25.000 đồng/cp: stop 23.750, target định giá thấp 33.700 và giá trị cơ sở 44.100 đồng/cp." },
+      visual: { src: "assets/images/reports/ctg.webp", alt: "Bìa báo cáo định giá VietinBank CTG ngày 11 tháng 08 năm 2026", caption: "Bìa báo cáo định giá CTG", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf", kind: "report-cover" },
+      file: "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf", edition: "Bản định giá 11.08.2026"
+    },
+    {
+      id: "GMD-20260810", ticker: "GMD", company: "Gemadept Corporation", sector: "Cảng biển & logistics", exchange: "HOSE", date: "2026-08-10",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 80600, marketPriceDate: "2026-08-10", baseValue: 70600, rangeLow: 51800, rangeHigh: 89400,
+      gapLabel: "Giá thị trường cao hơn midpoint khoảng 14,2%; upside tới cận trên khoảng 9,8% tại ngày định giá", method: "DCF/FCFF; P/E, P/B và EV/EBITDA dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 51.800–89.400 đồng/cp và midpoint khoảng 70.600 đồng/cp. P0 intraday 80.600 đồng/cp cao hơn midpoint khoảng 14,2%, chưa đạt biên an toàn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng ưu tiên theo MOS là 36.200–38.800 đồng/cp nếu thesis và nền tảng cơ bản không suy yếu.",
+      action: { zoneLow: 36200, zoneHigh: 38800, baseValue: 70600, stop: null, basisDate: "2026-08-10", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên." },
+      visual: { src: "assets/images/reports/gmd.webp", alt: "Bìa báo cáo định giá Gemadept GMD ngày 10 tháng 08 năm 2026", caption: "Bìa báo cáo định giá GMD", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf", kind: "report-cover" },
+      file: "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf", edition: "Bản định giá 10.08.2026"
+    },
     {
       id: "VSC-20260807", ticker: "VSC", company: "Công ty Cổ phần Container Việt Nam", sector: "Cảng biển & logistics", exchange: "HOSE", date: "2026-08-07",
       recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 14650, marketPriceDate: "2026-08-07", baseValue: 19251, rangeLow: 14400, rangeHigh: 24200,
@@ -181,14 +199,6 @@ window.RESEARCH_DATA = {
       file: "reports/PVS_Valuation_Report_XuanLeTVS.pdf", edition: "Bản chính"
     },
     {
-      id: "CTG-20260710", ticker: "CTG", company: "Ngân hàng TMCP Công Thương Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-07-10",
-      recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 33700, baseValue: 45300, rangeLow: 30600, rangeHigh: 52100,
-      gapLabel: null, method: "P/B gắn ROE + Residual Income",
-      summary: "Giá trị cơ sở 45.300 đồng/cp; vùng giá trị hợp lý 30.600–52.100 đồng/cp.",
-      visual: { src: "assets/images/reports/ctg.webp", alt: "Gian hàng chuyển đổi số của VietinBank tại sự kiện ngành ngân hàng", caption: "Hoạt động chuyển đổi số VietinBank", sourceLabel: "VietinBank", sourceUrl: "https://www.vietinbank.vn/vietinbank-toa-sang-tai-su-kien-chuyen-doi-so-nganh-ngan-hang-nam-2025-20250530023016-00-html" },
-      file: "reports/CTG_Valuation_Report_20260710_XuanLeTVS.pdf", edition: "Bản chính"
-    },
-    {
       id: "HPG-20260710", ticker: "HPG", company: "Tập đoàn Hòa Phát", sector: "Công nghiệp", exchange: "HOSE", date: "2026-07-10",
       recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 22950, baseValue: 29000, rangeLow: 25000, rangeHigh: 33000,
       gapLabel: null, method: "DCF FCFF chu kỳ + kiểm chứng tương đối",
@@ -207,6 +217,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "GMD", company: "Gemadept Corporation", sector: "Cảng biển & logistics", exchange: "HOSE", reportId: "GMD-20260810",
+      close: 77400, priceDate: "2026-08-11", changePct: -1.0230, volume: 521800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GMD~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GMD/lich-su-gia",
+      action: { zoneLow: 36200, zoneHigh: 38800, baseValue: 70600, stop: null, basisDate: "2026-08-10", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên." }
+    },
     {
       ticker: "VSC", company: "Viconship", sector: "Cảng biển & logistics", exchange: "HOSE", reportId: "VSC-20260807",
       close: 14800, priceDate: "2026-08-11", changePct: -1.9868, volume: 7140900, priceSource: "https://simplize.vn/co-phieu/VSC/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VSC-ctcp-container-viet-nam.htm",
@@ -263,9 +278,9 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 19100, zoneHigh: 20500, baseValue: 27300, basisDate: "2026-07-16", recommendation: "CHỜ – KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Vùng mua đã khóa trong phân tích ACB; PDF chưa có trong thư viện." }
     },
     {
-      ticker: "CTG", company: "VietinBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "CTG-20260710",
+      ticker: "CTG", company: "VietinBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "CTG-20260811",
       close: 32300, priceDate: "2026-08-11", changePct: -1.5244, volume: 14932900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTG~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/CTG/lich-su-gia",
-      action: { zoneLow: 31700, zoneHigh: 34000, basisDate: "2026-07-10", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ tích lũy từng phần khi NPL quanh 1% và LLR trên 150%; không all-in." }
+      action: { zoneLow: 23600, zoneHigh: 25300, baseValue: 44100, stop: null, basisDate: "2026-08-11", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá về 23.600–25.300 đồng/cp và ROE, NPL, CAR không xấu đi. Ví dụ trong báo cáo tại giá mua 25.000 đồng/cp: stop 23.750, target định giá thấp 33.700 và giá trị cơ sở 44.100 đồng/cp." }
     },
     {
       ticker: "TVS", company: "Chứng khoán Thiên Việt", sector: "Chứng khoán", exchange: "HOSE", reportId: "TVS-20260709",
