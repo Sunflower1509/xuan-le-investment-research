@@ -299,7 +299,7 @@ window.RESEARCH_DATA = {
     },
     {
       ticker: "DDV", company: "DAP - Vinachem", sector: "Hóa chất", exchange: "UPCoM", reportId: "DDV-20260713",
-      close: 19000, priceDate: "2026-08-10", changePct: 1.0638, volume: 298408, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/DDV/lich-su-gia",
+      close: 19000, priceDate: "2026-08-10", changePct: 0, volume: 298408, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/DDV/lich-su-gia",
       action: { zoneLow: 15100, zoneHigh: 16200, basisDate: "2026-07-13", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ giải ngân từng phần khi CFO/tồn kho cải thiện." }
     },
     {
