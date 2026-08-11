@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
-    updated: "2026-08-10",
+    updated: "2026-08-11",
     release: "2026-08-11",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa và biến động của 24/24 mã được khóa tại phiên 10/08/2026. Dữ liệu được đối chiếu theo lịch sử giá Simplize, CafeF, Vietstock Finance, Pinetree và nguồn doanh nghiệp/thị trường; dùng giá đóng cửa giao dịch thực tế, không dùng giá điều chỉnh. Vùng mua, giá trị cơ sở, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa và biến động của 24/24 mã được khóa tại phiên 11/08/2026. Dữ liệu được đối chiếu trực tiếp giữa VNDirect và Simplize; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, giá trị cơ sở, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -209,122 +209,122 @@ window.RESEARCH_DATA = {
   coverage: [
     {
       ticker: "VSC", company: "Viconship", sector: "Cảng biển & logistics", exchange: "HOSE", reportId: "VSC-20260807",
-      close: 15100, priceDate: "2026-08-10", changePct: 3.0717, volume: 7140900, priceSource: "https://simplize.vn/co-phieu/VSC/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VSC-ctcp-container-viet-nam.htm",
+      close: 14800, priceDate: "2026-08-11", changePct: -1.9868, volume: 7140900, priceSource: "https://simplize.vn/co-phieu/VSC/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VSC-ctcp-container-viet-nam.htm",
       action: { zoneLow: 10100, zoneHigh: 10800, baseValue: 19251, stop: null, basisDate: "2026-08-07", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30%. Trading 1–3 tuần chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." }
     },
     {
       ticker: "VHM", company: "Vinhomes", sector: "Bất động sản", exchange: "HOSE", reportId: "VHM-20260807",
-      close: 71600, priceDate: "2026-08-10", changePct: -1.9178, volume: 9117200, priceSource: "https://simplize.vn/co-phieu/VHM/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VHM-ctcp-vinhomes.htm",
+      close: 72100, priceDate: "2026-08-11", changePct: 0.6983, volume: 9117200, priceSource: "https://simplize.vn/co-phieu/VHM/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VHM-ctcp-vinhomes.htm",
       action: { zoneLow: 39700, zoneHigh: 42500, baseValue: 72259, stop: 38216, basisDate: "2026-08-07", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét mua tại 39.700–42.500 đồng/cp nếu Bear RNAV vẫn tối thiểu khoảng 56.700 đồng/cp và không có deterioration mới; stop tham khảo 38.216, target định giá 56.679–72.259 đồng/cp." }
     },
     {
       ticker: "SSI", company: "Chứng khoán SSI", sector: "Chứng khoán", exchange: "HOSE", reportId: "SSI-20260805",
-      close: 25100, priceDate: "2026-08-10", changePct: 2.6585, volume: 13285400, priceSource: "https://simplize.vn/co-phieu/SSI/lich-su-gia", priceSourceSecondary: "https://www.ssi.com.vn/quan-he-nha-dau-tu/thong-tin-co-phieu-ssi",
+      close: 25150, priceDate: "2026-08-11", changePct: 0.1992, volume: 13285400, priceSource: "https://simplize.vn/co-phieu/SSI/lich-su-gia", priceSourceSecondary: "https://www.ssi.com.vn/quan-he-nha-dau-tu/thong-tin-co-phieu-ssi",
       action: { zoneLow: 14400, zoneHigh: 15400, baseValue: 20600, stop: null, basisDate: "2026-08-05", recommendation: "CHỜ - KHÔNG MUA MỚI", eligibility: "active", condition: "Trước ngày GDKHQ 17/08/2026 không mở vị thế mới. Vùng mua định giá là 14.400–15.400 đồng/cp trước quyền; sau quyền chỉ xem xét 17.800–18.200 khi giá giữ nền và khối lượng co lại, stop 17.000, target 20.000–20.700 và 21.800–22.300 đồng/cp." }
     },
     {
       ticker: "VCI", company: "Chứng khoán Vietcap", sector: "Chứng khoán", exchange: "HOSE", reportId: "VCI-20260730",
-      close: 22100, priceDate: "2026-08-10", changePct: 1.6092, volume: 6367600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCI/lich-su-gia",
+      close: 22100, priceDate: "2026-08-11", changePct: 0, volume: 6367600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCI/lich-su-gia",
       action: { zoneLow: 13600, zoneHigh: 14600, baseValue: 19500, stop: 13203, basisDate: "2026-07-30", recommendation: "CHỜ - MUA CÓ ĐIỀU KIỆN", eligibility: "active", condition: "Không mua mới tại 20.800 đồng. Chỉ giải ngân từng phần trong vùng 13.600-14.600 khi CAR duy trì trên 250%, Margin/VCSH không vượt 1,2 lần, vốn chủ sở hữu và OCI không tiếp tục suy giảm mạnh, LNST 2026 có khả năng đạt tối thiểu khoảng 1.350 tỷ đồng và không phát hành quy mô lớn dưới BVPS; nếu các biến này xấu đi, phải cập nhật mô hình trước khi giải ngân." }
     },
     {
       ticker: "VPX", company: "Chứng khoán VPBank", sector: "Chứng khoán", exchange: "HOSE", reportId: "VPX-20260804",
-      close: 25800, priceDate: "2026-08-10", changePct: 1.7751, volume: 857700, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VPX/lich-su-gia",
+      close: 25600, priceDate: "2026-08-11", changePct: -0.7752, volume: 857700, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VPX/lich-su-gia",
       action: { zoneLow: 17900, zoneHigh: 19200, baseValue: 25600, stop: null, basisDate: "2026-08-04", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Không mua đuổi tại 25.800 đồng/cp. Chỉ xem xét vùng định giá 17.900–19.200; vùng kỹ thuật 24.000–24.500 phải có xác nhận dòng tiền. Mục tiêu kỹ thuật 27.800–29.500 không thay thế giá trị cơ sở." }
     },
     {
       ticker: "HII", company: "An Tiến Industries", sector: "Hóa chất", exchange: "HOSE", reportId: "HII-20260803",
-      close: 9200, priceDate: "2026-08-10", changePct: 6.9767, volume: 686000, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HII~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/HII/lich-su-gia",
+      close: 9390, priceDate: "2026-08-11", changePct: 2.0652, volume: 686000, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HII~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/HII/lich-su-gia",
       action: { zoneLow: 5800, zoneHigh: 6200, baseValue: 10550, stop: 5650, basisDate: "2026-08-03", recommendation: "CHỜ - THEO DÕI", eligibility: "active", condition: "Không mua đuổi tại 7.090 đồng/cp. Chỉ giải ngân từng phần trong vùng 5.800–6.200 khi CFO, phải thu và nợ vay cùng cải thiện; stop tham khảo 5.650 đồng/cp." }
     },
     {
       ticker: "MSN", company: "Tập đoàn Masan", sector: "Tiêu dùng", exchange: "HOSE", reportId: "MSN-VALUATION-20260803",
-      close: 67700, priceDate: "2026-08-10", changePct: 0.4451, volume: 3169000, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSN~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/MSN/lich-su-gia",
+      close: 67100, priceDate: "2026-08-11", changePct: -0.8863, volume: 3169000, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSN~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/MSN/lich-su-gia",
       action: { zoneLow: 57500, zoneHigh: 61500, baseValue: 95000, stop: 56500, basisDate: "2026-08-03", recommendation: "CHỜ - CHƯA MUA MỚI", eligibility: "active", condition: "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 chỉ áp dụng khi điều kiện trong báo cáo được duy trì." }
     },
     {
       ticker: "BCM", company: "Becamex", sector: "Bất động sản", exchange: "HOSE", reportId: "BCM-20260803",
-      close: 41300, priceDate: "2026-08-10", changePct: 6.9948, volume: 1694500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BCM~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BCM/lich-su-gia",
+      close: 41150, priceDate: "2026-08-11", changePct: -0.3632, volume: 1694500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BCM~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BCM/lich-su-gia",
       action: { zoneLow: 31300, zoneHigh: 33600, baseValue: 57600, stop: null, basisDate: "2026-08-03", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 phải có xác nhận theo điều kiện trong báo cáo." }
     },
     {
       ticker: "VIX", company: "Chứng khoán VIX", sector: "Chứng khoán", exchange: "HOSE", reportId: "VIX-20260721",
-      close: 13950, priceDate: "2026-08-10", changePct: 2.5735, volume: 30031900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIX~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VIX/lich-su-gia",
+      close: 14200, priceDate: "2026-08-11", changePct: 1.7921, volume: 30031900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIX~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VIX/lich-su-gia",
       action: { zoneLow: 7500, zoneHigh: 8000, basisDate: "2026-07-21", recommendation: "CHỜ", eligibility: "active", condition: "Không mua cơ bản tại 12.500 đồng; chỉ giao dịch ngắn hạn khi đóng cửa trên 13.200 đồng với khối lượng tối thiểu 39–40 triệu cổ phiếu." }
     },
     {
       ticker: "VCB", company: "Vietcombank", sector: "Ngân hàng", exchange: "HOSE", reportId: "VCB-20260714",
-      close: 60300, priceDate: "2026-08-10", changePct: 1.0050, volume: 6522200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCB~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCB/lich-su-gia",
+      close: 59800, priceDate: "2026-08-11", changePct: -0.8292, volume: 6522200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCB~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VCB/lich-su-gia",
       action: { zoneLow: 38000, zoneHigh: 40700, basisDate: "2026-07-14", recommendation: "CHỜ", eligibility: "active", condition: "Đầu tư giá trị; giao dịch 1–3 tuần chỉ hành động khi cấu trúc giá xác nhận." }
     },
     {
       ticker: "ACB", company: "Ngân hàng Á Châu", sector: "Ngân hàng", exchange: "HOSE", reportId: null,
-      close: 22650, priceDate: "2026-08-10", changePct: 1.1161, volume: 9526200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ACB~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/ACB/lich-su-gia",
+      close: 22650, priceDate: "2026-08-11", changePct: 0, volume: 9526200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ACB~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/ACB/lich-su-gia",
       action: { zoneLow: 19100, zoneHigh: 20500, baseValue: 27300, basisDate: "2026-07-16", recommendation: "CHỜ – KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Vùng mua đã khóa trong phân tích ACB; PDF chưa có trong thư viện." }
     },
     {
       ticker: "CTG", company: "VietinBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "CTG-20260710",
-      close: 32800, priceDate: "2026-08-10", changePct: 0.9231, volume: 14932900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTG~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/CTG/lich-su-gia",
+      close: 32300, priceDate: "2026-08-11", changePct: -1.5244, volume: 14932900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTG~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/CTG/lich-su-gia",
       action: { zoneLow: 31700, zoneHigh: 34000, basisDate: "2026-07-10", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ tích lũy từng phần khi NPL quanh 1% và LLR trên 150%; không all-in." }
     },
     {
       ticker: "TVS", company: "Chứng khoán Thiên Việt", sector: "Chứng khoán", exchange: "HOSE", reportId: "TVS-20260709",
-      close: 13800, priceDate: "2026-08-10", changePct: 3.3708, volume: 88800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TVS~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/TVS/lich-su-gia",
+      close: 13900, priceDate: "2026-08-11", changePct: 0.7246, volume: 88800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TVS~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/TVS/lich-su-gia",
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-09", recommendation: "CHỜ", eligibility: "active", condition: "Vùng MOS 25–30%; chưa có bằng chứng ROE phục hồi thì không mua mới." }
     },
     {
       ticker: "VND", company: "VNDirect", sector: "Chứng khoán", exchange: "HOSE", reportId: null,
-      close: 17050, priceDate: "2026-08-10", changePct: 2.4024, volume: 6884600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VND~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VND/lich-su-gia",
+      close: 16900, priceDate: "2026-08-11", changePct: -0.8798, volume: 6884600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VND~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/VND/lich-su-gia",
       action: { trigger: 18350, basisDate: "2026-06-30", recommendation: "CHỜ BREAKOUT", eligibility: "stale", condition: "Trigger kỹ thuật cũ cần đánh giá lại; không xếp chung với vùng mua định giá." }
     },
     {
       ticker: "BVS", company: "Chứng khoán Bảo Việt", sector: "Chứng khoán", exchange: "HNX", reportId: "BVS-20260713",
-      close: 27700, priceDate: "2026-08-10", changePct: 2.9740, volume: 698676, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVS~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BVS/lich-su-gia",
+      close: 27200, priceDate: "2026-08-11", changePct: -1.8051, volume: 698676, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVS~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BVS/lich-su-gia",
       action: { zoneLow: 19900, zoneHigh: 21300, basisDate: "2026-07-13", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ mua từng phần khi LNST 2026 và chất lượng tài sản vẫn giữ điều kiện của báo cáo." }
     },
     {
       ticker: "FPT", company: "FPT", sector: "Công nghệ", exchange: "HOSE", reportId: null,
-      close: 71800, priceDate: "2026-08-10", changePct: 1.4124, volume: 4301800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FPT~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/FPT/lich-su-gia",
+      close: 71200, priceDate: "2026-08-11", changePct: -0.8357, volume: 4301800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FPT~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/FPT/lich-su-gia",
       action: { zoneLow: 69000, zoneHigh: 72500, stopHigh: 69000, basisDate: "2026-07-09", recommendation: "CHỜ / CANH MUA CÓ ĐIỀU KIỆN", eligibility: "invalidated", condition: "Giá đóng cửa 67.100 ngày 31/07/2026 vẫn dưới mốc stop 68.500–69.000 của thiết lập cũ; phải đánh giá lại trước khi kích hoạt." }
     },
     {
       ticker: "HPG", company: "Hòa Phát", sector: "Công nghiệp", exchange: "HOSE", reportId: "HPG-20260710",
-      close: 22100, priceDate: "2026-08-10", changePct: 0.4545, volume: 13018100, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HPG~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/HPG/lich-su-gia",
+      close: 22050, priceDate: "2026-08-11", changePct: -0.2262, volume: 13018100, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HPG~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/HPG/lich-su-gia",
       action: { zoneLow: 17500, zoneHigh: 18750, basisDate: "2026-07-10", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Vùng MOS 25–30%; phải kiểm tra core PAT, nợ vay và dòng tiền trước khi giải ngân." }
     },
     {
       ticker: "GEE", company: "GELEX Electric", sector: "Công nghiệp", exchange: "HOSE", reportId: "GEE-20260713",
-      close: 69500, priceDate: "2026-08-10", changePct: 3.5768, volume: 754200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GEE~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GEE/lich-su-gia",
+      close: 74300, priceDate: "2026-08-11", changePct: 6.9065, volume: 754200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GEE~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GEE/lich-su-gia",
       action: { zoneLow: 27000, zoneHigh: 28900, basisDate: "2026-07-13", recommendation: "TRÁNH MUA MỚI", eligibility: "veto", condition: "Chỉ xem xét lại khi giá về vùng mua và CFO, nợ vay, biên EBIT cùng cấu trúc giá được xác nhận." }
     },
     {
       ticker: "DDV", company: "DAP - Vinachem", sector: "Hóa chất", exchange: "UPCoM", reportId: "DDV-20260713",
-      close: 19000, priceDate: "2026-08-10", changePct: 0, volume: 298408, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/DDV/lich-su-gia",
+      close: 18700, priceDate: "2026-08-11", changePct: -0.5319, volume: 298408, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/DDV/lich-su-gia",
       action: { zoneLow: 15100, zoneHigh: 16200, basisDate: "2026-07-13", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ giải ngân từng phần khi CFO/tồn kho cải thiện." }
     },
     {
       ticker: "GAS", company: "PV GAS", sector: "Năng lượng", exchange: "HOSE", reportId: "GAS-20260713",
-      close: 79800, priceDate: "2026-08-10", changePct: 6.9705, volume: 2114300, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GAS~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GAS/lich-su-gia",
+      close: 77500, priceDate: "2026-08-11", changePct: -2.8822, volume: 2114300, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GAS~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GAS/lich-su-gia",
       action: { zoneLow: 58800, zoneHigh: 63000, basisDate: "2026-07-13", recommendation: "CHỜ", eligibility: "active", condition: "67.800–72.700 chỉ là vùng thăm dò có điều kiện; vùng mua nền tảng vẫn là 58.800–63.000." }
     },
     {
       ticker: "PVS", company: "PTSC", sector: "Năng lượng", exchange: "HNX", reportId: "PVS-20260711",
-      close: 35000, priceDate: "2026-08-10", changePct: 2.0408, volume: 2993644, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVS~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/PVS/lich-su-gia",
+      close: 35000, priceDate: "2026-08-11", changePct: 0, volume: 2993644, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVS~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/PVS/lich-su-gia",
       action: { zoneLow: 26300, zoneHigh: 28100, adjustedLow: 21900, adjustedHigh: 23400, basisDate: "2026-07-11", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Dùng vùng trước phát hành cổ phiếu 20%; vùng sau điều chỉnh chỉ áp dụng khi sự kiện có hiệu lực." }
     },
     {
       ticker: "BSR", company: "Lọc hóa dầu Bình Sơn", sector: "Năng lượng", exchange: "HOSE", reportId: "BSR-20260712",
-      close: 26900, priceDate: "2026-08-10", changePct: 2.6718, volume: 19092500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BSR/lich-su-gia",
+      close: 26050, priceDate: "2026-08-11", changePct: -2.0677, volume: 19092500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BSR/lich-su-gia",
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-12", recommendation: "LOẠI – KHÔNG MUA MỚI", eligibility: "veto", condition: "Hard veto theo báo cáo; không xếp vào danh sách ưu tiên dù giá giảm." }
     },
     {
       ticker: "PNJ", company: "Vàng bạc Đá quý Phú Nhuận", sector: "Tiêu dùng", exchange: "HOSE", reportId: null,
-      close: 35950, priceDate: "2026-08-10", changePct: -0.1389, volume: 3949500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/PNJ/lich-su-gia",
+      close: 34850, priceDate: "2026-08-11", changePct: -3.0598, volume: 3949500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/PNJ/lich-su-gia",
       action: { basisDate: "2026-07-07", recommendation: "LOẠI / TRÁNH MUA MỚI", eligibility: "veto", condition: "Không bắt đáy; thiết lập cũ đã mất hiệu lực và chưa có vùng mua mới được khóa." }
     },
     {
       ticker: "BFC", company: "Phân bón Bình Điền", sector: "Nông nghiệp", exchange: "HOSE", reportId: null,
-      close: 53100, priceDate: "2026-08-10", changePct: 0.3781, volume: 228800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BFC~date:2026-08-10&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BFC/lich-su-gia",
+      close: 48850, priceDate: "2026-08-11", changePct: -1.5121, volume: 228800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BFC~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/BFC/lich-su-gia",
       action: { zoneLow: 32400, zoneHigh: 34700, basisDate: "2026-07-09", recommendation: "TRÁNH MUA MỚI THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Chờ kỹ thuật; không mở mua mới theo định giá hiện tại." }
     }
   ]
