@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-08-11",
-    release: "2026-08-11",
+    release: "2026-08-12",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa và biến động của 27/27 mã được khóa tại phiên 11/08/2026. Nguồn đối chiếu được hiển thị trực tiếp tại từng mã; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa và biến động của 29/29 mã được khóa tại phiên 11/08/2026. Nguồn đối chiếu được hiển thị trực tiếp tại từng mã; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,24 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "SHS-20260812", ticker: "SHS", company: "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội", sector: "Chứng khoán", exchange: "HNX", date: "2026-08-12",
+      recommendation: "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 15900, marketPriceDate: "2026-08-12", baseValue: 13750, valueLabel: "Điểm giữa", rangeLow: 10500, rangeHigh: 17000,
+      gapLabel: "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo", method: "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 10.500–17.000 đồng/cp và điểm giữa cơ học 13.750 đồng/cp, không phải một mức giá mục tiêu duy nhất. Tại giá 15.900 đồng/cp lúc 13:42 ngày 12/08/2026, MOS so với điểm giữa là -15,64%; báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI. Vùng MOS nghiêm ngặt 25–30% là 7.350–7.875 đồng/cp và không phải dự báo giá.",
+      action: { zoneLow: 7350, zoneHigh: 7875, baseValue: 13750, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi." },
+      visual: { src: "assets/images/reports/shs.webp", alt: "Bìa báo cáo định giá SHS ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá SHS", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
+    {
+      id: "HCM-20260812", ticker: "HCM", company: "Công ty Cổ phần Chứng khoán Thành phố Hồ Chí Minh", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-12",
+      recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", status: "reject", marketPrice: 26450, marketPriceDate: "2026-08-12", baseValue: 17500, valueLabel: "Điểm giữa", rangeLow: 13200, rangeHigh: 21700,
+      gapLabel: "MOS -51,4% so với điểm giữa; MOS -21,8% so với cận trên theo công thức trong báo cáo", method: "Residual Income + Justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 13.200–21.700 đồng/cp và điểm giữa khoảng 17.500 đồng/cp. Tại giá 26.450 đồng/cp lúc 11:30 ngày 12/08/2026, MOS so với điểm giữa là -51,4% và so với cận trên là -21,8%; báo cáo kết luận LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ. Vùng MOS cơ học 25–30% là 9.250–9.900 đồng/cp.",
+      action: { zoneLow: 9250, zoneHigh: 9900, baseValue: 17500, stop: null, basisDate: "2026-08-12", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Nếu giá vẫn trên 21.700 đồng/cp mà chưa có bằng chứng ROE sau pha loãng đạt 14–15% thì không mua theo định giá. Mọi luận điểm giao dịch 1–3 tuần phải được tách riêng và không thay thế kết luận định giá." },
+      visual: { src: "assets/images/reports/hcm.webp", alt: "Bìa báo cáo định giá HCM ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá HCM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
     {
       id: "REE-20260812", ticker: "REE", company: "Công ty Cổ phần Cơ Điện Lạnh", sector: "Đa ngành", exchange: "HOSE", date: "2026-08-12",
       recommendation: "CHỜ - THEO DÕI", status: "wait", marketPrice: 47250, marketPriceDate: "2026-08-11", baseValue: 54250, valueLabel: "Điểm giữa", rangeLow: 47000, rangeHigh: 61500,
@@ -235,6 +253,16 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "SHS", company: "Chứng khoán Sài Gòn - Hà Nội", sector: "Chứng khoán", exchange: "HNX", reportId: "SHS-20260812",
+      close: 15900, priceDate: "2026-08-11", changePct: -0.62, volume: 12834900, priceSource: "https://simplize.vn/co-phieu/SHS/lich-su-gia", priceSourceSecondary: "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
+      action: { zoneLow: 7350, zoneHigh: 7875, baseValue: 13750, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi." }
+    },
+    {
+      ticker: "HCM", company: "Chứng khoán TP.HCM", sector: "Chứng khoán", exchange: "HOSE", reportId: "HCM-20260812",
+      close: 26500, priceDate: "2026-08-11", changePct: 2.12, volume: 9908700, priceSource: "https://simplize.vn/co-phieu/HCM/lich-su-gia", priceSourceSecondary: "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
+      action: { zoneLow: 9250, zoneHigh: 9900, baseValue: 17500, stop: null, basisDate: "2026-08-12", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Nếu giá vẫn trên 21.700 đồng/cp mà chưa có bằng chứng ROE sau pha loãng đạt 14–15% thì không mua theo định giá. Mọi luận điểm giao dịch 1–3 tuần phải được tách riêng và không thay thế kết luận định giá." }
+    },
     {
       ticker: "REE", company: "Cơ Điện Lạnh", sector: "Đa ngành", exchange: "HOSE", reportId: "REE-20260812",
       close: 47250, priceDate: "2026-08-11", changePct: -0.74, volume: 249100, priceSource: "https://simplize.vn/co-phieu/REE/lich-su-gia", priceSourceSecondary: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf",

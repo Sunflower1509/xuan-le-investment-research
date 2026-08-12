@@ -56,8 +56,8 @@ img,svg{display:block}
 .button:hover{transform:translateY(-2px)}
 .button-primary{color:#fff;background:linear-gradient(135deg,var(--navy),#123a5b);box-shadow:0 13px 28px rgba(8,28,49,.2)}
 .button-primary:hover{background:linear-gradient(135deg,var(--emerald),#07543f)}
-.button-glass,.button-secondary{border-color:rgba(8,120,90,.55);color:var(--emerald);background:rgba(255,255,255,.72);backdrop-filter:blur(10px)}
-.button-glass:hover,.button-secondary:hover{background:var(--emerald-pale)}
+.button-secondary{border-color:rgba(8,120,90,.55);color:var(--emerald);background:rgba(255,255,255,.72);backdrop-filter:blur(10px)}
+.button-secondary:hover{background:var(--emerald-pale)}
 .advisor-line{border-top:1px solid rgba(189,142,49,.42);align-items:center;gap:12px;max-width:560px;margin-top:28px;padding-top:18px;display:flex}
 .advisor-avatar{width:42px;height:42px;color:#fff;background:linear-gradient(145deg,var(--emerald),#075941);border:1px solid rgba(189,142,49,.66);border-radius:12px;place-items:center;font-family:var(--font-editorial);font-size:.75rem;font-weight:800;display:grid;box-shadow:0 10px 24px rgba(8,120,90,.18)}
 .advisor-line>div{flex-direction:column;display:flex}
@@ -184,7 +184,6 @@ img,svg{display:block}
 .coverage-quote strong{font-variant-numeric:tabular-nums;margin-top:4px;font-size:.82rem;display:block}
 .coverage-quote>small{font-size:.52rem;font-weight:800}
 .coverage-distance{color:var(--slate);margin-top:8px!important;font-size:.5rem!important}
-.coverage-priority{color:#fff!important;background:var(--emerald);border-radius:99px;padding:4px 7px;font-size:.43rem!important;font-weight:850}
 .dialog-metric small{color:var(--muted);margin-top:3px;font-size:.46rem;line-height:1.35;display:block}
 
 
@@ -399,10 +398,6 @@ body{font-size:17px}
 
 .desktop-nav a.active:after{right:0}
 
-.activity-item{border-left:0;border-right:0;border-top:0;width:100%;color:inherit;cursor:pointer;background:transparent;text-align:left;font:inherit}
-
-.activity-item:hover{background:linear-gradient(90deg,transparent,rgba(8,120,90,.045),transparent)}
-
 .coverage-card .icon-button.active{border-color:rgba(8,120,90,.28);color:var(--emerald);background:var(--emerald-pale)}
 
 .coverage-card .icon-button.active svg,.watchlist-trigger svg{fill:currentColor}
@@ -413,7 +408,7 @@ body{font-size:17px}
 
 .watchlist-item svg{fill:none;stroke:currentColor;stroke-width:1.7;width:15px;height:15px}
 
-.terminal-eyebrow,.featured-kicker{font-size:.64rem}
+.terminal-eyebrow{font-size:.64rem}
 
 .hero-trust-grid span{font-size:.58rem}
 
@@ -422,9 +417,6 @@ body{font-size:17px}
 .data-integrity small,.research-tabs button span,.sort-control span,.filter-label,.results-meta p,.results-meta button,.report-identity p,.recommendation-label,.report-meta-line time,.card-metric span,.coverage-card .exchange,.coverage-card .sector{font-size:.56rem}
 
 .terminal-search input{font-size:.76rem}
-
-.activity-item strong{font-size:.66rem}
-.activity-item span,.activity-item time{font-size:.55rem}
 
 .footer-grid>p{font-size:.65rem}
 
@@ -746,7 +738,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 .daily-insight,.daily-insight-header,.daily-analysis-grid,.daily-analysis-panel,
 .daily-levels article,.daily-playbook article,.daily-playbook article>div,
 .priority-card,.priority-card-main,.priority-metrics>div,.action-table-shell,
-.research-workspace,.research-results,.report-card-v4,.coverage-card{min-width:0;max-width:100%}
+.research-results,.report-card-v4,.coverage-card{min-width:0;max-width:100%}
 .daily-thesis,.daily-analysis-panel li,.daily-focus,.daily-levels p,.daily-playbook p,
 .daily-inference p,.priority-distance p,.action-table td,
 .report-summary,.coverage-card p,.watchlist-item span{overflow-wrap:anywhere;word-break:normal}
