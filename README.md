@@ -13,7 +13,8 @@ Trang chính thức: <https://sunflower1509.github.io/xuan-le-investment-researc
 - `assets/css/` và `assets/js/`: bundle production đã minify; đây là hai tài nguyên mã duy nhất được `index.html` tải.
 - `assets/images/reports/`: ảnh bìa WebP của từng báo cáo.
 - `reports/`: PDF công bố trên website.
-- `scripts/build-assets.sh`: build có thể tái lập từ `src/` sang `assets/`.
+- `scripts/build-assets.sh`: build có thể tái lập từ `src/` sang `assets/`, với phiên bản công cụ được khóa.
+- `scripts/prepare-site.sh`: tạo artifact production chỉ gồm HTML, tài nguyên tĩnh và PDF thực sự cần để chạy website.
 
 ## Build tài nguyên
 
@@ -23,4 +24,10 @@ Yêu cầu Node.js và npm. Không chỉnh trực tiếp các file `*.min.*`.
 ./scripts/build-assets.sh
 ```
 
-Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/workflows/pages.yml`.
+Có thể kiểm tra đúng artifact sẽ được triển khai bằng một thư mục trống:
+
+```bash
+./scripts/prepare-site.sh /tmp/xuan-le-site-preview
+```
+
+Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/workflows/pages.yml`. Mã nguồn, script build và tài liệu bảo trì được giữ trong repository nhưng không còn đưa vào artifact công khai.

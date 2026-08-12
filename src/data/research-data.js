@@ -37,6 +37,15 @@ window.RESEARCH_DATA = {
 
   reports: [
     {
+      id: "VND-20260812", ticker: "VND", company: "Công ty Cổ phần Chứng khoán VNDIRECT", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-12",
+      recommendation: "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800", status: "wait", marketPrice: 16800, marketPriceDate: "2026-08-12", baseValue: 14640, valueLabel: "Điểm giữa", rangeLow: 11100, rangeHigh: 18200,
+      gapLabel: "MOS -14,76% so với midpoint; MOS +7,48% so với cận trên", method: "Residual Income + justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 11.100–18.200 đồng/cp và điểm giữa 14.640 đồng/cp, không phải giá mục tiêu. Tại giá 16.800 đồng/cp ngày 12/08/2026, MOS so với midpoint là -14,76% và so với cận trên là +7,48%; chưa đạt ngưỡng an toàn 25–30%. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800; vùng mua định giá theo midpoint là 10.300–11.000 đồng/cp.",
+      action: { zoneLow: 10300, zoneHigh: 11000, baseValue: 14640, stop: 10450, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800", eligibility: "active", condition: "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi." },
+      visual: { src: "assets/images/reports/vnd.webp", alt: "Bìa báo cáo định giá VNDIRECT VND ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VND", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VND_Equity_Valuation_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/VND_Equity_Valuation_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
+    {
       id: "SHS-20260812", ticker: "SHS", company: "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội", sector: "Chứng khoán", exchange: "HNX", date: "2026-08-12",
       recommendation: "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 15900, marketPriceDate: "2026-08-12", baseValue: 13750, valueLabel: "Điểm giữa", rangeLow: 10500, rangeHigh: 17000,
       gapLabel: "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo", method: "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
@@ -344,9 +353,9 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-09", recommendation: "CHỜ", eligibility: "active", condition: "Vùng MOS 25–30%; chưa có bằng chứng ROE phục hồi thì không mua mới." }
     },
     {
-      ticker: "VND", company: "VNDirect", sector: "Chứng khoán", exchange: "HOSE", reportId: null,
+      ticker: "VND", company: "Công ty Cổ phần Chứng khoán VNDIRECT", sector: "Chứng khoán", exchange: "HOSE", reportId: "VND-20260812",
       close: 16800, priceDate: "2026-08-12", changePct: -0.5917, volume: 6608700, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VND~date:2026-08-12&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786467600&to=1786528800&symbol=VND&resolution=1D",
-      action: { trigger: 18350, basisDate: "2026-06-30", recommendation: "CHỜ BREAKOUT", eligibility: "stale", condition: "Trigger kỹ thuật cũ cần đánh giá lại; không xếp chung với vùng mua định giá." }
+      action: { zoneLow: 10300, zoneHigh: 11000, baseValue: 14640, stop: 10450, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800", eligibility: "active", condition: "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi." }
     },
     {
       ticker: "BVS", company: "Chứng khoán Bảo Việt", sector: "Chứng khoán", exchange: "HNX", reportId: "BVS-20260713",

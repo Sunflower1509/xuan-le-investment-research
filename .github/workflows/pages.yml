@@ -24,6 +24,14 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build production assets
+        run: ./scripts/build-assets.sh
+      - name: Prepare lean production artifact
+        run: ./scripts/prepare-site.sh "${RUNNER_TEMP}/site"
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
@@ -31,7 +39,7 @@ jobs:
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ${{ runner.temp }}/site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
