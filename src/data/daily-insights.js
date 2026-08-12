@@ -6,8 +6,53 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-08-07",
+  updated: "2026-08-12",
   entries: [
+    {
+      id: "market-view-20260812",
+      date: "2026-08-12",
+      publishedAt: "12/08/2026 • Sau phiên",
+      edition: "Số 08",
+      sentiment: "watch",
+      sentimentLabel: "CHỜ XÁC NHẬN",
+      dataStatus: "Dữ liệu đối chiếu • EOD 12.08.2026",
+      title: "Hồi phục mạnh, thanh khoản chưa xác nhận",
+      thesis: "VN-Index tăng 19,77 điểm (+1,11%) lên 1.793,18 điểm và lấy lại SMA20, SMA200. Tín hiệu kỹ thuật cải thiện rõ, nhưng tổng giá trị giao dịch HOSE chỉ đạt 14.041,15 tỷ đồng, giảm 12,28% so với phiên 11/08 và thấp hơn 21,41% so với bình quân 20 phiên. Chỉ số đã đi vào vùng cung tác nghiệp 1.775–1.810 trong khi dòng tiền chưa xác nhận; trạng thái phù hợp là CHỜ XÁC NHẬN, không mua đuổi theo nhịp tăng.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "4 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.793,18", change: "+19,77 • +1,11%", tone: "positive" },
+        { label: "GTGD HOSE", value: "14.041,15 tỷ", change: "−12,28% phiên trước • −21,41% BQ20", tone: "warning" },
+        { label: "KHỐI NGOẠI HOSE", value: "MUA RÒNG", change: "+283,1 tỷ CafeF • +315,5 tỷ Simplize", tone: "positive" },
+        { label: "VN30F1M", value: "1.940,0", change: "basis +3,54 so với VN30", tone: "positive" }
+      ],
+      backdrop: [
+        "Theo chuỗi giá đóng cửa VNDIRECT, VN-Index đứng trên SMA20 (1.742,36), EMA50 (1.786,21) và SMA200 (1.774,91), nhưng vẫn thấp hơn SMA50 (1.796,36) khoảng 3,18 điểm. Vì vậy website không dùng cách diễn đạt ‘vượt MA50’ nếu không chỉ rõ phương pháp tính.",
+        "Dầu khí – năng lượng đồng thuận tăng: GAS +3,23%, BSR +1,73%, PVD +2,75%, PVS +1,71% và PVT +2,03%. KCN – cao su có BCM tăng trần 6,93% và GVR +2,71%.",
+        "VIC +3,36% và VHM +2,36% hỗ trợ nhóm vốn hóa lớn. Bán lẻ có MWG +1,09%, FRT +1,02% và PNJ +0,57%; ngân hàng phân hóa khi TCB, HDB tăng nhưng VCB, CTG, STB, SHB và MSB giảm. Khối ngoại quay lại mua ròng; VN30F1M đóng cao hơn VN30 3,54 điểm."
+      ],
+      levels: [
+        { label: "Vùng giữ nhịp", value: "1.775–1.783", note: "Giữ được 1.780–1.783 thì tiếp tục nắm leader đang có; rung về vùng này chỉ xem xét thăm dò khi cầu hấp thụ rõ." },
+        { label: "Vùng cung / xác nhận", value: "1.800–1.810", note: "Không mua đuổi nếu thanh khoản vẫn yếu. Chỉ nâng trạng thái khi đóng trên 1.810, thanh khoản tối thiểu bằng bình quân 20 phiên — hiện là 17.866,92 tỷ đồng — và độ rộng cùng xác nhận." },
+        { label: "Mốc vô hiệu ngắn hạn", value: "đóng dưới 1.770", note: "Mất 1.780 thì giảm phần trading; đóng dưới 1.770 thì hủy view tăng ngắn hạn." }
+      ],
+      playbook: [
+        { if: "VN-Index giữ được 1.780–1.783", then: "TIẾP TỤC GIỮ các cổ phiếu dẫn dắt đang có; không tăng tỷ trọng chỉ vì chỉ số tăng." },
+        { if: "Chỉ số rung về 1.775–1.783 và lực cầu hấp thụ tốt", then: "Chỉ xem xét THĂM DÒ RẤT NHỎ ở mã có cấu trúc riêng phù hợp; không suy diễn thành tín hiệu mua toàn thị trường." },
+        { if: "Chỉ số lên 1.800–1.810 nhưng thanh khoản vẫn yếu", then: "TUYỆT ĐỐI KHÔNG MUA ĐUỔI. Chỉ chuyển sang mua xác nhận khi đóng trên 1.810, thanh khoản đạt ít nhất bình quân 20 phiên và độ rộng đồng thuận." },
+        { if: "VN-Index mất 1.780; đặc biệt đóng cửa dưới 1.770", then: "GIẢM phần trading; đóng dưới 1.770 thì hủy view tăng ngắn hạn và đánh giá lại trạng thái." }
+      ],
+      focus: "Trọng tâm: phản ứng 1.775–1.783 • thanh khoản tại 1.800–1.810 • độ rộng • dầu khí/KCN • ảnh hưởng VIC, VHM • mốc vô hiệu 1.770",
+      inference: "Giá chỉ số, tổng giá trị giao dịch, độ rộng, giá cổ phiếu và phái sinh lấy từ dữ liệu EOD VNDIRECT; bình quân 20 phiên là trung bình số học của tổng giá trị giao dịch từ 16/07 đến 12/08; mức basis được tính bằng 1.940,0 − 1.936,46 = +3,54 điểm. Dữ liệu khối ngoại giữa các nhà cung cấp không trùng tuyệt đối: CafeF ghi mua ròng 283,1 tỷ đồng, Simplize ghi 315,5 tỷ đồng; website giữ nguyên cả hai số và chỉ kết luận cùng chiều là mua ròng, không sử dụng mức 254 tỷ đồng chưa tái lập được. SMA/EMA được tính lại từ chuỗi giá đóng cửa không điều chỉnh qua 12/08/2026; do SMA50 ở 1.796,36, câu ‘vượt MA50’ trong bản nháp được hiệu chỉnh để không tạo dữ liệu sai. Vùng cung, điều kiện IF–THEN và trạng thái CHỜ XÁC NHẬN là kế hoạch tác nghiệp của Xuân Lê TVS. Thị trường khỏe hơn không đồng nghĩa mua ở bất kỳ giá nào; chờ đúng điểm vẫn quan trọng hơn đoán đúng hướng. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      sources: [
+        { label: "VNDIRECT — Chỉ số & thanh khoản EOD", url: "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX,VN30~date:2026-08-11,2026-08-12&size=20" },
+        { label: "VNDIRECT — VN30F1M EOD", url: "https://api-finfo.vndirect.com.vn/v4/derivative_prices?sort=code&q=code:41I1G8000~date:2026-08-12&size=10" },
+        { label: "VNDIRECT — Giá nhóm cổ phiếu đối chiếu", url: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=code&q=code:GAS,BSR,PVD,PVS,PVT,BCM,GVR,VIC,VHM,MWG,FRT,PNJ~date:2026-08-12&size=100" },
+        { label: "CafeF — Khối ngoại EOD", url: "https://cafef.vn/du-lieu/Ajax/PageNew/DataHistory/GDKhoiNgoai.ashx?Symbol=VNINDEX&Exchange=HOSE&StartDate=08%2F12%2F2026&EndDate=08%2F12%2F2026&PageIndex=1&PageSize=20" },
+        { label: "Simplize — Khối ngoại 10 phiên", url: "https://api.simplize.vn/api/historical/foreign/trade/VNINDEX?type=index" }
+      ]
+    },
     {
       id: "market-view-20260807",
       date: "2026-08-07",
