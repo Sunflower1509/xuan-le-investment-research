@@ -39,7 +39,7 @@ img,svg{display:block}
 
 
 /* Hero */
-.terminal-hero{min-height:420px;border-bottom:1px solid var(--line);background:#f9f6ef url("images/advisor-banner-3d-v2.webp") center right/cover no-repeat;position:relative;overflow:hidden}
+.terminal-hero{min-height:420px;border-bottom:1px solid var(--line);background:#f9f6ef url("../../assets/images/advisor-banner-3d-v2.webp") center right/cover no-repeat;position:relative;overflow:hidden}
 .terminal-hero:before{content:"";z-index:0;background:linear-gradient(90deg,#fffefa 0%,rgba(255,254,250,.98) 34%,rgba(255,254,250,.76) 56%,rgba(255,255,255,.03) 84%);position:absolute;inset:0}
 .terminal-hero:after{content:"";z-index:0;opacity:.25;background-image:linear-gradient(rgba(8,28,49,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(8,28,49,.07) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,#000,transparent 65%);position:absolute;inset:0}
 .hero-light{z-index:0;pointer-events:none;background:radial-gradient(circle at 76% 34%,rgba(255,255,255,.52),transparent 19rem);position:absolute;inset:0}

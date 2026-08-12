@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa và biến động của 25/25 mã được khóa tại phiên 11/08/2026. Dữ liệu được đối chiếu trực tiếp giữa VNDirect và Simplize; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, giá trị cơ sở, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa và biến động của 27/27 mã được khóa tại phiên 11/08/2026. Nguồn đối chiếu được hiển thị trực tiếp tại từng mã; dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh. Phần trăm biến động được tính trên giá tham chiếu của phiên sau điều chỉnh quyền nếu có. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -37,6 +37,33 @@ window.RESEARCH_DATA = {
 
   reports: [
     {
+      id: "REE-20260812", ticker: "REE", company: "Công ty Cổ phần Cơ Điện Lạnh", sector: "Đa ngành", exchange: "HOSE", date: "2026-08-12",
+      recommendation: "CHỜ - THEO DÕI", status: "wait", marketPrice: 47250, marketPriceDate: "2026-08-11", baseValue: 54250, valueLabel: "Điểm giữa", rangeLow: 47000, rangeHigh: 61500,
+      gapLabel: "MOS 12,90% so với điểm giữa 54.250 đồng/cp; chưa đạt chuẩn 25–30% tại giá đóng cửa 11/08/2026", method: "SOTP là mô hình chính; DCF/FCFF và định giá tương đối dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 47.000–61.500 đồng/cp, điểm giữa 54.250 đồng/cp. Giá đóng cửa 47.250 đồng/cp tạo MOS 12,90% so với điểm giữa, chưa đạt chuẩn 25–30%; trạng thái CHỜ - THEO DÕI. Vùng mua định giá là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt chỉ xem xét khi đóng cửa trên 48.500 đồng/cp với thanh khoản tối thiểu TB20.",
+      action: { zoneLow: 38000, zoneHigh: 40700, baseValue: 54250, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI", eligibility: "active", condition: "Vùng đầu tư theo MOS là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt: chỉ xem xét 48.600–49.000 khi đóng cửa trên 48.500 và thanh khoản tối thiểu TB20; stop 45.400, target 53.000 và 56.000 đồng/cp." },
+      visual: { src: "assets/images/reports/ree.webp", alt: "Bìa báo cáo định giá REE ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá REE", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
+    {
+      id: "VHM-20260812", ticker: "VHM", company: "Công ty Cổ phần Vinhomes", sector: "Bất động sản", exchange: "HOSE", date: "2026-08-12",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 73900, marketPriceDate: "2026-08-12", baseValue: 68950, valueLabel: "Điểm giữa", rangeLow: 62900, rangeHigh: 75000,
+      gapLabel: "Giá 73.900 đồng/cp cao hơn midpoint 7,18%; upside tới cận trên chỉ 1,47% tại thời điểm định giá", method: "RNAV/SOTP + P/NAV; P/B và P/E chỉ dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 62.900–75.000 đồng/cp, midpoint 68.950 đồng/cp. Giá tham chiếu 73.900 đồng/cp cao hơn midpoint 7,18% và chỉ còn khoảng 1,47% tới cận trên; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng mua đáp ứng MOS 25–30% là 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi.",
+      action: { zoneLow: 44000, zoneHigh: 47200, baseValue: 68950, stop: 43322, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp." },
+      visual: { src: "assets/images/reports/vhm.webp", alt: "Bìa báo cáo định giá Vinhomes VHM ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VHM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
+    {
+      id: "BID-20260812", ticker: "BID", company: "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-08-12",
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 39100, marketPriceDate: "2026-08-11", baseValue: 46300, rangeLow: 34900, rangeHigh: 57400,
+      gapLabel: "MOS +15,5% so với giá trị cơ sở nhưng -12,1% so với cận dưới tại giá đóng cửa 11/08/2026", method: "P/B gắn ROE + Residual Income; relative P/B dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý trước bonus 34.900–57.400 đồng/cp, giá trị cơ sở 46.300 đồng/cp. Tại 39.100 đồng/cp, MOS so với cơ sở là 15,5% nhưng âm 12,1% so với cận dưới; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng valuation hấp dẫn theo base là 32.400–34.700 đồng/cp; green-zone MOS nghiêm ngặt trước bonus là 24.400–26.200 đồng/cp.",
+      action: { zoneLow: 24400, zoneHigh: 26200, baseValue: 46300, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x." },
+      visual: { src: "assets/images/reports/bid.webp", alt: "Bìa báo cáo định giá BID ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá BID", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/BID_Equity_Valuation_Research_2026-08-12.pdf", kind: "report-cover" },
+      file: "reports/BID_Equity_Valuation_Research_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
+    },
+    {
       id: "CTG-20260811", ticker: "CTG", company: "Ngân hàng TMCP Công Thương Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-08-11",
       recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 32300, marketPriceDate: "2026-08-11", baseValue: 44100, rangeLow: 33700, rangeHigh: 61200,
       gapLabel: "MOS theo giá trị cơ sở là 26,76%, nhưng chỉ 4,21% so với cận dưới tại ngày định giá", method: "P/B gắn ROE + Residual Income; P/B và P/E dùng kiểm chứng",
@@ -47,7 +74,7 @@ window.RESEARCH_DATA = {
     },
     {
       id: "GMD-20260810", ticker: "GMD", company: "Gemadept Corporation", sector: "Cảng biển & logistics", exchange: "HOSE", date: "2026-08-10",
-      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 80600, marketPriceDate: "2026-08-10", baseValue: 70600, rangeLow: 51800, rangeHigh: 89400,
+      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 80600, marketPriceDate: "2026-08-10", baseValue: 70600, valueLabel: "Điểm giữa", rangeLow: 51800, rangeHigh: 89400,
       gapLabel: "Giá thị trường cao hơn midpoint khoảng 14,2%; upside tới cận trên khoảng 9,8% tại ngày định giá", method: "DCF/FCFF; P/E, P/B và EV/EBITDA dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 51.800–89.400 đồng/cp và midpoint khoảng 70.600 đồng/cp. P0 intraday 80.600 đồng/cp cao hơn midpoint khoảng 14,2%, chưa đạt biên an toàn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng ưu tiên theo MOS là 36.200–38.800 đồng/cp nếu thesis và nền tảng cơ bản không suy yếu.",
       action: { zoneLow: 36200, zoneHigh: 38800, baseValue: 70600, stop: null, basisDate: "2026-08-10", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên." },
@@ -62,15 +89,6 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 10100, zoneHigh: 10800, stop: null, basisDate: "2026-08-07", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30% theo conservative floor. Thiết lập trading tách biệt: chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." },
       visual: { src: "assets/images/reports/vsc.webp", alt: "Bìa báo cáo định giá Viconship VSC ngày 07 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VSC", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VSC_Equity_Research_2026-08-07.pdf", kind: "report-cover" },
       file: "reports/VSC_Equity_Research_2026-08-07.pdf", edition: "Bản định giá 07.08.2026"
-    },
-    {
-      id: "VHM-20260807", ticker: "VHM", company: "Công ty Cổ phần Vinhomes", sector: "Bất động sản", exchange: "HOSE", date: "2026-08-07",
-      recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 74400, marketPriceDate: "2026-08-07", baseValue: 72259, rangeLow: 56700, rangeHigh: 85000,
-      gapLabel: "Giá intraday cao hơn Base RNAV khoảng 3,0% tại thời điểm định giá", method: "RNAV/NAV theo dự án + P/NAV; P/E, P/B và EV/EBITDA chỉ dùng kiểm chứng",
-      summary: "Ba kịch bản RNAV đạt 56.679 / 72.259 / 85.011 đồng/cp; vùng giá trị thực hành được làm tròn 56.700–85.000 đồng/cp. Giá intraday 74.400 đồng/cp cao hơn Base RNAV khoảng 2,96% và cao hơn midpoint 70.845 đồng/cp; biên an toàn không đạt chuẩn. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI và chỉ xem xét vùng 39.700–42.500 đồng/cp nếu Bear RNAV cùng các điều kiện rủi ro không xấu đi.",
-      action: { zoneLow: 39700, zoneHigh: 42500, stop: 38216, basisDate: "2026-08-07", condition: "Chỉ xem xét mua khi giá về 39.700–42.500 đồng/cp, Bear RNAV vẫn tối thiểu khoảng 56.700 đồng/cp và không xuất hiện deterioration mới. Stop tham khảo 38.216; target định giá 56.679 và 72.259 đồng/cp, không phải cam kết đạt giá trong 1–3 tuần." },
-      visual: { src: "assets/images/reports/vhm.webp", alt: "Bìa báo cáo định giá Vinhomes VHM ngày 07 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VHM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VHM_Equity_Research_2026-08-07.pdf", kind: "report-cover" },
-      file: "reports/VHM_Equity_Research_2026-08-07.pdf", edition: "Bản định giá 07.08.2026"
     },
     {
       id: "SSI-20260805", ticker: "SSI", company: "Công ty Cổ phần Chứng khoán SSI", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-05",
@@ -218,6 +236,16 @@ window.RESEARCH_DATA = {
 
   coverage: [
     {
+      ticker: "REE", company: "Cơ Điện Lạnh", sector: "Đa ngành", exchange: "HOSE", reportId: "REE-20260812",
+      close: 47250, priceDate: "2026-08-11", changePct: -0.74, volume: 249100, priceSource: "https://simplize.vn/co-phieu/REE/lich-su-gia", priceSourceSecondary: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf",
+      action: { zoneLow: 38000, zoneHigh: 40700, baseValue: 54250, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI", eligibility: "active", condition: "Vùng đầu tư theo MOS là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt: chỉ xem xét 48.600–49.000 khi đóng cửa trên 48.500 và thanh khoản tối thiểu TB20; stop 45.400, target 53.000 và 56.000 đồng/cp." }
+    },
+    {
+      ticker: "BID", company: "BIDV", sector: "Ngân hàng", exchange: "HOSE", reportId: "BID-20260812",
+      close: 39100, priceDate: "2026-08-11", changePct: -1.01, volume: 4831900, priceSource: "https://simplize.vn/co-phieu/BID/lich-su-gia", priceSourceSecondary: "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
+      action: { zoneLow: 24400, zoneHigh: 26200, baseValue: 46300, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x." }
+    },
+    {
       ticker: "GMD", company: "Gemadept Corporation", sector: "Cảng biển & logistics", exchange: "HOSE", reportId: "GMD-20260810",
       close: 77400, priceDate: "2026-08-11", changePct: -1.0230, volume: 521800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GMD~date:2026-08-11&size=10", priceSourceSecondary: "https://simplize.vn/co-phieu/GMD/lich-su-gia",
       action: { zoneLow: 36200, zoneHigh: 38800, baseValue: 70600, stop: null, basisDate: "2026-08-10", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên." }
@@ -228,9 +256,9 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 10100, zoneHigh: 10800, baseValue: 19251, stop: null, basisDate: "2026-08-07", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30%. Trading 1–3 tuần chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." }
     },
     {
-      ticker: "VHM", company: "Vinhomes", sector: "Bất động sản", exchange: "HOSE", reportId: "VHM-20260807",
-      close: 72100, priceDate: "2026-08-11", changePct: 0.6983, volume: 9117200, priceSource: "https://simplize.vn/co-phieu/VHM/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VHM-ctcp-vinhomes.htm",
-      action: { zoneLow: 39700, zoneHigh: 42500, baseValue: 72259, stop: 38216, basisDate: "2026-08-07", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét mua tại 39.700–42.500 đồng/cp nếu Bear RNAV vẫn tối thiểu khoảng 56.700 đồng/cp và không có deterioration mới; stop tham khảo 38.216, target định giá 56.679–72.259 đồng/cp." }
+      ticker: "VHM", company: "Vinhomes", sector: "Bất động sản", exchange: "HOSE", reportId: "VHM-20260812",
+      close: 72100, priceDate: "2026-08-11", changePct: 0.6983, volume: 8286300, priceSource: "https://simplize.vn/co-phieu/VHM/lich-su-gia", priceSourceSecondary: "https://finance.vietstock.vn/VHM-ctcp-vinhomes.htm",
+      action: { zoneLow: 44000, zoneHigh: 47200, baseValue: 68950, stop: 43322, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp." }
     },
     {
       ticker: "SSI", company: "Chứng khoán SSI", sector: "Chứng khoán", exchange: "HOSE", reportId: "SSI-20260805",

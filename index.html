@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -11,11 +11,9 @@
   <meta property="og:locale" content="vi_VN">
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/typography-v3.css?v=20260801cleanup1">
-  <link rel="stylesheet" href="assets/terminal-v4.css?v=20260808reports1">
-  <script defer src="assets/research-data.js?v=20260812reports1"></script>
-  <script defer src="assets/daily-insights.js?v=20260807tvs07"></script>
-  <script defer src="assets/terminal-v4.js?v=20260808reports1"></script>
+  <link rel="preload" as="image" href="assets/images/advisor-banner-3d-v2.webp?v=20260812opt1" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/site.min.css?v=20260812opt1">
+  <script defer src="assets/js/site.min.js?v=20260812opt1"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -82,7 +80,7 @@
           </div>
         </div>
 
-        <div class="hero-terminal" aria-label="Nguyên tắc đầu tư">
+        <div class="hero-terminal" role="group" aria-label="Nguyên tắc đầu tư">
           <div class="hero-trust-grid">
             <div><svg><use href="#i-shield"></use></svg><span><strong>Quản trị rủi ro</strong>Biên an toàn trước hành động</span></div>
             <div><svg><use href="#i-check"></use></svg><span><strong>Kỷ luật là lợi thế</strong>IF–THEN và mốc vô hiệu</span></div>
@@ -122,7 +120,7 @@
       <div class="terminal-container">
         <div class="section-heading action-heading">
           <div>
-            <p class="terminal-eyebrow">Action Radar • EOD 10.08.2026</p>
+            <p class="terminal-eyebrow">Action Radar • EOD 11.08.2026</p>
             <h2>XẾP HẠNG ƯU TIÊN</h2>
           </div>
           <div class="method-card">
@@ -137,13 +135,13 @@
         <div class="action-table-shell">
           <div class="action-table-head">
             <div><p class="terminal-eyebrow">Valuation Entry Radar</p><h3>VÙNG MUA THAM KHẢO</h3></div>
-            <div class="data-integrity"><span class="signal-dot"></span><div><strong>Giá khóa 10.08</strong><small><span data-role="priced-count">—</span>/<span data-role="coverage-count">—</span> mã có dữ liệu EOD cùng phiên</small></div></div>
+            <div class="data-integrity"><span class="signal-dot"></span><div><strong>Giá khóa 11.08</strong><small><span data-role="priced-count">—</span>/<span data-role="coverage-count">—</span> mã có dữ liệu EOD cùng phiên</small></div></div>
           </div>
           <div class="action-table-wrap" data-role="action-table"></div>
         </div>
 
         <div class="exclusion-panel">
-          <div><p class="terminal-eyebrow">Veto & Revalidation</p><h3>NHÓM KHÔNG ƯU TIÊN</h3></div>
+          <div><p class="terminal-eyebrow">Veto &amp; Revalidation</p><h3>NHÓM KHÔNG ƯU TIÊN</h3></div>
           <div data-role="exclusion-list"></div>
         </div>
       </div>
@@ -158,21 +156,21 @@
 
         <div class="research-shell">
           <div class="research-tabs" role="tablist" aria-label="Chế độ Research Terminal">
-            <button type="button" role="tab" aria-selected="true" data-tab="reports">Báo cáo PDF <span data-role="report-tab-count">13</span></button>
-            <button type="button" role="tab" aria-selected="false" data-tab="coverage">Coverage Universe <span data-role="coverage-tab-count">18</span></button>
+            <button type="button" role="tab" aria-selected="true" data-tab="reports">Báo cáo PDF <span data-role="report-tab-count">23</span></button>
+            <button type="button" role="tab" aria-selected="false" data-tab="coverage">Coverage Universe <span data-role="coverage-tab-count">27</span></button>
             <button type="button" role="tab" aria-selected="false" data-tab="watchlist">Watchlist <span data-role="watchlist-tab-count">0</span></button>
           </div>
 
           <div class="research-toolbar">
             <label class="terminal-search"><svg><use href="#i-search"></use></svg><span class="sr-only">Tìm báo cáo hoặc cổ phiếu</span><input id="research-search" type="search" autocomplete="off" placeholder="Tìm mã, doanh nghiệp hoặc ngành…"></label>
-            <label class="sort-control"><span>Sắp xếp</span><select id="research-sort"><option value="priority">Gần vùng hành động</option><option value="newest">Mới nhất</option><option value="ticker">Mã A–Z</option><option value="sector">Theo ngành</option><option value="base-desc">Giá trị cơ sở cao → thấp</option></select></label>
-            <div class="view-switch" aria-label="Kiểu hiển thị">
+            <label class="sort-control"><span>Sắp xếp</span><select id="research-sort"><option value="priority">Gần vùng hành động</option><option value="newest">Mới nhất</option><option value="ticker">Mã A–Z</option><option value="sector">Theo ngành</option><option value="base-desc">Mốc giá trị cao → thấp</option></select></label>
+            <div class="view-switch" role="group" aria-label="Kiểu hiển thị">
               <button type="button" data-action="set-view" data-view="grid" aria-pressed="true" aria-label="Dạng lưới"><svg><use href="#i-grid"></use></svg></button>
               <button type="button" data-action="set-view" data-view="list" aria-pressed="false" aria-label="Dạng danh sách"><svg><use href="#i-list"></use></svg></button>
             </div>
           </div>
 
-          <div class="filter-rail" aria-label="Bộ lọc nghiên cứu">
+          <div class="filter-rail" role="group" aria-label="Bộ lọc nghiên cứu">
             <div class="filter-label"><svg><use href="#i-filter"></use></svg>Bộ lọc</div>
             <div class="filter-group" data-role="sector-filters"></div>
             <div class="filter-divider"></div>
