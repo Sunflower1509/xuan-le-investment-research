@@ -163,14 +163,6 @@ window.RESEARCH_DATA = {
       file: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", edition: "Báo cáo định giá"
     },
     {
-      id: "MSN-TRADING-20260803", ticker: "MSN", company: "Công ty Cổ phần Tập đoàn Masan", sector: "Tiêu dùng", exchange: "HOSE", date: "2026-08-03", reportType: "trading",
-      recommendation: "QUAN SÁT - CHỜ", status: "wait", marketPrice: 67700, marketPriceDate: "2026-08-03", tradeZoneLow: 65500, tradeZoneHigh: 66300, stop: 63400, targetLow: 72500, targetHigh: 75000, breakout: 76000, timeframe: "1–6 tuần",
-      gapLabel: null, method: "Trading Desk: cấu trúc giá, dòng tiền và xác nhận kỹ thuật; không phải mô hình định giá",
-      summary: "Bản Trading Desk sử dụng dữ liệu kết thúc phiên sáng 03/08/2026, giá tham chiếu 67.700 đồng/cp. Khuyến nghị QUAN SÁT - CHỜ; vùng mua ưu tiên 65.500–66.300 chỉ có hiệu lực khi điều kiện kỹ thuật được xác nhận. Mục tiêu 72.500–75.000 và mốc breakout 76.000 đồng/cp là mục tiêu kỹ thuật, không phải giá trị hợp lý.",
-      visual: { src: "assets/images/reports/msn-trading.webp", alt: "Bìa báo cáo MSN Trading Desk ngày 03 tháng 08 năm 2026", caption: "Bìa MSN Trading Desk Research", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/MSN_Trading_Desk_Research_03-08-2026.pdf", kind: "report-cover" },
-      file: "reports/MSN_Trading_Desk_Research_03-08-2026.pdf", edition: "Trading Desk • Không phải định giá"
-    },
-    {
       id: "BCM-20260803", ticker: "BCM", company: "Tập đoàn Đầu tư và Phát triển Công nghiệp Becamex - CTCP", sector: "Bất động sản", exchange: "HOSE", date: "2026-08-03",
       recommendation: "CHỜ - KHÔNG MUA ĐUỔI", status: "wait", marketPrice: 36600, marketPriceDate: "2026-08-03", baseValue: 57600, rangeLow: 44800, rangeHigh: 73600,
       gapLabel: "Giá trị cơ sở cao hơn giá thị trường khoảng 57,4% tại ngày định giá", method: "SOTP + RNAV/NAV",
