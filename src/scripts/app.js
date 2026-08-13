@@ -1,4 +1,4 @@
-import { projectTradeLedger } from "./trade-ledger.js";
+import { projectTradeLedger } from "./trade-ledger.mjs";
 
 (() => {
   "use strict";
@@ -393,7 +393,7 @@ import { projectTradeLedger } from "./trade-ledger.js";
 
   const renderLedgerEvent = (event) => {
     const label = event.type === "activated"
-      ? "KÍCH HOẠT"
+      ? event.mode === "automatic-eod" ? "KÍCH HOẠT TỰ ĐỘNG" : "KÍCH HOẠT XÁC NHẬN"
       : event.type === "partial_exit" ? `CHỐT ${decimal(Number(event.portionPct), 0)}%` : "ĐÓNG VỊ THẾ";
     const detail = event.type === "activated"
       ? `Vùng khóa ${number(event.zoneLow)}–${number(event.zoneHigh)}`
@@ -414,15 +414,17 @@ import { projectTradeLedger } from "./trade-ledger.js";
     const pendingCandidates = coverage.filter((item) => item.action?.eligibility === "active"
       && actionDistance(item)?.relation === "inside"
       && !activeTickers.has(item.ticker));
+    const automation = tradeLedgerSource.meta?.automation || {};
+    const automationReady = tradeLedgerSource.meta?.schemaVersion === 2 && automation.enabled === true;
 
     if (refs.ledgerAsOf) refs.ledgerAsOf.textContent = `Giá theo dõi khóa EOD ${date(source.meta.updated)}`;
-    document.querySelectorAll("[data-role='ledger-started-at']").forEach((item) => { item.textContent = date(tradeLedgerSource.meta?.startedAt); });
+    document.querySelectorAll("[data-role='ledger-baseline-at']").forEach((item) => { item.textContent = date(automation.baselineDate); });
 
     refs.ledgerSummary.innerHTML = `
       <div><span>Vị thế đang theo dõi</span><strong>${openPositions.length}</strong><small>Gồm đang mở và chốt một phần</small></div>
-      <div><span>Chạm vùng • chờ xác nhận</span><strong>${pendingCandidates.length}</strong><small>Chưa được tính là vị thế</small></div>
+      <div><span>Trong vùng • chưa kích hoạt</span><strong>${pendingCandidates.length}</strong><small>Không có chuyển trạng thái hợp lệ để hồi tố</small></div>
       <div><span>Lịch sử đã đóng</span><strong>${closedPositions.length}</strong><small>Không xóa giao dịch âm</small></div>
-      <div><span>Giá theo dõi EOD</span><strong>${date(source.meta.updated)}</strong><small>Không dùng giá nội suy hoặc realtime</small></div>`;
+      <div><span>Bộ xử lý tự động</span><strong class="ledger-auto-state ${automationReady ? "is-ready" : "is-off"}">${automationReady ? "ĐÃ BẬT" : "TẠM DỪNG"}</strong><small>Đã quét đến EOD ${date(automation.lastEvaluatedAt)}</small></div>`;
 
     document.querySelectorAll("[data-ledger-tab]").forEach((button) => {
       const selected = button.dataset.ledgerTab === state.ledgerTab;
@@ -436,15 +438,15 @@ import { projectTradeLedger } from "./trade-ledger.js";
     if (refs.ledgerPending) {
       refs.ledgerPending.hidden = pendingCandidates.length === 0;
       refs.ledgerPending.innerHTML = pendingCandidates.length
-        ? `<strong>CHẠM VÙNG — CHỜ XÁC NHẬN</strong><span>${pendingCandidates.map((item) => escapeHtml(item.ticker)).join(" • ")} mới thỏa điều kiện giá; chưa tự động kích hoạt vị thế.</span>`
+        ? `<strong>TRONG VÙNG — KHÔNG HỒI TỐ</strong><span>${pendingCandidates.map((item) => escapeHtml(item.ticker)).join(" • ")} đang nằm trong vùng nhưng chưa có chuyển trạng thái EOD hợp lệ từ ngoài vào trong.</span>`
         : "";
     }
 
     if (refs.ledgerIssues) {
-      refs.ledgerIssues.hidden = projection.issues.length === 0;
+      refs.ledgerIssues.hidden = projection.issues.length === 0 && automationReady;
       refs.ledgerIssues.textContent = projection.issues.length
         ? `Tạm dừng hiển thị ${projection.issues.length} sự kiện không hợp lệ; cần kiểm tra sổ dữ liệu.`
-        : "";
+        : automationReady ? "" : "Bộ xử lý EOD đang tạm dừng; không phát sinh kích hoạt tự động.";
     }
 
     const positions = state.ledgerTab === "closed" ? closedPositions : openPositions;
@@ -454,7 +456,7 @@ import { projectTradeLedger } from "./trade-ledger.js";
         <svg><use href="#i-shield"></use></svg>
         <strong>${isOpen ? "Chưa có vị thế tham chiếu được kích hoạt" : "Chưa có vị thế nào đã đóng"}</strong>
         <p>${isOpen
-          ? `Sổ bắt đầu ghi nhận từ ${date(tradeLedgerSource.meta?.startedAt)}; không hồi tố tín hiệu từ đồ thị hoặc dữ liệu quá khứ.`
+          ? `Bộ xử lý đã quét đến EOD ${date(automation.lastEvaluatedAt)}; sổ không hồi tố tín hiệu từ đồ thị hoặc dữ liệu quá khứ.`
           : "Lịch sử sẽ xuất hiện khi một vị thế được đóng bằng sự kiện có ngày, giá và lý do rõ ràng."}</p>
         ${isOpen ? `<a href="#action-radar">Xem các mã đang chờ trong Action Radar <svg><use href="#i-arrow"></use></svg></a>` : ""}
       </div>`;
@@ -470,7 +472,12 @@ import { projectTradeLedger } from "./trade-ledger.js";
         const statusLabel = isClosed ? "ĐÃ ĐÓNG" : position.status === "partial" ? "CHỐT 1 PHẦN" : "ĐANG MỞ";
         const statusDetail = isClosed
           ? `${date(position.closedAt)} • ${ledgerReason(position.closeReason)}`
-          : position.status === "partial" ? `Còn lại ${percentOfPosition(position.remainingFraction)}` : "Chưa phát sinh sự kiện chốt";
+          : position.monitoringState === "stop-alert"
+            ? "GIÁ EOD CHẠM/DƯỚI STOP • CHƯA GHI NHẬN CHỐT"
+            : position.monitoringState === "target-alert"
+              ? "GIÁ EOD CHẠM TARGET • CHƯA GHI NHẬN CHỐT"
+              : position.status === "partial" ? `Còn lại ${percentOfPosition(position.remainingFraction)}` : "Chưa phát sinh sự kiện chốt";
+        const statusAlert = position.monitoringState === "stop-alert" || position.monitoringState === "target-alert";
         const performanceNote = isClosed
           ? "Đã hiện thực hóa"
           : position.status === "partial" ? "Phần đã chốt + phần còn mở" : "Chưa hiện thực hóa";
@@ -478,13 +485,13 @@ import { projectTradeLedger } from "./trade-ledger.js";
         return `<tbody class="ledger-position">
           <tr>
             <td data-label="Mã"><strong class="ledger-ticker">${escapeHtml(position.ticker)}</strong><span>${escapeHtml(position.tradeId)}</span></td>
-            <td data-label="Ngày kích hoạt"><strong>${date(position.activatedAt)}</strong><span>Xác nhận theo EOD</span></td>
+            <td data-label="Ngày kích hoạt"><strong>${date(position.activatedAt)}</strong><span>${position.activationMode === "automatic-eod" ? "Tự động theo EOD" : "Xác nhận thủ công"}</span></td>
             <td data-label="Giá kích hoạt"><strong>${number(position.activationPrice)}</strong><span>Vùng ${number(position.zoneLow)}–${number(position.zoneHigh)}</span></td>
             <td data-label="${isClosed ? "Giá chốt bình quân" : "Giá theo dõi"}"><strong>${number(trackedPrice)}</strong><span>${date(trackedDate)}${!isClosed && position.currentPriceSource ? ` • <a href="${escapeHtml(position.currentPriceSource)}" target="_blank" rel="noreferrer">Nguồn ↗</a>` : ""}</span></td>
             <td class="ledger-performance ${marketTone(position.performancePct)}" data-label="Hiệu suất"><strong>${signedPercent(position.performancePct)}</strong><span>${escapeHtml(performanceNote)}</span></td>
             <td data-label="Stop"><strong>${number(position.stop)}</strong><span>${position.stop ? "Mốc đã khóa" : "Chưa có dữ liệu"}</span></td>
             <td data-label="Target"><strong>${escapeHtml(targets)}</strong><span>${position.targets.length ? "Mốc đã khóa" : "Chưa có dữ liệu"}</span></td>
-            <td data-label="Trạng thái vị thế"><span class="ledger-status ledger-status-${escapeHtml(position.status)}">${escapeHtml(statusLabel)}</span><small>${escapeHtml(statusDetail)}</small></td>
+            <td data-label="Trạng thái vị thế"><span class="ledger-status ledger-status-${escapeHtml(position.status)}">${escapeHtml(statusLabel)}</span><small class="${statusAlert ? "ledger-monitor-alert" : ""}">${escapeHtml(statusDetail)}</small></td>
           </tr>
           <tr class="ledger-history-row"><td colspan="8"><details><summary>Xem nhật ký ${position.events.length} sự kiện</summary><ol>${position.events.map(renderLedgerEvent).join("")}</ol></details></td></tr>
         </tbody>`;
@@ -859,7 +866,7 @@ import { projectTradeLedger } from "./trade-ledger.js";
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["daily-market", "overview", "action-radar", "position-ledger", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["overview", "daily-market", "position-ledger", "action-radar", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   renderDailyInsight();

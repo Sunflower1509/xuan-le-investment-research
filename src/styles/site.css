@@ -208,6 +208,8 @@ img,svg{display:block}
 .ledger-summary span{color:var(--muted);letter-spacing:.055em;text-transform:uppercase;font-size:.48rem;font-weight:820;display:block}
 .ledger-summary strong{font-variant-numeric:tabular-nums;margin-top:8px;font-family:var(--font-editorial);font-size:1.18rem;font-weight:690;display:block}
 .ledger-summary small{color:var(--slate);margin-top:5px;font-size:.48rem;line-height:1.45;display:block}
+.ledger-auto-state.is-ready{color:var(--emerald)}
+.ledger-auto-state.is-off{color:#9f3037}
 .ledger-pending{border:1px solid rgba(189,142,49,.34);color:#71540f;background:var(--gold-pale);border-radius:10px;align-items:center;gap:13px;margin-bottom:14px;padding:12px 15px;font-size:.54rem;line-height:1.45;display:flex}
 .ledger-pending[hidden]{display:none}
 .ledger-pending strong{white-space:nowrap;font-size:.5rem}
@@ -233,6 +235,7 @@ img,svg{display:block}
 .ledger-table td{border-bottom:1px solid var(--line-soft);vertical-align:top;padding:18px 15px;font-size:.64rem;line-height:1.45}
 .ledger-table td strong{font-variant-numeric:tabular-nums;font-weight:760;display:block}
 .ledger-table td>span:not(.ledger-status),.ledger-table td>small{color:var(--muted);margin-top:5px;font-size:.51rem;line-height:1.45;display:block}
+.ledger-table td>small.ledger-monitor-alert{color:#9f3037;font-weight:820}
 .ledger-table td a{color:var(--emerald);font-weight:780}
 .ledger-ticker{letter-spacing:-.025em;font-family:var(--font-editorial);font-size:1.18rem!important}
 .ledger-performance strong{font-size:.9rem!important}
@@ -939,7 +942,9 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 *,:before,:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 
-/* Calibrated handoff: action system → position ledger → research library. */
+/* Calibrated handoff: daily view → activated ledger → action system → research. */
+.daily-market-section+.position-ledger-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}
+.position-ledger-section{padding-bottom:clamp(1.25rem,2.2vw,2rem)}
+.position-ledger-section+.action-radar-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}
 .action-radar-section{padding-bottom:clamp(1rem,1.8vw,1.75rem)}
-.action-radar-section+.position-ledger-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}
-.position-ledger-section+.research-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}
+.action-radar-section+.research-section{padding-top:clamp(1.75rem,2.8vw,2.75rem)}

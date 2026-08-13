@@ -12,8 +12,8 @@
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
   <link rel="preload" as="image" href="assets/images/advisor-banner-3d-v2.webp?v=20260812opt1" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/site.min.css?v=20260813ledger1">
-  <script defer src="assets/js/site.min.js?v=20260813ledger1"></script>
+  <link rel="stylesheet" href="assets/css/site.min.css?v=20260813eodauto1">
+  <script defer src="assets/js/site.min.js?v=20260813eodauto1"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -49,8 +49,8 @@
       <nav class="desktop-nav" aria-label="Điều hướng chính">
         <a href="#overview">Tổng quan</a>
         <a href="#daily-market">Nhận định ngày</a>
-        <a href="#action-radar">Ưu tiên</a>
         <a href="#position-ledger">Vị thế</a>
+        <a href="#action-radar">Ưu tiên</a>
         <a href="#research">Research Terminal</a>
       </nav>
       <div class="header-tools">
@@ -118,6 +118,50 @@
       </div>
     </section>
 
+    <section class="position-ledger-section" id="position-ledger" aria-labelledby="position-ledger-title">
+      <div class="terminal-container">
+        <div class="ledger-heading">
+          <div>
+            <p class="terminal-eyebrow">Activated Signal Ledger • Automatic EOD</p>
+            <h2 id="position-ledger-title">NHẬT KÝ ĐIỂM MUA ĐÃ KÍCH HOẠT</h2>
+            <p class="ledger-intro">Tự động ghi nhận tín hiệu tham chiếu khi giá đóng cửa của phiên mới đi vào vùng mua hợp lệ; hiệu suất được cập nhật theo bộ giá EOD mới nhất.</p>
+          </div>
+          <div class="ledger-integrity">
+            <svg><use href="#i-shield"></use></svg>
+            <div><strong>TỰ ĐỘNG • KHÔNG HỒI TỐ</strong><small>Chỉ nhận diện chuyển trạng thái sau EOD <span data-role="ledger-baseline-at">12.08.2026</span></small></div>
+          </div>
+        </div>
+
+        <div class="ledger-summary" data-role="position-ledger-summary"></div>
+        <div class="ledger-pending" data-role="position-ledger-pending" hidden></div>
+
+        <div class="ledger-shell">
+          <div class="ledger-toolbar">
+            <div class="ledger-tabs" role="tablist" aria-label="Trạng thái vị thế">
+              <button id="ledger-tab-open" type="button" role="tab" aria-selected="true" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="open">ĐANG MỞ <span data-role="ledger-open-count">0</span></button>
+              <button id="ledger-tab-closed" type="button" role="tab" aria-selected="false" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="closed" tabindex="-1">ĐÃ ĐÓNG <span data-role="ledger-closed-count">0</span></button>
+            </div>
+            <span class="ledger-asof" data-role="ledger-asof">Giá theo dõi khóa EOD 12.08.2026</span>
+          </div>
+          <div class="ledger-issues" data-role="position-ledger-issues" role="alert" hidden></div>
+          <div id="position-ledger-panel" data-role="position-ledger-content" role="tabpanel" aria-labelledby="ledger-tab-open" aria-live="polite"><div class="panel-loading">Đang kiểm tra sổ vị thế…</div></div>
+          <div class="ledger-footnote">
+            <p><svg><use href="#i-shield"></use></svg><span><strong>Hiệu suất tham chiếu</strong> chưa trừ phí giao dịch, thuế và trượt giá; không phải xác nhận khớp lệnh thực tế của khách hàng.</span></p>
+            <details>
+              <summary>Quy tắc tự động và định nghĩa trạng thái</summary>
+              <div>
+                <p><strong>Kích hoạt tự động:</strong> chỉ khi giá đóng cửa EOD của ngày mới chuyển từ ngoài vào vùng mua đã khóa, trạng thái có cấu trúc là <em>active</em>, vùng không đổi và không có vị thế đang mở cùng mã.</p>
+                <p><strong>Không suy diễn:</strong> bộ xử lý không đọc hiểu lại điều kiện định tính trong văn bản báo cáo. Các điều kiện này phải được phản ánh đúng vào trường trạng thái khi cập nhật dữ liệu.</p>
+                <p><strong>Giá kích hoạt:</strong> giá đóng cửa của phiên kích hoạt; không dùng midpoint vùng mua, giá thấp nhất trong phiên hoặc dữ liệu realtime.</p>
+                <p><strong>Đã chốt:</strong> chỉ ghi nhận khi có sự kiện đóng với ngày, giá và lý do rõ ràng. Chạm stop hoặc target chỉ là cảnh báo giám sát, không tự biến thành một giao dịch đã chốt.</p>
+                <p><strong>Hiệu suất:</strong> vị thế mở dùng giá EOD mới nhất; vị thế chốt một phần được tính theo tỷ trọng đã chốt và phần còn lại; vị thế đóng dùng giá thoát bình quân gia quyền.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="action-radar-section" id="action-radar">
       <div class="terminal-container">
         <div class="section-heading action-heading">
@@ -145,49 +189,6 @@
         <div class="exclusion-panel">
           <div><p class="terminal-eyebrow">Veto &amp; Revalidation</p><h3>NHÓM KHÔNG ƯU TIÊN</h3></div>
           <div data-role="exclusion-list"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="position-ledger-section" id="position-ledger" aria-labelledby="position-ledger-title">
-      <div class="terminal-container">
-        <div class="ledger-heading">
-          <div>
-            <p class="terminal-eyebrow">Activated Signal Ledger • EOD</p>
-            <h2 id="position-ledger-title">NHẬT KÝ ĐIỂM MUA ĐÃ KÍCH HOẠT</h2>
-            <p class="ledger-intro">Theo dõi vị thế tham chiếu từ lúc xác nhận đến khi đóng; mọi thay đổi đều có ngày, giá và lý do.</p>
-          </div>
-          <div class="ledger-integrity">
-            <svg><use href="#i-shield"></use></svg>
-            <div><strong>KHÔNG HỒI TỐ HIỆU SUẤT</strong><small>Chỉ ghi nhận tín hiệu phát sinh từ <span data-role="ledger-started-at">13.08.2026</span></small></div>
-          </div>
-        </div>
-
-        <div class="ledger-summary" data-role="position-ledger-summary"></div>
-        <div class="ledger-pending" data-role="position-ledger-pending" hidden></div>
-
-        <div class="ledger-shell">
-          <div class="ledger-toolbar">
-            <div class="ledger-tabs" role="tablist" aria-label="Trạng thái vị thế">
-              <button id="ledger-tab-open" type="button" role="tab" aria-selected="true" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="open">ĐANG MỞ <span data-role="ledger-open-count">0</span></button>
-              <button id="ledger-tab-closed" type="button" role="tab" aria-selected="false" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="closed" tabindex="-1">ĐÃ ĐÓNG <span data-role="ledger-closed-count">0</span></button>
-            </div>
-            <span class="ledger-asof" data-role="ledger-asof">Giá theo dõi khóa EOD 12.08.2026</span>
-          </div>
-          <div class="ledger-issues" data-role="position-ledger-issues" role="alert" hidden></div>
-          <div id="position-ledger-panel" data-role="position-ledger-content" role="tabpanel" aria-labelledby="ledger-tab-open" aria-live="polite"><div class="panel-loading">Đang kiểm tra sổ vị thế…</div></div>
-          <div class="ledger-footnote">
-            <p><svg><use href="#i-shield"></use></svg><span><strong>Hiệu suất tham chiếu</strong> chưa trừ phí giao dịch, thuế và trượt giá; không phải xác nhận khớp lệnh thực tế của khách hàng.</span></p>
-            <details>
-              <summary>Quy tắc kích hoạt và định nghĩa trạng thái</summary>
-              <div>
-                <p><strong>Kích hoạt:</strong> giá đóng cửa EOD nằm trong vùng mua đã khóa, điều kiện báo cáo còn hiệu lực và không có hard veto. Chạm vùng nhưng chưa đủ xác nhận chỉ mang trạng thái chờ.</p>
-                <p><strong>Giá kích hoạt:</strong> giá đóng cửa của phiên xác nhận; không dùng midpoint vùng mua hoặc mức giá tốt nhất trong phiên.</p>
-                <p><strong>Trạng thái:</strong> ĐANG MỞ khi chưa chốt; CHỐT 1 PHẦN khi vẫn còn tỷ trọng; ĐÃ ĐÓNG khi tỷ trọng còn lại bằng 0 và đã ghi nhận ngày, giá cùng lý do thoát.</p>
-                <p><strong>Hiệu suất:</strong> vị thế mở dùng giá EOD mới nhất; vị thế chốt một phần được tính theo tỷ trọng đã chốt và phần còn lại; vị thế đóng dùng giá thoát bình quân gia quyền.</p>
-              </div>
-            </details>
-          </div>
         </div>
       </div>
     </section>
@@ -241,8 +242,8 @@
 
   <nav class="mobile-nav" aria-label="Điều hướng di động">
     <a href="#daily-market"><svg><use href="#i-message"></use></svg><span>Nhận định</span></a>
-    <a href="#action-radar"><svg><use href="#i-chart"></use></svg><span>Ưu tiên</span></a>
     <a href="#position-ledger"><svg><use href="#i-position"></use></svg><span>Vị thế</span></a>
+    <a href="#action-radar"><svg><use href="#i-chart"></use></svg><span>Ưu tiên</span></a>
     <a href="#research"><svg><use href="#i-file"></use></svg><span>Research</span></a>
     <button type="button" data-action="open-command"><svg><use href="#i-search"></use></svg><span>Tìm kiếm</span></button>
   </nav>

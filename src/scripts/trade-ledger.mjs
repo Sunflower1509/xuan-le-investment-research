@@ -1,16 +1,17 @@
 const EVENT_TYPES = new Set(["activated", "partial_exit", "closed"]);
+const ACTIVATION_MODES = new Set(["manual", "automatic-eod"]);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const finitePositive = (value) => Number.isFinite(value) && value > 0;
 
-const validIsoDate = (value) => {
+export const validIsoDate = (value) => {
   if (!ISO_DATE.test(value || "")) return false;
   const [year, month, day] = value.split("-").map(Number);
   const parsed = new Date(Date.UTC(year, month - 1, day));
   return parsed.getUTCFullYear() === year && parsed.getUTCMonth() === month - 1 && parsed.getUTCDate() === day;
 };
 
-const validSourceUrl = (value) => {
+export const validSourceUrl = (value) => {
   try {
     const parsed = new URL(value);
     return parsed.protocol === "https:" || parsed.protocol === "http:";
@@ -21,6 +22,17 @@ const validSourceUrl = (value) => {
 
 const issue = (issues, event, code, message) => {
   issues.push({ eventId: event?.id || null, tradeId: event?.tradeId || null, code, message });
+};
+
+const activationIsConfirmed = (event) => {
+  const mode = event.mode || "manual";
+  if (!ACTIVATION_MODES.has(mode) || event.confirmation?.noHardVeto !== true) return false;
+  if (mode === "automatic-eod") {
+    return event.confirmation?.priceTriggerPassed === true
+      && event.confirmation?.eligibilityAtTrigger === "active"
+      && event.confirmation?.trigger === "eod-close-transitioned-into-locked-zone";
+  }
+  return event.confirmation?.reportConditionsPassed === true;
 };
 
 export const projectTradeLedger = (ledger, coverage = []) => {
@@ -63,13 +75,14 @@ export const projectTradeLedger = (ledger, coverage = []) => {
         issue(issues, event, "price_outside_locked_zone", "Giá kích hoạt không nằm trong vùng mua đã khóa.");
         return;
       }
-      if (event.confirmation?.reportConditionsPassed !== true || event.confirmation?.noHardVeto !== true) {
-        issue(issues, event, "activation_not_confirmed", "Phải xác nhận điều kiện báo cáo còn đạt và không có hard veto.");
+      if (!activationIsConfirmed(event)) {
+        issue(issues, event, "activation_not_confirmed", "Sự kiện kích hoạt chưa vượt qua cổng xác nhận tương ứng với chế độ ghi nhận.");
         return;
       }
       positions.set(event.tradeId, {
         tradeId: event.tradeId,
         ticker: event.ticker,
+        activationMode: event.mode || "manual",
         activatedAt: event.date,
         activationPrice: event.price,
         zoneLow: event.zoneLow,
@@ -128,7 +141,10 @@ export const projectTradeLedger = (ledger, coverage = []) => {
 
   const projected = [...positions.values()].map((position) => {
     const quote = quoteByTicker.get(position.ticker);
-    const currentPrice = finitePositive(quote?.close) ? quote.close : null;
+    const quoteIsCurrent = finitePositive(quote?.close)
+      && validIsoDate(quote?.priceDate)
+      && quote.priceDate >= position.activatedAt;
+    const currentPrice = quoteIsCurrent ? quote.close : null;
     const unrealizedContributionPct = position.remainingFraction > 0 && currentPrice
       ? position.remainingFraction * ((currentPrice / position.activationPrice) - 1) * 100
       : position.remainingFraction === 0 ? 0 : null;
@@ -138,13 +154,21 @@ export const projectTradeLedger = (ledger, coverage = []) => {
     const status = position.remainingFraction === 0
       ? "closed"
       : position.exitedFraction > 0 ? "partial" : "open";
+    const monitoringState = status === "closed"
+      ? "closed"
+      : currentPrice && position.stop && currentPrice <= position.stop
+        ? "stop-alert"
+        : currentPrice && position.targets.length && currentPrice >= Math.min(...position.targets)
+          ? "target-alert"
+          : "normal";
 
     return {
       ...position,
       status,
+      monitoringState,
       currentPrice,
-      currentPriceDate: quote?.priceDate || null,
-      currentPriceSource: quote?.priceSource || null,
+      currentPriceDate: quoteIsCurrent ? quote.priceDate : null,
+      currentPriceSource: quoteIsCurrent ? quote.priceSource : null,
       unrealizedContributionPct,
       performancePct,
       averageExitPrice: position.exitedFraction > 0 ? position.weightedExitValue / position.exitedFraction : null
