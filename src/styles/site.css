@@ -734,6 +734,8 @@ body{padding-bottom:66px}
 .daily-thesis{max-width:68ch;font-size:.8rem}
 .daily-metrics{grid-template-columns:1fr 1fr}
 .daily-metric{min-height:108px;padding:17px}
+.daily-metric:nth-child(2){border-right:0}
+.daily-metric:nth-child(-n+2){border-bottom:1px solid var(--line)}
 .daily-metric:before{left:17px}
 .daily-metric strong{font-size:1.35rem}
 .daily-action-panel{padding:11px}
@@ -758,15 +760,18 @@ body{padding-bottom:66px}
 .daily-archive-list{grid-auto-columns:minmax(210px,.75fr)}
 .daily-insight-meta>span:not(:first-child),.daily-insight-meta time{border-left:0;padding-left:0}
 .daily-insight-header h3{font-size:clamp(1.75rem,8vw,2.05rem)}
-.daily-metrics{grid-template-columns:1fr}
-.daily-metric{border-right:0!important;border-bottom:1px solid var(--line)!important}
-.daily-metric:last-child{border-bottom:0!important}
+.daily-metric{min-height:102px}
 .daily-action-row{grid-template-columns:80px minmax(0,1fr)}
 .daily-evidence>summary{grid-template-columns:34px minmax(0,1fr) 28px;gap:9px;padding-right:16px;padding-left:16px}
 .daily-evidence-icon{width:34px;height:34px}
 .daily-evidence-label small{display:none}
 .daily-next-actions{display:grid}
 .daily-next-actions a{justify-content:space-between}
+}
+
+@media (width<=350px){.daily-metrics{grid-template-columns:1fr}
+.daily-metric{border-right:0!important;border-bottom:1px solid var(--line)!important}
+.daily-metric:last-child{border-bottom:0!important}
 }
 
 /* Mobile reading hardening: preserve every word inside the viewport. */
