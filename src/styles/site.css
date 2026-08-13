@@ -313,10 +313,11 @@ img,svg{display:block}
 .report-identity h3{margin:0;font-size:.69rem}
 .report-identity p{color:var(--muted);margin:3px 0 0;font-size:.49rem}
 .report-visual{min-width:0;margin:0}
-.report-visual>a{border:1px solid rgba(8,28,49,.12);aspect-ratio:16/9;background:var(--surface-soft);box-shadow:0 7px 18px rgba(8,28,49,.12);border-radius:9px;display:block;position:relative;overflow:hidden}
-.report-visual img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease,filter .3s ease}
+.report-visual>a{border:1px solid rgba(8,28,49,.12);aspect-ratio:16/9;background:var(--surface-soft);box-shadow:0 7px 18px rgba(8,28,49,.12);border-radius:9px;display:block;position:relative;isolation:isolate;overflow:hidden}
+.report-visual>a::before{content:attr(data-image-fallback);color:rgba(8,28,49,.52);letter-spacing:.08em;background:linear-gradient(135deg,rgba(14,139,108,.1),rgba(8,28,49,.04));font-family:var(--font-display);font-size:1.05rem;font-weight:800;display:grid;place-items:center;position:absolute;inset:0;z-index:0}
+.report-visual img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;transition:transform .3s ease,filter .3s ease}
 .report-visual>a:hover img,.report-visual>a:focus-visible img{filter:saturate(1.08) contrast(1.03);transform:scale(1.045)}
-.report-visual-label{color:#fff;letter-spacing:.06em;text-transform:uppercase;background:rgba(8,28,49,.82);border-radius:5px;padding:4px 6px;font-size:.39rem;font-weight:850;position:absolute;right:5px;bottom:5px;backdrop-filter:blur(6px)}
+.report-visual-label{color:#fff;letter-spacing:.06em;text-transform:uppercase;background:rgba(8,28,49,.82);border-radius:5px;padding:4px 6px;font-size:.39rem;font-weight:850;position:absolute;right:5px;bottom:5px;z-index:2;backdrop-filter:blur(6px)}
 .report-visual.is-illustration .report-visual-label{background:rgba(179,108,37,.9)}
 .report-visual.is-report-cover .report-visual-label{color:var(--navy);background:rgba(247,236,209,.94)}
 .report-visual-card{width:126px;justify-self:end}

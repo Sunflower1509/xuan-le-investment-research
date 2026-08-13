@@ -553,9 +553,11 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
     if (!visual?.src || !visual?.sourceUrl) return "";
     const label = visual.kind === "illustration" ? "Minh họa ngành" : visual.kind === "report-cover" ? "Bìa báo cáo" : "Ảnh hoạt động";
     const sourceTitle = `${visual.kind === "report-cover" ? "Nguồn bìa" : "Nguồn ảnh"}: ${visual.sourceLabel || report.company}`;
+    const loading = placement === "dialog" ? "eager" : "lazy";
+    const fetchPriority = placement === "dialog" ? "high" : "auto";
     return `<figure class="report-visual report-visual-${escapeHtml(placement)} ${visual.kind === "illustration" ? "is-illustration" : visual.kind === "report-cover" ? "is-report-cover" : ""}">
-      <a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(`${visual.caption}. ${sourceTitle}`)}" title="${escapeHtml(sourceTitle)}">
-        <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.caption)}" width="960" height="540" loading="lazy" decoding="async" fetchpriority="low">
+      <a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(`${visual.caption}. ${sourceTitle}`)}" title="${escapeHtml(sourceTitle)}" data-image-fallback="${escapeHtml(report.ticker)}">
+        <img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt || visual.caption)}" width="960" height="540" loading="${loading}" decoding="async" fetchpriority="${fetchPriority}">
         <span class="report-visual-label">${escapeHtml(label)}</span>
       </a>
       ${placement === "dialog" ? `<figcaption><span>${escapeHtml(visual.caption)}</span><a href="${escapeHtml(visual.sourceUrl)}" target="_blank" rel="noopener noreferrer">Nguồn: ${escapeHtml(visual.sourceLabel || report.company)} ↗</a></figcaption>` : ""}
