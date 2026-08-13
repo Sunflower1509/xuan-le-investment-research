@@ -463,12 +463,8 @@ body{font-size:17px}
 .daily-insight-header h3{max-width:100%;letter-spacing:-.028em;margin:17px 0 0;font-family:var(--font-editorial);font-size:clamp(1.9rem,2.2vw,2.55rem);font-weight:700;line-height:1.1;text-wrap:balance;overflow-wrap:normal;word-break:normal;hyphens:none}
 .daily-thesis{max-width:88ch;color:var(--daily-copy);margin:14px 0 0;font-size:.82rem;line-height:1.66}
 .daily-metrics{border-bottom:1px solid var(--line);grid-template-columns:repeat(4,1fr);display:grid}
-.daily-metric{border-right:1px solid var(--line);min-height:104px;background:#fff;flex-direction:column;justify-content:center;padding:18px 20px;display:flex;position:relative}
+.daily-metric{border-right:1px solid var(--line);min-height:104px;background:#fff;flex-direction:column;justify-content:center;padding:18px 20px;display:flex}
 .daily-metric:last-child{border-right:0}
-.daily-metric:before{content:"";width:28px;height:2px;background:var(--navy);position:absolute;top:0;left:20px}
-.daily-metric.negative:before{background:var(--red)}
-.daily-metric.warning:before{background:var(--gold)}
-.daily-metric.positive:before{background:var(--emerald)}
 .daily-metric>span{color:var(--daily-muted);letter-spacing:.08em;font-size:.62rem;font-weight:800;line-height:1.4}
 .daily-metric strong{font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin-top:9px;font-family:var(--font-editorial);font-size:1.55rem;line-height:1.15}
 .daily-metric small{color:var(--daily-copy);margin-top:7px;font-size:.62rem;line-height:1.45}
@@ -736,7 +732,6 @@ body{padding-bottom:66px}
 .daily-metric{min-height:108px;padding:17px}
 .daily-metric:nth-child(2){border-right:0}
 .daily-metric:nth-child(-n+2){border-bottom:1px solid var(--line)}
-.daily-metric:before{left:17px}
 .daily-metric strong{font-size:1.35rem}
 .daily-action-panel{padding:11px}
 .daily-action-heading{align-items:center;padding:4px 3px 13px}

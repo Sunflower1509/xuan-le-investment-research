@@ -330,7 +330,7 @@
           <div class="priority-metrics">
             <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</small></div>
             <div><span>Vùng mua đã khóa</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${date(action.basisDate)}</small></div>
-            <div><span>Chênh lệch tới mốc giá trị</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
+            <div><span>Upside tới định giá cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
           </div>
           <div class="priority-distance"><div style="--progress:${Math.max(4, Math.min(100, 100 - distance.value * 2))}%"><span></span></div><p><strong>${escapeHtml(relation)}</strong>${escapeHtml(action.condition)}</p></div>
           <div class="priority-actions">${report ? `<button type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">Mở hồ sơ định giá</button>` : `<button type="button" data-action="focus-ticker" data-ticker="${escapeHtml(item.ticker)}">Xem trong Coverage</button>`}<a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Nguồn giá ↗</a></div>
@@ -339,7 +339,7 @@
     }).join("");
 
     if (refs.actionTable) refs.actionTable.innerHTML = `<table class="action-table">
-      <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Mốc giá trị tham chiếu</th><th class="upside-header">Upside tới mốc tham chiếu</th><th>Nguồn</th></tr></thead>
+      <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Định giá cơ sở</th><th class="upside-header">Upside tới định giá cơ sở</th><th>Nguồn</th></tr></thead>
       <tbody>${priorityUniverse.map((item, index) => {
         const action = item.action;
         const distance = actionDistance(item);
@@ -347,16 +347,16 @@
         const base = report?.baseValue || action.baseValue;
         const upside = Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
         const upsideTone = !Number.isFinite(upside) ? "neutral" : upside > 0 ? "positive" : upside < 0 ? "negative" : "neutral";
-        const upsideLabel = !Number.isFinite(upside) ? "Chưa đủ dữ liệu" : upside > 0 ? "Dư địa so với giá đóng cửa" : upside < 0 ? "Giá đóng cửa cao hơn mốc tham chiếu" : "Bằng mốc tham chiếu";
+        const upsideLabel = !Number.isFinite(upside) ? "Chưa đủ dữ liệu" : upside > 0 ? "Dư địa so với giá đóng cửa" : upside < 0 ? "Giá đóng cửa cao hơn định giá cơ sở" : "Bằng định giá cơ sở";
         const distanceText = distance.relation === "inside" ? "0,0% • trong vùng" : `${decimal(distance.value)}% • ${distance.relation === "below" ? "dưới cận" : "trên cận"}`;
         return `<tr>
           <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
           <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
           <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
-          <td data-label="Vùng mua tham khảo"><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td data-label="Vùng mua đã khóa"><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
           <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
-          <td data-label="Mốc giá trị tham chiếu"><strong>${number(base)}</strong><span>đồng/cp</span></td>
-          <td class="upside-cell upside-${upsideTone}" data-label="Upside tới mốc tham chiếu"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
+          <td data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
+          <td class="upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
           <td data-label="Nguồn"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
         </tr>`;
       }).join("")}</tbody>
@@ -575,8 +575,8 @@
           <div class="dialog-metric"><span>Giá tại ngày định giá</span><strong>${number(report.marketPrice)}</strong><small>${date(report.marketPriceDate || report.date)}</small></div>
           <div class="dialog-metric emphasis"><span>${escapeHtml(valueLabel(report))}</span><strong>${number(report.baseValue)}</strong></div>
           <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
-          <div class="dialog-metric emphasis"><span>Upside tới mốc tham chiếu</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá hiển thị có ngày nguồn</small></div>
-          <div class="dialog-metric"><span>Vùng mua tham khảo</span><strong>${Number.isFinite(action?.zoneLow) ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>`;
+          <div class="dialog-metric emphasis"><span>Upside tới định giá cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá hiển thị có ngày nguồn</small></div>
+          <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${Number.isFinite(action?.zoneLow) ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>`;
     const condition = isTrading
       ? `Chỉ xem xét vùng ${number(report.tradeZoneLow)}–${number(report.tradeZoneHigh)} khi cấu trúc giá và dòng tiền xác nhận; stop tham khảo ${number(report.stop)}. Mục tiêu kỹ thuật không được dùng làm giá trị cơ sở.`
       : action?.condition || "Xem trong báo cáo PDF";
@@ -608,7 +608,7 @@
       ["Khuyến nghị", (r) => escapeHtml(r.recommendation)],
       ["Giá hiển thị có ngày nguồn", (r) => `${number(reportQuote(r)?.close)} • ${date(reportQuote(r)?.priceDate)}`],
       ["Giá tại ngày định giá", (r) => number(r.marketPrice)],
-      ["Mốc giá trị tham chiếu", (r) => `${escapeHtml(valueLabel(r))}: ${number(r.baseValue)}`],
+      ["Định giá cơ sở", (r) => `${escapeHtml(valueLabel(r))}: ${number(r.baseValue)}`],
       ["Vùng mua đã khóa", (r) => {
         const action = reportAction(r);
         return action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—";
