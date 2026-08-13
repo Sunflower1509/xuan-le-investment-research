@@ -1,9 +1,12 @@
+import { projectTradeLedger } from "./trade-ledger.js";
+
 (() => {
   "use strict";
 
   const source = window.RESEARCH_DATA;
   if (!source || !Array.isArray(source.reports) || !Array.isArray(source.coverage)) return;
   const dailySource = window.DAILY_MARKET_INSIGHTS;
+  const tradeLedgerSource = window.TRADE_LEDGER || { meta: {}, events: [] };
 
   const reports = [...source.reports];
   const coverage = [...source.coverage];
@@ -32,6 +35,7 @@
     status: "all",
     sort: "priority",
     view: "grid",
+    ledgerTab: "open",
     watchlist: getStoredSet("xltvs-watchlist-v1"),
     compare: new Set()
   };
@@ -62,6 +66,11 @@
     dailyInsight: document.querySelector("[data-role='daily-insight']"),
     dailyArchive: document.querySelector("[data-role='daily-archive-list']"),
     dailyIssueCount: document.querySelector("[data-role='daily-issue-count']"),
+    ledgerSummary: document.querySelector("[data-role='position-ledger-summary']"),
+    ledgerContent: document.querySelector("[data-role='position-ledger-content']"),
+    ledgerPending: document.querySelector("[data-role='position-ledger-pending']"),
+    ledgerIssues: document.querySelector("[data-role='position-ledger-issues']"),
+    ledgerAsOf: document.querySelector("[data-role='ledger-asof']"),
     toast: document.querySelector("[data-role='toast']")
   };
 
@@ -88,6 +97,10 @@
 
   const signedPercent = (value) => Number.isFinite(value)
     ? `${value > 0 ? "+" : value < 0 ? "−" : ""}${decimal(Math.abs(value), 2)}%`
+    : "—";
+
+  const percentOfPosition = (value) => Number.isFinite(value)
+    ? `${decimal(value * 100, 0)}% vị thế`
     : "—";
 
   const valueLabel = (report) => report?.valueLabel || "Giá trị cơ sở";
@@ -366,6 +379,117 @@
       const tag = item.action.eligibility === "veto" ? "HARD VETO" : item.action.eligibility === "invalidated" ? "SETUP VÔ HIỆU" : "CẦN LÀM MỚI";
       return `<article><div><strong>${escapeHtml(item.ticker)}</strong><span>${escapeHtml(tag)}</span></div><p>${escapeHtml(item.action.recommendation)} • ${escapeHtml(item.action.condition)}</p><small>${number(item.close)} đồng/cp • ${date(item.priceDate)}</small></article>`;
     }).join("");
+  };
+
+  const LEDGER_REASON_LABELS = {
+    target: "ĐẠT TARGET",
+    stoploss: "STOPLOSS",
+    invalidation: "LUẬN ĐIỂM VÔ HIỆU",
+    risk_reduction: "GIẢM RỦI RO",
+    manual: "ĐÓNG CHỦ ĐỘNG"
+  };
+
+  const ledgerReason = (value) => LEDGER_REASON_LABELS[value] || (value ? String(value).toLocaleUpperCase("vi") : "CHƯA GHI NHẬN");
+
+  const renderLedgerEvent = (event) => {
+    const label = event.type === "activated"
+      ? "KÍCH HOẠT"
+      : event.type === "partial_exit" ? `CHỐT ${decimal(Number(event.portionPct), 0)}%` : "ĐÓNG VỊ THẾ";
+    const detail = event.type === "activated"
+      ? `Vùng khóa ${number(event.zoneLow)}–${number(event.zoneHigh)}`
+      : ledgerReason(event.reason);
+    return `<li>
+      <span class="ledger-event-marker"></span>
+      <div><strong>${escapeHtml(label)}</strong><small>${date(event.date)} • ${number(event.price)} đồng/cp</small><p>${escapeHtml(detail)}${event.note ? ` • ${escapeHtml(event.note)}` : ""}</p></div>
+      ${event.sourceUrl ? `<a href="${escapeHtml(event.sourceUrl)}" target="_blank" rel="noreferrer">Nguồn ↗</a>` : ""}
+    </li>`;
+  };
+
+  const renderPositionLedger = () => {
+    if (!refs.ledgerSummary || !refs.ledgerContent) return;
+    const projection = projectTradeLedger(tradeLedgerSource, coverage);
+    const openPositions = projection.positions.filter((position) => position.status !== "closed");
+    const closedPositions = projection.positions.filter((position) => position.status === "closed");
+    const activeTickers = new Set(openPositions.map((position) => position.ticker));
+    const pendingCandidates = coverage.filter((item) => item.action?.eligibility === "active"
+      && actionDistance(item)?.relation === "inside"
+      && !activeTickers.has(item.ticker));
+
+    if (refs.ledgerAsOf) refs.ledgerAsOf.textContent = `Giá theo dõi khóa EOD ${date(source.meta.updated)}`;
+    document.querySelectorAll("[data-role='ledger-started-at']").forEach((item) => { item.textContent = date(tradeLedgerSource.meta?.startedAt); });
+
+    refs.ledgerSummary.innerHTML = `
+      <div><span>Vị thế đang theo dõi</span><strong>${openPositions.length}</strong><small>Gồm đang mở và chốt một phần</small></div>
+      <div><span>Chạm vùng • chờ xác nhận</span><strong>${pendingCandidates.length}</strong><small>Chưa được tính là vị thế</small></div>
+      <div><span>Lịch sử đã đóng</span><strong>${closedPositions.length}</strong><small>Không xóa giao dịch âm</small></div>
+      <div><span>Giá theo dõi EOD</span><strong>${date(source.meta.updated)}</strong><small>Không dùng giá nội suy hoặc realtime</small></div>`;
+
+    document.querySelectorAll("[data-ledger-tab]").forEach((button) => {
+      const selected = button.dataset.ledgerTab === state.ledgerTab;
+      button.setAttribute("aria-selected", String(selected));
+      button.tabIndex = selected ? 0 : -1;
+      if (selected) refs.ledgerContent.setAttribute("aria-labelledby", button.id);
+    });
+    document.querySelectorAll("[data-role='ledger-open-count']").forEach((item) => { item.textContent = openPositions.length; });
+    document.querySelectorAll("[data-role='ledger-closed-count']").forEach((item) => { item.textContent = closedPositions.length; });
+
+    if (refs.ledgerPending) {
+      refs.ledgerPending.hidden = pendingCandidates.length === 0;
+      refs.ledgerPending.innerHTML = pendingCandidates.length
+        ? `<strong>CHẠM VÙNG — CHỜ XÁC NHẬN</strong><span>${pendingCandidates.map((item) => escapeHtml(item.ticker)).join(" • ")} mới thỏa điều kiện giá; chưa tự động kích hoạt vị thế.</span>`
+        : "";
+    }
+
+    if (refs.ledgerIssues) {
+      refs.ledgerIssues.hidden = projection.issues.length === 0;
+      refs.ledgerIssues.textContent = projection.issues.length
+        ? `Tạm dừng hiển thị ${projection.issues.length} sự kiện không hợp lệ; cần kiểm tra sổ dữ liệu.`
+        : "";
+    }
+
+    const positions = state.ledgerTab === "closed" ? closedPositions : openPositions;
+    if (!positions.length) {
+      const isOpen = state.ledgerTab === "open";
+      refs.ledgerContent.innerHTML = `<div class="ledger-empty" role="status">
+        <svg><use href="#i-shield"></use></svg>
+        <strong>${isOpen ? "Chưa có vị thế tham chiếu được kích hoạt" : "Chưa có vị thế nào đã đóng"}</strong>
+        <p>${isOpen
+          ? `Sổ bắt đầu ghi nhận từ ${date(tradeLedgerSource.meta?.startedAt)}; không hồi tố tín hiệu từ đồ thị hoặc dữ liệu quá khứ.`
+          : "Lịch sử sẽ xuất hiện khi một vị thế được đóng bằng sự kiện có ngày, giá và lý do rõ ràng."}</p>
+        ${isOpen ? `<a href="#action-radar">Xem các mã đang chờ trong Action Radar <svg><use href="#i-arrow"></use></svg></a>` : ""}
+      </div>`;
+      return;
+    }
+
+    refs.ledgerContent.innerHTML = `<div class="ledger-table-wrap"><table class="ledger-table">
+      <thead><tr><th>Mã</th><th>Ngày kích hoạt</th><th>Giá kích hoạt</th><th>Giá theo dõi / chốt BQ</th><th>Hiệu suất</th><th>Stop</th><th>Target</th><th>Trạng thái vị thế</th></tr></thead>
+      ${positions.map((position) => {
+        const isClosed = position.status === "closed";
+        const trackedPrice = isClosed ? position.averageExitPrice : position.currentPrice;
+        const trackedDate = isClosed ? position.closedAt : position.currentPriceDate;
+        const statusLabel = isClosed ? "ĐÃ ĐÓNG" : position.status === "partial" ? "CHỐT 1 PHẦN" : "ĐANG MỞ";
+        const statusDetail = isClosed
+          ? `${date(position.closedAt)} • ${ledgerReason(position.closeReason)}`
+          : position.status === "partial" ? `Còn lại ${percentOfPosition(position.remainingFraction)}` : "Chưa phát sinh sự kiện chốt";
+        const performanceNote = isClosed
+          ? "Đã hiện thực hóa"
+          : position.status === "partial" ? "Phần đã chốt + phần còn mở" : "Chưa hiện thực hóa";
+        const targets = position.targets.length ? position.targets.map(number).join(" / ") : "—";
+        return `<tbody class="ledger-position">
+          <tr>
+            <td data-label="Mã"><strong class="ledger-ticker">${escapeHtml(position.ticker)}</strong><span>${escapeHtml(position.tradeId)}</span></td>
+            <td data-label="Ngày kích hoạt"><strong>${date(position.activatedAt)}</strong><span>Xác nhận theo EOD</span></td>
+            <td data-label="Giá kích hoạt"><strong>${number(position.activationPrice)}</strong><span>Vùng ${number(position.zoneLow)}–${number(position.zoneHigh)}</span></td>
+            <td data-label="${isClosed ? "Giá chốt bình quân" : "Giá theo dõi"}"><strong>${number(trackedPrice)}</strong><span>${date(trackedDate)}${!isClosed && position.currentPriceSource ? ` • <a href="${escapeHtml(position.currentPriceSource)}" target="_blank" rel="noreferrer">Nguồn ↗</a>` : ""}</span></td>
+            <td class="ledger-performance ${marketTone(position.performancePct)}" data-label="Hiệu suất"><strong>${signedPercent(position.performancePct)}</strong><span>${escapeHtml(performanceNote)}</span></td>
+            <td data-label="Stop"><strong>${number(position.stop)}</strong><span>${position.stop ? "Mốc đã khóa" : "Chưa có dữ liệu"}</span></td>
+            <td data-label="Target"><strong>${escapeHtml(targets)}</strong><span>${position.targets.length ? "Mốc đã khóa" : "Chưa có dữ liệu"}</span></td>
+            <td data-label="Trạng thái vị thế"><span class="ledger-status ledger-status-${escapeHtml(position.status)}">${escapeHtml(statusLabel)}</span><small>${escapeHtml(statusDetail)}</small></td>
+          </tr>
+          <tr class="ledger-history-row"><td colspan="8"><details><summary>Xem nhật ký ${position.events.length} sự kiện</summary><ol>${position.events.map(renderLedgerEvent).join("")}</ol></details></td></tr>
+        </tbody>`;
+      }).join("")}
+    </table></div>`;
   };
 
   const renderFilters = () => {
@@ -676,6 +800,7 @@
     if (action === "set-view") { state.view = target.dataset.view; renderResearch(); }
     if (action === "set-sector") { state.sector = target.dataset.sector; renderFilters(); renderResearch(); }
     if (action === "set-status") { state.status = target.dataset.status; renderFilters(); renderResearch(); }
+    if (action === "set-ledger-tab") { state.ledgerTab = target.dataset.ledgerTab; renderPositionLedger(); }
     if (action === "share-report") shareReport(target.dataset.id);
     if (action === "show-daily-insight") {
       renderDailyInsight(target.dataset.id);
@@ -703,6 +828,17 @@
   });
 
   document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => setTab(button.dataset.tab)));
+  document.querySelector(".ledger-tabs")?.addEventListener("keydown", (event) => {
+    const tabs = [...event.currentTarget.querySelectorAll("[data-ledger-tab]")];
+    const current = tabs.indexOf(document.activeElement);
+    if (current < 0 || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === "Home" ? 0
+      : event.key === "End" ? tabs.length - 1
+        : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    tabs[next].click();
+    tabs[next].focus();
+  });
   refs.search.addEventListener("input", () => { state.query = refs.search.value; renderResearch(); });
   refs.sort.addEventListener("change", () => { state.sort = refs.sort.value; renderResearch(); });
   refs.commandInput.addEventListener("input", () => renderCommandResults(refs.commandInput.value));
@@ -723,12 +859,13 @@
       if (!visible) return;
       links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
     }, { rootMargin: "-25% 0px -65%", threshold: [0, .1, .5] });
-    ["daily-market", "overview", "action-radar", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
+    ["daily-market", "overview", "action-radar", "position-ledger", "research"].forEach((id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   renderDailyInsight();
   updateCounts();
   renderActionRadar();
+  renderPositionLedger();
   renderFilters();
   renderResearch();
   updateCompareDock();

@@ -12,8 +12,8 @@
   <title>Xuân Lê TVS | Institutional Research Terminal</title>
   <link rel="icon" href="favicon.svg">
   <link rel="preload" as="image" href="assets/images/advisor-banner-3d-v2.webp?v=20260812opt1" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/site.min.css?v=20260813valuation1">
-  <script defer src="assets/js/site.min.js?v=20260813valuation1"></script>
+  <link rel="stylesheet" href="assets/css/site.min.css?v=20260813ledger1">
+  <script defer src="assets/js/site.min.js?v=20260813ledger1"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
   </script>
@@ -35,6 +35,7 @@
     <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"></path></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.7 2.9 8.2 7 10 4.1-1.8 7-5.3 7-10V6z"></path><path d="m9.5 12 1.7 1.7 3.6-4"></path></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path><path d="m4 7 6-4 6 6 5-5"></path></symbol>
+    <symbol id="i-position" viewBox="0 0 24 24"><path d="M4 7h16v12H4z"></path><path d="M8 7V5h8v2M4 11h16M10 14h4"></path></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"></path></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
   </svg>
@@ -49,6 +50,7 @@
         <a href="#overview">Tổng quan</a>
         <a href="#daily-market">Nhận định ngày</a>
         <a href="#action-radar">Ưu tiên</a>
+        <a href="#position-ledger">Vị thế</a>
         <a href="#research">Research Terminal</a>
       </nav>
       <div class="header-tools">
@@ -147,6 +149,49 @@
       </div>
     </section>
 
+    <section class="position-ledger-section" id="position-ledger" aria-labelledby="position-ledger-title">
+      <div class="terminal-container">
+        <div class="ledger-heading">
+          <div>
+            <p class="terminal-eyebrow">Activated Signal Ledger • EOD</p>
+            <h2 id="position-ledger-title">NHẬT KÝ ĐIỂM MUA ĐÃ KÍCH HOẠT</h2>
+            <p class="ledger-intro">Theo dõi vị thế tham chiếu từ lúc xác nhận đến khi đóng; mọi thay đổi đều có ngày, giá và lý do.</p>
+          </div>
+          <div class="ledger-integrity">
+            <svg><use href="#i-shield"></use></svg>
+            <div><strong>KHÔNG HỒI TỐ HIỆU SUẤT</strong><small>Chỉ ghi nhận tín hiệu phát sinh từ <span data-role="ledger-started-at">13.08.2026</span></small></div>
+          </div>
+        </div>
+
+        <div class="ledger-summary" data-role="position-ledger-summary"></div>
+        <div class="ledger-pending" data-role="position-ledger-pending" hidden></div>
+
+        <div class="ledger-shell">
+          <div class="ledger-toolbar">
+            <div class="ledger-tabs" role="tablist" aria-label="Trạng thái vị thế">
+              <button id="ledger-tab-open" type="button" role="tab" aria-selected="true" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="open">ĐANG MỞ <span data-role="ledger-open-count">0</span></button>
+              <button id="ledger-tab-closed" type="button" role="tab" aria-selected="false" aria-controls="position-ledger-panel" data-action="set-ledger-tab" data-ledger-tab="closed" tabindex="-1">ĐÃ ĐÓNG <span data-role="ledger-closed-count">0</span></button>
+            </div>
+            <span class="ledger-asof" data-role="ledger-asof">Giá theo dõi khóa EOD 12.08.2026</span>
+          </div>
+          <div class="ledger-issues" data-role="position-ledger-issues" role="alert" hidden></div>
+          <div id="position-ledger-panel" data-role="position-ledger-content" role="tabpanel" aria-labelledby="ledger-tab-open" aria-live="polite"><div class="panel-loading">Đang kiểm tra sổ vị thế…</div></div>
+          <div class="ledger-footnote">
+            <p><svg><use href="#i-shield"></use></svg><span><strong>Hiệu suất tham chiếu</strong> chưa trừ phí giao dịch, thuế và trượt giá; không phải xác nhận khớp lệnh thực tế của khách hàng.</span></p>
+            <details>
+              <summary>Quy tắc kích hoạt và định nghĩa trạng thái</summary>
+              <div>
+                <p><strong>Kích hoạt:</strong> giá đóng cửa EOD nằm trong vùng mua đã khóa, điều kiện báo cáo còn hiệu lực và không có hard veto. Chạm vùng nhưng chưa đủ xác nhận chỉ mang trạng thái chờ.</p>
+                <p><strong>Giá kích hoạt:</strong> giá đóng cửa của phiên xác nhận; không dùng midpoint vùng mua hoặc mức giá tốt nhất trong phiên.</p>
+                <p><strong>Trạng thái:</strong> ĐANG MỞ khi chưa chốt; CHỐT 1 PHẦN khi vẫn còn tỷ trọng; ĐÃ ĐÓNG khi tỷ trọng còn lại bằng 0 và đã ghi nhận ngày, giá cùng lý do thoát.</p>
+                <p><strong>Hiệu suất:</strong> vị thế mở dùng giá EOD mới nhất; vị thế chốt một phần được tính theo tỷ trọng đã chốt và phần còn lại; vị thế đóng dùng giá thoát bình quân gia quyền.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="terminal-section research-section" id="research">
       <div class="terminal-container">
         <div class="section-heading research-heading">
@@ -197,6 +242,7 @@
   <nav class="mobile-nav" aria-label="Điều hướng di động">
     <a href="#daily-market"><svg><use href="#i-message"></use></svg><span>Nhận định</span></a>
     <a href="#action-radar"><svg><use href="#i-chart"></use></svg><span>Ưu tiên</span></a>
+    <a href="#position-ledger"><svg><use href="#i-position"></use></svg><span>Vị thế</span></a>
     <a href="#research"><svg><use href="#i-file"></use></svg><span>Research</span></a>
     <button type="button" data-action="open-command"><svg><use href="#i-search"></use></svg><span>Tìm kiếm</span></button>
   </nav>
