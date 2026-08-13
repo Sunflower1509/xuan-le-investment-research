@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-08-12",
-    release: "2026-08-12",
+    release: "2026-08-13",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 29/29 mã được khóa tại phiên 12/08/2026, đối chiếu nhất quán giữa VNDIRECT Finfo và DNSE EnTrade. Dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 30/30 mã được khóa tại phiên 12/08/2026, đối chiếu nhất quán giữa VNDIRECT Finfo và DNSE EnTrade. Dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,15 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "TCX-20260813", ticker: "TCX", company: "Công ty Cổ phần Chứng khoán Kỹ Thương", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-13",
+      recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", status: "reject", marketPrice: 40500, marketPriceDate: "2026-08-12", baseValue: 25000, valueLabel: "Điểm giữa xấp xỉ", rangeLow: 17800, rangeHigh: 32200,
+      gapLabel: "MOS -61,8% so với midpoint; MOS -25,6% so với cận trên theo công thức trong báo cáo", method: "Residual Income Model (RIM) + Justified P/B; P/E và P/B tương đối dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 17.800–32.200 đồng/cp và điểm giữa khoảng 25.000 đồng/cp, không phải giá mục tiêu. Tại giá đóng cửa 40.500 đồng/cp ngày 12/08/2026, MOS theo công thức báo cáo là -61,8% so với midpoint và -25,6% so với cận trên; báo cáo kết luận LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ. Vùng strict-MOS 25–30% là 12.500–13.400 đồng/cp, chỉ xem xét nếu thesis không xấu đi.",
+      action: { zoneLow: 12500, zoneHigh: 13400, baseValue: 25000, stop: 12281, basisDate: "2026-08-13", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần." },
+      visual: { src: "assets/images/reports/tcx.webp", alt: "Bìa báo cáo định giá Techcom Securities TCX ngày 13 tháng 08 năm 2026", caption: "Bìa báo cáo định giá TCX", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/TCX_Equity_Valuation_2026-08-13.pdf", kind: "report-cover" },
+      file: "reports/TCX_Equity_Valuation_2026-08-13.pdf", edition: "Bản định giá 13.08.2026"
+    },
     {
       id: "VND-20260812", ticker: "VND", company: "Công ty Cổ phần Chứng khoán VNDIRECT", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-12",
       recommendation: "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800", status: "wait", marketPrice: 16800, marketPriceDate: "2026-08-12", baseValue: 14640, valueLabel: "Điểm giữa", rangeLow: 11100, rangeHigh: 18200,
@@ -262,6 +271,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "TCX", company: "Công ty Cổ phần Chứng khoán Kỹ Thương", sector: "Chứng khoán", exchange: "HOSE", reportId: "TCX-20260813",
+      close: 40500, priceDate: "2026-08-12", changePct: -0.7353, volume: 1382800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCX~date:2026-08-12&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786467600&to=1786528800&symbol=TCX&resolution=1D",
+      action: { zoneLow: 12500, zoneHigh: 13400, baseValue: 25000, stop: 12281, basisDate: "2026-08-13", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần." }
+    },
     {
       ticker: "SHS", company: "Chứng khoán Sài Gòn - Hà Nội", sector: "Chứng khoán", exchange: "HNX", reportId: "SHS-20260812",
       close: 15900, priceDate: "2026-08-12", changePct: 0, volume: 6152500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHS~date:2026-08-12&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786467600&to=1786528800&symbol=SHS&resolution=1D",
