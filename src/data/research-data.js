@@ -42,7 +42,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS -61,8% so với midpoint; MOS -25,6% so với cận trên theo công thức trong báo cáo", method: "Residual Income Model (RIM) + Justified P/B; P/E và P/B tương đối dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 17.800–32.200 đồng/cp và điểm giữa khoảng 25.000 đồng/cp, không phải giá mục tiêu. Tại giá đóng cửa 40.500 đồng/cp ngày 12/08/2026, MOS theo công thức báo cáo là -61,8% so với midpoint và -25,6% so với cận trên; báo cáo kết luận LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ. Vùng strict-MOS 25–30% là 12.500–13.400 đồng/cp, chỉ xem xét nếu thesis không xấu đi.",
       action: { zoneLow: 12500, zoneHigh: 13400, baseValue: 25000, stop: 12281, basisDate: "2026-08-13", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần." },
-      visual: { src: "assets/images/reports/tcx.webp", alt: "Bìa báo cáo định giá Techcom Securities TCX ngày 13 tháng 08 năm 2026", caption: "Bìa báo cáo định giá TCX", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/TCX_Equity_Valuation_2026-08-13.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/tcx.webp?v=20260813-company1", alt: "Lãnh đạo Techcom Securities tại lễ niêm yết cổ phiếu TCX trên HOSE", caption: "Lễ niêm yết cổ phiếu TCX tại HOSE", sourceLabel: "Báo Tiền Phong", sourceUrl: "https://tienphong.vn/niem-yet-va-chinh-thuc-giao-dich-hon-231-co-phieu-chung-khoan-tcbs-tcx-ngay-2110-post1789136.tpo" },
       file: "reports/TCX_Equity_Valuation_2026-08-13.pdf", edition: "Bản định giá 13.08.2026"
     },
     {
@@ -51,7 +51,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS -14,76% so với midpoint; MOS +7,48% so với cận trên", method: "Residual Income + justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 11.100–18.200 đồng/cp và điểm giữa 14.640 đồng/cp, không phải giá mục tiêu. Tại giá 16.800 đồng/cp ngày 12/08/2026, MOS so với midpoint là -14,76% và so với cận trên là +7,48%; chưa đạt ngưỡng an toàn 25–30%. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800; vùng mua định giá theo midpoint là 10.300–11.000 đồng/cp.",
       action: { zoneLow: 10300, zoneHigh: 11000, baseValue: 14640, stop: 10450, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800", eligibility: "active", condition: "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi." },
-      visual: { src: "assets/images/reports/vnd.webp", alt: "Bìa báo cáo định giá VNDIRECT VND ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VND", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VND_Equity_Valuation_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/vnd.webp?v=20260813-company1", alt: "Đội ngũ VNDIRECT tại trụ sở doanh nghiệp", caption: "Đội ngũ VNDIRECT", sourceLabel: "VNDIRECT", sourceUrl: "https://www.vndirect.com.vn/tin_vndirect/vndirect-hoan-thanh-vuot-ke-hoach-2025-loi-nhuan-truoc-thue-dat-2-508-ty-dong/" },
       file: "reports/VND_Equity_Valuation_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -60,7 +60,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo", method: "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 10.500–17.000 đồng/cp và điểm giữa cơ học 13.750 đồng/cp, không phải một mức giá mục tiêu duy nhất. Tại giá 15.900 đồng/cp lúc 13:42 ngày 12/08/2026, MOS so với điểm giữa là -15,64%; báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI. Vùng MOS nghiêm ngặt 25–30% là 7.350–7.875 đồng/cp và không phải dự báo giá.",
       action: { zoneLow: 7350, zoneHigh: 7875, baseValue: 13750, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi." },
-      visual: { src: "assets/images/reports/shs.webp", alt: "Bìa báo cáo định giá SHS ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá SHS", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/shs.webp?v=20260813-company1", alt: "Ban lãnh đạo SHS tại Đại hội đồng cổ đông thường niên 2026", caption: "Đại hội đồng cổ đông thường niên SHS 2026", sourceLabel: "SHS", sourceUrl: "https://www.shs.com.vn/tin-tuc/dhdcd-2026-shs-buoc-vao-giai-doan-tang-truong-moi-voi-chien-luoc-chuyen-doi-toan-dien" },
       file: "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -69,7 +69,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS -51,4% so với điểm giữa; MOS -21,8% so với cận trên theo công thức trong báo cáo", method: "Residual Income + Justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 13.200–21.700 đồng/cp và điểm giữa khoảng 17.500 đồng/cp. Tại giá 26.450 đồng/cp lúc 11:30 ngày 12/08/2026, MOS so với điểm giữa là -51,4% và so với cận trên là -21,8%; báo cáo kết luận LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ. Vùng MOS cơ học 25–30% là 9.250–9.900 đồng/cp.",
       action: { zoneLow: 9250, zoneHigh: 9900, baseValue: 17500, stop: null, basisDate: "2026-08-12", recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Nếu giá vẫn trên 21.700 đồng/cp mà chưa có bằng chứng ROE sau pha loãng đạt 14–15% thì không mua theo định giá. Mọi luận điểm giao dịch 1–3 tuần phải được tách riêng và không thay thế kết luận định giá." },
-      visual: { src: "assets/images/reports/hcm.webp", alt: "Bìa báo cáo định giá HCM ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá HCM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/hcm.webp?v=20260813-company1", alt: "Đội ngũ HSC tại văn phòng doanh nghiệp", caption: "Đội ngũ HSC", sourceLabel: "Tin Nhanh Chứng Khoán", sourceUrl: "https://www.tinnhanhchungkhoan.vn/hsc-hcm-phat-hanh-them-gan-360-trieu-co-phieu-cho-co-dong-hien-huu-gia-10000-dongcp-post371021.html" },
       file: "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -78,7 +78,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS 12,90% so với điểm giữa 54.250 đồng/cp; chưa đạt chuẩn 25–30% tại giá đóng cửa 11/08/2026", method: "SOTP là mô hình chính; DCF/FCFF và định giá tương đối dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 47.000–61.500 đồng/cp, điểm giữa 54.250 đồng/cp. Giá đóng cửa 47.250 đồng/cp tạo MOS 12,90% so với điểm giữa, chưa đạt chuẩn 25–30%; trạng thái CHỜ - THEO DÕI. Vùng mua định giá là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt chỉ xem xét khi đóng cửa trên 48.500 đồng/cp với thanh khoản tối thiểu TB20.",
       action: { zoneLow: 38000, zoneHigh: 40700, baseValue: 54250, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - THEO DÕI", eligibility: "active", condition: "Vùng đầu tư theo MOS là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt: chỉ xem xét 48.600–49.000 khi đóng cửa trên 48.500 và thanh khoản tối thiểu TB20; stop 45.400, target 53.000 và 56.000 đồng/cp." },
-      visual: { src: "assets/images/reports/ree.webp", alt: "Bìa báo cáo định giá REE ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá REE", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/ree.webp?v=20260813-company1", alt: "Trụ sở REE Corporation tại Thành phố Hồ Chí Minh", caption: "Trụ sở REE Corporation", sourceLabel: "Znews", sourceUrl: "https://znews.vn/ree-tinh-nhay-vao-cac-du-an-bat-dong-san-gan-metro-vanh-dai-tphcm-post1542400.html" },
       file: "reports/REE_Equity_Valuation_Report_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -87,7 +87,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá 73.900 đồng/cp cao hơn midpoint 7,18%; upside tới cận trên chỉ 1,47% tại thời điểm định giá", method: "RNAV/SOTP + P/NAV; P/B và P/E chỉ dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 62.900–75.000 đồng/cp, midpoint 68.950 đồng/cp. Giá tham chiếu 73.900 đồng/cp cao hơn midpoint 7,18% và chỉ còn khoảng 1,47% tới cận trên; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng mua đáp ứng MOS 25–30% là 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi.",
       action: { zoneLow: 44000, zoneHigh: 47200, baseValue: 68950, stop: 43322, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp." },
-      visual: { src: "assets/images/reports/vhm.webp", alt: "Bìa báo cáo định giá Vinhomes VHM ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VHM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/vhm.webp?v=20260813-company1", alt: "Lễ khởi công Khu đô thị Đại học Quốc tế do Vinhomes phát triển", caption: "Lễ khởi công dự án của Vinhomes tại TP.HCM", sourceLabel: "Vinhomes", sourceUrl: "https://market.vinhomes.vn/blog/vingroup-chinh-thuc-khoi-cong-khu-do-thi-dai-hoc-quoc-te-tai-tp-hcm" },
       file: "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -96,7 +96,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS +15,5% so với giá trị cơ sở nhưng -12,1% so với cận dưới tại giá đóng cửa 11/08/2026", method: "P/B gắn ROE + Residual Income; relative P/B dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý trước bonus 34.900–57.400 đồng/cp, giá trị cơ sở 46.300 đồng/cp. Tại 39.100 đồng/cp, MOS so với cơ sở là 15,5% nhưng âm 12,1% so với cận dưới; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng valuation hấp dẫn theo base là 32.400–34.700 đồng/cp; green-zone MOS nghiêm ngặt trước bonus là 24.400–26.200 đồng/cp.",
       action: { zoneLow: 24400, zoneHigh: 26200, baseValue: 46300, stop: null, basisDate: "2026-08-12", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x." },
-      visual: { src: "assets/images/reports/bid.webp", alt: "Bìa báo cáo định giá BID ngày 12 tháng 08 năm 2026", caption: "Bìa báo cáo định giá BID", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/BID_Equity_Valuation_Research_2026-08-12.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/bid.webp?v=20260813-company1", alt: "Đội ngũ BIDV tại sự kiện Hybrid Summer 2026", caption: "Hoạt động đội ngũ BIDV năm 2026", sourceLabel: "BIDV News", sourceUrl: "https://bidvinfo.com.vn/en/bidv-launches-the-hybrid-summer-2026-campaign-bridging-sustainable-living-and-smart-finance-10015376.html" },
       file: "reports/BID_Equity_Valuation_Research_2026-08-12.pdf", edition: "Bản định giá 12.08.2026"
     },
     {
@@ -105,7 +105,7 @@ window.RESEARCH_DATA = {
       gapLabel: "MOS theo giá trị cơ sở là 26,76%, nhưng chỉ 4,21% so với cận dưới tại ngày định giá", method: "P/B gắn ROE + Residual Income; P/B và P/E dùng kiểm chứng",
       summary: "Giá trị hợp lý cơ sở 44.100 đồng/cp và vùng giá trị 33.700–61.200 đồng/cp. Tại thị giá 32.300 đồng/cp, MOS so với cận dưới chỉ 4,21%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng mua valuation là 23.600–25.300 đồng/cp nếu ROE, NPL và CAR không xấu đi.",
       action: { zoneLow: 23600, zoneHigh: 25300, baseValue: 44100, stop: null, basisDate: "2026-08-11", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá về 23.600–25.300 đồng/cp và ROE, NPL, CAR không xấu đi. Ví dụ trong báo cáo tại giá mua 25.000 đồng/cp: stop 23.750, target định giá thấp 33.700 và giá trị cơ sở 44.100 đồng/cp." },
-      visual: { src: "assets/images/reports/ctg.webp", alt: "Bìa báo cáo định giá VietinBank CTG ngày 11 tháng 08 năm 2026", caption: "Bìa báo cáo định giá CTG", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/ctg.webp?v=20260813-company1", alt: "Đại diện VietinBank tại sự kiện Chuyển đổi số ngành Ngân hàng năm 2025", caption: "VietinBank tại sự kiện Chuyển đổi số ngành Ngân hàng", sourceLabel: "VietinBank", sourceUrl: "https://www.vietinbank.vn/vi/doanh-nghiep/tin-tuc-and-su-kien-khdn/tin-tuc-va-su-kien/vietinbank-toa-sang-tai-su-kien-chuyen-doi-so-nganh-ngan-hang-nam-2025-20250530023016-00-html" },
       file: "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf", edition: "Bản định giá 11.08.2026"
     },
     {
@@ -114,7 +114,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá thị trường cao hơn midpoint khoảng 14,2%; upside tới cận trên khoảng 9,8% tại ngày định giá", method: "DCF/FCFF; P/E, P/B và EV/EBITDA dùng kiểm chứng",
       summary: "Vùng giá trị hợp lý 51.800–89.400 đồng/cp và midpoint khoảng 70.600 đồng/cp. P0 intraday 80.600 đồng/cp cao hơn midpoint khoảng 14,2%, chưa đạt biên an toàn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng ưu tiên theo MOS là 36.200–38.800 đồng/cp nếu thesis và nền tảng cơ bản không suy yếu.",
       action: { zoneLow: 36200, zoneHigh: 38800, baseValue: 70600, stop: null, basisDate: "2026-08-10", recommendation: "CHỜ - KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên." },
-      visual: { src: "assets/images/reports/gmd.webp", alt: "Bìa báo cáo định giá Gemadept GMD ngày 10 tháng 08 năm 2026", caption: "Bìa báo cáo định giá GMD", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/gmd.webp?v=20260813-company1", alt: "Đội ngũ Gemadept tại lễ động thổ Cảng Gemalink giai đoạn 2", caption: "Lễ động thổ Cảng Gemalink giai đoạn 2", sourceLabel: "Diễn đàn Doanh nghiệp", sourceUrl: "https://diendandoanhnghiep.vn/cang-gemalink-tang-toc-giai-doan-2-nang-tam-vi-the-cua-ngo-giao-thuong-quoc-te-10177365.html" },
       file: "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf", edition: "Bản định giá 10.08.2026"
     },
     {
@@ -123,7 +123,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Weighted fair value cao hơn giá thị trường khoảng 31,4%; MOS theo giá trị trọng số là 23,9% tại ngày định giá", method: "DCF theo FCFF có điều chỉnh tài sản đầu tư ngoài hoạt động; kiểm chứng bằng P/E, P/B và EV/EBITDA",
       summary: "Weighted fair value đạt 19.251 đồng/cp trong vùng giá trị 14.400–24.200 đồng/cp. Tại giá 14.650 đồng/cp, MOS theo giá trị trọng số là 23,9%, vẫn thấp hơn chuẩn 25–30%; vì vậy báo cáo giữ trạng thái CHỜ / THEO DÕI và vùng mua định giá 10.100–10.800 đồng/cp. Trading overlay 1–3 tuần chỉ được kích hoạt khi giá đóng cửa vượt 15.050–15.100 đồng/cp với khối lượng tối thiểu khoảng 11,4 triệu cổ phiếu.",
       action: { zoneLow: 10100, zoneHigh: 10800, stop: null, basisDate: "2026-08-07", condition: "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30% theo conservative floor. Thiết lập trading tách biệt: chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp." },
-      visual: { src: "assets/images/reports/vsc.webp", alt: "Bìa báo cáo định giá Viconship VSC ngày 07 tháng 08 năm 2026", caption: "Bìa báo cáo định giá VSC", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/VSC_Equity_Research_2026-08-07.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/vsc.webp?v=20260813-company1", alt: "Toàn cảnh hoạt động cảng container của Viconship", caption: "Hoạt động cảng container Viconship", sourceLabel: "Viconship", sourceUrl: "https://viconship.com/en/" },
       file: "reports/VSC_Equity_Research_2026-08-07.pdf", edition: "Bản định giá 07.08.2026"
     },
     {
@@ -132,7 +132,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá thị trường cao hơn giá trị cơ sở khoảng 18,7% tại ngày định giá", method: "Residual Income 50% + P/B gắn ROE 35% + P/E chuẩn hóa 15%",
       summary: "Giá trị cơ sở trước quyền là 20.600 đồng/cp và khoảng giá trị hợp lý trước quyền là 15.200–25.700 đồng/cp. Giá 24.400 đồng/cp cao hơn giá trị cơ sở khoảng 18,7%, nên báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA MỚI. Vùng mua định giá 25–30% MOS là 14.400–15.400 đồng/cp trước quyền; mọi vùng kỹ thuật sau ngày GDKHQ 17/08/2026 phải dùng dữ liệu đã điều chỉnh quyền.",
       action: { zoneLow: 14400, zoneHigh: 15400, stop: null, basisDate: "2026-08-05", condition: "Trước ngày GDKHQ 17/08/2026 không mở vị thế mới. Vùng mua định giá là 14.400–15.400 đồng/cp trước quyền; sau quyền chỉ mua thăm dò 17.800–18.200 khi giá giữ nền và khối lượng co lại, stop 17.000, target 20.000–20.700 và 21.800–22.300 đồng/cp." },
-      visual: { src: "assets/images/reports/ssi.webp", alt: "Bìa báo cáo định giá Chứng khoán SSI ngày 05 tháng 08 năm 2026", caption: "Bìa báo cáo định giá SSI", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/SSI_Equity_Research_2026-08-05.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/ssi.webp?v=20260813-company1", alt: "Đội ngũ Chứng khoán SSI tại lễ khai trương Phòng giao dịch Nguyễn Hữu Cảnh", caption: "Đội ngũ SSI tại Phòng giao dịch Nguyễn Hữu Cảnh", sourceLabel: "Tin Nhanh Chứng Khoán", sourceUrl: "https://m.tinnhanhchungkhoan.vn/chung-khoan-ssi-khai-truong-phong-giao-dich-nguyen-huu-canh-post306133.amp" },
       file: "reports/SSI_Equity_Research_2026-08-05.pdf", edition: "Bản định giá 05.08.2026"
     },
     {
@@ -150,7 +150,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá trị cơ sở cao hơn giá thị trường khoảng 48,8% tại ngày định giá", method: "EV/EBITDA chuẩn hóa + P/E + P/B; DCF chỉ dùng kiểm tra chéo",
       summary: "Giá 7.090 đồng/cp thấp hơn giá trị cơ sở 10.550 đồng/cp nhưng vẫn cao hơn vùng mua định giá 5.800–6.200 đồng/cp. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI, không mua đuổi; chỉ xem xét khi dòng tiền kinh doanh, phải thu và nợ vay cải thiện.",
       action: { zoneLow: 5800, zoneHigh: 6200, stop: 5650, basisDate: "2026-08-03", condition: "Không mua đuổi tại 7.090 đồng/cp. Chỉ giải ngân từng phần trong vùng 5.800–6.200 khi CFO, phải thu và nợ vay cùng cải thiện; stop tham khảo 5.650 đồng/cp." },
-      visual: { src: "assets/images/reports/hii.webp", alt: "Bìa báo cáo định giá HII ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá HII", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/HII_Equity_Valuation_2026.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/hii.webp?v=20260813-company1", alt: "Nhà máy An Tiến Industries tại Yên Bái", caption: "Nhà máy An Tiến Industries", sourceLabel: "Người Đưa Tin", sourceUrl: "https://m.nguoiduatin.vn/an-tien-industries-giai-trinh-viec-co-phieu-tang-tran-5-phien-lien-tiep-204251123130611065.htm" },
       file: "reports/HII_Equity_Valuation_2026.pdf", edition: "Bản chính"
     },
     {
@@ -159,7 +159,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá trị điểm giữa cao hơn giá thị trường khoảng 39,3% tại ngày định giá", method: "SOTP là phương pháp chính; định giá tương đối và trung vị báo cáo độc lập dùng kiểm tra chéo",
       summary: "Giá trị điểm giữa trọng số 95.000 đồng/cp và SOTP cơ sở 99.500 đồng/cp cho thấy dư địa so với giá 68.200 đồng/cp. Tuy nhiên, biên an toàn tới cận dưới 82.000 đồng/cp chỉ khoảng 16,8%, thấp hơn ngưỡng 25–30%; do đó báo cáo giữ khuyến nghị CHỜ - CHƯA MUA MỚI.",
       action: { zoneLow: 57500, zoneHigh: 61500, stop: 56500, basisDate: "2026-08-03", condition: "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 đồng/cp chỉ áp dụng khi điều kiện trong báo cáo được duy trì." },
-      visual: { src: "assets/images/reports/msn.webp", alt: "Bìa báo cáo định giá Tập đoàn Masan ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá MSN", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/msn.webp?v=20260813-company1", alt: "Sân khấu Đại hội đồng cổ đông thường niên Masan 2026", caption: "Đại hội đồng cổ đông thường niên Masan 2026", sourceLabel: "Masan Group", sourceUrl: "https://www.masangroup.com/news/press-releases/masan-agm-2026-the-great-connectivity-unlocking-a-new-growth-cycle/" },
       file: "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf", edition: "Báo cáo định giá"
     },
     {
@@ -168,7 +168,7 @@ window.RESEARCH_DATA = {
       gapLabel: "Giá trị cơ sở cao hơn giá thị trường khoảng 57,4% tại ngày định giá", method: "SOTP + RNAV/NAV",
       summary: "Giá trị cơ sở 57.600 đồng/cp cao hơn giá 36.600 đồng/cp khoảng 57,4%, nhưng biên an toàn tới cận dưới 44.800 đồng/cp chỉ khoảng 18,2%, thấp hơn ngưỡng 25–30%. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI; vùng mua định giá 31.300–33.600 đồng/cp.",
       action: { zoneLow: 31300, zoneHigh: 33600, stop: null, basisDate: "2026-08-03", condition: "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 đồng/cp phải có xác nhận theo điều kiện trong báo cáo." },
-      visual: { src: "assets/images/reports/bcm.webp", alt: "Bìa báo cáo định giá Becamex BCM ngày 03 tháng 08 năm 2026", caption: "Bìa báo cáo định giá BCM", sourceLabel: "Báo cáo Xuân Lê TVS", sourceUrl: "reports/BCM_Bao_cao_dinh_gia_20260803.pdf", kind: "report-cover" },
+      visual: { src: "assets/images/reports/bcm.webp?v=20260813-company1", alt: "Tổng Giám đốc Becamex IDC phát biểu tại lễ khởi động các khu công nghiệp năm 2025", caption: "Becamex IDC khởi động các dự án khu công nghiệp sinh thái", sourceLabel: "Kiểm Sát Online", sourceUrl: "https://kiemsat.vn/becamex-idc-khoi-dong-cac-du-an-chien-luoc-kien-tao-khu-cong-nghiep-sinh-thai-thong-minh-the-he-moi-70433.html" },
       file: "reports/BCM_Bao_cao_dinh_gia_20260803.pdf", edition: "Bản chính"
     },
     {
@@ -233,7 +233,7 @@ window.RESEARCH_DATA = {
       recommendation: "LOẠI", status: "reject", marketPrice: 25500, baseValue: 19000, rangeLow: 13600, rangeHigh: 24300,
       gapLabel: null, method: "DCF FCFF chu kỳ + kiểm chứng tương đối",
       summary: "Điểm giữa 19.000 đồng/cp; vùng giá trị hợp lý 13.600–24.300 đồng/cp; không mua mới.",
-      visual: { src: "assets/images/reports/bsr.webp", alt: "Hình minh họa một tổ hợp lọc hóa dầu", caption: "Hình minh họa ngành lọc hóa dầu", sourceLabel: "Unsplash / Ali Mucci", sourceUrl: "https://unsplash.com/photos/industrial-oil-refinery-complex-under-a-clear-blue-sky-gZbjx2K7s9I", kind: "illustration" },
+      visual: { src: "assets/images/reports/bsr.webp?v=20260813-company1", alt: "Kỹ sư BSR trao đổi phương án vận hành tại Nhà máy lọc dầu Dung Quất", caption: "Kỹ sư BSR tại Nhà máy lọc dầu Dung Quất", sourceLabel: "Đại Đoàn Kết", sourceUrl: "https://daidoanket.vn/nghien-cuu-khoa-hoc-kim-chi-nam-phat-trien-cua-bsr-10250988.html" },
       file: "reports/BSR_Equity_Research_Valuation_2026.pdf", edition: "Bản chính"
     },
     {
