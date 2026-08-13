@@ -34,6 +34,8 @@ jobs:
         run: node --test tests/trade-ledger.test.mjs
       - name: Build production assets
         run: ./scripts/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
       - name: Prepare lean production artifact
         run: ./scripts/prepare-site.sh "${RUNNER_TEMP}/site"
       - name: Persist new EOD ledger events

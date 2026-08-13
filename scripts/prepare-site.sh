@@ -26,7 +26,8 @@ runtime_paths=(
   .nojekyll
   favicon.svg
   index.html
-  assets
+  robots.txt
+  sitemap.xml
   reports
 )
 
@@ -37,5 +38,23 @@ for path in "${runtime_paths[@]}"; do
   fi
   cp -a "$path" "$stage_dir/"
 done
+
+for path in assets/css assets/js assets/images assets/fonts; do
+  if [[ ! -d "$path" ]]; then
+    printf 'Missing required runtime directory: %s\n' "$path" >&2
+    exit 1
+  fi
+done
+
+mkdir -p "$stage_dir/assets/fonts"
+cp -a assets/css assets/js assets/images "$stage_dir/assets/"
+
+shopt -s nullglob
+font_files=(assets/fonts/*.woff2)
+if [[ ${#font_files[@]} -eq 0 ]]; then
+  printf 'No production font files found in assets/fonts\n' >&2
+  exit 1
+fi
+cp -a "${font_files[@]}" "$stage_dir/assets/fonts/"
 
 printf 'Prepared production artifact at %s\n' "$stage_dir"
