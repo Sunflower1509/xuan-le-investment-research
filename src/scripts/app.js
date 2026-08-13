@@ -105,6 +105,22 @@
     : [];
   let activeDailyId = dailyEntries[0]?.id || null;
 
+  const DAILY_DISCLAIMER = "Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.";
+
+  const dailyActionMeta = (value) => {
+    const text = normalize(value).replaceAll("đ", "d");
+    if (/khong mua duoi|tuyet doi khong mua/.test(text)) return { label: "KHÔNG MUA ĐUỔI", tone: "avoid" };
+    if (/tham do/.test(text)) return { label: "THĂM DÒ NHỎ", tone: "probe" };
+    if (/giam|ha margin|dung mua|huy view|phong thu/.test(text)) return { label: "GIẢM RỦI RO", tone: "defensive" };
+    if (/giu|nam giu/.test(text)) return { label: "GIỮ", tone: "hold" };
+    if (/mua xac nhan|gia tang|co the mua|mo vi the|mua/.test(text)) return { label: "MUA CÓ ĐIỀU KIỆN", tone: "conditional" };
+    return { label: "CHỜ XÁC NHẬN", tone: "wait" };
+  };
+
+  const dailyInference = (value) => String(value ?? "")
+    .replace(DAILY_DISCLAIMER, "")
+    .trim();
+
   const renderDailyInsight = (id = activeDailyId) => {
     if (!refs.dailyInsight || !refs.dailyArchive) return;
     const entry = dailyEntries.find((item) => item.id === id) || dailyEntries[0];
@@ -120,8 +136,10 @@
       <button class="daily-archive-item${item.id === activeDailyId ? " active" : ""}" type="button" data-action="show-daily-insight" data-id="${escapeHtml(item.id)}" aria-pressed="${item.id === activeDailyId}">
         <span><i>${index === 0 ? "MỚI NHẤT" : escapeHtml(item.edition)}</i><time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
         <strong>${escapeHtml(item.title)}</strong>
-        <small>${escapeHtml(item.sentimentLabel)} • ${escapeHtml(item.readingTime)}</small>
+        <small>${escapeHtml(item.sentimentLabel)} • BẢN NHANH</small>
       </button>`).join("");
+
+    const inference = dailyInference(entry.inference);
 
     refs.dailyInsight.innerHTML = `
       <header class="daily-insight-header">
@@ -139,29 +157,54 @@
           <span>${escapeHtml(metric.label)}</span><strong>${escapeHtml(metric.value)}</strong><small>${escapeHtml(metric.change)}</small>
         </div>`).join("")}</div>
 
-      <div class="daily-analysis-grid">
-        <section class="daily-analysis-panel market-context">
-          <div class="daily-panel-heading"><span>01</span><div><small>Market backdrop</small><h4>Bối cảnh phiên</h4></div></div>
-          <ul>${entry.backdrop.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-          <p class="daily-focus"><svg><use href="#i-chart"></use></svg>${escapeHtml(entry.focus)}</p>
-        </section>
+      <section class="daily-action-panel" aria-labelledby="daily-action-title-${escapeHtml(entry.id)}">
+        <div class="daily-action-heading">
+          <div><small>TRADING PLAYBOOK</small><h4 id="daily-action-title-${escapeHtml(entry.id)}">Điều kiện → hành động</h4></div>
+          <span>${entry.playbook.length} kịch bản đã khóa</span>
+        </div>
+        <div class="daily-action-list">${entry.playbook.map((item, index) => {
+          const action = dailyActionMeta(item.then);
+          return `
+            <article class="daily-action-row ${action.tone}">
+              <div class="daily-action-signal"><span>${action.label}</span><small>${String(index + 1).padStart(2, "0")}</small></div>
+              <div class="daily-action-condition"><small>KHI</small><p>${escapeHtml(item.if)}</p></div>
+              <div class="daily-action-decision"><small>THÌ</small><p>${escapeHtml(item.then)}</p></div>
+            </article>`;
+        }).join("")}</div>
+      </section>
 
-        <section class="daily-analysis-panel level-panel">
-          <div class="daily-panel-heading"><span>02</span><div><small>Key evidence</small><h4>Mốc cần quan sát</h4></div></div>
-          <div class="daily-levels">${entry.levels.map((item) => `
-            <article><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><p>${escapeHtml(item.note)}</p></article>`).join("")}</div>
-        </section>
+      <details class="daily-evidence">
+        <summary>
+          <span class="daily-evidence-icon"><svg><use href="#i-shield"></use></svg></span>
+          <span class="daily-evidence-label"><strong>Dữ liệu, phương pháp và ${entry.sources.length} nguồn kiểm chứng</strong><small>Bối cảnh phiên • mốc kỹ thuật • sai khác dữ liệu</small></span>
+          <span class="daily-evidence-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="daily-evidence-body">
+          <div class="daily-evidence-grid">
+            <section class="daily-evidence-panel">
+              <div class="daily-evidence-heading"><small>01 • MARKET BACKDROP</small><h5>Bối cảnh và dòng tiền</h5></div>
+              <ul class="daily-backdrop-list">${entry.backdrop.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+              <p class="daily-focus"><svg><use href="#i-chart"></use></svg>${escapeHtml(entry.focus)}</p>
+            </section>
+            <section class="daily-evidence-panel">
+              <div class="daily-evidence-heading"><small>02 • KEY LEVELS</small><h5>Mốc kỹ thuật đã khóa</h5></div>
+              <div class="daily-levels">${entry.levels.map((item) => `
+                <article><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><p>${escapeHtml(item.note)}</p></article>`).join("")}</div>
+            </section>
+          </div>
+          <div class="daily-method-row">
+            ${inference ? `<div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phương pháp và giới hạn dữ liệu</strong>${escapeHtml(inference)}</p></div>` : ""}
+            <div class="daily-sources"><span>Nguồn kiểm chứng</span><div>${entry.sources.map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a>`).join("")}</div></div>
+          </div>
+        </div>
+      </details>
 
-        <section class="daily-analysis-panel playbook-panel">
-          <div class="daily-panel-heading"><span>03</span><div><small>Decision discipline</small><h4>Kế hoạch IF–THEN</h4></div></div>
-          <div class="daily-playbook">${entry.playbook.map((item) => `
-            <article><div><span>IF</span><p>${escapeHtml(item.if)}</p></div><div><span>THEN</span><p>${escapeHtml(item.then)}</p></div></article>`).join("")}</div>
-        </section>
-      </div>
-
-      <footer class="daily-insight-footer">
-        <div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phân biệt dữ liệu và nhận định</strong>${escapeHtml(entry.inference)}</p></div>
-        <div class="daily-sources"><span>Nguồn kiểm chứng</span><div>${entry.sources.map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a>`).join("")}</div></div>
+      <footer class="daily-quick-footer">
+        <p class="daily-disclaimer"><svg><use href="#i-shield"></use></svg><span>${DAILY_DISCLAIMER}</span></p>
+        <nav class="daily-next-actions" aria-label="Đi tiếp từ nhận định thị trường">
+          <a href="#action-radar">Xem Action Radar <svg><use href="#i-arrow"></use></svg></a>
+          <a href="#research">Mở thư viện báo cáo <svg><use href="#i-arrow"></use></svg></a>
+        </nav>
       </footer>`;
   };
 
