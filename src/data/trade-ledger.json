@@ -281,6 +281,15 @@
           "zoneHigh": 34700,
           "zoneBasisDate": "2026-07-09",
           "eligibility": "veto"
+        },
+        "PVD": {
+          "date": "2026-08-13",
+          "close": 18300,
+          "relation": "above",
+          "zoneLow": 12000,
+          "zoneHigh": 12800,
+          "zoneBasisDate": "2026-08-13",
+          "eligibility": "active"
         }
       }
     }

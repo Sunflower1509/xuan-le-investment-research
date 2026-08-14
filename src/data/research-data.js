@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 30/30 mã được khóa tại phiên 13/08/2026. Giá đóng cửa của 30/30 mã khớp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 26/30 mã trùng tuyệt đối; SHS, BVS, DDV và PVS có sai khác nhỏ giữa hai nguồn, website dùng nmVolume từ VNDIRECT Finfo và không suy diễn nguyên nhân. Dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 31/31 mã được khóa tại phiên 13/08/2026. Giá đóng cửa của 31/31 mã khớp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 27/31 mã trùng tuyệt đối; SHS, BVS, DDV và PVS có sai khác nhỏ giữa hai nguồn, website dùng nmVolume từ VNDIRECT Finfo và không suy diễn nguyên nhân. Dùng giá đóng cửa giao dịch thực tế, không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,15 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "PVD-20260813", ticker: "PVD", company: "Tổng Công ty Cổ phần Khoan và Dịch vụ Khoan Dầu khí", sector: "Năng lượng", exchange: "HOSE", date: "2026-08-13",
+      recommendation: "CHỜ - KHÔNG MUA THEO ĐỊNH GIÁ", status: "wait", marketPrice: 18300, marketPriceDate: "2026-08-13", baseValue: 19670, valueLabel: "Điểm giữa", rangeLow: 17100, rangeHigh: 22200,
+      gapLabel: "MOS khoảng 6,96% so với midpoint; thấp hơn chuẩn 25–30% trong báo cáo", method: "FCFF theo day-rate/utilization + EV/EBITDA chuẩn hóa",
+      summary: "Vùng giá trị hợp lý 17.100–22.200 đồng/cp, midpoint khoảng 19.670 đồng/cp và không phải giá mục tiêu. Tại 18.300 đồng/cp ngày 13/08/2026, MOS so với midpoint khoảng 6,96%, thấp hơn chuẩn 25–30%; trạng thái CHỜ - KHÔNG MUA THEO ĐỊNH GIÁ. Vùng mua valuation là 12.000–12.800 đồng/cp nếu thesis kinh doanh không suy yếu.",
+      action: { zoneLow: 12000, zoneHigh: 12800, baseValue: 19670, stop: 11875, basisDate: "2026-08-13", recommendation: "CHỜ - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "active", condition: "Chỉ xem xét 12.000–12.800 đồng/cp nếu thesis kinh doanh không suy yếu. Entry minh họa 12.500, stop 11.875; T1 17.120, T2 19.670 và T3 22.220 đồng/cp. R/R đẹp tại vùng 12.500 không được dùng để hợp thức hóa lệnh mua ở giá hiện tại 18.300." },
+      visual: { src: "assets/images/reports/pvd.webp?v=20260814-company1", alt: "Giàn khoan tự nâng PV DRILLING IX của PV Drilling tại lễ đặt tên năm 2026", caption: "Giàn khoan tự nâng PV DRILLING IX", sourceLabel: "PV Drilling", sourceUrl: "https://www.pvdrilling.com.vn/tin-tuc/tin-pv-drilling/pv-drilling-dat-ten-gian-khoan-tu-nang-da-nang-pv-drilling-ix-sn-sang-gia-nhap-doi-hinh-khoan-hien-dai" },
+      file: "reports/PVD_Equity_Research_Valuation_2026-08-13.pdf", edition: "Bản định giá 13.08.2026"
+    },
     {
       id: "TCX-20260813", ticker: "TCX", company: "Công ty Cổ phần Chứng khoán Kỹ Thương", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-13",
       recommendation: "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ", status: "reject", marketPrice: 40500, marketPriceDate: "2026-08-12", baseValue: 25000, valueLabel: "Điểm giữa xấp xỉ", rangeLow: 17800, rangeHigh: 32200,
@@ -263,6 +272,11 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "PVD", company: "PV Drilling", sector: "Năng lượng", exchange: "HOSE", reportId: "PVD-20260813",
+      close: 18300, priceDate: "2026-08-13", changePct: -2.139, volume: 1972800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVD~date:2026-08-13&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786554000&to=1786615200&symbol=PVD&resolution=1D",
+      action: { zoneLow: 12000, zoneHigh: 12800, baseValue: 19670, stop: 11875, basisDate: "2026-08-13", recommendation: "CHỜ - KHÔNG MUA THEO ĐỊNH GIÁ", eligibility: "active", condition: "Chỉ xem xét 12.000–12.800 đồng/cp nếu thesis kinh doanh không suy yếu. Entry minh họa 12.500, stop 11.875; T1 17.120, T2 19.670 và T3 22.220 đồng/cp. R/R đẹp tại vùng 12.500 không được dùng để hợp thức hóa lệnh mua ở giá hiện tại 18.300." }
+    },
     {
       ticker: "TCX", company: "Công ty Cổ phần Chứng khoán Kỹ Thương", sector: "Chứng khoán", exchange: "HOSE", reportId: "TCX-20260813",
       close: 40000, priceDate: "2026-08-13", changePct: -1.2346, volume: 1888200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCX~date:2026-08-13&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786554000&to=1786615200&symbol=TCX&resolution=1D",
