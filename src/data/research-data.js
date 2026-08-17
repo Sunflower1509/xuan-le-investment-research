@@ -37,6 +37,177 @@ window.RESEARCH_DATA = {
 
   reports: [
     {
+      "id": "FPT-20260817",
+      "ticker": "FPT",
+      "company": "Công ty Cổ phần FPT",
+      "sector": "Công nghệ",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 68800,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 117900,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 63600,
+      "rangeHigh": 185600,
+      "gapLabel": "Chưa đạt MOS 25–30% so với cận dưới; vùng mua định giá 44.500–47.700 đồng/cp",
+      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
+      "summary": "Vùng giá trị hợp lý 63.600–185.600 đồng/cp, giá trị kỳ vọng 117.900 đồng/cp. Tại giá 68.800 đồng/cp ngày 17/08/2026, báo cáo giữ trạng thái CHỜ / THEO DÕI; vùng mua đủ biên an toàn theo định giá là 44.500–47.700 đồng/cp.",
+      "action": {
+        "zoneLow": 44500,
+        "zoneHigh": 47700,
+        "baseValue": 117900,
+        "stop": null,
+        "targets": [
+          63600,
+          87700,
+          90600
+        ],
+        "basisDate": "2026-08-17",
+        "recommendation": "CHỜ / THEO DÕI",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 44.500–47.700 đồng/cp khi dữ liệu cơ bản không xấu đi. Stop là 5% dưới giá khớp bình quân; báo cáo minh họa 46.100 → 43.800. T1 63.600; T2 87.700–90.600 đồng/cp. Nếu giả định tăng trưởng/biên bị phá vỡ thì LOẠI."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/FPT_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "BFC-20260817",
+      "ticker": "BFC",
+      "company": "Công ty Cổ phần Phân bón Bình Điền",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "TRÁNH",
+      "status": "reject",
+      "marketPrice": 47700,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 33808,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 24044,
+      "rangeHigh": 45823,
+      "gapLabel": "Giá 47.700 đồng/cp cao hơn cận trên 45.823 đồng/cp; không có biên an toàn",
+      "method": "Lợi nhuận chuẩn hóa 5–7 năm; kiểm chứng P/B và EV/EBITDA chuẩn hóa",
+      "summary": "Vùng giá trị hợp lý 24.044–45.823 đồng/cp, giá trị kỳ vọng 33.808 đồng/cp. Giá 47.700 đồng/cp ngày 17/08/2026 cao hơn cận trên nên báo cáo kết luận TRÁNH. Vùng có thể xem xét theo MOS 25–30% so với Base là 22.878–24.512 đồng/cp nếu kết quả kinh doanh không xấu thêm.",
+      "action": {
+        "zoneLow": 22878,
+        "zoneHigh": 24512,
+        "baseValue": 33808,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-17",
+        "recommendation": "TRÁNH - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "P >45.800: TRÁNH mua mới. P 32.700–45.800: THEO DÕI. P 22.900–24.500: chỉ có thể xem xét theo MOS nếu KQKD không xấu thêm. Tại giá hiện tại Stoploss/Target/R/R đều N/A; không tạo mức stop giả từ valuation."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/BFC_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "PNJ-20260817",
+      "ticker": "PNJ",
+      "company": "Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận",
+      "sector": "Tiêu dùng",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "THEO DÕI",
+      "status": "wait",
+      "marketPrice": 36200,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 70561,
+      "valueLabel": "Điểm neo kỳ vọng",
+      "rangeLow": 31129,
+      "rangeHigh": 117109,
+      "gapLabel": "Chưa đạt MOS 25–30% so với cận dưới; vùng mua định giá 21.791–23.347 đồng/cp",
+      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
+      "summary": "Vùng giá trị hợp lý 31.129–117.109 đồng/cp và điểm neo kỳ vọng 70.561 đồng/cp. Giá 36.200 đồng/cp ngày 17/08/2026 vẫn nằm trong vùng giá trị nên tín hiệu cơ học là THEO DÕI. Vùng mua đủ MOS 25–30% theo cận dưới là 21.791–23.347 đồng/cp; các điểm vào chiến thuật 1–3 tuần trong báo cáo có điều kiện xác nhận riêng.",
+      "action": {
+        "zoneLow": 21791,
+        "zoneHigh": 23347,
+        "baseValue": 70561,
+        "stop": null,
+        "targets": [
+          31129,
+          70561
+        ],
+        "basisDate": "2026-08-17",
+        "recommendation": "THEO DÕI",
+        "eligibility": "active",
+        "condition": "Vùng 21.791–23.347 đồng/cp là vùng mua nghiêm ngặt theo MOS. Không tự động chuyển các ngưỡng chiến thuật thành lệnh mua: breakout 39.700 cần 2 phiên và thanh khoản xác nhận; pullback 34.800–35.000 cũng cần giữ 2 phiên và không có thông tin bất lợi mới."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/PNJ_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "ACB-20260817",
+      "ticker": "ACB",
+      "company": "Ngân hàng TMCP Á Châu",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 21850,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 27744,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 25700,
+      "rangeHigh": 29600,
+      "gapLabel": "MOS so cận dưới khoảng 15%; chưa đạt chuẩn 25–30%",
+      "method": "P/B gắn ROE kết hợp Residual Income",
+      "summary": "Vùng giá trị hợp lý lõi 25.700–29.600 đồng/cp, giá trị kỳ vọng 27.744 đồng/cp. Giá 21.850 đồng/cp ngày 17/08/2026 thấp hơn vùng giá trị nhưng MOS so với cận dưới mới khoảng 15%, nên báo cáo giữ trạng thái CHỜ / THEO DÕI. Vùng mua nghiêm ngặt là 17.990–19.275 đồng/cp, làm tròn giao dịch 18.000–19.300 đồng/cp.",
+      "action": {
+        "zoneLow": 18000,
+        "zoneHigh": 19300,
+        "baseValue": 27744,
+        "stop": null,
+        "targets": [
+          22780,
+          25700,
+          27744
+        ],
+        "basisDate": "2026-08-17",
+        "recommendation": "CHỜ / THEO DÕI",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 18.000–19.300 đồng/cp nếu NPL/LLCR và thông tin công bố không xấu đi đáng kể. Sau khi mua, stop tham chiếu -6% từ giá khớp thực tế. T1 22.780; T2 25.700; T3 27.744 đồng/cp."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/ACB_17-08-2026.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
       id: "MSR-20260817", ticker: "MSR", company: "Công ty Cổ phần Masan High-Tech Materials", sector: "Công nghiệp", exchange: "UPCoM", date: "2026-08-17",
       recommendation: "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN", status: "wait", marketPrice: 42000, marketPriceDate: "2026-08-17", baseValue: 53933, valueLabel: "Giá trị kỳ vọng", rangeLow: 31033, rangeHigh: 75963,
       gapLabel: "MOS 22,1% so với giá trị kỳ vọng tại giá 42.000 đồng/cp; chưa đạt chuẩn 25–30%", method: "NAV/DCF theo kịch bản hàng hóa; EV/EBITDA và EV/trữ lượng chỉ dùng kiểm chứng",
@@ -484,9 +655,9 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 38000, zoneHigh: 40700, basisDate: "2026-07-14", recommendation: "CHỜ", eligibility: "active", condition: "Đầu tư giá trị; giao dịch 1–3 tuần chỉ hành động khi cấu trúc giá xác nhận." }
     },
     {
-      ticker: "ACB", company: "Ngân hàng Á Châu", sector: "Ngân hàng", exchange: "HOSE", reportId: null,
+      ticker: "ACB", company: "Ngân hàng Á Châu", sector: "Ngân hàng", exchange: "HOSE", reportId: "ACB-20260817",
       close: 21850, priceDate: "2026-08-17", changePct: -1.3544, volume: 8429500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ACB~date:2026-08-17&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786899600&to=1786960800&symbol=ACB&resolution=1D",
-      action: { zoneLow: 19100, zoneHigh: 20500, baseValue: 27300, basisDate: "2026-07-16", recommendation: "CHỜ – KHÔNG MUA ĐUỔI", eligibility: "active", condition: "Vùng mua đã khóa trong phân tích ACB; PDF chưa có trong thư viện." }
+      action: {"zoneLow":18000,"zoneHigh":19300,"baseValue":27744,"stop":null,"targets":[22780,25700,27744],"basisDate":"2026-08-17","recommendation":"CHỜ / THEO DÕI","eligibility":"active","condition":"Chỉ xem xét 18.000–19.300 đồng/cp nếu NPL/LLCR và thông tin công bố không xấu đi đáng kể. Sau khi mua, stop tham chiếu -6% từ giá khớp thực tế. T1 22.780; T2 25.700; T3 27.744 đồng/cp."}
     },
     {
       ticker: "CTG", company: "VietinBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "CTG-20260811",
@@ -509,9 +680,9 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 19900, zoneHigh: 21300, basisDate: "2026-07-13", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ mua từng phần khi LNST 2026 và chất lượng tài sản vẫn giữ điều kiện của báo cáo." }
     },
     {
-      ticker: "FPT", company: "FPT", sector: "Công nghệ", exchange: "HOSE", reportId: null,
+      ticker: "FPT", company: "FPT", sector: "Công nghệ", exchange: "HOSE", reportId: "FPT-20260817",
       close: 68800, priceDate: "2026-08-17", changePct: 0.7321, volume: 4104500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FPT~date:2026-08-17&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786899600&to=1786960800&symbol=FPT&resolution=1D",
-      action: { zoneLow: 69000, zoneHigh: 72500, stopHigh: 69000, basisDate: "2026-07-09", recommendation: "CHỜ / CANH MUA CÓ ĐIỀU KIỆN", eligibility: "invalidated", condition: "Giá đóng cửa 67.100 ngày 31/07/2026 vẫn dưới mốc stop 68.500–69.000 của thiết lập cũ; phải đánh giá lại trước khi kích hoạt." }
+      action: {"zoneLow":44500,"zoneHigh":47700,"baseValue":117900,"stop":null,"targets":[63600,87700,90600],"basisDate":"2026-08-17","recommendation":"CHỜ / THEO DÕI","eligibility":"active","condition":"Chỉ xem xét 44.500–47.700 đồng/cp khi dữ liệu cơ bản không xấu đi. Stop là 5% dưới giá khớp bình quân; báo cáo minh họa 46.100 → 43.800. T1 63.600; T2 87.700–90.600 đồng/cp. Nếu giả định tăng trưởng/biên bị phá vỡ thì LOẠI."}
     },
     {
       ticker: "HPG", company: "Hòa Phát", sector: "Công nghiệp", exchange: "HOSE", reportId: "HPG-20260710",
@@ -544,14 +715,14 @@ window.RESEARCH_DATA = {
       action: { zoneLow: 9500, zoneHigh: 10200, basisDate: "2026-07-12", recommendation: "LOẠI – KHÔNG MUA MỚI", eligibility: "veto", condition: "Hard veto theo báo cáo; không xếp vào danh sách ưu tiên dù giá giảm." }
     },
     {
-      ticker: "PNJ", company: "Vàng bạc Đá quý Phú Nhuận", sector: "Tiêu dùng", exchange: "HOSE", reportId: null,
+      ticker: "PNJ", company: "Vàng bạc Đá quý Phú Nhuận", sector: "Tiêu dùng", exchange: "HOSE", reportId: "PNJ-20260817",
       close: 36200, priceDate: "2026-08-17", changePct: -0.8219, volume: 2983300, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-08-17&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786899600&to=1786960800&symbol=PNJ&resolution=1D",
-      action: { basisDate: "2026-07-07", recommendation: "LOẠI / TRÁNH MUA MỚI", eligibility: "veto", condition: "Không bắt đáy; thiết lập cũ đã mất hiệu lực và chưa có vùng mua mới được khóa." }
+      action: {"zoneLow":21791,"zoneHigh":23347,"baseValue":70561,"stop":null,"targets":[31129,70561],"basisDate":"2026-08-17","recommendation":"THEO DÕI","eligibility":"active","condition":"Vùng 21.791–23.347 đồng/cp là vùng mua nghiêm ngặt theo MOS. Không tự động chuyển các ngưỡng chiến thuật thành lệnh mua: breakout 39.700 cần 2 phiên và thanh khoản xác nhận; pullback 34.800–35.000 cũng cần giữ 2 phiên và không có thông tin bất lợi mới."}
     },
     {
-      ticker: "BFC", company: "Phân bón Bình Điền", sector: "Nông nghiệp", exchange: "HOSE", reportId: null,
+      ticker: "BFC", company: "Phân bón Bình Điền", sector: "Nông nghiệp", exchange: "HOSE", reportId: "BFC-20260817",
       close: 47700, priceDate: "2026-08-17", changePct: -1.0373, volume: 28900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BFC~date:2026-08-17&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786899600&to=1786960800&symbol=BFC&resolution=1D",
-      action: { zoneLow: 32400, zoneHigh: 34700, basisDate: "2026-07-09", recommendation: "TRÁNH MUA MỚI THEO ĐỊNH GIÁ", eligibility: "veto", condition: "Chờ kỹ thuật; không mở mua mới theo định giá hiện tại." }
+      action: {"zoneLow":22878,"zoneHigh":24512,"baseValue":33808,"stop":null,"targets":[],"basisDate":"2026-08-17","recommendation":"TRÁNH - KHÔNG MUA MỚI","eligibility":"veto","condition":"P >45.800: TRÁNH mua mới. P 32.700–45.800: THEO DÕI. P 22.900–24.500: chỉ có thể xem xét theo MOS nếu KQKD không xấu thêm. Tại giá hiện tại Stoploss/Target/R/R đều N/A; không tạo mức stop giả từ valuation."}
     }
   ]
 };

@@ -160,9 +160,9 @@
           "date": "2026-08-17",
           "close": 21850,
           "relation": "above",
-          "zoneLow": 19100,
-          "zoneHigh": 20500,
-          "zoneBasisDate": "2026-07-16",
+          "zoneLow": 18000,
+          "zoneHigh": 19300,
+          "zoneBasisDate": "2026-08-17",
           "eligibility": "active"
         },
         "CTG": {
@@ -204,11 +204,11 @@
         "FPT": {
           "date": "2026-08-17",
           "close": 68800,
-          "relation": "below",
-          "zoneLow": 69000,
-          "zoneHigh": 72500,
-          "zoneBasisDate": "2026-07-09",
-          "eligibility": "invalidated"
+          "relation": "above",
+          "zoneLow": 44500,
+          "zoneHigh": 47700,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
         },
         "HPG": {
           "date": "2026-08-17",
@@ -267,19 +267,19 @@
         "PNJ": {
           "date": "2026-08-17",
           "close": 36200,
-          "relation": "unavailable",
-          "zoneLow": null,
-          "zoneHigh": null,
-          "zoneBasisDate": "2026-07-07",
-          "eligibility": "veto"
+          "relation": "above",
+          "zoneLow": 21791,
+          "zoneHigh": 23347,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
         },
         "BFC": {
           "date": "2026-08-17",
           "close": 47700,
           "relation": "above",
-          "zoneLow": 32400,
-          "zoneHigh": 34700,
-          "zoneBasisDate": "2026-07-09",
+          "zoneLow": 22878,
+          "zoneHigh": 24512,
+          "zoneBasisDate": "2026-08-17",
           "eligibility": "veto"
         },
         "PVD": {
