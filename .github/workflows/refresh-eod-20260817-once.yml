@@ -63,6 +63,11 @@ jobs:
             const n = Number(v);
             return Number.isFinite(n) ? n : null;
           };
+          const normalizeVndPrice = (v) => {
+            const n = num(v);
+            if (!(n > 0)) return null;
+            return n < 1000 ? Math.round(n * 1000) : Math.round(n);
+          };
           const round4 = (n) => Math.round(n * 10000) / 10000;
           const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -72,12 +77,13 @@ jobs:
               || rows.find((r) => String(r?.date || '') === DATE)
               || rows[0];
             if (!row) throw new Error(`${ticker}: VNDIRECT returned no row`);
-            const close = num(row.close);
+            const closeRaw = num(row.close);
+            const close = normalizeVndPrice(row.close);
             const volume = num(row.nmVolume ?? row.totalVolume ?? row.volume);
             let changePct = num(row.pctChange ?? row.changePct);
             if (changePct === null) {
-              const ref = num(row.basicPrice ?? row.referencePrice ?? row.reference ?? row.refPrice);
-              if (close !== null && ref && ref !== 0) changePct = ((close / ref) - 1) * 100;
+              const refRaw = num(row.basicPrice ?? row.referencePrice ?? row.reference ?? row.refPrice);
+              if (closeRaw !== null && refRaw && refRaw !== 0) changePct = ((closeRaw / refRaw) - 1) * 100;
             }
             if (!(close > 0) || !(volume >= 0) || changePct === null) {
               throw new Error(`${ticker}: incomplete VNDIRECT row keys=${Object.keys(row).join(',')}`);
@@ -89,10 +95,8 @@ jobs:
             const c = Array.isArray(json?.c) ? json.c : [];
             const v = Array.isArray(json?.v) ? json.v : [];
             if (!c.length) throw new Error(`${ticker}: DNSE returned no closing series; keys=${Object.keys(json || {}).join(',')}`);
-            const lastClose = num(c[c.length - 1]);
-            if (!(lastClose > 0)) throw new Error(`${ticker}: invalid DNSE close`);
-            // DNSE chart series is quoted in thousand VND; normalize to VND/cp.
-            const close = lastClose < 1000 ? Math.round(lastClose * 1000) : Math.round(lastClose);
+            const close = normalizeVndPrice(c[c.length - 1]);
+            if (!(close > 0)) throw new Error(`${ticker}: invalid DNSE close`);
             const volume = v.length ? num(v[v.length - 1]) : null;
             return { close, volume: volume === null ? null : Math.round(volume) };
           }
