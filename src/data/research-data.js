@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 35/35 mã được khóa tại phiên 14/08/2026. Giá đóng cửa của 33/35 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. BID và SSI có sai khác giá tại DNSE; dữ liệu CafeF khớp VNDIRECT về OHLC và khối lượng, website dùng giá giao dịch thực tế từ VNDIRECT/CafeF và không suy diễn nguyên nhân chênh lệch. Khối lượng khớp 31/35 mã trùng giữa VNDIRECT và DNSE; SHS, BVS, DDV và PVS có sai khác nhỏ, website tiếp tục dùng nmVolume từ VNDIRECT Finfo theo quy ước nhất quán và không suy diễn nguyên nhân. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 40/40 mã được khóa tại phiên 14/08/2026. Giá đóng cửa của 38/40 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. BID và SSI có sai khác giá tại DNSE; dữ liệu CafeF khớp VNDIRECT về OHLC và khối lượng, website dùng giá giao dịch thực tế từ VNDIRECT/CafeF và không suy diễn nguyên nhân chênh lệch. Khối lượng khớp 35/40 mã trùng giữa VNDIRECT và DNSE; SHS, BVS, DDV, PVS và MSR có sai khác nhỏ, website tiếp tục dùng nmVolume từ VNDIRECT Finfo theo quy ước nhất quán và không suy diễn nguyên nhân. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,51 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "MSR-20260817", ticker: "MSR", company: "Công ty Cổ phần Masan High-Tech Materials", sector: "Công nghiệp", exchange: "UPCoM", date: "2026-08-17",
+      recommendation: "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN", status: "wait", marketPrice: 42000, marketPriceDate: "2026-08-17", baseValue: 53933, valueLabel: "Giá trị kỳ vọng", rangeLow: 31033, rangeHigh: 75963,
+      gapLabel: "MOS 22,1% so với giá trị kỳ vọng tại giá 42.000 đồng/cp; chưa đạt chuẩn 25–30%", method: "NAV/DCF theo kịch bản hàng hóa; EV/EBITDA và EV/trữ lượng chỉ dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 31.033–75.963 đồng/cp, giá trị kỳ vọng 53.933 đồng/cp. Tại giá 42.000 đồng/cp ngày 17/08/2026, MOS so với giá trị kỳ vọng là 22,1%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN. Vùng mua tham khảo là 37.753–40.450 đồng/cp nếu không xuất hiện điểm đỏ mới trong luận điểm đầu tư.",
+      action: { zoneLow: 37753, zoneHigh: 40450, baseValue: 53933, stop: 37146, targets: [53933], basisDate: "2026-08-17", recommendation: "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN", eligibility: "active", condition: "Chỉ xem xét 37.753–40.450 đồng/cp khi không có điểm đỏ mới về trữ lượng, giá hàng hóa, đòn bẩy hoặc vận hành. Ví dụ trong báo cáo dùng giá vào 39.101 đồng/cp, stop 37.146 và mốc định giá 53.933 đồng/cp. Trên 53.933 đồng/cp không mua đuổi; dưới 37.753 đồng/cp phải kiểm tra lại nguyên nhân giảm trước khi hành động." },
+      visual: { src: "assets/images/reports/msr.webp?v=20260817-company2", alt: "Tổ hợp khai thác và chế biến khoáng sản của Masan High-Tech Materials", caption: "Tổ hợp sản xuất Masan High-Tech Materials", sourceLabel: "Masan High-Tech Materials", sourceUrl: "https://masanhightechmaterials.com/surging-tungsten-prices-propel-msr-to-record-high-profit/" },
+      file: "reports/MSR_17-08-2026.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "VIC-20260817", ticker: "VIC", company: "Tập đoàn Vingroup - CTCP", sector: "Đa ngành", exchange: "HOSE", date: "2026-08-17",
+      recommendation: "TRÁNH", status: "reject", marketPrice: 196500, marketPriceDate: "2026-08-17", baseValue: 54002, valueLabel: "Giá trị kỳ vọng", rangeLow: 37867, rangeHigh: 74650,
+      gapLabel: "MOS -263,9% so với giá trị kỳ vọng; giá hiện tại cao hơn toàn bộ vùng giá trị hợp lý", method: "SOTP theo giá trị sổ sách thay thế; phối hợp 80% SOTP và 20% định giá tương đối, có chiết khấu holding",
+      summary: "Vùng giá trị hợp lý tính toán 37.867–74.650 đồng/cp, giá trị kỳ vọng 54.002 đồng/cp và kịch bản cơ sở 51.745 đồng/cp. Giá 196.500 đồng/cp ngày 17/08/2026 cao hơn toàn bộ vùng giá trị, tương ứng MOS -263,9% so với giá trị kỳ vọng; báo cáo kết luận TRÁNH. Vùng mua theo định giá chỉ là 26.507–28.400 đồng/cp và không được dùng để hợp thức hóa mua đuổi ở giá hiện tại.",
+      action: { zoneLow: 26507, zoneHigh: 28400, baseValue: 54002, stop: null, basisDate: "2026-08-17", recommendation: "TRÁNH", eligibility: "veto", condition: "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định." },
+      visual: { src: "assets/images/reports/vic.webp?v=20260817-company2", alt: "Toàn cảnh Đại hội đồng cổ đông thường niên Vingroup năm 2026", caption: "Đại hội đồng cổ đông thường niên Vingroup 2026", sourceLabel: "Thị trường Tài chính Tiền tệ", sourceUrl: "https://thitruongtaichinhtiente.vn/dhdcd-vingroup-muc-tieu-doanh-thu-ky-luc-nam-2026-co-dong-cam-on-vic-vi-gia-tang-82337.html" },
+      file: "reports/VIC_2026-08-17.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "VCK-20260817", ticker: "VCK", company: "Công ty Cổ phần Chứng khoán VPS", sector: "Chứng khoán", exchange: "HOSE", date: "2026-08-17",
+      recommendation: "TRÁNH / LOẠI", status: "reject", marketPrice: 29600, marketPriceDate: "2026-08-17", baseValue: 20146, valueLabel: "Giá trị kỳ vọng", rangeLow: 15314, rangeHigh: 27668,
+      gapLabel: "MOS -46,9% so với giá trị kỳ vọng; giá hiện tại cao hơn cận trên vùng hợp lý", method: "DCF-FCFF theo rulebook; P/E, EV/EBITDA và P/B dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 15.314–27.668 đồng/cp và giá trị kỳ vọng 20.146 đồng/cp. Tại giá 29.600 đồng/cp ngày 17/08/2026, MOS là -46,9% so với giá trị kỳ vọng và giá đã cao hơn cận trên; báo cáo kết luận TRÁNH / LOẠI tại giá hiện tại. Vùng mua theo định giá là 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ.",
+      action: { zoneLow: 14102, zoneHigh: 15110, baseValue: 20146, stop: null, targets: [20146, 27668], basisDate: "2026-08-17", recommendation: "TRÁNH / LOẠI", eligibility: "veto", condition: "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo." },
+      visual: { src: "assets/images/reports/vck.webp?v=20260817-company2", alt: "Toàn cảnh Đại hội đồng cổ đông thường niên VPS năm 2026", caption: "Đại hội đồng cổ đông thường niên VPS 2026", sourceLabel: "VPS Securities", sourceUrl: "https://vps.com.vn/en/post/vps-succesfully-convenes-2026-annual-general-meeting-of-shareholders" },
+      file: "reports/VCK_17-08-2026.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "PHR-20260817", ticker: "PHR", company: "Công ty Cổ phần Cao su Phước Hòa", sector: "Nông nghiệp", exchange: "HOSE", date: "2026-08-17",
+      recommendation: "CHỜ / THEO DÕI", status: "wait", marketPrice: 61700, marketPriceDate: "2026-08-17", baseValue: 68781, valueLabel: "Giá trị kỳ vọng", rangeLow: 52379, rangeHigh: 87715,
+      gapLabel: "MOS 10,3% so với giá trị kỳ vọng; chưa đạt chuẩn 25–30%", method: "NAV/P-NAV là phương pháp chính; DCF/FCFF hoạt động và P/B dùng kiểm chứng",
+      summary: "Theo cơ sở trước thưởng cổ phiếu đang dùng tại ngày định giá, vùng giá trị hợp lý là 52.379–87.715 đồng/cp và giá trị kỳ vọng 68.781 đồng/cp. Giá 61.700 đồng/cp ngày 17/08/2026 tạo MOS 10,3%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái CHỜ / THEO DÕI. Vùng mua tham khảo trước thưởng là 36.665–39.284 đồng/cp nếu luận điểm NAV không thay đổi.",
+      action: { zoneLow: 36665, zoneHigh: 39284, baseValue: 68781, stop: null, targets: [52379, 68781], basisDate: "2026-08-17", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ xem xét vùng trước thưởng 36.665–39.284 đồng/cp khi luận điểm NAV còn nguyên và giá-khối lượng xác nhận. Stop là 5% dưới giá khớp thực tế nên chưa khóa mức tuyệt đối; ví dụ midpoint 37.975 đồng/cp cho stop khoảng 36.076. Phải định giá lại nếu bồi thường, tiền thuê đất hoặc pháp lý Tân Lập thay đổi." },
+      visual: { src: "assets/images/reports/phr.webp?v=20260817-company2", alt: "Dây chuyền chế biến cao su tại Cao su Phước Hòa", caption: "Dây chuyền chế biến cao su Phước Hòa", sourceLabel: "Tạp chí Công Thương", sourceUrl: "https://tapchicongthuong.vn/cao-su-phuoc-hoa--phr-nhu-cau-va-gia-cao-su-bat-dau-phuc-hoi-tu-cuoi-nam-nay-114438.htm" },
+      file: "reports/PHR_2026-08-17.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "DGW-20260816", ticker: "DGW", company: "Công ty Cổ phần Thế Giới Số", sector: "Công nghệ", exchange: "HOSE", date: "2026-08-16",
+      recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 41600, marketPriceDate: "2026-08-14", baseValue: 50092, valueLabel: "Giá trị kỳ vọng thận trọng", rangeLow: 41913, rangeHigh: 77774,
+      gapLabel: "MOS 17,0% so với giá trị kỳ vọng thận trọng; MOS 0,7% so với cận dưới", method: "DCF/FCFF là phương pháp chính; định giá tương đối dùng kiểm chứng, phối hợp 60/40",
+      summary: "Vùng giá trị hợp lý 41.913–77.774 đồng/cp và giá trị kỳ vọng thận trọng 50.092 đồng/cp. Giá đóng cửa 41.600 đồng/cp ngày 14/08/2026 tạo MOS 17,0% so với giá trị kỳ vọng nhưng chỉ 0,7% so với cận dưới; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua theo định giá là 29.339–31.434 đồng/cp nếu luận điểm kinh doanh không xấu đi.",
+      action: { zoneLow: 29339, zoneHigh: 31434, baseValue: 50092, stop: null, basisDate: "2026-08-16", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ xem xét vùng định giá 29.339–31.434 đồng/cp khi luận điểm kinh doanh không xấu đi; stop phải xác định theo cấu trúc giá tại thời điểm khớp nên chưa khóa mức tuyệt đối. Thiết lập kỹ thuật trong báo cáo là kịch bản riêng: chỉ kích hoạt khi đóng cửa vượt 43.150 đồng/cp với khối lượng trên 1,50 triệu cổ phiếu; không dùng để thay thế vùng mua định giá." },
+      visual: { src: "assets/images/reports/dgw.webp?v=20260817-company2", alt: "Đại hội đồng cổ đông thường niên Digiworld năm 2026", caption: "Đại hội đồng cổ đông thường niên Digiworld 2026", sourceLabel: "Digiworld", sourceUrl: "https://digiworld.com.vn/en/press-releases/digiworld-surpasses-usd-1-billion-in-revenue-sets-sights-on-record-breaking-growth-in-2026" },
+      file: "reports/DGW_2026-08-16.pdf", edition: "Bản định giá 16.08.2026"
+    },
     {
       id: "DHC-20260817", ticker: "DHC", company: "Công ty Cổ phần Đông Hải Bến Tre", sector: "Công nghiệp", exchange: "HOSE", date: "2026-08-17",
       recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 34800, marketPriceDate: "2026-08-17", baseValue: 33668, valueLabel: "Giá trị kỳ vọng", rangeLow: 27452, rangeHigh: 39791,
@@ -308,6 +353,31 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "MSR", company: "Masan High-Tech Materials", sector: "Công nghiệp", exchange: "UPCoM", reportId: "MSR-20260817",
+      close: 39900, priceDate: "2026-08-14", changePct: 0.7576, volume: 1424665, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSR~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=MSR&resolution=1D",
+      action: { zoneLow: 37753, zoneHigh: 40450, baseValue: 53933, stop: 37146, targets: [53933], basisDate: "2026-08-17", recommendation: "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN", eligibility: "active", condition: "Chỉ xem xét 37.753–40.450 đồng/cp khi không có điểm đỏ mới về trữ lượng, giá hàng hóa, đòn bẩy hoặc vận hành. Ví dụ trong báo cáo dùng giá vào 39.101 đồng/cp, stop 37.146 và mốc định giá 53.933 đồng/cp. Trên 53.933 đồng/cp không mua đuổi; dưới 37.753 đồng/cp phải kiểm tra lại nguyên nhân giảm trước khi hành động." }
+    },
+    {
+      ticker: "VIC", company: "Vingroup", sector: "Đa ngành", exchange: "HOSE", reportId: "VIC-20260817",
+      close: 200400, priceDate: "2026-08-14", changePct: -3.6075, volume: 7976400, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIC~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=VIC&resolution=1D",
+      action: { zoneLow: 26507, zoneHigh: 28400, baseValue: 54002, stop: null, basisDate: "2026-08-17", recommendation: "TRÁNH", eligibility: "veto", condition: "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định." }
+    },
+    {
+      ticker: "VCK", company: "Chứng khoán VPS", sector: "Chứng khoán", exchange: "HOSE", reportId: "VCK-20260817",
+      close: 29600, priceDate: "2026-08-14", changePct: 0.339, volume: 2464600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCK~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=VCK&resolution=1D",
+      action: { zoneLow: 14102, zoneHigh: 15110, baseValue: 20146, stop: null, targets: [20146, 27668], basisDate: "2026-08-17", recommendation: "TRÁNH / LOẠI", eligibility: "veto", condition: "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo." }
+    },
+    {
+      ticker: "PHR", company: "Cao su Phước Hòa", sector: "Nông nghiệp", exchange: "HOSE", reportId: "PHR-20260817",
+      close: 58300, priceDate: "2026-08-14", changePct: -1.1864, volume: 221800, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHR~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=PHR&resolution=1D",
+      action: { zoneLow: 36665, zoneHigh: 39284, baseValue: 68781, stop: null, targets: [52379, 68781], basisDate: "2026-08-17", recommendation: "CHỜ / THEO DÕI", eligibility: "active", condition: "Chỉ xem xét vùng trước thưởng 36.665–39.284 đồng/cp khi luận điểm NAV còn nguyên và giá-khối lượng xác nhận. Stop là 5% dưới giá khớp thực tế nên chưa khóa mức tuyệt đối; ví dụ midpoint 37.975 đồng/cp cho stop khoảng 36.076. Phải định giá lại nếu bồi thường, tiền thuê đất hoặc pháp lý Tân Lập thay đổi." }
+    },
+    {
+      ticker: "DGW", company: "Thế Giới Số", sector: "Công nghệ", exchange: "HOSE", reportId: "DGW-20260816",
+      close: 41600, priceDate: "2026-08-14", changePct: -3.5921, volume: 954900, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DGW~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=DGW&resolution=1D",
+      action: { zoneLow: 29339, zoneHigh: 31434, baseValue: 50092, stop: null, basisDate: "2026-08-16", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ xem xét vùng định giá 29.339–31.434 đồng/cp khi luận điểm kinh doanh không xấu đi; stop phải xác định theo cấu trúc giá tại thời điểm khớp nên chưa khóa mức tuyệt đối. Thiết lập kỹ thuật trong báo cáo là kịch bản riêng: chỉ kích hoạt khi đóng cửa vượt 43.150 đồng/cp với khối lượng trên 1,50 triệu cổ phiếu; không dùng để thay thế vùng mua định giá." }
+    },
     {
       ticker: "DHC", company: "Đông Hải Bến Tre", sector: "Công nghiệp", exchange: "HOSE", reportId: "DHC-20260817",
       close: 34550, priceDate: "2026-08-14", changePct: -2.4011, volume: 328600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=DHC&resolution=1D",

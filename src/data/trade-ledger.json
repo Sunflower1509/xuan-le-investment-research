@@ -326,6 +326,51 @@
           "zoneHigh": 26352,
           "zoneBasisDate": "2026-08-16",
           "eligibility": "veto"
+        },
+        "MSR": {
+          "date": "2026-08-14",
+          "close": 39900,
+          "relation": "inside",
+          "zoneLow": 37753,
+          "zoneHigh": 40450,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
+        },
+        "VIC": {
+          "date": "2026-08-14",
+          "close": 200400,
+          "relation": "above",
+          "zoneLow": 26507,
+          "zoneHigh": 28400,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "veto"
+        },
+        "VCK": {
+          "date": "2026-08-14",
+          "close": 29600,
+          "relation": "above",
+          "zoneLow": 14102,
+          "zoneHigh": 15110,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "veto"
+        },
+        "PHR": {
+          "date": "2026-08-14",
+          "close": 58300,
+          "relation": "above",
+          "zoneLow": 36665,
+          "zoneHigh": 39284,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
+        },
+        "DGW": {
+          "date": "2026-08-14",
+          "close": 41600,
+          "relation": "above",
+          "zoneLow": 29339,
+          "zoneHigh": 31434,
+          "zoneBasisDate": "2026-08-16",
+          "eligibility": "active"
         }
       }
     }
