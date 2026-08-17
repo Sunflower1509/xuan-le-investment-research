@@ -302,12 +302,15 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
     const sectors = new Set([...coverage, ...reports].map((item) => item.sector));
     const pricedCount = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
     const supplementalCount = coverage.filter((item) => item.priceDate !== source.meta.updated).length;
+    const dottedUpdated = date(source.meta.updated).replaceAll("/", ".");
     document.querySelectorAll("[data-role='report-count'],[data-role='report-tab-count']").forEach((el) => { el.textContent = reports.length; });
     document.querySelectorAll("[data-role='coverage-count'],[data-role='coverage-tab-count']").forEach((el) => { el.textContent = coverage.length; });
     document.querySelectorAll("[data-role='sector-count']").forEach((el) => { el.textContent = sectors.size; });
     document.querySelectorAll("[data-role='latest-report-count']").forEach((el) => { el.textContent = latestReports.length; });
     document.querySelectorAll("[data-role='priced-count']").forEach((el) => { el.textContent = pricedCount; });
     document.querySelectorAll("[data-role='supplemental-price-count']").forEach((el) => { el.textContent = supplementalCount; });
+    document.querySelectorAll("[data-role='coverage-eod-label']").forEach((el) => { el.textContent = `Action Radar • EOD ${dottedUpdated}`; });
+    document.querySelectorAll("[data-role='coverage-lock-label']").forEach((el) => { el.textContent = `Giá khóa ${dottedUpdated.slice(0, 5)}`; });
     updateWatchlistCounts();
   };
 
