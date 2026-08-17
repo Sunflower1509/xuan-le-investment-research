@@ -1,12 +1,12 @@
 window.RESEARCH_DATA = {
   meta: {
     updated: "2026-08-14",
-    release: "2026-08-14",
+    release: "2026-08-17",
     owner: "Xuân Lê TVS",
     role: "Môi giới và tư vấn đầu tư",
     phone: "0977.811.398",
     zalo: "https://zalo.me/0977811398",
-    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 31/31 mã được khóa tại phiên 14/08/2026. Giá đóng cửa của 29/31 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. BID và SSI có sai khác giá tại DNSE; dữ liệu CafeF khớp VNDIRECT về OHLC và khối lượng, website dùng giá giao dịch thực tế từ VNDIRECT/CafeF và không suy diễn nguyên nhân chênh lệch. Khối lượng khớp 27/31 mã trùng giữa VNDIRECT và DNSE; SHS, BVS, DDV và PVS có sai khác nhỏ, website tiếp tục dùng nmVolume từ VNDIRECT Finfo theo quy ước nhất quán và không suy diễn nguyên nhân. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    note: "Giá đóng cửa, biến động và khối lượng khớp lệnh của 35/35 mã được khóa tại phiên 14/08/2026. Giá đóng cửa của 33/35 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. BID và SSI có sai khác giá tại DNSE; dữ liệu CafeF khớp VNDIRECT về OHLC và khối lượng, website dùng giá giao dịch thực tế từ VNDIRECT/CafeF và không suy diễn nguyên nhân chênh lệch. Khối lượng khớp 31/35 mã trùng giữa VNDIRECT và DNSE; SHS, BVS, DDV và PVS có sai khác nhỏ, website tiếp tục dùng nmVolume từ VNDIRECT Finfo theo quy ước nhất quán và không suy diễn nguyên nhân. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy theo giá tham chiếu của phiên. Vùng mua, mốc giá trị tham chiếu, khuyến nghị và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
 
   marketSession: {
@@ -36,6 +36,42 @@ window.RESEARCH_DATA = {
   },
 
   reports: [
+    {
+      id: "DHC-20260817", ticker: "DHC", company: "Công ty Cổ phần Đông Hải Bến Tre", sector: "Công nghiệp", exchange: "HOSE", date: "2026-08-17",
+      recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 34800, marketPriceDate: "2026-08-17", baseValue: 33668, valueLabel: "Giá trị kỳ vọng", rangeLow: 27452, rangeHigh: 39791,
+      gapLabel: "Giá 34.800 đồng/cp cao hơn giá trị kỳ vọng khoảng 3,4% và vẫn nằm trong vùng giá trị hợp lý", method: "Lợi nhuận chuẩn hóa 6 năm (2020–2025); P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 27.452–39.791 đồng/cp; giá trị kỳ vọng 33.668 đồng/cp. Giá 34.800 đồng/cp ngày 17/08/2026 cao hơn giá trị kỳ vọng khoảng 3,4% nhưng vẫn nằm trong vùng giá trị hợp lý; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua yêu cầu MOS 25–30% là 19.217–20.589 đồng/cp, với điều kiện nền tảng kinh doanh không xấu đi.",
+      action: { zoneLow: 19217, zoneHigh: 20589, baseValue: 33668, stop: null, targets: [33668, 39791], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá." },
+      visual: { src: "assets/images/reports/dhc.webp?v=20260817-company1", alt: "Dây chuyền sản xuất giấy công nghiệp của Đông Hải Bến Tre", caption: "Dây chuyền sản xuất giấy DOHACO", sourceLabel: "Đông Hải Bến Tre", sourceUrl: "https://dohacobentre.com.vn/public/" },
+      file: "reports/DHC_2026-08-17.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "ICG-20260817", ticker: "ICG", company: "Công ty Cổ phần Xây dựng Sông Hồng", sector: "Bất động sản", exchange: "HNX", date: "2026-08-17",
+      recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 12400, marketPriceDate: "2026-08-17", baseValue: 13790, valueLabel: "Giá trị kỳ vọng", rangeLow: 10717, rangeHigh: 17205,
+      gapLabel: "MOS 10,1% so với giá trị kỳ vọng tại giá 12.400 đồng/cp; chưa đạt yêu cầu 25–30%", method: "Adjusted NAV/P-NAV là mô hình chính; P/B tương đối dùng làm neo kiểm chứng",
+      summary: "Vùng giá trị hợp lý tính toán 10.717–17.205 đồng/cp, giá trị kỳ vọng 13.790 đồng/cp và điểm giữa khoảng 14.000 đồng/cp. Giá 12.400 đồng/cp ngày 17/08/2026 tạo MOS khoảng 10,1%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua nghiêm ngặt được làm tròn 7.500–8.000 đồng/cp nếu thesis NAV không xấu đi.",
+      action: { zoneLow: 7500, zoneHigh: 8000, baseValue: 13790, stop: 7300, targets: [10700, 13800], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ xem xét giải ngân thăm dò khi giá vào 7.500–8.000 đồng/cp và thesis NAV không xấu đi; không bình quân giá xuống vô điều kiện. Với giá vào tham chiếu khoảng 7.770 đồng/cp, stop khoảng 7.300; mục tiêu định giá lần lượt 10.700 và 13.800 đồng/cp. Sự kiện pháp lý hoặc dự án làm giảm NAV sẽ vô hiệu mọi mốc giá." },
+      visual: { src: "assets/images/reports/icg.webp?v=20260817-company1", alt: "Tổ hợp Trung tâm Thương mại, Văn phòng và Căn hộ khu vực cầu Vĩnh Tuy của Incomex", caption: "Tổ hợp khu vực cầu Vĩnh Tuy của Incomex", sourceLabel: "Việt Nam Mới", sourceUrl: "https://vietnammoi.vn/khu-dat-doi-dien-aeon-mall-long-bien-chuan-bi-xay-tttm-cua-lien-danh-song-hong-thanh-xuan-202541083458248.htm" },
+      file: "reports/ICG_17-08-2026.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "MWG-20260817", ticker: "MWG", company: "Công ty Cổ phần Đầu tư Thế Giới Di Động", sector: "Tiêu dùng", exchange: "HOSE", date: "2026-08-17",
+      recommendation: "THEO DÕI / CHỜ", status: "wait", marketPrice: 72400, marketPriceDate: "2026-08-14", baseValue: 95115, valueLabel: "Giá trị kỳ vọng", rangeLow: 76451, rangeHigh: 113636,
+      gapLabel: "MOS 23,9% so với giá trị kỳ vọng nhưng chỉ 5,3% so với cận dưới tại giá đóng cửa 14/08/2026", method: "SOTP là mô hình chính; định giá tương đối P/E, P/B và EV/EBITDA dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý tổng hợp 76.451–113.636 đồng/cp, giá trị kỳ vọng 95.115 đồng/cp. Giá đóng cửa 72.400 đồng/cp ngày 14/08/2026 thấp hơn giá trị kỳ vọng 23,9% nhưng chỉ thấp hơn cận dưới 5,3%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Chỉ kích hoạt mua theo định giá tại 53.516–57.338 đồng/cp nếu luận điểm DMX/BHX không xấu đi.",
+      action: { zoneLow: 53516, zoneHigh: 57338, baseValue: 95115, stop: 53898, targets: [76451, 95115, 113636], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ có thể bắt đầu mua khi giá không vượt 57.338 đồng/cp và luận điểm DMX/BHX không xấu đi; ưu tiên vùng 53.516–57.338 đồng/cp. Nếu mua tại khoảng 57.338 đồng/cp, stop kỷ luật 6% khoảng 53.898; mục tiêu định giá 76.451, 95.115 và 113.636 đồng/cp. Nếu DMX giảm mạnh sau price discovery hoặc BHX không giữ hiệu quả cửa hàng mới thì phải chạy lại SOTP." },
+      visual: { src: "assets/images/reports/mwg.webp?v=20260817-company1", alt: "Đại diện các doanh nghiệp tại chương trình Top 50 Corporate Sustainability Awards 2026 có MWG tham dự", caption: "MWG tại Top 50 Corporate Sustainability Awards 2026", sourceLabel: "MWG", sourceUrl: "https://mwg.vn/tin-tuc/mobile-world-investment-corporation-mwg-honored-among-the-top-50-corporate-sustainability-awards-in-vietnam-for-5-consecutive-years-5002446" },
+      file: "reports/MWG_2026-08-17.pdf", edition: "Bản định giá 17.08.2026"
+    },
+    {
+      id: "LPB-20260816", ticker: "LPB", company: "Ngân hàng TMCP Lộc Phát Việt Nam", sector: "Ngân hàng", exchange: "HOSE", date: "2026-08-16",
+      recommendation: "TRÁNH / LOẠI MUA MỚI", status: "reject", marketPrice: 52400, marketPriceDate: "2026-08-14", baseValue: 35136, valueLabel: "Giá trị kỳ vọng", rangeLow: 22110, rangeHigh: 47936,
+      gapLabel: "MOS -49,1% so với giá trị kỳ vọng; giá hiện tại cao hơn cận trên vùng hợp lý 9,3%", method: "P/B gắn ROE + Residual Income; P/B tương đối dùng kiểm chứng",
+      summary: "Vùng giá trị hợp lý 22.110–47.936 đồng/cp và giá trị kỳ vọng 35.136 đồng/cp. Giá đóng cửa 52.400 đồng/cp ngày 14/08/2026 cao hơn cận trên khoảng 9,3%, tương ứng MOS -49,1% so với giá trị kỳ vọng; báo cáo kết luận TRÁNH / LOẠI MUA MỚI. Vùng mua yêu cầu MOS 25–30% là 24.595–26.352 đồng/cp nếu chất lượng tài sản không xấu thêm.",
+      action: { zoneLow: 24595, zoneHigh: 26352, baseValue: 35136, stop: 24700, targets: [28488, 35249], basisDate: "2026-08-16", recommendation: "TRÁNH / LOẠI MUA MỚI", eligibility: "veto", condition: "Không mua mới theo định giá khi LPB trên 47.936 đồng/cp. Chỉ xem xét lại vùng 24.595–26.352 đồng/cp nếu NPL không xấu thêm rõ rệt từ 1,85% và tỷ lệ bao phủ không tiếp tục suy giảm từ 66,8%. Ví dụ trong báo cáo dùng giá vào 26.000, stop 24.700; mục tiêu 28.488 và 35.249 đồng/cp." },
+      visual: { src: "assets/images/reports/lpb.webp?v=20260817-company1", alt: "Mặt tiền trụ sở LPBank", caption: "Trụ sở LPBank", sourceLabel: "LPBank", sourceUrl: "https://lpbank.com.vn/cham-soc-khach-hang/bai-viet/3533-da-dang-hoa-nguon-thu-lpbank-dat-gan-6-000-ty-dong-loi-nhuan-sau-6-thang-dau-nam-2026" },
+      file: "reports/LPB_2026-08-16.pdf", edition: "Bản định giá 16.08.2026"
+    },
     {
       id: "PVD-20260813", ticker: "PVD", company: "Tổng Công ty Cổ phần Khoan và Dịch vụ Khoan Dầu khí", sector: "Năng lượng", exchange: "HOSE", date: "2026-08-13",
       recommendation: "CHỜ - KHÔNG MUA THEO ĐỊNH GIÁ", status: "wait", marketPrice: 18300, marketPriceDate: "2026-08-13", baseValue: 19670, valueLabel: "Điểm giữa", rangeLow: 17100, rangeHigh: 22200,
@@ -272,6 +308,26 @@ window.RESEARCH_DATA = {
   ],
 
   coverage: [
+    {
+      ticker: "DHC", company: "Đông Hải Bến Tre", sector: "Công nghiệp", exchange: "HOSE", reportId: "DHC-20260817",
+      close: 34550, priceDate: "2026-08-14", changePct: -2.4011, volume: 328600, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=DHC&resolution=1D",
+      action: { zoneLow: 19217, zoneHigh: 20589, baseValue: 33668, stop: null, targets: [33668, 39791], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá." }
+    },
+    {
+      ticker: "ICG", company: "Xây dựng Sông Hồng", sector: "Bất động sản", exchange: "HNX", reportId: "ICG-20260817",
+      close: 13700, priceDate: "2026-08-14", changePct: -9.8684, volume: 186300, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ICG~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=ICG&resolution=1D",
+      action: { zoneLow: 7500, zoneHigh: 8000, baseValue: 13790, stop: 7300, targets: [10700, 13800], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ xem xét giải ngân thăm dò khi giá vào 7.500–8.000 đồng/cp và thesis NAV không xấu đi; không bình quân giá xuống vô điều kiện. Với giá vào tham chiếu khoảng 7.770 đồng/cp, stop khoảng 7.300; mục tiêu định giá lần lượt 10.700 và 13.800 đồng/cp. Sự kiện pháp lý hoặc dự án làm giảm NAV sẽ vô hiệu mọi mốc giá." }
+    },
+    {
+      ticker: "MWG", company: "Thế Giới Di Động", sector: "Tiêu dùng", exchange: "HOSE", reportId: "MWG-20260817",
+      close: 72400, priceDate: "2026-08-14", changePct: -1.6304, volume: 3164500, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MWG~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=MWG&resolution=1D",
+      action: { zoneLow: 53516, zoneHigh: 57338, baseValue: 95115, stop: 53898, targets: [76451, 95115, 113636], basisDate: "2026-08-17", recommendation: "THEO DÕI / CHỜ", eligibility: "active", condition: "Chỉ có thể bắt đầu mua khi giá không vượt 57.338 đồng/cp và luận điểm DMX/BHX không xấu đi; ưu tiên vùng 53.516–57.338 đồng/cp. Nếu mua tại khoảng 57.338 đồng/cp, stop kỷ luật 6% khoảng 53.898; mục tiêu định giá 76.451, 95.115 và 113.636 đồng/cp. Nếu DMX giảm mạnh sau price discovery hoặc BHX không giữ hiệu quả cửa hàng mới thì phải chạy lại SOTP." }
+    },
+    {
+      ticker: "LPB", company: "LPBank", sector: "Ngân hàng", exchange: "HOSE", reportId: "LPB-20260816",
+      close: 52400, priceDate: "2026-08-14", changePct: -2.6022, volume: 4371400, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:LPB~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=LPB&resolution=1D",
+      action: { zoneLow: 24595, zoneHigh: 26352, baseValue: 35136, stop: 24700, targets: [28488, 35249], basisDate: "2026-08-16", recommendation: "TRÁNH / LOẠI MUA MỚI", eligibility: "veto", condition: "Không mua mới theo định giá khi LPB trên 47.936 đồng/cp. Chỉ xem xét lại vùng 24.595–26.352 đồng/cp nếu NPL không xấu thêm rõ rệt từ 1,85% và tỷ lệ bao phủ không tiếp tục suy giảm từ 66,8%. Ví dụ trong báo cáo dùng giá vào 26.000, stop 24.700; mục tiêu 28.488 và 35.249 đồng/cp." }
+    },
     {
       ticker: "PVD", company: "PV Drilling", sector: "Năng lượng", exchange: "HOSE", reportId: "PVD-20260813",
       close: 17950, priceDate: "2026-08-14", changePct: -1.9126, volume: 2975200, priceSource: "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVD~date:2026-08-14&size=10", priceSourceSecondary: "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786640400&to=1786701600&symbol=PVD&resolution=1D",

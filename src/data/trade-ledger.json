@@ -290,6 +290,42 @@
           "zoneHigh": 12800,
           "zoneBasisDate": "2026-08-13",
           "eligibility": "active"
+        },
+        "DHC": {
+          "date": "2026-08-14",
+          "close": 34550,
+          "relation": "above",
+          "zoneLow": 19217,
+          "zoneHigh": 20589,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
+        },
+        "ICG": {
+          "date": "2026-08-14",
+          "close": 13700,
+          "relation": "above",
+          "zoneLow": 7500,
+          "zoneHigh": 8000,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
+        },
+        "MWG": {
+          "date": "2026-08-14",
+          "close": 72400,
+          "relation": "above",
+          "zoneLow": 53516,
+          "zoneHigh": 57338,
+          "zoneBasisDate": "2026-08-17",
+          "eligibility": "active"
+        },
+        "LPB": {
+          "date": "2026-08-14",
+          "close": 52400,
+          "relation": "above",
+          "zoneLow": 24595,
+          "zoneHigh": 26352,
+          "zoneBasisDate": "2026-08-16",
+          "eligibility": "veto"
         }
       }
     }
