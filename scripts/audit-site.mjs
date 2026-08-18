@@ -5,6 +5,7 @@ import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { projectTradeLedger } from "../src/scripts/trade-ledger.mjs";
+import { parseActionTrigger } from "../src/scripts/action-trigger.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -121,11 +122,7 @@ if (!research || typeof research !== "object") {
     if (item.priceSourceSecondary && !isHttps(item.priceSourceSecondary)) fail(scope, "priceSourceSecondary phải là HTTPS hợp lệ");
     if (item.reportId && !reportIds.has(item.reportId)) fail(scope, `reportId không tồn tại: ${item.reportId}`);
     if (item.action?.eligibility === "active") {
-      const lockedRange = isPositive(item.action.zoneLow) && isPositive(item.action.zoneHigh) && item.action.zoneLow <= item.action.zoneHigh;
-      const lockedThreshold = ["at-or-below", "at-or-above"].includes(item.action.triggerType) && isPositive(item.action.triggerPrice);
-      if (!lockedRange && !lockedThreshold) {
-        fail(scope, "vùng mua/ngưỡng kích hoạt active không hợp lệ");
-      }
+      if (!parseActionTrigger(item.action)) fail(scope, "điều kiện kích hoạt active không hợp lệ theo shared Trigger Engine");
       if (!isIsoDate(item.action.basisDate)) fail(scope, "basisDate của điều kiện active không hợp lệ");
     }
   });

@@ -1,4 +1,5 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
+import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 
 (() => {
   "use strict";
@@ -229,12 +230,14 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
     unreported: "Chưa có PDF"
   };
 
-  const actionDistance = (item) => {
-    const action = item?.action;
-    if (!action || !Number.isFinite(item.close) || !Number.isFinite(action.zoneLow) || !Number.isFinite(action.zoneHigh)) return null;
-    if (item.close < action.zoneLow) return { value: ((action.zoneLow - item.close) / action.zoneLow) * 100, relation: "below", edge: action.zoneLow };
-    if (item.close > action.zoneHigh) return { value: ((item.close - action.zoneHigh) / action.zoneHigh) * 100, relation: "above", edge: action.zoneHigh };
-    return { value: 0, relation: "inside", edge: item.close };
+  const actionDistance = (item) => distanceToTrigger(item?.close, item?.action);
+
+  const actionTriggerText = (action) => {
+    const trigger = triggerDisplayModel(action);
+    if (!trigger) return "—";
+    if (trigger.kind === "range") return `${number(trigger.low)}–${number(trigger.high)}`;
+    if (trigger.kind === "at-or-below") return `≤ ${number(trigger.price)}`;
+    return `≥ ${number(trigger.price)}`;
   };
 
   const priorityUniverse = coverage
@@ -345,7 +348,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
           <p class="priority-company">${escapeHtml(item.company)}</p>
           <div class="priority-metrics">
             <div><span>Đóng cửa ${date(item.priceDate)}</span><strong>${number(item.close)}</strong><small class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</small></div>
-            <div><span>Vùng mua đã khóa</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${date(action.basisDate)}</small></div>
+            <div><span>Vùng mua đã khóa</span><strong>${actionTriggerText(action)}</strong><small>${date(action.basisDate)}</small></div>
             <div><span>Upside tới định giá cơ sở</span><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><small>${report ? "theo PDF mới nhất" : "theo phân tích đã khóa"}</small></div>
           </div>
           <div class="priority-distance"><div style="--progress:${Math.max(4, Math.min(100, 100 - distance.value * 2))}%"><span></span></div><p><strong>${escapeHtml(relation)}</strong>${escapeHtml(action.condition)}</p></div>
@@ -369,7 +372,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
           <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
           <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
           <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
-          <td data-label="Vùng mua đã khóa"><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td data-label="Vùng mua đã khóa"><strong>${actionTriggerText(action)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
           <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
           <td data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
           <td class="upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
@@ -395,9 +398,11 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
   const ledgerReason = (value) => LEDGER_REASON_LABELS[value] || (value ? String(value).toLocaleUpperCase("vi") : "CHƯA GHI NHẬN");
 
   const lockedActionLabel = (value) => {
-    if (value?.triggerType === "at-or-below" && Number.isFinite(value.triggerPrice)) return `Ngưỡng ≤ ${number(value.triggerPrice)}`;
-    if (value?.triggerType === "at-or-above" && Number.isFinite(value.triggerPrice)) return `Ngưỡng ≥ ${number(value.triggerPrice)}`;
-    return `Vùng ${number(value?.zoneLow)}–${number(value?.zoneHigh)}`;
+    const trigger = triggerDisplayModel(value);
+    if (!trigger) return "Điều kiện —";
+    if (trigger.kind === "range") return `Vùng ${number(trigger.low)}–${number(trigger.high)}`;
+    if (trigger.kind === "at-or-below") return `Ngưỡng ≤ ${number(trigger.price)}`;
+    return `Ngưỡng ≥ ${number(trigger.price)}`;
   };
 
   const renderLedgerEvent = (event) => {
@@ -606,7 +611,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
         <div class="card-metrics">
           ${metricMarkup}
         </div>
-        ${action && Number.isFinite(action.zoneLow) ? `<div class="card-action-band"><span>${isTrading ? "Vùng mua kỹ thuật" : rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${number(action.zoneLow)}–${number(action.zoneHigh)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quoteWithAction)}` : "—"}</small></div>` : ""}
+        ${action && triggerDisplayModel(action) ? `<div class="card-action-band"><span>${isTrading ? "Vùng mua kỹ thuật" : rank ? `Ưu tiên #${rank}` : "Vùng mua"}</span><strong>${actionTriggerText(action)}</strong><small>${distance ? `${decimal(distance.value)}% • ${relationLabel(quoteWithAction)}` : "—"}</small></div>` : ""}
         <p class="report-summary">${escapeHtml(report.summary)}</p>
         <div class="report-card-actions">
           <button class="details-button" type="button" data-action="open-report" data-id="${escapeHtml(report.id)}">${isTrading ? "Chi tiết Trading Desk" : "Dashboard chi tiết"}</button>
@@ -718,7 +723,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
           <div class="dialog-metric emphasis"><span>${escapeHtml(valueLabel(report))}</span><strong>${number(report.baseValue)}</strong></div>
           <div class="dialog-metric"><span>Vùng giá trị hợp lý</span><strong>${number(report.rangeLow)}–${number(report.rangeHigh)}</strong></div>
           <div class="dialog-metric emphasis"><span>Upside tới định giá cơ sở</span><strong>${Number.isFinite(liveGap) ? signedPercent(liveGap) : "—"}</strong><small>từ giá hiển thị có ngày nguồn</small></div>
-          <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${Number.isFinite(action?.zoneLow) ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>`;
+          <div class="dialog-metric"><span>Vùng mua đã khóa</span><strong>${Number.isFinite(action?.zoneLow) ? `${actionTriggerText(action)}` : "—"}</strong><small>${action?.basisDate ? date(action.basisDate) : "—"}</small></div>`;
     const condition = isTrading
       ? `Chỉ xem xét vùng ${number(report.tradeZoneLow)}–${number(report.tradeZoneHigh)} khi cấu trúc giá và dòng tiền xác nhận; stop tham khảo ${number(report.stop)}. Mục tiêu kỹ thuật không được dùng làm giá trị cơ sở.`
       : action?.condition || "Xem trong báo cáo PDF";
@@ -753,7 +758,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
       ["Định giá cơ sở", (r) => `${escapeHtml(valueLabel(r))}: ${number(r.baseValue)}`],
       ["Vùng mua đã khóa", (r) => {
         const action = reportAction(r);
-        return action?.zoneLow ? `${number(action.zoneLow)}–${number(action.zoneHigh)}` : "—";
+        return action?.zoneLow ? `${actionTriggerText(action)}` : "—";
       }],
       ["Vùng giá trị", (r) => `${number(r.rangeLow)}–${number(r.rangeHigh)}`],
       ["Phương pháp", (r) => escapeHtml(r.method || "Xem trong PDF")],

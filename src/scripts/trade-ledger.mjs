@@ -1,13 +1,9 @@
+import { classifyPrice, finitePositive, parseActionTrigger } from "./action-trigger.mjs";
+
 const EVENT_TYPES = new Set(["activated", "partial_exit", "closed"]);
 const ACTIVATION_MODES = new Set(["manual", "automatic-eod"]);
 const AUTOMATIC_TRIGGERS = new Set(["eod-close-transitioned-into-locked-zone", "eod-close-transitioned-into-locked-threshold"]);
-const ONE_SIDED_TRIGGER_TYPES = new Set(["at-or-below", "at-or-above"]);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
-const finitePositive = (value) => Number.isFinite(value) && value > 0;
-const oneSidedTrigger = (value = {}) => ONE_SIDED_TRIGGER_TYPES.has(value.triggerType) && finitePositive(value.triggerPrice)
-  ? { type: value.triggerType, price: value.triggerPrice }
-  : null;
 
 export const validIsoDate = (value) => {
   if (!ISO_DATE.test(value || "")) return false;
@@ -72,18 +68,12 @@ export const projectTradeLedger = (ledger, coverage = []) => {
         issue(issues, event, "duplicate_activation", "Một tradeId chỉ được kích hoạt một lần.");
         return;
       }
-      const lockedRange = finitePositive(event.zoneLow) && finitePositive(event.zoneHigh) && event.zoneLow <= event.zoneHigh;
-      const trigger = oneSidedTrigger(event);
-      if (!event.ticker || (!lockedRange && !trigger) || !validIsoDate(event.zoneBasisDate)) {
+      const trigger = parseActionTrigger(event);
+      if (!event.ticker || !trigger || !validIsoDate(event.zoneBasisDate)) {
         issue(issues, event, "invalid_activation", "Sự kiện kích hoạt thiếu mã, ngày khóa hoặc điều kiện giá hợp lệ.");
         return;
       }
-      const priceTriggerPassed = trigger?.type === "at-or-below"
-        ? event.price <= trigger.price
-        : trigger?.type === "at-or-above"
-          ? event.price >= trigger.price
-          : event.price >= event.zoneLow && event.price <= event.zoneHigh;
-      if (!priceTriggerPassed) {
+      if (classifyPrice(event.price, event).relation !== "inside") {
         issue(issues, event, "price_outside_locked_zone", "Giá kích hoạt không thỏa vùng/ngưỡng đã khóa.");
         return;
       }
@@ -97,10 +87,10 @@ export const projectTradeLedger = (ledger, coverage = []) => {
         activationMode: event.mode || "manual",
         activatedAt: event.date,
         activationPrice: event.price,
-        zoneLow: finitePositive(event.zoneLow) ? event.zoneLow : null,
-        zoneHigh: finitePositive(event.zoneHigh) ? event.zoneHigh : null,
-        triggerType: trigger?.type || null,
-        triggerPrice: trigger?.price || null,
+        zoneLow: trigger.kind === "range" ? trigger.low : null,
+        zoneHigh: trigger.kind === "range" ? trigger.high : null,
+        triggerType: trigger.kind === "range" ? null : trigger.kind,
+        triggerPrice: trigger.kind === "range" ? null : trigger.price,
         zoneBasisDate: event.zoneBasisDate,
         stop: finitePositive(event.stop) ? event.stop : null,
         targets: Array.isArray(event.targets) ? event.targets.filter(finitePositive) : [],
