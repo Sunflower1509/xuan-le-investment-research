@@ -1,0 +1,445 @@
+{
+  "date": "2026-08-18",
+  "coverageCount": 47,
+  "verifiedCount": 47,
+  "quotes": [
+    {
+      "ticker": "SHB",
+      "close": 11600,
+      "volume": 51274900,
+      "changePct": -0.4292,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=SHB&resolution=1D"
+    },
+    {
+      "ticker": "DCM",
+      "close": 30700,
+      "volume": 2757000,
+      "changePct": 0.491,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DCM~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=DCM&resolution=1D"
+    },
+    {
+      "ticker": "PLX",
+      "close": 37950,
+      "volume": 5350900,
+      "changePct": 6.9014,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PLX~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PLX&resolution=1D"
+    },
+    {
+      "ticker": "HDB",
+      "close": 26950,
+      "volume": 8433500,
+      "changePct": 0.3724,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HDB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=HDB&resolution=1D"
+    },
+    {
+      "ticker": "VPB",
+      "close": 24900,
+      "volume": 18835800,
+      "changePct": 0.6061,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VPB&resolution=1D"
+    },
+    {
+      "ticker": "PVT",
+      "close": 20400,
+      "volume": 5984400,
+      "changePct": 0.4926,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVT~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PVT&resolution=1D"
+    },
+    {
+      "ticker": "MBB",
+      "close": 19950,
+      "volume": 7081200,
+      "changePct": 0.2513,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MBB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=MBB&resolution=1D"
+    },
+    {
+      "ticker": "MSR",
+      "close": 42400,
+      "volume": 2233000,
+      "changePct": 1.4354,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSR~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=MSR&resolution=1D"
+    },
+    {
+      "ticker": "VIC",
+      "close": 200000,
+      "volume": 4301900,
+      "changePct": 1.0101,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIC~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VIC&resolution=1D"
+    },
+    {
+      "ticker": "VCK",
+      "close": 29250,
+      "volume": 1686500,
+      "changePct": -1.0152,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCK~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VCK&resolution=1D"
+    },
+    {
+      "ticker": "PHR",
+      "close": 60600,
+      "volume": 172000,
+      "changePct": -1.1419,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHR~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PHR&resolution=1D"
+    },
+    {
+      "ticker": "DGW",
+      "close": 41500,
+      "volume": 1231700,
+      "changePct": 0.4843,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DGW~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=DGW&resolution=1D"
+    },
+    {
+      "ticker": "DHC",
+      "close": 35200,
+      "volume": 234300,
+      "changePct": 2.029,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=DHC&resolution=1D"
+    },
+    {
+      "ticker": "ICG",
+      "close": 11200,
+      "volume": 58300,
+      "changePct": -9.6774,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ICG~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=ICG&resolution=1D"
+    },
+    {
+      "ticker": "MWG",
+      "close": 72800,
+      "volume": 1649500,
+      "changePct": -0.9524,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MWG~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=MWG&resolution=1D"
+    },
+    {
+      "ticker": "LPB",
+      "close": 50000,
+      "volume": 3176200,
+      "changePct": -1.7682,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:LPB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=LPB&resolution=1D"
+    },
+    {
+      "ticker": "PVD",
+      "close": 18500,
+      "volume": 4274600,
+      "changePct": 1.9284,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVD~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PVD&resolution=1D"
+    },
+    {
+      "ticker": "TCX",
+      "close": 39800,
+      "volume": 1351400,
+      "changePct": 1.5306,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCX~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=TCX&resolution=1D"
+    },
+    {
+      "ticker": "SHS",
+      "close": 14700,
+      "volume": 14815500,
+      "changePct": -3.2895,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHS~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=SHS&resolution=1D"
+    },
+    {
+      "ticker": "HCM",
+      "close": 25100,
+      "volume": 3915600,
+      "changePct": -0.7905,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HCM~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=HCM&resolution=1D"
+    },
+    {
+      "ticker": "REE",
+      "close": 45350,
+      "volume": 212100,
+      "changePct": -0.4391,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:REE~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=REE&resolution=1D"
+    },
+    {
+      "ticker": "BID",
+      "close": 36000,
+      "volume": 2494000,
+      "changePct": 0.2786,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BID~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=BID&resolution=1D"
+    },
+    {
+      "ticker": "GMD",
+      "close": 79500,
+      "volume": 2045500,
+      "changePct": 0.8883,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GMD~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=GMD&resolution=1D"
+    },
+    {
+      "ticker": "VSC",
+      "close": 14550,
+      "volume": 7524700,
+      "changePct": 0.3448,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VSC~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VSC&resolution=1D"
+    },
+    {
+      "ticker": "VHM",
+      "close": 69200,
+      "volume": 4816300,
+      "changePct": 1.4663,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VHM~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VHM&resolution=1D"
+    },
+    {
+      "ticker": "SSI",
+      "close": 19500,
+      "volume": 15279600,
+      "changePct": -1.5152,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SSI~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=SSI&resolution=1D"
+    },
+    {
+      "ticker": "VCI",
+      "close": 21150,
+      "volume": 8717500,
+      "changePct": -1.6279,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VCI&resolution=1D"
+    },
+    {
+      "ticker": "VPX",
+      "close": 24800,
+      "volume": 516600,
+      "changePct": -0.2012,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VPX&resolution=1D"
+    },
+    {
+      "ticker": "HII",
+      "close": 8600,
+      "volume": 304800,
+      "changePct": 0.5848,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HII~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=HII&resolution=1D"
+    },
+    {
+      "ticker": "MSN",
+      "close": 66800,
+      "volume": 2283000,
+      "changePct": -0.1495,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSN~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=MSN&resolution=1D"
+    },
+    {
+      "ticker": "BCM",
+      "close": 42600,
+      "volume": 1324300,
+      "changePct": 1.4286,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BCM~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=BCM&resolution=1D"
+    },
+    {
+      "ticker": "VIX",
+      "close": 13150,
+      "volume": 31108300,
+      "changePct": -1.4981,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIX~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VIX&resolution=1D"
+    },
+    {
+      "ticker": "VCB",
+      "close": 58000,
+      "volume": 2888000,
+      "changePct": -0.3436,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VCB&resolution=1D"
+    },
+    {
+      "ticker": "ACB",
+      "close": 21650,
+      "volume": 7316500,
+      "changePct": -0.9153,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ACB~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=ACB&resolution=1D"
+    },
+    {
+      "ticker": "CTG",
+      "close": 31550,
+      "volume": 4286400,
+      "changePct": 0.1587,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTG~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=CTG&resolution=1D"
+    },
+    {
+      "ticker": "TVS",
+      "close": 14450,
+      "volume": 117300,
+      "changePct": -0.3448,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TVS~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=TVS&resolution=1D"
+    },
+    {
+      "ticker": "VND",
+      "close": 16000,
+      "volume": 8592700,
+      "changePct": -0.9288,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VND~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=VND&resolution=1D"
+    },
+    {
+      "ticker": "BVS",
+      "close": 26200,
+      "volume": 381500,
+      "changePct": -0.7576,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVS~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=BVS&resolution=1D"
+    },
+    {
+      "ticker": "FPT",
+      "close": 69000,
+      "volume": 3383800,
+      "changePct": 0.2907,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FPT~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=FPT&resolution=1D"
+    },
+    {
+      "ticker": "HPG",
+      "close": 21000,
+      "volume": 16367500,
+      "changePct": -0.9434,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HPG~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=HPG&resolution=1D"
+    },
+    {
+      "ticker": "GEE",
+      "close": 67800,
+      "volume": 1281900,
+      "changePct": 0,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GEE~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=GEE&resolution=1D"
+    },
+    {
+      "ticker": "DDV",
+      "close": 18100,
+      "volume": 215500,
+      "changePct": 0.5556,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=DDV&resolution=1D"
+    },
+    {
+      "ticker": "GAS",
+      "close": 83500,
+      "volume": 3635900,
+      "changePct": 5.5626,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GAS~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=GAS&resolution=1D"
+    },
+    {
+      "ticker": "PVS",
+      "close": 35700,
+      "volume": 4130100,
+      "changePct": 3.4783,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVS~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PVS&resolution=1D"
+    },
+    {
+      "ticker": "BSR",
+      "close": 27200,
+      "volume": 20592500,
+      "changePct": 4.6154,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=BSR&resolution=1D"
+    },
+    {
+      "ticker": "PNJ",
+      "close": 35050,
+      "volume": 4749600,
+      "changePct": -3.1768,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PNJ&resolution=1D"
+    },
+    {
+      "ticker": "BFC",
+      "close": 47700,
+      "volume": 279700,
+      "changePct": 0,
+      "priceDate": "2026-08-18",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BFC~date:2026-08-18&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=BFC&resolution=1D"
+    }
+  ],
+  "volumeMismatches": [
+    {
+      "ticker": "SHS",
+      "vndirect": 14815500,
+      "dnse": 14724000,
+      "diff": 91500
+    },
+    {
+      "ticker": "PVS",
+      "vndirect": 4130100,
+      "dnse": 4129700,
+      "diff": 400
+    }
+  ],
+  "errors": []
+}
