@@ -9,46 +9,42 @@ window.RESEARCH_DATA = {
     "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 18/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 45/47 mã giữa hai nguồn; SHS: VNDIRECT 14.815.500 vs DNSE 14.724.000 (chênh 91.500); PVS: VNDIRECT 4.130.100 vs DNSE 4.129.700 (chênh 400). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
   "marketSession": {
-    "date": "2026-07-20",
-    "status": "Đã đối chiếu",
-    "indices": [
-      {
-        "code": "VN-INDEX",
-        "close": 1743.51,
-        "change": -43.94,
-        "changePct": -2.46
-      },
-      {
-        "code": "VN30",
-        "close": 1887.32,
-        "change": -44.33,
-        "changePct": -2.29
-      },
-      {
-        "code": "HNX-INDEX",
-        "close": 284.41,
-        "change": -7.29,
-        "changePct": -2.5
-      }
-    ],
-    "breadth": {
-      "advance": 44,
-      "unchanged": 26,
-      "decline": 263,
-      "floor": 33
+  "date": "2026-08-18",
+  "status": "Đã khóa EOD — VNDIRECT Finfo",
+  "indices": [
+    {
+      "code": "VN-INDEX",
+      "close": 1732.02,
+      "change": 4.56,
+      "changePct": 0.263971379945116
     },
-    "sources": [
-      {
-        "label": "VTC News — tổng kết phiên 20/07/2026",
-        "url": "https://vtcnews.vn/vn-index-boc-hoi-gan-44-diem-ar1030123.html"
-      },
-      {
-        "label": "Nhân Dân — độ rộng thị trường 20/07/2026",
-        "url": "https://nhandan.vn/infographic-chung-khoan-ngay-207-vn-index-giam-manh-4394-diem-ve-duoi-vung-gia-trung-binh-200-phien-post976791.html"
-      }
-    ]
+    {
+      "code": "VN30",
+      "close": 1876.14,
+      "change": -1.54,
+      "changePct": -0.082016104980609
+    },
+    {
+      "code": "HNX-INDEX",
+      "close": 282.32,
+      "change": 3.68,
+      "changePct": 1.3207
+    }
+  ],
+  "breadth": {
+    "advance": 124,
+    "unchanged": 76,
+    "decline": 163,
+    "floor": 4
   },
-  "rankingMethod": {
+  "sources": [
+    {
+      "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026",
+      "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500"
+    }
+  ]
+},
+"rankingMethod": {
     "title": "Khoảng cách tới vùng hành động",
     "formula": "Khoảng cách = khoảng cách phần trăm tới biên gần nhất của vùng mua hoặc tới ngưỡng trigger một phía; bằng 0 khi giá đang thỏa điều kiện giá.",
     "rules": [
