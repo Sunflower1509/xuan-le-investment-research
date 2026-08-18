@@ -1,0 +1,70 @@
+name: Confirm SHB ledger repair deployment once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/confirm-shb-ledger-deploy-once.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  confirm:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify SHB event exists exactly once
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const events=ledger.events.filter(e=>e.ticker==='SHB'&&e.type==='activated');
+          if(events.length!==1) throw new Error(`Expected exactly one SHB activation, got ${events.length}`);
+          const e=events[0];
+          if(e.id!=='auto-SHB-2026-08-18'||e.date!=='2026-08-18'||e.price!==11600||e.triggerType!=='at-or-below'||e.triggerPrice!==11600) throw new Error('SHB activation mismatch');
+          if(e.confirmation?.previousQuote?.date!=='2026-08-17'||e.confirmation?.previousQuote?.close!==11650||e.confirmation?.previousQuote?.relation!=='above') throw new Error('SHB transition evidence mismatch');
+          NODE
+      - name: Run Trade Ledger tests
+        run: node --test tests/trade-ledger.test.mjs
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Prepare lean site
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Record deploy success and remove temporary workflow
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/confirm-shb-ledger-deploy-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Confirm SHB ledger repair deployment [skip ci]"
+          git push
