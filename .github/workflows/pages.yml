@@ -75,3 +75,17 @@ jobs:
           node scripts/verify-live-site.mjs \
             --site-url "${{ steps.deployment.outputs.page_url }}" \
             --artifact-root "${RUNNER_TEMP}/site"
+      - name: Record production proof marker
+        run: |
+          set -euo pipefail
+          {
+            echo "verified=true"
+            echo "source_commit=${GITHUB_SHA}"
+            echo "verified_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            sha256sum "${RUNNER_TEMP}/site/index.html" "${RUNNER_TEMP}/site/assets/js/site.min.js" "${RUNNER_TEMP}/site/assets/css/site.min.css"
+          } > hardening-deploy-confirmed.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hardening-deploy-confirmed.txt
+          git commit -m "Confirm trigger hardening live deployment [skip ci]"
+          git push origin HEAD:main
