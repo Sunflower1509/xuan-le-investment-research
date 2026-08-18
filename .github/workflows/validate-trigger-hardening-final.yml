@@ -1,0 +1,121 @@
+name: Validate trigger hardening final state
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/validate-trigger-hardening-final.yml"
+      - ".github/workflows/pages.yml"
+      - ".github/workflows/eod-daily.yml"
+      - "src/scripts/action-trigger.mjs"
+      - "src/scripts/app.js"
+      - "src/scripts/trade-ledger.mjs"
+      - "scripts/process-trade-ledger.mjs"
+      - "scripts/reconcile-trade-ledger.mjs"
+      - "scripts/update-eod-market-data.mjs"
+      - "scripts/update-cache-token.mjs"
+      - "scripts/verify-live-site.mjs"
+      - "scripts/audit-site.mjs"
+      - "tests/*.test.mjs"
+      - "index.html"
+      - "assets/js/site.min.js"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trigger-hardening-final-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact hardening head
+        uses: actions/checkout@v4
+        with:
+          ref: hardening/trigger-engine-20260818
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax-check permanent automation scripts
+        run: |
+          node --check src/scripts/action-trigger.mjs
+          node --check src/scripts/app.js
+          node --check src/scripts/trade-ledger.mjs
+          node --check scripts/process-trade-ledger.mjs
+          node --check scripts/reconcile-trade-ledger.mjs
+          node --check scripts/update-eod-market-data.mjs
+          node --check scripts/update-cache-token.mjs
+          node --check scripts/verify-live-site.mjs
+          node --check scripts/audit-site.mjs
+      - name: Verify current EOD updater is a safe no-op
+        run: |
+          cp src/data/research-data.js "${RUNNER_TEMP}/research-before.js"
+          node scripts/update-eod-market-data.mjs --date 2026-08-18 --status-file "${RUNNER_TEMP}/eod-status.json"
+          cmp "${RUNNER_TEMP}/research-before.js" src/data/research-data.js
+          grep -q '"status": "already-current"' "${RUNNER_TEMP}/eod-status.json"
+      - name: Verify current ledger is idempotent
+        run: |
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+          node scripts/process-trade-ledger.mjs
+          cmp "${RUNNER_TEMP}/trade-ledger-before.json" src/data/trade-ledger.json
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+          grep -q '"ok": true' "${RUNNER_TEMP}/ledger-reconciliation.json"
+      - name: Run complete regression suite
+        run: node --test tests/*.test.mjs
+      - name: Rebuild production bundle and require zero diff
+        run: |
+          bash scripts/build/build-assets.sh
+          git diff --exit-code -- assets/js/site.min.js assets/css/site.min.css
+      - name: Audit full site and lean artifact
+        run: |
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Verify immutable public structure and research data
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=3f0042be53bae203b87f8e78330a4d81825b9ea0
+          git diff --exit-code "$BASE" -- reports src/data/research-data.js src/data/trade-ledger.json src/data/daily-insights.js src/styles assets/css favicon.svg robots.txt sitemap.xml .nojekyll
+          python3 <<'PY'
+          import subprocess
+          from pathlib import Path
+          import re
+          base=subprocess.check_output(['git','show','3f0042be53bae203b87f8e78330a4d81825b9ea0:index.html'],text=True)
+          after=Path('index.html').read_text()
+          normalized=after.replace('assets/js/site.min.js?v=20260818-trigger-engine2','assets/js/site.min.js?v=20260818-shb-threshold1')
+          if normalized != base:
+              raise SystemExit('index.html changed beyond the JS cache token')
+          order=[m.group(2) for m in re.finditer(r'<section\b[^>]*\bid=([\'\"])([^\'\"]+)\1[^>]*>',after)]
+          expected=['overview','daily-market','position-ledger','action-radar','research']
+          if order != expected:
+              raise SystemExit(f'section order changed: {order}')
+          PY
+      - name: Verify workflow safety invariants
+        run: |
+          grep -q 'Reconcile expected versus actual activations' .github/workflows/pages.yml
+          grep -q 'Post-deploy byte verification' .github/workflows/pages.yml
+          grep -q 'group: pages' .github/workflows/pages.yml
+          grep -q 'cron: "27 15 \* \* 1-5"' .github/workflows/eod-daily.yml
+          grep -q 'cron: "7 16 \* \* 1-5"' .github/workflows/eod-daily.yml
+          grep -q 'timezone: "Asia/Ho_Chi_Minh"' .github/workflows/eod-daily.yml
+          grep -q 'Reconcile expected versus actual activations' .github/workflows/eod-daily.yml
+          grep -q 'Post-deploy byte verification' .github/workflows/eod-daily.yml
+          grep -q 'Fail closed when final pass is still not ready' .github/workflows/eod-daily.yml
+          grep -q 'group: pages' .github/workflows/eod-daily.yml
+      - name: Verify shared engine is the single trigger semantic source
+        run: |
+          grep -q 'from "./action-trigger.mjs"' src/scripts/app.js
+          grep -q 'from "./action-trigger.mjs"' src/scripts/trade-ledger.mjs
+          grep -q 'from "../src/scripts/action-trigger.mjs"' scripts/process-trade-ledger.mjs
+          grep -q 'from "../src/scripts/action-trigger.mjs"' scripts/audit-site.mjs
+          grep -q 'from "../src/scripts/action-trigger.mjs"' scripts/reconcile-trade-ledger.mjs
