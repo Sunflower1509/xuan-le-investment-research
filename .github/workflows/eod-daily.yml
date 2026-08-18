@@ -1,0 +1,162 @@
+name: Verified EOD market lock and deploy
+
+on:
+  schedule:
+    - cron: "27 15 * * 1-5"
+      timezone: "Asia/Ho_Chi_Minh"
+    - cron: "7 16 * * 1-5"
+      timezone: "Asia/Ho_Chi_Minh"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Ngày EOD YYYY-MM-DD; để trống dùng ngày Việt Nam hiện tại"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  eod:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cross-check and lock EOD market data
+        id: market
+        shell: bash
+        env:
+          TARGET_DATE: ${{ inputs.date }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${TARGET_DATE:-}" ]]; then
+            node scripts/update-eod-market-data.mjs --date "$TARGET_DATE" --status-file "${RUNNER_TEMP}/eod-status.json"
+          else
+            node scripts/update-eod-market-data.mjs --status-file "${RUNNER_TEMP}/eod-status.json"
+          fi
+
+      - name: Record pre-processing ledger
+        if: steps.market.outputs.status == 'verified'
+        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+
+      - name: Process EOD activation ledger
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/process-trade-ledger.mjs
+
+      - name: Reconcile expected versus actual activations
+        if: steps.market.outputs.status == 'verified'
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Run all trigger and ledger tests
+        if: steps.market.outputs.status == 'verified'
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        if: steps.market.outputs.status == 'verified'
+        run: bash scripts/build/build-assets.sh
+
+      - name: Update deterministic browser cache token
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/update-cache-token.mjs --date "${{ steps.market.outputs.date }}"
+
+      - name: Audit site integrity
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/audit-site.mjs
+
+      - name: Prepare lean production artifact
+        if: steps.market.outputs.status == 'verified'
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Guard mutation scope and public structure
+        if: steps.market.outputs.status == 'verified'
+        shell: bash
+        run: |
+          set -euo pipefail
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/css/site\.min\.css|index\.html)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('index.html','utf8');
+          const order=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          NODE
+
+      - name: Commit verified EOD state without recursive CI
+        if: steps.market.outputs.status == 'verified'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/css/site.min.css index.html
+            git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Post-deploy byte verification
+        if: steps.market.outputs.status == 'verified'
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site"
+
+      - name: First scheduled pass not ready - wait for final pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
+
+      - name: Fail closed when final pass is still not ready
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '7 16 * * 1-5')
+        run: |
+          echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
+          exit 2
+
+      - name: Already current - safe no-op
+        if: steps.market.outputs.status == 'already-current'
+        run: echo "Repository already carries the requested EOD date; no duplicate processing or deployment is needed."
