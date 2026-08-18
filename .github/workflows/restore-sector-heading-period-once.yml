@@ -1,0 +1,40 @@
+name: Restore sector heading punctuation once
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore exact approved heading
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old='<h2>PHÂN LOẠI NHÓM NGÀNH</h2>'
+          new='<h2>PHÂN LOẠI NHÓM NGÀNH.</h2>'
+          if old not in s:
+              raise SystemExit('Target heading not found')
+          p.write_text(s.replace(old,new,1))
+          PY
+      - name: Verify approved headings
+        run: |
+          grep -Fq '<h2 id="daily-market-title">NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY</h2>' index.html
+          grep -Fq '<h2>XẾP HẠNG ƯU TIÊN</h2>' index.html
+          grep -Fq '<h3>VÙNG MUA THAM KHẢO</h3>' index.html
+          grep -Fq '<h3>NHÓM KHÔNG ƯU TIÊN</h3>' index.html
+          grep -Fq '<h2>PHÂN LOẠI NHÓM NGÀNH.</h2>' index.html
+      - name: Audit
+        run: node scripts/audit-site.mjs
+      - name: Commit and self-delete
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/restore-sector-heading-period-once.yml
+          git add index.html
+          git commit -m 'Restore approved sector heading punctuation [skip ci]'
+          git push origin HEAD:main
