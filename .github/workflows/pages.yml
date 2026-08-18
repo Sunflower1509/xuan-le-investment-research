@@ -1,10 +1,9 @@
-name: Deploy website to GitHub Pages
+name: Repair SHB trigger and deploy once
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,15 +20,34 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Prepare guarded one-sided SHB repair
+        run: python3 scripts/fix-shb-one-sided-trigger-once.py
       - name: Process EOD activation ledger
         run: node scripts/process-trade-ledger.mjs
+      - name: Verify exact SHB recovery
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const events=ledger.events.filter(e=>e.ticker==='SHB'&&e.type==='activated');
+          if(events.length!==1) throw new Error(`Expected exactly one SHB activation, got ${events.length}`);
+          const e=events[0];
+          if(e.id!=='auto-SHB-2026-08-18'||e.date!=='2026-08-18'||e.price!==11600||e.mode!=='automatic-eod'||e.triggerType!=='at-or-below'||e.triggerPrice!==11600) throw new Error('SHB activation core fields mismatch');
+          if(e.confirmation?.trigger!=='eod-close-transitioned-into-locked-threshold'||e.confirmation?.previousQuote?.date!=='2026-08-17'||e.confirmation?.previousQuote?.close!==11650||e.confirmation?.previousQuote?.relation!=='above') throw new Error('SHB activation transition evidence mismatch');
+          const snap=ledger.meta?.automation?.lastEvaluatedQuotes?.SHB;
+          if(!snap||snap.date!=='2026-08-18'||snap.close!==11600||snap.relation!=='inside'||snap.triggerType!=='at-or-below'||snap.triggerPrice!==11600||snap.eligibility!=='active') throw new Error('SHB post-fix snapshot mismatch');
+          console.log(JSON.stringify({id:e.id,date:e.date,price:e.price,triggerType:e.triggerType,triggerPrice:e.triggerPrice,previous:e.confirmation.previousQuote,snapshot:snap},null,2));
+          NODE
       - name: Verify activation rules
         run: node --test tests/trade-ledger.test.mjs
       - name: Build production assets
@@ -38,15 +56,52 @@ jobs:
         run: node scripts/audit-site.mjs
       - name: Prepare lean production artifact
         run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
-      - name: Persist new EOD ledger events
+      - name: Guard layout, CSS and public paths
         run: |
-          if ! git diff --quiet -- src/data/trade-ledger.json; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/trade-ledger.json
-            git commit -m "Record EOD signal activations [skip ci]"
-            git push
-          fi
+          set -euo pipefail
+          git diff --exit-code HEAD^ -- reports favicon.svg robots.txt sitemap.xml .nojekyll src/data/daily-insights.js src/styles assets/css/site.min.css scripts/build
+          python3 <<'PY'
+          import subprocess
+          before=subprocess.check_output(['git','show','HEAD^:index.html'],text=True)
+          after=open('index.html').read()
+          normalized=after.replace('assets/js/site.min.js?v=20260818-shb-threshold1','assets/js/site.min.js?v=20260817-eod3')
+          if normalized!=before:
+              raise SystemExit('index.html changed beyond the JS cache token')
+          order=['id="overview"','id="daily-market"','id="position-ledger"','id="action-radar"','id="research"']
+          positions=[after.index(x) for x in order]
+          if positions!=sorted(positions):
+              raise SystemExit('section order changed')
+          PY
+      - name: Restore normal workflow and remove repair tooling
+        run: |
+          set -euo pipefail
+          git show 8be1ae153f0206adf72e20aa54e7d83d33086a0d:.github/workflows/pages.yml > .github/workflows/pages.yml
+          rm -f scripts/fix-shb-one-sided-trigger-once.py
+          rm -f .github/workflows/fix-shb-one-sided-trigger-once.yml
+          python3 <<'PY'
+          import subprocess
+          allowed={
+            '.github/workflows/pages.yml',
+            'index.html','assets/js/site.min.js','src/data/research-data.js','src/data/trade-ledger.json',
+            'scripts/process-trade-ledger.mjs','scripts/audit-site.mjs','src/scripts/trade-ledger.mjs','src/scripts/app.js',
+            'tests/trade-ledger.test.mjs','scripts/fix-shb-one-sided-trigger-once.py'
+          }
+          changed=set(subprocess.check_output(['git','diff','--name-only'],text=True).splitlines())
+          extra=changed-allowed
+          required={'index.html','assets/js/site.min.js','src/data/research-data.js','src/data/trade-ledger.json','scripts/process-trade-ledger.mjs','scripts/audit-site.mjs','src/scripts/trade-ledger.mjs','src/scripts/app.js','tests/trade-ledger.test.mjs'}
+          missing=required-changed
+          if extra or missing:
+              raise SystemExit(f'Unexpected change scope extra={sorted(extra)} missing={sorted(missing)} changed={sorted(changed)}')
+          print('Verified change scope:',*sorted(changed),sep='\n- ')
+          PY
+      - name: Commit repair and cleanup
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Support one-sided EOD trigger and recover SHB activation [skip ci]"
+          git push
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
