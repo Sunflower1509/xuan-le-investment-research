@@ -77,17 +77,18 @@ jobs:
               raise SystemExit(f'section order changed: {order}')
           PY
 
+            # Workflow files are written through the GitHub connector, not GITHUB_TOKEN.
+            git show "$BASE:.github/workflows/pages.yml" > .github/workflows/pages.yml
             rm -f scripts/harden-trigger-engine-once.py
             rm -f scripts/fix-hardening-patcher-once.py
-            rm -f .github/workflows/harden-trigger-engine-once.yml
-            allowed='^(\.github/workflows/(pages\.yml|eod-daily\.yml)|index\.html|assets/js/site\.min\.js|scripts/(audit-site\.mjs|process-trade-ledger\.mjs|reconcile-trade-ledger\.mjs|update-eod-market-data\.mjs|update-cache-token\.mjs|verify-live-site\.mjs)|src/scripts/(app\.js|trade-ledger\.mjs|action-trigger\.mjs)|tests/(action-trigger\.test\.mjs|reconciliation\.test\.mjs))$'
+            allowed='^(\.github/workflows/(harden-trigger-engine-once\.yml|eod-daily\.yml)|index\.html|assets/js/site\.min\.js|scripts/(audit-site\.mjs|process-trade-ledger\.mjs|reconcile-trade-ledger\.mjs|update-eod-market-data\.mjs|update-cache-token\.mjs|verify-live-site\.mjs)|src/scripts/(app\.js|trade-ledger\.mjs|action-trigger\.mjs)|tests/(action-trigger\.test\.mjs|reconciliation\.test\.mjs))$'
             unexpected="$(git diff --name-only "$BASE" | grep -Ev "$allowed" || true)"
             if [[ -n "$unexpected" ]]; then
               echo "Unexpected hardening paths:" >&2
               echo "$unexpected" >&2
               exit 2
             fi
-            echo "Permanent hardening change scope verified."
+            echo "Source hardening change scope verified."
           ) > "${RUNNER_TEMP}/hardening-validation.log" 2>&1
           status=$?
           set -e
@@ -100,5 +101,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Harden trigger engine, reconcile EOD ledger and verify deploys [skip ci]"
+          git commit -m "Harden shared trigger engine and reconciliation [skip ci]"
           git push origin HEAD:hardening/trigger-engine-20260818
