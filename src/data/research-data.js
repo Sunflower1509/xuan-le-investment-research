@@ -88,8 +88,10 @@ window.RESEARCH_DATA = {
         ],
         "basisDate": "2026-08-18",
         "recommendation": "MUA / QUẢN TRỊ THỦ CÔNG",
-        "eligibility": "manual",
-        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600."
+        "eligibility": "active",
+        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.",
+        "triggerType": "at-or-below",
+        "triggerPrice": 11600
       },
       "visual": {
         "kind": "illustration",
@@ -1805,8 +1807,10 @@ window.RESEARCH_DATA = {
         ],
         "basisDate": "2026-08-18",
         "recommendation": "MUA / QUẢN TRỊ THỦ CÔNG",
-        "eligibility": "manual",
-        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600."
+        "eligibility": "active",
+        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.",
+        "triggerType": "at-or-below",
+        "triggerPrice": 11600
       }
     },
     {

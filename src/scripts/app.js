@@ -394,12 +394,18 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
 
   const ledgerReason = (value) => LEDGER_REASON_LABELS[value] || (value ? String(value).toLocaleUpperCase("vi") : "CHƯA GHI NHẬN");
 
+  const lockedActionLabel = (value) => {
+    if (value?.triggerType === "at-or-below" && Number.isFinite(value.triggerPrice)) return `Ngưỡng ≤ ${number(value.triggerPrice)}`;
+    if (value?.triggerType === "at-or-above" && Number.isFinite(value.triggerPrice)) return `Ngưỡng ≥ ${number(value.triggerPrice)}`;
+    return `Vùng ${number(value?.zoneLow)}–${number(value?.zoneHigh)}`;
+  };
+
   const renderLedgerEvent = (event) => {
     const label = event.type === "activated"
       ? event.mode === "automatic-eod" ? "KÍCH HOẠT TỰ ĐỘNG" : "KÍCH HOẠT XÁC NHẬN"
       : event.type === "partial_exit" ? `CHỐT ${decimal(Number(event.portionPct), 0)}%` : "ĐÓNG VỊ THẾ";
     const detail = event.type === "activated"
-      ? `Vùng khóa ${number(event.zoneLow)}–${number(event.zoneHigh)}`
+      ? `${lockedActionLabel(event)} đã khóa`
       : ledgerReason(event.reason);
     return `<li>
       <span class="ledger-event-marker"></span>
@@ -489,7 +495,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
           <tr>
             <td data-label="Mã"><strong class="ledger-ticker">${escapeHtml(position.ticker)}</strong><span>${escapeHtml(position.tradeId)}</span></td>
             <td data-label="Ngày kích hoạt"><strong>${date(position.activatedAt)}</strong><span>${position.activationMode === "automatic-eod" ? "Tự động theo EOD" : "Xác nhận thủ công"}</span></td>
-            <td data-label="Giá kích hoạt"><strong>${number(position.activationPrice)}</strong><span>Vùng ${number(position.zoneLow)}–${number(position.zoneHigh)}</span></td>
+            <td data-label="Giá kích hoạt"><strong>${number(position.activationPrice)}</strong><span>${escapeHtml(lockedActionLabel(position))}</span></td>
             <td data-label="${isClosed ? "Giá chốt bình quân" : "Giá theo dõi"}"><strong>${number(trackedPrice)}</strong><span>${date(trackedDate)}${!isClosed && position.currentPriceSource ? ` • <a href="${escapeHtml(position.currentPriceSource)}" target="_blank" rel="noreferrer">Nguồn ↗</a>` : ""}</span></td>
             <td class="ledger-performance ${marketTone(position.performancePct)}" data-label="Hiệu suất"><strong>${signedPercent(position.performancePct)}</strong><span>${escapeHtml(performanceNote)}</span></td>
             <td data-label="Stop"><strong>${number(position.stop)}</strong><span>${position.stop ? "Mốc đã khóa" : "Chưa có dữ liệu"}</span></td>

@@ -9,36 +9,58 @@ import { projectTradeLedger, validIsoDate, validSourceUrl } from "../src/scripts
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const researchPath = path.join(repositoryRoot, "src/data/research-data.js");
 const ledgerPath = path.join(repositoryRoot, "src/data/trade-ledger.json");
-const TRIGGER = "eod-close-transitioned-into-locked-zone";
+const TRIGGER_ZONE = "eod-close-transitioned-into-locked-zone";
+const TRIGGER_THRESHOLD = "eod-close-transitioned-into-locked-threshold";
 const TICKER = /^[A-Z0-9]{2,8}$/;
+const ONE_SIDED_TRIGGER_TYPES = new Set(["at-or-below", "at-or-above"]);
 
 const finitePositive = (value) => Number.isFinite(value) && value > 0;
 const clone = (value) => JSON.parse(JSON.stringify(value));
+const oneSidedTrigger = (action = {}) => ONE_SIDED_TRIGGER_TYPES.has(action.triggerType) && finitePositive(action.triggerPrice)
+  ? { type: action.triggerType, price: action.triggerPrice }
+  : null;
 
 export const quoteRelation = (close, action = {}) => {
-  if (!finitePositive(close) || !finitePositive(action.zoneLow) || !finitePositive(action.zoneHigh) || action.zoneLow > action.zoneHigh) return "unavailable";
+  if (!finitePositive(close)) return "unavailable";
+  const trigger = oneSidedTrigger(action);
+  if (trigger?.type === "at-or-below") return close <= trigger.price ? "inside" : "above";
+  if (trigger?.type === "at-or-above") return close >= trigger.price ? "inside" : "below";
+  if (!finitePositive(action.zoneLow) || !finitePositive(action.zoneHigh) || action.zoneLow > action.zoneHigh) return "unavailable";
   if (close < action.zoneLow) return "below";
   if (close > action.zoneHigh) return "above";
   return "inside";
 };
 
-const snapshotFor = (item) => ({
-  date: item.priceDate,
-  close: item.close,
-  relation: quoteRelation(item.close, item.action),
-  zoneLow: finitePositive(item.action?.zoneLow) ? item.action.zoneLow : null,
-  zoneHigh: finitePositive(item.action?.zoneHigh) ? item.action.zoneHigh : null,
-  zoneBasisDate: validIsoDate(item.action?.basisDate) ? item.action.basisDate : null,
-  eligibility: typeof item.action?.eligibility === "string" ? item.action.eligibility : "unknown"
-});
+const snapshotFor = (item) => {
+  const snapshot = {
+    date: item.priceDate,
+    close: item.close,
+    relation: quoteRelation(item.close, item.action),
+    zoneLow: finitePositive(item.action?.zoneLow) ? item.action.zoneLow : null,
+    zoneHigh: finitePositive(item.action?.zoneHigh) ? item.action.zoneHigh : null,
+    zoneBasisDate: validIsoDate(item.action?.basisDate) ? item.action.basisDate : null,
+    eligibility: typeof item.action?.eligibility === "string" ? item.action.eligibility : "unknown"
+  };
+  const trigger = oneSidedTrigger(item.action);
+  if (trigger) {
+    snapshot.triggerType = trigger.type;
+    snapshot.triggerPrice = trigger.price;
+  }
+  return snapshot;
+};
 
-const sameLockedZone = (previous, current) => previous
-  && previous.zoneLow === current.zoneLow
-  && previous.zoneHigh === current.zoneHigh
-  && previous.zoneBasisDate === current.zoneBasisDate
-  && finitePositive(current.zoneLow)
-  && finitePositive(current.zoneHigh)
-  && validIsoDate(current.zoneBasisDate);
+const sameLockedAction = (previous, current) => {
+  if (!previous || previous.zoneBasisDate !== current.zoneBasisDate || !validIsoDate(current.zoneBasisDate)) return false;
+  if (current.triggerType) {
+    return previous.triggerType === current.triggerType
+      && previous.triggerPrice === current.triggerPrice
+      && finitePositive(current.triggerPrice);
+  }
+  return previous.zoneLow === current.zoneLow
+    && previous.zoneHigh === current.zoneHigh
+    && finitePositive(current.zoneLow)
+    && finitePositive(current.zoneHigh);
+};
 
 const latestReportByTicker = (reports = []) => {
   const result = new Map();
@@ -68,6 +90,7 @@ const validateInputs = (source, ledger) => {
 };
 
 const automationEvent = (item, previous, report) => {
+  const trigger = oneSidedTrigger(item.action);
   const event = {
     id: `auto-${item.ticker}-${item.priceDate}`,
     tradeId: `${item.ticker}-${item.priceDate}`,
@@ -76,17 +99,17 @@ const automationEvent = (item, previous, report) => {
     ticker: item.ticker,
     date: item.priceDate,
     price: item.close,
-    zoneLow: item.action.zoneLow,
-    zoneHigh: item.action.zoneHigh,
+    zoneLow: trigger ? null : item.action.zoneLow,
+    zoneHigh: trigger ? null : item.action.zoneHigh,
     zoneBasisDate: item.action.basisDate,
     stop: finitePositive(item.action.stop) ? item.action.stop : null,
     targets: Array.isArray(item.action.targets) ? item.action.targets.filter(finitePositive) : [],
     confirmation: {
-      trigger: TRIGGER,
+      trigger: trigger ? TRIGGER_THRESHOLD : TRIGGER_ZONE,
       priceTriggerPassed: true,
       eligibilityAtTrigger: "active",
       noHardVeto: true,
-      zoneUnchangedSincePreviousEod: true,
+      lockedActionUnchangedSincePreviousEod: true,
       previousQuote: {
         date: previous.date,
         close: previous.close,
@@ -94,8 +117,14 @@ const automationEvent = (item, previous, report) => {
       }
     },
     sourceUrl: item.priceSource,
-    note: "Tự động kích hoạt theo giá đóng cửa EOD; điều kiện định tính không được máy tự suy diễn."
+    note: trigger
+      ? "Tự động kích hoạt theo giá đóng cửa EOD và ngưỡng một phía đã khóa; điều kiện định tính không được máy tự suy diễn."
+      : "Tự động kích hoạt theo giá đóng cửa EOD; điều kiện định tính không được máy tự suy diễn."
   };
+  if (trigger) {
+    event.triggerType = trigger.type;
+    event.triggerPrice = trigger.price;
+  }
   if (validSourceUrl(item.priceSourceSecondary)) event.sourceUrlSecondary = item.priceSourceSecondary;
   if (report?.id) event.reportId = report.id;
   if (report?.file) event.reportFile = report.file;
@@ -171,10 +200,10 @@ export const processEodLedger = (source, ledger) => {
 
     const priceEnteredZone = previous.relation !== "inside" && current.relation === "inside";
     const eligible = item.action?.eligibility === "active";
-    const zoneUnchanged = sameLockedZone(previous, current);
+    const lockedActionUnchanged = sameLockedAction(previous, current);
     const canStart = item.priceDate >= next.meta.startedAt;
     const hasOpenPosition = openTickers.has(item.ticker);
-    const shouldActivate = priceEnteredZone && eligible && zoneUnchanged && canStart && !hasOpenPosition;
+    const shouldActivate = priceEnteredZone && eligible && lockedActionUnchanged && canStart && !hasOpenPosition;
 
     if (shouldActivate) {
       const event = automationEvent(item, previous, reportsByTicker.get(item.ticker));
@@ -190,8 +219,8 @@ export const processEodLedger = (source, ledger) => {
       stats.blocked += 1;
       const reason = !eligible
         ? `eligibility=${item.action?.eligibility || "unknown"}`
-        : !zoneUnchanged
-          ? "vùng mua đã thay đổi"
+        : !lockedActionUnchanged
+          ? current.triggerType ? "ngưỡng kích hoạt đã thay đổi" : "vùng mua đã thay đổi"
           : !canStart
             ? "trước ngày bắt đầu sổ"
             : "đã có vị thế đang mở";

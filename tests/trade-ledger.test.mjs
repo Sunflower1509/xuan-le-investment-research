@@ -150,3 +150,90 @@ test("dừng xử lý nếu sổ đầu vào có sự kiện sai", () => {
   const broken = ledger({ events: [{ id: "bad" }] });
   assert.throws(() => processEodLedger(source(), broken), /không hợp lệ/);
 });
+
+
+test("SHB one-sided: 11.650 -> 11.600 kích hoạt đúng một lần", () => {
+  const shbAction = {
+    zoneLow: null,
+    zoneHigh: 11600,
+    triggerType: "at-or-below",
+    triggerPrice: 11600,
+    basisDate: "2026-08-18",
+    eligibility: "active",
+    recommendation: "MUA",
+    condition: "P <= 11.600",
+    stop: 10950,
+    targets: [12400, 16600]
+  };
+  assert.equal(quoteRelation(11650, shbAction), "above");
+  assert.equal(quoteRelation(11600, shbAction), "inside");
+  assert.equal(quoteRelation(11550, shbAction), "inside");
+
+  const shbSource = {
+    meta: { updated: "2026-08-18" },
+    reports: [{ id: "SHB-20260818", ticker: "SHB", date: "2026-08-18", file: "reports/SHB_2026-08-18.pdf" }],
+    coverage: [{ ticker: "SHB", close: 11600, priceDate: "2026-08-18", priceSource: priceUrl, action: shbAction }]
+  };
+  const shbLedger = ledger({ snapshot: false });
+  shbLedger.meta.automation.lastEvaluatedQuotes = {
+    SHB: {
+      date: "2026-08-17",
+      close: 11650,
+      relation: "above",
+      zoneLow: null,
+      zoneHigh: 11600,
+      triggerType: "at-or-below",
+      triggerPrice: 11600,
+      zoneBasisDate: "2026-08-18",
+      eligibility: "active"
+    }
+  };
+  shbLedger.meta.automation.lastEvaluatedAt = "2026-08-17";
+  const first = processEodLedger(shbSource, shbLedger);
+  assert.equal(first.stats.activated, 1);
+  assert.equal(first.ledger.events.length, 1);
+  const event = first.ledger.events[0];
+  assert.equal(event.id, "auto-SHB-2026-08-18");
+  assert.equal(event.mode, "automatic-eod");
+  assert.equal(event.price, 11600);
+  assert.equal(event.triggerType, "at-or-below");
+  assert.equal(event.triggerPrice, 11600);
+  assert.equal(event.confirmation.previousQuote.date, "2026-08-17");
+  assert.equal(event.confirmation.previousQuote.close, 11650);
+  assert.equal(event.confirmation.previousQuote.relation, "above");
+
+  const projection = projectTradeLedger(first.ledger, shbSource.coverage);
+  assert.equal(projection.issues.length, 0);
+  assert.equal(projection.positions.length, 1);
+  assert.equal(projection.positions[0].ticker, "SHB");
+  assert.equal(projection.positions[0].triggerType, "at-or-below");
+  assert.equal(projection.positions[0].triggerPrice, 11600);
+
+  const second = processEodLedger(shbSource, first.ledger);
+  assert.equal(second.changed, false);
+  assert.equal(second.stats.activated, 0);
+  assert.equal(second.ledger.events.length, 1);
+});
+
+test("one-sided không kích hoạt nếu ngưỡng bị thay đổi giữa hai EOD", () => {
+  const shbSource = {
+    meta: { updated: "2026-08-18" },
+    reports: [],
+    coverage: [{
+      ticker: "SHB",
+      close: 11600,
+      priceDate: "2026-08-18",
+      priceSource: priceUrl,
+      action: { zoneLow: null, zoneHigh: 11600, triggerType: "at-or-below", triggerPrice: 11600, basisDate: "2026-08-18", eligibility: "active" }
+    }]
+  };
+  const base = ledger({ snapshot: false });
+  base.meta.automation.lastEvaluatedQuotes = {
+    SHB: { date: "2026-08-17", close: 11650, relation: "above", zoneLow: null, zoneHigh: 11700, triggerType: "at-or-below", triggerPrice: 11700, zoneBasisDate: "2026-08-18", eligibility: "active" }
+  };
+  base.meta.automation.lastEvaluatedAt = "2026-08-17";
+  const result = processEodLedger(shbSource, base);
+  assert.equal(result.stats.activated, 0);
+  assert.equal(result.stats.blocked, 1);
+  assert.match(result.warnings[0], /ngưỡng kích hoạt đã thay đổi/);
+});

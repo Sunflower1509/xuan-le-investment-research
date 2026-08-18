@@ -121,10 +121,12 @@ if (!research || typeof research !== "object") {
     if (item.priceSourceSecondary && !isHttps(item.priceSourceSecondary)) fail(scope, "priceSourceSecondary phải là HTTPS hợp lệ");
     if (item.reportId && !reportIds.has(item.reportId)) fail(scope, `reportId không tồn tại: ${item.reportId}`);
     if (item.action?.eligibility === "active") {
-      if (!isPositive(item.action.zoneLow) || !isPositive(item.action.zoneHigh) || item.action.zoneLow > item.action.zoneHigh) {
-        fail(scope, "vùng mua active không hợp lệ");
+      const lockedRange = isPositive(item.action.zoneLow) && isPositive(item.action.zoneHigh) && item.action.zoneLow <= item.action.zoneHigh;
+      const lockedThreshold = ["at-or-below", "at-or-above"].includes(item.action.triggerType) && isPositive(item.action.triggerPrice);
+      if (!lockedRange && !lockedThreshold) {
+        fail(scope, "vùng mua/ngưỡng kích hoạt active không hợp lệ");
       }
-      if (!isIsoDate(item.action.basisDate)) fail(scope, "basisDate của vùng mua active không hợp lệ");
+      if (!isIsoDate(item.action.basisDate)) fail(scope, "basisDate của điều kiện active không hợp lệ");
     }
   });
 
