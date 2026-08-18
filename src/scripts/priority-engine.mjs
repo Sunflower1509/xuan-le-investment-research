@@ -19,7 +19,7 @@ export const valuationBase = (report, action = {}) => {
 export const latestReportDates = (reports = []) => {
   const dates = new Map();
   for (const report of reports) {
-    if (!report?.ticker || !validIsoDate(report.date)) continue;
+    if (!report?.ticker || report.reportType === "trading" || !validIsoDate(report.date)) continue;
     const current = dates.get(report.ticker);
     if (!current || report.date > current) dates.set(report.ticker, report.date);
   }
