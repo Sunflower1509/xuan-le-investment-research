@@ -95,6 +95,7 @@ if (!research || typeof research !== "object") {
   const reportIds = new Set(reports.map((report) => report.id));
   const latestReportDateByTicker = new Map();
   reports.forEach((report) => {
+    if (report.reportType === "trading") return;
     const current = latestReportDateByTicker.get(report.ticker);
     if (isIsoDate(report.date) && (!current || report.date > current)) latestReportDateByTicker.set(report.ticker, report.date);
   });
@@ -131,7 +132,7 @@ if (!research || typeof research !== "object") {
       if (!isIsoDate(item.action.basisDate)) fail(scope, "basisDate của điều kiện active không hợp lệ");
       const latestReportDate = latestReportDateByTicker.get(item.ticker);
       if (latestReportDate && isIsoDate(item.action.basisDate) && item.action.basisDate < latestReportDate) {
-        fail(scope, `setup active ${item.action.basisDate} đã bị báo cáo mới ${latestReportDate} thay thế`);
+        fail(scope, `setup active ${item.action.basisDate} đã bị báo cáo định giá mới ${latestReportDate} thay thế`);
       }
       if (item.action.validUntil != null) {
         if (!isIsoDate(item.action.validUntil)) fail(scope, "validUntil phải là ngày ISO hợp lệ nếu được khai báo");
