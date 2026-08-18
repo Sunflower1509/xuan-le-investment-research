@@ -2,9 +2,10 @@ name: Confirm trigger hardening deployment once
 
 on:
   push:
-    branches: [main]
+    branches:
+      - proof/trigger-hardening-20260818
     paths:
-      - ".github/workflows/confirm-trigger-hardening-deploy-once.yml"
+      - ".github/trigger-hardening-proof.txt"
 
 permissions:
   contents: write
@@ -12,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: trigger-hardening-production-proof
   cancel-in-progress: false
 
 jobs:
@@ -23,14 +24,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - name: Check out main
+      - name: Check out exact main
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 2
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Capture main source commit
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Verify current EOD updater is a no-op
         run: |
           cp src/data/research-data.js "${RUNNER_TEMP}/research-before.js"
@@ -76,12 +81,12 @@ jobs:
           node scripts/verify-live-site.mjs \
             --site-url "${{ steps.deployment.outputs.page_url }}" \
             --artifact-root "${RUNNER_TEMP}/site"
-      - name: Record verified deployment marker
+      - name: Record verified deployment marker on main
         run: |
           set -euo pipefail
           {
             echo "verified=true"
-            echo "source_commit=${GITHUB_SHA}"
+            echo "source_commit=${{ steps.source.outputs.sha }}"
             echo "verified_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             sha256sum "${RUNNER_TEMP}/site/index.html" "${RUNNER_TEMP}/site/assets/js/site.min.js" "${RUNNER_TEMP}/site/assets/css/site.min.css"
           } > hardening-deploy-confirmed.txt
