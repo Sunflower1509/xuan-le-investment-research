@@ -1,0 +1,36 @@
+name: Verify live full sync once
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact production main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run regression suite
+        run: node --test tests/*.test.mjs
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Prepare exact production artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Verify live site byte-for-byte
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url 'https://sunflower1509.github.io/xuan-le-investment-research/' \
+            --artifact-root "${RUNNER_TEMP}/site"
