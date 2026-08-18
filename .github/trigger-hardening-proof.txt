@@ -1,0 +1,2 @@
+trigger=2026-08-18T18:01+07:00
+purpose=verify-main-trigger-hardening-live-byte-for-byte
