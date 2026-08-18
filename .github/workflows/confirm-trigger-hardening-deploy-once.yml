@@ -1,9 +1,9 @@
 name: Confirm trigger hardening deployment once
 
 on:
-  push:
+  pull_request:
     branches:
-      - proof/trigger-hardening-20260818
+      - main
     paths:
       - ".github/trigger-hardening-proof.txt"
 
