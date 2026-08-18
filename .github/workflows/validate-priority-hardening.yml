@@ -1,0 +1,105 @@
+name: Validate priority hardening
+
+on:
+  push:
+    branches:
+      - hardening/priority-engine-20260818
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Apply one-time source patch on branch push
+        if: github.event_name == 'push'
+        run: node scripts/patch-priority-hardening.mjs
+
+      - name: Run all regression tests
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Site audit
+        run: node scripts/audit-site.mjs
+
+      - name: Priority production invariants
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          import { projectTradeLedger } from './src/scripts/trade-ledger.mjs';
+          import { buildPriorityUniverse, latestReportDates, openPositionTickers, evaluatePriorityCandidate, valuationBase } from './src/scripts/priority-engine.mjs';
+          const code = fs.readFileSync('src/data/research-data.js','utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const research = sandbox.window.RESEARCH_DATA;
+          const ledger = JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const projection = projectTradeLedger(ledger, research.coverage);
+          if (projection.issues.length) throw new Error(`Ledger issues: ${JSON.stringify(projection.issues)}`);
+          const openTickers = openPositionTickers(projection);
+          const reportDates = latestReportDates(research.reports);
+          const universe = buildPriorityUniverse(research.coverage, { openTickers, reportDates, asOfDate: research.meta.updated });
+          const top3 = universe.slice(0,3).map((item) => item.ticker);
+          if (top3.join(',') !== 'MSR,MSN,REE') throw new Error(`Unexpected top3: ${top3.join(',')}`);
+          if (universe.some((item) => item.ticker === 'SHB')) throw new Error('SHB đang có vị thế mở nhưng vẫn nằm trong entry priority');
+          const shb = research.coverage.find((item) => item.ticker === 'SHB');
+          const shbState = evaluatePriorityCandidate(shb, { openTickers, reportDates, asOfDate: research.meta.updated });
+          if (shbState.reason !== 'open-position') throw new Error(`SHB exclusion reason: ${shbState.reason}`);
+          const vci = research.coverage.find((item) => item.ticker === 'VCI');
+          const vciReport = research.reports.find((item) => item.id === vci.reportId);
+          if (valuationBase(vciReport, vci.action) !== 19478) throw new Error('VCI valuation base precedence không nhất quán');
+          console.log(JSON.stringify({ priorityCount: universe.length, top3, shbReason: shbState.reason, openTickers: [...openTickers] }, null, 2));
+          NODE
+
+      - name: Guard public structure and mutation scope
+        run: |
+          set -euo pipefail
+          git fetch origin main --depth=1
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('index.html','utf8');
+          const order=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          NODE
+          if ! git diff --quiet origin/main -- assets/css/site.min.css; then
+            echo 'CSS changed unexpectedly' >&2
+            exit 2
+          fi
+          node <<'NODE'
+          const { execFileSync } = require('child_process');
+          const fs = require('fs');
+          const before = execFileSync('git',['show','origin/main:index.html'],{encoding:'utf8'});
+          const after = fs.readFileSync('index.html','utf8');
+          const normalize = (s) => s.replace(/site\.min\.js\?v=[^"']+/,'site.min.js?v=__CACHE__');
+          if (normalize(before) !== normalize(after)) throw new Error('index.html changed beyond JS cache token');
+          NODE
+
+      - name: Persist validated source changes on branch push
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/scripts/app.js src/scripts/priority-engine.mjs scripts/audit-site.mjs src/data/research-data.js assets/js/site.min.js index.html tests/priority-engine.test.mjs
+            git commit -m "Harden priority radar eligibility and ranking"
+            git push origin HEAD:hardening/priority-engine-20260818
+          fi
