@@ -1,0 +1,92 @@
+name: Confirm trigger hardening deployment once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/confirm-trigger-hardening-deploy-once.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  confirm:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify current EOD updater is a no-op
+        run: |
+          cp src/data/research-data.js "${RUNNER_TEMP}/research-before.js"
+          node scripts/update-eod-market-data.mjs --date 2026-08-18 --status-file "${RUNNER_TEMP}/eod-status.json"
+          cmp "${RUNNER_TEMP}/research-before.js" src/data/research-data.js
+          grep -q '"status": "already-current"' "${RUNNER_TEMP}/eod-status.json"
+      - name: Snapshot and process current ledger
+        run: |
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+          node scripts/process-trade-ledger.mjs
+          cmp "${RUNNER_TEMP}/trade-ledger-before.json" src/data/trade-ledger.json
+      - name: Reconcile expected and actual activations
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+          grep -q '"ok": true' "${RUNNER_TEMP}/ledger-reconciliation.json"
+      - name: Run full regression suite
+        run: node --test tests/*.test.mjs
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Require deterministic bundle
+        run: git diff --exit-code -- assets/js/site.min.js assets/css/site.min.css
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Prepare lean artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify live site byte-for-byte
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site"
+      - name: Record verified deployment marker
+        run: |
+          set -euo pipefail
+          {
+            echo "verified=true"
+            echo "source_commit=${GITHUB_SHA}"
+            echo "verified_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            sha256sum "${RUNNER_TEMP}/site/index.html" "${RUNNER_TEMP}/site/assets/js/site.min.js" "${RUNNER_TEMP}/site/assets/css/site.min.css"
+          } > hardening-deploy-confirmed.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hardening-deploy-confirmed.txt
+          git commit -m "Confirm trigger hardening live deployment [skip ci]"
+          git push origin HEAD:main
