@@ -16,9 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Check out candidate
+      - name: Check out candidate head
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - name: Set up Node.js
@@ -26,9 +27,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Apply one-time source patch on branch push
-        if: github.event_name == 'push'
-        run: node scripts/patch-priority-hardening.mjs
+      - name: Apply source patch only when not yet applied
+        run: |
+          if ! grep -q 'priority-engine.mjs' src/scripts/app.js; then
+            node scripts/patch-priority-hardening.mjs
+          else
+            echo 'Priority source patch already present; validation is read-only.'
+          fi
 
       - name: Run all regression tests
         run: node --test tests/*.test.mjs
@@ -92,8 +97,7 @@ jobs:
           if (normalize(before) !== normalize(after)) throw new Error('index.html changed beyond JS cache token');
           NODE
 
-      - name: Persist validated source changes on branch push
-        if: github.event_name == 'push'
+      - name: Persist validated source changes to candidate branch
         run: |
           set -euo pipefail
           if ! git diff --quiet; then
@@ -101,5 +105,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add src/scripts/app.js src/scripts/priority-engine.mjs scripts/audit-site.mjs src/data/research-data.js assets/js/site.min.js index.html tests/priority-engine.test.mjs
             git commit -m "Harden priority radar eligibility and ranking"
-            git push origin HEAD:hardening/priority-engine-20260818
+            git push origin HEAD:${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          else
+            echo 'Validated candidate is already deterministic; no source diff to persist.'
           fi
