@@ -1,0 +1,169 @@
+name: Reorganize repository internals once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/reorganize-repository-20260818-once.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: repository-reorganization
+  cancel-in-progress: false
+
+jobs:
+  reorganize:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Establish pre-migration production baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/build-assets.sh
+          node --test tests/trade-ledger.test.mjs
+          node scripts/audit-site.mjs
+          ./scripts/prepare-site.sh "${RUNNER_TEMP}/site-before"
+          cp index.html "${RUNNER_TEMP}/index-before.html"
+          find "${RUNNER_TEMP}/site-before" -type f -print0 | sort -z | xargs -0 sha256sum > "${RUNNER_TEMP}/site-before.sha256"
+
+      - name: Reorganize internal maintenance tree only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p scripts/build scripts/quality scripts/automation tests/automation
+
+          git mv scripts/build-assets.sh scripts/build/build-assets.sh
+          git mv scripts/prepare-site.sh scripts/build/prepare-site.sh
+          git mv scripts/audit-site.mjs scripts/quality/audit-site.mjs
+          git mv scripts/process-trade-ledger.mjs scripts/automation/process-trade-ledger.mjs
+          git mv tests/trade-ledger.test.mjs tests/automation/trade-ledger.test.mjs
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              'scripts/build/build-assets.sh': [
+                  ('$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)', '$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)'),
+              ],
+              'scripts/build/prepare-site.sh': [
+                  ('$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)', '$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)'),
+              ],
+              'scripts/quality/audit-site.mjs': [
+                  ('from "../src/scripts/trade-ledger.mjs"', 'from "../../src/scripts/trade-ledger.mjs"'),
+                  ('path.dirname(fileURLToPath(import.meta.url)), "..")', 'path.dirname(fileURLToPath(import.meta.url)), "../..")'),
+              ],
+              'scripts/automation/process-trade-ledger.mjs': [
+                  ('from "../src/scripts/trade-ledger.mjs"', 'from "../../src/scripts/trade-ledger.mjs"'),
+                  ('path.dirname(fileURLToPath(import.meta.url)), "..")', 'path.dirname(fileURLToPath(import.meta.url)), "../..")'),
+              ],
+              'tests/automation/trade-ledger.test.mjs': [
+                  ('from "../scripts/process-trade-ledger.mjs"', 'from "../../scripts/automation/process-trade-ledger.mjs"'),
+                  ('from "../src/scripts/trade-ledger.mjs"', 'from "../../src/scripts/trade-ledger.mjs"'),
+              ],
+              '.github/workflows/pages.yml': [
+                  ('node scripts/process-trade-ledger.mjs', 'node scripts/automation/process-trade-ledger.mjs'),
+                  ('node --test tests/trade-ledger.test.mjs', 'node --test tests/automation/trade-ledger.test.mjs'),
+                  ('./scripts/build-assets.sh', './scripts/build/build-assets.sh'),
+                  ('node scripts/audit-site.mjs', 'node scripts/quality/audit-site.mjs'),
+                  ('./scripts/prepare-site.sh', './scripts/build/prepare-site.sh'),
+              ],
+              'README.md': [
+                  ('`scripts/build-assets.sh`: build có thể tái lập từ `src/` sang `assets/`, với phiên bản công cụ được khóa.', '`scripts/build/`: công cụ build và đóng gói production; phiên bản công cụ được khóa để tái lập kết quả.'),
+                  ('`scripts/prepare-site.sh`: tạo artifact production chỉ gồm HTML, tài nguyên tĩnh và PDF thực sự cần để chạy website.', '`scripts/quality/`: kiểm tra tính toàn vẹn website và khóa thứ tự bố cục.\n- `scripts/automation/`: tự động hóa EOD/Trade Ledger; tách khỏi công cụ build.\n- `tests/automation/`: kiểm thử cho các quy tắc tự động hóa.'),
+                  ('./scripts/build-assets.sh', './scripts/build/build-assets.sh'),
+                  ('./scripts/prepare-site.sh /tmp/xuan-le-site-preview', './scripts/build/prepare-site.sh /tmp/xuan-le-site-preview'),
+              ],
+          }
+
+          for name, pairs in replacements.items():
+              path = Path(name)
+              text = path.read_text(encoding='utf-8')
+              for old, new in pairs:
+                  count = text.count(old)
+                  if count != 1:
+                      raise SystemExit(f'{name}: expected exactly one occurrence of {old!r}, found {count}')
+                  text = text.replace(old, new, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Guard public paths and overall page structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp -s index.html "${RUNNER_TEMP}/index-before.html"
+          git diff --exit-code -- index.html reports assets favicon.svg robots.txt sitemap.xml .nojekyll
+          test -f index.html
+          test -d reports
+          test -d assets/css
+          test -d assets/js
+          test -d assets/images
+          test -d assets/fonts
+          test -f .github/workflows/pages.yml
+          test ! -e scripts/build-assets.sh
+          test ! -e scripts/prepare-site.sh
+          test ! -e scripts/audit-site.mjs
+          test ! -e scripts/process-trade-ledger.mjs
+          test ! -e tests/trade-ledger.test.mjs
+
+      - name: Validate migrated paths and compare production byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/automation/process-trade-ledger.mjs --dry-run
+          node --test tests/automation/trade-ledger.test.mjs
+          ./scripts/build/build-assets.sh
+          node scripts/quality/audit-site.mjs
+          ./scripts/build/prepare-site.sh "${RUNNER_TEMP}/site-after"
+          diff -qr "${RUNNER_TEMP}/site-before" "${RUNNER_TEMP}/site-after"
+          find "${RUNNER_TEMP}/site-after" -type f -print0 | sort -z | xargs -0 sha256sum > "${RUNNER_TEMP}/site-after.sha256"
+          sed "s#${RUNNER_TEMP}/site-before#SITE#g" "${RUNNER_TEMP}/site-before.sha256" > "${RUNNER_TEMP}/before.norm"
+          sed "s#${RUNNER_TEMP}/site-after#SITE#g" "${RUNNER_TEMP}/site-after.sha256" > "${RUNNER_TEMP}/after.norm"
+          diff -u "${RUNNER_TEMP}/before.norm" "${RUNNER_TEMP}/after.norm"
+
+      - name: Remove one-time workflow and commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/reorganize-repository-20260818-once.yml
+          git config user.name "Sunflower1509"
+          git config user.email "72440024+Sunflower1509@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "No migration changes to commit"
+            exit 1
+          fi
+          git commit -m "Reorganize internal maintenance tree without changing site output"
+          git push
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload unchanged production artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site-after
+
+      - name: Deploy unchanged site
+        id: deployment
+        uses: actions/deploy-pages@v4
