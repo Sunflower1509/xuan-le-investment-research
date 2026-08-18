@@ -1,17 +1,13 @@
 name: Harden trigger engine once
 
 on:
-  push:
-    branches:
-      - hardening/trigger-engine-20260818
-    paths:
-      - ".github/workflows/harden-trigger-engine-once.yml"
   pull_request:
     branches:
       - main
     paths:
       - ".github/workflows/harden-trigger-engine-once.yml"
       - "scripts/harden-trigger-engine-once.py"
+      - "scripts/fix-hardening-patcher-once.py"
       - "src/scripts/action-trigger.mjs"
       - "scripts/reconcile-trade-ledger.mjs"
       - "scripts/update-eod-market-data.mjs"
@@ -25,7 +21,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: trigger-engine-hardening-${{ github.event.pull_request.number || github.ref }}
+  group: trigger-engine-hardening-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:
@@ -44,12 +40,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run guarded validation with durable diagnostics
+      - name: Run guarded validation
         shell: bash
         run: |
           set +e
           (
             set -euo pipefail
+            python3 scripts/fix-hardening-patcher-once.py
             python3 scripts/harden-trigger-engine-once.py
             cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
             node scripts/process-trade-ledger.mjs
@@ -81,6 +78,7 @@ jobs:
           PY
 
             rm -f scripts/harden-trigger-engine-once.py
+            rm -f scripts/fix-hardening-patcher-once.py
             rm -f .github/workflows/harden-trigger-engine-once.yml
             allowed='^(\.github/workflows/(pages\.yml|eod-daily\.yml)|index\.html|assets/js/site\.min\.js|scripts/(audit-site\.mjs|process-trade-ledger\.mjs|reconcile-trade-ledger\.mjs|update-eod-market-data\.mjs|update-cache-token\.mjs|verify-live-site\.mjs)|src/scripts/(app\.js|trade-ledger\.mjs|action-trigger\.mjs)|tests/(action-trigger\.test\.mjs|reconciliation\.test\.mjs))$'
             unexpected="$(git diff --name-only "$BASE" | grep -Ev "$allowed" || true)"
@@ -94,22 +92,14 @@ jobs:
           status=$?
           set -e
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
+          cat hardening-validation.log
           if [[ "$status" -ne 0 ]]; then
-            cat hardening-validation.log
-            cp hardening-validation.log /tmp/hardening-validation.log
-            git reset --hard HEAD
-            cp /tmp/hardening-validation.log hardening-validation.log
-            git add hardening-validation.log
-            git commit -m "Record hardening validation failure [skip ci]" || true
-            git push origin HEAD:hardening/trigger-engine-20260818 || true
             exit "$status"
           fi
 
-          cat hardening-validation.log
           rm -f hardening-validation.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Harden trigger engine, reconcile EOD ledger and verify deploys [skip ci]"
           git push origin HEAD:hardening/trigger-engine-20260818
