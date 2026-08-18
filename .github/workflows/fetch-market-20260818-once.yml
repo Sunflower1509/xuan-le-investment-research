@@ -1,12 +1,12 @@
 name: Fetch market snapshot 20260818 once
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   fetch:
@@ -14,8 +14,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
       - name: Fetch raw EOD market data with diagnostics
         run: |
           set -u
@@ -53,16 +51,6 @@ jobs:
           }
           const statuses = Object.fromEntries(fs.readdirSync('tmp').filter(x=>x.endsWith('.status')).map(x=>[x.replace('.status',''),fs.readFileSync('tmp/'+x,'utf8').trim()]));
           const out = { fetchedAt: new Date().toISOString(), statuses, marketRows: wanted, rawMarketCount: rows.length, hoseStockCount: stockRows.length, breadth: { valid, advance, unchanged, decline, floor, ceiling } };
-          fs.writeFileSync('tmp/market-summary-20260818.json', JSON.stringify(out,null,2));
-          console.log(JSON.stringify(out,null,2));
+          console.log('MARKET_SNAPSHOT_JSON=' + JSON.stringify(out));
+          if (!wanted.length) process.exitCode = 2;
           NODE
-      - name: Persist verification artifacts only
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tmp/
-          if ! git diff --cached --quiet; then
-            git commit -m 'Capture verified market snapshot 2026-08-18 [skip ci]'
-            git push origin HEAD:main
-          fi
