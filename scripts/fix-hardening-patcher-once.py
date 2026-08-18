@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# One-time validator helper; deleted after a successful hardening run.
 path = Path(__file__).resolve().parent / "harden-trigger-engine-once.py"
 text = path.read_text()
 
