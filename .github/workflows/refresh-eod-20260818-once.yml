@@ -1,4 +1,4 @@
-name: Verify EOD 18 Aug 2026 once
+name: Apply verified EOD 18 Aug 2026 once
 on:
   push:
     branches: [main]
@@ -6,8 +6,13 @@ on:
       - ".github/workflows/refresh-eod-20260818-once.yml"
 permissions:
   contents: write
+  pages: write
+  id-token: write
 jobs:
-  verify:
+  apply:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -15,28 +20,60 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Cross-check VNDIRECT and DNSE
+      - name: Apply only verified market fields
         shell: bash
         run: |
           node <<'NODE'
           const fs=require('fs'),vm=require('vm');
-          const DATE='2026-08-18', FROM=1786986000, TO=1787072399;
-          const code=fs.readFileSync('src/data/research-data.js','utf8');
-          const box={window:{}}; vm.runInNewContext(code,box);
-          const coverage=box.window.RESEARCH_DATA?.coverage;
-          if(!Array.isArray(coverage)||!coverage.length) throw new Error('coverage unavailable');
-          const tickers=coverage.map(x=>String(x.ticker).toUpperCase());
-          if(new Set(tickers).size!==tickers.length) throw new Error('duplicate ticker');
-          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-          const n=v=>{const x=Number(v);return Number.isFinite(x)?x:null};
-          const px=v=>{const x=n(v);return x>0?(x<1000?Math.round(x*1000):Math.round(x)):null};
-          async function json(url){let e;for(let i=0;i<5;i++){try{const r=await fetch(url,{headers:{accept:'application/json, text/plain, */*','user-agent':'Mozilla/5.0'}});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(x){e=x;if(i<4)await sleep(1000*(i+1))}}throw e}
-          function vn(j,t){const rows=Array.isArray(j?.data)?j.data:[];const r=rows.find(x=>String(x.code).toUpperCase()===t&&String(x.date)===DATE)||rows.find(x=>String(x.date)===DATE);if(!r)throw new Error('VNDIRECT missing row');const close=px(r.close),volume=n(r.nmVolume??r.totalVolume??r.volume);let changePct=n(r.pctChange??r.changePct);if(changePct===null){const ref=n(r.basicPrice??r.referencePrice??r.reference??r.refPrice),raw=n(r.close);if(raw!==null&&ref)changePct=(raw/ref-1)*100}if(!(close>0)||!(volume>=0)||changePct===null)throw new Error('VNDIRECT incomplete row');return{close,volume:Math.round(volume),changePct:Math.round(changePct*10000)/10000}}
-          function dn(j,t){const c=Array.isArray(j?.c)?j.c:[],v=Array.isArray(j?.v)?j.v:[],ts=Array.isArray(j?.t)?j.t:[];if(!c.length)throw new Error('DNSE missing row');const close=px(c.at(-1));if(!(close>0))throw new Error('DNSE invalid close');if(ts.length){const d=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Number(ts.at(-1))*1000));if(d!==DATE)throw new Error('DNSE date '+d)}const vol=v.length?n(v.at(-1)):null;return{close,volume:vol===null?null:Math.round(vol)}}
-          (async()=>{const out=[],errors=[],volumeMismatches=[];for(const t of tickers){const a=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${DATE}&size=10`,b=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${t}&resolution=1D`;try{const [aj,bj]=await Promise.all([json(a),json(b)]);const x=vn(aj,t),y=dn(bj,t);if(x.close!==y.close)throw new Error(`close mismatch ${x.close} vs ${y.close}`);if(y.volume!==null&&x.volume!==y.volume)volumeMismatches.push({ticker:t,vndirect:x.volume,dnse:y.volume,diff:x.volume-y.volume});out.push({ticker:t,...x,priceDate:DATE,priceSource:a,priceSourceSecondary:b});console.log('OK',t,x.close,x.changePct,x.volume,y.volume)}catch(e){errors.push({ticker:t,error:e.message});console.error('FAIL',t,e.message)}await sleep(120)}const result={date:DATE,coverageCount:tickers.length,verifiedCount:out.length,quotes:out,volumeMismatches,errors};fs.writeFileSync('eod-20260818-verified.json',JSON.stringify(result,null,2));if(errors.length||out.length!==tickers.length){console.error(JSON.stringify(errors,null,2));process.exit(2)}})().catch(e=>{console.error(e);process.exit(1)});
+          const DATA='src/data/research-data.js', VERIFIED='eod-20260818-verified.json', DATE='2026-08-18';
+          const result=JSON.parse(fs.readFileSync(VERIFIED,'utf8'));
+          if(result.date!==DATE||result.coverageCount!==47||result.verifiedCount!==47||!Array.isArray(result.quotes)||result.quotes.length!==47||result.errors?.length) throw new Error('Verified artifact gate failed');
+          const code=fs.readFileSync(DATA,'utf8'),box={window:{}};vm.runInNewContext(code,box);const before=box.window.RESEARCH_DATA;
+          const tickers=before.coverage.map(x=>String(x.ticker).toUpperCase()), qmap=new Map(result.quotes.map(x=>[x.ticker,x]));
+          if(tickers.length!==47||new Set(tickers).size!==47||qmap.size!==47||tickers.some(t=>!qmap.has(t))) throw new Error('Coverage/quote set mismatch');
+          const after=structuredClone(before);
+          for(const item of after.coverage){const q=qmap.get(String(item.ticker).toUpperCase());for(const k of ['close','changePct','volume','priceDate','priceSource','priceSourceSecondary'])item[k]=q[k]}
+          after.meta.updated=DATE;after.meta.release=DATE;
+          const mm=Array.isArray(result.volumeMismatches)?result.volumeMismatches:[],matched=47-mm.length;
+          const mmText=mm.length?mm.map(m=>`${m.ticker}: VNDIRECT ${Number(m.vndirect).toLocaleString('vi-VN')} vs DNSE ${Number(m.dnse).toLocaleString('vi-VN')} (chênh ${Math.abs(Number(m.diff)).toLocaleString('vi-VN')})`).join('; '):'không có chênh lệch';
+          after.meta.note=`Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 18/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp ${matched}/47 mã giữa hai nguồn; ${mmText}. Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố.`;
+          function immutable(o){const x=structuredClone(o);delete x.meta.updated;delete x.meta.release;delete x.meta.note;for(const i of x.coverage)for(const k of ['close','changePct','volume','priceDate','priceSource','priceSourceSecondary'])delete i[k];return JSON.stringify(x)}
+          if(immutable(before)!==immutable(after)) throw new Error('Prohibited field changed');
+          fs.writeFileSync(DATA,`window.RESEARCH_DATA = ${JSON.stringify(after,null,2)};\n`);
+          console.log(`Applied 47/47 verified quotes; volume mismatches=${mm.length}`);
           NODE
-      - name: Commit verified artifact only
+      - name: Tests build audit artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check src/data/research-data.js
+          node --test tests/trade-ledger.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Guard public structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- index.html reports favicon.svg robots.txt sitemap.xml .nojekyll src/data/daily-insights.js src/scripts src/styles tests scripts/audit-site.mjs scripts/process-trade-ledger.mjs
+          grep -q 'id="overview"' index.html
+          grep -q 'id="daily-market"' index.html
+          grep -q 'id="position-ledger"' index.html
+          grep -q 'id="action-radar"' index.html
+          grep -q 'id="research"' index.html
+      - name: Cleanup temporary files
+        run: rm -f .github/workflows/refresh-eod-20260818-once.yml eod-20260818-verified.json
+      - name: Commit verified EOD and cleanup
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Store verified EOD artifact [skip ci]"
-          file_pattern: eod-20260818-verified.json
+          commit_message: "Lock verified EOD data for 18 Aug 2026 [skip ci]"
+          file_pattern: "src/data/research-data.js assets/css/site.min.css assets/js/site.min.js .github/workflows/refresh-eod-20260818-once.yml eod-20260818-verified.json"
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
