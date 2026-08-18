@@ -1,0 +1,6 @@
+verified=true
+source_commit=8b64ba6d469cf262c9baa73ea8582b4fe8c97529
+verified_at=2026-08-18T11:05:34Z
+b2f5c46d47eafc144bb8c56f330730567319a55e4fc1fe72c34d90979b46d64a  /home/runner/work/_temp/site/index.html
+04b74686d52fac66101227d6c2ccb3bdabc80c954662b2e41f6ebf910a85e9e1  /home/runner/work/_temp/site/assets/js/site.min.js
+173fce77b7e47098dba5ca298ed8dabe0503e63895c9358e65e321308f0e3571  /home/runner/work/_temp/site/assets/css/site.min.css
