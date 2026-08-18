@@ -1,0 +1,141 @@
+name: Refresh EOD prices 18 Aug 2026 once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/refresh-eod-20260818-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Re-fetch and cross-check all EOD quotes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const DATA='src/data/research-data.js';
+          const DATE='2026-08-18';
+          const FROM=1786986000;
+          const TO=1787072399;
+          const code=fs.readFileSync(DATA,'utf8');
+          const box={window:{}};
+          vm.runInNewContext(code,box,{filename:DATA});
+          const data=box.window.RESEARCH_DATA;
+          if(!data||!Array.isArray(data.coverage)||!data.coverage.length) throw new Error('Coverage unavailable');
+          const tickers=data.coverage.map(x=>String(x.ticker||'').toUpperCase());
+          if(new Set(tickers).size!==tickers.length) throw new Error('Duplicate coverage ticker');
+
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const num=v=>{const n=Number(v);return Number.isFinite(n)?n:null};
+          const price=v=>{const n=num(v);return n>0?(n<1000?Math.round(n*1000):Math.round(n)):null};
+          const round4=n=>Math.round(n*10000)/10000;
+          async function getJson(url,label){
+            let err;
+            for(let i=1;i<=5;i++){
+              try{
+                const r=await fetch(url,{headers:{accept:'application/json, text/plain, */*','user-agent':'Mozilla/5.0 (compatible; Xuân Lê TVS EOD verifier/20260818)','origin':'https://www.dnse.com.vn','referer':'https://www.dnse.com.vn/'}});
+                if(!r.ok) throw new Error(`HTTP ${r.status}`);
+                return await r.json();
+              }catch(e){err=e;if(i<5)await sleep(900*i)}
+            }
+            throw new Error(`${label}: ${err?.message||err}`);
+          }
+          function vnRow(j,t){
+            const rows=Array.isArray(j?.data)?j.data:Array.isArray(j)?j:[];
+            const r=rows.find(x=>String(x?.code||'').toUpperCase()===t&&String(x?.date||'')===DATE)||rows.find(x=>String(x?.date||'')===DATE);
+            if(!r) throw new Error(`${t}: VNDIRECT has no ${DATE} row`);
+            const closeRaw=num(r.close),close=price(r.close),volume=num(r.nmVolume??r.totalVolume??r.volume);
+            let changePct=num(r.pctChange??r.changePct);
+            if(changePct===null){const ref=num(r.basicPrice??r.referencePrice??r.reference??r.refPrice);if(closeRaw!==null&&ref)changePct=((closeRaw/ref)-1)*100}
+            if(!(close>0)||!(volume>=0)||changePct===null) throw new Error(`${t}: incomplete VNDIRECT EOD row`);
+            return {close,volume:Math.round(volume),changePct:round4(changePct)};
+          }
+          function dnQuote(j,t){
+            const closes=Array.isArray(j?.c)?j.c:[];
+            if(!closes.length) throw new Error(`${t}: DNSE has no closing series`);
+            const close=price(closes[closes.length-1]);
+            if(!(close>0)) throw new Error(`${t}: invalid DNSE close`);
+            const volumes=Array.isArray(j?.v)?j.v:[];
+            const volume=volumes.length?num(volumes[volumes.length-1]):null;
+            const times=Array.isArray(j?.t)?j.t:[];
+            if(times.length){
+              const d=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Number(times[times.length-1])*1000));
+              if(d!==DATE) throw new Error(`${t}: DNSE last bar date ${d}, expected ${DATE}`);
+            }
+            return {close,volume:volume===null?null:Math.round(volume)};
+          }
+
+          (async()=>{
+            const checked=[];
+            const volumeMismatches=[];
+            for(const item of data.coverage){
+              const t=String(item.ticker).toUpperCase();
+              const a=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${DATE}&size=10`;
+              const b=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${t}&resolution=1D`;
+              const [vj,dj]=await Promise.all([getJson(a,`${t} VNDIRECT`),getJson(b,`${t} DNSE`)]);
+              const vn=vnRow(vj,t),dn=dnQuote(dj,t);
+              if(vn.close!==dn.close) throw new Error(`${t}: close mismatch VNDIRECT=${vn.close}, DNSE=${dn.close}`);
+              if(dn.volume!==null&&vn.volume!==dn.volume) volumeMismatches.push({ticker:t,vndirect:vn.volume,dnse:dn.volume,diff:vn.volume-dn.volume});
+              checked.push({ticker:t,...vn,priceSource:a,priceSourceSecondary:b});
+              console.log(`${t}: close=${vn.close}; pct=${vn.changePct}; volume=${vn.volume}; DNSE=${dn.close}${dn.volume===null?'':`; dnseVolume=${dn.volume}`}`);
+              await sleep(130);
+            }
+            const map=new Map(checked.map(x=>[x.ticker,x]));
+            data.coverage.forEach(item=>Object.assign(item,map.get(item.ticker)));
+            data.coverage.forEach(item=>{item.priceDate=DATE});
+            data.meta.updated=DATE;
+            data.meta.release='2026-08-18';
+            const matched=data.coverage.length-volumeMismatches.length;
+            const mismatchText=volumeMismatches.length?volumeMismatches.map(m=>`${m.ticker}: VNDIRECT ${m.vndirect.toLocaleString('vi-VN')} vs DNSE ${m.dnse.toLocaleString('vi-VN')} (chênh ${Math.abs(m.diff).toLocaleString('vi-VN')})`).join('; '):'không có chênh lệch';
+            data.meta.note=`Giá đóng cửa, biến động và khối lượng khớp lệnh của ${data.coverage.length}/${data.coverage.length} mã được khóa tại phiên 18/08/2026. Giá đóng cửa ${data.coverage.length}/${data.coverage.length} mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp ${matched}/${data.coverage.length} mã giữa hai nguồn; ${mismatchText}. Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, giá trị hợp lý, khuyến nghị và điều kiện hành động giữ nguyên theo báo cáo định giá đang công bố. Bảy báo cáo định giá mới ngày 18/08/2026: SHB, DCM, PLX, HDB, VPB, PVT, MBB.`;
+            fs.writeFileSync(DATA,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`,'utf8');
+            console.log(`Verified ${checked.length}/${data.coverage.length} closes; volume mismatches=${volumeMismatches.length}`);
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - name: Refresh bundle cache key and build
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          s,n=re.subn(r'assets/js/site\.min\.js\?v=[^"\']+', 'assets/js/site.min.js?v=20260818-eod1', s, count=1)
+          if n!=1: raise SystemExit('site.min.js cache-busting reference not found exactly once')
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check src/data/research-data.js
+          ./scripts/build-assets.sh
+
+      - name: Verify ledger rules and site integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/trade-ledger.test.mjs
+          node scripts/audit-site.mjs
+
+      - name: Remove one-time workflow and commit verified EOD
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/refresh-eod-20260818-once.yml
+          git config user.name 'Sunflower1509'
+          git config user.email '72440024+Sunflower1509@users.noreply.github.com'
+          git add -A
+          git commit -m 'Verify EOD prices for 18 Aug 2026'
+          git push origin HEAD:main
