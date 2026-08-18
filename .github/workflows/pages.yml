@@ -33,11 +33,11 @@ jobs:
       - name: Verify activation rules
         run: node --test tests/trade-ledger.test.mjs
       - name: Build production assets
-        run: ./scripts/build/build-assets.sh
+        run: bash scripts/build/build-assets.sh
       - name: Audit site integrity
         run: node scripts/audit-site.mjs
       - name: Prepare lean production artifact
-        run: ./scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
       - name: Persist new EOD ledger events
         run: |
           if ! git diff --quiet -- src/data/trade-ledger.json; then
