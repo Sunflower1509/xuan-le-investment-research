@@ -88,16 +88,15 @@ jobs:
               exit 2
             fi
             echo "Permanent hardening change scope verified."
-          ) > hardening-validation.log 2>&1
+          ) > "${RUNNER_TEMP}/hardening-validation.log" 2>&1
           status=$?
           set -e
 
-          cat hardening-validation.log
+          cat "${RUNNER_TEMP}/hardening-validation.log"
           if [[ "$status" -ne 0 ]]; then
             exit "$status"
           fi
 
-          rm -f hardening-validation.log
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
