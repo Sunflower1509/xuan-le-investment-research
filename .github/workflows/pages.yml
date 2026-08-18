@@ -89,3 +89,5 @@ jobs:
           git add full-sync-production-confirmed.txt
           git commit -m "Confirm full synchronization live deployment [skip ci]"
           git push origin HEAD:main
+
+# one-time proof retry; remove after marker is recorded
