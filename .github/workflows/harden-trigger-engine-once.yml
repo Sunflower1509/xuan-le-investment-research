@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          {
+          (
             set -euo pipefail
             python3 scripts/harden-trigger-engine-once.py
             cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
@@ -90,7 +90,7 @@ jobs:
               exit 2
             fi
             echo "Permanent hardening change scope verified."
-          } > hardening-validation.log 2>&1
+          ) > hardening-validation.log 2>&1
           status=$?
           set -e
 
