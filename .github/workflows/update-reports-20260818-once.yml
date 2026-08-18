@@ -19,20 +19,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download and verify seven valuation PDFs
+      - name: Download and checksum seven source PDFs
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p reports
           download() {
-            url="$1"; dest="$2"; expected="$3"
-            curl -fL --retry 3 --retry-delay 2 "$url" -o "$dest"
-            actual="$(sha256sum "$dest" | awk '{print $1}')"
-            if [[ "$actual" != "$expected" ]]; then
-              echo "SHA256 mismatch for $dest: $actual != $expected" >&2
-              exit 1
-            fi
-            head -c 5 "$dest" | grep -q '%PDF-' || { echo "Invalid PDF signature: $dest" >&2; exit 1; }
+            curl -fL --retry 3 --retry-delay 2 "$1" -o "$2"
+            test "$(sha256sum "$2" | awk '{print $1}')" = "$3"
+            test "$(head -c 5 "$2")" = "%PDF-"
           }
           download 'https://at.adobe.com/rILhrnYSvcTWMtEW' 'reports/SHB_2026-08-18.pdf' '4c537903ca9dc226392d00c8d2e05e0c98becf3efd76e8c85f20daa5816ce737'
           download 'https://at.adobe.com/YfWzNtqMzDCBbmgM' 'reports/DCM_2026-08-18.pdf' '6b585d3c8f343bf65db52a9e2f0cae8c49394c7b49af6670fbe83dfb7d982789'
@@ -42,168 +37,96 @@ jobs:
           download 'https://at.adobe.com/dIyc1ROQb3DxaqB6' 'reports/PVT_2026-08-18.pdf' '9846109708d529928dfc363d3c14516a09eff2f1c17de9773eda9d83269af62f'
           download 'https://at.adobe.com/8Pb12yK2WZmN5bgK' 'reports/MBB_2026-08-18.pdf' 'c04c48c5868b1c531b76bbe944fd07f058f66354bb310ba80001485fed8bd5aa'
 
-      - name: Replace report metadata, seed prior-EOD coverage, and remove superseded artifacts
+      - name: Replace only same-ticker report editions and seed verified 17 Aug EOD coverage
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
           const vm = require('vm');
-          const path = require('path');
-
           const DATA = 'src/data/research-data.js';
-          const text0 = fs.readFileSync(DATA, 'utf8');
-          const ctx = { window: {} };
-          vm.runInNewContext(text0, ctx, { filename: DATA });
-          const research = ctx.window.RESEARCH_DATA;
-          if (!research || !Array.isArray(research.reports) || !Array.isArray(research.coverage)) throw new Error('Invalid RESEARCH_DATA');
+          const oldCode = fs.readFileSync(DATA, 'utf8');
+          const box = { window: {} };
+          vm.runInNewContext(oldCode, box, { filename: DATA });
+          const data = box.window.RESEARCH_DATA;
+          if (!data || !Array.isArray(data.reports) || !Array.isArray(data.coverage)) throw new Error('Invalid RESEARCH_DATA');
 
-          const incoming = [
-            {
-              id:'SHB-20260818', ticker:'SHB', company:'Ngân hàng TMCP Sài Gòn - Hà Nội', sector:'Ngân hàng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'MUA - ĐỦ MOS >=30%', status:'buy', marketPrice:11550, marketPriceDate:'2026-08-18', baseValue:20500, valueLabel:'Giá trị kỳ vọng', rangeLow:16600, rangeHigh:24900,
-              gapLabel:'MOS 30,3% so với cận dưới; ngưỡng đủ MOS >=30% là <=11.600 đồng/cp', method:'P/B gắn ROE + Residual Income (RI)',
-              summary:'Vùng giá trị hợp lý 16.600–24.900 đồng/cp, giá trị kỳ vọng 20.500 đồng/cp. Snapshot 18/08/2026 là 11.550 đồng/cp; tín hiệu định giá MUA vì MOS so với cận dưới đạt 30,3%. Báo cáo lưu ý đây là tín hiệu định giá, không tự động đồng nghĩa điểm mua kỹ thuật tối ưu 1–3 tuần.',
-              action:{ zoneLow:null, zoneHigh:11600, baseValue:20500, stop:10950, targets:[12400,16600], basisDate:'2026-08-18', recommendation:'MUA / QUẢN TRỊ THỦ CÔNG', eligibility:'manual', condition:'Báo cáo dùng điều kiện một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Vì không có cận dưới hữu hạn, website không tạo vùng tự động giả. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.' },
-              file:'reports/SHB_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'DCM-20260818', ticker:'DCM', company:'Công ty Cổ phần - Tổng Công ty Phân bón Dầu khí Cà Mau', sector:'Nông nghiệp', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:30850, marketPriceDate:'2026-08-18', baseValue:33100, valueLabel:'Giá trị kỳ vọng', rangeLow:24700, rangeHigh:40700,
-              gapLabel:'MOS hiện tại khoảng 6,7% so với expected; vùng mua MOS 25–30% là 17.300–18.500 đồng/cp', method:'Lợi nhuận chuẩn hóa 6 năm + P/B + EV/EBITDA chuẩn hóa',
-              summary:'DCM là doanh nghiệp chu kỳ. Vùng giá trị hợp lý 24.700–40.700 đồng/cp, giá trị kỳ vọng 33.100 đồng/cp. Snapshot 18/08/2026 là 30.850 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS chưa đạt 25–30%.',
-              action:{ zoneLow:17300, zoneHigh:18500, baseValue:33100, stop:null, targets:[24700,33100], basisDate:'2026-08-18', recommendation:'CÓ MUA KHI VÀO VÙNG MOS', eligibility:'active', condition:'Chỉ xem xét 17.300–18.500 đồng/cp nếu luận điểm Urê/khí không xấu đi; stoploss 5% từ giá khớp; T1 24.700; T2 33.100. 18.500–40.700: chờ/theo dõi; trên 40.700: loại/tránh mua mới.' },
-              file:'reports/DCM_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'PLX-20260818', ticker:'PLX', company:'Tập đoàn Xăng dầu Việt Nam', sector:'Năng lượng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'TRÁNH / LOẠI', status:'reject', marketPrice:37950, marketPriceDate:'2026-08-18', baseValue:30754, valueLabel:'Giá trị kỳ vọng', rangeLow:28158, rangeHigh:36000,
-              gapLabel:'Giá 37.950 đồng/cp cao hơn cận trên 36.000; vùng mua MOS 25–30% là 19.710–21.118 đồng/cp', method:'DCF theo FCFF; kiểm chứng P/E, P/B, EV/EBITDA',
-              summary:'Vùng giá trị cốt lõi 28.158–36.000 đồng/cp, giá trị kỳ vọng 30.754 đồng/cp. Snapshot 18/08/2026 là 37.950 đồng/cp, cao hơn cận trên nên tín hiệu cơ học TRÁNH / LOẠI. Vùng mua đủ MOS 25–30% nằm 19.710–21.118 đồng/cp.',
-              action:{ zoneLow:19710, zoneHigh:21118, baseValue:30754, stop:null, targets:[28158,30754,36000], basisDate:'2026-08-18', recommendation:'TRÁNH / LOẠI TẠI GIÁ HIỆN TẠI', eligibility:'veto', condition:'19.710–21.118 đồng/cp chỉ có thể xem xét nếu luận điểm không xấu đi và có xác nhận dòng tiền/price action. Giá trên 36.000: loại/tránh mua mới. Stop 6% ở cận trên vùng mua chỉ là overlay quản trị, không phải đầu vào định giá.' },
-              file:'reports/PLX_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'HDB-20260818', ticker:'HDB', company:'Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh', sector:'Ngân hàng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:26850, marketPriceDate:'2026-08-17', baseValue:30216, valueLabel:'Giá trị kỳ vọng', rangeLow:24632, rangeHigh:35519,
-              gapLabel:'MOS so với expected value 11,1%; vùng theo dõi kích hoạt 21.151–22.662 đồng/cp', method:'P/B gắn ROE + Residual Income',
-              summary:'Khoảng giá trị trọng tâm 24.632–35.519 đồng/cp; dải stress beta 21.787–42.974 đồng/cp; expected value 30.216 đồng/cp. Giá đóng cửa 17/08/2026 là 26.850 đồng/cp; trạng thái THEO DÕI / CHỜ do MOS chưa đạt 25–30%.',
-              action:{ zoneLow:21151, zoneHigh:22662, baseValue:30216, stop:null, targets:[24632,30216], basisDate:'2026-08-18', recommendation:'THEO DÕI / CHỜ', eligibility:'active', condition:'Chỉ xem xét 21.151–22.662 đồng/cp khi nền tảng không xấu thêm và có xác nhận giá/khối lượng; stop 5% dưới giá mua thực tế; T1 24.632; T2 30.216. Trên 35.519 nếu không nâng forecast/ROE thì tránh mua đuổi.' },
-              file:'reports/HDB_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'VPB-20260818', ticker:'VPB', company:'Ngân hàng TMCP Việt Nam Thịnh Vượng', sector:'Ngân hàng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:24750, marketPriceDate:'2026-08-17', baseValue:38241, valueLabel:'Giá trị kỳ vọng', rangeLow:29514, rangeHigh:47514,
-              gapLabel:'MOS bảo thủ 16,1% so với cận thấp; vùng mua MOS 25–30% là 20.660–22.136 đồng/cp', method:'P/B gắn ROE + Residual Income (RI)',
-              summary:'Vùng giá trị hợp lý 29.514–47.514 đồng/cp theo quyền hiện tại, giá trị kỳ vọng 38.241 đồng/cp. Giá đóng cửa 17/08/2026 là 24.750 đồng/cp; dù dưới cận thấp, MOS bảo thủ mới 16,1% nên trạng thái THEO DÕI / CHỜ.',
-              action:{ zoneLow:20660, zoneHigh:22136, baseValue:38241, stop:null, targets:[29514,38241], basisDate:'2026-08-18', recommendation:'THEO DÕI / CHỜ', eligibility:'active', condition:'20.660–22.136 đồng/cp và thesis không xấu đi: có thể xem xét giải ngân theo kỷ luật vị thế. Target định giá T1 29.514; T2 38.241. Stop 3–7% chỉ xác định theo lệnh thực tế. Trên 47.514: loại/tránh.' },
-              file:'reports/VPB_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'PVT-20260818', ticker:'PVT', company:'Tổng Công ty Cổ phần Vận tải Dầu khí', sector:'Năng lượng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'THEO DÕI / CHỜ MUA', status:'wait', marketPrice:20700, marketPriceDate:'2026-08-18', baseValue:22057, valueLabel:'Giá trị kỳ vọng', rangeLow:16404, rangeHigh:26313,
-              gapLabel:'MOS hiện tại 6,2%; vùng mua MOS 25–30% là 15.440–16.543 đồng/cp', method:'Lợi nhuận/biên chuẩn hóa 5–7 năm + P/B + EV/EBITDA chuẩn hóa',
-              summary:'PVT là doanh nghiệp chu kỳ vận tải biển. Vùng giá trị hợp lý 16.404–26.313 đồng/cp, giá trị kỳ vọng 22.057 đồng/cp. Snapshot 18/08/2026 là 20.700 đồng/cp; trạng thái THEO DÕI / CHỜ do MOS chỉ khoảng 6,2%.',
-              action:{ zoneLow:15440, zoneHigh:16543, baseValue:22057, stop:null, targets:[20700,22057], basisDate:'2026-08-18', recommendation:'THEO DÕI / CHỜ MUA', eligibility:'active', condition:'Nếu giá vào 15.440–16.543 đồng/cp thì có thể kích hoạt theo valuation; stoploss 5% dưới giá khớp thực tế, không bình quân giá xuống nếu thủng stop. T1 khoảng 20.700; T2 22.057; trên 26.313: loại/tránh mua mới.' },
-              file:'reports/PVT_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            },
-            {
-              id:'MBB-20260818', ticker:'MBB', company:'Ngân hàng TMCP Quân Đội', sector:'Ngân hàng', exchange:'HOSE', date:'2026-08-18',
-              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:19900, marketPriceDate:'2026-08-17', baseValue:26777, valueLabel:'Giá trị kỳ vọng', rangeLow:20959, rangeHigh:32276,
-              gapLabel:'Giá thấp hơn cận dưới khoảng 5,1%; vùng mua MOS 25–30% là 14.671–15.719 đồng/cp', method:'P/B gắn ROE + Residual Income (RI)',
-              summary:'Vùng giá trị hợp lý 20.959–32.276 đồng/cp, giá trị kỳ vọng 26.777 đồng/cp. Giá đóng cửa 17/08/2026 là 19.900 đồng/cp; thấp hơn expected 25,7% nhưng chỉ thấp hơn cận dưới khoảng 5,1%, nên trạng thái THEO DÕI / CHỜ.',
-              action:{ zoneLow:14671, zoneHigh:15719, baseValue:26777, stop:null, targets:[20959,26777], basisDate:'2026-08-18', recommendation:'THEO DÕI / CHỜ', eligibility:'active', condition:'Chỉ xem xét 14.671–15.719 đồng/cp khi NIM/NPL/LLR không xấu hơn luận điểm; stop 5% dưới giá vốn; T1 20.959; T2 26.777. Trên 32.276 nếu không nâng lợi nhuận/ROE thì loại/tránh mua mới.' },
-              file:'reports/MBB_2026-08-18.pdf', edition:'Bản định giá 18.08.2026'
-            }
+          const visual = {
+            kind: 'illustration',
+            src: 'assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2',
+            alt: 'Nhận diện báo cáo định giá Xuân Lê TVS',
+            caption: 'Báo cáo định giá cổ phiếu',
+            sourceLabel: 'Xuân Lê TVS',
+            sourceUrl: 'https://sunflower1509.github.io/xuan-le-investment-research/'
+          };
+
+          const reports = [
+            { id:'SHB-20260818',ticker:'SHB',company:'Ngân hàng TMCP Sài Gòn - Hà Nội',sector:'Ngân hàng',exchange:'HOSE',date:'2026-08-18',recommendation:'MUA - ĐỦ MOS >=30%',status:'wait',marketPrice:11550,marketPriceDate:'2026-08-18',baseValue:20500,valueLabel:'Giá trị kỳ vọng',rangeLow:16600,rangeHigh:24900,gapLabel:'MOS 30,3% so với cận dưới; ngưỡng đủ MOS >=30% là <=11.600 đồng/cp',method:'P/B gắn ROE + Residual Income (RI)',summary:'Vùng giá trị hợp lý 16.600–24.900 đồng/cp, giá trị kỳ vọng 20.500 đồng/cp. Snapshot 18/08/2026 là 11.550 đồng/cp; tín hiệu định giá MUA vì MOS so với cận dưới đạt 30,3%. Đây là tín hiệu định giá, không tự động đồng nghĩa điểm mua kỹ thuật tối ưu 1–3 tuần.',action:{zoneLow:null,zoneHigh:11600,baseValue:20500,stop:10950,targets:[12400,16600],basisDate:'2026-08-18',recommendation:'MUA / QUẢN TRỊ THỦ CÔNG',eligibility:'manual',condition:'Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.'},visual,file:'reports/SHB_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'DCM-20260818',ticker:'DCM',company:'Công ty Cổ phần - Tổng Công ty Phân bón Dầu khí Cà Mau',sector:'Nông nghiệp',exchange:'HOSE',date:'2026-08-18',recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:30850,marketPriceDate:'2026-08-18',baseValue:33100,valueLabel:'Giá trị kỳ vọng',rangeLow:24700,rangeHigh:40700,gapLabel:'MOS hiện tại khoảng 6,7% so với expected; vùng mua MOS 25–30% là 17.300–18.500 đồng/cp',method:'Lợi nhuận chuẩn hóa 6 năm + P/B + EV/EBITDA chuẩn hóa',summary:'DCM là doanh nghiệp chu kỳ. Vùng giá trị hợp lý 24.700–40.700 đồng/cp, giá trị kỳ vọng 33.100 đồng/cp. Snapshot 18/08/2026 là 30.850 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS chưa đạt 25–30%.',action:{zoneLow:17300,zoneHigh:18500,baseValue:33100,stop:null,targets:[24700,33100],basisDate:'2026-08-18',recommendation:'CÓ MUA KHI VÀO VÙNG MOS',eligibility:'active',condition:'Chỉ xem xét 17.300–18.500 đồng/cp nếu luận điểm Urê/khí không xấu đi; stoploss 5% từ giá khớp; T1 24.700; T2 33.100. 18.500–40.700: chờ/theo dõi; trên 40.700: loại/tránh mua mới.'},visual,file:'reports/DCM_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'PLX-20260818',ticker:'PLX',company:'Tập đoàn Xăng dầu Việt Nam',sector:'Năng lượng',exchange:'HOSE',date:'2026-08-18',recommendation:'TRÁNH / LOẠI',status:'reject',marketPrice:37950,marketPriceDate:'2026-08-18',baseValue:30754,valueLabel:'Giá trị kỳ vọng',rangeLow:28158,rangeHigh:36000,gapLabel:'Giá 37.950 đồng/cp cao hơn cận trên 36.000; vùng mua MOS 25–30% là 19.710–21.118 đồng/cp',method:'DCF theo FCFF; kiểm chứng P/E, P/B, EV/EBITDA',summary:'Vùng giá trị cốt lõi 28.158–36.000 đồng/cp, giá trị kỳ vọng 30.754 đồng/cp. Snapshot 18/08/2026 là 37.950 đồng/cp, cao hơn cận trên nên tín hiệu cơ học TRÁNH / LOẠI.',action:{zoneLow:19710,zoneHigh:21118,baseValue:30754,stop:null,targets:[28158,30754,36000],basisDate:'2026-08-18',recommendation:'TRÁNH / LOẠI TẠI GIÁ HIỆN TẠI',eligibility:'veto',condition:'19.710–21.118 đồng/cp chỉ có thể xem xét nếu luận điểm không xấu đi và có xác nhận dòng tiền/price action. Giá trên 36.000: loại/tránh mua mới. Stop 6% ở cận trên vùng mua chỉ là overlay quản trị.'},visual,file:'reports/PLX_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'HDB-20260818',ticker:'HDB',company:'Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh',sector:'Ngân hàng',exchange:'HOSE',date:'2026-08-18',recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:26850,marketPriceDate:'2026-08-17',baseValue:30216,valueLabel:'Giá trị kỳ vọng',rangeLow:24632,rangeHigh:35519,gapLabel:'MOS so với expected value 11,1%; vùng theo dõi kích hoạt 21.151–22.662 đồng/cp',method:'P/B gắn ROE + Residual Income',summary:'Khoảng giá trị trọng tâm 24.632–35.519 đồng/cp; dải stress beta 21.787–42.974 đồng/cp; expected value 30.216 đồng/cp. Giá đóng cửa 17/08/2026 là 26.850 đồng/cp; trạng thái THEO DÕI / CHỜ.',action:{zoneLow:21151,zoneHigh:22662,baseValue:30216,stop:null,targets:[24632,30216],basisDate:'2026-08-18',recommendation:'THEO DÕI / CHỜ',eligibility:'active',condition:'Chỉ xem xét 21.151–22.662 đồng/cp khi nền tảng không xấu thêm và có xác nhận giá/khối lượng; stop 5% dưới giá mua thực tế; T1 24.632; T2 30.216. Trên 35.519 nếu không nâng forecast/ROE thì tránh mua đuổi.'},visual,file:'reports/HDB_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'VPB-20260818',ticker:'VPB',company:'Ngân hàng TMCP Việt Nam Thịnh Vượng',sector:'Ngân hàng',exchange:'HOSE',date:'2026-08-18',recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:24750,marketPriceDate:'2026-08-17',baseValue:38241,valueLabel:'Giá trị kỳ vọng',rangeLow:29514,rangeHigh:47514,gapLabel:'MOS bảo thủ 16,1% so với cận thấp; vùng mua MOS 25–30% là 20.660–22.136 đồng/cp',method:'P/B gắn ROE + Residual Income (RI)',summary:'Vùng giá trị hợp lý 29.514–47.514 đồng/cp theo quyền hiện tại, giá trị kỳ vọng 38.241 đồng/cp. Giá đóng cửa 17/08/2026 là 24.750 đồng/cp; MOS bảo thủ mới 16,1% nên trạng thái THEO DÕI / CHỜ.',action:{zoneLow:20660,zoneHigh:22136,baseValue:38241,stop:null,targets:[29514,38241],basisDate:'2026-08-18',recommendation:'THEO DÕI / CHỜ',eligibility:'active',condition:'20.660–22.136 đồng/cp và thesis không xấu đi: có thể xem xét giải ngân theo kỷ luật vị thế. T1 29.514; T2 38.241. Stop 3–7% chỉ xác định theo lệnh thực tế. Trên 47.514: loại/tránh.'},visual,file:'reports/VPB_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'PVT-20260818',ticker:'PVT',company:'Tổng Công ty Cổ phần Vận tải Dầu khí',sector:'Năng lượng',exchange:'HOSE',date:'2026-08-18',recommendation:'THEO DÕI / CHỜ MUA',status:'wait',marketPrice:20700,marketPriceDate:'2026-08-18',baseValue:22057,valueLabel:'Giá trị kỳ vọng',rangeLow:16404,rangeHigh:26313,gapLabel:'MOS hiện tại 6,2%; vùng mua MOS 25–30% là 15.440–16.543 đồng/cp',method:'Lợi nhuận/biên chuẩn hóa 5–7 năm + P/B + EV/EBITDA chuẩn hóa',summary:'PVT là doanh nghiệp chu kỳ vận tải biển. Vùng giá trị hợp lý 16.404–26.313 đồng/cp, giá trị kỳ vọng 22.057 đồng/cp. Snapshot 18/08/2026 là 20.700 đồng/cp; trạng thái THEO DÕI / CHỜ do MOS chỉ khoảng 6,2%.',action:{zoneLow:15440,zoneHigh:16543,baseValue:22057,stop:null,targets:[20700,22057],basisDate:'2026-08-18',recommendation:'THEO DÕI / CHỜ MUA',eligibility:'active',condition:'Nếu giá vào 15.440–16.543 đồng/cp thì có thể kích hoạt theo valuation; stoploss 5% dưới giá khớp thực tế, không bình quân giá xuống nếu thủng stop. T1 20.700; T2 22.057; trên 26.313: loại/tránh.'},visual,file:'reports/PVT_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'},
+            { id:'MBB-20260818',ticker:'MBB',company:'Ngân hàng TMCP Quân Đội',sector:'Ngân hàng',exchange:'HOSE',date:'2026-08-18',recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:19900,marketPriceDate:'2026-08-17',baseValue:26777,valueLabel:'Giá trị kỳ vọng',rangeLow:20959,rangeHigh:32276,gapLabel:'Giá thấp hơn cận dưới khoảng 5,1%; vùng mua MOS 25–30% là 14.671–15.719 đồng/cp',method:'P/B gắn ROE + Residual Income (RI)',summary:'Vùng giá trị hợp lý 20.959–32.276 đồng/cp, giá trị kỳ vọng 26.777 đồng/cp. Giá đóng cửa 17/08/2026 là 19.900 đồng/cp; thấp hơn expected 25,7% nhưng chỉ thấp hơn cận dưới khoảng 5,1%, nên trạng thái THEO DÕI / CHỜ.',action:{zoneLow:14671,zoneHigh:15719,baseValue:26777,stop:null,targets:[20959,26777],basisDate:'2026-08-18',recommendation:'THEO DÕI / CHỜ',eligibility:'active',condition:'Chỉ xem xét 14.671–15.719 đồng/cp khi NIM/NPL/LLR không xấu hơn luận điểm; stop 5% dưới giá vốn; T1 20.959; T2 26.777. Trên 32.276 nếu không nâng lợi nhuận/ROE thì loại/tránh mua mới.'},visual,file:'reports/MBB_2026-08-18.pdf',edition:'Bản định giá 18.08.2026'}
           ];
 
-          const incomingTickers = new Set(incoming.map(x => x.ticker));
-          const oldForTickers = research.reports.filter(r => incomingTickers.has(r.ticker));
-          const oldFiles = new Set(oldForTickers.map(r => r.file).filter(Boolean));
-          const keepReports = research.reports.filter(r => !incomingTickers.has(r.ticker));
-          research.reports = [...incoming, ...keepReports];
+          const tickers = new Set(reports.map(r => r.ticker));
+          const oldFiles = new Set(data.reports.filter(r => tickers.has(r.ticker)).map(r => r.file).filter(Boolean));
+          data.reports = [...reports, ...data.reports.filter(r => !tickers.has(r.ticker))];
 
-          const visual = { kind:'illustration', src:'assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2', alt:'Nhận diện báo cáo định giá Xuân Lê TVS', caption:'Báo cáo định giá cổ phiếu', sourceLabel:'Xuân Lê TVS', sourceUrl:'https://sunflower1509.github.io/xuan-le-investment-research/' };
-          research.reports.forEach(r => { if (incomingTickers.has(r.ticker)) r.visual = visual; });
-
-          const DATE = '2026-08-17';
-          const FROM = 1786899600, TO = 1786960800;
-          const num = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
-          const normPrice = v => { const n=num(v); if (!(n>0)) return null; return n<1000 ? Math.round(n*1000) : Math.round(n); };
-          async function fetchJson(url) { const res=await fetch(url,{headers:{accept:'application/json, text/plain, */*','user-agent':'Mozilla/5.0 (compatible; Xuân Lê TVS report updater/1.0)'}}); if(!res.ok) throw new Error(`${url} HTTP ${res.status}`); return res.json(); }
-          async function quote(ticker) {
-            const vurl=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${ticker}~date:${DATE}&size=10`;
-            const durl=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${ticker}&resolution=1D`;
-            const [vj,dj]=await Promise.all([fetchJson(vurl),fetchJson(durl)]);
-            const rows=Array.isArray(vj?.data)?vj.data:[];
-            const row=rows.find(r=>String(r.code||'').toUpperCase()===ticker&&String(r.date||'')===DATE)||rows.find(r=>String(r.date||'')===DATE)||rows[0];
-            if(!row) throw new Error(`${ticker}: no VNDIRECT row`);
-            const close=normPrice(row.close), vol=num(row.nmVolume??row.totalVolume??row.volume), pct=num(row.pctChange??row.changePct);
-            const dclose=normPrice(Array.isArray(dj?.c)&&dj.c.length?dj.c[dj.c.length-1]:null);
-            if(!(close>0)||!(vol>=0)||pct===null||close!==dclose) throw new Error(`${ticker}: quote verification failed VNDIRECT=${close} DNSE=${dclose}`);
-            return {close, volume:Math.round(vol), changePct:Math.round(pct*10000)/10000, priceSource:vurl, priceSourceSecondary:durl};
+          const DATE='2026-08-17', FROM=1786899600, TO=1786960800;
+          const num=v=>{const n=Number(v);return Number.isFinite(n)?n:null};
+          const px=v=>{const n=num(v);return n>0?(n<1000?Math.round(n*1000):Math.round(n)):null};
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          async function json(url){let e;for(let i=0;i<4;i++){try{const r=await fetch(url,{headers:{accept:'application/json, text/plain, */*','user-agent':'Mozilla/5.0 (compatible; Xuân Lê TVS verifier/1.0)','origin':'https://www.dnse.com.vn','referer':'https://www.dnse.com.vn/'}});if(!r.ok)throw new Error(`HTTP ${r.status}`);return await r.json()}catch(x){e=x;if(i<3)await sleep(700*(i+1))}}throw e}
+          async function verify(t){
+            const a=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${DATE}&size=10`;
+            const b=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${t}&resolution=1D`;
+            const [v,d]=await Promise.all([json(a),json(b)]);
+            const rows=Array.isArray(v?.data)?v.data:[];
+            const r=rows.find(x=>String(x.code||'').toUpperCase()===t&&String(x.date||'')===DATE)||rows.find(x=>String(x.date||'')===DATE)||rows[0];
+            if(!r)throw new Error(`${t}: VNDIRECT no row`);
+            const close=px(r.close),vol=num(r.nmVolume??r.totalVolume??r.volume),pct=num(r.pctChange??r.changePct),dclose=px(Array.isArray(d?.c)&&d.c.length?d.c[d.c.length-1]:null);
+            if(!(close>0)||!(vol>=0)||pct===null||close!==dclose)throw new Error(`${t}: EOD mismatch VNDIRECT=${close}, DNSE=${dclose}`);
+            return {close,priceDate:DATE,changePct:Math.round(pct*10000)/10000,volume:Math.round(vol),priceSource:a,priceSourceSecondary:b};
           }
 
           (async()=>{
-            const byTicker = new Map(research.coverage.map(x=>[x.ticker,x]));
-            for (const r of incoming) {
-              const q=await quote(r.ticker);
-              const current=byTicker.get(r.ticker)||{ticker:r.ticker,company:r.company,sector:r.sector,exchange:r.exchange};
-              current.company=r.company; current.sector=r.sector; current.exchange=r.exchange; current.reportId=r.id;
-              current.close=q.close; current.priceDate=DATE; current.changePct=q.changePct; current.volume=q.volume; current.priceSource=q.priceSource; current.priceSourceSecondary=q.priceSourceSecondary;
-              current.action=JSON.parse(JSON.stringify(r.action));
-              byTicker.set(r.ticker,current);
-              console.log(`${r.ticker}: seeded close ${q.close} for ${DATE}`);
+            const byTicker=new Map(data.coverage.map(x=>[x.ticker,x]));
+            const originalOrder=data.coverage.map(x=>x.ticker);
+            for(const r of reports){
+              const q=await verify(r.ticker);
+              const c=byTicker.get(r.ticker)||{ticker:r.ticker};
+              Object.assign(c,{company:r.company,sector:r.sector,exchange:r.exchange,reportId:r.id,...q,action:JSON.parse(JSON.stringify(r.action))});
+              byTicker.set(r.ticker,c);
+              console.log(`${r.ticker}: prior-EOD seed ${q.close}`);
             }
-            const existingOrder = research.coverage.map(x=>x.ticker);
-            const newTickers = incoming.map(x=>x.ticker).filter(t=>!existingOrder.includes(t));
-            research.coverage=[...newTickers.map(t=>byTicker.get(t)),...existingOrder.map(t=>byTicker.get(t))];
-
-            // Keep market snapshot date at 17/08 until EOD 18/08 is truly available.
-            research.meta.release='2026-08-18';
-            research.meta.note = `${research.meta.note} Bổ sung 7 báo cáo định giá ngày 18/08/2026 (SHB, DCM, PLX, HDB, VPB, PVT, MBB). Coverage của 7 mã mới tạm khóa bằng giá đóng cửa 17/08/2026 để không gắn nhãn EOD 18/08 khi phiên chưa kết thúc.`;
-
-            const serializeArray=(arr,indent='  ')=>JSON.stringify(arr,null,2).split('\n').map((line,i)=>i===0?line:indent+line).join('\n');
-            let out=text0;
-            const reportsStart=out.indexOf('  reports: [');
-            const coverageStart=out.indexOf('\n\n  coverage: [',reportsStart);
-            if(reportsStart<0||coverageStart<0) throw new Error('reports/coverage markers missing');
-            const reportsText='  reports: '+serializeArray(research.reports,'  ');
-            out=out.slice(0,reportsStart)+reportsText+out.slice(coverageStart);
-            const coverageStart2=out.indexOf('  coverage: [');
-            const endMarker='\n  ]\n};';
-            const coverageEnd=out.lastIndexOf(endMarker);
-            if(coverageStart2<0||coverageEnd<0) throw new Error('coverage end marker missing');
-            const coverageText='  coverage: '+serializeArray(research.coverage,'  ');
-            out=out.slice(0,coverageStart2)+coverageText+out.slice(coverageEnd+5); // preserve final }; after closing array
-            // Repair meta.release and note in source prefix after serialization splice.
-            out=out.replace(/(\n    release:\s*)"[^"]+"/, '$1"2026-08-18"');
-            const noteAppend=' Bổ sung 7 báo cáo định giá ngày 18/08/2026 (SHB, DCM, PLX, HDB, VPB, PVT, MBB). Coverage của 7 mã mới tạm khóa bằng giá đóng cửa 17/08/2026 để không gắn nhãn EOD 18/08 khi phiên chưa kết thúc.';
-            out=out.replace(/(\n    note:\s*)"((?:[^"\\]|\\.)*)"/, (m,prefix,body)=>prefix+JSON.stringify(JSON.parse('"'+body.replace(/"/g,'\\"')+'"')+noteAppend));
-            fs.writeFileSync(DATA,out,'utf8');
-
-            // Delete superseded PDF files for the same tickers, but never delete a newly written canonical file.
-            const newFiles=new Set(incoming.map(r=>r.file));
-            for(const file of oldFiles){ if(file && file.startsWith('reports/') && !newFiles.has(file) && fs.existsSync(file)){ fs.rmSync(file); console.log('Removed superseded PDF',file); } }
-          })().catch(err=>{console.error(err);process.exit(1);});
+            const newcomers=reports.map(r=>r.ticker).filter(t=>!originalOrder.includes(t));
+            data.coverage=[...newcomers.map(t=>byTicker.get(t)),...originalOrder.map(t=>byTicker.get(t))];
+            data.meta.release='2026-08-18';
+            data.meta.note=`${data.meta.note} Bổ sung 7 báo cáo định giá ngày 18/08/2026 (SHB, DCM, PLX, HDB, VPB, PVT, MBB). Bảng coverage của các mã mới vẫn khóa theo EOD 17/08/2026 cho tới khi phiên 18/08 thực sự kết thúc; không dùng snapshot trong phiên làm giá đóng cửa.`;
+            fs.writeFileSync(DATA,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`,'utf8');
+            const newFiles=new Set(reports.map(r=>r.file));
+            for(const f of oldFiles){if(f.startsWith('reports/')&&!newFiles.has(f)&&fs.existsSync(f)){fs.rmSync(f);console.log('Removed superseded PDF',f)}}
+          })().catch(e=>{console.error(e);process.exit(1)});
           NODE
 
-      - name: Build, audit, and remove only provably unused report images
+      - name: Remove only orphan report images, rebuild, test and audit
         shell: bash
         run: |
           set -euo pipefail
           node --check src/data/research-data.js
           node <<'NODE'
           const fs=require('fs'),vm=require('vm'),path=require('path');
-          const code=fs.readFileSync('src/data/research-data.js','utf8'); const ctx={window:{}}; vm.runInNewContext(code,ctx);
-          const used=new Set((ctx.window.RESEARCH_DATA.reports||[]).map(r=>String(r.visual?.src||'').split(/[?#]/)[0]).filter(p=>p.startsWith('assets/images/reports/')));
-          if(fs.existsSync('assets/images/reports')) for(const f of fs.readdirSync('assets/images/reports')){ const p=path.posix.join('assets/images/reports',f); if(f.endsWith('.webp')&&!used.has(p)){ fs.rmSync(p); console.log('Removed unused report image',p); } }
+          const c={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),c);
+          const used=new Set(c.window.RESEARCH_DATA.reports.map(r=>String(r.visual?.src||'').split(/[?#]/)[0]).filter(x=>x.startsWith('assets/images/reports/')));
+          if(fs.existsSync('assets/images/reports'))for(const f of fs.readdirSync('assets/images/reports')){const p=path.posix.join('assets/images/reports',f);if(f.endsWith('.webp')&&!used.has(p)){fs.rmSync(p);console.log('Removed orphan image',p)}}
           NODE
           ./scripts/build-assets.sh
           node --test tests/trade-ledger.test.mjs
           node scripts/audit-site.mjs
 
-      - name: Commit update and remove one-time workflow
+      - name: Remove one-time workflow and publish
         shell: bash
         run: |
           set -euo pipefail
