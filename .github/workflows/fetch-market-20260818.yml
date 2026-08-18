@@ -1,0 +1,58 @@
+name: Fetch market snapshot 20260818
+
+on:
+  push:
+    branches:
+      - hardening/full-sync-20260818
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hardening/full-sync-20260818
+      - name: Fetch raw EOD market data
+        run: |
+          set -euo pipefail
+          mkdir -p tmp
+          curl --retry 3 --retry-delay 2 -fsSL 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500' -o tmp/vnmarket-20260818.json
+          curl --retry 3 --retry-delay 2 -fsSL 'https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=code&q=floor:HOSE~date:2026-08-18&size=2000' -o tmp/hose-stocks-20260818.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const market = JSON.parse(fs.readFileSync('tmp/vnmarket-20260818.json','utf8'));
+          const stocks = JSON.parse(fs.readFileSync('tmp/hose-stocks-20260818.json','utf8'));
+          const rows = Array.isArray(market.data) ? market.data : [];
+          const stockRows = Array.isArray(stocks.data) ? stocks.data : [];
+          const wanted = rows.filter(r => ['VNINDEX','VN30','HNX','HNXINDEX','UPCOM','UPCOMINDEX'].includes(String(r.code || '').toUpperCase()));
+          const priceOf = r => Number(r.close ?? r.closePrice ?? r.adClose ?? r.price ?? NaN);
+          const refOf = r => Number(r.reference ?? r.referencePrice ?? r.basicPrice ?? NaN);
+          let advance=0, unchanged=0, decline=0, floor=0, ceiling=0, valid=0;
+          for (const r of stockRows) {
+            const c = priceOf(r); const ref = refOf(r);
+            if (!(Number.isFinite(c) && Number.isFinite(ref) && c>0 && ref>0)) continue;
+            valid++;
+            if (c > ref) advance++; else if (c < ref) decline++; else unchanged++;
+            const fl = Number(r.floor ?? r.floorPrice ?? NaN);
+            const ce = Number(r.ceiling ?? r.ceilingPrice ?? NaN);
+            if (Number.isFinite(fl) && Math.abs(c-fl)<1e-9) floor++;
+            if (Number.isFinite(ce) && Math.abs(c-ce)<1e-9) ceiling++;
+          }
+          const out = { fetchedAt: new Date().toISOString(), marketRows: wanted, rawMarketCount: rows.length, hoseStockCount: stockRows.length, breadth: { valid, advance, unchanged, decline, floor, ceiling } };
+          fs.writeFileSync('tmp/market-summary-20260818.json', JSON.stringify(out,null,2));
+          console.log(JSON.stringify(out,null,2));
+          NODE
+      - name: Commit verification artifacts to isolated branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tmp/vnmarket-20260818.json tmp/hose-stocks-20260818.json tmp/market-summary-20260818.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Capture verified market snapshot 2026-08-18 [skip ci]'
+            git push origin HEAD:hardening/full-sync-20260818
+          fi
