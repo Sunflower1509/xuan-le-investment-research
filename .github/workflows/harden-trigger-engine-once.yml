@@ -29,81 +29,72 @@ jobs:
         with:
           node-version: 22
 
-      - name: Apply guarded hardening patch
-        run: python3 scripts/harden-trigger-engine-once.py
-
-      - name: Snapshot ledger before dry production pass
-        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
-
-      - name: Run EOD engine on current locked state
-        run: node scripts/process-trade-ledger.mjs
-
-      - name: Run reconciliation gate
-        run: |
-          node scripts/reconcile-trade-ledger.mjs \
-            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
-            --after src/data/trade-ledger.json \
-            --research src/data/research-data.js \
-            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
-
-      - name: Run complete test suite
-        run: node --test tests/*.test.mjs
-
-      - name: Build production assets
-        run: bash scripts/build/build-assets.sh
-
-      - name: Audit site integrity
-        run: node scripts/audit-site.mjs
-
-      - name: Prepare lean production artifact
-        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
-
-      - name: Guard immutable public structure and data
+      - name: Run guarded validation with durable diagnostics
         shell: bash
         run: |
-          set -euo pipefail
-          BASE=3f0042be53bae203b87f8e78330a4d81825b9ea0
-          git diff --exit-code "$BASE" -- reports src/data/research-data.js src/data/trade-ledger.json src/data/daily-insights.js src/styles assets/css favicon.svg robots.txt sitemap.xml .nojekyll
-          python3 <<'PY'
+          set +e
+          {
+            set -euo pipefail
+            python3 scripts/harden-trigger-engine-once.py
+            cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+            node scripts/process-trade-ledger.mjs
+            node scripts/reconcile-trade-ledger.mjs \
+              --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+              --after src/data/trade-ledger.json \
+              --research src/data/research-data.js \
+              --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+            node --test tests/*.test.mjs
+            bash scripts/build/build-assets.sh
+            node scripts/audit-site.mjs
+            bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+            BASE=3f0042be53bae203b87f8e78330a4d81825b9ea0
+            git diff --exit-code "$BASE" -- reports src/data/research-data.js src/data/trade-ledger.json src/data/daily-insights.js src/styles assets/css favicon.svg robots.txt sitemap.xml .nojekyll
+            python3 <<'PY'
           import subprocess
           from pathlib import Path
+          import re
           base=subprocess.check_output(['git','show','3f0042be53bae203b87f8e78330a4d81825b9ea0:index.html'],text=True)
           after=Path('index.html').read_text()
           normalized=after.replace('assets/js/site.min.js?v=20260818-trigger-engine2','assets/js/site.min.js?v=20260818-shb-threshold1')
           if normalized != base:
               raise SystemExit('index.html changed beyond the single JS cache token')
-          import re
           order=[m.group(2) for m in re.finditer(r'<section\b[^>]*\bid=([\'\"])([^\'\"]+)\1[^>]*>',after)]
           expected=['overview','daily-market','position-ledger','action-radar','research']
           if order != expected:
               raise SystemExit(f'section order changed: {order}')
           PY
 
-      - name: Remove one-time hardening tooling
-        run: |
-          rm -f scripts/harden-trigger-engine-once.py
-          rm -f .github/workflows/harden-trigger-engine-once.yml
+            rm -f scripts/harden-trigger-engine-once.py
+            rm -f .github/workflows/harden-trigger-engine-once.yml
+            allowed='^(\.github/workflows/(pages\.yml|eod-daily\.yml)|index\.html|assets/js/site\.min\.js|scripts/(audit-site\.mjs|process-trade-ledger\.mjs|reconcile-trade-ledger\.mjs|update-eod-market-data\.mjs|update-cache-token\.mjs|verify-live-site\.mjs)|src/scripts/(app\.js|trade-ledger\.mjs|action-trigger\.mjs)|tests/(action-trigger\.test\.mjs|reconciliation\.test\.mjs))$'
+            unexpected="$(git diff --name-only "$BASE" | grep -Ev "$allowed" || true)"
+            if [[ -n "$unexpected" ]]; then
+              echo "Unexpected hardening paths:" >&2
+              echo "$unexpected" >&2
+              exit 2
+            fi
+            echo "Permanent hardening change scope verified."
+          } > hardening-validation.log 2>&1
+          status=$?
+          set -e
 
-      - name: Guard exact permanent change scope
-        shell: bash
-        run: |
-          set -euo pipefail
-          BASE=3f0042be53bae203b87f8e78330a4d81825b9ea0
-          allowed='^(\.github/workflows/(pages\.yml|eod-daily\.yml)|index\.html|assets/js/site\.min\.js|scripts/(audit-site\.mjs|process-trade-ledger\.mjs|reconcile-trade-ledger\.mjs|update-eod-market-data\.mjs|update-cache-token\.mjs|verify-live-site\.mjs)|src/scripts/(app\.js|trade-ledger\.mjs|action-trigger\.mjs)|tests/(action-trigger\.test\.mjs|reconciliation\.test\.mjs))$'
-          unexpected="$(git diff --name-only "$BASE" | grep -Ev "$allowed" || true)"
-          if [[ -n "$unexpected" ]]; then
-            echo "Unexpected hardening paths:" >&2
-            echo "$unexpected" >&2
-            exit 2
-          fi
-          echo "Permanent hardening change scope verified."
-
-      - name: Commit validated hardening to feature branch
-        shell: bash
-        run: |
-          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [[ "$status" -ne 0 ]]; then
+            cat hardening-validation.log
+            git reset --hard HEAD
+            cp hardening-validation.log /tmp/hardening-validation.log
+            cp /tmp/hardening-validation.log hardening-validation.log
+            git add hardening-validation.log
+            git commit -m "Record hardening validation failure [skip ci]" || true
+            git push origin HEAD:hardening/trigger-engine-20260818
+            exit "$status"
+          fi
+
+          cat hardening-validation.log
+          rm -f hardening-validation.log
           git add -A
           git commit -m "Harden trigger engine, reconcile EOD ledger and verify deploys [skip ci]"
           git push origin HEAD:hardening/trigger-engine-20260818
