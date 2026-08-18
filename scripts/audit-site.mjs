@@ -93,6 +93,12 @@ if (!research || typeof research !== "object") {
   assertUnique(reports.map((report) => `${report.ticker}:${report.reportType || "valuation"}:${report.date}`), "Report edition");
   assertUnique(coverage.map((item) => item.ticker), "Coverage ticker");
   const reportIds = new Set(reports.map((report) => report.id));
+  const latestReportDateByTicker = new Map();
+  reports.forEach((report) => {
+    if (report.reportType === "trading") return;
+    const current = latestReportDateByTicker.get(report.ticker);
+    if (isIsoDate(report.date) && (!current || report.date > current)) latestReportDateByTicker.set(report.ticker, report.date);
+  });
 
   reports.forEach((report) => {
     const scope = `Báo cáo ${report.ticker || report.id || "không rõ"}`;
@@ -124,6 +130,16 @@ if (!research || typeof research !== "object") {
     if (item.action?.eligibility === "active") {
       if (!parseActionTrigger(item.action)) fail(scope, "điều kiện kích hoạt active không hợp lệ theo shared Trigger Engine");
       if (!isIsoDate(item.action.basisDate)) fail(scope, "basisDate của điều kiện active không hợp lệ");
+      const latestReportDate = latestReportDateByTicker.get(item.ticker);
+      if (latestReportDate && isIsoDate(item.action.basisDate) && item.action.basisDate < latestReportDate) {
+        fail(scope, `setup active ${item.action.basisDate} đã bị báo cáo định giá mới ${latestReportDate} thay thế`);
+      }
+      if (item.action.validUntil != null) {
+        if (!isIsoDate(item.action.validUntil)) fail(scope, "validUntil phải là ngày ISO hợp lệ nếu được khai báo");
+        if (isIsoDate(item.action.validUntil) && isIsoDate(item.action.basisDate) && item.action.validUntil < item.action.basisDate) {
+          fail(scope, "validUntil không được sớm hơn basisDate");
+        }
+      }
     }
   });
 

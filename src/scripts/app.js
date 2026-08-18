@@ -1,5 +1,14 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
+import {
+  buildPriorityUniverse,
+  latestReportDates,
+  openPositionTickers,
+  priorityDistanceText,
+  priorityRelationDescription,
+  priorityRelationLabel,
+  valuationBase
+} from "./priority-engine.mjs";
 
 (() => {
   "use strict";
@@ -19,6 +28,13 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
     .forEach((report) => {
       if (!latestByTicker.has(report.ticker)) latestByTicker.set(report.ticker, report);
     });
+
+  const ledgerProjection = projectTradeLedger(tradeLedgerSource, coverage);
+  const priorityContext = {
+    openTickers: openPositionTickers(ledgerProjection),
+    reportDates: latestReportDates(reports),
+    asOfDate: source.meta.updated
+  };
 
   const getStoredSet = (key) => {
     try {
@@ -240,24 +256,14 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
     return `≥ ${number(trigger.price)}`;
   };
 
-  const priorityUniverse = coverage
-    .filter((item) => item.action?.eligibility === "active" && actionDistance(item))
-    .sort((a, b) => actionDistance(a).value - actionDistance(b).value || a.ticker.localeCompare(b.ticker));
+  const priorityUniverse = buildPriorityUniverse(coverage, priorityContext);
   const priorityRank = new Map(priorityUniverse.map((item, index) => [item.ticker, index + 1]));
 
-  const relationLabel = (item) => {
-    const distance = actionDistance(item);
-    if (!distance) return "CHƯA ĐỦ DỮ LIỆU";
-    if (distance.relation === "inside") return "TRONG VÙNG HÀNH ĐỘNG";
-    if (distance.relation === "below") return "DƯỚI CẬN — XÁC NHẬN LẠI";
-    if (distance.value <= 12) return "GẦN VÙNG MUA";
-    if (distance.value <= 30) return "THEO DÕI KHOẢNG CÁCH";
-    return "CHƯA GẦN VÙNG MUA";
-  };
+  const relationLabel = (item) => priorityRelationLabel(item);
 
   const currentUpside = (item) => {
     const report = latestByTicker.get(item.ticker);
-    const base = report?.calculationBase || report?.baseValue || item.action?.baseValue;
+    const base = valuationBase(report, item.action);
     return Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
   };
 
@@ -283,7 +289,7 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 
   const reportUpside = (report, quote = reportQuote(report)) => {
     if (report.reportType === "trading") return null;
-    const base = report.calculationBase || report.baseValue;
+    const base = valuationBase(report, quote?.action);
     return Number.isFinite(base) && Number.isFinite(quote?.close) ? ((base / quote.close) - 1) * 100 : null;
   };
 
@@ -326,7 +332,7 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
     const sourcedPrices = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
     const supplementalPrices = coverage.filter((item) => item.priceDate !== source.meta.updated).length;
     if (refs.prioritySummary) refs.prioritySummary.innerHTML = `
-      <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Có vùng mua đã khóa • Không hard veto</small></div>
+      <div><span>Mã đủ điều kiện xếp hạng</span><strong>${priorityUniverse.length}</strong><small>Entry mới • chưa có vị thế mở • không hard veto</small></div>
       <div><span>Ưu tiên gần nhất</span><strong>${escapeHtml(priorityUniverse[0]?.ticker || "—")}</strong><small>${priorityUniverse[0] ? escapeHtml(relationLabel(priorityUniverse[0])) : "—"}</small></div>
       <div><span>Giá có ngày nguồn</span><strong>${sourcedPrices}/${coverage.length}</strong><small>${supplementalPrices ? `${supplementalPrices} mã theo ngày giá ghi trong PDF mới` : `Đủ dữ liệu EOD phiên ${date(source.meta.updated)}`}</small></div>
       <div><span>Veto / cần đánh giá lại</span><strong>${exclusions.length}</strong><small>Không đưa vào nhóm ưu tiên</small></div>`;
@@ -336,11 +342,7 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
       const distance = actionDistance(item);
       const upside = currentUpside(item);
       const report = item.reportId ? reportById.get(item.reportId) : null;
-      const relation = distance.relation === "below"
-        ? `Giá thấp hơn cận dưới ${decimal(distance.value)}%`
-        : distance.relation === "inside"
-          ? "Giá đang trong vùng hành động"
-          : `Giá cao hơn cận trên ${decimal(distance.value)}%`;
+      const relation = priorityRelationDescription(item, number, decimal);
       return `<article class="priority-card priority-${index + 1}">
         <div class="priority-rank"><span>ƯU TIÊN</span><strong>${String(index + 1).padStart(2, "0")}</strong></div>
         <div class="priority-card-main">
@@ -363,11 +365,11 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
         const action = item.action;
         const distance = actionDistance(item);
         const report = latestByTicker.get(item.ticker);
-        const base = report?.baseValue || action.baseValue;
+        const base = valuationBase(report, action);
         const upside = Number.isFinite(base) && Number.isFinite(item.close) ? ((base / item.close) - 1) * 100 : null;
         const upsideTone = !Number.isFinite(upside) ? "neutral" : upside > 0 ? "positive" : upside < 0 ? "negative" : "neutral";
         const upsideLabel = !Number.isFinite(upside) ? "Chưa đủ dữ liệu" : upside > 0 ? "Dư địa so với giá đóng cửa" : upside < 0 ? "Giá đóng cửa cao hơn định giá cơ sở" : "Bằng định giá cơ sở";
-        const distanceText = distance.relation === "inside" ? "0,0% • trong vùng" : `${decimal(distance.value)}% • ${distance.relation === "below" ? "dưới cận" : "trên cận"}`;
+        const distanceText = priorityDistanceText(item, decimal);
         return `<tr>
           <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
           <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
@@ -421,7 +423,7 @@ import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 
   const renderPositionLedger = () => {
     if (!refs.ledgerSummary || !refs.ledgerContent) return;
-    const projection = projectTradeLedger(tradeLedgerSource, coverage);
+    const projection = ledgerProjection;
     const openPositions = projection.positions.filter((position) => position.status !== "closed");
     const closedPositions = projection.positions.filter((position) => position.status === "closed");
     const activeTickers = new Set(openPositions.map((position) => position.ticker));

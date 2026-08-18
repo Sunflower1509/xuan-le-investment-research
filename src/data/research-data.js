@@ -50,12 +50,13 @@ window.RESEARCH_DATA = {
   },
   "rankingMethod": {
     "title": "Khoảng cách tới vùng hành động",
-    "formula": "Khoảng cách = |Giá đóng cửa − biên gần nhất của vùng mua| / biên gần nhất",
+    "formula": "Khoảng cách = khoảng cách phần trăm tới biên gần nhất của vùng mua hoặc tới ngưỡng trigger một phía; bằng 0 khi giá đang thỏa điều kiện giá.",
     "rules": [
-      "Chỉ xếp hạng các mã có vùng mua/entry đã khóa và không mang khuyến nghị LOẠI hoặc TRÁNH MUA MỚI.",
-      "Nếu giá thấp hơn cận dưới, trạng thái là CẦN XÁC NHẬN LẠI — không tự động chuyển thành MUA.",
-      "Khuyến nghị điều kiện vẫn phải thỏa bộ lọc cơ bản hoặc kỹ thuật ghi trong báo cáo.",
-      "Thiết lập đã thủng stop, quá cũ hoặc thiếu vùng mua được tách khỏi bảng ưu tiên."
+      "Chỉ xếp hạng entry mới khi action còn active, trigger hợp lệ, giá EOD cùng phiên và không có hard veto.",
+      "Mã đã có vị thế mở được chuyển sang Nhật ký vị thế và không tiếp tục chiếm hạng entry mới.",
+      "Nếu giá thấp hơn cận dưới của vùng hai phía, trạng thái là CẦN XÁC NHẬN LẠI — không tự động chuyển thành MUA.",
+      "Thiết lập thủng stop, bị báo cáo mới hơn thay thế, hết validUntil nếu có hoặc thiếu trigger hợp lệ được tách khỏi bảng ưu tiên.",
+      "Không tự đặt số ngày hết hạn khi báo cáo không quy định; điều kiện định tính trong báo cáo vẫn phải được xác nhận trước khi giải ngân."
     ]
   },
   "reports": [
