@@ -1,0 +1,43 @@
+name: Verify EOD 18 Aug 2026 once
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/refresh-eod-20260818-once.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Cross-check VNDIRECT and DNSE
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),vm=require('vm');
+          const DATE='2026-08-18', FROM=1786986000, TO=1787072399;
+          const code=fs.readFileSync('src/data/research-data.js','utf8');
+          const box={window:{}}; vm.runInNewContext(code,box);
+          const coverage=box.window.RESEARCH_DATA?.coverage;
+          if(!Array.isArray(coverage)||!coverage.length) throw new Error('coverage unavailable');
+          const tickers=coverage.map(x=>String(x.ticker).toUpperCase());
+          if(new Set(tickers).size!==tickers.length) throw new Error('duplicate ticker');
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const n=v=>{const x=Number(v);return Number.isFinite(x)?x:null};
+          const px=v=>{const x=n(v);return x>0?(x<1000?Math.round(x*1000):Math.round(x)):null};
+          async function json(url){let e;for(let i=0;i<5;i++){try{const r=await fetch(url,{headers:{accept:'application/json, text/plain, */*','user-agent':'Mozilla/5.0'}});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(x){e=x;if(i<4)await sleep(1000*(i+1))}}throw e}
+          function vn(j,t){const rows=Array.isArray(j?.data)?j.data:[];const r=rows.find(x=>String(x.code).toUpperCase()===t&&String(x.date)===DATE)||rows.find(x=>String(x.date)===DATE);if(!r)throw new Error('VNDIRECT missing row');const close=px(r.close),volume=n(r.nmVolume??r.totalVolume??r.volume);let changePct=n(r.pctChange??r.changePct);if(changePct===null){const ref=n(r.basicPrice??r.referencePrice??r.reference??r.refPrice),raw=n(r.close);if(raw!==null&&ref)changePct=(raw/ref-1)*100}if(!(close>0)||!(volume>=0)||changePct===null)throw new Error('VNDIRECT incomplete row');return{close,volume:Math.round(volume),changePct:Math.round(changePct*10000)/10000}}
+          function dn(j,t){const c=Array.isArray(j?.c)?j.c:[],v=Array.isArray(j?.v)?j.v:[],ts=Array.isArray(j?.t)?j.t:[];if(!c.length)throw new Error('DNSE missing row');const close=px(c.at(-1));if(!(close>0))throw new Error('DNSE invalid close');if(ts.length){const d=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Number(ts.at(-1))*1000));if(d!==DATE)throw new Error('DNSE date '+d)}const vol=v.length?n(v.at(-1)):null;return{close,volume:vol===null?null:Math.round(vol)}}
+          (async()=>{const out=[],errors=[],volumeMismatches=[];for(const t of tickers){const a=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${DATE}&size=10`,b=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${t}&resolution=1D`;try{const [aj,bj]=await Promise.all([json(a),json(b)]);const x=vn(aj,t),y=dn(bj,t);if(x.close!==y.close)throw new Error(`close mismatch ${x.close} vs ${y.close}`);if(y.volume!==null&&x.volume!==y.volume)volumeMismatches.push({ticker:t,vndirect:x.volume,dnse:y.volume,diff:x.volume-y.volume});out.push({ticker:t,...x,priceDate:DATE,priceSource:a,priceSourceSecondary:b});console.log('OK',t,x.close,x.changePct,x.volume,y.volume)}catch(e){errors.push({ticker:t,error:e.message});console.error('FAIL',t,e.message)}await sleep(120)}const result={date:DATE,coverageCount:tickers.length,verifiedCount:out.length,quotes:out,volumeMismatches,errors};fs.writeFileSync('eod-20260818-verified.json',JSON.stringify(result,null,2));if(errors.length||out.length!==tickers.length){console.error(JSON.stringify(errors,null,2));process.exit(2)}})().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eod-20260818-verified
+          path: eod-20260818-verified.json
+          if-no-files-found: error
