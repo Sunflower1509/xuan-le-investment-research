@@ -6,12 +6,26 @@ on:
       - hardening/trigger-engine-20260818
     paths:
       - ".github/workflows/harden-trigger-engine-once.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/harden-trigger-engine-once.yml"
+      - "scripts/harden-trigger-engine-once.py"
+      - "src/scripts/action-trigger.mjs"
+      - "scripts/reconcile-trade-ledger.mjs"
+      - "scripts/update-eod-market-data.mjs"
+      - "scripts/update-cache-token.mjs"
+      - "scripts/verify-live-site.mjs"
+      - "tests/action-trigger.test.mjs"
+      - "tests/reconciliation.test.mjs"
+      - ".github/workflows/eod-daily.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: trigger-engine-hardening
+  group: trigger-engine-hardening-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -22,6 +36,7 @@ jobs:
       - name: Check out hardening branch
         uses: actions/checkout@v4
         with:
+          ref: hardening/trigger-engine-20260818
           fetch-depth: 0
 
       - name: Set up Node.js
@@ -84,12 +99,12 @@ jobs:
 
           if [[ "$status" -ne 0 ]]; then
             cat hardening-validation.log
-            git reset --hard HEAD
             cp hardening-validation.log /tmp/hardening-validation.log
+            git reset --hard HEAD
             cp /tmp/hardening-validation.log hardening-validation.log
             git add hardening-validation.log
             git commit -m "Record hardening validation failure [skip ci]" || true
-            git push origin HEAD:hardening/trigger-engine-20260818
+            git push origin HEAD:hardening/trigger-engine-20260818 || true
             exit "$status"
           fi
 
