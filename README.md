@@ -23,13 +23,13 @@ Trang chính thức: <https://sunflower1509.github.io/xuan-le-investment-researc
 Yêu cầu Node.js và npm. Không chỉnh trực tiếp các file `*.min.*`.
 
 ```bash
-./scripts/build/build-assets.sh
+bash scripts/build/build-assets.sh
 ```
 
 Có thể kiểm tra đúng artifact sẽ được triển khai bằng một thư mục trống:
 
 ```bash
-./scripts/build/prepare-site.sh /tmp/xuan-le-site-preview
+bash scripts/build/prepare-site.sh /tmp/xuan-le-site-preview
 ```
 
 Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/workflows/pages.yml`. Mã nguồn, script build và tài liệu bảo trì được giữ trong repository nhưng không đưa vào artifact công khai. Việc tổ chức thư mục nội bộ không được phép thay đổi `index.html`, thứ tự section, đường dẫn `assets/` hoặc `reports/` trên website.
