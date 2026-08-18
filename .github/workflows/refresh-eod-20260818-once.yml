@@ -5,7 +5,7 @@ on:
     paths:
       - ".github/workflows/refresh-eod-20260818-once.yml"
 permissions:
-  contents: read
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -35,9 +35,8 @@ jobs:
           function dn(j,t){const c=Array.isArray(j?.c)?j.c:[],v=Array.isArray(j?.v)?j.v:[],ts=Array.isArray(j?.t)?j.t:[];if(!c.length)throw new Error('DNSE missing row');const close=px(c.at(-1));if(!(close>0))throw new Error('DNSE invalid close');if(ts.length){const d=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(Number(ts.at(-1))*1000));if(d!==DATE)throw new Error('DNSE date '+d)}const vol=v.length?n(v.at(-1)):null;return{close,volume:vol===null?null:Math.round(vol)}}
           (async()=>{const out=[],errors=[],volumeMismatches=[];for(const t of tickers){const a=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${DATE}&size=10`,b=`https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${FROM}&to=${TO}&symbol=${t}&resolution=1D`;try{const [aj,bj]=await Promise.all([json(a),json(b)]);const x=vn(aj,t),y=dn(bj,t);if(x.close!==y.close)throw new Error(`close mismatch ${x.close} vs ${y.close}`);if(y.volume!==null&&x.volume!==y.volume)volumeMismatches.push({ticker:t,vndirect:x.volume,dnse:y.volume,diff:x.volume-y.volume});out.push({ticker:t,...x,priceDate:DATE,priceSource:a,priceSourceSecondary:b});console.log('OK',t,x.close,x.changePct,x.volume,y.volume)}catch(e){errors.push({ticker:t,error:e.message});console.error('FAIL',t,e.message)}await sleep(120)}const result={date:DATE,coverageCount:tickers.length,verifiedCount:out.length,quotes:out,volumeMismatches,errors};fs.writeFileSync('eod-20260818-verified.json',JSON.stringify(result,null,2));if(errors.length||out.length!==tickers.length){console.error(JSON.stringify(errors,null,2));process.exit(2)}})().catch(e=>{console.error(e);process.exit(1)});
           NODE
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - name: Commit verified artifact only
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: eod-20260818-verified
-          path: eod-20260818-verified.json
-          if-no-files-found: error
+          commit_message: "Store verified EOD artifact [skip ci]"
+          file_pattern: eod-20260818-verified.json
