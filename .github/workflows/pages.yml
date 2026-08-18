@@ -21,17 +21,29 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Record pre-processing ledger
+        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
       - name: Process EOD activation ledger
         run: node scripts/process-trade-ledger.mjs
-      - name: Verify activation rules
-        run: node --test tests/trade-ledger.test.mjs
+      - name: Reconcile expected versus actual activations
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+      - name: Run all trigger and ledger tests
+        run: node --test tests/*.test.mjs
       - name: Build production assets
         run: bash scripts/build/build-assets.sh
       - name: Audit site integrity
@@ -52,9 +64,14 @@ jobs:
         with:
           enablement: true
       - name: Upload website artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Post-deploy byte verification
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site"
