@@ -11,22 +11,24 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch raw EOD market data with diagnostics
+      - name: Fetch bounded raw EOD market data with diagnostics
         run: |
           set -u
           mkdir -p tmp
           fetch() {
             name="$1"; url="$2"
-            code=$(curl --retry 2 --retry-delay 1 -sS -L -w '%{http_code}' -o "tmp/${name}.body" "$url" || true)
+            code=$(curl --connect-timeout 5 --max-time 20 --retry 1 --retry-delay 1 -sS -L -w '%{http_code}' -o "tmp/${name}.body" "$url" || true)
             printf '%s\n' "$code" > "tmp/${name}.status"
           }
           fetch vnmarket_api_finfo 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500'
           fetch vnmarket_finfo_api 'https://finfo-api.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500'
           fetch hose_stocks_api_finfo 'https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=code&q=floor:HOSE~date:2026-08-18&size=2000'
           fetch hose_stocks_finfo_api 'https://finfo-api.vndirect.com.vn/v4/stock_prices?sort=code&q=floor:HOSE~date:2026-08-18&size=2000'
+          fetch vietstock_intel 'https://vietstock.info/api/intel/daily?date=2026-08-18'
+          fetch vietstock_chart 'https://vietstock.info/api/hsx/vnindex-chart?range=1w'
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const readJson = (p) => { try { return JSON.parse(fs.readFileSync(p,'utf8')); } catch { return null; } };
@@ -50,7 +52,12 @@ jobs:
             if (Number.isFinite(ce) && Math.abs(c-ce)<1e-9) ceiling++;
           }
           const statuses = Object.fromEntries(fs.readdirSync('tmp').filter(x=>x.endsWith('.status')).map(x=>[x.replace('.status',''),fs.readFileSync('tmp/'+x,'utf8').trim()]));
-          const out = { fetchedAt: new Date().toISOString(), statuses, marketRows: wanted, rawMarketCount: rows.length, hoseStockCount: stockRows.length, breadth: { valid, advance, unchanged, decline, floor, ceiling } };
+          const bodies = {};
+          for (const name of ['vietstock_intel','vietstock_chart']) {
+            const p='tmp/'+name+'.body';
+            if (fs.existsSync(p)) bodies[name]=fs.readFileSync(p,'utf8').slice(0,12000);
+          }
+          const out = { fetchedAt: new Date().toISOString(), statuses, marketRows: wanted, rawMarketCount: rows.length, hoseStockCount: stockRows.length, breadth: { valid, advance, unchanged, decline, floor, ceiling }, supplementalBodies: bodies };
           console.log('MARKET_SNAPSHOT_JSON=' + JSON.stringify(out));
-          if (!wanted.length) process.exitCode = 2;
+          if (!wanted.length && !bodies.vietstock_intel) process.exitCode = 2;
           NODE
