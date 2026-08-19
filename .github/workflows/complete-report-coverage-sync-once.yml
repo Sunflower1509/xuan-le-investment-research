@@ -1,15 +1,15 @@
 name: Complete report coverage sync once
 
 on:
-  push:
-    branches: [feature/report-coverage-sync-20260819]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   sync:
-    if: github.event.head_commit.message == 'Stage VNM payload 47/47'
+    if: github.head_ref == 'feature/report-coverage-sync-20260819'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -27,6 +27,10 @@ jobs:
           test "$(head -c 5 reports/VNM_2026-08-19.pdf)" = '%PDF-'
           test "$(pdfinfo reports/VNM_2026-08-19.pdf | awk '/^Pages:/ {print $2}')" = '14'
           echo '40bd8a2a6393ec9dca036dc4986d8b67bf3378a5a805cecab9111623de0457ae  reports/VNM_2026-08-19.pdf' | sha256sum -c -
+          pdftotext reports/VNM_2026-08-19.pdf /tmp/vnm.txt
+          grep -Fq '47.600 - 51.000 VND/cp' /tmp/vnm.txt
+          grep -Fq '68.000 - 85.000 VND/cp' /tmp/vnm.txt
+          grep -Fq 'THEO DÕI / CHỜ' /tmp/vnm.txt
 
       - name: Synchronize reports coverage and action metadata
         run: |
@@ -185,7 +189,13 @@ jobs:
           const pnj=evaluatePriorityCandidate(by.get('PNJ'),{openTickers:new Set(['SHB']),reportDates:dates,asOfDate:d.meta.updated});
           if(pnj.eligible || pnj.reason!=='not-active') throw new Error('PNJ must remain manual/fail-closed, not automatic priority');
           NODE
-          git diff --exit-code HEAD^ -- index.html src/index.css src/styles assets/css/site.min.css || true
+          if git diff --quiet origin/main -- index.html src/index.css src/styles assets/css/site.min.css; then
+            echo 'Layout/CSS unchanged.'
+          else
+            echo 'Unexpected layout/CSS change detected.' >&2
+            git diff -- origin/main -- index.html src/index.css src/styles assets/css/site.min.css >&2
+            exit 1
+          fi
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const h=fs.readFileSync('index.html','utf8');
