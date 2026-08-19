@@ -23,14 +23,14 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs'; import vm from 'node:vm';
           import { evaluatePriorityCandidate, latestReportDates, openPositionTickers } from './src/scripts/priority-engine.mjs';
-          import { projectLedger } from './src/scripts/trade-ledger.mjs';
+          import { projectTradeLedger } from './src/scripts/trade-ledger.mjs';
           const code=fs.readFileSync('src/data/research-data.js','utf8'); const s={window:{}}; vm.runInNewContext(code,s); const d=s.window.RESEARCH_DATA;
           const reports=d.reports||[], coverage=d.coverage||[];
           const valuation=reports.filter(r=>r.reportType!=='trading');
           const byTicker=new Map(); for(const r of valuation){const a=byTicker.get(r.ticker)||[]; a.push(r); byTicker.set(r.ticker,a)}
           const latest=new Map([...byTicker].map(([t,a])=>[t,[...a].sort((x,y)=>y.date.localeCompare(x.date))[0]]));
           const cov=new Map(coverage.map(x=>[x.ticker,x]));
-          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8')); const projection=projectLedger(ledger,coverage); const openTickers=openPositionTickers(projection);
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8')); const projection=projectTradeLedger(ledger,coverage); const openTickers=openPositionTickers(projection);
           const reportDates=latestReportDates(reports);
           const missingCoverage=[...latest.keys()].filter(t=>!cov.has(t));
           const coverageWithoutReport=[...cov.keys()].filter(t=>!latest.has(t));
