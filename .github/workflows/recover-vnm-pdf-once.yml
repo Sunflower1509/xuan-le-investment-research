@@ -1,0 +1,41 @@
+name: Recover VNM PDF from staging once
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  recover:
+    if: github.head_ref == 'feature/report-coverage-sync-20260819'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/report-coverage-sync-20260819
+      - name: Extract embedded PDF candidate
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,re,hashlib
+          s=Path('.tmp/vnm-screen-xz.b64.03').read_text().strip()
+          print('carrier chars',len(s))
+          starts=[m.start() for m in re.finditer('JVBERi0',s)]
+          print('pdf base64 starts',starts)
+          for i,start in enumerate(starts):
+              tail=s[start:]
+              tail=tail[:len(tail)//4*4]
+              try:
+                  raw=base64.b64decode(tail,validate=False)
+              except Exception as e:
+                  print('decode fail',i,e); continue
+              p=Path(f'/tmp/candidate-{i}.pdf'); p.write_bytes(raw)
+              print(i,'bytes',len(raw),'sha',hashlib.sha256(raw).hexdigest(),'head',raw[:5],'EOF',b'%%EOF' in raw[-4096:])
+          PY
+          for f in /tmp/candidate-*.pdf; do
+            echo "== $f =="
+            pdfinfo "$f" 2>/dev/null | grep -E 'Pages:|File size:' || true
+            pdftotext "$f" /tmp/candidate.txt 2>/dev/null || true
+            grep -F '47.600 - 51.000 VND/cp' /tmp/candidate.txt | head -1 || true
+            grep -F '68.000 - 85.000 VND/cp' /tmp/candidate.txt | head -1 || true
+          done
