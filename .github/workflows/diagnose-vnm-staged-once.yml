@@ -1,0 +1,36 @@
+name: Diagnose staged VNM payload once
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'feature/report-coverage-sync-20260819'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/report-coverage-sync-20260819
+      - name: Inspect partial decompression safely
+        run: |
+          set +e
+          cat .tmp/vnm-final.b64.* | base64 -d | xz -dc > /tmp/vnm.pdf
+          xz_status=${PIPESTATUS[2]}
+          set -e
+          echo "XZ_STATUS=$xz_status"
+          ls -l /tmp/vnm.pdf
+          sha256sum /tmp/vnm.pdf
+          echo 'TAIL:'
+          tail -c 128 /tmp/vnm.pdf | xxd
+          echo 'PDFINFO:'
+          pdfinfo /tmp/vnm.pdf || true
+          pdftotext /tmp/vnm.pdf /tmp/vnm.txt || true
+          echo "TEXT_BYTES=$(wc -c < /tmp/vnm.txt 2>/dev/null || echo 0)"
+          grep -F '47.600' /tmp/vnm.txt | head || true
+          grep -F '85.000' /tmp/vnm.txt | head || true
+          if tail -c 4096 /tmp/vnm.pdf | grep -aq '%%EOF'; then echo 'EOF_PRESENT=yes'; else echo 'EOF_PRESENT=no'; fi
