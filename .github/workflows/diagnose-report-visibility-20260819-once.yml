@@ -1,0 +1,54 @@
+name: Diagnose report visibility 20260819 once
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Compute exact default report order
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          import { projectTradeLedger } from './src/scripts/trade-ledger.mjs';
+          import { buildPriorityUniverse, latestReportDates, openPositionTickers } from './src/scripts/priority-engine.mjs';
+          const code = fs.readFileSync('src/data/research-data.js','utf8');
+          const sandbox={window:{}}; vm.runInNewContext(code,sandbox);
+          const data=sandbox.window.RESEARCH_DATA;
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const projection=projectTradeLedger(ledger,data.coverage);
+          const priority=buildPriorityUniverse(data.coverage,{openTickers:openPositionTickers(projection),reportDates:latestReportDates(data.reports),asOfDate:data.meta.updated});
+          const rank=new Map(priority.map((x,i)=>[x.ticker,i+1]));
+          const ordered=[...data.reports].sort((a,b)=>{
+            const ar=rank.get(a.ticker)??999, br=rank.get(b.ticker)??999;
+            return ar-br || b.date.localeCompare(a.date);
+          });
+          const targets=new Set(['MSB','VIB','TCB','PNJ','BSI']);
+          const positions=ordered.map((r,i)=>({position:i+1,ticker:r.ticker,date:r.date,id:r.id,priorityRank:rank.get(r.ticker)??null})).filter(x=>targets.has(x.ticker));
+          console.log('REPORT_COUNT',data.reports.length);
+          console.log('DEFAULT_SORT','priority');
+          console.log('TOP_20',JSON.stringify(ordered.slice(0,20).map((r,i)=>({position:i+1,ticker:r.ticker,date:r.date,priorityRank:rank.get(r.ticker)??null})),null,2));
+          console.log('TARGET_POSITIONS',JSON.stringify(positions,null,2));
+          for (const t of targets) if(!data.reports.some(r=>r.ticker===t && r.date==='2026-08-19')) throw new Error(`Missing current report ${t}`);
+          NODE
+      - name: Verify live bundle embeds all five report IDs
+        run: |
+          set -euo pipefail
+          curl -fsSL -H 'Cache-Control: no-cache' 'https://sunflower1509.github.io/xuan-le-investment-research/assets/js/site.min.js?diag=20260819' -o /tmp/live.js
+          for id in MSB-20260819 VIB-20260819 TCB-20260819 PNJ-20260819 BSI-20260819; do
+            grep -Fq "$id" /tmp/live.js || { echo "Live bundle missing $id" >&2; exit 2; }
+          done
+          echo 'LIVE_BUNDLE_HAS_ALL_FIVE=true'
