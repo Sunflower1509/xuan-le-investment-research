@@ -1,0 +1,53 @@
+name: Verify live valuation reports 20260819 once
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Regression, build and audit
+        run: |
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Verify live core artifact byte-for-byte
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url 'https://sunflower1509.github.io/xuan-le-investment-research/' \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
+      - name: Verify all five live PDFs and current report metadata
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/live-reports
+          base='https://sunflower1509.github.io/xuan-le-investment-research/reports'
+          curl -fL --retry 3 "$base/MSB_2026-08-19.pdf?verify=1" -o /tmp/live-reports/MSB.pdf
+          curl -fL --retry 3 "$base/VIB_2026-08-19.pdf?verify=1" -o /tmp/live-reports/VIB.pdf
+          curl -fL --retry 3 "$base/TCB_2026-08-19.pdf?verify=1" -o /tmp/live-reports/TCB.pdf
+          curl -fL --retry 3 "$base/PNJ_2026-08-19.pdf?verify=1" -o /tmp/live-reports/PNJ.pdf
+          curl -fL --retry 3 "$base/BSI_2026-08-19.pdf?verify=1" -o /tmp/live-reports/BSI.pdf
+          printf '%s  %s\n' \
+            '8347073ebb498313e75bebd5f0e4bd9df0f1b4fb21cbc46636211d984a6b5544' '/tmp/live-reports/MSB.pdf' \
+            '51f314fd4ff16bd7f63116b226990b8a554beaaa33f3bda68cf42fff3af97369' '/tmp/live-reports/VIB.pdf' \
+            '603888963b32f610ba88d60ee50763dd472c9e7bf56ac2566e036d0ee15e0f3c' '/tmp/live-reports/TCB.pdf' \
+            'bd96cc7da0d4ae6f7105ac1109b0ff7b0a4f6c21ca0cddccdb07235be0d5d5d6' '/tmp/live-reports/PNJ.pdf' \
+            '084194b2ece9a66dab35a6c75b4b2ed8dc586873374a18cbd0ff9c805bc276f7' '/tmp/live-reports/BSI.pdf' | sha256sum -c -
+          curl -fsSL -H 'Cache-Control: no-cache' 'https://sunflower1509.github.io/xuan-le-investment-research/?verify-reports=20260819' > /tmp/live-index.html
+          grep -Fq 'data-role="report-tab-count">51</span>' /tmp/live-index.html
+          grep -Fq 'data-role="coverage-tab-count">47</span>' /tmp/live-index.html
+          ! curl -fsL "$base/PNJ_2026-08-17.pdf?verify=deleted" -o /dev/null
