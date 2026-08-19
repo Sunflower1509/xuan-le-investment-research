@@ -1,0 +1,84 @@
+name: Sync EOD fallback labels 20260819 once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.event.head_commit.message == 'Add one-time EOD 19 Aug fallback label sync'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Sync first-paint EOD labels only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          before=s
+          replacements={
+            'giá đóng cửa 18/08/2026':'giá đóng cửa 19/08/2026',
+            'Giá theo dõi khóa EOD 18.08.2026':'Giá theo dõi khóa EOD 19.08.2026',
+            'Action Radar • EOD 18.08.2026':'Action Radar • EOD 19.08.2026',
+            'Giá khóa 18.08':'Giá khóa 19.08',
+          }
+          for old,new in replacements.items():
+              if old not in s:
+                  raise SystemExit(f'Missing fallback token: {old}')
+              s=s.replace(old,new,1)
+          if s==before: raise SystemExit('No fallback update')
+          p.write_text(s)
+          PY
+      - name: Regression build audit and structure guard
+        run: |
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          git diff --quiet -- src/index.css src/styles assets/css/site.min.css
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const h=fs.readFileSync('index.html','utf8');
+          for(const x of ['giá đóng cửa 19/08/2026','Giá theo dõi khóa EOD 19.08.2026','Action Radar • EOD 19.08.2026','Giá khóa 19.08']) if(!h.includes(x)) throw new Error(`missing ${x}`);
+          const order=[...h.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const exp=['overview','daily-market','position-ledger','action-radar','research']; if(order.join(',')!==exp.join(',')) throw new Error(`section order changed ${order}`);
+          NODE
+      - name: Prepare lean artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Commit fallback labels and self-delete
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/sync-eod-fallback-labels-20260819-once.yml
+          git add index.html
+          git commit -m 'Synchronize EOD 19 Aug first-paint labels [skip ci]'
+          git push origin HEAD:main
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify live artifact
+        run: node scripts/verify-live-site.mjs --site-url "${{ steps.deployment.outputs.page_url }}" --artifact-root "${RUNNER_TEMP}/site" --attempts 18 --wait-ms 10000
