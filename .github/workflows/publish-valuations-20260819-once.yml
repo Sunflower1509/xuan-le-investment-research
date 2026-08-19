@@ -1,0 +1,241 @@
+name: Publish valuation reports 20260819 once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.event.head_commit.message == 'Add one-time 19 Aug valuation report publisher'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download exact uploaded PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/incoming-reports
+          curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/6LJcZxFoly9S3hRj' -o /tmp/incoming-reports/MSB.pdf
+          curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/CDhW644eLxBCOt3E' -o /tmp/incoming-reports/VIB.pdf
+          curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/XgaxxNyi2zjLpX08' -o /tmp/incoming-reports/TCB.pdf
+          curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/Xlv2NhosoF6hHHSc' -o /tmp/incoming-reports/PNJ.pdf
+          curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/XUS9zzb7TL2MXSVJ' -o /tmp/incoming-reports/BSI.pdf
+
+          printf '%s  %s\n' \
+            '8347073ebb498313e75bebd5f0e4bd9df0f1b4fb21cbc46636211d984a6b5544' '/tmp/incoming-reports/MSB.pdf' \
+            '51f314fd4ff16bd7f63116b226990b8a554beaaa33f3bda68cf42fff3af97369' '/tmp/incoming-reports/VIB.pdf' \
+            '603888963b32f610ba88d60ee50763dd472c9e7bf56ac2566e036d0ee15e0f3c' '/tmp/incoming-reports/TCB.pdf' \
+            'bd96cc7da0d4ae6f7105ac1109b0ff7b0a4f6c21ca0cddccdb07235be0d5d5d6' '/tmp/incoming-reports/PNJ.pdf' \
+            '084194b2ece9a66dab35a6c75b4b2ed8dc586873374a18cbd0ff9c805bc276f7' '/tmp/incoming-reports/BSI.pdf' | sha256sum -c -
+
+          for f in /tmp/incoming-reports/*.pdf; do
+            test "$(head -c 5 "$f")" = '%PDF-'
+          done
+
+      - name: Publish newest valuation edition only
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          import path from 'node:path';
+
+          const researchPath = 'src/data/research-data.js';
+          const code = fs.readFileSync(researchPath, 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox, { filename: researchPath });
+          const data = sandbox.window.RESEARCH_DATA;
+          if (!data?.meta || !Array.isArray(data.reports) || !Array.isArray(data.coverage)) throw new Error('RESEARCH_DATA invalid');
+          if (data.meta.updated !== '2026-08-18') throw new Error(`Price layer must remain EOD 18/08 before this report-only publish; found ${data.meta.updated}`);
+
+          const visual = {
+            kind: 'illustration',
+            src: 'assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1',
+            alt: 'Nhận diện báo cáo định giá Xuân Lê TVS',
+            caption: 'Báo cáo định giá cổ phiếu',
+            sourceLabel: 'Xuân Lê TVS',
+            sourceUrl: 'https://sunflower1509.github.io/xuan-le-investment-research/'
+          };
+
+          const incoming = [
+            {
+              id: 'MSB-20260819', ticker: 'MSB', company: 'Ngân hàng TMCP Hàng Hải Việt Nam', sector: 'Ngân hàng', exchange: 'HOSE', date: '2026-08-19',
+              recommendation: 'THEO DÕI / CHỜ', status: 'wait', marketPrice: 15600, marketPriceDate: '2026-08-19',
+              baseValue: 16938, valueLabel: 'Giá trị kỳ vọng', rangeLow: 11775, rangeHigh: 22721,
+              gapLabel: 'MOS hiện tại 7,9% so với expected; vùng mua MOS 25–30% trước quyền là 11.857–12.704 đồng/cp',
+              method: 'P/B gắn ROE + Residual Income; không dùng FCFF/EV',
+              summary: 'MSB có core value 12.337–20.938 đồng/cp, dải robustness 11.775–22.721 đồng/cp và giá trị kỳ vọng 16.938 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 15.600 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.',
+              action: { zoneLow: 11857, zoneHigh: 12704, baseValue: 16938, stop: null, targets: [16938,17239], basisDate: '2026-08-19', recommendation: 'CÓ MUA KHI VÀO VÙNG MOS', eligibility: 'active', condition: 'Trước quyền, chỉ xem xét 11.857–12.704 đồng/cp khi NPL/NIM không xấu đi rõ; stop 5% dưới giá vốn; T1 16.938; T2 17.239. 12.704–22.721: CHỜ; trên 22.721 nếu không nâng dự báo ROE/lợi nhuận: LOẠI/TRÁNH. Sau GDKHQ phải dùng bộ mốc đã quy đổi trong PDF.' },
+              visual, file: 'reports/MSB_2026-08-19.pdf', edition: 'Bản định giá 19.08.2026'
+            },
+            {
+              id: 'VIB-20260819', ticker: 'VIB', company: 'Ngân hàng TMCP Quốc tế Việt Nam', sector: 'Ngân hàng', exchange: 'HOSE', date: '2026-08-19',
+              recommendation: 'THEO DÕI / CHỜ', status: 'wait', marketPrice: 14400, marketPriceDate: '2026-08-19',
+              baseValue: 18800, valueLabel: 'Giá trị kỳ vọng', rangeLow: 15458, rangeHigh: 22365,
+              gapLabel: 'MOS theo cận dưới 6,8%; vùng mua định giá nghiêm ngặt 10.820–11.593 đồng/cp',
+              method: 'P/B gắn ROE + Residual Income',
+              summary: 'VIB có vùng giá trị hợp lý 15.458–22.365 đồng/cp và giá trị kỳ vọng 18.800 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 14.400 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS theo cận dưới mới 6,8%.',
+              action: { zoneLow: 10820, zoneHigh: 11593, baseValue: 18800, stop: null, targets: [15458,18800], basisDate: '2026-08-19', recommendation: 'CÓ MUA KHI VÀO VÙNG MOS', eligibility: 'active', condition: 'Chỉ xem xét 10.820–11.593 đồng/cp khi NPL/LLR/NIM không xấu thêm; stop 5% dưới giá khớp thực tế; T1 15.458; T2 18.800. Giá quanh 14.400: CHỜ; trên 22.365 nếu không nâng ROE/BVPS: LOẠI/TRÁNH mua mới.' },
+              visual, file: 'reports/VIB_2026-08-19.pdf', edition: 'Bản định giá 19.08.2026'
+            },
+            {
+              id: 'TCB-20260819', ticker: 'TCB', company: 'Ngân hàng TMCP Kỹ thương Việt Nam', sector: 'Ngân hàng', exchange: 'HOSE', date: '2026-08-19',
+              recommendation: 'THEO DÕI / CHỜ', status: 'wait', marketPrice: 30800, marketPriceDate: '2026-08-19',
+              baseValue: 37351, valueLabel: 'Giá trị kỳ vọng bảo thủ', rangeLow: 31011, rangeHigh: 45539,
+              gapLabel: 'MOS 17,5% so với expected value bảo thủ; vùng mua nghiêm ngặt 21.707–23.258 đồng/cp trước phát hành',
+              method: 'P/B gắn ROE + Residual Income',
+              summary: 'TCB có vùng giá trị hợp lý trước phát hành 31.011–45.539 đồng/cp và expected value bảo thủ 37.351 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 30.800 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS 17,5% chưa đạt 25–30%.',
+              action: { zoneLow: 21707, zoneHigh: 23258, baseValue: 37351, stop: null, targets: [31011,37351], basisDate: '2026-08-19', recommendation: 'CÓ MUA KHI VÀO VÙNG MOS', eligibility: 'active', condition: 'Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH.' },
+              visual, file: 'reports/TCB_2026-08-19.pdf', edition: 'Bản định giá 19.08.2026'
+            },
+            {
+              id: 'PNJ-20260819', ticker: 'PNJ', company: 'Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận', sector: 'Tiêu dùng', exchange: 'HOSE', date: '2026-08-19',
+              recommendation: 'THEO DÕI / CHỜ', status: 'wait', marketPrice: 34850, marketPriceDate: '2026-08-19',
+              baseValue: 53642, valueLabel: 'Giá trị kỳ vọng', rangeLow: 35982, rangeHigh: 70976,
+              gapLabel: 'Chỉ thấp hơn cận Bear khoảng 3,1%; vùng mua MOS 25–30% là 25.187–26.986 đồng/cp',
+              method: 'DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B',
+              summary: 'Sau sự kiện P-Lab, PNJ có vùng giá trị hợp lý 35.982–70.976 đồng/cp và giá trị kỳ vọng 53.642 đồng/cp. Snapshot 19/08/2026 lúc 10:57:37 là 34.850 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS so với cận Bear chưa đủ.',
+              action: { zoneLow: 25187, zoneHigh: 26986, baseValue: 53642, stop: null, targets: [35982], basisDate: '2026-08-19', recommendation: 'CHỜ XÁC NHẬN TRONG VÙNG MOS', eligibility: 'manual', condition: '25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi.' },
+              visual, file: 'reports/PNJ_2026-08-19.pdf', edition: 'Bản định giá 19.08.2026'
+            },
+            {
+              id: 'BSI-20260819', ticker: 'BSI', company: 'Công ty Cổ phần Chứng khoán BIDV', sector: 'Chứng khoán', exchange: 'HOSE', date: '2026-08-19',
+              recommendation: 'THEO DÕI / CHỜ', status: 'wait', marketPrice: 27700, marketPriceDate: '2026-08-19',
+              baseValue: 31708, valueLabel: 'Giá trị kỳ vọng', rangeLow: 28014, rangeHigh: 36932,
+              gapLabel: 'MOS khoảng 1,1% so với cận dưới; vùng mua MOS 25–30% là 19.610–21.010 đồng/cp',
+              method: 'DCF theo FCFF bắt buộc qua sanity-check; P/E–P/B là vùng kiểm chứng sử dụng',
+              summary: 'BSI có vùng fair value sử dụng 28.014–36.932 đồng/cp và expected value khoảng 31.708 đồng/cp. Snapshot 19/08/2026 là 27.700 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.',
+              action: { zoneLow: 19610, zoneHigh: 21010, baseValue: 31708, stop: null, targets: [28014,30943], basisDate: '2026-08-19', recommendation: 'CÂN NHẮC MUA KHI VÀO VÙNG MOS', eligibility: 'active', condition: 'Chỉ cân nhắc 19.610–21.010 đồng/cp khi thesis H1/2026 và kế hoạch 2026 không xấu đi; giải ngân theo nhịp, không FOMO. Stop 5% dưới giá khớp; midpoint 20.310 cho SL minh họa 19.295. T1 28.014; T2 30.943. Trên 36.932 trước earnings upgrade: LOẠI/TRÁNH.' },
+              visual, file: 'reports/BSI_2026-08-19.pdf', edition: 'Bản định giá 19.08.2026'
+            }
+          ];
+
+          const incomingByTicker = new Map(incoming.map(r => [r.ticker, r]));
+          const tickers = new Set(incomingByTicker.keys());
+          const oldValuations = data.reports.filter(r => tickers.has(r.ticker) && r.reportType !== 'trading');
+          for (const old of oldValuations) {
+            const newer = incomingByTicker.get(old.ticker);
+            if (old.date > newer.date) throw new Error(`${old.ticker}: repository already has newer valuation ${old.date}; refuse downgrade`);
+          }
+
+          const removed = oldValuations.map(r => ({ ticker: r.ticker, date: r.date, file: r.file })).filter(x => x.file);
+          fs.writeFileSync('/tmp/superseded-valuations.json', JSON.stringify(removed, null, 2));
+
+          data.reports = [
+            ...incoming,
+            ...data.reports.filter(r => !tickers.has(r.ticker) || r.reportType === 'trading')
+          ].sort((a,b) => b.date.localeCompare(a.date) || a.ticker.localeCompare(b.ticker) || String(a.id).localeCompare(String(b.id)));
+
+          const coverageTouched = [];
+          for (const item of data.coverage) {
+            const report = incomingByTicker.get(item.ticker);
+            if (!report) continue;
+            item.reportId = report.id;
+            item.action = JSON.parse(JSON.stringify(report.action));
+            coverageTouched.push(item.ticker);
+          }
+
+          data.meta.release = '2026-08-19';
+          const prefix = 'Ngày 19/08/2026 đã công bố 5 báo cáo định giá mới: MSB, VIB, TCB, PNJ và BSI; mỗi mã chỉ giữ bản định giá mới nhất. Snapshot giá trong PDF là dữ liệu tại thời điểm lập báo cáo và không ghi đè bộ giá Coverage đang khóa EOD 18/08/2026.';
+          data.meta.note = `${prefix} ${String(data.meta.note || '')}`.trim();
+
+          fs.writeFileSync(researchPath, `window.RESEARCH_DATA = ${JSON.stringify(data, null, 2)};\n`);
+          fs.writeFileSync('/tmp/report-publish-summary.json', JSON.stringify({
+            beforeValuations: oldValuations.map(r => ({ticker:r.ticker,date:r.date,file:r.file})),
+            coverageTouched,
+            reportCount: data.reports.length,
+            coverageCount: data.coverage.length,
+            metaUpdated: data.meta.updated,
+            metaRelease: data.meta.release
+          }, null, 2));
+
+          let html = fs.readFileSync('index.html','utf8');
+          html = html.replace(/(<span data-role="report-tab-count">)\d+(<\/span>)/, `$1${data.reports.length}$2`);
+          html = html.replace(/assets\/js\/site\.min\.js\?v=[^"']+/, 'assets/js/site.min.js?v=20260819-reports1');
+          fs.writeFileSync('index.html', html);
+          NODE
+
+          node -e "const fs=require('fs'); for(const x of JSON.parse(fs.readFileSync('/tmp/superseded-valuations.json','utf8'))){ if(x.file && x.file.startsWith('reports/') && fs.existsSync(x.file)) fs.rmSync(x.file); }"
+
+          install -m 0644 /tmp/incoming-reports/MSB.pdf reports/MSB_2026-08-19.pdf
+          install -m 0644 /tmp/incoming-reports/VIB.pdf reports/VIB_2026-08-19.pdf
+          install -m 0644 /tmp/incoming-reports/TCB.pdf reports/TCB_2026-08-19.pdf
+          install -m 0644 /tmp/incoming-reports/PNJ.pdf reports/PNJ_2026-08-19.pdf
+          install -m 0644 /tmp/incoming-reports/BSI.pdf reports/BSI_2026-08-19.pdf
+
+          echo '=== publish summary ==='
+          cat /tmp/report-publish-summary.json
+
+      - name: Rebase Trade Ledger snapshots without retroactive activation
+        shell: bash
+        run: |
+          set -euo pipefail
+          before_events="$(node -e "console.log(JSON.parse(require('fs').readFileSync(process.env.RUNNER_TEMP + '/trade-ledger-before.json','utf8')).events.length)")"
+          node scripts/process-trade-ledger.mjs
+          after_events="$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/trade-ledger.json','utf8')).events.length)")"
+          test "$before_events" = "$after_events"
+          echo "Ledger event count unchanged: $after_events"
+
+      - name: Run full regression suite
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Audit entire site
+        run: node scripts/audit-site.mjs
+
+      - name: Prepare lean production artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Guard layout, structure and mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/css/site\.min\.css|index\.html|reports/(MSB|VIB|TCB|PNJ|BSI)[^/]*\.pdf|\.github/workflows/publish-valuations-20260819-once\.yml)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo 'Unexpected changed paths:' >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const now=fs.readFileSync('index.html','utf8');
+          const prev=await (await fetch('https://raw.githubusercontent.com/Sunflower1509/xuan-le-investment-research/42167430feff76cb1f918e98aad4df53ec02e147/index.html')).text();
+          const sections = html => [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=['overview','daily-market','position-ledger','action-radar','research'];
+          if(sections(now).join(',')!==expected.join(',')) throw new Error(`Current section order changed: ${sections(now).join(' -> ')}`);
+          if(sections(prev).join(',')!==sections(now).join(',')) throw new Error('Section structure differs from pre-publish backup');
+          const ids = html => [...html.matchAll(/\bid=(['"])([^'"]+)\1/g)].map(m=>m[2]).sort();
+          if(JSON.stringify(ids(prev))!==JSON.stringify(ids(now))) throw new Error('HTML id structure changed');
+          const headings = html => [...html.matchAll(/<h[1-3]\b[^>]*>([\s\S]*?)<\/h[1-3]>/g)].map(m=>m[1].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim());
+          if(JSON.stringify(headings(prev))!==JSON.stringify(headings(now))) throw new Error('Heading text/order changed');
+          console.log('Layout guard passed:', expected.join(' -> '));
+          NODE
+
+      - name: Commit publication and remove one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/publish-valuations-20260819-once.yml
+          git add -A
+          git commit -m 'Publish 19 Aug 2026 valuation reports [skip ci]'
+          git push origin HEAD:main
