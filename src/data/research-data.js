@@ -1,50 +1,50 @@
 window.RESEARCH_DATA = {
   "meta": {
     "updated": "2026-08-18",
-    "release": "2026-08-18",
+    "release": "2026-08-19",
     "owner": "Xuân Lê TVS",
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 18/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 45/47 mã giữa hai nguồn; SHS: VNDIRECT 14.815.500 vs DNSE 14.724.000 (chênh 91.500); PVS: VNDIRECT 4.130.100 vs DNSE 4.129.700 (chênh 400). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
+    "note": "Ngày 19/08/2026 đã công bố 5 báo cáo định giá mới: MSB, VIB, TCB, PNJ và BSI; mỗi mã chỉ giữ bản định giá mới nhất. Snapshot giá trong PDF là dữ liệu tại thời điểm lập báo cáo và không ghi đè bộ giá Coverage đang khóa EOD 18/08/2026. Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 18/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 45/47 mã giữa hai nguồn; SHS: VNDIRECT 14.815.500 vs DNSE 14.724.000 (chênh 91.500); PVS: VNDIRECT 4.130.100 vs DNSE 4.129.700 (chênh 400). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ định giá đang công bố."
   },
   "marketSession": {
-  "date": "2026-08-18",
-  "status": "Đã khóa EOD — VNDIRECT Finfo",
-  "indices": [
-    {
-      "code": "VN-INDEX",
-      "close": 1732.02,
-      "change": 4.56,
-      "changePct": 0.263971379945116
+    "date": "2026-08-18",
+    "status": "Đã khóa EOD — VNDIRECT Finfo",
+    "indices": [
+      {
+        "code": "VN-INDEX",
+        "close": 1732.02,
+        "change": 4.56,
+        "changePct": 0.263971379945116
+      },
+      {
+        "code": "VN30",
+        "close": 1876.14,
+        "change": -1.54,
+        "changePct": -0.082016104980609
+      },
+      {
+        "code": "HNX-INDEX",
+        "close": 282.32,
+        "change": 3.68,
+        "changePct": 1.3207
+      }
+    ],
+    "breadth": {
+      "advance": 124,
+      "unchanged": 76,
+      "decline": 163,
+      "floor": 4
     },
-    {
-      "code": "VN30",
-      "close": 1876.14,
-      "change": -1.54,
-      "changePct": -0.082016104980609
-    },
-    {
-      "code": "HNX-INDEX",
-      "close": 282.32,
-      "change": 3.68,
-      "changePct": 1.3207
-    }
-  ],
-  "breadth": {
-    "advance": 124,
-    "unchanged": 76,
-    "decline": 163,
-    "floor": 4
+    "sources": [
+      {
+        "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026",
+        "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500"
+      }
+    ]
   },
-  "sources": [
-    {
-      "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026",
-      "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500"
-    }
-  ]
-},
-"rankingMethod": {
+  "rankingMethod": {
     "title": "Khoảng cách tới vùng hành động",
     "formula": "Khoảng cách = khoảng cách phần trăm tới biên gần nhất của vùng mua hoặc tới ngưỡng trigger một phía; bằng 0 khi giá đang thỏa điều kiện giá.",
     "rules": [
@@ -57,49 +57,218 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
-      "id": "SHB-20260818",
-      "ticker": "SHB",
-      "company": "Ngân hàng TMCP Sài Gòn - Hà Nội",
-      "sector": "Ngân hàng",
+      "id": "BSI-20260819",
+      "ticker": "BSI",
+      "company": "Công ty Cổ phần Chứng khoán BIDV",
+      "sector": "Chứng khoán",
       "exchange": "HOSE",
-      "date": "2026-08-18",
-      "recommendation": "MUA - ĐỦ MOS >=30%",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
       "status": "wait",
-      "marketPrice": 11550,
-      "marketPriceDate": "2026-08-18",
-      "baseValue": 20500,
+      "marketPrice": 27700,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 31708,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 16600,
-      "rangeHigh": 24900,
-      "gapLabel": "MOS 30,3% so với cận dưới; ngưỡng đủ MOS >=30% là <=11.600 đồng/cp",
-      "method": "P/B gắn ROE + Residual Income (RI)",
-      "summary": "Vùng giá trị hợp lý 16.600–24.900 đồng/cp, giá trị kỳ vọng 20.500 đồng/cp. Snapshot 18/08/2026 là 11.550 đồng/cp; tín hiệu định giá MUA vì MOS so với cận dưới đạt 30,3%. Đây là tín hiệu định giá, không tự động đồng nghĩa điểm mua kỹ thuật tối ưu 1–3 tuần.",
+      "rangeLow": 28014,
+      "rangeHigh": 36932,
+      "gapLabel": "MOS khoảng 1,1% so với cận dưới; vùng mua MOS 25–30% là 19.610–21.010 đồng/cp",
+      "method": "DCF theo FCFF bắt buộc qua sanity-check; P/E–P/B là vùng kiểm chứng sử dụng",
+      "summary": "BSI có vùng fair value sử dụng 28.014–36.932 đồng/cp và expected value khoảng 31.708 đồng/cp. Snapshot 19/08/2026 là 27.700 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.",
       "action": {
-        "zoneLow": null,
-        "zoneHigh": 11600,
-        "baseValue": 20500,
-        "stop": 10950,
+        "zoneLow": 19610,
+        "zoneHigh": 21010,
+        "baseValue": 31708,
+        "stop": null,
         "targets": [
-          12400,
-          16600
+          28014,
+          30943
         ],
-        "basisDate": "2026-08-18",
-        "recommendation": "MUA / QUẢN TRỊ THỦ CÔNG",
+        "basisDate": "2026-08-19",
+        "recommendation": "CÂN NHẮC MUA KHI VÀO VÙNG MOS",
         "eligibility": "active",
-        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.",
-        "triggerType": "at-or-below",
-        "triggerPrice": 11600
+        "condition": "Chỉ cân nhắc 19.610–21.010 đồng/cp khi thesis H1/2026 và kế hoạch 2026 không xấu đi; giải ngân theo nhịp, không FOMO. Stop 5% dưới giá khớp; midpoint 20.310 cho SL minh họa 19.295. T1 28.014; T2 30.943. Trên 36.932 trước earnings upgrade: LOẠI/TRÁNH."
       },
       "visual": {
         "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
         "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
         "caption": "Báo cáo định giá cổ phiếu",
         "sourceLabel": "Xuân Lê TVS",
         "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
       },
-      "file": "reports/SHB_2026-08-18.pdf",
-      "edition": "Bản định giá 18.08.2026"
+      "file": "reports/BSI_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
+    {
+      "id": "MSB-20260819",
+      "ticker": "MSB",
+      "company": "Ngân hàng TMCP Hàng Hải Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 15600,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 16938,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 11775,
+      "rangeHigh": 22721,
+      "gapLabel": "MOS hiện tại 7,9% so với expected; vùng mua MOS 25–30% trước quyền là 11.857–12.704 đồng/cp",
+      "method": "P/B gắn ROE + Residual Income; không dùng FCFF/EV",
+      "summary": "MSB có core value 12.337–20.938 đồng/cp, dải robustness 11.775–22.721 đồng/cp và giá trị kỳ vọng 16.938 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 15.600 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.",
+      "action": {
+        "zoneLow": 11857,
+        "zoneHigh": 12704,
+        "baseValue": 16938,
+        "stop": null,
+        "targets": [
+          16938,
+          17239
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Trước quyền, chỉ xem xét 11.857–12.704 đồng/cp khi NPL/NIM không xấu đi rõ; stop 5% dưới giá vốn; T1 16.938; T2 17.239. 12.704–22.721: CHỜ; trên 22.721 nếu không nâng dự báo ROE/lợi nhuận: LOẠI/TRÁNH. Sau GDKHQ phải dùng bộ mốc đã quy đổi trong PDF."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/MSB_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
+    {
+      "id": "PNJ-20260819",
+      "ticker": "PNJ",
+      "company": "Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận",
+      "sector": "Tiêu dùng",
+      "exchange": "HOSE",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 34850,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 53642,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 35982,
+      "rangeHigh": 70976,
+      "gapLabel": "Chỉ thấp hơn cận Bear khoảng 3,1%; vùng mua MOS 25–30% là 25.187–26.986 đồng/cp",
+      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
+      "summary": "Sau sự kiện P-Lab, PNJ có vùng giá trị hợp lý 35.982–70.976 đồng/cp và giá trị kỳ vọng 53.642 đồng/cp. Snapshot 19/08/2026 lúc 10:57:37 là 34.850 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS so với cận Bear chưa đủ.",
+      "action": {
+        "zoneLow": 25187,
+        "zoneHigh": 26986,
+        "baseValue": 53642,
+        "stop": null,
+        "targets": [
+          35982
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
+        "eligibility": "manual",
+        "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/PNJ_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
+    {
+      "id": "TCB-20260819",
+      "ticker": "TCB",
+      "company": "Ngân hàng TMCP Kỹ thương Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 30800,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 37351,
+      "valueLabel": "Giá trị kỳ vọng bảo thủ",
+      "rangeLow": 31011,
+      "rangeHigh": 45539,
+      "gapLabel": "MOS 17,5% so với expected value bảo thủ; vùng mua nghiêm ngặt 21.707–23.258 đồng/cp trước phát hành",
+      "method": "P/B gắn ROE + Residual Income",
+      "summary": "TCB có vùng giá trị hợp lý trước phát hành 31.011–45.539 đồng/cp và expected value bảo thủ 37.351 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 30.800 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS 17,5% chưa đạt 25–30%.",
+      "action": {
+        "zoneLow": 21707,
+        "zoneHigh": 23258,
+        "baseValue": 37351,
+        "stop": null,
+        "targets": [
+          31011,
+          37351
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/TCB_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
+    {
+      "id": "VIB-20260819",
+      "ticker": "VIB",
+      "company": "Ngân hàng TMCP Quốc tế Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 14400,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 18800,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 15458,
+      "rangeHigh": 22365,
+      "gapLabel": "MOS theo cận dưới 6,8%; vùng mua định giá nghiêm ngặt 10.820–11.593 đồng/cp",
+      "method": "P/B gắn ROE + Residual Income",
+      "summary": "VIB có vùng giá trị hợp lý 15.458–22.365 đồng/cp và giá trị kỳ vọng 18.800 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 14.400 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS theo cận dưới mới 6,8%.",
+      "action": {
+        "zoneLow": 10820,
+        "zoneHigh": 11593,
+        "baseValue": 18800,
+        "stop": null,
+        "targets": [
+          15458,
+          18800
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 10.820–11.593 đồng/cp khi NPL/LLR/NIM không xấu thêm; stop 5% dưới giá khớp thực tế; T1 15.458; T2 18.800. Giá quanh 14.400: CHỜ; trên 22.365 nếu không nâng ROE/BVPS: LOẠI/TRÁNH mua mới."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/VIB_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
     },
     {
       "id": "DCM-20260818",
@@ -142,6 +311,92 @@ window.RESEARCH_DATA = {
         "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
       },
       "file": "reports/DCM_2026-08-18.pdf",
+      "edition": "Bản định giá 18.08.2026"
+    },
+    {
+      "id": "HDB-20260818",
+      "ticker": "HDB",
+      "company": "Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-18",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 26850,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 30216,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 24632,
+      "rangeHigh": 35519,
+      "gapLabel": "MOS so với expected value 11,1%; vùng theo dõi kích hoạt 21.151–22.662 đồng/cp",
+      "method": "P/B gắn ROE + Residual Income",
+      "summary": "Khoảng giá trị trọng tâm 24.632–35.519 đồng/cp; dải stress beta 21.787–42.974 đồng/cp; expected value 30.216 đồng/cp. Giá đóng cửa 17/08/2026 là 26.850 đồng/cp; trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "zoneLow": 21151,
+        "zoneHigh": 22662,
+        "baseValue": 30216,
+        "stop": null,
+        "targets": [
+          24632,
+          30216
+        ],
+        "basisDate": "2026-08-18",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 21.151–22.662 đồng/cp khi nền tảng không xấu thêm và có xác nhận giá/khối lượng; stop 5% dưới giá mua thực tế; T1 24.632; T2 30.216. Trên 35.519 nếu không nâng forecast/ROE thì tránh mua đuổi."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/HDB_2026-08-18.pdf",
+      "edition": "Bản định giá 18.08.2026"
+    },
+    {
+      "id": "MBB-20260818",
+      "ticker": "MBB",
+      "company": "Ngân hàng TMCP Quân Đội",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-18",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 19900,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 26777,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 20959,
+      "rangeHigh": 32276,
+      "gapLabel": "Giá thấp hơn cận dưới khoảng 5,1%; vùng mua MOS 25–30% là 14.671–15.719 đồng/cp",
+      "method": "P/B gắn ROE + Residual Income (RI)",
+      "summary": "Vùng giá trị hợp lý 20.959–32.276 đồng/cp, giá trị kỳ vọng 26.777 đồng/cp. Giá đóng cửa 17/08/2026 là 19.900 đồng/cp; thấp hơn expected 25,7% nhưng chỉ thấp hơn cận dưới khoảng 5,1%, nên trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "zoneLow": 14671,
+        "zoneHigh": 15719,
+        "baseValue": 26777,
+        "stop": null,
+        "targets": [
+          20959,
+          26777
+        ],
+        "basisDate": "2026-08-18",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 14.671–15.719 đồng/cp khi NIM/NPL/LLR không xấu hơn luận điểm; stop 5% dưới giá vốn; T1 20.959; T2 26.777. Trên 32.276 nếu không nâng lợi nhuận/ROE thì loại/tránh mua mới."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/MBB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
     },
     {
@@ -189,36 +444,36 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 18.08.2026"
     },
     {
-      "id": "HDB-20260818",
-      "ticker": "HDB",
-      "company": "Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh",
-      "sector": "Ngân hàng",
+      "id": "PVT-20260818",
+      "ticker": "PVT",
+      "company": "Tổng Công ty Cổ phần Vận tải Dầu khí",
+      "sector": "Năng lượng",
       "exchange": "HOSE",
       "date": "2026-08-18",
-      "recommendation": "THEO DÕI / CHỜ",
+      "recommendation": "THEO DÕI / CHỜ MUA",
       "status": "wait",
-      "marketPrice": 26850,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 30216,
+      "marketPrice": 20700,
+      "marketPriceDate": "2026-08-18",
+      "baseValue": 22057,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 24632,
-      "rangeHigh": 35519,
-      "gapLabel": "MOS so với expected value 11,1%; vùng theo dõi kích hoạt 21.151–22.662 đồng/cp",
-      "method": "P/B gắn ROE + Residual Income",
-      "summary": "Khoảng giá trị trọng tâm 24.632–35.519 đồng/cp; dải stress beta 21.787–42.974 đồng/cp; expected value 30.216 đồng/cp. Giá đóng cửa 17/08/2026 là 26.850 đồng/cp; trạng thái THEO DÕI / CHỜ.",
+      "rangeLow": 16404,
+      "rangeHigh": 26313,
+      "gapLabel": "MOS hiện tại 6,2%; vùng mua MOS 25–30% là 15.440–16.543 đồng/cp",
+      "method": "Lợi nhuận/biên chuẩn hóa 5–7 năm + P/B + EV/EBITDA chuẩn hóa",
+      "summary": "PVT là doanh nghiệp chu kỳ vận tải biển. Vùng giá trị hợp lý 16.404–26.313 đồng/cp, giá trị kỳ vọng 22.057 đồng/cp. Snapshot 18/08/2026 là 20.700 đồng/cp; trạng thái THEO DÕI / CHỜ do MOS chỉ khoảng 6,2%.",
       "action": {
-        "zoneLow": 21151,
-        "zoneHigh": 22662,
-        "baseValue": 30216,
+        "zoneLow": 15440,
+        "zoneHigh": 16543,
+        "baseValue": 22057,
         "stop": null,
         "targets": [
-          24632,
-          30216
+          20700,
+          22057
         ],
         "basisDate": "2026-08-18",
-        "recommendation": "THEO DÕI / CHỜ",
+        "recommendation": "THEO DÕI / CHỜ MUA",
         "eligibility": "active",
-        "condition": "Chỉ xem xét 21.151–22.662 đồng/cp khi nền tảng không xấu thêm và có xác nhận giá/khối lượng; stop 5% dưới giá mua thực tế; T1 24.632; T2 30.216. Trên 35.519 nếu không nâng forecast/ROE thì tránh mua đuổi."
+        "condition": "Nếu giá vào 15.440–16.543 đồng/cp thì có thể kích hoạt theo valuation; stoploss 5% dưới giá khớp thực tế, không bình quân giá xuống nếu thủng stop. T1 20.700; T2 22.057; trên 26.313: loại/tránh."
       },
       "visual": {
         "kind": "illustration",
@@ -228,7 +483,52 @@ window.RESEARCH_DATA = {
         "sourceLabel": "Xuân Lê TVS",
         "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
       },
-      "file": "reports/HDB_2026-08-18.pdf",
+      "file": "reports/PVT_2026-08-18.pdf",
+      "edition": "Bản định giá 18.08.2026"
+    },
+    {
+      "id": "SHB-20260818",
+      "ticker": "SHB",
+      "company": "Ngân hàng TMCP Sài Gòn - Hà Nội",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-18",
+      "recommendation": "MUA - ĐỦ MOS >=30%",
+      "status": "wait",
+      "marketPrice": 11550,
+      "marketPriceDate": "2026-08-18",
+      "baseValue": 20500,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 16600,
+      "rangeHigh": 24900,
+      "gapLabel": "MOS 30,3% so với cận dưới; ngưỡng đủ MOS >=30% là <=11.600 đồng/cp",
+      "method": "P/B gắn ROE + Residual Income (RI)",
+      "summary": "Vùng giá trị hợp lý 16.600–24.900 đồng/cp, giá trị kỳ vọng 20.500 đồng/cp. Snapshot 18/08/2026 là 11.550 đồng/cp; tín hiệu định giá MUA vì MOS so với cận dưới đạt 30,3%. Đây là tín hiệu định giá, không tự động đồng nghĩa điểm mua kỹ thuật tối ưu 1–3 tuần.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": 11600,
+        "baseValue": 20500,
+        "stop": 10950,
+        "targets": [
+          12400,
+          16600
+        ],
+        "basisDate": "2026-08-18",
+        "recommendation": "MUA / QUẢN TRỊ THỦ CÔNG",
+        "eligibility": "active",
+        "condition": "Điều kiện báo cáo là một phía: <=11.600 đồng/cp đạt MOS >=30%; 11.600–12.400 là mua thăm dò/chờ xác nhận. Không tạo cận dưới giả cho automation. Nếu vào quanh 11,5–11,6k, stop tham chiếu ~10.950; T1 12.400; T2 16.600.",
+        "triggerType": "at-or-below",
+        "triggerPrice": 11600
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/SHB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
     },
     {
@@ -275,90 +575,130 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 18.08.2026"
     },
     {
-      "id": "PVT-20260818",
-      "ticker": "PVT",
-      "company": "Tổng Công ty Cổ phần Vận tải Dầu khí",
-      "sector": "Năng lượng",
-      "exchange": "HOSE",
-      "date": "2026-08-18",
-      "recommendation": "THEO DÕI / CHỜ MUA",
-      "status": "wait",
-      "marketPrice": 20700,
-      "marketPriceDate": "2026-08-18",
-      "baseValue": 22057,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 16404,
-      "rangeHigh": 26313,
-      "gapLabel": "MOS hiện tại 6,2%; vùng mua MOS 25–30% là 15.440–16.543 đồng/cp",
-      "method": "Lợi nhuận/biên chuẩn hóa 5–7 năm + P/B + EV/EBITDA chuẩn hóa",
-      "summary": "PVT là doanh nghiệp chu kỳ vận tải biển. Vùng giá trị hợp lý 16.404–26.313 đồng/cp, giá trị kỳ vọng 22.057 đồng/cp. Snapshot 18/08/2026 là 20.700 đồng/cp; trạng thái THEO DÕI / CHỜ do MOS chỉ khoảng 6,2%.",
-      "action": {
-        "zoneLow": 15440,
-        "zoneHigh": 16543,
-        "baseValue": 22057,
-        "stop": null,
-        "targets": [
-          20700,
-          22057
-        ],
-        "basisDate": "2026-08-18",
-        "recommendation": "THEO DÕI / CHỜ MUA",
-        "eligibility": "active",
-        "condition": "Nếu giá vào 15.440–16.543 đồng/cp thì có thể kích hoạt theo valuation; stoploss 5% dưới giá khớp thực tế, không bình quân giá xuống nếu thủng stop. T1 20.700; T2 22.057; trên 26.313: loại/tránh."
-      },
-      "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
-      },
-      "file": "reports/PVT_2026-08-18.pdf",
-      "edition": "Bản định giá 18.08.2026"
-    },
-    {
-      "id": "MBB-20260818",
-      "ticker": "MBB",
-      "company": "Ngân hàng TMCP Quân Đội",
+      "id": "ACB-20260817",
+      "ticker": "ACB",
+      "company": "Ngân hàng TMCP Á Châu",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "date": "2026-08-18",
-      "recommendation": "THEO DÕI / CHỜ",
+      "date": "2026-08-17",
+      "recommendation": "CHỜ / THEO DÕI",
       "status": "wait",
-      "marketPrice": 19900,
+      "marketPrice": 21850,
       "marketPriceDate": "2026-08-17",
-      "baseValue": 26777,
+      "baseValue": 27744,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 20959,
-      "rangeHigh": 32276,
-      "gapLabel": "Giá thấp hơn cận dưới khoảng 5,1%; vùng mua MOS 25–30% là 14.671–15.719 đồng/cp",
-      "method": "P/B gắn ROE + Residual Income (RI)",
-      "summary": "Vùng giá trị hợp lý 20.959–32.276 đồng/cp, giá trị kỳ vọng 26.777 đồng/cp. Giá đóng cửa 17/08/2026 là 19.900 đồng/cp; thấp hơn expected 25,7% nhưng chỉ thấp hơn cận dưới khoảng 5,1%, nên trạng thái THEO DÕI / CHỜ.",
+      "rangeLow": 25700,
+      "rangeHigh": 29600,
+      "gapLabel": "MOS so cận dưới khoảng 15%; chưa đạt chuẩn 25–30%",
+      "method": "P/B gắn ROE kết hợp Residual Income",
+      "summary": "Vùng giá trị hợp lý lõi 25.700–29.600 đồng/cp, giá trị kỳ vọng 27.744 đồng/cp. Giá 21.850 đồng/cp ngày 17/08/2026 thấp hơn vùng giá trị nhưng MOS so với cận dưới mới khoảng 15%, nên báo cáo giữ trạng thái CHỜ / THEO DÕI. Vùng mua nghiêm ngặt là 17.990–19.275 đồng/cp, làm tròn giao dịch 18.000–19.300 đồng/cp.",
       "action": {
-        "zoneLow": 14671,
-        "zoneHigh": 15719,
-        "baseValue": 26777,
+        "zoneLow": 18000,
+        "zoneHigh": 19300,
+        "baseValue": 27744,
         "stop": null,
         "targets": [
-          20959,
-          26777
+          22780,
+          25700,
+          27744
         ],
-        "basisDate": "2026-08-18",
-        "recommendation": "THEO DÕI / CHỜ",
+        "basisDate": "2026-08-17",
+        "recommendation": "CHỜ / THEO DÕI",
         "eligibility": "active",
-        "condition": "Chỉ xem xét 14.671–15.719 đồng/cp khi NIM/NPL/LLR không xấu hơn luận điểm; stop 5% dưới giá vốn; T1 20.959; T2 26.777. Trên 32.276 nếu không nâng lợi nhuận/ROE thì loại/tránh mua mới."
+        "condition": "Chỉ xem xét 18.000–19.300 đồng/cp nếu NPL/LLCR và thông tin công bố không xấu đi đáng kể. Sau khi mua, stop tham chiếu -6% từ giá khớp thực tế. T1 22.780; T2 25.700; T3 27.744 đồng/cp."
       },
       "visual": {
         "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
         "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
         "caption": "Báo cáo định giá cổ phiếu",
         "sourceLabel": "Xuân Lê TVS",
         "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
       },
-      "file": "reports/MBB_2026-08-18.pdf",
-      "edition": "Bản định giá 18.08.2026"
+      "file": "reports/ACB_17-08-2026.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "BFC-20260817",
+      "ticker": "BFC",
+      "company": "Công ty Cổ phần Phân bón Bình Điền",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "TRÁNH",
+      "status": "reject",
+      "marketPrice": 47700,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 33808,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 24044,
+      "rangeHigh": 45823,
+      "gapLabel": "Giá 47.700 đồng/cp cao hơn cận trên 45.823 đồng/cp; không có biên an toàn",
+      "method": "Lợi nhuận chuẩn hóa 5–7 năm; kiểm chứng P/B và EV/EBITDA chuẩn hóa",
+      "summary": "Vùng giá trị hợp lý 24.044–45.823 đồng/cp, giá trị kỳ vọng 33.808 đồng/cp. Giá 47.700 đồng/cp ngày 17/08/2026 cao hơn cận trên nên báo cáo kết luận TRÁNH. Vùng có thể xem xét theo MOS 25–30% so với Base là 22.878–24.512 đồng/cp nếu kết quả kinh doanh không xấu thêm.",
+      "action": {
+        "zoneLow": 22878,
+        "zoneHigh": 24512,
+        "baseValue": 33808,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-17",
+        "recommendation": "TRÁNH - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "P >45.800: TRÁNH mua mới. P 32.700–45.800: THEO DÕI. P 22.900–24.500: chỉ có thể xem xét theo MOS nếu KQKD không xấu thêm. Tại giá hiện tại Stoploss/Target/R/R đều N/A; không tạo mức stop giả từ valuation."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/BFC_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "DHC-20260817",
+      "ticker": "DHC",
+      "company": "Công ty Cổ phần Đông Hải Bến Tre",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 34800,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 33668,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 27452,
+      "rangeHigh": 39791,
+      "gapLabel": "Giá 34.800 đồng/cp cao hơn giá trị kỳ vọng khoảng 3,4% và vẫn nằm trong vùng giá trị hợp lý",
+      "method": "Lợi nhuận chuẩn hóa 6 năm (2020–2025); P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý 27.452–39.791 đồng/cp; giá trị kỳ vọng 33.668 đồng/cp. Giá 34.800 đồng/cp ngày 17/08/2026 cao hơn giá trị kỳ vọng khoảng 3,4% nhưng vẫn nằm trong vùng giá trị hợp lý; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua yêu cầu MOS 25–30% là 19.217–20.589 đồng/cp, với điều kiện nền tảng kinh doanh không xấu đi.",
+      "action": {
+        "zoneLow": 19217,
+        "zoneHigh": 20589,
+        "baseValue": 33668,
+        "stop": null,
+        "targets": [
+          33668,
+          39791
+        ],
+        "basisDate": "2026-08-17",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá."
+      },
+      "visual": {
+        "src": "assets/images/reports/dhc.webp?v=20260817-company1",
+        "alt": "Dây chuyền sản xuất giấy công nghiệp của Đông Hải Bến Tre",
+        "caption": "Dây chuyền sản xuất giấy DOHACO",
+        "sourceLabel": "Đông Hải Bến Tre",
+        "sourceUrl": "https://dohacobentre.com.vn/public/"
+      },
+      "file": "reports/DHC_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
     },
     {
       "id": "FPT-20260817",
@@ -405,130 +745,45 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
-      "id": "BFC-20260817",
-      "ticker": "BFC",
-      "company": "Công ty Cổ phần Phân bón Bình Điền",
-      "sector": "Nông nghiệp",
-      "exchange": "HOSE",
+      "id": "ICG-20260817",
+      "ticker": "ICG",
+      "company": "Công ty Cổ phần Xây dựng Sông Hồng",
+      "sector": "Bất động sản",
+      "exchange": "HNX",
       "date": "2026-08-17",
-      "recommendation": "TRÁNH",
-      "status": "reject",
-      "marketPrice": 47700,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 33808,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 24044,
-      "rangeHigh": 45823,
-      "gapLabel": "Giá 47.700 đồng/cp cao hơn cận trên 45.823 đồng/cp; không có biên an toàn",
-      "method": "Lợi nhuận chuẩn hóa 5–7 năm; kiểm chứng P/B và EV/EBITDA chuẩn hóa",
-      "summary": "Vùng giá trị hợp lý 24.044–45.823 đồng/cp, giá trị kỳ vọng 33.808 đồng/cp. Giá 47.700 đồng/cp ngày 17/08/2026 cao hơn cận trên nên báo cáo kết luận TRÁNH. Vùng có thể xem xét theo MOS 25–30% so với Base là 22.878–24.512 đồng/cp nếu kết quả kinh doanh không xấu thêm.",
-      "action": {
-        "zoneLow": 22878,
-        "zoneHigh": 24512,
-        "baseValue": 33808,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-08-17",
-        "recommendation": "TRÁNH - KHÔNG MUA MỚI",
-        "eligibility": "veto",
-        "condition": "P >45.800: TRÁNH mua mới. P 32.700–45.800: THEO DÕI. P 22.900–24.500: chỉ có thể xem xét theo MOS nếu KQKD không xấu thêm. Tại giá hiện tại Stoploss/Target/R/R đều N/A; không tạo mức stop giả từ valuation."
-      },
-      "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
-      },
-      "file": "reports/BFC_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
-      "id": "PNJ-20260817",
-      "ticker": "PNJ",
-      "company": "Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận",
-      "sector": "Tiêu dùng",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI",
+      "recommendation": "THEO DÕI / CHỜ",
       "status": "wait",
-      "marketPrice": 36200,
+      "marketPrice": 12400,
       "marketPriceDate": "2026-08-17",
-      "baseValue": 70561,
-      "valueLabel": "Điểm neo kỳ vọng",
-      "rangeLow": 31129,
-      "rangeHigh": 117109,
-      "gapLabel": "Chưa đạt MOS 25–30% so với cận dưới; vùng mua định giá 21.791–23.347 đồng/cp",
-      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
-      "summary": "Vùng giá trị hợp lý 31.129–117.109 đồng/cp và điểm neo kỳ vọng 70.561 đồng/cp. Giá 36.200 đồng/cp ngày 17/08/2026 vẫn nằm trong vùng giá trị nên tín hiệu cơ học là THEO DÕI. Vùng mua đủ MOS 25–30% theo cận dưới là 21.791–23.347 đồng/cp; các điểm vào chiến thuật 1–3 tuần trong báo cáo có điều kiện xác nhận riêng.",
+      "baseValue": 13790,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 10717,
+      "rangeHigh": 17205,
+      "gapLabel": "MOS 10,1% so với giá trị kỳ vọng tại giá 12.400 đồng/cp; chưa đạt yêu cầu 25–30%",
+      "method": "Adjusted NAV/P-NAV là mô hình chính; P/B tương đối dùng làm neo kiểm chứng",
+      "summary": "Vùng giá trị hợp lý tính toán 10.717–17.205 đồng/cp, giá trị kỳ vọng 13.790 đồng/cp và điểm giữa khoảng 14.000 đồng/cp. Giá 12.400 đồng/cp ngày 17/08/2026 tạo MOS khoảng 10,1%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua nghiêm ngặt được làm tròn 7.500–8.000 đồng/cp nếu thesis NAV không xấu đi.",
       "action": {
-        "zoneLow": 21791,
-        "zoneHigh": 23347,
-        "baseValue": 70561,
-        "stop": null,
+        "zoneLow": 7500,
+        "zoneHigh": 8000,
+        "baseValue": 13790,
+        "stop": 7300,
         "targets": [
-          31129,
-          70561
+          10700,
+          13800
         ],
         "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI",
+        "recommendation": "THEO DÕI / CHỜ",
         "eligibility": "active",
-        "condition": "Vùng 21.791–23.347 đồng/cp là vùng mua nghiêm ngặt theo MOS. Không tự động chuyển các ngưỡng chiến thuật thành lệnh mua: breakout 39.700 cần 2 phiên và thanh khoản xác nhận; pullback 34.800–35.000 cũng cần giữ 2 phiên và không có thông tin bất lợi mới."
+        "condition": "Chỉ xem xét giải ngân thăm dò khi giá vào 7.500–8.000 đồng/cp và thesis NAV không xấu đi; không bình quân giá xuống vô điều kiện. Với giá vào tham chiếu khoảng 7.770 đồng/cp, stop khoảng 7.300; mục tiêu định giá lần lượt 10.700 và 13.800 đồng/cp. Sự kiện pháp lý hoặc dự án làm giảm NAV sẽ vô hiệu mọi mốc giá."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/icg.webp?v=20260817-company1",
+        "alt": "Tổ hợp Trung tâm Thương mại, Văn phòng và Căn hộ khu vực cầu Vĩnh Tuy của Incomex",
+        "caption": "Tổ hợp khu vực cầu Vĩnh Tuy của Incomex",
+        "sourceLabel": "Việt Nam Mới",
+        "sourceUrl": "https://vietnammoi.vn/khu-dat-doi-dien-aeon-mall-long-bien-chuan-bi-xay-tttm-cua-lien-danh-song-hong-thanh-xuan-202541083458248.htm"
       },
-      "file": "reports/PNJ_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
-      "id": "ACB-20260817",
-      "ticker": "ACB",
-      "company": "Ngân hàng TMCP Á Châu",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "CHỜ / THEO DÕI",
-      "status": "wait",
-      "marketPrice": 21850,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 27744,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 25700,
-      "rangeHigh": 29600,
-      "gapLabel": "MOS so cận dưới khoảng 15%; chưa đạt chuẩn 25–30%",
-      "method": "P/B gắn ROE kết hợp Residual Income",
-      "summary": "Vùng giá trị hợp lý lõi 25.700–29.600 đồng/cp, giá trị kỳ vọng 27.744 đồng/cp. Giá 21.850 đồng/cp ngày 17/08/2026 thấp hơn vùng giá trị nhưng MOS so với cận dưới mới khoảng 15%, nên báo cáo giữ trạng thái CHỜ / THEO DÕI. Vùng mua nghiêm ngặt là 17.990–19.275 đồng/cp, làm tròn giao dịch 18.000–19.300 đồng/cp.",
-      "action": {
-        "zoneLow": 18000,
-        "zoneHigh": 19300,
-        "baseValue": 27744,
-        "stop": null,
-        "targets": [
-          22780,
-          25700,
-          27744
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "CHỜ / THEO DÕI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 18.000–19.300 đồng/cp nếu NPL/LLCR và thông tin công bố không xấu đi đáng kể. Sau khi mua, stop tham chiếu -6% từ giá khớp thực tế. T1 22.780; T2 25.700; T3 27.744 đồng/cp."
-      },
-      "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
-      },
-      "file": "reports/ACB_17-08-2026.pdf",
+      "file": "reports/ICG_17-08-2026.pdf",
       "edition": "Bản định giá 17.08.2026"
     },
     {
@@ -573,83 +828,46 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
-      "id": "VIC-20260817",
-      "ticker": "VIC",
-      "company": "Tập đoàn Vingroup - CTCP",
-      "sector": "Đa ngành",
+      "id": "MWG-20260817",
+      "ticker": "MWG",
+      "company": "Công ty Cổ phần Đầu tư Thế Giới Di Động",
+      "sector": "Tiêu dùng",
       "exchange": "HOSE",
       "date": "2026-08-17",
-      "recommendation": "TRÁNH",
-      "status": "reject",
-      "marketPrice": 196500,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 54002,
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 72400,
+      "marketPriceDate": "2026-08-14",
+      "baseValue": 95115,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 37867,
-      "rangeHigh": 74650,
-      "gapLabel": "MOS -263,9% so với giá trị kỳ vọng; giá hiện tại cao hơn toàn bộ vùng giá trị hợp lý",
-      "method": "SOTP theo giá trị sổ sách thay thế; phối hợp 80% SOTP và 20% định giá tương đối, có chiết khấu holding",
-      "summary": "Vùng giá trị hợp lý tính toán 37.867–74.650 đồng/cp, giá trị kỳ vọng 54.002 đồng/cp và kịch bản cơ sở 51.745 đồng/cp. Giá 196.500 đồng/cp ngày 17/08/2026 cao hơn toàn bộ vùng giá trị, tương ứng MOS -263,9% so với giá trị kỳ vọng; báo cáo kết luận TRÁNH. Vùng mua theo định giá chỉ là 26.507–28.400 đồng/cp và không được dùng để hợp thức hóa mua đuổi ở giá hiện tại.",
+      "rangeLow": 76451,
+      "rangeHigh": 113636,
+      "gapLabel": "MOS 23,9% so với giá trị kỳ vọng nhưng chỉ 5,3% so với cận dưới tại giá đóng cửa 14/08/2026",
+      "method": "SOTP là mô hình chính; định giá tương đối P/E, P/B và EV/EBITDA dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý tổng hợp 76.451–113.636 đồng/cp, giá trị kỳ vọng 95.115 đồng/cp. Giá đóng cửa 72.400 đồng/cp ngày 14/08/2026 thấp hơn giá trị kỳ vọng 23,9% nhưng chỉ thấp hơn cận dưới 5,3%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Chỉ kích hoạt mua theo định giá tại 53.516–57.338 đồng/cp nếu luận điểm DMX/BHX không xấu đi.",
       "action": {
-        "zoneLow": 26507,
-        "zoneHigh": 28400,
-        "baseValue": 54002,
-        "stop": null,
-        "basisDate": "2026-08-17",
-        "recommendation": "TRÁNH",
-        "eligibility": "veto",
-        "condition": "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định."
-      },
-      "visual": {
-        "src": "assets/images/reports/vic.webp?v=20260817-company2",
-        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên Vingroup năm 2026",
-        "caption": "Đại hội đồng cổ đông thường niên Vingroup 2026",
-        "sourceLabel": "Thị trường Tài chính Tiền tệ",
-        "sourceUrl": "https://thitruongtaichinhtiente.vn/dhdcd-vingroup-muc-tieu-doanh-thu-ky-luc-nam-2026-co-dong-cam-on-vic-vi-gia-tang-82337.html"
-      },
-      "file": "reports/VIC_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
-      "id": "VCK-20260817",
-      "ticker": "VCK",
-      "company": "Công ty Cổ phần Chứng khoán VPS",
-      "sector": "Chứng khoán",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "TRÁNH / LOẠI",
-      "status": "reject",
-      "marketPrice": 29600,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 20146,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 15314,
-      "rangeHigh": 27668,
-      "gapLabel": "MOS -46,9% so với giá trị kỳ vọng; giá hiện tại cao hơn cận trên vùng hợp lý",
-      "method": "DCF-FCFF theo rulebook; P/E, EV/EBITDA và P/B dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 15.314–27.668 đồng/cp và giá trị kỳ vọng 20.146 đồng/cp. Tại giá 29.600 đồng/cp ngày 17/08/2026, MOS là -46,9% so với giá trị kỳ vọng và giá đã cao hơn cận trên; báo cáo kết luận TRÁNH / LOẠI tại giá hiện tại. Vùng mua theo định giá là 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ.",
-      "action": {
-        "zoneLow": 14102,
-        "zoneHigh": 15110,
-        "baseValue": 20146,
-        "stop": null,
+        "zoneLow": 53516,
+        "zoneHigh": 57338,
+        "baseValue": 95115,
+        "stop": 53898,
         "targets": [
-          20146,
-          27668
+          76451,
+          95115,
+          113636
         ],
         "basisDate": "2026-08-17",
-        "recommendation": "TRÁNH / LOẠI",
-        "eligibility": "veto",
-        "condition": "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo."
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "Chỉ có thể bắt đầu mua khi giá không vượt 57.338 đồng/cp và luận điểm DMX/BHX không xấu đi; ưu tiên vùng 53.516–57.338 đồng/cp. Nếu mua tại khoảng 57.338 đồng/cp, stop kỷ luật 6% khoảng 53.898; mục tiêu định giá 76.451, 95.115 và 113.636 đồng/cp. Nếu DMX giảm mạnh sau price discovery hoặc BHX không giữ hiệu quả cửa hàng mới thì phải chạy lại SOTP."
       },
       "visual": {
-        "src": "assets/images/reports/vck.webp?v=20260817-company2",
-        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên VPS năm 2026",
-        "caption": "Đại hội đồng cổ đông thường niên VPS 2026",
-        "sourceLabel": "VPS Securities",
-        "sourceUrl": "https://vps.com.vn/en/post/vps-succesfully-convenes-2026-annual-general-meeting-of-shareholders"
+        "src": "assets/images/reports/mwg.webp?v=20260817-company1",
+        "alt": "Đại diện các doanh nghiệp tại chương trình Top 50 Corporate Sustainability Awards 2026 có MWG tham dự",
+        "caption": "MWG tại Top 50 Corporate Sustainability Awards 2026",
+        "sourceLabel": "MWG",
+        "sourceUrl": "https://mwg.vn/tin-tuc/mobile-world-investment-corporation-mwg-honored-among-the-top-50-corporate-sustainability-awards-in-vietnam-for-5-consecutive-years-5002446"
       },
-      "file": "reports/VCK_17-08-2026.pdf",
+      "file": "reports/MWG_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
     },
     {
@@ -695,6 +913,86 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
+      "id": "VCK-20260817",
+      "ticker": "VCK",
+      "company": "Công ty Cổ phần Chứng khoán VPS",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 29600,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 20146,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 15314,
+      "rangeHigh": 27668,
+      "gapLabel": "MOS -46,9% so với giá trị kỳ vọng; giá hiện tại cao hơn cận trên vùng hợp lý",
+      "method": "DCF-FCFF theo rulebook; P/E, EV/EBITDA và P/B dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý 15.314–27.668 đồng/cp và giá trị kỳ vọng 20.146 đồng/cp. Tại giá 29.600 đồng/cp ngày 17/08/2026, MOS là -46,9% so với giá trị kỳ vọng và giá đã cao hơn cận trên; báo cáo kết luận TRÁNH / LOẠI tại giá hiện tại. Vùng mua theo định giá là 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ.",
+      "action": {
+        "zoneLow": 14102,
+        "zoneHigh": 15110,
+        "baseValue": 20146,
+        "stop": null,
+        "targets": [
+          20146,
+          27668
+        ],
+        "basisDate": "2026-08-17",
+        "recommendation": "TRÁNH / LOẠI",
+        "eligibility": "veto",
+        "condition": "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo."
+      },
+      "visual": {
+        "src": "assets/images/reports/vck.webp?v=20260817-company2",
+        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên VPS năm 2026",
+        "caption": "Đại hội đồng cổ đông thường niên VPS 2026",
+        "sourceLabel": "VPS Securities",
+        "sourceUrl": "https://vps.com.vn/en/post/vps-succesfully-convenes-2026-annual-general-meeting-of-shareholders"
+      },
+      "file": "reports/VCK_17-08-2026.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
+      "id": "VIC-20260817",
+      "ticker": "VIC",
+      "company": "Tập đoàn Vingroup - CTCP",
+      "sector": "Đa ngành",
+      "exchange": "HOSE",
+      "date": "2026-08-17",
+      "recommendation": "TRÁNH",
+      "status": "reject",
+      "marketPrice": 196500,
+      "marketPriceDate": "2026-08-17",
+      "baseValue": 54002,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 37867,
+      "rangeHigh": 74650,
+      "gapLabel": "MOS -263,9% so với giá trị kỳ vọng; giá hiện tại cao hơn toàn bộ vùng giá trị hợp lý",
+      "method": "SOTP theo giá trị sổ sách thay thế; phối hợp 80% SOTP và 20% định giá tương đối, có chiết khấu holding",
+      "summary": "Vùng giá trị hợp lý tính toán 37.867–74.650 đồng/cp, giá trị kỳ vọng 54.002 đồng/cp và kịch bản cơ sở 51.745 đồng/cp. Giá 196.500 đồng/cp ngày 17/08/2026 cao hơn toàn bộ vùng giá trị, tương ứng MOS -263,9% so với giá trị kỳ vọng; báo cáo kết luận TRÁNH. Vùng mua theo định giá chỉ là 26.507–28.400 đồng/cp và không được dùng để hợp thức hóa mua đuổi ở giá hiện tại.",
+      "action": {
+        "zoneLow": 26507,
+        "zoneHigh": 28400,
+        "baseValue": 54002,
+        "stop": null,
+        "basisDate": "2026-08-17",
+        "recommendation": "TRÁNH",
+        "eligibility": "veto",
+        "condition": "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định."
+      },
+      "visual": {
+        "src": "assets/images/reports/vic.webp?v=20260817-company2",
+        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên Vingroup năm 2026",
+        "caption": "Đại hội đồng cổ đông thường niên Vingroup 2026",
+        "sourceLabel": "Thị trường Tài chính Tiền tệ",
+        "sourceUrl": "https://thitruongtaichinhtiente.vn/dhdcd-vingroup-muc-tieu-doanh-thu-ky-luc-nam-2026-co-dong-cam-on-vic-vi-gia-tang-82337.html"
+      },
+      "file": "reports/VIC_2026-08-17.pdf",
+      "edition": "Bản định giá 17.08.2026"
+    },
+    {
       "id": "DGW-20260816",
       "ticker": "DGW",
       "company": "Công ty Cổ phần Thế Giới Số",
@@ -731,133 +1029,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/DGW_2026-08-16.pdf",
       "edition": "Bản định giá 16.08.2026"
-    },
-    {
-      "id": "DHC-20260817",
-      "ticker": "DHC",
-      "company": "Công ty Cổ phần Đông Hải Bến Tre",
-      "sector": "Công nghiệp",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 34800,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 33668,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 27452,
-      "rangeHigh": 39791,
-      "gapLabel": "Giá 34.800 đồng/cp cao hơn giá trị kỳ vọng khoảng 3,4% và vẫn nằm trong vùng giá trị hợp lý",
-      "method": "Lợi nhuận chuẩn hóa 6 năm (2020–2025); P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 27.452–39.791 đồng/cp; giá trị kỳ vọng 33.668 đồng/cp. Giá 34.800 đồng/cp ngày 17/08/2026 cao hơn giá trị kỳ vọng khoảng 3,4% nhưng vẫn nằm trong vùng giá trị hợp lý; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua yêu cầu MOS 25–30% là 19.217–20.589 đồng/cp, với điều kiện nền tảng kinh doanh không xấu đi.",
-      "action": {
-        "zoneLow": 19217,
-        "zoneHigh": 20589,
-        "baseValue": 33668,
-        "stop": null,
-        "targets": [
-          33668,
-          39791
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá."
-      },
-      "visual": {
-        "src": "assets/images/reports/dhc.webp?v=20260817-company1",
-        "alt": "Dây chuyền sản xuất giấy công nghiệp của Đông Hải Bến Tre",
-        "caption": "Dây chuyền sản xuất giấy DOHACO",
-        "sourceLabel": "Đông Hải Bến Tre",
-        "sourceUrl": "https://dohacobentre.com.vn/public/"
-      },
-      "file": "reports/DHC_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
-      "id": "ICG-20260817",
-      "ticker": "ICG",
-      "company": "Công ty Cổ phần Xây dựng Sông Hồng",
-      "sector": "Bất động sản",
-      "exchange": "HNX",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 12400,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 13790,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 10717,
-      "rangeHigh": 17205,
-      "gapLabel": "MOS 10,1% so với giá trị kỳ vọng tại giá 12.400 đồng/cp; chưa đạt yêu cầu 25–30%",
-      "method": "Adjusted NAV/P-NAV là mô hình chính; P/B tương đối dùng làm neo kiểm chứng",
-      "summary": "Vùng giá trị hợp lý tính toán 10.717–17.205 đồng/cp, giá trị kỳ vọng 13.790 đồng/cp và điểm giữa khoảng 14.000 đồng/cp. Giá 12.400 đồng/cp ngày 17/08/2026 tạo MOS khoảng 10,1%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua nghiêm ngặt được làm tròn 7.500–8.000 đồng/cp nếu thesis NAV không xấu đi.",
-      "action": {
-        "zoneLow": 7500,
-        "zoneHigh": 8000,
-        "baseValue": 13790,
-        "stop": 7300,
-        "targets": [
-          10700,
-          13800
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét giải ngân thăm dò khi giá vào 7.500–8.000 đồng/cp và thesis NAV không xấu đi; không bình quân giá xuống vô điều kiện. Với giá vào tham chiếu khoảng 7.770 đồng/cp, stop khoảng 7.300; mục tiêu định giá lần lượt 10.700 và 13.800 đồng/cp. Sự kiện pháp lý hoặc dự án làm giảm NAV sẽ vô hiệu mọi mốc giá."
-      },
-      "visual": {
-        "src": "assets/images/reports/icg.webp?v=20260817-company1",
-        "alt": "Tổ hợp Trung tâm Thương mại, Văn phòng và Căn hộ khu vực cầu Vĩnh Tuy của Incomex",
-        "caption": "Tổ hợp khu vực cầu Vĩnh Tuy của Incomex",
-        "sourceLabel": "Việt Nam Mới",
-        "sourceUrl": "https://vietnammoi.vn/khu-dat-doi-dien-aeon-mall-long-bien-chuan-bi-xay-tttm-cua-lien-danh-song-hong-thanh-xuan-202541083458248.htm"
-      },
-      "file": "reports/ICG_17-08-2026.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
-      "id": "MWG-20260817",
-      "ticker": "MWG",
-      "company": "Công ty Cổ phần Đầu tư Thế Giới Di Động",
-      "sector": "Tiêu dùng",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 72400,
-      "marketPriceDate": "2026-08-14",
-      "baseValue": 95115,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 76451,
-      "rangeHigh": 113636,
-      "gapLabel": "MOS 23,9% so với giá trị kỳ vọng nhưng chỉ 5,3% so với cận dưới tại giá đóng cửa 14/08/2026",
-      "method": "SOTP là mô hình chính; định giá tương đối P/E, P/B và EV/EBITDA dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý tổng hợp 76.451–113.636 đồng/cp, giá trị kỳ vọng 95.115 đồng/cp. Giá đóng cửa 72.400 đồng/cp ngày 14/08/2026 thấp hơn giá trị kỳ vọng 23,9% nhưng chỉ thấp hơn cận dưới 5,3%; báo cáo giữ trạng thái THEO DÕI / CHỜ. Chỉ kích hoạt mua theo định giá tại 53.516–57.338 đồng/cp nếu luận điểm DMX/BHX không xấu đi.",
-      "action": {
-        "zoneLow": 53516,
-        "zoneHigh": 57338,
-        "baseValue": 95115,
-        "stop": 53898,
-        "targets": [
-          76451,
-          95115,
-          113636
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "Chỉ có thể bắt đầu mua khi giá không vượt 57.338 đồng/cp và luận điểm DMX/BHX không xấu đi; ưu tiên vùng 53.516–57.338 đồng/cp. Nếu mua tại khoảng 57.338 đồng/cp, stop kỷ luật 6% khoảng 53.898; mục tiêu định giá 76.451, 95.115 và 113.636 đồng/cp. Nếu DMX giảm mạnh sau price discovery hoặc BHX không giữ hiệu quả cửa hàng mới thì phải chạy lại SOTP."
-      },
-      "visual": {
-        "src": "assets/images/reports/mwg.webp?v=20260817-company1",
-        "alt": "Đại diện các doanh nghiệp tại chương trình Top 50 Corporate Sustainability Awards 2026 có MWG tham dự",
-        "caption": "MWG tại Top 50 Corporate Sustainability Awards 2026",
-        "sourceLabel": "MWG",
-        "sourceUrl": "https://mwg.vn/tin-tuc/mobile-world-investment-corporation-mwg-honored-among-the-top-50-corporate-sustainability-awards-in-vietnam-for-5-consecutive-years-5002446"
-      },
-      "file": "reports/MWG_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
     },
     {
       "id": "LPB-20260816",
@@ -978,79 +1149,40 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 13.08.2026"
     },
     {
-      "id": "VND-20260812",
-      "ticker": "VND",
-      "company": "Công ty Cổ phần Chứng khoán VNDIRECT",
-      "sector": "Chứng khoán",
+      "id": "BID-20260812",
+      "ticker": "BID",
+      "company": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
+      "sector": "Ngân hàng",
       "exchange": "HOSE",
       "date": "2026-08-12",
-      "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800",
+      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
       "status": "wait",
-      "marketPrice": 16800,
-      "marketPriceDate": "2026-08-12",
-      "baseValue": 14640,
-      "valueLabel": "Điểm giữa",
-      "rangeLow": 11100,
-      "rangeHigh": 18200,
-      "gapLabel": "MOS -14,76% so với midpoint; MOS +7,48% so với cận trên",
-      "method": "Residual Income + justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 11.100–18.200 đồng/cp và điểm giữa 14.640 đồng/cp, không phải giá mục tiêu. Tại giá 16.800 đồng/cp ngày 12/08/2026, MOS so với midpoint là -14,76% và so với cận trên là +7,48%; chưa đạt ngưỡng an toàn 25–30%. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800; vùng mua định giá theo midpoint là 10.300–11.000 đồng/cp.",
+      "marketPrice": 39100,
+      "marketPriceDate": "2026-08-11",
+      "baseValue": 46300,
+      "rangeLow": 34900,
+      "rangeHigh": 57400,
+      "gapLabel": "MOS +15,5% so với giá trị cơ sở nhưng -12,1% so với cận dưới tại giá đóng cửa 11/08/2026",
+      "method": "P/B gắn ROE + Residual Income; relative P/B dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý trước bonus 34.900–57.400 đồng/cp, giá trị cơ sở 46.300 đồng/cp. Tại 39.100 đồng/cp, MOS so với cơ sở là 15,5% nhưng âm 12,1% so với cận dưới; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng valuation hấp dẫn theo base là 32.400–34.700 đồng/cp; green-zone MOS nghiêm ngặt trước bonus là 24.400–26.200 đồng/cp.",
       "action": {
-        "zoneLow": 10300,
-        "zoneHigh": 11000,
-        "baseValue": 14640,
-        "stop": 10450,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800",
-        "eligibility": "active",
-        "condition": "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi."
-      },
-      "visual": {
-        "src": "assets/images/reports/vnd.webp?v=20260813-company1",
-        "alt": "Đội ngũ VNDIRECT tại trụ sở doanh nghiệp",
-        "caption": "Đội ngũ VNDIRECT",
-        "sourceLabel": "VNDIRECT",
-        "sourceUrl": "https://www.vndirect.com.vn/tin_vndirect/vndirect-hoan-thanh-vuot-ke-hoach-2025-loi-nhuan-truoc-thue-dat-2-508-ty-dong/"
-      },
-      "file": "reports/VND_Equity_Valuation_2026-08-12.pdf",
-      "edition": "Bản định giá 12.08.2026"
-    },
-    {
-      "id": "SHS-20260812",
-      "ticker": "SHS",
-      "company": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
-      "sector": "Chứng khoán",
-      "exchange": "HNX",
-      "date": "2026-08-12",
-      "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 15900,
-      "marketPriceDate": "2026-08-12",
-      "baseValue": 13750,
-      "valueLabel": "Điểm giữa",
-      "rangeLow": 10500,
-      "rangeHigh": 17000,
-      "gapLabel": "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo",
-      "method": "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 10.500–17.000 đồng/cp và điểm giữa cơ học 13.750 đồng/cp, không phải một mức giá mục tiêu duy nhất. Tại giá 15.900 đồng/cp lúc 13:42 ngày 12/08/2026, MOS so với điểm giữa là -15,64%; báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI. Vùng MOS nghiêm ngặt 25–30% là 7.350–7.875 đồng/cp và không phải dự báo giá.",
-      "action": {
-        "zoneLow": 7350,
-        "zoneHigh": 7875,
-        "baseValue": 13750,
+        "zoneLow": 24400,
+        "zoneHigh": 26200,
+        "baseValue": 46300,
         "stop": null,
         "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
+        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
         "eligibility": "active",
-        "condition": "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi."
+        "condition": "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x."
       },
       "visual": {
-        "src": "assets/images/reports/shs.webp?v=20260813-company1",
-        "alt": "Ban lãnh đạo SHS tại Đại hội đồng cổ đông thường niên 2026",
-        "caption": "Đại hội đồng cổ đông thường niên SHS 2026",
-        "sourceLabel": "SHS",
-        "sourceUrl": "https://www.shs.com.vn/tin-tuc/dhdcd-2026-shs-buoc-vao-giai-doan-tang-truong-moi-voi-chien-luoc-chuyen-doi-toan-dien"
+        "src": "assets/images/reports/bid.webp?v=20260813-company1",
+        "alt": "Đội ngũ BIDV tại sự kiện Hybrid Summer 2026",
+        "caption": "Hoạt động đội ngũ BIDV năm 2026",
+        "sourceLabel": "BIDV News",
+        "sourceUrl": "https://bidvinfo.com.vn/en/bidv-launches-the-hybrid-summer-2026-campaign-bridging-sustainable-living-and-smart-finance-10015376.html"
       },
-      "file": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
+      "file": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
     },
     {
@@ -1130,6 +1262,44 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 12.08.2026"
     },
     {
+      "id": "SHS-20260812",
+      "ticker": "SHS",
+      "company": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
+      "sector": "Chứng khoán",
+      "exchange": "HNX",
+      "date": "2026-08-12",
+      "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
+      "status": "wait",
+      "marketPrice": 15900,
+      "marketPriceDate": "2026-08-12",
+      "baseValue": 13750,
+      "valueLabel": "Điểm giữa",
+      "rangeLow": 10500,
+      "rangeHigh": 17000,
+      "gapLabel": "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo",
+      "method": "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý 10.500–17.000 đồng/cp và điểm giữa cơ học 13.750 đồng/cp, không phải một mức giá mục tiêu duy nhất. Tại giá 15.900 đồng/cp lúc 13:42 ngày 12/08/2026, MOS so với điểm giữa là -15,64%; báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI. Vùng MOS nghiêm ngặt 25–30% là 7.350–7.875 đồng/cp và không phải dự báo giá.",
+      "action": {
+        "zoneLow": 7350,
+        "zoneHigh": 7875,
+        "baseValue": 13750,
+        "stop": null,
+        "basisDate": "2026-08-12",
+        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
+        "eligibility": "active",
+        "condition": "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi."
+      },
+      "visual": {
+        "src": "assets/images/reports/shs.webp?v=20260813-company1",
+        "alt": "Ban lãnh đạo SHS tại Đại hội đồng cổ đông thường niên 2026",
+        "caption": "Đại hội đồng cổ đông thường niên SHS 2026",
+        "sourceLabel": "SHS",
+        "sourceUrl": "https://www.shs.com.vn/tin-tuc/dhdcd-2026-shs-buoc-vao-giai-doan-tang-truong-moi-voi-chien-luoc-chuyen-doi-toan-dien"
+      },
+      "file": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
+      "edition": "Bản định giá 12.08.2026"
+    },
+    {
       "id": "VHM-20260812",
       "ticker": "VHM",
       "company": "Công ty Cổ phần Vinhomes",
@@ -1168,40 +1338,41 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 12.08.2026"
     },
     {
-      "id": "BID-20260812",
-      "ticker": "BID",
-      "company": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
-      "sector": "Ngân hàng",
+      "id": "VND-20260812",
+      "ticker": "VND",
+      "company": "Công ty Cổ phần Chứng khoán VNDIRECT",
+      "sector": "Chứng khoán",
       "exchange": "HOSE",
       "date": "2026-08-12",
-      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
+      "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800",
       "status": "wait",
-      "marketPrice": 39100,
-      "marketPriceDate": "2026-08-11",
-      "baseValue": 46300,
-      "rangeLow": 34900,
-      "rangeHigh": 57400,
-      "gapLabel": "MOS +15,5% so với giá trị cơ sở nhưng -12,1% so với cận dưới tại giá đóng cửa 11/08/2026",
-      "method": "P/B gắn ROE + Residual Income; relative P/B dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý trước bonus 34.900–57.400 đồng/cp, giá trị cơ sở 46.300 đồng/cp. Tại 39.100 đồng/cp, MOS so với cơ sở là 15,5% nhưng âm 12,1% so với cận dưới; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng valuation hấp dẫn theo base là 32.400–34.700 đồng/cp; green-zone MOS nghiêm ngặt trước bonus là 24.400–26.200 đồng/cp.",
+      "marketPrice": 16800,
+      "marketPriceDate": "2026-08-12",
+      "baseValue": 14640,
+      "valueLabel": "Điểm giữa",
+      "rangeLow": 11100,
+      "rangeHigh": 18200,
+      "gapLabel": "MOS -14,76% so với midpoint; MOS +7,48% so với cận trên",
+      "method": "Residual Income + justified P/B; P/E và P/B tương đối chỉ dùng kiểm chứng",
+      "summary": "Vùng giá trị hợp lý 11.100–18.200 đồng/cp và điểm giữa 14.640 đồng/cp, không phải giá mục tiêu. Tại giá 16.800 đồng/cp ngày 12/08/2026, MOS so với midpoint là -14,76% và so với cận trên là +7,48%; chưa đạt ngưỡng an toàn 25–30%. Báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800; vùng mua định giá theo midpoint là 10.300–11.000 đồng/cp.",
       "action": {
-        "zoneLow": 24400,
-        "zoneHigh": 26200,
-        "baseValue": 46300,
-        "stop": null,
+        "zoneLow": 10300,
+        "zoneHigh": 11000,
+        "baseValue": 14640,
+        "stop": 10450,
         "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
+        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA Ở 16.800",
         "eligibility": "active",
-        "condition": "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x."
+        "condition": "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi."
       },
       "visual": {
-        "src": "assets/images/reports/bid.webp?v=20260813-company1",
-        "alt": "Đội ngũ BIDV tại sự kiện Hybrid Summer 2026",
-        "caption": "Hoạt động đội ngũ BIDV năm 2026",
-        "sourceLabel": "BIDV News",
-        "sourceUrl": "https://bidvinfo.com.vn/en/bidv-launches-the-hybrid-summer-2026-campaign-bridging-sustainable-living-and-smart-finance-10015376.html"
+        "src": "assets/images/reports/vnd.webp?v=20260813-company1",
+        "alt": "Đội ngũ VNDIRECT tại trụ sở doanh nghiệp",
+        "caption": "Đội ngũ VNDIRECT",
+        "sourceLabel": "VNDIRECT",
+        "sourceUrl": "https://www.vndirect.com.vn/tin_vndirect/vndirect-hoan-thanh-vuot-ke-hoach-2025-loi-nhuan-truoc-thue-dat-2-508-ty-dong/"
       },
-      "file": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
+      "file": "reports/VND_Equity_Valuation_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
     },
     {
@@ -1382,6 +1553,40 @@ window.RESEARCH_DATA = {
       "edition": "Bản cập nhật 04.08.2026"
     },
     {
+      "id": "BCM-20260803",
+      "ticker": "BCM",
+      "company": "Tập đoàn Đầu tư và Phát triển Công nghiệp Becamex - CTCP",
+      "sector": "Bất động sản",
+      "exchange": "HOSE",
+      "date": "2026-08-03",
+      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
+      "status": "wait",
+      "marketPrice": 36600,
+      "marketPriceDate": "2026-08-03",
+      "baseValue": 57600,
+      "rangeLow": 44800,
+      "rangeHigh": 73600,
+      "gapLabel": "Giá trị cơ sở cao hơn giá thị trường khoảng 57,4% tại ngày định giá",
+      "method": "SOTP + RNAV/NAV",
+      "summary": "Giá trị cơ sở 57.600 đồng/cp cao hơn giá 36.600 đồng/cp khoảng 57,4%, nhưng biên an toàn tới cận dưới 44.800 đồng/cp chỉ khoảng 18,2%, thấp hơn ngưỡng 25–30%. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI; vùng mua định giá 31.300–33.600 đồng/cp.",
+      "action": {
+        "zoneLow": 31300,
+        "zoneHigh": 33600,
+        "stop": null,
+        "basisDate": "2026-08-03",
+        "condition": "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 đồng/cp phải có xác nhận theo điều kiện trong báo cáo."
+      },
+      "visual": {
+        "src": "assets/images/reports/bcm.webp?v=20260813-company1",
+        "alt": "Tổng Giám đốc Becamex IDC phát biểu tại lễ khởi động các khu công nghiệp năm 2025",
+        "caption": "Becamex IDC khởi động các dự án khu công nghiệp sinh thái",
+        "sourceLabel": "Kiểm Sát Online",
+        "sourceUrl": "https://kiemsat.vn/becamex-idc-khoi-dong-cac-du-an-chien-luoc-kien-tao-khu-cong-nghiep-sinh-thai-thong-minh-the-he-moi-70433.html"
+      },
+      "file": "reports/BCM_Bao_cao_dinh_gia_20260803.pdf",
+      "edition": "Bản chính"
+    },
+    {
       "id": "HII-20260803",
       "ticker": "HII",
       "company": "Công ty Cổ phần An Tiến Industries",
@@ -1448,40 +1653,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf",
       "edition": "Báo cáo định giá"
-    },
-    {
-      "id": "BCM-20260803",
-      "ticker": "BCM",
-      "company": "Tập đoàn Đầu tư và Phát triển Công nghiệp Becamex - CTCP",
-      "sector": "Bất động sản",
-      "exchange": "HOSE",
-      "date": "2026-08-03",
-      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 36600,
-      "marketPriceDate": "2026-08-03",
-      "baseValue": 57600,
-      "rangeLow": 44800,
-      "rangeHigh": 73600,
-      "gapLabel": "Giá trị cơ sở cao hơn giá thị trường khoảng 57,4% tại ngày định giá",
-      "method": "SOTP + RNAV/NAV",
-      "summary": "Giá trị cơ sở 57.600 đồng/cp cao hơn giá 36.600 đồng/cp khoảng 57,4%, nhưng biên an toàn tới cận dưới 44.800 đồng/cp chỉ khoảng 18,2%, thấp hơn ngưỡng 25–30%. Báo cáo giữ khuyến nghị CHỜ - KHÔNG MUA ĐUỔI; vùng mua định giá 31.300–33.600 đồng/cp.",
-      "action": {
-        "zoneLow": 31300,
-        "zoneHigh": 33600,
-        "stop": null,
-        "basisDate": "2026-08-03",
-        "condition": "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 đồng/cp phải có xác nhận theo điều kiện trong báo cáo."
-      },
-      "visual": {
-        "src": "assets/images/reports/bcm.webp?v=20260813-company1",
-        "alt": "Tổng Giám đốc Becamex IDC phát biểu tại lễ khởi động các khu công nghiệp năm 2025",
-        "caption": "Becamex IDC khởi động các dự án khu công nghiệp sinh thái",
-        "sourceLabel": "Kiểm Sát Online",
-        "sourceUrl": "https://kiemsat.vn/becamex-idc-khoi-dong-cac-du-an-chien-luoc-kien-tao-khu-cong-nghiep-sinh-thai-thong-minh-the-he-moi-70433.html"
-      },
-      "file": "reports/BCM_Bao_cao_dinh_gia_20260803.pdf",
-      "edition": "Bản chính"
     },
     {
       "id": "VCI-20260730",
@@ -1572,6 +1743,32 @@ window.RESEARCH_DATA = {
       "edition": "Bản chính"
     },
     {
+      "id": "BVS-20260713",
+      "ticker": "BVS",
+      "company": "Công ty Cổ phần Chứng khoán Bảo Việt",
+      "sector": "Chứng khoán",
+      "exchange": "HNX",
+      "date": "2026-07-13",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 35900,
+      "baseValue": 31461,
+      "rangeLow": 28400,
+      "rangeHigh": 36200,
+      "gapLabel": "−14,1% so với giá trị cơ sở tại ngày định giá",
+      "method": "Residual Income + P/B–ROE",
+      "summary": "Giá trị cơ sở 31.461 đồng/cp; vùng giá trị hợp lý 28.400–36.200 đồng/cp.",
+      "visual": {
+        "src": "assets/images/reports/bvs.webp",
+        "alt": "Ban lãnh đạo Chứng khoán Bảo Việt tại Đại hội đồng cổ đông thường niên 2025",
+        "caption": "Đại hội đồng cổ đông thường niên 2025",
+        "sourceLabel": "BVSC",
+        "sourceUrl": "https://www.facebook.com/ChungKhoanBaoViet.BVSC/posts/1292292632904660/"
+      },
+      "file": "reports/BVS_Valuation_Report_XuanLeTVS_20260713.pdf",
+      "edition": "Bản mới nhất"
+    },
+    {
       "id": "DDV-20260713",
       "ticker": "DDV",
       "company": "Công ty Cổ phần DAP - Vinachem",
@@ -1622,32 +1819,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/Bao_cao_dinh_gia_GAS_2026_Xuan_Le_TVS.pdf",
       "edition": "Bản chính"
-    },
-    {
-      "id": "BVS-20260713",
-      "ticker": "BVS",
-      "company": "Công ty Cổ phần Chứng khoán Bảo Việt",
-      "sector": "Chứng khoán",
-      "exchange": "HNX",
-      "date": "2026-07-13",
-      "recommendation": "CHỜ / THEO DÕI",
-      "status": "wait",
-      "marketPrice": 35900,
-      "baseValue": 31461,
-      "rangeLow": 28400,
-      "rangeHigh": 36200,
-      "gapLabel": "−14,1% so với giá trị cơ sở tại ngày định giá",
-      "method": "Residual Income + P/B–ROE",
-      "summary": "Giá trị cơ sở 31.461 đồng/cp; vùng giá trị hợp lý 28.400–36.200 đồng/cp.",
-      "visual": {
-        "src": "assets/images/reports/bvs.webp",
-        "alt": "Ban lãnh đạo Chứng khoán Bảo Việt tại Đại hội đồng cổ đông thường niên 2025",
-        "caption": "Đại hội đồng cổ đông thường niên 2025",
-        "sourceLabel": "BVSC",
-        "sourceUrl": "https://www.facebook.com/ChungKhoanBaoViet.BVSC/posts/1292292632904660/"
-      },
-      "file": "reports/BVS_Valuation_Report_XuanLeTVS_20260713.pdf",
-      "edition": "Bản mới nhất"
     },
     {
       "id": "GEE-20260713",
@@ -2872,7 +3043,7 @@ window.RESEARCH_DATA = {
       "company": "Vàng bạc Đá quý Phú Nhuận",
       "sector": "Tiêu dùng",
       "exchange": "HOSE",
-      "reportId": "PNJ-20260817",
+      "reportId": "PNJ-20260819",
       "close": 35050,
       "priceDate": "2026-08-18",
       "changePct": -3.1768,
@@ -2880,18 +3051,17 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-08-18&size=10",
       "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1786986000&to=1787072399&symbol=PNJ&resolution=1D",
       "action": {
-        "zoneLow": 21791,
-        "zoneHigh": 23347,
-        "baseValue": 70561,
+        "zoneLow": 25187,
+        "zoneHigh": 26986,
+        "baseValue": 53642,
         "stop": null,
         "targets": [
-          31129,
-          70561
+          35982
         ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI",
-        "eligibility": "active",
-        "condition": "Vùng 21.791–23.347 đồng/cp là vùng mua nghiêm ngặt theo MOS. Không tự động chuyển các ngưỡng chiến thuật thành lệnh mua: breakout 39.700 cần 2 phiên và thanh khoản xác nhận; pullback 34.800–35.000 cũng cần giữ 2 phiên và không có thông tin bất lợi mới."
+        "basisDate": "2026-08-19",
+        "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
+        "eligibility": "manual",
+        "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
       }
     },
     {

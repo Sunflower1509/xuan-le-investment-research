@@ -268,10 +268,10 @@
           "date": "2026-08-18",
           "close": 35050,
           "relation": "above",
-          "zoneLow": 21791,
-          "zoneHigh": 23347,
-          "zoneBasisDate": "2026-08-17",
-          "eligibility": "active"
+          "zoneLow": 25187,
+          "zoneHigh": 26986,
+          "zoneBasisDate": "2026-08-19",
+          "eligibility": "manual"
         },
         "BFC": {
           "date": "2026-08-18",
