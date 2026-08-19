@@ -9,38 +9,38 @@ window.RESEARCH_DATA = {
     "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 19/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 46/47 mã giữa hai nguồn; SHS: VNDIRECT 6.248.600 vs DNSE 6.235.700 (chênh 12.900). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
   },
   "marketSession": {
-    "date": "2026-08-18",
+    "date": "2026-08-19",
     "status": "Đã khóa EOD — VNDIRECT Finfo",
     "indices": [
       {
         "code": "VN-INDEX",
-        "close": 1732.02,
-        "change": 4.56,
-        "changePct": 0.263971379945116
+        "close": 1726.69,
+        "change": -5.32999999999993,
+        "changePct": -0.307733167053492
       },
       {
         "code": "VN30",
-        "close": 1876.14,
-        "change": -1.54,
-        "changePct": -0.082016104980609
+        "close": 1875.73,
+        "change": -0.410000000000082,
+        "changePct": -0.0218533798117426
       },
       {
         "code": "HNX-INDEX",
-        "close": 282.32,
-        "change": 3.68,
-        "changePct": 1.3207
+        "close": 279.98,
+        "change": -2.33999999999997,
+        "changePct": -0.828846698781516
       }
     ],
     "breadth": {
-      "advance": 124,
-      "unchanged": 76,
-      "decline": 163,
-      "floor": 4
+      "advance": 95,
+      "unchanged": 52,
+      "decline": 214,
+      "floor": 6
     },
     "sources": [
       {
-        "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026",
-        "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500"
+        "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 19/08/2026",
+        "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-19&size=500"
       }
     ]
   },
