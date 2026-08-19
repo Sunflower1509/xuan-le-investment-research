@@ -1,0 +1,49 @@
+name: Audit report coverage sync once
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Audit report coverage action and file graph
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          import { evaluatePriorityCandidate, latestReportDates, openPositionTickers } from './src/scripts/priority-engine.mjs';
+          import { projectLedger } from './src/scripts/trade-ledger.mjs';
+          const code=fs.readFileSync('src/data/research-data.js','utf8'); const s={window:{}}; vm.runInNewContext(code,s); const d=s.window.RESEARCH_DATA;
+          const reports=d.reports||[], coverage=d.coverage||[];
+          const valuation=reports.filter(r=>r.reportType!=='trading');
+          const byTicker=new Map(); for(const r of valuation){const a=byTicker.get(r.ticker)||[]; a.push(r); byTicker.set(r.ticker,a)}
+          const latest=new Map([...byTicker].map(([t,a])=>[t,[...a].sort((x,y)=>y.date.localeCompare(x.date))[0]]));
+          const cov=new Map(coverage.map(x=>[x.ticker,x]));
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8')); const projection=projectLedger(ledger,coverage); const openTickers=openPositionTickers(projection);
+          const reportDates=latestReportDates(reports);
+          const missingCoverage=[...latest.keys()].filter(t=>!cov.has(t));
+          const coverageWithoutReport=[...cov.keys()].filter(t=>!latest.has(t));
+          const staleActions=[]; const six={};
+          for(const [t,r] of latest){const c=cov.get(t); if(c && (c.reportId!==r.id || c.action?.basisDate!==r.date)) staleActions.push({ticker:t,reportId:c.reportId,latestReportId:r.id,basisDate:c.action?.basisDate,latestDate:r.date}); if(['BSI','MSB','PNJ','TCB','VIB','VNM'].includes(t)){const state=c?evaluatePriorityCandidate(c,{openTickers,reportDates,asOfDate:d.meta.updated}):null; six[t]={report:{id:r.id,date:r.date,file:r.file,action:r.action||null},coverage:c||null,priority:state?{eligible:state.eligible,reason:state.reason,gates:state.gates}:null};}}
+          const duplicateValuation=[...byTicker].filter(([,a])=>a.length>1).map(([ticker,a])=>({ticker,dates:a.map(x=>x.date),ids:a.map(x=>x.id)}));
+          const files=fs.readdirSync('reports').filter(x=>x.toLowerCase().endsWith('.pdf')); const refs=new Set(reports.map(r=>r.file?.replace(/^reports\//,''))); const unreferenced=files.filter(f=>!refs.has(f)); const missingFiles=reports.filter(r=>r.file&&!files.includes(r.file.replace(/^reports\//,''))).map(r=>({id:r.id,file:r.file}));
+          const result={metaUpdated:d.meta.updated,reportCount:reports.length,valuationCount:valuation.length,valuationUniqueTickers:latest.size,coverageCount:coverage.length,missingCoverage,coverageWithoutReport,staleActions,duplicateValuation,unreferenced,missingFiles,six};
+          console.log('AUDIT_SYNC_JSON='+JSON.stringify(result));
+          if(missingFiles.length) process.exitCode=2;
+          NODE
+      - name: Existing regression and site audit
+        run: |
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
