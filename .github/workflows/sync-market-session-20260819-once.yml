@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   sync:
-    if: github.event.head_commit.message == 'Add one-time 19 Aug market session sync'
+    if: github.event.head_commit.message == 'Retry one-time 19 Aug market session sync'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -45,24 +45,23 @@ jobs:
           import fs from 'node:fs'; import vm from 'node:vm';
           const path='src/data/research-data.js'; const code=fs.readFileSync(path,'utf8'); const s={window:{}}; vm.runInNewContext(code,s); const d=s.window.RESEARCH_DATA;
           const url='https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-19&size=500';
-          const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-MarketSession/1.0'},signal:AbortSignal.timeout(15000)});
+          const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-MarketSession/1.1'},signal:AbortSignal.timeout(15000)});
           if(!res.ok) throw new Error(`VNDIRECT HTTP ${res.status}`);
           const payload=await res.json(); const rows=Array.isArray(payload?.data)?payload.data:[];
           if(!rows.length) throw new Error('No market rows');
-          const codes=[...new Set(rows.map(r=>String(r.code||r.indexCode||r.symbol||'').toUpperCase()))];
-          console.log('AVAILABLE_CODES',codes.join(','));
-          const find=(aliases)=>rows.find(r=>aliases.includes(String(r.code||r.indexCode||r.symbol||'').toUpperCase()));
+          const key=(r)=>String(r.code||r.indexCode||r.symbol||'').toUpperCase();
+          const codes=[...new Set(rows.map(key))]; console.log('AVAILABLE_CODES',codes.join(','));
+          const find=(aliases)=>rows.find(r=>aliases.includes(key(r)));
           const vn=find(['VNINDEX','VN-INDEX','HOSE']); const vn30=find(['VN30','VN30-INDEX']); const hnx=find(['HNX','HNXINDEX','HNX-INDEX']);
           const num=(x)=>Number.isFinite(Number(x))?Number(x):null;
           const parse=(r,label)=>{ if(!r) throw new Error(`Missing ${label}`); const close=num(r.close??r.index??r.value); const change=num(r.change??r.changeValue); const pct=num(r.pctChange??r.changePct??r.percentChange); if(close===null||change===null||pct===null) throw new Error(`Incomplete ${label}: ${JSON.stringify(r)}`); return {code:label,close,change,changePct:pct}; };
           const indices=[parse(vn,'VN-INDEX'),parse(vn30,'VN30'),parse(hnx,'HNX-INDEX')];
-          const marketRows=rows.filter(r=>String(r.code||'').toUpperCase()==='VNINDEX'||String(r.market||r.floor||'').toUpperCase()==='HOSE');
-          const sourceRow=vn;
-          const adv=num(sourceRow?.advances??sourceRow?.advance??sourceRow?.up); const unch=num(sourceRow?.noChange??sourceRow?.unchanged??sourceRow?.reference); const dec=num(sourceRow?.declines??sourceRow?.decline??sourceRow?.down); const floor=num(sourceRow?.floors??sourceRow?.floor);
-          if([adv,unch,dec,floor].some(v=>v===null)) {
-            console.log('VNINDEX_ROW',JSON.stringify(sourceRow));
-            throw new Error('Breadth fields unavailable; fail closed rather than guess');
-          }
+          console.log('VNINDEX_ROW',JSON.stringify(vn));
+          const adv=num(vn?.nmAdvances??vn?.advances??vn?.advance??vn?.up);
+          const unch=num(vn?.nmNoChange??vn?.noChange??vn?.unchanged??vn?.reference);
+          const dec=num(vn?.nmDeclines??vn?.declines??vn?.decline??vn?.down);
+          const floor=num(vn?.nmFloors??vn?.floors??vn?.floor);
+          if([adv,unch,dec,floor].some(v=>v===null)) throw new Error(`Breadth unavailable: ${JSON.stringify(vn)}`);
           d.marketSession={date:'2026-08-19',status:'Đã khóa EOD — VNDIRECT Finfo',indices,breadth:{advance:adv,unchanged:unch,decline:dec,floor},sources:[{label:'VNDIRECT Finfo — chỉ số & độ rộng EOD 19/08/2026',url}]};
           fs.writeFileSync(path,`window.RESEARCH_DATA = ${JSON.stringify(d,null,2)};\n`);
           console.log('MARKET_SESSION',JSON.stringify(d.marketSession));
