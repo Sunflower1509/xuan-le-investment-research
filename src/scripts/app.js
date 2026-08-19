@@ -50,7 +50,7 @@ import {
     query: "",
     sector: "all",
     status: "all",
-    sort: "priority",
+    sort: "newest",
     view: "grid",
     ledgerTab: "open",
     watchlist: getStoredSet("xltvs-watchlist-v1"),
@@ -663,8 +663,12 @@ import {
     document.querySelectorAll("[data-role='compare-count']").forEach((el) => { el.textContent = selected.length; });
   };
 
+  const defaultSortForTab = (tab) => tab === "reports" ? "newest" : "priority";
+
   const setTab = (tab) => {
     state.tab = tab;
+    state.sort = defaultSortForTab(tab);
+    if (refs.sort) refs.sort.value = state.sort;
     document.querySelectorAll("[data-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === tab)));
     renderResearch();
   };
@@ -673,7 +677,7 @@ import {
     state.query = "";
     state.sector = "all";
     state.status = "all";
-    state.sort = "priority";
+    state.sort = defaultSortForTab(state.tab);
     refs.search.value = "";
     refs.sort.value = "priority";
     renderFilters();
@@ -865,6 +869,7 @@ import {
     tabs[next].focus();
   });
   refs.search.addEventListener("input", () => { state.query = refs.search.value; renderResearch(); });
+  refs.sort.value = state.sort;
   refs.sort.addEventListener("change", () => { state.sort = refs.sort.value; renderResearch(); });
   refs.commandInput.addEventListener("input", () => renderCommandResults(refs.commandInput.value));
   document.addEventListener("keydown", (event) => {
