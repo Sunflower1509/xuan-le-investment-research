@@ -679,7 +679,7 @@ import {
     state.status = "all";
     state.sort = defaultSortForTab(state.tab);
     refs.search.value = "";
-    refs.sort.value = "priority";
+    refs.sort.value = state.sort;
     renderFilters();
     renderResearch();
   };
