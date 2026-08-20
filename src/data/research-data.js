@@ -213,7 +213,7 @@ window.RESEARCH_DATA = {
         ],
         "basisDate": "2026-08-19",
         "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
-        "eligibility": "manual",
+        "eligibility": "active",
         "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
       },
       "visual": {
@@ -3238,7 +3238,7 @@ window.RESEARCH_DATA = {
         ],
         "basisDate": "2026-08-19",
         "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
-        "eligibility": "manual",
+        "eligibility": "active",
         "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
       }
     },
