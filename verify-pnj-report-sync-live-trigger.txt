@@ -1,0 +1,1 @@
+Verify PNJ and 52/52 report↔coverage synchronization live on 2026-08-20.
