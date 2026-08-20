@@ -3,7 +3,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_PATH = path.join(root, "src/data/research-data.js");
@@ -64,42 +64,67 @@ const fetchJson = async (url, retries = 4) => {
   throw lastError;
 };
 
-const parseVndirect = (payload, ticker, date) => {
+const validateOhlc = (quote, source) => {
+  const fields = ["open", "high", "low", "close"];
+  if (fields.some((field) => !(quote[field] > 0))) throw new Error(`${source} incomplete OHLC`);
+  if (quote.high < Math.max(quote.open, quote.close) || quote.low > Math.min(quote.open, quote.close) || quote.low > quote.high) {
+    throw new Error(`${source} inconsistent OHLC`);
+  }
+  return quote;
+};
+
+export const parseVndirect = (payload, ticker, date) => {
   const rows = Array.isArray(payload?.data) ? payload.data : [];
-  const row = rows.find((item) => String(item.code || "").toUpperCase() === ticker && String(item.date) === date)
-    || rows.find((item) => String(item.date) === date);
+  const row = rows.find((item) => String(item.code || "").toUpperCase() === ticker && String(item.date) === date);
   if (!row) throw new Error("VNDIRECT missing row");
 
-  const close = normalizedPrice(row.close);
+  const quote = validateOhlc({
+    open: normalizedPrice(row.open),
+    high: normalizedPrice(row.high),
+    low: normalizedPrice(row.low),
+    close: normalizedPrice(row.close)
+  }, "VNDIRECT");
   const volume = finite(row.nmVolume ?? row.totalVolume ?? row.volume);
   let changePct = finite(row.pctChange ?? row.changePct);
+  const reference = finite(row.basicPrice ?? row.referencePrice ?? row.reference ?? row.refPrice);
+  const rawClose = finite(row.close);
+  const calculatedChangePct = rawClose !== null && reference ? (rawClose / reference - 1) * 100 : null;
   if (changePct === null) {
-    const reference = finite(row.basicPrice ?? row.referencePrice ?? row.reference ?? row.refPrice);
-    const rawClose = finite(row.close);
-    if (rawClose !== null && reference) changePct = (rawClose / reference - 1) * 100;
+    changePct = calculatedChangePct;
   }
-  if (!(close > 0) || !(volume >= 0) || changePct === null) throw new Error("VNDIRECT incomplete row");
+  if (!(volume >= 0) || changePct === null) throw new Error("VNDIRECT incomplete row");
+  if (calculatedChangePct !== null && Math.abs(changePct - calculatedChangePct) > 0.001) {
+    throw new Error(`VNDIRECT changePct mismatch ${changePct} vs ${calculatedChangePct}`);
+  }
   return {
-    close,
+    ...quote,
     volume: Math.round(volume),
     changePct: Math.round(changePct * 10000) / 10000
   };
 };
 
-const parseDnse = (payload, date) => {
-  const closes = Array.isArray(payload?.c) ? payload.c : [];
+export const parseDnse = (payload, date) => {
+  const arrays = Object.fromEntries(["o", "h", "l", "c"].map((key) => [key, Array.isArray(payload?.[key]) ? payload[key] : []]));
   const volumes = Array.isArray(payload?.v) ? payload.v : [];
   const timestamps = Array.isArray(payload?.t) ? payload.t : [];
-  if (!closes.length) throw new Error("DNSE missing row");
-  const close = normalizedPrice(closes.at(-1));
-  if (!(close > 0)) throw new Error("DNSE invalid close");
+  if (Object.values(arrays).some((values) => !values.length)) throw new Error("DNSE missing row");
+  const quote = validateOhlc({
+    open: normalizedPrice(arrays.o.at(-1)),
+    high: normalizedPrice(arrays.h.at(-1)),
+    low: normalizedPrice(arrays.l.at(-1)),
+    close: normalizedPrice(arrays.c.at(-1))
+  }, "DNSE");
   if (timestamps.length) {
     const timestampDate = isoDateInVietnam(new Date(Number(timestamps.at(-1)) * 1000));
     if (timestampDate !== date) throw new Error(`DNSE date ${timestampDate}`);
   }
   const volume = volumes.length ? finite(volumes.at(-1)) : null;
-  return { close, volume: volume === null ? null : Math.round(volume) };
+  return { ...quote, volume: volume === null ? null : Math.round(volume) };
 };
+
+export const ohlcDifferences = (primary, secondary) => ["open", "high", "low", "close"]
+  .filter((field) => primary[field] !== secondary[field])
+  .map((field) => ({ field, primary: primary[field], secondary: secondary[field] }));
 
 const loadResearch = async () => {
   const code = await fs.readFile(DATA_PATH, "utf8");
@@ -132,7 +157,8 @@ const verifyDate = async (coverage, date) => {
       const [vndirectPayload, dnsePayload] = await Promise.all([fetchJson(priceSource), fetchJson(priceSourceSecondary)]);
       const primary = parseVndirect(vndirectPayload, ticker, date);
       const secondary = parseDnse(dnsePayload, date);
-      if (primary.close !== secondary.close) throw new Error(`close mismatch ${primary.close} vs ${secondary.close}`);
+      const differences = ohlcDifferences(primary, secondary);
+      if (differences.length) throw new Error(`OHLC mismatch ${JSON.stringify(differences)}`);
       return {
         ok: true,
         quote: {
@@ -247,7 +273,7 @@ const run = async () => {
   const mismatchText = volumeMismatches.length
     ? volumeMismatches.map((entry) => `${entry.ticker}: VNDIRECT ${entry.vndirect.toLocaleString("vi-VN")} vs DNSE ${entry.dnse.toLocaleString("vi-VN")} (chênh ${Math.abs(entry.diff).toLocaleString("vi-VN")})`).join("; ")
     : "không có chênh lệch";
-  after.meta.note = `Giá đóng cửa, biến động và khối lượng khớp lệnh của ${tickers.length}/${tickers.length} mã được khóa tại phiên ${targetDate.split("-").reverse().join("/")}. Giá đóng cửa ${tickers.length}/${tickers.length} mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp ${matchedVolumes}/${tickers.length} mã giữa hai nguồn; ${mismatchText}. Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.`;
+  after.meta.note = `Giá đóng cửa, biến động và khối lượng khớp lệnh của ${tickers.length}/${tickers.length} mã được khóa tại phiên ${targetDate.split("-").reverse().join("/")}. OHLC ${tickers.length}/${tickers.length} mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp ${matchedVolumes}/${tickers.length} mã giữa hai nguồn; ${mismatchText}. Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.`;
 
   if (immutableProjection(before) !== immutableProjection(after)) {
     throw new Error("Phát hiện thay đổi ngoài whitelist market fields/meta; hủy cập nhật.");
@@ -269,7 +295,9 @@ const run = async () => {
   console.log(JSON.stringify(payload, null, 2));
 };
 
-run().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  run().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
