@@ -1,1 +1,2 @@
 validate PNJ report↔coverage action synchronization 2026-08-20
+retry=2
