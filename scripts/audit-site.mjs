@@ -102,6 +102,7 @@ if (!research || typeof research !== "object") {
     if (!item) { fail("Valuation coverage sync", `${report.ticker} có báo cáo định giá nhưng thiếu coverage`); return; }
     if (item.reportId !== report.id) fail("Valuation coverage sync", `${report.ticker} coverage đang trỏ ${item.reportId || "trống"} thay vì ${report.id}`);
     if (report.action && item.action?.basisDate !== report.date) fail("Valuation coverage sync", `${report.ticker} action basisDate ${item.action?.basisDate || "trống"} không trùng ngày báo cáo ${report.date}`);
+    if (report.action?.eligibility != null && item.action?.eligibility !== report.action.eligibility) fail("Valuation coverage sync", `${report.ticker} eligibility coverage ${item.action?.eligibility || "trống"} không trùng report ${report.action.eligibility}`);
   });
 
   const latestReportDateByTicker = new Map();
