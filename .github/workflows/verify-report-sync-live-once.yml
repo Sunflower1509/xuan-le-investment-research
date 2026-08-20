@@ -1,0 +1,60 @@
+name: Verify report sync live once
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify synchronized data model
+        run: |
+          node --test tests/*.test.mjs
+          node scripts/audit-site.mjs
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          import { evaluatePriorityCandidate, latestReportDates } from './src/scripts/priority-engine.mjs';
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),s);
+          const d=s.window.RESEARCH_DATA;
+          const valuations=d.reports.filter(r=>r.reportType!=='trading');
+          if(valuations.length!==52 || d.coverage.length!==52) throw new Error(`Expected 52/52, got ${valuations.length}/${d.coverage.length}`);
+          if(new Set(valuations.map(r=>r.ticker)).size!==52 || new Set(d.coverage.map(c=>c.ticker)).size!==52) throw new Error('Duplicate valuation/coverage ticker');
+          const by=new Map(d.coverage.map(c=>[c.ticker,c]));
+          const dates=latestReportDates(d.reports);
+          for(const t of ['BSI','MSB','TCB','VIB','VNM']){
+            const c=by.get(t); if(!c) throw new Error(`${t} missing coverage`);
+            const p=evaluatePriorityCandidate(c,{openTickers:new Set(['SHB']),reportDates:dates,asOfDate:d.meta.updated});
+            if(!p.eligible) throw new Error(`${t} not priority eligible: ${p.reason}`);
+          }
+          const pnj=evaluatePriorityCandidate(by.get('PNJ'),{openTickers:new Set(['SHB']),reportDates:dates,asOfDate:d.meta.updated});
+          if(pnj.eligible || pnj.reason!=='not-active') throw new Error('PNJ manual gate changed');
+          console.log(JSON.stringify({valuationReports:valuations.length,coverage:d.coverage.length,priorityAdded:['BSI','MSB','TCB','VIB','VNM'],pnj:pnj.reason}));
+          NODE
+      - name: Build exact production artifact
+        run: |
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+      - name: Verify live bytes and VNM PDF
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url 'https://sunflower1509.github.io/xuan-le-investment-research/' \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
+          curl -fL --retry 5 --retry-delay 2 -H 'Cache-Control: no-cache' \
+            'https://sunflower1509.github.io/xuan-le-investment-research/reports/VNM_2026-08-19.pdf?verify=20260820' \
+            -o /tmp/vnm-live.pdf
+          test "$(stat -c%s /tmp/vnm-live.pdf)" = '660336'
+          echo '10840a5b68a843cea98eda91f4b77f48922c6025f643a112bc69542a32dadcb0  /tmp/vnm-live.pdf' | sha256sum -c -
