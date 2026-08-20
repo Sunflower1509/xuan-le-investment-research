@@ -27,12 +27,7 @@ jobs:
           curl -fL --retry 3 --retry-delay 2 'https://at.adobe.com/MgpsWaGizIyQvwdB' -o reports/VNM_2026-08-19.pdf
           test "$(stat -c%s reports/VNM_2026-08-19.pdf)" = '660336'
           test "$(head -c 5 reports/VNM_2026-08-19.pdf)" = '%PDF-'
-          test "$(pdfinfo reports/VNM_2026-08-19.pdf | awk '/^Pages:/ {print $2}')" = '14'
           echo '10840a5b68a843cea98eda91f4b77f48922c6025f643a112bc69542a32dadcb0  reports/VNM_2026-08-19.pdf' | sha256sum -c -
-          pdftotext reports/VNM_2026-08-19.pdf /tmp/vnm.txt
-          grep -Fq '47.600 - 51.000 VND/cp' /tmp/vnm.txt
-          grep -Fq '68.000 - 85.000 VND/cp' /tmp/vnm.txt
-          grep -Fq 'THEO DÕI / CHỜ' /tmp/vnm.txt
 
       - name: Synchronize reports coverage and action metadata
         run: |
