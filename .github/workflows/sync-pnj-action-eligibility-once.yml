@@ -1,0 +1,129 @@
+name: Synchronize PNJ action eligibility once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Synchronize PNJ report and coverage eligibility
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          const p='src/data/research-data.js';
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync(p,'utf8'),s);
+          const d=s.window.RESEARCH_DATA;
+          const r=d.reports.find(x=>x.id==='PNJ-20260819');
+          const c=d.coverage.find(x=>x.ticker==='PNJ');
+          if(!r || !c) throw new Error('PNJ report/coverage missing');
+          if(r.date!=='2026-08-19' || c.reportId!==r.id) throw new Error('PNJ report linkage mismatch');
+          if(r.action?.zoneLow!==25187 || r.action?.zoneHigh!==26986 || c.action?.zoneLow!==25187 || c.action?.zoneHigh!==26986) throw new Error('PNJ MOS zone differs from locked report');
+          if(!String(r.action?.condition||'').includes('nghĩa vụ pháp lý mới') || !String(r.action?.condition||'').includes('dự phòng mua lại bổ sung')) throw new Error('PNJ conditional risk gate missing');
+          r.action.eligibility='active';
+          c.action=JSON.parse(JSON.stringify(r.action));
+          fs.writeFileSync(p,`window.RESEARCH_DATA = ${JSON.stringify(d,null,2)};\n`);
+          NODE
+
+      - name: Strengthen permanent report coverage eligibility gate
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          let p='scripts/audit-site.mjs', s=fs.readFileSync(p,'utf8');
+          const needle='if (report.action && item.action?.basisDate !== report.date) fail("Valuation coverage sync", `${report.ticker} action basisDate ${item.action?.basisDate || "trống"} không trùng ngày báo cáo ${report.date}`);';
+          const addition='\n    if (report.action && item.action?.eligibility !== report.action.eligibility) fail("Valuation coverage sync", `${report.ticker} eligibility coverage ${item.action?.eligibility || "trống"} không trùng report ${report.action.eligibility || "trống"}`);';
+          if(!s.includes(needle)) throw new Error('Audit eligibility insertion marker missing');
+          if(!s.includes('eligibility coverage')) s=s.replace(needle,needle+addition);
+          fs.writeFileSync(p,s);
+
+          p='tests/report-coverage-sync.test.mjs'; s=fs.readFileSync(p,'utf8');
+          const tneedle='assert.equal(c.action?.basisDate,r.date,`${r.ticker} basisDate vùng hành động lệch ngày báo cáo`);';
+          const tadd='\n                assert.equal(c.action?.eligibility,r.action?.eligibility,`${r.ticker} eligibility coverage lệch báo cáo`);';
+          if(!s.includes(tneedle)) throw new Error('Test eligibility insertion marker missing');
+          if(!s.includes('eligibility coverage lệch báo cáo')) s=s.replace(tneedle,tneedle+tadd);
+          fs.writeFileSync(p,s);
+          NODE
+
+      - name: Re-evaluate ledger without retroactive activation
+        run: |
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/ledger-before.json"
+          node scripts/process-trade-ledger.mjs
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const before=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+'/ledger-before.json','utf8'));
+          const after=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const prior=new Set((before.events||[]).map(e=>e.id));
+          const newPnj=(after.events||[]).filter(e=>e.ticker==='PNJ'&&!prior.has(e.id));
+          if(newPnj.length) throw new Error(`PNJ eligibility sync must not create retroactive event: ${JSON.stringify(newPnj)}`);
+          NODE
+
+      - name: Verify Priority and Buy Zone synchronization
+        run: |
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          import { buildPriorityUniverse, evaluatePriorityCandidate, latestReportDates, openPositionTickers } from './src/scripts/priority-engine.mjs';
+          import { projectTradeLedger } from './src/scripts/trade-ledger.mjs';
+          import { distanceToTrigger } from './src/scripts/action-trigger.mjs';
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),s); const d=s.window.RESEARCH_DATA;
+          const ledger=JSON.parse(fs.readFileSync('src/data/trade-ledger.json','utf8'));
+          const projection=projectTradeLedger(ledger,d.coverage);
+          const ctx={openTickers:openPositionTickers(projection),reportDates:latestReportDates(d.reports),asOfDate:d.meta.updated};
+          for(const t of ['BSI','MSB','PNJ','TCB','VIB','VNM']){
+            const c=d.coverage.find(x=>x.ticker===t); const state=evaluatePriorityCandidate(c,ctx);
+            if(!state.eligible) throw new Error(`${t} must be entry-priority eligible: ${state.reason}`);
+          }
+          const u=buildPriorityUniverse(d.coverage,ctx);
+          const pnjRank=u.findIndex(x=>x.ticker==='PNJ')+1;
+          if(!pnjRank) throw new Error('PNJ absent from Priority/Buy Zone universe');
+          console.log('PNJ_PRIORITY_RANK',pnjRank);
+          console.log('TOP10',u.slice(0,10).map(x=>({ticker:x.ticker,distancePct:distanceToTrigger(x.close,x.action)?.value}))); 
+          NODE
+          if ! git diff --quiet -- src/index.css src/styles assets/css/site.min.css; then echo 'CSS changed unexpectedly' >&2; exit 1; fi
+
+      - name: Update cache token only and prepare exact site artifact
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const p='index.html'; let s=fs.readFileSync(p,'utf8');
+          s=s.replace(/assets\/js\/site\.min\.js\?v=[^"']+/,'assets/js/site.min.js?v=20260820-reportsync2');
+          fs.writeFileSync(p,s);
+          const order=[...s.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const exp=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==exp.join(',')) throw new Error(`section order changed: ${order}`);
+          NODE
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Commit clean synchronization and self-delete
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/sync-pnj-action-eligibility-once.yml
+          git add src/data/research-data.js src/data/trade-ledger.json scripts/audit-site.mjs tests/report-coverage-sync.test.mjs assets/js/site.min.js index.html
+          git commit -m 'Synchronize PNJ action eligibility with valuation report'
+          git push origin HEAD:main
+
+      - name: Verify final live site after Pages deployment
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url 'https://sunflower1509.github.io/xuan-le-investment-research/' \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 30 \
+            --wait-ms 10000
