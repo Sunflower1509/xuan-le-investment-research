@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 47/47 mã được khóa tại phiên 19/08/2026. Giá đóng cửa 47/47 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 46/47 mã giữa hai nguồn; SHS: VNDIRECT 6.248.600 vs DNSE 6.235.700 (chênh 12.900). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 52/52 mã được khóa tại phiên 19/08/2026. Giá đóng cửa 52/52 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 51/52 mã giữa hai nguồn; SHS: VNDIRECT 6.248.600 vs DNSE 6.235.700 (chênh 12.900). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động được đồng bộ theo báo cáo định giá mới nhất."
   },
   "marketSession": {
     "date": "2026-08-19",
@@ -56,6 +56,49 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "VNM-20260819",
+      "ticker": "VNM",
+      "company": "Công ty Cổ phần Sữa Việt Nam",
+      "sector": "Thực phẩm - đồ uống / Sữa",
+      "exchange": "HOSE",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 63100,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 74264,
+      "valueLabel": "Giá trị kỳ vọng DCF",
+      "rangeLow": 68000,
+      "rangeHigh": 85000,
+      "gapLabel": "MOS 7,2% so với cận dưới; 17,5% so với midpoint; vùng mua MOS 25–30% là 47.600–51.000 đồng/cp",
+      "method": "DCF theo FCFF; P/E, EV/EBITDA và P/B dùng kiểm chứng",
+      "summary": "VNM có vùng giá trị hợp lý 68.000–85.000 đồng/cp, midpoint 76.500 đồng/cp và DCF strict-cash expected value 74.264 đồng/cp. Giá đóng cửa 19/08/2026 là 63.100 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS so với cận dưới mới 7,2%.",
+      "action": {
+        "zoneLow": 47600,
+        "zoneHigh": 51000,
+        "baseValue": 74264,
+        "stop": 47500,
+        "targets": [
+          68000,
+          76500
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "IF giá 47.600–51.000 và thesis không xấu đi THEN có thể mua theo valuation, ưu tiên giải ngân từng phần. Nếu entry quanh 50.500, stoploss 47.500; target 68.000 và 76.500. Giá 63.100: CHỜ; 68.000–85.000 không có nâng EPS/FCFF: không mua mới; trên 85.000 không có nâng dự phóng: LOẠI/né mua mới."
+      },
+      "visual": {
+        "kind": "illustration",
+        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
+        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
+        "caption": "Báo cáo định giá cổ phiếu",
+        "sourceLabel": "Xuân Lê TVS",
+        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+      },
+      "file": "reports/VNM_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
     {
       "id": "BSI-20260819",
       "ticker": "BSI",
@@ -1952,6 +1995,141 @@ window.RESEARCH_DATA = {
     }
   ],
   "coverage": [
+    {
+      "ticker": "BSI",
+      "company": "Công ty Cổ phần Chứng khoán BIDV",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "reportId": "BSI-20260819",
+      "close": 27650,
+      "priceDate": "2026-08-19",
+      "changePct": -0.1805,
+      "volume": 173800,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSI~date:2026-08-19&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787072400&to=1787158799&symbol=BSI&resolution=1D",
+      "action": {
+        "zoneLow": 19610,
+        "zoneHigh": 21010,
+        "baseValue": 31708,
+        "stop": null,
+        "targets": [
+          28014,
+          30943
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÂN NHẮC MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ cân nhắc 19.610–21.010 đồng/cp khi thesis H1/2026 và kế hoạch 2026 không xấu đi; giải ngân theo nhịp, không FOMO. Stop 5% dưới giá khớp; midpoint 20.310 cho SL minh họa 19.295. T1 28.014; T2 30.943. Trên 36.932 trước earnings upgrade: LOẠI/TRÁNH."
+      }
+    },
+    {
+      "ticker": "MSB",
+      "company": "Ngân hàng TMCP Hàng Hải Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "MSB-20260819",
+      "close": 15550,
+      "priceDate": "2026-08-19",
+      "changePct": -1.2698,
+      "volume": 5179000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSB~date:2026-08-19&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787072400&to=1787158799&symbol=MSB&resolution=1D",
+      "action": {
+        "zoneLow": 11857,
+        "zoneHigh": 12704,
+        "baseValue": 16938,
+        "stop": null,
+        "targets": [
+          16938,
+          17239
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Trước quyền, chỉ xem xét 11.857–12.704 đồng/cp khi NPL/NIM không xấu đi rõ; stop 5% dưới giá vốn; T1 16.938; T2 17.239. 12.704–22.721: CHỜ; trên 22.721 nếu không nâng dự báo ROE/lợi nhuận: LOẠI/TRÁNH. Sau GDKHQ phải dùng bộ mốc đã quy đổi trong PDF."
+      }
+    },
+    {
+      "ticker": "TCB",
+      "company": "Ngân hàng TMCP Kỹ thương Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "TCB-20260819",
+      "close": 31000,
+      "priceDate": "2026-08-19",
+      "changePct": 0.4862,
+      "volume": 8372700,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCB~date:2026-08-19&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787072400&to=1787158799&symbol=TCB&resolution=1D",
+      "action": {
+        "zoneLow": 21707,
+        "zoneHigh": 23258,
+        "baseValue": 37351,
+        "stop": null,
+        "targets": [
+          31011,
+          37351
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH."
+      }
+    },
+    {
+      "ticker": "VIB",
+      "company": "Ngân hàng TMCP Quốc tế Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "VIB-20260819",
+      "close": 14350,
+      "priceDate": "2026-08-19",
+      "changePct": -0.3472,
+      "volume": 2414700,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIB~date:2026-08-19&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787072400&to=1787158799&symbol=VIB&resolution=1D",
+      "action": {
+        "zoneLow": 10820,
+        "zoneHigh": 11593,
+        "baseValue": 18800,
+        "stop": null,
+        "targets": [
+          15458,
+          18800
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 10.820–11.593 đồng/cp khi NPL/LLR/NIM không xấu thêm; stop 5% dưới giá khớp thực tế; T1 15.458; T2 18.800. Giá quanh 14.400: CHỜ; trên 22.365 nếu không nâng ROE/BVPS: LOẠI/TRÁNH mua mới."
+      }
+    },
+    {
+      "ticker": "VNM",
+      "company": "Công ty Cổ phần Sữa Việt Nam",
+      "sector": "Thực phẩm - đồ uống / Sữa",
+      "exchange": "HOSE",
+      "reportId": "VNM-20260819",
+      "close": 63100,
+      "priceDate": "2026-08-19",
+      "changePct": 1.6103,
+      "volume": 4664900,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VNM~date:2026-08-19&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787072400&to=1787158799&symbol=VNM&resolution=1D",
+      "action": {
+        "zoneLow": 47600,
+        "zoneHigh": 51000,
+        "baseValue": 74264,
+        "stop": 47500,
+        "targets": [
+          68000,
+          76500
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "IF giá 47.600–51.000 và thesis không xấu đi THEN có thể mua theo valuation, ưu tiên giải ngân từng phần. Nếu entry quanh 50.500, stoploss 47.500; target 68.000 và 76.500. Giá 63.100: CHỜ; 68.000–85.000 không có nâng EPS/FCFF: không mua mới; trên 85.000 không có nâng dự phóng: LOẠI/né mua mới."
+      }
+    },
     {
       "ticker": "SHB",
       "company": "Ngân hàng TMCP Sài Gòn - Hà Nội",

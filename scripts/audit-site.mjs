@@ -93,6 +93,17 @@ if (!research || typeof research !== "object") {
   assertUnique(reports.map((report) => `${report.ticker}:${report.reportType || "valuation"}:${report.date}`), "Report edition");
   assertUnique(coverage.map((item) => item.ticker), "Coverage ticker");
   const reportIds = new Set(reports.map((report) => report.id));
+  const valuationReports = reports.filter((report) => report.reportType !== "trading");
+  const coverageByTickerAudit = new Map(coverage.map((item) => [item.ticker, item]));
+  assertUnique(valuationReports.map((report) => report.ticker), "Valuation ticker");
+  if (coverage.length !== valuationReports.length) fail("Valuation coverage sync", `coverage ${coverage.length} mã không bằng ${valuationReports.length} báo cáo định giá`);
+  valuationReports.forEach((report) => {
+    const item = coverageByTickerAudit.get(report.ticker);
+    if (!item) { fail("Valuation coverage sync", `${report.ticker} có báo cáo định giá nhưng thiếu coverage`); return; }
+    if (item.reportId !== report.id) fail("Valuation coverage sync", `${report.ticker} coverage đang trỏ ${item.reportId || "trống"} thay vì ${report.id}`);
+    if (report.action && item.action?.basisDate !== report.date) fail("Valuation coverage sync", `${report.ticker} action basisDate ${item.action?.basisDate || "trống"} không trùng ngày báo cáo ${report.date}`);
+  });
+
   const latestReportDateByTicker = new Map();
   reports.forEach((report) => {
     if (report.reportType === "trading") return;
