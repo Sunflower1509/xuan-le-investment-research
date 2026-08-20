@@ -45,13 +45,13 @@ jobs:
           import fs from 'node:fs';
           let p='scripts/audit-site.mjs', s=fs.readFileSync(p,'utf8');
           const needle='if (report.action && item.action?.basisDate !== report.date) fail("Valuation coverage sync", `${report.ticker} action basisDate ${item.action?.basisDate || "trống"} không trùng ngày báo cáo ${report.date}`);';
-          const add='\n    if (report.action && item.action?.eligibility !== report.action.eligibility) fail("Valuation coverage sync", `${report.ticker} eligibility coverage ${item.action?.eligibility || "trống"} không trùng report ${report.action.eligibility || "trống"}`);';
+          const add='\n    if (report.action?.eligibility != null && item.action?.eligibility !== report.action.eligibility) fail("Valuation coverage sync", `${report.ticker} eligibility coverage ${item.action?.eligibility || "trống"} không trùng report ${report.action.eligibility}`);';
           if(!s.includes(needle)) throw new Error('Audit sync marker missing');
           if(!s.includes('eligibility coverage')) s=s.replace(needle,needle+add);
           fs.writeFileSync(p,s);
           p='tests/report-coverage-sync.test.mjs'; s=fs.readFileSync(p,'utf8');
           const tneedle='assert.equal(c.action?.basisDate,r.date,`${r.ticker} basisDate vùng hành động lệch ngày báo cáo`);';
-          const tadd='\n                assert.equal(c.action?.eligibility,r.action?.eligibility,`${r.ticker} eligibility coverage lệch báo cáo`);';
+          const tadd='\n                if (r.action?.eligibility != null) assert.equal(c.action?.eligibility,r.action.eligibility,`${r.ticker} eligibility coverage lệch báo cáo`);';
           if(!s.includes(tneedle)) throw new Error('Test sync marker missing');
           if(!s.includes('eligibility coverage lệch báo cáo')) s=s.replace(tneedle,tneedle+tadd);
           fs.writeFileSync(p,s);
