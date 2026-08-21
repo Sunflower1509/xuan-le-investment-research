@@ -1,0 +1,34 @@
+name: Read-only EOD 20260821 verifier
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: github.head_ref == 'verify/eod-readonly-20260821'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Inspect current 58/58 EOD readiness without persisting
+        run: |
+          set +e
+          node scripts/update-eod-market-data.mjs \
+            --date 2026-08-21 \
+            --status-file "${RUNNER_TEMP}/eod-status.json" \
+            --max-attempts 1 \
+            --wait-ms 0
+          rc=$?
+          echo "UPDATER_EXIT=$rc"
+          if [[ -f "${RUNNER_TEMP}/eod-status.json" ]]; then cat "${RUNNER_TEMP}/eod-status.json"; fi
+          git diff --stat
+          exit 0
