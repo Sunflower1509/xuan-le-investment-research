@@ -1,0 +1,61 @@
+name: Verify live EOD 20260821 final
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: github.head_ref == 'verify/live-eod-20260821-final'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Regression build and audit exact main
+        run: |
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Verify EOD invariants and structure
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          const code=fs.readFileSync('src/data/research-data.js','utf8'); const s={window:{}}; vm.runInNewContext(code,s); const d=s.window.RESEARCH_DATA;
+          if(d.meta.updated!=='2026-08-21') throw new Error(`meta.updated=${d.meta.updated}`);
+          if(d.marketSession?.date!=='2026-08-21') throw new Error(`marketSession=${d.marketSession?.date}`);
+          if(d.coverage.length!==58 || d.coverage.some(x=>x.priceDate!=='2026-08-21')) throw new Error('Coverage is not 58/58 EOD 21/08');
+          const h=fs.readFileSync('index.html','utf8');
+          const order=[...h.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const exp=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==exp.join(',')) throw new Error(`Section order changed: ${order}`);
+          for(const text of ['giá đóng cửa 21/08/2026','Giá theo dõi khóa EOD 21.08.2026','Action Radar • EOD 21.08.2026','Giá khóa 21.08']) if(!h.includes(text)) throw new Error(`Missing ${text}`);
+          console.log('FINAL_EOD_INVARIANTS_OK',JSON.stringify({coverage:d.coverage.length,reports:d.reports.length,marketSession:d.marketSession}));
+          NODE
+
+      - name: Verify production live byte-for-byte
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url 'https://sunflower1509.github.io/xuan-le-investment-research/' \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
+
+      - name: Verify live first-paint labels
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 2 -H 'Cache-Control: no-cache' 'https://sunflower1509.github.io/xuan-le-investment-research/?eod-check=20260821' > /tmp/live.html
+          grep -Fq 'giá đóng cửa 21/08/2026' /tmp/live.html
+          grep -Fq 'Giá theo dõi khóa EOD 21.08.2026' /tmp/live.html
+          grep -Fq 'Action Radar • EOD 21.08.2026' /tmp/live.html
+          grep -Fq 'Giá khóa 21.08' /tmp/live.html
