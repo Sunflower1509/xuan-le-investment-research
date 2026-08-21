@@ -481,6 +481,60 @@
           "zoneHigh": 51000,
           "zoneBasisDate": "2026-08-19",
           "eligibility": "active"
+        },
+        "DPR": {
+          "date": "2026-08-20",
+          "close": 36300,
+          "relation": "above",
+          "zoneLow": 25600,
+          "zoneHigh": 27400,
+          "zoneBasisDate": "2026-08-21",
+          "eligibility": "active"
+        },
+        "HAH": {
+          "date": "2026-08-20",
+          "close": 47500,
+          "relation": "above",
+          "zoneLow": 23896,
+          "zoneHigh": 25603,
+          "zoneBasisDate": "2026-08-20",
+          "eligibility": "active"
+        },
+        "BMP": {
+          "date": "2026-08-20",
+          "close": 143600,
+          "relation": "above",
+          "zoneLow": 67889,
+          "zoneHigh": 72738,
+          "zoneBasisDate": "2026-08-20",
+          "eligibility": "veto"
+        },
+        "SAB": {
+          "date": "2026-08-20",
+          "close": 46800,
+          "relation": "above",
+          "zoneLow": 32326,
+          "zoneHigh": 34635,
+          "zoneBasisDate": "2026-08-20",
+          "eligibility": "active"
+        },
+        "CTD": {
+          "date": "2026-08-20",
+          "close": 61500,
+          "relation": "above",
+          "zoneLow": 39900,
+          "zoneHigh": 42700,
+          "zoneBasisDate": "2026-08-20",
+          "eligibility": "active"
+        },
+        "DRI": {
+          "date": "2026-08-20",
+          "close": 13700,
+          "relation": "above",
+          "zoneLow": 7550,
+          "zoneHigh": 8090,
+          "zoneBasisDate": "2026-08-19",
+          "eligibility": "active"
         }
       }
     }

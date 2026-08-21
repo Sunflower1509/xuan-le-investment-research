@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { ohlcDifferences, parseDnse, parseVndirect } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, ohlcDifferences, parseDnse, parseVndirect } from "../scripts/update-eod-market-data.mjs";
 
 const date = "2026-08-20";
 
@@ -25,4 +25,20 @@ test("phát hiện sai khác OHLC dù giá đóng cửa vẫn khớp", () => {
   const primary = { open: 10000, high: 11000, low: 9000, close: 10500 };
   const secondary = { open: 10100, high: 11000, low: 9000, close: 10500 };
   assert.deepEqual(ohlcDifferences(primary, secondary), [{ field: "open", primary: 10000, secondary: 10100 }]);
+});
+
+test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn", () => {
+  const current = [{
+    ticker: "AAA",
+    close: 10500,
+    changePct: 5,
+    volume: 100,
+    priceDate: date,
+    priceSource: "https://primary.example/aaa",
+    priceSourceSecondary: "https://secondary.example/aaa"
+  }];
+  assert.equal(isCoverageCurrent(current, date), true);
+  assert.equal(isCoverageCurrent([...current, { ticker: "BBB" }], date), false);
+  assert.equal(isCoverageCurrent([{ ...current[0], priceSourceSecondary: null }], date), false);
+  assert.equal(isCoverageCurrent([{ ...current[0], volume: null }], date), false);
 });

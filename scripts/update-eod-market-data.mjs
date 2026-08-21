@@ -191,6 +191,25 @@ const immutableProjection = (input) => {
   return JSON.stringify(clone);
 };
 
+const isHttpsUrl = (value) => {
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
+};
+
+export const isCoverageCurrent = (coverage, date) => Array.isArray(coverage)
+  && coverage.length > 0
+  && coverage.every((item) => item?.priceDate === date
+    && finite(item.close) > 0
+    && item.changePct != null
+    && finite(item.changePct) !== null
+    && item.volume != null
+    && finite(item.volume) >= 0
+    && isHttpsUrl(item.priceSource)
+    && isHttpsUrl(item.priceSourceSecondary));
+
 const writeOutput = async (key, value) => {
   if (!process.env.GITHUB_OUTPUT) return;
   await fs.appendFile(process.env.GITHUB_OUTPUT, `${key}=${String(value)}\n`, "utf8");
@@ -215,7 +234,7 @@ const run = async () => {
     throw new Error("Coverage có ticker trùng hoặc sai định dạng.");
   }
   if (targetDate < before.meta.updated) throw new Error(`Không cho phép cập nhật lùi ngày ${targetDate} < ${before.meta.updated}.`);
-  if (targetDate === before.meta.updated) {
+  if (targetDate === before.meta.updated && isCoverageCurrent(before.coverage, targetDate)) {
     const payload = { status: "already-current", date: targetDate, coverageCount: tickers.length };
     await writeStatus(statusFile, payload);
     await writeOutput("status", payload.status);

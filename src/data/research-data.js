@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 52/52 mã được khóa tại phiên 20/08/2026. OHLC 52/52 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 50/52 mã giữa hai nguồn; SHS: VNDIRECT 4.603.500 vs DNSE 4.587.400 (chênh 16.100); PVS: VNDIRECT 3.528.700 vs DNSE 3.513.600 (chênh 15.100). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 58/58 mã được khóa tại phiên 20/08/2026. OHLC 58/58 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 55/58 mã giữa hai nguồn; SHS: VNDIRECT 4.603.500 vs DNSE 4.587.400 (chênh 16.100); PVS: VNDIRECT 3.528.700 vs DNSE 3.513.600 (chênh 15.100); DRI: VNDIRECT 554.537 vs DNSE 554.200 (chênh 337). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
   },
   "marketSession": {
     "date": "2026-08-19",
@@ -56,6 +56,256 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "DPR-20260821",
+      "ticker": "DPR",
+      "company": "Công ty Cổ phần Cao su Đồng Phú",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-21",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 36300,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 46300,
+      "valueLabel": "Tâm xác suất",
+      "rangeLow": 36600,
+      "rangeHigh": 56500,
+      "gapLabel": "MOS 21,5% so với tâm xác suất; vùng mua MOS 25–30% là 25.600–27.400 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa 5–7 năm; kiểm chứng P/B và EV/EBITDA chuẩn hóa",
+      "summary": "DPR có vùng giá trị hợp lý 36.600–56.500 đồng/cp và tâm xác suất khoảng 46.300 đồng/cp. Giá đóng cửa 20/08/2026 là 36.300 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30% so với cận dưới.",
+      "action": {
+        "zoneLow": 25600,
+        "zoneHigh": 27400,
+        "baseValue": 46300,
+        "stop": null,
+        "targets": [
+          36600,
+          46300,
+          56500
+        ],
+        "basisDate": "2026-08-21",
+        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 25.600–27.400 đồng/cp khi luận điểm cao su/KCN không xấu đi; giải ngân từng phần, không mua một lần. Stoploss 5% dưới giá khớp thực tế; các mốc định giá tham chiếu là 36.600 / 46.300 / 56.500 đồng/cp. Trên 56.500 nếu fundamentals không cải thiện tương ứng: TRÁNH / giảm rủi ro."
+      },
+      "visual": {
+        "src": "assets/images/reports/dpr.webp?v=20260821-company1",
+        "alt": "Khuôn viên doanh nghiệp Cao su Đồng Phú",
+        "caption": "Khuôn viên Cao su Đồng Phú",
+        "sourceLabel": "Cao su Đồng Phú",
+        "sourceUrl": "https://doruco.com.vn/gioi-thieu/gioi-thieu-chung-vn-n-258-0.html"
+      },
+      "file": "reports/DPR_2026-08-21.pdf",
+      "edition": "Bản định giá 21.08.2026"
+    },
+    {
+      "id": "HAH-20260820",
+      "ticker": "HAH",
+      "company": "Công ty Cổ phần Vận tải và Xếp dỡ Hải An",
+      "sector": "Cảng biển & logistics",
+      "exchange": "HOSE",
+      "date": "2026-08-20",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 48000,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 45852,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 34138,
+      "rangeHigh": 57943,
+      "gapLabel": "Giá snapshot 48.000 cao hơn giá trị kỳ vọng 4,7%; vùng mua MOS 25–30% là 23.896–25.603 đồng/cp",
+      "method": "Lợi nhuận và biên chuẩn hóa 5 năm; EV/EBITDA, P/E và P/B",
+      "summary": "HAH có vùng giá trị hợp lý 34.138–57.943 đồng/cp và giá trị kỳ vọng 45.852 đồng/cp. Snapshot trong phiên 20/08/2026 là 48.000 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa có chiết khấu định giá.",
+      "action": {
+        "zoneLow": 23896,
+        "zoneHigh": 25603,
+        "baseValue": 45852,
+        "stop": null,
+        "targets": [
+          34138
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 23.896–25.603 đồng/cp khi thesis không xấu đi; stoploss tối đa 7% dưới giá khớp và mốc định giá đầu tiên 34.138 đồng/cp. Quanh 48.000: CHỜ, không mua chỉ dựa trên valuation; trên 57.943 mà forecast/multiple không được nâng: TRÁNH mua mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/hah.webp?v=20260821-company1",
+        "alt": "Tàu container HAIAN SONG của Hải An Lines",
+        "caption": "Tàu container HAIAN SONG",
+        "sourceLabel": "Hải An",
+        "sourceUrl": "https://haiants.vn/album/haian-song-11.html"
+      },
+      "file": "reports/HAH_2026-08-20.pdf",
+      "edition": "Bản định giá 20.08.2026"
+    },
+    {
+      "id": "BMP-20260820",
+      "ticker": "BMP",
+      "company": "Công ty Cổ phần Nhựa Bình Minh",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-20",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 143600,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 115160,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 96984,
+      "rangeHigh": 134748,
+      "gapLabel": "Giá cao hơn cận trên 6,57%; vùng mua MOS 25–30% là 67.889–72.738 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa 5–7 năm; P/B và EV/EBITDA chuẩn hóa",
+      "summary": "BMP có vùng giá trị hợp lý chuẩn hóa chu kỳ 96.984–134.748 đồng/cp và giá trị kỳ vọng 115.160 đồng/cp. Giá đóng cửa 20/08/2026 là 143.600 đồng/cp, cao hơn cận trên 6,57%; trạng thái TRÁNH / LOẠI.",
+      "action": {
+        "zoneLow": 67889,
+        "zoneHigh": 72738,
+        "baseValue": 115160,
+        "stop": null,
+        "targets": [
+          96984,
+          115160
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "TRÁNH / LOẠI TẠI GIÁ HIỆN TẠI",
+        "eligibility": "veto",
+        "condition": "67.889–72.738 đồng/cp chỉ là vùng MOS tham chiếu và chỉ có thể xem xét nếu nền tảng không xấu đi. Giá trên 134.748: TRÁNH / LOẠI, không mở vị thế mới. Báo cáo không khóa lệnh mua tại giá hiện tại; stop 5% và các mốc 96.984 / 115.160 chỉ áp dụng cho kịch bản IF–THEN khi vùng MOS đủ điều kiện."
+      },
+      "visual": {
+        "src": "assets/images/reports/bmp.webp?v=20260821-company1",
+        "alt": "Nhựa Bình Minh tại lễ công bố Hàng Việt Nam Chất lượng cao 2026",
+        "caption": "Nhựa Bình Minh được vinh danh năm 2026",
+        "sourceLabel": "Nhựa Bình Minh",
+        "sourceUrl": "https://binhminhplastic.com.vn/tin-tuc/tin-tuc/nhua-binh-minh-30-nam-giu-tron-niem-tin-trong-long-nguoi-tieu-dung-viet-1"
+      },
+      "file": "reports/BMP_2026-08-20.pdf",
+      "edition": "Bản định giá 20.08.2026"
+    },
+    {
+      "id": "SAB-20260820",
+      "ticker": "SAB",
+      "company": "Tổng Công ty Cổ phần Bia - Rượu - Nước giải khát Sài Gòn",
+      "sector": "Tiêu dùng",
+      "exchange": "HOSE",
+      "date": "2026-08-20",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 47000,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 59789,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 46180,
+      "rangeHigh": 73917,
+      "gapLabel": "MOS 21,4% so với giá trị kỳ vọng; vùng mua strict là 32.326–34.635 đồng/cp",
+      "method": "DCF theo FCFF; P/E, EV/EBITDA và P/B dùng kiểm chứng",
+      "summary": "SAB có vùng giá trị hợp lý 46.180–73.917 đồng/cp và giá trị kỳ vọng 59.789 đồng/cp. Snapshot trong phiên 20/08/2026 là 47.000 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30% so với cận dưới.",
+      "action": {
+        "zoneLow": 32326,
+        "zoneHigh": 34635,
+        "baseValue": 59789,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-20",
+        "recommendation": "ĐỦ ĐIỀU KIỆN MUA ĐỊNH GIÁ STRICT",
+        "eligibility": "active",
+        "condition": "Chỉ đủ điều kiện mua định giá strict khi giá nằm trong vùng MOS 32.326–34.635 đồng/cp và thesis thuế/dữ liệu mới không xấu đi. Stoploss 5% dưới giá khớp sau xác nhận. PDF không khóa target số cho kịch bản strict nên website không tự bổ sung; quanh 47.000: CHỜ; trên 73.917: TRÁNH mua mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/sab.webp?v=20260821-company1",
+        "alt": "Đại hội đồng cổ đông thường niên SABECO năm 2026",
+        "caption": "Đại hội đồng cổ đông SABECO 2026",
+        "sourceLabel": "SABECO",
+        "sourceUrl": "https://www.sabeco.com.vn/truyen-thong/tin-tuc-su-kien/sabeco-duy-tri-chi-tra-co-tuc-50-hai-nam-lien-tiep-khang-dinh-cam-ket-tao-gia-tri-dai-han"
+      },
+      "file": "reports/SAB_2026-08-20.pdf",
+      "edition": "Bản định giá 20.08.2026"
+    },
+    {
+      "id": "CTD-20260820",
+      "ticker": "CTD",
+      "company": "Công ty Cổ phần Xây dựng Coteccons",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-20",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 63900,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 56900,
+      "valueLabel": "Giá trị kỳ vọng DCF",
+      "rangeLow": 47900,
+      "rangeHigh": 96100,
+      "gapLabel": "Giá snapshot cao hơn giá trị kỳ vọng 12,2%; vùng mua MOS chính là 39.900–42.700 đồng/cp",
+      "method": "DCF theo FCFF; P/E, P/B và EV/EBITDA dùng kiểm chứng",
+      "summary": "CTD có vùng giá trị hợp lý 47.900–96.100 đồng/cp và expected-value anchor 56.900 đồng/cp. Snapshot 20/08/2026 là 63.900 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.",
+      "action": {
+        "zoneLow": 39900,
+        "zoneHigh": 42700,
+        "baseValue": 56900,
+        "stop": null,
+        "targets": [
+          64000,
+          79600,
+          86000
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 39.900–42.700 đồng/cp khi fundamentals không xấu đi; stoploss 5% dưới giá khớp, target 1 là 64.000 và target 2 là vùng 79.600–86.000 đồng/cp. 54.000–96.100: CHỜ; trên 96.100: TRÁNH mua mới. Nếu vốn lưu động, nợ vay hoặc biên EBIT xấu đi theo ngưỡng trong PDF: hạ định giá / ưu tiên cutloss."
+      },
+      "visual": {
+        "src": "assets/images/reports/ctd.webp?v=20260821-company1",
+        "alt": "Nhà đầu tư tham quan công trường Metropole MP14 do Coteccons thi công",
+        "caption": "Site Tour tại công trường Coteccons",
+        "sourceLabel": "Coteccons",
+        "sourceUrl": "https://www.coteccons.vn/coteccons-to-chuc-site-tour-danh-cho-nha-dau-tu-tai-du-an-metropole-mp14/"
+      },
+      "file": "reports/CTD_2026-08-20.pdf",
+      "edition": "Bản định giá 20.08.2026"
+    },
+    {
+      "id": "DRI-20260819",
+      "ticker": "DRI",
+      "company": "Công ty Cổ phần Đầu tư Cao su Đắk Lắk",
+      "sector": "Nông nghiệp",
+      "exchange": "UPCoM",
+      "date": "2026-08-19",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 13600,
+      "marketPriceDate": "2026-08-19",
+      "baseValue": 13219,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 10786,
+      "rangeHigh": 15771,
+      "gapLabel": "Giá cao hơn giá trị kỳ vọng 2,9%; vùng mua MOS 25–30% là 7.550–8.090 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa 5 năm; P/B và EV/EBITDA chuẩn hóa",
+      "summary": "DRI có vùng giá trị hợp lý 10.786–15.771 đồng/cp và giá trị kỳ vọng 13.219 đồng/cp. Giá đóng cửa 19/08/2026 là 13.600 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt MOS 25–30%.",
+      "action": {
+        "zoneLow": 7550,
+        "zoneHigh": 8090,
+        "baseValue": 13219,
+        "stop": null,
+        "targets": [
+          10800,
+          13200
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA TỪNG PHẦN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 7.550–8.090 đồng/cp khi normalized earnings/EBITDA không bị hạ và không có sự kiện pháp lý/chu kỳ mới làm đổi fair value. Stoploss 5% dưới giá khớp thực tế; entry minh họa 8.000 có stop 7.600, target 10.800 và 13.200. Trên 15.771 nếu normalized earnings không được nâng: LOẠI / TRÁNH mua mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/dri.webp?v=20260821-company1",
+        "alt": "Vườn cao su và hoạt động chế biến của DRI",
+        "caption": "Vườn cây và hoạt động chế biến cao su DRI",
+        "sourceLabel": "DRI",
+        "sourceUrl": "https://dri.com.vn/"
+      },
+      "file": "reports/DRI_2026-08-19.pdf",
+      "edition": "Bản định giá 19.08.2026"
+    },
     {
       "id": "VNM-20260819",
       "ticker": "VNM",
@@ -1995,6 +2245,166 @@ window.RESEARCH_DATA = {
     }
   ],
   "coverage": [
+    {
+      "ticker": "DPR",
+      "company": "Công ty Cổ phần Cao su Đồng Phú",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "reportId": "DPR-20260821",
+      "close": 36300,
+      "priceDate": "2026-08-20",
+      "changePct": 0.554,
+      "volume": 71900,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DPR~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=DPR&resolution=1D",
+      "action": {
+        "zoneLow": 25600,
+        "zoneHigh": 27400,
+        "baseValue": 46300,
+        "stop": null,
+        "targets": [
+          36600,
+          46300,
+          56500
+        ],
+        "basisDate": "2026-08-21",
+        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 25.600–27.400 đồng/cp khi luận điểm cao su/KCN không xấu đi; giải ngân từng phần, không mua một lần. Stoploss 5% dưới giá khớp thực tế; các mốc định giá tham chiếu là 36.600 / 46.300 / 56.500 đồng/cp. Trên 56.500 nếu fundamentals không cải thiện tương ứng: TRÁNH / giảm rủi ro."
+      }
+    },
+    {
+      "ticker": "HAH",
+      "company": "Công ty Cổ phần Vận tải và Xếp dỡ Hải An",
+      "sector": "Cảng biển & logistics",
+      "exchange": "HOSE",
+      "reportId": "HAH-20260820",
+      "close": 47500,
+      "priceDate": "2026-08-20",
+      "changePct": -0.2101,
+      "volume": 1020700,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HAH~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=HAH&resolution=1D",
+      "action": {
+        "zoneLow": 23896,
+        "zoneHigh": 25603,
+        "baseValue": 45852,
+        "stop": null,
+        "targets": [
+          34138
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 23.896–25.603 đồng/cp khi thesis không xấu đi; stoploss tối đa 7% dưới giá khớp và mốc định giá đầu tiên 34.138 đồng/cp. Quanh 48.000: CHỜ, không mua chỉ dựa trên valuation; trên 57.943 mà forecast/multiple không được nâng: TRÁNH mua mới."
+      }
+    },
+    {
+      "ticker": "BMP",
+      "company": "Công ty Cổ phần Nhựa Bình Minh",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "reportId": "BMP-20260820",
+      "close": 143600,
+      "priceDate": "2026-08-20",
+      "changePct": -0.2778,
+      "volume": 55500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BMP~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=BMP&resolution=1D",
+      "action": {
+        "zoneLow": 67889,
+        "zoneHigh": 72738,
+        "baseValue": 115160,
+        "stop": null,
+        "targets": [
+          96984,
+          115160
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "TRÁNH / LOẠI TẠI GIÁ HIỆN TẠI",
+        "eligibility": "veto",
+        "condition": "67.889–72.738 đồng/cp chỉ là vùng MOS tham chiếu và chỉ có thể xem xét nếu nền tảng không xấu đi. Giá trên 134.748: TRÁNH / LOẠI, không mở vị thế mới. Báo cáo không khóa lệnh mua tại giá hiện tại; stop 5% và các mốc 96.984 / 115.160 chỉ áp dụng cho kịch bản IF–THEN khi vùng MOS đủ điều kiện."
+      }
+    },
+    {
+      "ticker": "SAB",
+      "company": "Tổng Công ty Cổ phần Bia - Rượu - Nước giải khát Sài Gòn",
+      "sector": "Tiêu dùng",
+      "exchange": "HOSE",
+      "reportId": "SAB-20260820",
+      "close": 46800,
+      "priceDate": "2026-08-20",
+      "changePct": 1.9608,
+      "volume": 1646400,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SAB~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=SAB&resolution=1D",
+      "action": {
+          "zoneLow": 32326,
+          "zoneHigh": 34635,
+          "baseValue": 59789,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-20",
+        "recommendation": "ĐỦ ĐIỀU KIỆN MUA ĐỊNH GIÁ STRICT",
+        "eligibility": "active",
+          "condition": "Chỉ đủ điều kiện mua định giá strict khi giá nằm trong vùng MOS 32.326–34.635 đồng/cp và thesis thuế/dữ liệu mới không xấu đi. Stoploss 5% dưới giá khớp sau xác nhận. PDF không khóa target số cho kịch bản strict nên website không tự bổ sung; quanh 47.000: CHỜ; trên 73.917: TRÁNH mua mới."
+      }
+    },
+    {
+      "ticker": "CTD",
+      "company": "Công ty Cổ phần Xây dựng Coteccons",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "reportId": "CTD-20260820",
+      "close": 61500,
+      "priceDate": "2026-08-20",
+      "changePct": -0.4854,
+      "volume": 180000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTD~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=CTD&resolution=1D",
+      "action": {
+        "zoneLow": 39900,
+        "zoneHigh": 42700,
+        "baseValue": 56900,
+        "stop": null,
+        "targets": [
+          64000,
+          79600,
+          86000
+        ],
+        "basisDate": "2026-08-20",
+        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 39.900–42.700 đồng/cp khi fundamentals không xấu đi; stoploss 5% dưới giá khớp, target 1 là 64.000 và target 2 là vùng 79.600–86.000 đồng/cp. 54.000–96.100: CHỜ; trên 96.100: TRÁNH mua mới. Nếu vốn lưu động, nợ vay hoặc biên EBIT xấu đi theo ngưỡng trong PDF: hạ định giá / ưu tiên cutloss."
+      }
+    },
+    {
+      "ticker": "DRI",
+      "company": "Công ty Cổ phần Đầu tư Cao su Đắk Lắk",
+      "sector": "Nông nghiệp",
+      "exchange": "UPCoM",
+      "reportId": "DRI-20260819",
+      "close": 13700,
+      "priceDate": "2026-08-20",
+      "changePct": 0.7353,
+      "volume": 554537,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DRI~date:2026-08-20&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787158800&to=1787245199&symbol=DRI&resolution=1D",
+      "action": {
+        "zoneLow": 7550,
+        "zoneHigh": 8090,
+        "baseValue": 13219,
+        "stop": null,
+        "targets": [
+          10800,
+          13200
+        ],
+        "basisDate": "2026-08-19",
+        "recommendation": "CÓ MUA TỪNG PHẦN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 7.550–8.090 đồng/cp khi normalized earnings/EBITDA không bị hạ và không có sự kiện pháp lý/chu kỳ mới làm đổi fair value. Stoploss 5% dưới giá khớp thực tế; entry minh họa 8.000 có stop 7.600, target 10.800 và 13.200. Trên 15.771 nếu normalized earnings không được nâng: LOẠI / TRÁNH mua mới."
+      }
+    },
     {
       "ticker": "BSI",
       "company": "Công ty Cổ phần Chứng khoán BIDV",

@@ -225,6 +225,15 @@ if (html) {
   if (canonical !== siteUrl) fail("SEO", `canonical phải là ${siteUrl}`);
   if (!html.includes(`<meta property="og:url" content="${siteUrl}">`)) fail("SEO", "og:url thiếu hoặc không khớp canonical");
 
+  const reportTabCount = Number(html.match(/data-role=(['"])report-tab-count\1[^>]*>(\d+)</i)?.[2]);
+  const coverageTabCount = Number(html.match(/data-role=(['"])coverage-tab-count\1[^>]*>(\d+)</i)?.[2]);
+  if (reportTabCount !== research?.reports?.length) {
+    fail("Tab count", `Báo cáo PDF hiển thị ${reportTabCount || "trống"}, dữ liệu có ${research?.reports?.length || 0}`);
+  }
+  if (coverageTabCount !== research?.coverage?.length) {
+    fail("Tab count", `Coverage Universe hiển thị ${coverageTabCount || "trống"}, dữ liệu có ${research?.coverage?.length || 0}`);
+  }
+
   const preloadTag = [...html.matchAll(/<link\b[^>]*>/gi)].map((match) => match[0])
     .find((tag) => /\brel=(['"])preload\1/i.test(tag) && /\bas=(['"])image\1/i.test(tag));
   const preloadHref = preloadTag?.match(/\bhref=(['"])([^'"]+)\1/i)?.[2];
