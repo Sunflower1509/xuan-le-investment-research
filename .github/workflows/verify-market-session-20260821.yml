@@ -1,0 +1,31 @@
+name: Read-only market session 20260821
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    if: github.head_ref == 'verify/eod-readonly-20260821'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch VNDIRECT index rows for 21 Aug
+        run: |
+          node --input-type=module <<'NODE'
+          const url='https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-21&size=500';
+          const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-MarketSession-Inspector/1.0'},signal:AbortSignal.timeout(15000)});
+          if(!res.ok) throw new Error(`HTTP ${res.status}`);
+          const p=await res.json(); const rows=Array.isArray(p?.data)?p.data:[];
+          const key=(r)=>String(r.code||r.indexCode||r.symbol||'').toUpperCase();
+          const wanted=rows.filter(r=>['VNINDEX','VN-INDEX','HOSE','VN30','VN30-INDEX','HNX','HNXINDEX','HNX-INDEX'].includes(key(r)));
+          if(wanted.length<3) throw new Error(`Missing index rows: ${JSON.stringify(wanted)}`);
+          console.log(JSON.stringify(wanted,null,2));
+          NODE
