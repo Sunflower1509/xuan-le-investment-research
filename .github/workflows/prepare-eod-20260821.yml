@@ -70,17 +70,11 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const p='index.html'; let s=fs.readFileSync(p,'utf8');
-          const reps=[
-            ['giá đóng cửa 20/08/2026','giá đóng cửa 21/08/2026'],
-            ['Giá theo dõi khóa EOD 19.08.2026','Giá theo dõi khóa EOD 21.08.2026'],
-            ['Action Radar • EOD 20.08.2026','Action Radar • EOD 21.08.2026'],
-            ['Giá khóa 20.08','Giá khóa 21.08']
-          ];
-          for(const [oldText,newText] of reps){
-            const count=s.split(oldText).length-1;
-            if(count!==1) throw new Error(`Expected exactly one first-paint marker '${oldText}', got ${count}`);
-            s=s.replace(oldText,newText);
-          }
+          const oldText='Giá theo dõi khóa EOD 19.08.2026';
+          const newText='Giá theo dõi khóa EOD 21.08.2026';
+          const count=s.split(oldText).length-1;
+          if(count!==1) throw new Error(`Expected exactly one ledger-asof marker, got ${count}`);
+          s=s.replace(oldText,newText);
           fs.writeFileSync(p,s);
           NODE
           node scripts/audit-site.mjs
