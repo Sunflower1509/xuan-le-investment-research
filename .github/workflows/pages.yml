@@ -23,9 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Check out repository
+      - name: Check out latest main
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 2
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -57,7 +58,18 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add src/data/trade-ledger.json assets/js/site.min.js
             git commit -m "Record EOD signal activations [skip ci]"
-            git push
+            git push origin HEAD:main
+          fi
+      - name: Guard against stale deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          local_sha="$(git rev-parse HEAD)"
+          remote_sha="$(git rev-parse origin/main)"
+          if [[ "$local_sha" != "$remote_sha" ]]; then
+            echo "Refusing stale Pages deployment: local=$local_sha remote=$remote_sha" >&2
+            exit 3
           fi
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
