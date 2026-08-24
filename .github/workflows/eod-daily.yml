@@ -53,6 +53,80 @@ jobs:
             node scripts/update-eod-market-data.mjs --status-file "${RUNNER_TEMP}/eod-status.json"
           fi
 
+      - name: Lock market indices and HOSE breadth
+        if: steps.market.outputs.status == 'verified'
+        env:
+          EOD_DATE: ${{ steps.market.outputs.date }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+
+          const date = process.env.EOD_DATE;
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) throw new Error(`Invalid EOD_DATE: ${date}`);
+          const path = 'src/data/research-data.js';
+          const code = fs.readFileSync(path, 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox, { filename: path });
+          const data = sandbox.window.RESEARCH_DATA;
+          if (data?.meta?.updated !== date) throw new Error(`Coverage date not locked: ${data?.meta?.updated}`);
+          if (!Array.isArray(data.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) {
+            throw new Error('Coverage is not fully current before market-session lock.');
+          }
+
+          const url = `https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:${date}&size=500`;
+          const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const finite = (value) => Number.isFinite(Number(value)) ? Number(value) : null;
+          const key = (row) => String(row?.code || row?.indexCode || row?.symbol || '').toUpperCase();
+          const parseIndex = (row, label) => {
+            if (!row) throw new Error(`Missing ${label}`);
+            const close = finite(row.close ?? row.index ?? row.value);
+            const change = finite(row.change ?? row.changeValue);
+            const changePct = finite(row.pctChange ?? row.changePct ?? row.percentChange);
+            if (close === null || change === null || changePct === null) throw new Error(`Incomplete ${label}`);
+            return { code: label, close, change, changePct };
+          };
+
+          let locked = null;
+          for (let attempt = 1; attempt <= 10; attempt += 1) {
+            try {
+              const response = await fetch(url, {
+                headers: { accept: 'application/json', 'user-agent': 'XuanLeTVS-MarketSession/1.4' },
+                signal: AbortSignal.timeout(15000)
+              });
+              if (!response.ok) throw new Error(`VNDIRECT HTTP ${response.status}`);
+              const payload = await response.json();
+              const rows = Array.isArray(payload?.data) ? payload.data : [];
+              const find = (aliases) => rows.find((row) => aliases.includes(key(row)));
+              const vn = find(['VNINDEX', 'VN-INDEX', 'HOSE']);
+              const vn30 = find(['VN30', 'VN30-INDEX']);
+              const hnx = find(['HNX', 'HNXINDEX', 'HNX-INDEX']);
+              const indices = [parseIndex(vn, 'VN-INDEX'), parseIndex(vn30, 'VN30'), parseIndex(hnx, 'HNX-INDEX')];
+              const advance = finite(vn?.nmAdvances ?? vn?.advances ?? vn?.advance ?? vn?.up);
+              const unchanged = finite(vn?.nmNoChange ?? vn?.noChange ?? vn?.unchanged ?? vn?.reference);
+              const decline = finite(vn?.nmDeclines ?? vn?.declines ?? vn?.decline ?? vn?.down);
+              const floor = finite(vn?.nmFloors ?? vn?.floorStocks ?? vn?.floors ?? vn?.floor);
+              if ([advance, unchanged, decline, floor].some((value) => value === null)) throw new Error('HOSE breadth unavailable');
+              locked = {
+                date,
+                status: 'Đã khóa EOD — VNDIRECT Finfo',
+                indices,
+                breadth: { advance, unchanged, decline, floor },
+                sources: [{ label: `VNDIRECT Finfo — chỉ số & độ rộng EOD ${date.split('-').reverse().join('/')}`, url }]
+              };
+              break;
+            } catch (error) {
+              console.log(`Market-session attempt ${attempt}/10: ${error.message}`);
+              if (attempt < 10) await sleep(30000);
+              else throw error;
+            }
+          }
+
+          data.marketSession = locked;
+          fs.writeFileSync(path, `window.RESEARCH_DATA = ${JSON.stringify(data, null, 2)};\n`);
+          console.log('MARKET_SESSION_LOCKED', JSON.stringify(locked));
+          NODE
+
       - name: Record pre-processing ledger
         if: steps.market.outputs.status == 'verified'
         run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
@@ -82,6 +156,24 @@ jobs:
         if: steps.market.outputs.status == 'verified'
         run: node scripts/update-cache-token.mjs --date "${{ steps.market.outputs.date }}"
 
+      - name: Refresh first-paint ledger date
+        if: steps.market.outputs.status == 'verified'
+        env:
+          EOD_DATE: ${{ steps.market.outputs.date }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const date = process.env.EOD_DATE;
+          const [year, month, day] = date.split('-');
+          const dotted = `${day}.${month}.${year}`;
+          const path = 'index.html';
+          const before = fs.readFileSync(path, 'utf8');
+          const pattern = /(<[^>]+data-role=["']ledger-asof["'][^>]*>)Giá theo dõi khóa EOD \d{2}\.\d{2}\.\d{4}(<\/[^>]+>)/g;
+          const matches = before.match(pattern) || [];
+          if (matches.length !== 1) throw new Error(`Expected one ledger-asof marker, found ${matches.length}`);
+          fs.writeFileSync(path, before.replace(pattern, `$1Giá theo dõi khóa EOD ${dotted}$2`));
+          NODE
+
       - name: Audit site integrity
         if: steps.market.outputs.status == 'verified'
         run: node scripts/audit-site.mjs
@@ -92,6 +184,8 @@ jobs:
 
       - name: Guard mutation scope and public structure
         if: steps.market.outputs.status == 'verified'
+        env:
+          EOD_DATE: ${{ steps.market.outputs.date }}
         shell: bash
         run: |
           set -euo pipefail
@@ -103,11 +197,20 @@ jobs:
             exit 2
           fi
           node <<'NODE'
-          const fs=require('fs');
-          const html=fs.readFileSync('index.html','utf8');
-          const order=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
-          const expected=['overview','daily-market','position-ledger','action-radar','research'];
-          if(order.join(',')!==expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const fs = require('fs');
+          const vm = require('vm');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
+          const expected = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const data = sandbox.window.RESEARCH_DATA;
+          const date = process.env.EOD_DATE;
+          if (data?.meta?.updated !== date || data?.meta?.release !== date) throw new Error(`Research meta date mismatch: ${data?.meta?.updated}/${data?.meta?.release}`);
+          if (data?.marketSession?.date !== date) throw new Error(`marketSession date mismatch: ${data?.marketSession?.date}`);
+          if (!Array.isArray(data?.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) throw new Error('Coverage date mismatch');
           NODE
 
       - name: Commit verified EOD state without recursive CI
