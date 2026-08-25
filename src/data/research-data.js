@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 58/58 mã được khóa tại phiên 24/08/2026. OHLC 58/58 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 56/58 mã giữa hai nguồn; SHS: VNDIRECT 15.876.700 vs DNSE 15.873.500 (chênh 3.200); PVS: VNDIRECT 4.872.400 vs DNSE 4.872.300 (chênh 100). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 65/65 mã được khóa tại phiên 24/08/2026. OHLC 65/65 mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp 63/65 mã giữa hai nguồn; SHS: VNDIRECT 15.876.700 vs DNSE 15.873.500 (chênh 3.200); PVS: VNDIRECT 4.872.400 vs DNSE 4.872.300 (chênh 100). Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
   },
   "marketSession": {
     "date": "2026-08-24",
@@ -56,6 +56,295 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "NKG-20260825",
+      "ticker": "NKG",
+      "company": "Công ty Cổ phần Thép Nam Kim",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-25",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 11200,
+      "marketPriceDate": "2026-08-24",
+      "baseValue": 9478,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 6642,
+      "rangeHigh": 12642,
+      "gapLabel": "Giá đóng cửa cao hơn giá trị kỳ vọng 18,2%; vùng mua MOS 25–30% là 4.649–4.982 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa qua chu kỳ; P/E, P/B và EV/EBITDA",
+      "summary": "NKG có vùng giá trị hợp lý 6.642–12.642 đồng/cp và giá trị kỳ vọng 9.478 đồng/cp. Giá đóng cửa 24/08/2026 là 11.200 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua MOS và báo cáo yêu cầu tiếp tục theo dõi dự án Phú Mỹ cùng dữ liệu sau điều chỉnh BCTC.",
+      "action": {
+        "zoneLow": 4649,
+        "zoneHigh": 4982,
+        "baseValue": 9478,
+        "stop": null,
+        "targets": [
+          6642,
+          9478
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 4.649–4.982 đồng/cp khi thesis không xấu đi; giải ngân từng phần. Stop 5% dưới giá vào lệnh thực tế và thoát nếu xuất hiện red flag kế toán mới; entry minh họa 4.816 tương ứng stop 4.575. T1 6.642; T2 9.478. Trên 12.642 khi normalized earnings chưa được nâng: LOẠI / TRÁNH mua mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/nkg.webp?v=20260825-company1",
+        "alt": "Tôn Nam Kim tại lễ công bố Top 10 công ty vật liệu xây dựng uy tín 2026",
+        "caption": "Tôn Nam Kim được vinh danh năm 2026",
+        "sourceLabel": "Tôn Nam Kim",
+        "sourceUrl": "https://tonnamkim.com/ton-nam-kim-tiep-tuc-giu-vung-vi-tri-top-10-doanh-nghiep-uy-tin-nganh-sat-thep-ton-nam-2026/"
+      },
+      "file": "reports/NKG_2026-08-25.pdf",
+      "edition": "Bản định giá 25.08.2026"
+    },
+    {
+      "id": "DBC-20260825",
+      "ticker": "DBC",
+      "company": "Công ty Cổ phần Tập đoàn Dabaco Việt Nam",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-25",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 17750,
+      "marketPriceDate": "2026-08-25",
+      "baseValue": 22934,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 21800,
+      "rangeHigh": 24100,
+      "gapLabel": "Snapshot thấp hơn giá trị kỳ vọng 22,6%; vùng mua định giá là 15.200–16.300 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa qua chu kỳ; EV/EBITDA, P/B và P/E kiểm chứng",
+      "summary": "DBC có vùng giá trị hợp lý 21.800–24.100 đồng/cp và giá trị kỳ vọng 22.934 đồng/cp. Snapshot trong phiên 25/08/2026 là 17.750 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua 15.200–16.300 đồng/cp.",
+      "action": {
+        "zoneLow": 15200,
+        "zoneHigh": 16300,
+        "baseValue": 22934,
+        "stop": null,
+        "targets": [
+          17750,
+          18000,
+          21800
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG MUA",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 15.200–16.300 đồng/cp khi cấu trúc giá không tiếp tục suy yếu. Stoploss 5% dưới giá khớp thực tế; entry minh họa 16.000 tương ứng stop 15.200. Mục tiêu ngắn 17.750–18.000; mốc fair value đầu tiên 21.800. Trên 24.100 nếu giả định lợi nhuận/giá heo không được nâng: không mở vị thế mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/dbc.webp?v=20260825-company1",
+        "alt": "Nhận diện chính thức của Tập đoàn Dabaco Việt Nam",
+        "caption": "Tập đoàn Dabaco Việt Nam",
+        "sourceLabel": "Dabaco",
+        "sourceUrl": "https://www.dabaco.com.vn/"
+      },
+      "file": "reports/DBC_2026-08-25.pdf",
+      "edition": "Bản định giá 25.08.2026"
+    },
+    {
+      "id": "HSG-20260825",
+      "ticker": "HSG",
+      "company": "Công ty Cổ phần Tập đoàn Hoa Sen",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-08-25",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 11050,
+      "marketPriceDate": "2026-08-24",
+      "baseValue": 15354,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 13500,
+      "rangeHigh": 18200,
+      "gapLabel": "Giá đóng cửa thấp hơn giá trị kỳ vọng 28,0%; vùng mua MOS 25–30% là 9.450–10.125 đồng/cp",
+      "method": "Lợi nhuận chuẩn hóa qua chu kỳ; P/B, EV/EBITDA và P/E",
+      "summary": "HSG có vùng giá trị hợp lý 13.500–18.200 đồng/cp và giá trị kỳ vọng 15.354 đồng/cp. Giá đóng cửa 24/08/2026 là 11.050 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa vào vùng mua 9.450–10.125 đồng/cp.",
+      "action": {
+        "zoneLow": 9450,
+        "zoneHigh": 10125,
+        "baseValue": 15354,
+        "stop": null,
+        "targets": [
+          13500,
+          15354
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ MUA CÓ ĐIỀU KIỆN",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 9.450–10.125 đồng/cp khi CFO, nợ vay và biên gộp không xấu thêm; giải ngân từng phần. Stop 7% dưới giá khớp thực tế; entry minh họa 9.788 tương ứng stop khoảng 9.102. T1 13.500; T2 15.354. Nếu nợ vay tiếp tục tăng và CFO FY2026 vẫn âm: veto fundamental."
+      },
+      "visual": {
+        "src": "assets/images/reports/hsg.webp?v=20260825-company1",
+        "alt": "Hoạt động kỷ niệm thương hiệu Hoa Sen",
+        "caption": "Thương hiệu Hoa Sen",
+        "sourceLabel": "Hoa Sen Group",
+        "sourceUrl": "https://hoasengroup.vn/vi/bai-viet/thuong-hieu-hoa-sen-25-nam-dau-an-ruc-ro/"
+      },
+      "file": "reports/HSG_2026-08-25.pdf",
+      "edition": "Bản định giá 25.08.2026"
+    },
+    {
+      "id": "TPB-20260823",
+      "ticker": "TPB",
+      "company": "Ngân hàng Thương mại Cổ phần Tiên Phong",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-23",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 14800,
+      "marketPriceDate": "2026-08-21",
+      "baseValue": 16690,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 16328,
+      "rangeHigh": 16731,
+      "gapLabel": "Giá đóng cửa thấp hơn giá trị kỳ vọng 11,3%; vùng mua nghiêm ngặt là 11.430–12.246 đồng/cp",
+      "method": "P/B gắn ROE; Thu nhập thặng dư và DDM",
+      "summary": "TPB có vùng giá trị hợp lý trung tâm 16.328–16.731 đồng/cp và giá trị kỳ vọng 16.690 đồng/cp. Giá đóng cửa 21/08/2026 là 14.800 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua định giá nghiêm ngặt 11.430–12.246 đồng/cp.",
+      "action": {
+        "zoneLow": 11430,
+        "zoneHigh": 12246,
+        "baseValue": 16690,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-23",
+        "recommendation": "CÓ MUA CÓ ĐIỀU KIỆN KHI VÀO VÙNG STRICT",
+        "eligibility": "active",
+        "condition": "Chỉ kích hoạt mua định giá tại 11.430–12.246 đồng/cp khi thesis H1/Q3 không xấu đi: NIM không suy giảm kéo dài, NPL/Group 2 không tăng vọt và ESOP được làm rõ. PDF không khóa stop/target cho kịch bản valuation nên website không tự bổ sung; kế hoạch tactical 13.500–13.900 được giữ tách biệt."
+      },
+      "visual": {
+        "src": "assets/images/reports/tpb.webp?v=20260825-company1",
+        "alt": "Giải pháp AI của TPBank tại Ngày chuyển đổi số ngành Ngân hàng 2026",
+        "caption": "Giải pháp AI của TPBank",
+        "sourceLabel": "TPBank",
+        "sourceUrl": "https://tpb.vn/tin-tuc/tin-tpbank/ngay-chuyen-doi-so-nganh-ngan-hang-dau-an-cua-tpbank-voi-ung-dung-ai-trong-quan-tri-rui-ro"
+      },
+      "file": "reports/TPB_2026-08-23.pdf",
+      "edition": "Bản định giá 23.08.2026"
+    },
+    {
+      "id": "ORS-20260823",
+      "ticker": "ORS",
+      "company": "Công ty Cổ phần Chứng khoán Tiên Phong",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "date": "2026-08-23",
+      "recommendation": "LOẠI / TRÁNH MUA MỚI",
+      "status": "reject",
+      "marketPrice": 14550,
+      "marketPriceDate": "2026-08-21",
+      "baseValue": 8901,
+      "valueLabel": "Giá trị tổng hợp",
+      "rangeLow": 5832,
+      "rangeHigh": 13503,
+      "gapLabel": "Giá đóng cửa cao hơn cận trên 7,75%; vùng strict có điều kiện là 4.082–4.374 đồng/cp",
+      "method": "DCF FCFF; P/E, P/B và EV/EBITDA kiểm chứng",
+      "summary": "ORS có vùng giá trị hợp lý 5.832–13.503 đồng/cp và giá trị tổng hợp 8.901 đồng/cp. Giá đóng cửa 21/08/2026 là 14.550 đồng/cp, cao hơn cận trên 7,75%; trạng thái LOẠI / TRÁNH MUA MỚI. Vùng strict chỉ là kế hoạch điều kiện và bắt buộc phải cập nhật lại dữ liệu trước khi hành động.",
+      "action": {
+        "zoneLow": 4082,
+        "zoneHigh": 4374,
+        "baseValue": 8901,
+        "stop": 4050,
+        "targets": [
+          5832,
+          8901,
+          13503
+        ],
+        "basisDate": "2026-08-23",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI TẠI GIÁ HIỆN TẠI",
+        "eligibility": "veto",
+        "condition": "4.082–4.374 đồng/cp chỉ là vùng strict có điều kiện; nếu giá giảm về đây phải cập nhật lại toàn bộ BCTC, danh mục tài sản, catalyst, legal và asset impairment trước khi xem xét vị thế nhỏ. Entry/stop/targets 4.300 / 4.050 / 5.832–8.901–13.503 chỉ áp dụng sau khi định giá được refresh; không phải lệnh mua hiện tại."
+      },
+      "visual": {
+        "src": "assets/images/reports/ors.webp?v=20260825-company1",
+        "alt": "Nhận diện chính thức của Chứng khoán Tiên Phong",
+        "caption": "Chứng khoán Tiên Phong",
+        "sourceLabel": "TPS",
+        "sourceUrl": "https://www.tpbs.com.vn/"
+      },
+      "file": "reports/ORS_2026-08-23.pdf",
+      "edition": "Bản tái kiểm toán định giá 23.08.2026"
+    },
+    {
+      "id": "POW-20260822",
+      "ticker": "POW",
+      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "date": "2026-08-22",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 13600,
+      "marketPriceDate": "2026-08-21",
+      "baseValue": 13226,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 8598,
+      "rangeHigh": 21949,
+      "gapLabel": "Giá đóng cửa cao hơn giá trị kỳ vọng 2,8%; vùng mua strict là 6.019–6.449 đồng/cp",
+      "method": "DDM trọng số chính; DCF FCFF, EV/EBITDA, P/E và P/B kiểm chứng",
+      "summary": "POW có vùng giá trị hợp lý 8.598–21.949 đồng/cp và giá trị kỳ vọng 13.226 đồng/cp. Giá đóng cửa 21/08/2026 là 13.600 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua strict 6.019–6.449 đồng/cp.",
+      "action": {
+        "zoneLow": 6019,
+        "zoneHigh": 6449,
+        "baseValue": 13226,
+        "stop": null,
+        "targets": [
+          8598
+        ],
+        "basisDate": "2026-08-22",
+        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG STRICT",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 6.019–6.449 đồng/cp khi EBITDA, cash flow và NWC không xấu đi. Entry minh họa 6.234, stop 5.891 (-5,5%) và target định giá thấp nhất 8.598; stop thực tế phải bám giá khớp và xác nhận kỹ thuật/dòng tiền tại thời điểm kích hoạt. Trên 21.949 nếu payout/FCFF không được nâng: TRÁNH mua mới."
+      },
+      "visual": {
+        "src": "assets/images/reports/pow.webp?v=20260825-company1",
+        "alt": "Phối cảnh dự án LNG Quỳnh Lập của PV Power",
+        "caption": "Dự án LNG Quỳnh Lập",
+        "sourceLabel": "PV Power",
+        "sourceUrl": "https://pvpower.vn/vi/post/pv-power-tap-trung-toi-uu-van-hanh--hoan-thanh-cao-nhat-ke-hoach-nam-2026-6994.htm"
+      },
+      "file": "reports/POW_2026-08-22.pdf",
+      "edition": "Bản định giá 22.08.2026"
+    },
+    {
+      "id": "STB-20260821",
+      "ticker": "STB",
+      "company": "Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-08-21",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 74200,
+      "marketPriceDate": "2026-08-20",
+      "baseValue": 48404,
+      "valueLabel": "Giá trị cơ sở",
+      "rangeLow": 24796,
+      "rangeHigh": 79771,
+      "gapLabel": "Giá đóng cửa cao hơn giá trị cơ sở 53,3%; vùng mua valuation gate là 17.357–18.597 đồng/cp",
+      "method": "P/B gắn ROE; Thu nhập thặng dư, DDM và P/E kiểm chứng",
+      "summary": "STB có vùng giá trị hợp lý 24.796–79.771 đồng/cp và giá trị cơ sở 48.404 đồng/cp. Giá đóng cửa 20/08/2026 là 74.200 đồng/cp, nằm sát phần trên của vùng định giá; trạng thái THEO DÕI / CHỜ và không có lệnh mua mới tại P0.",
+      "action": {
+        "zoneLow": 17357,
+        "zoneHigh": 18597,
+        "baseValue": 48404,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-21",
+        "recommendation": "CÓ THỂ KÍCH HOẠT MUA THEO VALUATION GATE",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 17.357–18.597 đồng/cp khi NPL/CAR không xấu thêm và catalyst không đảo chiều. PDF không khóa stop/target cho fresh trade nên website không tự bổ sung; stop 3–7% chỉ được xác lập theo giá vào và cấu trúc kỹ thuật thực tế. Trên 79.771: TRÁNH / không mua đuổi."
+      },
+      "visual": {
+        "src": "assets/images/reports/stb.webp?v=20260825-company1",
+        "alt": "Lễ công bố mô hình tổ chức mới của Sacombank năm 2026",
+        "caption": "Sacombank triển khai mô hình tổ chức mới",
+        "sourceLabel": "Sacombank",
+        "sourceUrl": "https://www.sacombank.com.vn/trang-chu/tin-tuc/tin-sacombank/2026/sacombank-van-hanh-thanh-cong-theo-mo-hinh-moi.html"
+      },
+      "file": "reports/STB_2026-08-21.pdf",
+      "edition": "Bản định giá 21.08.2026"
+    },
     {
       "id": "DPR-20260821",
       "ticker": "DPR",
@@ -2245,6 +2534,190 @@ window.RESEARCH_DATA = {
     }
   ],
   "coverage": [
+    {
+      "ticker": "NKG",
+      "company": "Công ty Cổ phần Thép Nam Kim",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "reportId": "NKG-20260825",
+      "close": 11200,
+      "priceDate": "2026-08-24",
+      "changePct": 2.7523,
+      "volume": 2103100,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NKG~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=NKG&resolution=1D",
+      "action": {
+        "zoneLow": 4649,
+        "zoneHigh": 4982,
+        "baseValue": 9478,
+        "stop": null,
+        "targets": [
+          6642,
+          9478
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 4.649–4.982 đồng/cp khi thesis không xấu đi; giải ngân từng phần. Stop 5% dưới giá vào lệnh thực tế và thoát nếu xuất hiện red flag kế toán mới; entry minh họa 4.816 tương ứng stop 4.575. T1 6.642; T2 9.478. Trên 12.642 khi normalized earnings chưa được nâng: LOẠI / TRÁNH mua mới."
+      }
+    },
+    {
+      "ticker": "DBC",
+      "company": "Công ty Cổ phần Tập đoàn Dabaco Việt Nam",
+      "sector": "Nông nghiệp",
+      "exchange": "HOSE",
+      "reportId": "DBC-20260825",
+      "close": 16600,
+      "priceDate": "2026-08-24",
+      "changePct": 0.9119,
+      "volume": 1145000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DBC~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=DBC&resolution=1D",
+      "action": {
+        "zoneLow": 15200,
+        "zoneHigh": 16300,
+        "baseValue": 22934,
+        "stop": null,
+        "targets": [
+          17750,
+          18000,
+          21800
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG MUA",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 15.200–16.300 đồng/cp khi cấu trúc giá không tiếp tục suy yếu. Stoploss 5% dưới giá khớp thực tế; entry minh họa 16.000 tương ứng stop 15.200. Mục tiêu ngắn 17.750–18.000; mốc fair value đầu tiên 21.800. Trên 24.100 nếu giả định lợi nhuận/giá heo không được nâng: không mở vị thế mới."
+      }
+    },
+    {
+      "ticker": "HSG",
+      "company": "Công ty Cổ phần Tập đoàn Hoa Sen",
+      "sector": "Công nghiệp",
+      "exchange": "HOSE",
+      "reportId": "HSG-20260825",
+      "close": 11050,
+      "priceDate": "2026-08-24",
+      "changePct": 1.8433,
+      "volume": 5059200,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HSG~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=HSG&resolution=1D",
+      "action": {
+        "zoneLow": 9450,
+        "zoneHigh": 10125,
+        "baseValue": 15354,
+        "stop": null,
+        "targets": [
+          13500,
+          15354
+        ],
+        "basisDate": "2026-08-25",
+        "recommendation": "CÓ THỂ MUA CÓ ĐIỀU KIỆN",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 9.450–10.125 đồng/cp khi CFO, nợ vay và biên gộp không xấu thêm; giải ngân từng phần. Stop 7% dưới giá khớp thực tế; entry minh họa 9.788 tương ứng stop khoảng 9.102. T1 13.500; T2 15.354. Nếu nợ vay tiếp tục tăng và CFO FY2026 vẫn âm: veto fundamental."
+      }
+    },
+    {
+      "ticker": "TPB",
+      "company": "Ngân hàng Thương mại Cổ phần Tiên Phong",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "TPB-20260823",
+      "close": 14600,
+      "priceDate": "2026-08-24",
+      "changePct": -1.3514,
+      "volume": 13007700,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TPB~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=TPB&resolution=1D",
+      "action": {
+        "zoneLow": 11430,
+        "zoneHigh": 12246,
+        "baseValue": 16690,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-23",
+        "recommendation": "CÓ MUA CÓ ĐIỀU KIỆN KHI VÀO VÙNG STRICT",
+        "eligibility": "active",
+        "condition": "Chỉ kích hoạt mua định giá tại 11.430–12.246 đồng/cp khi thesis H1/Q3 không xấu đi: NIM không suy giảm kéo dài, NPL/Group 2 không tăng vọt và ESOP được làm rõ. PDF không khóa stop/target cho kịch bản valuation nên website không tự bổ sung; kế hoạch tactical 13.500–13.900 được giữ tách biệt."
+      }
+    },
+    {
+      "ticker": "ORS",
+      "company": "Công ty Cổ phần Chứng khoán Tiên Phong",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "reportId": "ORS-20260823",
+      "close": 14600,
+      "priceDate": "2026-08-24",
+      "changePct": 0.3436,
+      "volume": 9349800,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ORS~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=ORS&resolution=1D",
+      "action": {
+        "zoneLow": 4082,
+        "zoneHigh": 4374,
+        "baseValue": 8901,
+        "stop": 4050,
+        "targets": [
+          5832,
+          8901,
+          13503
+        ],
+        "basisDate": "2026-08-23",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI TẠI GIÁ HIỆN TẠI",
+        "eligibility": "veto",
+        "condition": "4.082–4.374 đồng/cp chỉ là vùng strict có điều kiện; nếu giá giảm về đây phải cập nhật lại toàn bộ BCTC, danh mục tài sản, catalyst, legal và asset impairment trước khi xem xét vị thế nhỏ. Entry/stop/targets 4.300 / 4.050 / 5.832–8.901–13.503 chỉ áp dụng sau khi định giá được refresh; không phải lệnh mua hiện tại."
+      }
+    },
+    {
+      "ticker": "POW",
+      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "reportId": "POW-20260822",
+      "close": 13550,
+      "priceDate": "2026-08-24",
+      "changePct": -0.3676,
+      "volume": 8007800,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:POW~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=POW&resolution=1D",
+      "action": {
+        "zoneLow": 6019,
+        "zoneHigh": 6449,
+        "baseValue": 13226,
+        "stop": null,
+        "targets": [
+          8598
+        ],
+        "basisDate": "2026-08-22",
+        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG STRICT",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 6.019–6.449 đồng/cp khi EBITDA, cash flow và NWC không xấu đi. Entry minh họa 6.234, stop 5.891 (-5,5%) và target định giá thấp nhất 8.598; stop thực tế phải bám giá khớp và xác nhận kỹ thuật/dòng tiền tại thời điểm kích hoạt. Trên 21.949 nếu payout/FCFF không được nâng: TRÁNH mua mới."
+      }
+    },
+    {
+      "ticker": "STB",
+      "company": "Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "STB-20260821",
+      "close": 74900,
+      "priceDate": "2026-08-24",
+      "changePct": 0.2677,
+      "volume": 1338500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:STB~date:2026-08-24&size=10",
+      "priceSourceSecondary": "https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=1787504400&to=1787590799&symbol=STB&resolution=1D",
+      "action": {
+        "zoneLow": 17357,
+        "zoneHigh": 18597,
+        "baseValue": 48404,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-08-21",
+        "recommendation": "CÓ THỂ KÍCH HOẠT MUA THEO VALUATION GATE",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét 17.357–18.597 đồng/cp khi NPL/CAR không xấu thêm và catalyst không đảo chiều. PDF không khóa stop/target cho fresh trade nên website không tự bổ sung; stop 3–7% chỉ được xác lập theo giá vào và cấu trúc kỹ thuật thực tế. Trên 79.771: TRÁNH / không mua đuổi."
+      }
+    },
     {
       "ticker": "DPR",
       "company": "Công ty Cổ phần Cao su Đồng Phú",
