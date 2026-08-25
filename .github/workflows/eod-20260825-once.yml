@@ -1,0 +1,219 @@
+name: One-time verified EOD 20260825
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  eod:
+    if: github.event.head_commit.message == 'Run verified EOD 25 Aug 2026 now'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cross-check and lock all EOD quotes
+        id: market
+        run: |
+          node scripts/update-eod-market-data.mjs \
+            --date 2026-08-25 \
+            --status-file "${RUNNER_TEMP}/eod-status.json" \
+            --max-attempts 24 \
+            --wait-ms 30000
+          cat "${RUNNER_TEMP}/eod-status.json"
+
+      - name: Fail closed if quotes are not ready
+        if: steps.market.outputs.status != 'verified' && steps.market.outputs.status != 'already-current'
+        run: |
+          echo 'EOD 25/08/2026 chưa vượt Data Gate. Không ghi dữ liệu.' >&2
+          exit 2
+
+      - name: Lock market indices and HOSE breadth
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const date='2026-08-25';
+          const path='src/data/research-data.js';
+          const code=fs.readFileSync(path,'utf8');
+          const sandbox={window:{}};
+          vm.runInNewContext(code,sandbox,{filename:path});
+          const data=sandbox.window.RESEARCH_DATA;
+          if(data?.meta?.updated!==date) throw new Error(`Coverage date not locked: ${data?.meta?.updated}`);
+          if(!Array.isArray(data.coverage)||!data.coverage.length||data.coverage.some(x=>x.priceDate!==date)) throw new Error('Coverage is not fully current');
+          const url=`https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:${date}&size=500`;
+          const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+          const num=(x)=>Number.isFinite(Number(x))?Number(x):null;
+          const key=(r)=>String(r?.code||r?.indexCode||r?.symbol||'').toUpperCase();
+          const parse=(r,label)=>{
+            if(!r) throw new Error(`Missing ${label}`);
+            const close=num(r.close??r.index??r.value);
+            const change=num(r.change??r.changeValue);
+            const changePct=num(r.pctChange??r.changePct??r.percentChange);
+            if(close===null||change===null||changePct===null) throw new Error(`Incomplete ${label}`);
+            return {code:label,close,change,changePct};
+          };
+          let locked=null;
+          for(let attempt=1;attempt<=16;attempt++){
+            try{
+              const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-MarketSession/1.5'},signal:AbortSignal.timeout(15000)});
+              if(!res.ok) throw new Error(`VNDIRECT HTTP ${res.status}`);
+              const payload=await res.json();
+              const rows=Array.isArray(payload?.data)?payload.data:[];
+              const find=(aliases)=>rows.find(r=>aliases.includes(key(r)));
+              const vn=find(['VNINDEX','VN-INDEX','HOSE']);
+              const vn30=find(['VN30','VN30-INDEX']);
+              const hnx=find(['HNX','HNXINDEX','HNX-INDEX']);
+              const indices=[parse(vn,'VN-INDEX'),parse(vn30,'VN30'),parse(hnx,'HNX-INDEX')];
+              const advance=num(vn?.nmAdvances??vn?.advances??vn?.advance??vn?.up);
+              const unchanged=num(vn?.nmNoChange??vn?.noChange??vn?.unchanged??vn?.reference);
+              const decline=num(vn?.nmDeclines??vn?.declines??vn?.decline??vn?.down);
+              const floor=num(vn?.nmFloors??vn?.floorStocks??vn?.floors??vn?.floor);
+              if([advance,unchanged,decline,floor].some(v=>v===null)) throw new Error('HOSE breadth unavailable');
+              locked={date,status:'Đã khóa EOD — VNDIRECT Finfo',indices,breadth:{advance,unchanged,decline,floor},sources:[{label:'VNDIRECT Finfo — chỉ số & độ rộng EOD 25/08/2026',url}]};
+              break;
+            }catch(error){
+              console.log(`Market-session attempt ${attempt}/16: ${error.message}`);
+              if(attempt<16) await sleep(30000); else throw error;
+            }
+          }
+          data.marketSession=locked;
+          fs.writeFileSync(path,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`);
+          console.log('MARKET_SESSION_LOCKED',JSON.stringify(locked));
+          NODE
+
+      - name: Record ledger before processing
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+
+      - name: Process EOD activation ledger
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: node scripts/process-trade-ledger.mjs
+
+      - name: Reconcile expected versus actual activations
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+          cat "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Run full regression suite
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: bash scripts/build/build-assets.sh
+
+      - name: Update cache token and first-paint EOD labels
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          node scripts/update-cache-token.mjs --date 2026-08-25
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const p='index.html';
+          let s=fs.readFileSync(p,'utf8');
+          const re=/(<[^>]+data-role=["']ledger-asof["'][^>]*>)Giá theo dõi khóa EOD \d{2}\.\d{2}\.\d{4}(<\/[^>]+>)/g;
+          const matches=s.match(re)||[];
+          if(matches.length!==1) throw new Error(`ledger-asof markers=${matches.length}`);
+          s=s.replace(re,'$1Giá theo dõi khóa EOD 25.08.2026$2');
+          fs.writeFileSync(p,s);
+          NODE
+
+      - name: Audit site integrity
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: node scripts/audit-site.mjs
+
+      - name: Verify current dates and preserve public structure
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          set -euo pipefail
+          git diff --quiet -- src/index.css src/styles assets/css/site.min.css
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const html=fs.readFileSync('index.html','utf8');
+          const order=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const code=fs.readFileSync('src/data/research-data.js','utf8');
+          const s={window:{}};
+          vm.runInNewContext(code,s);
+          const d=s.window.RESEARCH_DATA;
+          if(d.meta.updated!=='2026-08-25'||d.meta.release!=='2026-08-25') throw new Error(`meta date mismatch ${d.meta.updated}/${d.meta.release}`);
+          if(d.marketSession?.date!=='2026-08-25') throw new Error(`marketSession=${d.marketSession?.date}`);
+          if(!Array.isArray(d.coverage)||!d.coverage.length||d.coverage.some(x=>x.priceDate!=='2026-08-25')) throw new Error('Coverage EOD date mismatch');
+          NODE
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|index\.html|\.github/workflows/eod-20260825-once\.yml)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 3
+          fi
+
+      - name: Prepare lean production artifact
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Commit verified EOD and self-delete
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/eod-20260825-once.yml
+          git add src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js index.html
+          git diff --cached --name-status
+          git commit -m 'Lock verified EOD 25 Aug 2026 and reconcile ledger [skip ci]'
+          git push origin HEAD:main
+
+      - name: Configure GitHub Pages
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Verify live byte-for-byte
+        if: steps.market.outputs.status == 'verified' || steps.market.outputs.status == 'already-current'
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
