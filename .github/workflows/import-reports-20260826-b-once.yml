@@ -1,0 +1,285 @@
+name: One-time publish valuation reports batch 2 and EOD 20260826
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  import-reports:
+    if: github.event.head_commit.message == 'Run valuation report import and EOD 26 Aug 2026 batch 2 now'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download exact uploaded PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          download_pdf() {
+            local url="$1" path="$2" sha="$3"
+            echo "Downloading $path"
+            curl -fL --retry 4 --retry-all-errors --connect-timeout 20 --max-time 180 -o "$path" "$url"
+            printf 'Expected SHA256: %s\n' "$sha"
+            printf 'Actual   SHA256: '
+            sha256sum "$path"
+            echo "$sha  $path" | sha256sum -c -
+            test "$(head -c 5 "$path")" = '%PDF-'
+          }
+          download_pdf 'https://at.adobe.com/wLDIKaDh96TO0BfA' 'reports/KBC_2026-08-26.pdf' 'c1f4c3229f8eed1bf4b4ffe8435570ea54efb850125e369766202e78d1224446'
+          download_pdf 'https://at.adobe.com/k4PSAwwUYMFhWqsF' 'reports/VCG_2026-08-26.pdf' 'd12853287088b9bc3a4b96ec2c1eccb22815961a9b207f34dc59e556342a2168'
+          download_pdf 'https://at.adobe.com/zh7TMc89tcGuEtn5' 'reports/CEO_2026-08-26.pdf' 'dcadcd655d64f3565ec76bf8eb200f90ac5971e6e91322c508fc1d4ab1caae82'
+          download_pdf 'https://at.adobe.com/skqRHmaMGzNNb0uT' 'reports/HDC_2026-08-26.pdf' '3ced2901c1f2c0a89002bc1d52f5f90bf3e8326ed7d3d18b940c41088dd5609a'
+          download_pdf 'https://at.adobe.com/82uh7jEcIXDluT9t' 'reports/KDH_2026-08-26.pdf' '2facab5a92fab68b294b7c0d4a7d52e40fc720a6b43c67ee0e3891fd2a56e936'
+          download_pdf 'https://at.adobe.com/fgdlnfqJurdA3rVt' 'reports/DIG_2026-08-26.pdf' 'cbbb98ca17ca9161a2845414e3e140ed56c5291c01b169fc485eb3670163b498'
+          download_pdf 'https://at.adobe.com/8MCBRvIqUE0yvr0B' 'reports/NVL_2026-08-26.pdf' 'd3035556238043f257aa61f8f075e52dadac76f6f120ace6abc8d3f9dc4d5a3f'
+          download_pdf 'https://at.adobe.com/xV0K4wtoWvxlHpsv' 'reports/IDC_2026-08-26.pdf' '71cb69b34ae05550025aad576808ca33e525bdd5602c0b36e902be10d5d8a2a2'
+          download_pdf 'https://at.adobe.com/WMpvRgfC5ktoKcfD' 'reports/NLG_2026-08-26.pdf' 'ce203c1f79d892a8444bebd088d83f75e928df1181a51a6d7ccc6a34c68213d6'
+          download_pdf 'https://at.adobe.com/domeTVHQqLRofXZ3' 'reports/GVR_2026-08-26.pdf' 'bd669a413edecc0250e3ff542650326666f41f8b188c9fd68475771ce464a0b4'
+
+      - name: Generate report-cover WebP images from PDF page 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v pdftoppm >/dev/null || ! command -v cwebp >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends poppler-utils webp
+          fi
+          mkdir -p assets/images/reports "${RUNNER_TEMP}/covers"
+          for ticker in KBC VCG CEO HDC KDH DIG NVL IDC NLG GVR; do
+            pdf="reports/${ticker}_2026-08-26.pdf"
+            pdftoppm -f 1 -singlefile -scale-to-x 960 -scale-to-y -1 -png "$pdf" "${RUNNER_TEMP}/covers/${ticker}"
+            cwebp -quiet -q 84 "${RUNNER_TEMP}/covers/${ticker}.png" -o "assets/images/reports/${ticker,,}.webp"
+            test "$(head -c 4 "assets/images/reports/${ticker,,}.webp")" = 'RIFF'
+          done
+
+      - name: Replace older valuation editions and sync report metadata
+        run: node scripts/import-reports-20260826-b.mjs
+
+      - name: Cross-check and lock EOD quotes for full expanded coverage
+        id: market
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/update-eod-market-data.mjs \
+            --date 2026-08-26 \
+            --status-file "${RUNNER_TEMP}/eod-status.json" \
+            --max-attempts 12 \
+            --wait-ms 20000
+          cat "${RUNNER_TEMP}/eod-status.json"
+
+      - name: Require verified EOD after coverage expansion
+        if: steps.market.outputs.status != 'verified' && steps.market.outputs.status != 'already-current'
+        run: |
+          echo 'Expanded coverage did not pass the EOD Data Gate. Nothing will be published.' >&2
+          exit 2
+
+      - name: Lock market indices and HOSE breadth
+        if: steps.market.outputs.status == 'verified'
+        env:
+          EOD_DATE: ${{ steps.market.outputs.date }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const date = process.env.EOD_DATE;
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) throw new Error(`Invalid EOD_DATE: ${date}`);
+          const path = 'src/data/research-data.js';
+          const code = fs.readFileSync(path, 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox, { filename: path });
+          const data = sandbox.window.RESEARCH_DATA;
+          if (data?.meta?.updated !== date) throw new Error(`Coverage date not locked: ${data?.meta?.updated}`);
+          if (!Array.isArray(data.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) throw new Error('Coverage is not fully current before market-session lock.');
+          const url = `https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:${date}&size=500`;
+          const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const finite = (value) => Number.isFinite(Number(value)) ? Number(value) : null;
+          const key = (row) => String(row?.code || row?.indexCode || row?.symbol || '').toUpperCase();
+          const parseIndex = (row, label) => {
+            if (!row) throw new Error(`Missing ${label}`);
+            const close = finite(row.close ?? row.index ?? row.value);
+            const change = finite(row.change ?? row.changeValue);
+            const changePct = finite(row.pctChange ?? row.changePct ?? row.percentChange);
+            if (close === null || change === null || changePct === null) throw new Error(`Incomplete ${label}`);
+            return { code: label, close, change, changePct };
+          };
+          let locked = null;
+          for (let attempt = 1; attempt <= 12; attempt += 1) {
+            try {
+              const response = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'XuanLeTVS-MarketSession/1.5' }, signal: AbortSignal.timeout(15000) });
+              if (!response.ok) throw new Error(`VNDIRECT HTTP ${response.status}`);
+              const payload = await response.json();
+              const rows = Array.isArray(payload?.data) ? payload.data : [];
+              const find = (aliases) => rows.find((row) => aliases.includes(key(row)));
+              const vn = find(['VNINDEX', 'VN-INDEX', 'HOSE']);
+              const vn30 = find(['VN30', 'VN30-INDEX']);
+              const hnx = find(['HNX', 'HNXINDEX', 'HNX-INDEX']);
+              const indices = [parseIndex(vn, 'VN-INDEX'), parseIndex(vn30, 'VN30'), parseIndex(hnx, 'HNX-INDEX')];
+              const advance = finite(vn?.nmAdvances ?? vn?.advances ?? vn?.advance ?? vn?.up);
+              const unchanged = finite(vn?.nmNoChange ?? vn?.noChange ?? vn?.unchanged ?? vn?.reference);
+              const decline = finite(vn?.nmDeclines ?? vn?.declines ?? vn?.decline ?? vn?.down);
+              const floor = finite(vn?.nmFloors ?? vn?.floorStocks ?? vn?.floors ?? vn?.floor);
+              if ([advance, unchanged, decline, floor].some((value) => value === null)) throw new Error('HOSE breadth unavailable');
+              locked = { date, status: 'Đã khóa EOD — VNDIRECT Finfo', indices, breadth: { advance, unchanged, decline, floor }, sources: [{ label: `VNDIRECT Finfo — chỉ số & độ rộng EOD ${date.split('-').reverse().join('/')}`, url }] };
+              break;
+            } catch (error) {
+              console.log(`Market-session attempt ${attempt}/12: ${error.message}`);
+              if (attempt < 12) await sleep(20000); else throw error;
+            }
+          }
+          data.marketSession = locked;
+          fs.writeFileSync(path, `window.RESEARCH_DATA = ${JSON.stringify(data, null, 2)};\n`);
+          console.log('MARKET_SESSION_LOCKED', JSON.stringify(locked));
+          NODE
+
+      - name: Record ledger before processing
+        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+
+      - name: Process EOD activation ledger
+        run: node scripts/process-trade-ledger.mjs
+
+      - name: Reconcile expected versus actual ledger events
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+          cat "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Run all tests
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Update deterministic browser cache token and public EOD labels
+        run: node scripts/update-cache-token.mjs --date 2026-08-26
+
+      - name: Refresh first-paint ledger date
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'index.html';
+          const before = fs.readFileSync(path, 'utf8');
+          const pattern = /(<[^>]+data-role=["']ledger-asof["'][^>]*>)Giá theo dõi khóa EOD \d{2}\.\d{2}\.\d{4}(<\/[^>]+>)/g;
+          const matches = before.match(pattern) || [];
+          if (matches.length !== 1) throw new Error(`Expected one ledger-asof marker, found ${matches.length}`);
+          fs.writeFileSync(path, before.replace(pattern, '$1Giá theo dõi khóa EOD 26.08.2026$2'));
+          NODE
+
+      - name: Audit full site integrity and tree synchronization
+        run: node scripts/audit-site.mjs
+
+      - name: Guard public layout, data synchronization and mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet -- src/index.css src/styles assets/css/site.min.css
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          import { execFileSync } from 'node:child_process';
+          const html = fs.readFileSync('index.html', 'utf8');
+          const baseline = execFileSync('git', ['show', 'HEAD:index.html'], { encoding: 'utf8' });
+          const normalize = (value) => value
+            .replace(/(data-role=["']report-tab-count["'][^>]*>)\d+(<\/span>)/g, '$1__REPORT_COUNT__$2')
+            .replace(/(data-role=["']coverage-tab-count["'][^>]*>)\d+(<\/span>)/g, '$1__COVERAGE_COUNT__$2')
+            .replace(/assets\/js\/site\.min\.js\?v=[^"']+/g, 'assets/js/site.min.js?v=__CACHE__')
+            .replace(/(<[^>]+data-role=["']coverage-eod-label["'][^>]*>)[^<]*(<\/[^>]+>)/g, '$1__EOD_LABEL__$2')
+            .replace(/(<[^>]+data-role=["']coverage-lock-label["'][^>]*>)[^<]*(<\/[^>]+>)/g, '$1__LOCK_LABEL__$2')
+            .replace(/(<[^>]+data-role=["']ledger-asof["'][^>]*>)[^<]*(<\/[^>]+>)/g, '$1__LEDGER_DATE__$2')
+            .replace(/(<meta\s+name=["']description["']\s+content=["'][^"']*?giá đóng cửa )\d{2}\/\d{2}\/\d{4}([^"']*["']\s*\/?>)/gi, '$1__SEO_DATE__$2');
+          if (normalize(html) !== normalize(baseline)) throw new Error('index.html changed outside approved report counts/EOD labels/cache token.');
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
+          const expectedOrder = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expectedOrder.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const data = sandbox.window.RESEARCH_DATA;
+          if (data?.meta?.updated !== '2026-08-26' || data?.meta?.release !== '2026-08-26') throw new Error(`Meta date mismatch: ${data?.meta?.updated}/${data?.meta?.release}`);
+          if (data?.marketSession?.date !== '2026-08-26') throw new Error(`Market session date mismatch: ${data?.marketSession?.date}`);
+          if (!Array.isArray(data.reports) || !Array.isArray(data.coverage)) throw new Error('Missing report/coverage arrays.');
+          const valuations = data.reports.filter((report) => report.reportType !== 'trading');
+          if (valuations.length !== data.coverage.length) throw new Error(`Valuation/coverage count mismatch ${valuations.length}/${data.coverage.length}`);
+          if (new Set(valuations.map((report) => report.ticker)).size !== valuations.length) throw new Error('Duplicate valuation ticker remains.');
+          if (new Set(data.coverage.map((item) => item.ticker)).size !== data.coverage.length) throw new Error('Duplicate coverage ticker remains.');
+          if (data.coverage.some((item) => item.priceDate !== '2026-08-26')) throw new Error('Coverage is not fully locked to 2026-08-26.');
+          const targets = ['KBC','VCG','CEO','HDC','KDH','DIG','NVL','IDC','NLG','GVR'];
+          for (const ticker of targets) {
+            const reports = valuations.filter((report) => report.ticker === ticker);
+            const coverage = data.coverage.filter((item) => item.ticker === ticker);
+            if (reports.length !== 1 || coverage.length !== 1) throw new Error(`${ticker} not unique after import.`);
+            if (reports[0].date !== '2026-08-26') throw new Error(`${ticker} latest report date mismatch: ${reports[0].date}`);
+            if (coverage[0].reportId !== reports[0].id) throw new Error(`${ticker} reportId/coverage mismatch.`);
+          }
+          NODE
+          allowed='^(reports/.*\.pdf|assets/images/reports/.*\.webp|src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|index\.html)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo 'Unexpected changed paths:' >&2
+            echo "$unexpected" >&2
+            exit 3
+          fi
+          echo 'Changed paths:'
+          git diff --name-status
+
+      - name: Prepare lean production artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Commit verified reports and EOD state, then remove one-time helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/import-reports-20260826-b-once.yml scripts/import-reports-20260826-b.mjs .github/import-reports-20260826-b.trigger
+          git add -A reports assets/images/reports src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js index.html
+          git diff --cached --name-status
+          git commit -m 'Publish 10 valuation reports and lock EOD 26 Aug 2026 [skip ci]'
+          git push origin HEAD:main
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Post-deploy byte verification
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
