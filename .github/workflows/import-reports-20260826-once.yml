@@ -1,0 +1,204 @@
+name: One-time publish valuation reports 20260826
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  import-reports:
+    if: github.event.head_commit.message == 'Run valuation report import 26 Aug 2026 now'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download exact uploaded PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          download_pdf() {
+            local url="$1" path="$2" sha="$3"
+            echo "Downloading $path"
+            curl -fL --retry 4 --retry-all-errors --connect-timeout 20 --max-time 180 -o "$path" "$url"
+            printf 'Expected SHA256: %s\n' "$sha"
+            printf 'Actual   SHA256: '
+            sha256sum "$path"
+            echo "$sha  $path" | sha256sum -c -
+            test "$(head -c 5 "$path")" = '%PDF-'
+          }
+          download_pdf 'https://at.adobe.com/5psG5F0AwkwAcTts' 'reports/VGS_2026-08-25.pdf' '9220cb76b2b3a904a3b4229369811e80b03d12fd5200d5a3b1ab8148fe12bebb'
+          download_pdf 'https://at.adobe.com/KrfJ85uDOtKrcquW' 'reports/PVP_2026-08-26.pdf' '28c7c8d3e66dc272ac50862fe39a2325d277d9bc15af486b10763f61e0b1110a'
+          download_pdf 'https://at.adobe.com/mk26csFcmVM8MlZM' 'reports/PLC_2026-08-26.pdf' 'ba162866f688a36b3cad745ba6507fba47e4d21bf37d925987a09b587640c02a'
+          download_pdf 'https://at.adobe.com/cHCKeucCbYYgj9xV' 'reports/OIL_2026-08-26.pdf' '454e9182e84f45a40c5c7b14b4085c4df09a3bf63f69b413e7d6d334cec9ff28'
+          download_pdf 'https://at.adobe.com/6bx0YbrnnRNoY7BH' 'reports/PVC_2026-08-26.pdf' '7c4a2159b8fd5d4fe21f6c5addea91ab1fb3657a5e95be03740012dfeffd434b'
+          download_pdf 'https://at.adobe.com/SpAwDcVIEIcl1TOH' 'reports/PVB_2026-08-26.pdf' 'c8876d1f6bdb7f46e7e49e086b91abc49d9969dd32de288d12b17ed5eecae180'
+          download_pdf 'https://at.adobe.com/bbFynYuM8JJZn9mL' 'reports/SSB_2026-08-26.pdf' 'e8b760c42c2a27e30b25a5d2a15f77b3990d7c676da1e9d6f98e01da2bfd9c44'
+          download_pdf 'https://at.adobe.com/nYHkhaC98u5f38em' 'reports/VRE_2026-08-26.pdf' '94f3ec5bcc7ea46ebab1020ebb18e5f02771a75ff0d6ae396113d0c217af5674'
+          download_pdf 'https://at.adobe.com/ygJQSihJdhZseygP' 'reports/VPL_2026-08-26.pdf' '27b361aa7cd61ebdc185d7809487e4aa63f018effea4b74e7a037d22ffd9bd88'
+          download_pdf 'https://at.adobe.com/VmjtP8aQjQzRQLXv' 'reports/PHP_2026-08-26.pdf' 'fee29354af7d8b1c13d2ceac2b8020de3100ad75bbf811b90bc7c15e6322bb0f'
+          download_pdf 'https://at.adobe.com/gGqu3cBc51S3gxTf' 'reports/VJC_2026-08-26.pdf' '4ea319cd68b883c57175645401385a17aa6f950228813c38154d9f88d98b44de'
+
+      - name: Generate report-cover WebP images from PDF page 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v pdftoppm >/dev/null || ! command -v cwebp >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends poppler-utils webp
+          fi
+          mkdir -p assets/images/reports "${RUNNER_TEMP}/covers"
+          for ticker in VGS PVP PLC OIL PVC PVB SSB VRE VPL PHP VJC; do
+            if [[ "$ticker" == 'VGS' ]]; then pdf="reports/VGS_2026-08-25.pdf"; else pdf="reports/${ticker}_2026-08-26.pdf"; fi
+            pdftoppm -f 1 -singlefile -scale-to-x 960 -scale-to-y -1 -png "$pdf" "${RUNNER_TEMP}/covers/${ticker}"
+            cwebp -quiet -q 84 "${RUNNER_TEMP}/covers/${ticker}.png" -o "assets/images/reports/${ticker,,}.webp"
+            test "$(head -c 4 "assets/images/reports/${ticker,,}.webp")" = 'RIFF'
+          done
+
+      - name: Replace older valuation editions and sync report metadata
+        run: node scripts/import-reports-20260826.mjs
+
+      - name: Cross-check and lock EOD quotes for the expanded coverage
+        id: market
+        run: |
+          node scripts/update-eod-market-data.mjs \
+            --date 2026-08-25 \
+            --status-file "${RUNNER_TEMP}/eod-status.json" \
+            --max-attempts 6 \
+            --wait-ms 20000
+          cat "${RUNNER_TEMP}/eod-status.json"
+
+      - name: Require verified EOD after coverage expansion
+        if: steps.market.outputs.status != 'verified' && steps.market.outputs.status != 'already-current'
+        run: |
+          echo 'Expanded coverage did not pass the EOD Data Gate. Nothing will be published.' >&2
+          exit 2
+
+      - name: Record ledger before processing
+        run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+
+      - name: Process EOD activation ledger
+        run: node scripts/process-trade-ledger.mjs
+
+      - name: Reconcile expected versus actual ledger events
+        run: |
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+          cat "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Run all tests
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Audit full site integrity and tree synchronization
+        run: node scripts/audit-site.mjs
+
+      - name: Guard public layout and mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet -- src/index.css src/styles assets/css/site.min.css
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          import { execFileSync } from 'node:child_process';
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const baseline = execFileSync('git', ['show', 'HEAD:index.html'], { encoding: 'utf8' });
+          const normalize = (value) => value
+            .replace(/(data-role=["']report-tab-count["'][^>]*>)\d+(<\/span>)/g, '$1__REPORT_COUNT__$2')
+            .replace(/(data-role=["']coverage-tab-count["'][^>]*>)\d+(<\/span>)/g, '$1__COVERAGE_COUNT__$2')
+            .replace(/assets\/js\/site\.min\.js\?v=[^"']+/g, 'assets/js/site.min.js?v=__CACHE__');
+          if (normalize(html) !== normalize(baseline)) throw new Error('index.html changed outside report counts/cache token.');
+
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
+          const expected = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const data = sandbox.window.RESEARCH_DATA;
+          if (data.reports.length !== 76 || data.coverage.length !== 76) throw new Error(`Count mismatch reports=${data.reports.length} coverage=${data.coverage.length}`);
+          if (data.meta.updated !== '2026-08-25') throw new Error(`EOD date moved unexpectedly: ${data.meta.updated}`);
+          const targets = ['VGS','PVP','PLC','OIL','PVC','PVB','SSB','VRE','VPL','PHP','VJC'];
+          for (const ticker of targets) {
+            const valuations = data.reports.filter((report) => report.ticker === ticker && report.reportType !== 'trading');
+            const coverage = data.coverage.filter((item) => item.ticker === ticker);
+            if (valuations.length !== 1 || coverage.length !== 1) throw new Error(`${ticker} not unique after import.`);
+            if (coverage[0].reportId !== valuations[0].id) throw new Error(`${ticker} reportId/coverage mismatch.`);
+            if (coverage[0].priceDate !== '2026-08-25') throw new Error(`${ticker} priceDate mismatch: ${coverage[0].priceDate}`);
+          }
+          NODE
+          allowed='^(reports/.*\.pdf|assets/images/reports/.*\.webp|src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|index\.html|\.github/workflows/import-reports-20260826-once\.yml|scripts/import-reports-20260826\.mjs)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo 'Unexpected changed paths:' >&2
+            echo "$unexpected" >&2
+            exit 3
+          fi
+          echo 'Changed paths:'
+          git diff --name-status
+
+      - name: Prepare lean production artifact
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
+      - name: Commit synchronized report library and self-clean temporary automation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/import-reports-20260826-once.yml scripts/import-reports-20260826.mjs
+          git add -A reports assets/images/reports src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js index.html
+          git diff --cached --name-status
+          git commit -m 'Publish 11 latest valuation reports 26 Aug 2026 [skip ci]'
+          git push origin HEAD:main
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Verify live site byte-for-byte against deployment artifact
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site" \
+            --attempts 18 \
+            --wait-ms 10000
