@@ -1,1 +1,0 @@
-Run the guarded one-time import of KBC, VCG, CEO, HDC, KDH, DIG, NVL, IDC, NLG and GVR, then lock the full website coverage to verified EOD 2026-08-26. This trigger is removed automatically after successful publication.
