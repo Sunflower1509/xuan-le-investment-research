@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
@@ -25,27 +25,16 @@ jobs:
           package-manager-cache: false
       - name: Run all trigger and ledger tests
         run: node --test tests/*.test.mjs
-      - name: Validate current ledger without mutation
+      - name: Verify TCH migration evidence without writing
+        run: node scripts/migrate-ledger-buy-ceiling-v3.mjs
+      - name: Apply verified TCH migration idempotently
+        run: node scripts/migrate-ledger-buy-ceiling-v3.mjs --apply
+      - name: Validate migrated ledger without further mutation
         run: node scripts/process-trade-ledger.mjs --dry-run
-      - name: Replay historical trigger audit
+      - name: Replay historical trigger audit after migration
         run: |
           node scripts/audit-ledger-trigger-history.mjs --report "${RUNNER_TEMP}/ledger-v3-history-audit.json"
-          node -e 'const r=require(process.argv[1]); console.log(JSON.stringify({snapshotDates:r.snapshotDates,candidateCount:r.candidateCount,matched:r.matched,missing:r.missing,late:r.late,actualEarlier:r.actualEarlier,noCandidateForActual:r.noCandidateForActual,parseErrors:r.parseErrors},null,2))' "${RUNNER_TEMP}/ledger-v3-history-audit.json"
-      - name: Inspect exact TCH backfill evidence
-        run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import vm from 'node:vm';
-          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
-          const sandbox = { window: {} };
-          vm.runInNewContext(code, sandbox);
-          const source = sandbox.window.RESEARCH_DATA;
-          const item = source.coverage.find((row) => row.ticker === 'TCH');
-          const report = source.reports
-            .filter((row) => row.ticker === 'TCH')
-            .sort((a, b) => b.date.localeCompare(a.date))[0] || null;
-          console.log(JSON.stringify({ item, report: report ? { id: report.id, date: report.date, file: report.file, recommendation: report.recommendation } : null }, null, 2));
-          NODE
+          node -e 'const r=require(process.argv[1]); const summary={snapshotDates:r.snapshotDates,candidateCount:r.candidateCount,matched:r.matched,missing:r.missing,late:r.late,actualEarlier:r.actualEarlier,noCandidateForActual:r.noCandidateForActual,parseErrors:r.parseErrors}; console.log(JSON.stringify(summary,null,2)); if(r.parseErrors.length||r.missing.length||r.late.length||r.actualEarlier.length) process.exit(2);' "${RUNNER_TEMP}/ledger-v3-history-audit.json"
       - name: Upload historical audit
         uses: actions/upload-artifact@v4
         with:
@@ -64,3 +53,16 @@ jobs:
           actual="$(grep -oE '<section[^>]+id="[^"]+"' index.html | sed -E 's/.*id="([^"]+)"/\1/' | paste -sd, -)"
           expected="overview,daily-market,position-ledger,action-radar,research"
           test "$actual" = "$expected" || { echo "Section order changed: $actual" >&2; exit 2; }
+      - name: Commit verified ledger migration to branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- src/data/trade-ledger.json; then
+            echo "Ledger migration already committed; no write needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/trade-ledger.json
+          git commit -m "Backfill verified TCH buy-ceiling activation"
+          git push origin HEAD:fix/ledger-buy-ceiling-v3
