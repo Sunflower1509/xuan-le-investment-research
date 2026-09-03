@@ -24,7 +24,7 @@ test("mọi coverage ticker đều có report-cover riêng", () => {
   const missing = research.coverage
     .map((item) => String(item.ticker).toUpperCase())
     .filter((ticker) => !covers.has(ticker));
-  assert.deepEqual(missing, []);
+  assert.equal(missing.length, 0, `Thiếu report-cover cho: ${missing.join(", ")}`);
   assert.equal(covers.size, research.coverage.length);
 });
 
