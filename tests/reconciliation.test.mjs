@@ -31,9 +31,9 @@ const beforeLedger = () => ({
     performanceBasis: "gross-reference",
     owner: "Test",
     automation: {
-      version: 2,
+      version: 3,
       enabled: true,
-      trigger: "eod-close-transitioned-into-locked-zone",
+      trigger: "eod-close-crossed-locked-buy-ceiling",
       baselineDate: "2026-08-12",
       lastEvaluatedAt: "2026-08-18",
       lastEvaluatedQuotes: {
@@ -60,6 +60,31 @@ test("reconciliation xác nhận expected activation bằng actual event", () =>
   assert.equal(result.expected.length, 1);
   assert.equal(result.actual.length, 1);
   assert.equal(result.expected[0].id, "auto-ABC-2026-08-19");
+});
+
+test("reconciliation xác nhận cả trường hợp đóng cửa xuyên dưới cận dưới", () => {
+  const belowSource = structuredClone(source);
+  belowSource.coverage[0].close = 92;
+  const before = beforeLedger();
+  const after = processEodLedger(belowSource, before).ledger;
+  const result = reconcileTradeLedger(belowSource, before, after);
+  assert.equal(result.ok, true);
+  assert.equal(result.expected.length, 1);
+  assert.equal(result.expected[0].relationAfter, "below");
+  assert.equal(result.actual.length, 1);
+});
+
+test("reconciliation không tạo expected muộn khi giá hồi từ dưới vùng vào trong vùng", () => {
+  const reboundSource = structuredClone(source);
+  reboundSource.coverage[0].close = 100;
+  const before = beforeLedger();
+  before.meta.automation.lastEvaluatedQuotes.ABC.close = 92;
+  before.meta.automation.lastEvaluatedQuotes.ABC.relation = "below";
+  const after = processEodLedger(reboundSource, before).ledger;
+  const result = reconcileTradeLedger(reboundSource, before, after);
+  assert.equal(result.ok, true);
+  assert.equal(result.expected.length, 0);
+  assert.equal(result.actual.length, 0);
 });
 
 test("reconciliation fail nếu engine đáng lẽ kích hoạt nhưng event bị thiếu", () => {
@@ -98,8 +123,9 @@ test("reconciliation fail nếu xuất hiện automatic event ngoài expected se
     zoneBasisDate: "2026-08-18",
     stop: 90,
     targets: [120],
+    activationRelation: "inside-zone",
     confirmation: {
-      trigger: "eod-close-transitioned-into-locked-zone",
+      trigger: "eod-close-crossed-locked-buy-ceiling",
       priceTriggerPassed: true,
       eligibilityAtTrigger: "active",
       noHardVeto: true,
