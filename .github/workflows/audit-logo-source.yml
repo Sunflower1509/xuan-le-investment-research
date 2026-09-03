@@ -15,33 +15,82 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: audit/stock-logo-source-20260903
-      - name: Trace dynamic CafeF company logo API
+      - name: Audit exact CafeF CompanyIntro logos for all coverage tickers
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import urllib.request,re,json
-          tickers=['HHS','NLG','OIL','TCH','VJC']
-          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,*/*'}
-          for ticker in tickers:
-            url=f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
-            print(f'\n===== {ticker} =====')
-            req=urllib.request.Request(url,headers=headers)
-            with urllib.request.urlopen(req,timeout=15) as r: text=r.read().decode('utf-8','ignore')
-            # Print compact snippets around likely data fetch/assignment instructions.
-            patterns=[r'infoCompanyIntro\s*=\s*\{',r'async\s+init\s*\(',r'this\.data\s*=',r'fetch\s*\(',r'axios',r'\.ajax\s*\(',r'api[^"\'\s<]{0,120}',r'CompanyInfo',r'company-info',r'GetCompany']
-            seen=[]
-            for pat in patterns:
-              for m in re.finditer(pat,text,re.I):
-                a=max(0,m.start()-1300);b=min(len(text),m.end()+2500)
-                sn=' '.join(text[a:b].replace('\r',' ').replace('\n',' ').split())
-                if sn not in seen:
-                  seen.append(sn); print('SNIP',sn[:3800])
-                if len(seen)>=12: break
-              if len(seen)>=12: break
-            # Extract URL-ish literals near infoCompanyIntro block.
-            pos=text.find('infoCompanyIntro')
-            block=text[max(0,pos-3000):pos+22000] if pos>=0 else text
-            urls=re.findall(r'["\']([^"\']*(?:api|Api|API|company|Company|symbol|Symbol|du-lieu)[^"\']*)["\']',block)
-            print('URL_LITERALS',json.dumps(list(dict.fromkeys(urls))[:80],ensure_ascii=False))
+          import json,urllib.request,hashlib,struct
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+          from collections import defaultdict
+
+          raw=open('src/data/research-data.js','r',encoding='utf-8').read().strip()
+          p='window.RESEARCH_DATA = '
+          if not raw.startswith(p): raise SystemExit('bad research wrapper')
+          payload=raw[len(p):]
+          if payload.endswith(';'): payload=payload[:-1]
+          research=json.loads(payload)
+          companies={str(x['ticker']).upper():str(x.get('company','')).strip() for x in research['coverage']}
+          tickers=sorted(companies)
+          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'application/json,text/plain,*/*'}
+
+          def dims(body):
+            if body[:8]==b'\x89PNG\r\n\x1a\n' and len(body)>=24 and body[12:16]==b'IHDR':
+              return (*struct.unpack('>II',body[16:24]),'png')
+            if body[:3]==b'\xff\xd8\xff':
+              i=2
+              while i+9<len(body):
+                if body[i]!=0xff: i+=1;continue
+                marker=body[i+1];i+=2
+                if marker in (0xd8,0xd9): continue
+                if i+2>len(body): break
+                seg=int.from_bytes(body[i:i+2],'big')
+                if seg<2 or i+seg>len(body): break
+                if marker in list(range(0xc0,0xc4))+list(range(0xc5,0xc8))+list(range(0xc9,0xcc))+list(range(0xcd,0xd0)):
+                  h=int.from_bytes(body[i+3:i+5],'big');w=int.from_bytes(body[i+5:i+7],'big');return w,h,'jpeg'
+                i+=seg
+            if body[:4]==b'RIFF' and body[8:12]==b'WEBP': return None,None,'webp'
+            return None,None,'unknown'
+
+          def fetch(url,accept=None,referer=None):
+            hs=dict(headers)
+            if accept: hs['Accept']=accept
+            if referer: hs['Referer']=referer
+            req=urllib.request.Request(url,headers=hs)
+            with urllib.request.urlopen(req,timeout=15) as r: return r.read(),r.status,r.headers.get('content-type','')
+
+          def audit(t):
+            api=f'https://cafef.vn/du-lieu/Ajax/PageNew/CompanyIntro.ashx?Symbol={t.lower()}'
+            try:
+              body,status,ctype=fetch(api)
+              obj=json.loads(body.decode('utf-8','ignore'))
+              d=obj.get('Data') if isinstance(obj,dict) else None
+              if not obj.get('Success') or not isinstance(d,dict):
+                return {'ticker':t,'ok':False,'api':api,'error':'API Success/Data missing','raw':body[:300].decode('utf-8','ignore')}
+              symbol=str(d.get('Symbol') or '').upper().strip(); name=str(d.get('Name') or '').strip(); logo=str(d.get('Logo') or '').strip()
+              if symbol!=t or not logo:
+                return {'ticker':t,'ok':False,'api':api,'apiSymbol':symbol,'apiName':name,'logo':logo,'error':'symbol mismatch or empty logo'}
+              img='https://cafefnew.mediacdn.vn/LOGO/'+logo
+              ib,istatus,ictype=fetch(img,'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',f'https://cafef.vn/du-lieu/{t.lower()}/thong-tin-chung.chn')
+              w,h,fmt=dims(ib);sha=hashlib.sha256(ib).hexdigest()
+              valid=istatus==200 and len(ib)>=300 and fmt in ('png','jpeg','webp') and (w is None or w>=20) and (h is None or h>=20)
+              return {'ticker':t,'ok':valid,'api':api,'apiName':name,'researchName':companies[t],'logoFile':logo,'imageUrl':img,'bytes':len(ib),'width':w,'height':h,'format':fmt,'sha256':sha,'error':None if valid else 'invalid image'}
+            except Exception as e:
+              return {'ticker':t,'ok':False,'api':api,'researchName':companies[t],'error':repr(e)}
+
+          rows=[]
+          with ThreadPoolExecutor(max_workers=16) as pool:
+            fs={pool.submit(audit,t):t for t in tickers}
+            for i,f in enumerate(as_completed(fs),1):
+              r=f.result();rows.append(r)
+              print(f'[{i:03d}/{len(tickers)}] {r["ticker"]} ok={r.get("ok")} apiName={r.get("apiName")} logo={r.get("logoFile")} dim={r.get("width")}x{r.get("height")} bytes={r.get("bytes")} err={r.get("error")}')
+          rows.sort(key=lambda x:x['ticker'])
+          hashes=defaultdict(list)
+          for r in rows:
+            if r.get('sha256'): hashes[r['sha256']].append(r['ticker'])
+          failures=[r for r in rows if not r.get('ok')]
+          print('\nROWS_JSON')
+          print(json.dumps(rows,ensure_ascii=False,indent=2))
+          print('\nSUMMARY')
+          print(json.dumps({'coverage':len(rows),'success':sum(bool(r.get('ok')) for r in rows),'failureCount':len(failures),'failureTickers':[r['ticker'] for r in failures],'duplicateHashes':{h:t for h,t in hashes.items() if len(t)>1},'uniqueHashes':len(hashes)},ensure_ascii=False,indent=2))
           PY
