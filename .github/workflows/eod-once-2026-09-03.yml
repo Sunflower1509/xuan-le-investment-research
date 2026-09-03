@@ -20,4 +20,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh workflow run eod-daily.yml --ref main -f date=2026-09-03
+          gh workflow run eod-daily.yml --repo "$GITHUB_REPOSITORY" --ref main -f date=2026-09-03
