@@ -30,9 +30,9 @@ const ledger = ({ snapshot = true, events = [] } = {}) => ({
     performanceBasis: "gross-reference",
     owner: "Test",
     automation: {
-      version: 1,
+      version: 3,
       enabled: true,
-      trigger: "eod-close-transitioned-into-locked-zone",
+      trigger: "eod-close-crossed-locked-buy-ceiling",
       baselineDate: "2026-08-12",
       lastEvaluatedAt: "2026-08-12",
       lastEvaluatedQuotes: snapshot ? {
@@ -66,7 +66,7 @@ test("khởi tạo mã mới mà không hồi tố tín hiệu", () => {
   assert.equal(result.ledger.meta.automation.lastEvaluatedQuotes.ABC.relation, "inside");
 });
 
-test("tự động kích hoạt một lần khi giá EOD đi từ ngoài vào vùng", () => {
+test("tự động kích hoạt một lần khi giá EOD cắt từ trên xuống trong vùng", () => {
   const first = processEodLedger(source(), ledger());
   assert.equal(first.stats.activated, 1);
   assert.equal(first.ledger.events.length, 1);
@@ -74,6 +74,8 @@ test("tự động kích hoạt một lần khi giá EOD đi từ ngoài vào v�
   assert.equal(event.id, "auto-ABC-2026-08-13");
   assert.equal(event.mode, "automatic-eod");
   assert.equal(event.price, 95);
+  assert.equal(event.activationRelation, "inside-zone");
+  assert.equal(event.confirmation.trigger, "eod-close-crossed-locked-buy-ceiling");
   assert.equal(event.confirmation.previousQuote.relation, "above");
   assert.deepEqual(event.targets, []);
 
@@ -81,6 +83,55 @@ test("tự động kích hoạt một lần khi giá EOD đi từ ngoài vào v�
   assert.equal(second.changed, false);
   assert.equal(second.stats.activated, 0);
   assert.equal(second.ledger.events.length, 1);
+});
+
+test("giá EOD cắt xuyên dưới cận dưới vẫn phải kích hoạt và được gắn below-zone", () => {
+  const result = processEodLedger(source({ close: 89 }), ledger());
+  assert.equal(result.stats.activated, 1);
+  assert.equal(result.ledger.events.length, 1);
+  assert.equal(result.ledger.events[0].price, 89);
+  assert.equal(result.ledger.events[0].activationRelation, "below-zone");
+  const projection = projectTradeLedger(result.ledger, source({ close: 89 }).coverage);
+  assert.equal(projection.issues.length, 0);
+  assert.equal(projection.positions[0].activationRelation, "below-zone");
+});
+
+test("giá EOD cắt xuyên cả stop vẫn ghi nhận tín hiệu nhưng đánh dấu stop-breached", () => {
+  const result = processEodLedger(source({ close: 87 }), ledger());
+  assert.equal(result.stats.activated, 1);
+  assert.equal(result.ledger.events[0].activationRelation, "stop-breached");
+  const projection = projectTradeLedger(result.ledger, source({ close: 87 }).coverage);
+  assert.equal(projection.issues.length, 0);
+  assert.equal(projection.positions[0].activationRelation, "stop-breached");
+  assert.equal(projection.positions[0].monitoringState, "stop-alert");
+});
+
+test("không tạo kích hoạt muộn khi giá hồi từ dưới vùng trở lại trong vùng", () => {
+  const base = ledger();
+  base.meta.automation.lastEvaluatedQuotes.ABC = {
+    ...base.meta.automation.lastEvaluatedQuotes.ABC,
+    date: "2026-08-13",
+    close: 89,
+    relation: "below"
+  };
+  base.meta.automation.lastEvaluatedAt = "2026-08-13";
+  const result = processEodLedger(source({ date: "2026-08-14", close: 95 }), base);
+  assert.equal(result.stats.activated, 0);
+  assert.equal(result.ledger.events.length, 0);
+});
+
+test("không tạo sự kiện mới khi giá đi từ trong vùng xuống dưới vùng", () => {
+  const base = ledger();
+  base.meta.automation.lastEvaluatedQuotes.ABC = {
+    ...base.meta.automation.lastEvaluatedQuotes.ABC,
+    date: "2026-08-13",
+    close: 95,
+    relation: "inside"
+  };
+  base.meta.automation.lastEvaluatedAt = "2026-08-13";
+  const result = processEodLedger(source({ date: "2026-08-14", close: 89 }), base);
+  assert.equal(result.stats.activated, 0);
+  assert.equal(result.ledger.events.length, 0);
 });
 
 test("không kích hoạt khi eligibility không active", () => {
