@@ -1,0 +1,71 @@
+name: Daily playbook state UI verification
+
+on:
+  push:
+    branches:
+      - fix/daily-playbook-state-colors
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out fix branch
+        uses: actions/checkout@v5
+        with:
+          ref: fix/daily-playbook-state-colors
+          fetch-depth: 2
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Apply guarded state UI migration
+        run: node scripts/migrate-daily-playbook-state-ui.mjs
+      - name: Guard source mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          allowed='^(src/data/daily-insights\.js|src/scripts/daily-market-policy\.mjs|src/scripts/app\.js|src/styles/site\.css|tests/daily-market-policy\.test\.mjs)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected source changes:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          git diff --exit-code -- index.html
+      - name: Run complete test suite
+        run: node --test tests/*.test.mjs
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Audit report covers
+        run: node scripts/audit-report-covers.mjs
+      - name: Audit company logos
+        run: node scripts/audit-company-logos.mjs
+      - name: Guard final mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          allowed='^(src/data/daily-insights\.js|src/scripts/daily-market-policy\.mjs|src/scripts/app\.js|src/styles/site\.css|tests/daily-market-policy\.test\.mjs|assets/js/site\.min\.js|assets/css/site\.min\.css)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected final changes:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          git diff --exit-code -- index.html
+      - name: Persist verified fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/daily-insights.js src/scripts/daily-market-policy.mjs src/scripts/app.js src/styles/site.css tests/daily-market-policy.test.mjs assets/js/site.min.js assets/css/site.min.css
+          git commit -m "Fix daily playbook state labels and finance palette [skip ci]"
+          git push origin HEAD:fix/daily-playbook-state-colors
