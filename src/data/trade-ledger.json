@@ -6,9 +6,9 @@
     "performanceBasis": "gross-reference",
     "owner": "Xuân Lê TVS",
     "automation": {
-      "version": 2,
+      "version": 3,
       "enabled": true,
-      "trigger": "eod-close-transitioned-into-locked-zone",
+      "trigger": "eod-close-crossed-locked-buy-ceiling",
       "baselineDate": "2026-08-12",
       "lastEvaluatedAt": "2026-09-03",
       "lastEvaluatedQuotes": {
@@ -1059,6 +1059,38 @@
       "sourceUrlSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HDC",
       "reportId": "HDC-20260826",
       "reportFile": "reports/HDC_2026-08-26.pdf"
+    },
+    {
+      "id": "auto-TCH-2026-09-03",
+      "tradeId": "TCH-2026-09-03",
+      "type": "activated",
+      "mode": "automatic-eod",
+      "ticker": "TCH",
+      "date": "2026-09-03",
+      "price": 11950,
+      "zoneLow": 12142,
+      "zoneHigh": 13010,
+      "zoneBasisDate": "2026-08-26",
+      "stop": null,
+      "targets": [],
+      "activationRelation": "below-zone",
+      "confirmation": {
+        "trigger": "eod-close-crossed-locked-buy-ceiling",
+        "priceTriggerPassed": true,
+        "eligibilityAtTrigger": "active",
+        "noHardVeto": true,
+        "lockedActionUnchangedSincePreviousEod": true,
+        "previousQuote": {
+          "date": "2026-08-28",
+          "close": 13400,
+          "relation": "above"
+        }
+      },
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCH~date:2026-09-03&size=10",
+      "note": "Tự động ghi nhận tín hiệu đã kích hoạt khi giá đóng cửa EOD cắt xuyên dưới cận trên và đóng dưới cận dưới của vùng mua đã khóa.",
+      "sourceUrlSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCH",
+      "reportId": "TCH-20260826",
+      "reportFile": "reports/TCH_2026-08-26.pdf"
     }
   ]
 }
