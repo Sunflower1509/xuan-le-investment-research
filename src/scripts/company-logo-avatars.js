@@ -26,17 +26,12 @@
     style.textContent = `
       .company-logo-shell{display:grid;place-items:center;position:relative;isolation:isolate;overflow:hidden;background:#fff;border:1px solid #dcd8ce;box-shadow:0 4px 12px rgba(8,28,49,.08);flex:0 0 auto}
       .${AVATAR_CLASS}{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
-      .company-logo-code{position:absolute;z-index:2;right:2px;bottom:2px;max-width:calc(100% - 4px);overflow:hidden;color:#fff!important;background:rgba(8,28,49,.86);border-radius:4px;margin:0!important;padding:1px 3px;font-family:var(--font-sans)!important;font-size:.38rem!important;font-weight:850!important;letter-spacing:.02em;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
       .company-logo-identity{display:grid!important;grid-template-columns:42px minmax(0,1fr);align-items:start;gap:10px;min-width:0}
       .company-logo-coverage{width:42px;height:42px;border-radius:10px}
       .company-logo-meta{min-width:0}
-      .company-logo-report{width:46px;height:46px;border-radius:11px}
-      .ticker-mark.company-logo-report-host{position:relative;overflow:hidden;background:#fff;border:1px solid #dcd8ce;box-shadow:0 4px 12px rgba(8,28,49,.08)}
       .stock-watch-identity{display:flex;align-items:center;gap:10px;min-width:0}
       .company-logo-watchlist{width:40px;height:40px;border-radius:9px}
       .stock-watch-meta{min-width:0}
-      .command-item-code.company-logo-command-host{position:relative;overflow:hidden;background:#fff;border:1px solid #dcd8ce;box-shadow:0 4px 12px rgba(8,28,49,.08)}
-      .company-logo-command{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;box-shadow:none}
       @media (width<=720px){.company-logo-identity{grid-template-columns:38px minmax(0,1fr);gap:8px}.company-logo-coverage{width:38px;height:38px}.company-logo-watchlist{width:36px;height:36px}}
     `;
     document.head.append(style);
@@ -46,38 +41,13 @@
     const img = document.createElement("img");
     img.className = `${AVATAR_CLASS} company-logo-${placement}`;
     img.src = logo.path;
-    img.alt = placement === "command" ? "" : logo.alt;
-    img.width = placement === "report" ? 46 : placement === "command" ? 42 : 40;
+    img.alt = logo.alt;
+    img.width = placement === "coverage" ? 42 : 40;
     img.height = img.width;
     img.loading = "lazy";
     img.decoding = "async";
     img.dataset.ticker = ticker;
     return img;
-  };
-
-  const codeBadge = (ticker) => {
-    const label = document.createElement("span");
-    label.className = "company-logo-code";
-    label.textContent = ticker;
-    return label;
-  };
-
-  const enhanceReports = (root = document) => {
-    root.querySelectorAll(".report-card-v4:not([data-logo-enhanced='1'])").forEach((card) => {
-      const host = card.querySelector(".ticker-mark");
-      const ticker = normalizeTicker(host?.textContent);
-      const logo = logos.get(ticker);
-      if (!host || !ticker || !logo) return;
-      host.textContent = "";
-      host.classList.add("company-logo-report-host");
-      const img = makeImage(ticker, logo, "report");
-      img.addEventListener("error", () => {
-        host.classList.remove("company-logo-report-host");
-        host.textContent = ticker;
-      }, { once: true });
-      host.append(img, codeBadge(ticker));
-      card.dataset.logoEnhanced = "1";
-    });
   };
 
   const enhanceCoverage = (root = document) => {
@@ -123,30 +93,13 @@
     });
   };
 
-  const enhanceCommand = (root = document) => {
-    root.querySelectorAll(".command-item:not([data-logo-enhanced='1'])").forEach((item) => {
-      const ticker = normalizeTicker(item.dataset.ticker);
-      const host = item.querySelector(".command-item-code");
-      const logo = logos.get(ticker);
-      if (!ticker || !host || !logo) return;
-      host.textContent = "";
-      host.classList.add("company-logo-command-host");
-      const img = makeImage(ticker, logo, "command");
-      img.addEventListener("error", () => img.remove(), { once: true });
-      host.append(img, codeBadge(ticker));
-      item.dataset.logoEnhanced = "1";
-    });
-  };
-
   let scheduled = false;
   const enhanceAll = () => {
     scheduled = false;
     ensureStyles();
     const research = document.querySelector("[data-role='research-results']") || document;
-    enhanceReports(research);
     enhanceCoverage(research);
     enhanceWatchlist(document.querySelector("[data-role='watchlist-content']") || document);
-    enhanceCommand(document.querySelector("[data-role='command-results']") || document);
   };
   const schedule = () => {
     if (scheduled) return;
@@ -161,5 +114,4 @@
   enhanceAll();
   observe("[data-role='research-results']");
   observe("[data-role='watchlist-content']");
-  observe("[data-role='command-results']");
 })();

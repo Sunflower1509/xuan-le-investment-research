@@ -28,14 +28,25 @@ test("108 coverage ticker có đúng 108 logo local được khóa theo sàn và
   }
 });
 
-test("bundle import module logo và module khóa bốn bề mặt avatar", () => {
+test("bundle import module logo cho hai bề mặt bổ trợ an toàn", () => {
   const index = fs.readFileSync(path.join(root, "src/index.js"), "utf8");
   const module = fs.readFileSync(path.join(root, "src/scripts/company-logo-avatars.js"), "utf8");
   assert.match(index, /company-logos\.js/);
   assert.match(index, /company-logo-avatars\.js/);
-  assert.match(module, /\.report-card-v4/);
   assert.match(module, /\.coverage-card/);
   assert.match(module, /\.watchlist-item/);
-  assert.match(module, /\.command-item/);
   assert.match(module, /__XLTVS_COMPANY_LOGO_STATUS__/);
+});
+
+test("mã cổ phiếu nguyên bản không bị logo thay thế trên report và tìm kiếm nhanh", () => {
+  const app = fs.readFileSync(path.join(root, "src/scripts/app.js"), "utf8");
+  const module = fs.readFileSync(path.join(root, "src/scripts/company-logo-avatars.js"), "utf8");
+
+  assert.match(app, /class="ticker-mark">\$\{escapeHtml\(report\.ticker\)\}<\/span>/);
+  assert.match(app, /class="command-item-code">\$\{escapeHtml\(item\.ticker\)\}<\/span>/);
+  assert.doesNotMatch(module, /\.report-card-v4/);
+  assert.doesNotMatch(module, /\.ticker-mark/);
+  assert.doesNotMatch(module, /\.command-item(?:-code)?/);
+  assert.doesNotMatch(module, /company-logo-code/);
+  assert.doesNotMatch(module, /\.textContent\s*=\s*["']{2}/);
 });
