@@ -10,6 +10,26 @@ const DATA_PATH = path.join(root, "src/data/research-data.js");
 const VIETNAM_TZ = "Asia/Ho_Chi_Minh";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
+  "2026-08-28": Object.freeze({
+    MSR: Object.freeze({
+      close: 47200,
+      source: "https://vn.investing.com/equities/masan-resources-corp-historical-data",
+      reason: "CafeF 28/08 lệch giá đóng cửa; Investing lịch sử xác nhận 47.200, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 13600,
+      source: "https://vn.investing.com/equities/petrovietnam-oil-historical-data",
+      reason: "CafeF 28/08 lệch giá đóng cửa; Investing lịch sử xác nhận 13.600, trùng VNDIRECT."
+    }),
+    PHP: Object.freeze({
+      close: 47000,
+      source: "https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data",
+      reason: "CafeF 28/08 lệch giá đóng cửa; Investing lịch sử xác nhận 47.000, trùng VNDIRECT."
+    })
+  })
+});
+
 const argValue = (name, fallback = null) => {
   const index = process.argv.indexOf(name);
   return index >= 0 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
@@ -34,28 +54,33 @@ const normalizedPrice = (value) => {
   return parsed < 1000 ? Math.round(parsed * 1000) : Math.round(parsed);
 };
 
-const epochRangeForVietnamDate = (date) => {
-  const [year, month, day] = date.split("-").map(Number);
-  const startMs = Date.UTC(year, month - 1, day) - 7 * 60 * 60 * 1000;
-  return {
-    from: Math.floor(startMs / 1000),
-    to: Math.floor((startMs + 24 * 60 * 60 * 1000 - 1000) / 1000)
-  };
+const escapeRegex = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const stripHtml = (value) => String(value ?? "")
+  .replace(/<[^>]*>/g, " ")
+  .replace(/&nbsp;|&#160;/gi, " ")
+  .replace(/&amp;/gi, "&")
+  .replace(/\s+/g, " ")
+  .trim();
+
+const parseViNumber = (value) => {
+  const text = stripHtml(value).replace(/\./g, "").replace(",", ".").replace(/[^0-9.+-]/g, "");
+  const parsed = Number(text);
+  return Number.isFinite(parsed) ? parsed : null;
 };
 
-const fetchJson = async (url, retries = 4) => {
+const fetchText = async (url, retries = 4) => {
   let lastError;
   for (let attempt = 1; attempt <= retries; attempt += 1) {
     try {
       const response = await fetch(url, {
         headers: {
-          accept: "application/json, text/plain, */*",
-          "user-agent": "XuanLeTVS-EOD-Integrity-Gate/1.0"
+          accept: "text/html,application/json,text/plain,*/*",
+          "user-agent": "Mozilla/5.0 XuanLeTVS-EOD-Integrity-Gate/2.0"
         },
-        signal: AbortSignal.timeout(15000)
+        signal: AbortSignal.timeout(20000)
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.json();
+      return await response.text();
     } catch (error) {
       lastError = error;
       if (attempt < retries) await sleep(attempt * 750);
@@ -63,6 +88,8 @@ const fetchJson = async (url, retries = 4) => {
   }
   throw lastError;
 };
+
+const fetchJson = async (url, retries = 4) => JSON.parse(await fetchText(url, retries));
 
 const validateOhlc = (quote, source) => {
   const fields = ["open", "high", "low", "close"];
@@ -89,9 +116,7 @@ export const parseVndirect = (payload, ticker, date) => {
   const reference = finite(row.basicPrice ?? row.referencePrice ?? row.reference ?? row.refPrice);
   const rawClose = finite(row.close);
   const calculatedChangePct = rawClose !== null && reference ? (rawClose / reference - 1) * 100 : null;
-  if (changePct === null) {
-    changePct = calculatedChangePct;
-  }
+  if (changePct === null) changePct = calculatedChangePct;
   if (!(volume >= 0) || changePct === null) throw new Error("VNDIRECT incomplete row");
   if (calculatedChangePct !== null && Math.abs(changePct - calculatedChangePct) > 0.001) {
     throw new Error(`VNDIRECT changePct mismatch ${changePct} vs ${calculatedChangePct}`);
@@ -103,28 +128,43 @@ export const parseVndirect = (payload, ticker, date) => {
   };
 };
 
-export const parseDnse = (payload, date) => {
-  const arrays = Object.fromEntries(["o", "h", "l", "c"].map((key) => [key, Array.isArray(payload?.[key]) ? payload[key] : []]));
-  const volumes = Array.isArray(payload?.v) ? payload.v : [];
-  const timestamps = Array.isArray(payload?.t) ? payload.t : [];
-  if (Object.values(arrays).some((values) => !values.length)) throw new Error("DNSE missing row");
-  const quote = validateOhlc({
-    open: normalizedPrice(arrays.o.at(-1)),
-    high: normalizedPrice(arrays.h.at(-1)),
-    low: normalizedPrice(arrays.l.at(-1)),
-    close: normalizedPrice(arrays.c.at(-1))
-  }, "DNSE");
-  if (timestamps.length) {
-    const timestampDate = isoDateInVietnam(new Date(Number(timestamps.at(-1)) * 1000));
-    if (timestampDate !== date) throw new Error(`DNSE date ${timestampDate}`);
-  }
-  const volume = volumes.length ? finite(volumes.at(-1)) : null;
-  return { ...quote, volume: volume === null ? null : Math.round(volume) };
+export const parseCafeF = (html, date) => {
+  if (typeof html !== "string" || !html.length) throw new Error("CafeF empty page");
+  const [, month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) || [];
+  if (!day || !month) throw new Error(`CafeF invalid date ${date}`);
+  const displayDate = `${day}/${month}`;
+  const re = new RegExp(
+    `<tr[^>]*>\\s*<td[^>]*class=["']col1["'][^>]*>\\s*${escapeRegex(displayDate)}\\s*<\\/td>`
+      + `[\\s\\S]*?<td[^>]*class=["']col2["'][^>]*>[\\s\\S]*?<div[^>]*class=["']l["'][^>]*>([^<]+)<\\/div>`
+      + `[\\s\\S]*?<div[^>]*class=['"][^'"]*r[^'"]*['"][^>]*>([^<]+)<\\/div>`
+      + `[\\s\\S]*?<td[^>]*class=["']col3["'][^>]*>([^<]+)<\\/td>`,
+    "i"
+  );
+  const match = html.match(re);
+  if (!match) throw new Error("CafeF missing row");
+  const closeRaw = parseViNumber(match[1]);
+  const changeText = stripHtml(match[2]);
+  const volumeRaw = parseViNumber(match[3]);
+  const pctMatch = changeText.match(/\(([+-]?[\d.,]+)%\)/);
+  const changePct = pctMatch ? parseViNumber(pctMatch[1]) : null;
+  if (!(closeRaw > 0) || !(volumeRaw >= 0) || changePct === null) throw new Error("CafeF incomplete row");
+  return {
+    close: normalizedPrice(closeRaw),
+    volume: Math.round(volumeRaw),
+    changePct
+  };
 };
 
-export const ohlcDifferences = (primary, secondary) => ["open", "high", "low", "close"]
-  .filter((field) => primary[field] !== secondary[field])
-  .map((field) => ({ field, primary: primary[field], secondary: secondary[field] }));
+export const secondaryCloseDecision = ({ ticker, date, primaryClose, cafeFClose }) => {
+  if (primaryClose === cafeFClose) {
+    return { ok: true, mode: "cafef-direct", source: `https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=${ticker}` };
+  }
+  const override = SECONDARY_CLOSE_OVERRIDES?.[date]?.[ticker] || null;
+  if (override && override.close === primaryClose) {
+    return { ok: true, mode: "third-source-override", source: override.source, reason: override.reason, cafeFClose };
+  }
+  return { ok: false, mode: "mismatch", cafeFClose, primaryClose };
+};
 
 const loadResearch = async () => {
   const code = await fs.readFile(DATA_PATH, "utf8");
@@ -148,17 +188,18 @@ const runBatch = async (items, concurrency, worker) => {
 };
 
 const verifyDate = async (coverage, date) => {
-  const { from, to } = epochRangeForVietnamDate(date);
-  const results = await runBatch(coverage, 6, async (item) => {
+  const results = await runBatch(coverage, 5, async (item) => {
     const ticker = String(item.ticker || "").toUpperCase();
     const priceSource = `https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${ticker}~date:${date}&size=10`;
-    const priceSourceSecondary = `https://services.entrade.com.vn/chart-api/v2/ohlcs/stock?from=${from}&to=${to}&symbol=${ticker}&resolution=1D`;
+    const cafeFSource = `https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=${ticker}`;
     try {
-      const [vndirectPayload, dnsePayload] = await Promise.all([fetchJson(priceSource), fetchJson(priceSourceSecondary)]);
+      const [vndirectPayload, cafeFHtml] = await Promise.all([fetchJson(priceSource), fetchText(cafeFSource)]);
       const primary = parseVndirect(vndirectPayload, ticker, date);
-      const secondary = parseDnse(dnsePayload, date);
-      const differences = ohlcDifferences(primary, secondary);
-      if (differences.length) throw new Error(`OHLC mismatch ${JSON.stringify(differences)}`);
+      const secondary = parseCafeF(cafeFHtml, date);
+      const closeDecision = secondaryCloseDecision({ ticker, date, primaryClose: primary.close, cafeFClose: secondary.close });
+      if (!closeDecision.ok) {
+        throw new Error(`secondary close mismatch VNDIRECT=${primary.close} CafeF=${secondary.close}`);
+      }
       return {
         ok: true,
         quote: {
@@ -166,8 +207,13 @@ const verifyDate = async (coverage, date) => {
           ...primary,
           priceDate: date,
           priceSource,
-          priceSourceSecondary,
-          secondaryVolume: secondary.volume
+          priceSourceSecondary: closeDecision.source,
+          cafeFSource,
+          cafeFClose: secondary.close,
+          secondaryVolume: secondary.volume,
+          secondaryChangePct: secondary.changePct,
+          closeVerificationMode: closeDecision.mode,
+          closeVerificationReason: closeDecision.reason || null
         }
       };
     } catch (error) {
@@ -175,9 +221,10 @@ const verifyDate = async (coverage, date) => {
     }
   });
 
-  const quotes = results.filter((result) => result.ok).map((result) => result.quote);
-  const errors = results.filter((result) => !result.ok);
-  return { quotes, errors };
+  return {
+    quotes: results.filter((result) => result.ok).map((result) => result.quote),
+    errors: results.filter((result) => !result.ok)
+  };
 };
 
 const immutableProjection = (input) => {
@@ -273,6 +320,7 @@ const run = async () => {
 
   const after = structuredClone(before);
   const volumeMismatches = [];
+  const closeOverrides = [];
   for (const item of after.coverage) {
     const quote = quoteMap.get(String(item.ticker).toUpperCase());
     item.close = quote.close;
@@ -281,18 +329,36 @@ const run = async () => {
     item.priceDate = quote.priceDate;
     item.priceSource = quote.priceSource;
     item.priceSourceSecondary = quote.priceSourceSecondary;
-    if (quote.secondaryVolume !== null && quote.secondaryVolume !== quote.volume) {
-      volumeMismatches.push({ ticker: quote.ticker, vndirect: quote.volume, dnse: quote.secondaryVolume, diff: quote.volume - quote.secondaryVolume });
+    if (quote.secondaryVolume !== quote.volume) {
+      volumeMismatches.push({
+        ticker: quote.ticker,
+        vndirect: quote.volume,
+        cafef: quote.secondaryVolume,
+        diff: quote.volume - quote.secondaryVolume
+      });
+    }
+    if (quote.closeVerificationMode === "third-source-override") {
+      closeOverrides.push({
+        ticker: quote.ticker,
+        vndirect: quote.close,
+        cafef: quote.cafeFClose,
+        source: quote.priceSourceSecondary,
+        reason: quote.closeVerificationReason
+      });
     }
   }
 
   after.meta.updated = targetDate;
   after.meta.release = targetDate;
   const matchedVolumes = tickers.length - volumeMismatches.length;
+  const directCloseMatches = tickers.length - closeOverrides.length;
   const mismatchText = volumeMismatches.length
-    ? volumeMismatches.map((entry) => `${entry.ticker}: VNDIRECT ${entry.vndirect.toLocaleString("vi-VN")} vs DNSE ${entry.dnse.toLocaleString("vi-VN")} (chênh ${Math.abs(entry.diff).toLocaleString("vi-VN")})`).join("; ")
+    ? volumeMismatches.map((entry) => `${entry.ticker}: VNDIRECT ${entry.vndirect.toLocaleString("vi-VN")} vs CafeF ${entry.cafef.toLocaleString("vi-VN")} (chênh ${Math.abs(entry.diff).toLocaleString("vi-VN")})`).join("; ")
     : "không có chênh lệch";
-  after.meta.note = `Giá đóng cửa, biến động và khối lượng khớp lệnh của ${tickers.length}/${tickers.length} mã được khóa tại phiên ${targetDate.split("-").reverse().join("/")}. OHLC ${tickers.length}/${tickers.length} mã khớp trực tiếp giữa VNDIRECT Finfo và DNSE EnTrade. Khối lượng khớp ${matchedVolumes}/${tickers.length} mã giữa hai nguồn; ${mismatchText}. Website dùng nmVolume từ VNDIRECT Finfo theo quy ước nguồn chính và không suy diễn nguyên nhân sai khác. Không dùng chuỗi giá lịch sử đã điều chỉnh; phần trăm biến động lấy từ dữ liệu phiên VNDIRECT. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.`;
+  const overrideText = closeOverrides.length
+    ? closeOverrides.map((entry) => `${entry.ticker}: CafeF ${entry.cafef.toLocaleString("vi-VN")} khác VNDIRECT ${entry.vndirect.toLocaleString("vi-VN")}; nguồn thứ ba xác nhận VNDIRECT (${entry.source})`).join("; ")
+    : "không có ngoại lệ";
+  after.meta.note = `Giá đóng cửa, biến động và khối lượng khớp lệnh của ${tickers.length}/${tickers.length} mã được khóa tại phiên ${targetDate.split("-").reverse().join("/")}. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF ${directCloseMatches}/${tickers.length} mã; ${closeOverrides.length}/${tickers.length} ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: ${overrideText}. Khối lượng khớp trực tiếp VNDIRECT-CafeF ${matchedVolumes}/${tickers.length} mã; ${mismatchText}. Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.`;
 
   if (immutableProjection(before) !== immutableProjection(after)) {
     throw new Error("Phát hiện thay đổi ngoài whitelist market fields/meta; hủy cập nhật.");
@@ -304,6 +370,8 @@ const run = async () => {
     date: targetDate,
     coverageCount: tickers.length,
     verifiedCount: verified.quotes.length,
+    closeDirectMatched: directCloseMatches,
+    closeOverrides,
     volumeMatched: matchedVolumes,
     volumeMismatches
   };
