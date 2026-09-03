@@ -48,10 +48,21 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -n "${TARGET_DATE:-}" ]]; then
-            node scripts/update-eod-market-data.mjs --date "$TARGET_DATE" --status-file "${RUNNER_TEMP}/eod-status.json"
+            RESOLVED_DATE="$TARGET_DATE"
           else
-            node scripts/update-eod-market-data.mjs --status-file "${RUNNER_TEMP}/eod-status.json"
+            RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date +%F)"
+            if [[ "${GITHUB_EVENT_NAME:-}" == "schedule" ]]; then
+              local_hour="$(TZ=Asia/Ho_Chi_Minh date +%H)"
+              if (( 10#$local_hour < 12 )); then
+                RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date -d 'yesterday' +%F)"
+              fi
+              while (( $(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u) >= 6 )); do
+                RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE -1 day" +%F)"
+              done
+            fi
           fi
+          echo "Resolved EOD target: $RESOLVED_DATE (event=${GITHUB_EVENT_NAME:-unknown})"
+          node scripts/update-eod-market-data.mjs --date "$RESOLVED_DATE" --status-file "${RUNNER_TEMP}/eod-status.json"
 
       - name: Lock market indices and HOSE breadth
         if: steps.market.outputs.status == 'verified'
