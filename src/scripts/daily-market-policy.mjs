@@ -1,5 +1,15 @@
 export const DAILY_PLAYBOOK_POLICY_START = "2026-09-03";
 export const REQUIRED_DAILY_PLAYBOOK_LENGTH = 3;
+export const DAILY_PLAYBOOK_STATE_ORDER = Object.freeze(["positive", "neutral", "risk_off"]);
+export const DAILY_PLAYBOOK_STATE_META = Object.freeze({
+  positive: Object.freeze({ label: "TĂNG DẦN", tone: "positive" }),
+  neutral: Object.freeze({ label: "GIỮ / CHỜ", tone: "neutral" }),
+  risk_off: Object.freeze({ label: "GIẢM RỦI RO", tone: "risk-off" }),
+});
+
+export function dailyPlaybookStateMeta(state) {
+  return DAILY_PLAYBOOK_STATE_META[String(state || "")] || null;
+}
 
 export function validateDailyPlaybookPolicy(entry, options = {}) {
   const policyStart = options.policyStart || DAILY_PLAYBOOK_POLICY_START;
@@ -31,6 +41,24 @@ export function validateDailyPlaybookPolicy(entry, options = {}) {
       applies: true,
       valid: false,
       message: `playbook[${malformed}] thiếu điều kiện IF hoặc hành động THEN.`,
+    };
+  }
+
+  const states = entry.playbook.map((item) => String(item?.state || ""));
+  const unsupported = states.findIndex((state) => !dailyPlaybookStateMeta(state));
+  if (unsupported >= 0) {
+    return {
+      applies: true,
+      valid: false,
+      message: `playbook[${unsupported}] thiếu state hợp lệ; chỉ dùng positive / neutral / risk_off.`,
+    };
+  }
+
+  if (states.join("|") !== DAILY_PLAYBOOK_STATE_ORDER.join("|")) {
+    return {
+      applies: true,
+      valid: false,
+      message: `playbook phải khóa đúng thứ tự state: ${DAILY_PLAYBOOK_STATE_ORDER.join(" → ")}; hiện là ${states.join(" → ")}.`,
     };
   }
 

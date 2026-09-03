@@ -1,5 +1,6 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
+import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
 import {
   buildPriorityUniverse,
   latestReportDates,
@@ -137,7 +138,7 @@ import {
 
   const DAILY_DISCLAIMER = "Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.";
 
-  const dailyActionMeta = (value) => {
+  const dailyLegacyActionMeta = (value) => {
     const text = normalize(value).replaceAll("đ", "d");
     if (/khong mua duoi|tuyet doi khong mua/.test(text)) return { label: "KHÔNG MUA ĐUỔI", tone: "avoid" };
     if (/tham do/.test(text)) return { label: "THĂM DÒ NHỎ", tone: "probe" };
@@ -146,6 +147,8 @@ import {
     if (/mua xac nhan|gia tang|co the mua|mo vi the|mua/.test(text)) return { label: "MUA CÓ ĐIỀU KIỆN", tone: "conditional" };
     return { label: "CHỜ XÁC NHẬN", tone: "wait" };
   };
+
+  const dailyActionMeta = (item) => dailyPlaybookStateMeta(item?.state) || dailyLegacyActionMeta(item?.then);
 
   const dailyInference = (value) => String(value ?? "")
     .replace(DAILY_DISCLAIMER, "")
@@ -193,7 +196,7 @@ import {
           <span>${entry.playbook.length} kịch bản đã khóa</span>
         </div>
         <div class="daily-action-list">${entry.playbook.map((item, index) => {
-          const action = dailyActionMeta(item.then);
+          const action = dailyActionMeta(item);
           return `
             <article class="daily-action-row ${action.tone}">
               <div class="daily-action-signal"><span>${action.label}</span><small>${String(index + 1).padStart(2, "0")}</small></div>
