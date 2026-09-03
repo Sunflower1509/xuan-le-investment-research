@@ -31,6 +31,21 @@ jobs:
         run: |
           node scripts/audit-ledger-trigger-history.mjs --report "${RUNNER_TEMP}/ledger-v3-history-audit.json"
           node -e 'const r=require(process.argv[1]); console.log(JSON.stringify({snapshotDates:r.snapshotDates,candidateCount:r.candidateCount,matched:r.matched,missing:r.missing,late:r.late,actualEarlier:r.actualEarlier,noCandidateForActual:r.noCandidateForActual,parseErrors:r.parseErrors},null,2))' "${RUNNER_TEMP}/ledger-v3-history-audit.json"
+      - name: Inspect exact TCH backfill evidence
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const source = sandbox.window.RESEARCH_DATA;
+          const item = source.coverage.find((row) => row.ticker === 'TCH');
+          const report = source.reports
+            .filter((row) => row.ticker === 'TCH')
+            .sort((a, b) => b.date.localeCompare(a.date))[0] || null;
+          console.log(JSON.stringify({ item, report: report ? { id: report.id, date: report.date, file: report.file, recommendation: report.recommendation } : null }, null, 2));
+          NODE
       - name: Upload historical audit
         uses: actions/upload-artifact@v4
         with:
