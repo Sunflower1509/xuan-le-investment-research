@@ -15,12 +15,13 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: audit/stock-logo-source-20260903
-      - name: Audit CafeF logo coverage for every research ticker
+      - name: Resolve and audit exact CafeF profile logos
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json, urllib.request, hashlib, struct
+          import json, urllib.request, hashlib, struct, re, html
+          from urllib.parse import urljoin
           from collections import defaultdict
           from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -31,50 +32,86 @@ jobs:
           if payload.endswith(';'): payload=payload[:-1]
           data=json.loads(payload)
           tickers=sorted({str(x['ticker']).strip().upper() for x in data['coverage']})
-          print('coverage_tickers', len(tickers))
+          print('coverage_tickers',len(tickers))
 
-          def fetch_logo(ticker):
-              url=f'https://cafefnew.mediacdn.vn/LOGO/{ticker}.png'
-              req=urllib.request.Request(url,headers={
-                  'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36',
-                  'Accept':'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
-                  'Referer':f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
-              })
+          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,application/xhtml+xml,image/avif,image/webp,image/apng,image/*,*/*;q=0.8'}
+
+          def fetch_bytes(url, referer=None, timeout=12):
+              hs=dict(headers)
+              if referer: hs['Referer']=referer
+              req=urllib.request.Request(url,headers=hs)
+              with urllib.request.urlopen(req,timeout=timeout) as r:
+                  return r.read(),r.status,r.headers.get('content-type','')
+
+          def dimensions(body,ctype):
+              if body[:8]==b'\x89PNG\r\n\x1a\n' and len(body)>=24 and body[12:16]==b'IHDR':
+                  return (*struct.unpack('>II',body[16:24]),'png')
+              if body[:3]==b'\xff\xd8\xff':
+                  i=2
+                  while i+9<len(body):
+                      if body[i]!=0xFF: i+=1; continue
+                      marker=body[i+1]; i+=2
+                      if marker in (0xD8,0xD9): continue
+                      if i+2>len(body): break
+                      seg=int.from_bytes(body[i:i+2],'big')
+                      if seg<2 or i+seg>len(body): break
+                      if marker in list(range(0xC0,0xC4))+list(range(0xC5,0xC8))+list(range(0xC9,0xCC))+list(range(0xCD,0xD0)):
+                          h=int.from_bytes(body[i+3:i+5],'big'); w=int.from_bytes(body[i+5:i+7],'big'); return w,h,'jpeg'
+                      i+=seg
+              if body[:4] in (b'RIFF',) and body[8:12]==b'WEBP': return None,None,'webp'
+              return None,None,'unknown'
+
+          def resolve_logo(ticker):
+              page=f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
               try:
-                  with urllib.request.urlopen(req,timeout=8) as r:
-                      body=r.read(); status=r.status; ctype=r.headers.get('content-type','')
-                  is_png=body[:8]==b'\x89PNG\r\n\x1a\n'
-                  w=h=None
-                  if is_png and len(body)>=24 and body[12:16]==b'IHDR': w,h=struct.unpack('>II',body[16:24])
-                  sha=hashlib.sha256(body).hexdigest()
-                  ok=status==200 and is_png and len(body)>=500 and (w or 0)>=20 and (h or 0)>=20
-                  return {'ticker':ticker,'ok':ok,'status':status,'contentType':ctype,'bytes':len(body),'width':w,'height':h,'sha256':sha,'url':url}
+                  raw,status,ctype=fetch_bytes(page)
+                  doc=raw.decode('utf-8','ignore')
+                  # Prefer img tag explicitly tied to exact ticker in alt/title.
+                  imgs=re.findall(r'<img\b[^>]*>',doc,re.I)
+                  candidates=[]
+                  for tag in imgs:
+                      altm=re.search(r'\b(?:alt|title)\s*=\s*["\']([^"\']*)["\']',tag,re.I)
+                      srcm=re.search(r'\bsrc\s*=\s*["\']([^"\']+)["\']',tag,re.I)
+                      if not srcm: continue
+                      label=html.unescape(altm.group(1) if altm else '')
+                      src=html.unescape(srcm.group(1))
+                      if 'logo' in label.lower() and re.search(rf'(?:-|\b){re.escape(ticker)}\b',label,re.I):
+                          candidates.append(urljoin(page,src))
+                  # Fallback: any CafeF LOGO asset in profile HTML that contains ticker token.
+                  for m in re.findall(r'https?://[^"\'<>\s]+/LOGO/[^"\'<>\s]+',doc,re.I):
+                      u=html.unescape(m)
+                      if ticker.lower() in u.lower() and u not in candidates: candidates.append(u)
+                  if not candidates:
+                      return {'ticker':ticker,'ok':False,'page':page,'error':'No exact ticker logo candidate in CafeF profile HTML'}
+                  errors=[]
+                  for logo in candidates:
+                      try:
+                          body,istatus,ictype=fetch_bytes(logo,referer=page)
+                          w,h,fmt=dimensions(body,ictype)
+                          sha=hashlib.sha256(body).hexdigest()
+                          ok=istatus==200 and len(body)>=500 and fmt in ('png','jpeg','webp') and (w is None or w>=20) and (h is None or h>=20)
+                          if ok:
+                              return {'ticker':ticker,'ok':True,'page':page,'url':logo,'status':istatus,'contentType':ictype,'bytes':len(body),'width':w,'height':h,'format':fmt,'sha256':sha,'candidateCount':len(candidates)}
+                          errors.append(f'{logo}: invalid image fmt={fmt} bytes={len(body)} {w}x{h}')
+                      except Exception as e: errors.append(f'{logo}: {e!r}')
+                  return {'ticker':ticker,'ok':False,'page':page,'candidates':candidates,'error':' | '.join(errors)}
               except Exception as e:
-                  return {'ticker':ticker,'ok':False,'error':repr(e),'url':url}
+                  return {'ticker':ticker,'ok':False,'page':page,'error':repr(e)}
 
           rows=[]
-          with ThreadPoolExecutor(max_workers=16) as pool:
-              futures={pool.submit(fetch_logo,t):t for t in tickers}
-              for i,fut in enumerate(as_completed(futures),1):
-                  row=fut.result(); rows.append(row)
-                  print(f'[{i:03d}/{len(tickers)}] {row["ticker"]} ok={row.get("ok")} status={row.get("status")} bytes={row.get("bytes")} dim={row.get("width")}x{row.get("height")} err={row.get("error","")}')
-
+          with ThreadPoolExecutor(max_workers=12) as pool:
+              fs={pool.submit(resolve_logo,t):t for t in tickers}
+              for i,f in enumerate(as_completed(fs),1):
+                  r=f.result();rows.append(r)
+                  print(f'[{i:03d}/{len(tickers)}] {r["ticker"]} ok={r.get("ok")} logo={r.get("url")} bytes={r.get("bytes")} dim={r.get("width")}x{r.get("height")} err={r.get("error","")}')
           rows.sort(key=lambda r:r['ticker'])
           hashes=defaultdict(list)
           for r in rows:
               if r.get('sha256'): hashes[r['sha256']].append(r['ticker'])
           failures=[r for r in rows if not r.get('ok')]
           dupes={sha:ts for sha,ts in hashes.items() if len(ts)>1}
-          summary={
-              'coverage':len(tickers),
-              'success':sum(1 for r in rows if r.get('ok')),
-              'failures':failures,
-              'duplicateHashGroups':dupes,
-              'uniqueHashes':len(hashes),
-              'minBytes':min((r.get('bytes',10**18) for r in rows if r.get('ok')),default=None),
-              'minWidth':min((r.get('width',10**9) for r in rows if r.get('ok')),default=None),
-              'minHeight':min((r.get('height',10**9) for r in rows if r.get('ok')),default=None),
-          }
+          print('\nRESOLVED_ROWS')
+          print(json.dumps(rows,ensure_ascii=False,indent=2))
           print('\nSUMMARY')
-          print(json.dumps(summary,ensure_ascii=False,indent=2))
+          print(json.dumps({'coverage':len(tickers),'success':sum(r.get('ok',False) for r in rows),'failureCount':len(failures),'failures':[r['ticker'] for r in failures],'duplicateHashGroups':dupes,'uniqueHashes':len(hashes)},ensure_ascii=False,indent=2))
           PY
