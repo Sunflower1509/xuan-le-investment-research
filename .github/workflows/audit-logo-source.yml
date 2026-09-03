@@ -15,74 +15,55 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: audit/stock-logo-source-20260903
-      - name: Resolve GEL official logo asset
+      - name: Resolve GEL official logo asset from GELEX Infrastructure
         shell: bash
         run: |
           set -euo pipefail
+          curl -kfsSL --retry 3 --connect-timeout 15 --max-time 45 \
+            -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36' \
+            https://gelex-infra.vn/ -o /tmp/gel-home.html
+          echo "homepage_bytes=$(wc -c </tmp/gel-home.html)"
           python - <<'PY'
-          import urllib.request,re,html,json,hashlib,struct
+          import re,html,json,subprocess,hashlib,os,struct
           from urllib.parse import urljoin
           page='https://gelex-infra.vn/'
-          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,application/xhtml+xml,image/avif,image/webp,image/apng,image/*,*/*;q=0.8'}
-          req=urllib.request.Request(page,headers=headers)
-          with urllib.request.urlopen(req,timeout=20) as r:
-            final=r.geturl(); raw=r.read(); status=r.status
-          text=raw.decode('utf-8','ignore')
-          print('PAGE',status,final,'bytes',len(raw))
-          print('HAS_GEL_MARKER', 'Mã cổ phiếu GEL' in text or 'GEL (HOSE)' in text)
+          text=open('/tmp/gel-home.html','r',encoding='utf-8',errors='ignore').read()
+          print('GEL markers', {'GEL (HOSE)': 'GEL (HOSE)' in text, 'Mã cổ phiếu': 'Mã cổ phiếu' in text})
           candidates=[]
           for tag in re.findall(r'<(?:img|source|link)\b[^>]*>',text,re.I):
             attrs={k.lower():html.unescape(v) for k,v in re.findall(r'([\w:-]+)\s*=\s*["\']([^"\']*)["\']',tag)}
             vals=[]
             for key in ('src','data-src','data-lazy-src','href'):
               if attrs.get(key): vals.append(attrs[key])
-            if attrs.get('srcset'):
-              vals += [x.strip().split()[0] for x in attrs['srcset'].split(',') if x.strip()]
+            if attrs.get('srcset'): vals += [x.strip().split()[0] for x in attrs['srcset'].split(',') if x.strip()]
             blob=' '.join([tag,attrs.get('alt',''),attrs.get('class',''),attrs.get('id',''),attrs.get('rel','')]).lower()
             for val in vals:
               if not val or val.startswith('data:'): continue
-              u=urljoin(final,val)
-              low=(blob+' '+u).lower(); score=0
+              u=urljoin(page,val); low=(blob+' '+u).lower(); score=0
               if 'logo' in low: score+=10
               if 'brand' in low: score+=4
               if 'header' in low: score+=3
               if 'gelex' in low: score+=4
               if 'infra' in low: score+=5
-              if any(x in low for x in ['favicon','apple-touch','footer','partner','award','cert']): score-=3
-              if score>0: candidates.append((score,u,attrs.get('alt',''),tag[:350]))
-          # embedded style/script URLs
+              if any(x in low for x in ['favicon','apple-touch','partner','award','cert']): score-=4
+              if score>0: candidates.append((score,u,attrs.get('alt',''),tag[:400]))
           for m in re.findall(r'["\']([^"\']*(?:logo|Logo|LOGO|gelex|GELEX)[^"\']*\.(?:svg|png|jpe?g|webp)(?:\?[^"\']*)?)["\']',text):
-            if not m.startswith('data:'):
-              u=urljoin(final,html.unescape(m)); candidates.append((8,u,'embedded','embedded'))
+            if not m.startswith('data:'): candidates.append((8,urljoin(page,html.unescape(m)),'embedded','embedded'))
           seen=set(); ranked=[]
-          for score,u,alt,tag in sorted(candidates,key=lambda x:(-x[0],len(x[1]))):
-            if u in seen: continue
-            seen.add(u); ranked.append((score,u,alt,tag))
-          def dims(body):
-            if body[:8]==b'\x89PNG\r\n\x1a\n' and len(body)>=24 and body[12:16]==b'IHDR': return (*struct.unpack('>II',body[16:24]),'png')
-            if body[:3]==b'\xff\xd8\xff':
-              i=2
-              while i+9<len(body):
-                if body[i]!=0xff: i+=1; continue
-                marker=body[i+1]; i+=2
-                if marker in (0xd8,0xd9): continue
-                if i+2>len(body): break
-                seg=int.from_bytes(body[i:i+2],'big')
-                if seg<2 or i+seg>len(body): break
-                if marker in list(range(0xc0,0xc4))+list(range(0xc5,0xc8))+list(range(0xc9,0xcc))+list(range(0xcd,0xd0)):
-                  h=int.from_bytes(body[i+3:i+5],'big'); w=int.from_bytes(body[i+5:i+7],'big'); return w,h,'jpeg'
-                i+=seg
-            if body.lstrip().startswith(b'<svg') or b'<svg' in body[:500].lower(): return None,None,'svg'
-            if body[:4]==b'RIFF' and body[8:12]==b'WEBP': return None,None,'webp'
-            return None,None,'unknown'
+          for row in sorted(candidates,key=lambda x:(-x[0],len(x[1]))):
+            if row[1] in seen: continue
+            seen.add(row[1]); ranked.append(row)
           rows=[]
-          for score,u,alt,tag in ranked[:25]:
-            try:
-              req=urllib.request.Request(u,headers={**headers,'Referer':page})
-              with urllib.request.urlopen(req,timeout=15) as r: body=r.read(); ctype=r.headers.get('content-type',''); istatus=r.status
-              w,h,fmt=dims(body); sha=hashlib.sha256(body).hexdigest()
-              rows.append({'score':score,'url':u,'alt':alt,'status':istatus,'ctype':ctype,'bytes':len(body),'width':w,'height':h,'format':fmt,'sha256':sha,'tag':tag})
-            except Exception as e:
-              rows.append({'score':score,'url':u,'alt':alt,'error':repr(e),'tag':tag})
+          for idx,(score,u,alt,tag) in enumerate(ranked[:30]):
+            out=f'/tmp/gel-candidate-{idx}'
+            proc=subprocess.run(['curl','-kfsSL','--retry','2','--connect-timeout','10','--max-time','30','-A','Mozilla/5.0','-e',page,u,'-o',out],capture_output=True,text=True)
+            if proc.returncode:
+              rows.append({'score':score,'url':u,'alt':alt,'error':proc.stderr.strip(),'tag':tag}); continue
+            body=open(out,'rb').read(); fmt='unknown'; w=h=None
+            if body[:8]==b'\x89PNG\r\n\x1a\n' and len(body)>=24 and body[12:16]==b'IHDR': w,h=struct.unpack('>II',body[16:24]);fmt='png'
+            elif body[:3]==b'\xff\xd8\xff': fmt='jpeg'
+            elif body.lstrip().startswith(b'<svg') or b'<svg' in body[:500].lower(): fmt='svg'
+            elif body[:4]==b'RIFF' and body[8:12]==b'WEBP': fmt='webp'
+            rows.append({'score':score,'url':u,'alt':alt,'bytes':len(body),'width':w,'height':h,'format':fmt,'sha256':hashlib.sha256(body).hexdigest(),'tag':tag})
           print(json.dumps(rows,ensure_ascii=False,indent=2))
           PY
