@@ -1,0 +1,69 @@
+name: Daily market 2026-09-03 branch verification
+
+on:
+  push:
+    branches:
+      - update/daily-market-20260903
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Apply guarded daily market update
+        run: node scripts/update-daily-market-20260903.mjs
+      - name: Guard update scope before tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          unexpected="$(git diff --name-only | grep -Ev '^src/data/daily-insights\.js$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths before tests:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          if ! git diff --quiet -- index.html assets/css/site.min.css; then
+            echo "Public HTML/CSS changed unexpectedly." >&2
+            exit 2
+          fi
+      - name: Run all trigger and ledger tests
+        run: node --test tests/*.test.mjs
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Audit report-cover integrity
+        run: node scripts/audit-report-covers.mjs
+      - name: Audit company-logo integrity
+        run: node scripts/audit-company-logos.mjs
+      - name: Assert public section structure unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(grep -oE '<section[^>]+id="[^"]+"' index.html | sed -E 's/.*id="([^"]+)"/\1/' | paste -sd, -)"
+          expected="overview,daily-market,position-ledger,action-radar,research"
+          test "$actual" = "$expected" || { echo "Section order changed: $actual" >&2; exit 2; }
+      - name: Persist verified daily insight to branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- src/data/daily-insights.js; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/daily-insights.js
+            git commit -m "Publish verified daily market view for 03 Sep 2026"
+            git push origin HEAD:update/daily-market-20260903
+          fi
