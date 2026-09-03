@@ -6,7 +6,10 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 108/108 mã được khóa tại phiên 28/08/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 105/108 mã; 3/108 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 47.300 khác VNDIRECT 47.200; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.500 khác VNDIRECT 13.600; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 47.200 khác VNDIRECT 47.000; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 93/108 mã; BVS: VNDIRECT 3.308.236 vs CafeF 3.305.600 (chênh 2.636); CEO: VNDIRECT 6.590.248 vs CafeF 6.578.000 (chênh 12.248); DDV: VNDIRECT 388.403 vs CafeF 388.000 (chênh 403); DRI: VNDIRECT 300.387 vs CafeF 300.200 (chênh 187); ICG: VNDIRECT 210 vs CafeF 200 (chênh 10); IDC: VNDIRECT 749.352 vs CafeF 748.600 (chênh 752); MSR: VNDIRECT 2.076.545 vs CafeF 2.053.200 (chênh 23.345); OIL: VNDIRECT 1.031.651 vs CafeF 997.300 (chênh 34.351); PHP: VNDIRECT 207.590 vs CafeF 205.600 (chênh 1.990); PLC: VNDIRECT 109.356 vs CafeF 109.200 (chênh 156); PVB: VNDIRECT 42.711 vs CafeF 42.600 (chênh 111); PVC: VNDIRECT 395.351 vs CafeF 394.900 (chênh 451); PVS: VNDIRECT 3.232.826 vs CafeF 3.229.000 (chênh 3.826); SHS: VNDIRECT 14.380.101 vs CafeF 14.353.900 (chênh 26.201); VGS: VNDIRECT 85.956 vs CafeF 85.900 (chênh 56). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố."
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 108/108 mã được khóa tại phiên 28/08/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 105/108 mã; 3/108 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 47.300 khác VNDIRECT 47.200; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.500 khác VNDIRECT 13.600; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 47.200 khác VNDIRECT 47.000; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 93/108 mã; BVS: VNDIRECT 3.308.236 vs CafeF 3.305.600 (chênh 2.636); CEO: VNDIRECT 6.590.248 vs CafeF 6.578.000 (chênh 12.248); DDV: VNDIRECT 388.403 vs CafeF 388.000 (chênh 403); DRI: VNDIRECT 300.387 vs CafeF 300.200 (chênh 187); ICG: VNDIRECT 210 vs CafeF 200 (chênh 10); IDC: VNDIRECT 749.352 vs CafeF 748.600 (chênh 752); MSR: VNDIRECT 2.076.545 vs CafeF 2.053.200 (chênh 23.345); OIL: VNDIRECT 1.031.651 vs CafeF 997.300 (chênh 34.351); PHP: VNDIRECT 207.590 vs CafeF 205.600 (chênh 1.990); PLC: VNDIRECT 109.356 vs CafeF 109.200 (chênh 156); PVB: VNDIRECT 42.711 vs CafeF 42.600 (chênh 111); PVC: VNDIRECT 395.351 vs CafeF 394.900 (chênh 451); PVS: VNDIRECT 3.232.826 vs CafeF 3.229.000 (chênh 3.826); SHS: VNDIRECT 14.380.101 vs CafeF 14.353.900 (chênh 26.201); VGS: VNDIRECT 85.956 vs CafeF 85.900 (chênh 56). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "coverSchema": "pdf-page-1-webp-v1",
+    "coverWidth": 900,
+    "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp"
   },
   "marketSession": {
     "date": "2026-08-28",
@@ -124,7 +127,7 @@ window.RESEARCH_DATA = {
       "file": "reports/BVH_2026-08-31.pdf",
       "edition": "Bản định giá 31.08.2026",
       "visual": {
-        "src": "assets/images/reports/bvh.webp?v=20260903-cover1",
+        "src": "assets/images/reports/bvh.webp?v=20260831-cover1",
         "alt": "Trang bìa báo cáo định giá BVH ngày 31/08/2026",
         "caption": "Bìa báo cáo định giá BVH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -162,7 +165,7 @@ window.RESEARCH_DATA = {
       "file": "reports/CMG_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/cmg.webp?v=20260903-cover1",
+        "src": "assets/images/reports/cmg.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá CMG ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá CMG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -202,7 +205,7 @@ window.RESEARCH_DATA = {
       "file": "reports/DPG_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/dpg.webp?v=20260903-cover1",
+        "src": "assets/images/reports/dpg.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá DPG ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá DPG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -240,7 +243,7 @@ window.RESEARCH_DATA = {
       "file": "reports/HDG_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/hdg.webp?v=20260903-cover1",
+        "src": "assets/images/reports/hdg.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá HDG ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá HDG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -278,7 +281,7 @@ window.RESEARCH_DATA = {
       "file": "reports/LHG_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/lhg.webp?v=20260903-cover1",
+        "src": "assets/images/reports/lhg.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá LHG ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá LHG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -316,7 +319,7 @@ window.RESEARCH_DATA = {
       "file": "reports/MCH_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/mch.webp?v=20260903-cover1",
+        "src": "assets/images/reports/mch.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá MCH ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá MCH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -354,7 +357,7 @@ window.RESEARCH_DATA = {
       "file": "reports/PET_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/pet.webp?v=20260903-cover1",
+        "src": "assets/images/reports/pet.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá PET ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá PET",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -392,7 +395,7 @@ window.RESEARCH_DATA = {
       "file": "reports/SBT_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/sbt.webp?v=20260903-cover1",
+        "src": "assets/images/reports/sbt.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá SBT ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá SBT",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -430,7 +433,7 @@ window.RESEARCH_DATA = {
       "file": "reports/SJS_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/sjs.webp?v=20260903-cover1",
+        "src": "assets/images/reports/sjs.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá SJS ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá SJS",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -468,7 +471,7 @@ window.RESEARCH_DATA = {
       "file": "reports/SZC_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/szc.webp?v=20260903-cover1",
+        "src": "assets/images/reports/szc.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá SZC ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá SZC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -506,7 +509,7 @@ window.RESEARCH_DATA = {
       "file": "reports/VPI_2026-08-28.pdf",
       "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/vpi.webp?v=20260903-cover1",
+        "src": "assets/images/reports/vpi.webp?v=20260828-cover1",
         "alt": "Trang bìa báo cáo định giá VPI ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá VPI",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -544,7 +547,7 @@ window.RESEARCH_DATA = {
       "file": "reports/EIB_2026-08-27.pdf",
       "edition": "Bản định giá 27.08.2026",
       "visual": {
-        "src": "assets/images/reports/eib.webp?v=20260827-cover3",
+        "src": "assets/images/reports/eib.webp?v=20260827-cover1",
         "alt": "Trang bìa báo cáo định giá EIB ngày 27/08/2026",
         "caption": "Bìa báo cáo định giá EIB",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -582,7 +585,7 @@ window.RESEARCH_DATA = {
       "file": "reports/GEL_2026-08-27.pdf",
       "edition": "Bản định giá 27.08.2026",
       "visual": {
-        "src": "assets/images/reports/gel.webp?v=20260827-cover3",
+        "src": "assets/images/reports/gel.webp?v=20260827-cover1",
         "alt": "Trang bìa báo cáo định giá GEL ngày 27/08/2026",
         "caption": "Bìa báo cáo định giá GEL",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -620,7 +623,7 @@ window.RESEARCH_DATA = {
       "file": "reports/NTC_2026-08-27.pdf",
       "edition": "Bản định giá 27.08.2026",
       "visual": {
-        "src": "assets/images/reports/ntc.webp?v=20260827-cover3",
+        "src": "assets/images/reports/ntc.webp?v=20260827-cover1",
         "alt": "Trang bìa báo cáo định giá NTC ngày 27/08/2026",
         "caption": "Bìa báo cáo định giá NTC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -658,7 +661,7 @@ window.RESEARCH_DATA = {
       "file": "reports/PDR_2026-08-27.pdf",
       "edition": "Bản định giá 27.08.2026",
       "visual": {
-        "src": "assets/images/reports/pdr.webp?v=20260827-cover3",
+        "src": "assets/images/reports/pdr.webp?v=20260827-cover1",
         "alt": "Trang bìa báo cáo định giá PDR ngày 27/08/2026",
         "caption": "Bìa báo cáo định giá PDR",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -696,7 +699,7 @@ window.RESEARCH_DATA = {
       "file": "reports/VGC_2026-08-27.pdf",
       "edition": "Bản định giá 27.08.2026",
       "visual": {
-        "src": "assets/images/reports/vgc.webp?v=20260827-cover3",
+        "src": "assets/images/reports/vgc.webp?v=20260827-cover1",
         "alt": "Trang bìa báo cáo định giá VGC ngày 27/08/2026",
         "caption": "Bìa báo cáo định giá VGC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -739,7 +742,7 @@ window.RESEARCH_DATA = {
       "file": "reports/CEO_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/ceo.webp?v=20260826-cover2",
+        "src": "assets/images/reports/ceo.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá CEO ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá CEO",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -777,7 +780,7 @@ window.RESEARCH_DATA = {
       "file": "reports/D2D_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/d2d.webp?v=20260827-cover3",
+        "src": "assets/images/reports/d2d.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá D2D ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá D2D",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -820,7 +823,7 @@ window.RESEARCH_DATA = {
       "file": "reports/DIG_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/dig.webp?v=20260826-cover2",
+        "src": "assets/images/reports/dig.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá DIG ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá DIG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -858,7 +861,7 @@ window.RESEARCH_DATA = {
       "file": "reports/DXG_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/dxg.webp?v=20260827-cover3",
+        "src": "assets/images/reports/dxg.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá DXG ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá DXG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -896,7 +899,7 @@ window.RESEARCH_DATA = {
       "file": "reports/GEX_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/gex.webp?v=20260827-cover3",
+        "src": "assets/images/reports/gex.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá GEX ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá GEX",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -939,7 +942,7 @@ window.RESEARCH_DATA = {
       "file": "reports/GVR_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/gvr.webp?v=20260826-cover2",
+        "src": "assets/images/reports/gvr.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá GVR ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá GVR",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -982,7 +985,7 @@ window.RESEARCH_DATA = {
       "file": "reports/HDC_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/hdc.webp?v=20260826-cover2",
+        "src": "assets/images/reports/hdc.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá HDC ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá HDC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1020,7 +1023,7 @@ window.RESEARCH_DATA = {
       "file": "reports/HHS_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/hhs.webp?v=20260827-cover3",
+        "src": "assets/images/reports/hhs.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá HHS ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá HHS",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1063,7 +1066,7 @@ window.RESEARCH_DATA = {
       "file": "reports/IDC_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/idc.webp?v=20260826-cover2",
+        "src": "assets/images/reports/idc.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá IDC ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá IDC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1106,7 +1109,7 @@ window.RESEARCH_DATA = {
       "file": "reports/KBC_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/kbc.webp?v=20260826-cover2",
+        "src": "assets/images/reports/kbc.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá KBC ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá KBC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1150,7 +1153,7 @@ window.RESEARCH_DATA = {
       "file": "reports/KDH_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/kdh.webp?v=20260826-cover2",
+        "src": "assets/images/reports/kdh.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá KDH ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá KDH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1193,7 +1196,7 @@ window.RESEARCH_DATA = {
       "file": "reports/NLG_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/nlg.webp?v=20260826-cover2",
+        "src": "assets/images/reports/nlg.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá NLG ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá NLG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1236,7 +1239,7 @@ window.RESEARCH_DATA = {
       "file": "reports/NVL_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/nvl.webp?v=20260826-cover2",
+        "src": "assets/images/reports/nvl.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá NVL ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá NVL",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1577,7 +1580,7 @@ window.RESEARCH_DATA = {
       "file": "reports/TCH_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/tch.webp?v=20260827-cover3",
+        "src": "assets/images/reports/tch.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá TCH ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá TCH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1620,7 +1623,7 @@ window.RESEARCH_DATA = {
       "file": "reports/VCG_2026-08-26.pdf",
       "edition": "Bản định giá 26.08.2026",
       "visual": {
-        "src": "assets/images/reports/vcg.webp?v=20260826-cover2",
+        "src": "assets/images/reports/vcg.webp?v=20260826-cover1",
         "alt": "Trang bìa báo cáo định giá VCG ngày 26/08/2026",
         "caption": "Bìa báo cáo định giá VCG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1792,11 +1795,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 15.200–16.300 đồng/cp khi cấu trúc giá không tiếp tục suy yếu. Stoploss 5% dưới giá khớp thực tế; entry minh họa 16.000 tương ứng stop 15.200. Mục tiêu ngắn 17.750–18.000; mốc fair value đầu tiên 21.800. Trên 24.100 nếu giả định lợi nhuận/giá heo không được nâng: không mở vị thế mới."
       },
       "visual": {
-        "src": "assets/images/reports/dbc.webp?v=20260825-company1",
-        "alt": "Nhận diện chính thức của Tập đoàn Dabaco Việt Nam",
-        "caption": "Tập đoàn Dabaco Việt Nam",
-        "sourceLabel": "Dabaco",
-        "sourceUrl": "https://www.dabaco.com.vn/"
+        "src": "assets/images/reports/dbc.webp?v=20260825-cover1",
+        "alt": "Trang bìa báo cáo định giá DBC ngày 25/08/2026",
+        "caption": "Bìa báo cáo định giá DBC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DBC_2026-08-25.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DBC_2026-08-25.pdf",
       "edition": "Bản định giá 25.08.2026"
@@ -1834,11 +1838,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 9.450–10.125 đồng/cp khi CFO, nợ vay và biên gộp không xấu thêm; giải ngân từng phần. Stop 7% dưới giá khớp thực tế; entry minh họa 9.788 tương ứng stop khoảng 9.102. T1 13.500; T2 15.354. Nếu nợ vay tiếp tục tăng và CFO FY2026 vẫn âm: veto fundamental."
       },
       "visual": {
-        "src": "assets/images/reports/hsg.webp?v=20260825-company1",
-        "alt": "Hoạt động kỷ niệm thương hiệu Hoa Sen",
-        "caption": "Thương hiệu Hoa Sen",
-        "sourceLabel": "Hoa Sen Group",
-        "sourceUrl": "https://hoasengroup.vn/vi/bai-viet/thuong-hieu-hoa-sen-25-nam-dau-an-ruc-ro/"
+        "src": "assets/images/reports/hsg.webp?v=20260825-cover1",
+        "alt": "Trang bìa báo cáo định giá HSG ngày 25/08/2026",
+        "caption": "Bìa báo cáo định giá HSG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HSG_2026-08-25.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HSG_2026-08-25.pdf",
       "edition": "Bản định giá 25.08.2026"
@@ -1876,11 +1881,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 4.649–4.982 đồng/cp khi thesis không xấu đi; giải ngân từng phần. Stop 5% dưới giá vào lệnh thực tế và thoát nếu xuất hiện red flag kế toán mới; entry minh họa 4.816 tương ứng stop 4.575. T1 6.642; T2 9.478. Trên 12.642 khi normalized earnings chưa được nâng: LOẠI / TRÁNH mua mới."
       },
       "visual": {
-        "src": "assets/images/reports/nkg.webp?v=20260825-company1",
-        "alt": "Tôn Nam Kim tại lễ công bố Top 10 công ty vật liệu xây dựng uy tín 2026",
-        "caption": "Tôn Nam Kim được vinh danh năm 2026",
-        "sourceLabel": "Tôn Nam Kim",
-        "sourceUrl": "https://tonnamkim.com/ton-nam-kim-tiep-tuc-giu-vung-vi-tri-top-10-doanh-nghiep-uy-tin-nganh-sat-thep-ton-nam-2026/"
+        "src": "assets/images/reports/nkg.webp?v=20260825-cover1",
+        "alt": "Trang bìa báo cáo định giá NKG ngày 25/08/2026",
+        "caption": "Bìa báo cáo định giá NKG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/NKG_2026-08-25.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/NKG_2026-08-25.pdf",
       "edition": "Bản định giá 25.08.2026"
@@ -1921,7 +1927,7 @@ window.RESEARCH_DATA = {
       "file": "reports/VGS_2026-08-25.pdf",
       "edition": "Bản re-audit 25.08.2026",
       "visual": {
-        "src": "assets/images/reports/vgs.webp?v=20260826-cover1",
+        "src": "assets/images/reports/vgs.webp?v=20260825-cover1",
         "alt": "Trang bìa báo cáo định giá VGS ngày 25/08/2026",
         "caption": "Bìa báo cáo định giá VGS",
         "sourceLabel": "Xuân Lê TVS Equity Research",
@@ -1963,11 +1969,12 @@ window.RESEARCH_DATA = {
         "condition": "4.082–4.374 đồng/cp chỉ là vùng strict có điều kiện; nếu giá giảm về đây phải cập nhật lại toàn bộ BCTC, danh mục tài sản, catalyst, legal và asset impairment trước khi xem xét vị thế nhỏ. Entry/stop/targets 4.300 / 4.050 / 5.832–8.901–13.503 chỉ áp dụng sau khi định giá được refresh; không phải lệnh mua hiện tại."
       },
       "visual": {
-        "src": "assets/images/reports/ors.webp?v=20260825-company1",
-        "alt": "Nhận diện chính thức của Chứng khoán Tiên Phong",
-        "caption": "Chứng khoán Tiên Phong",
-        "sourceLabel": "TPS",
-        "sourceUrl": "https://www.tpbs.com.vn/"
+        "src": "assets/images/reports/ors.webp?v=20260823-cover1",
+        "alt": "Trang bìa báo cáo định giá ORS ngày 23/08/2026",
+        "caption": "Bìa báo cáo định giá ORS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/ORS_2026-08-23.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/ORS_2026-08-23.pdf",
       "edition": "Bản tái kiểm toán định giá 23.08.2026"
@@ -2002,11 +2009,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ kích hoạt mua định giá tại 11.430–12.246 đồng/cp khi thesis H1/Q3 không xấu đi: NIM không suy giảm kéo dài, NPL/Group 2 không tăng vọt và ESOP được làm rõ. PDF không khóa stop/target cho kịch bản valuation nên website không tự bổ sung; kế hoạch tactical 13.500–13.900 được giữ tách biệt."
       },
       "visual": {
-        "src": "assets/images/reports/tpb.webp?v=20260825-company1",
-        "alt": "Giải pháp AI của TPBank tại Ngày chuyển đổi số ngành Ngân hàng 2026",
-        "caption": "Giải pháp AI của TPBank",
-        "sourceLabel": "TPBank",
-        "sourceUrl": "https://tpb.vn/tin-tuc/tin-tpbank/ngay-chuyen-doi-so-nganh-ngan-hang-dau-an-cua-tpbank-voi-ung-dung-ai-trong-quan-tri-rui-ro"
+        "src": "assets/images/reports/tpb.webp?v=20260823-cover1",
+        "alt": "Trang bìa báo cáo định giá TPB ngày 23/08/2026",
+        "caption": "Bìa báo cáo định giá TPB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TPB_2026-08-23.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/TPB_2026-08-23.pdf",
       "edition": "Bản định giá 23.08.2026"
@@ -2043,11 +2051,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 6.019–6.449 đồng/cp khi EBITDA, cash flow và NWC không xấu đi. Entry minh họa 6.234, stop 5.891 (-5,5%) và target định giá thấp nhất 8.598; stop thực tế phải bám giá khớp và xác nhận kỹ thuật/dòng tiền tại thời điểm kích hoạt. Trên 21.949 nếu payout/FCFF không được nâng: TRÁNH mua mới."
       },
       "visual": {
-        "src": "assets/images/reports/pow.webp?v=20260825-company1",
-        "alt": "Phối cảnh dự án LNG Quỳnh Lập của PV Power",
-        "caption": "Dự án LNG Quỳnh Lập",
-        "sourceLabel": "PV Power",
-        "sourceUrl": "https://pvpower.vn/vi/post/pv-power-tap-trung-toi-uu-van-hanh--hoan-thanh-cao-nhat-ke-hoach-nam-2026-6994.htm"
+        "src": "assets/images/reports/pow.webp?v=20260822-cover1",
+        "alt": "Trang bìa báo cáo định giá POW ngày 22/08/2026",
+        "caption": "Bìa báo cáo định giá POW",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/POW_2026-08-22.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/POW_2026-08-22.pdf",
       "edition": "Bản định giá 22.08.2026"
@@ -2086,11 +2095,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 25.600–27.400 đồng/cp khi luận điểm cao su/KCN không xấu đi; giải ngân từng phần, không mua một lần. Stoploss 5% dưới giá khớp thực tế; các mốc định giá tham chiếu là 36.600 / 46.300 / 56.500 đồng/cp. Trên 56.500 nếu fundamentals không cải thiện tương ứng: TRÁNH / giảm rủi ro."
       },
       "visual": {
-        "src": "assets/images/reports/dpr.webp?v=20260821-company1",
-        "alt": "Khuôn viên doanh nghiệp Cao su Đồng Phú",
-        "caption": "Khuôn viên Cao su Đồng Phú",
-        "sourceLabel": "Cao su Đồng Phú",
-        "sourceUrl": "https://doruco.com.vn/gioi-thieu/gioi-thieu-chung-vn-n-258-0.html"
+        "src": "assets/images/reports/dpr.webp?v=20260821-cover1",
+        "alt": "Trang bìa báo cáo định giá DPR ngày 21/08/2026",
+        "caption": "Bìa báo cáo định giá DPR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DPR_2026-08-21.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DPR_2026-08-21.pdf",
       "edition": "Bản định giá 21.08.2026"
@@ -2125,11 +2135,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 17.357–18.597 đồng/cp khi NPL/CAR không xấu thêm và catalyst không đảo chiều. PDF không khóa stop/target cho fresh trade nên website không tự bổ sung; stop 3–7% chỉ được xác lập theo giá vào và cấu trúc kỹ thuật thực tế. Trên 79.771: TRÁNH / không mua đuổi."
       },
       "visual": {
-        "src": "assets/images/reports/stb.webp?v=20260825-company1",
-        "alt": "Lễ công bố mô hình tổ chức mới của Sacombank năm 2026",
-        "caption": "Sacombank triển khai mô hình tổ chức mới",
-        "sourceLabel": "Sacombank",
-        "sourceUrl": "https://www.sacombank.com.vn/trang-chu/tin-tuc/tin-sacombank/2026/sacombank-van-hanh-thanh-cong-theo-mo-hinh-moi.html"
+        "src": "assets/images/reports/stb.webp?v=20260821-cover1",
+        "alt": "Trang bìa báo cáo định giá STB ngày 21/08/2026",
+        "caption": "Bìa báo cáo định giá STB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/STB_2026-08-21.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/STB_2026-08-21.pdf",
       "edition": "Bản định giá 21.08.2026"
@@ -2167,11 +2178,12 @@ window.RESEARCH_DATA = {
         "condition": "67.889–72.738 đồng/cp chỉ là vùng MOS tham chiếu và chỉ có thể xem xét nếu nền tảng không xấu đi. Giá trên 134.748: TRÁNH / LOẠI, không mở vị thế mới. Báo cáo không khóa lệnh mua tại giá hiện tại; stop 5% và các mốc 96.984 / 115.160 chỉ áp dụng cho kịch bản IF–THEN khi vùng MOS đủ điều kiện."
       },
       "visual": {
-        "src": "assets/images/reports/bmp.webp?v=20260821-company1",
-        "alt": "Nhựa Bình Minh tại lễ công bố Hàng Việt Nam Chất lượng cao 2026",
-        "caption": "Nhựa Bình Minh được vinh danh năm 2026",
-        "sourceLabel": "Nhựa Bình Minh",
-        "sourceUrl": "https://binhminhplastic.com.vn/tin-tuc/tin-tuc/nhua-binh-minh-30-nam-giu-tron-niem-tin-trong-long-nguoi-tieu-dung-viet-1"
+        "src": "assets/images/reports/bmp.webp?v=20260820-cover1",
+        "alt": "Trang bìa báo cáo định giá BMP ngày 20/08/2026",
+        "caption": "Bìa báo cáo định giá BMP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BMP_2026-08-20.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BMP_2026-08-20.pdf",
       "edition": "Bản định giá 20.08.2026"
@@ -2210,11 +2222,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 39.900–42.700 đồng/cp khi fundamentals không xấu đi; stoploss 5% dưới giá khớp, target 1 là 64.000 và target 2 là vùng 79.600–86.000 đồng/cp. 54.000–96.100: CHỜ; trên 96.100: TRÁNH mua mới. Nếu vốn lưu động, nợ vay hoặc biên EBIT xấu đi theo ngưỡng trong PDF: hạ định giá / ưu tiên cutloss."
       },
       "visual": {
-        "src": "assets/images/reports/ctd.webp?v=20260821-company1",
-        "alt": "Nhà đầu tư tham quan công trường Metropole MP14 do Coteccons thi công",
-        "caption": "Site Tour tại công trường Coteccons",
-        "sourceLabel": "Coteccons",
-        "sourceUrl": "https://www.coteccons.vn/coteccons-to-chuc-site-tour-danh-cho-nha-dau-tu-tai-du-an-metropole-mp14/"
+        "src": "assets/images/reports/ctd.webp?v=20260820-cover1",
+        "alt": "Trang bìa báo cáo định giá CTD ngày 20/08/2026",
+        "caption": "Bìa báo cáo định giá CTD",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/CTD_2026-08-20.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/CTD_2026-08-20.pdf",
       "edition": "Bản định giá 20.08.2026"
@@ -2251,11 +2264,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 23.896–25.603 đồng/cp khi thesis không xấu đi; stoploss tối đa 7% dưới giá khớp và mốc định giá đầu tiên 34.138 đồng/cp. Quanh 48.000: CHỜ, không mua chỉ dựa trên valuation; trên 57.943 mà forecast/multiple không được nâng: TRÁNH mua mới."
       },
       "visual": {
-        "src": "assets/images/reports/hah.webp?v=20260821-company1",
-        "alt": "Tàu container HAIAN SONG của Hải An Lines",
-        "caption": "Tàu container HAIAN SONG",
-        "sourceLabel": "Hải An",
-        "sourceUrl": "https://haiants.vn/album/haian-song-11.html"
+        "src": "assets/images/reports/hah.webp?v=20260820-cover1",
+        "alt": "Trang bìa báo cáo định giá HAH ngày 20/08/2026",
+        "caption": "Bìa báo cáo định giá HAH",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HAH_2026-08-20.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HAH_2026-08-20.pdf",
       "edition": "Bản định giá 20.08.2026"
@@ -2290,11 +2304,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ đủ điều kiện mua định giá strict khi giá nằm trong vùng MOS 32.326–34.635 đồng/cp và thesis thuế/dữ liệu mới không xấu đi. Stoploss 5% dưới giá khớp sau xác nhận. PDF không khóa target số cho kịch bản strict nên website không tự bổ sung; quanh 47.000: CHỜ; trên 73.917: TRÁNH mua mới."
       },
       "visual": {
-        "src": "assets/images/reports/sab.webp?v=20260821-company1",
-        "alt": "Đại hội đồng cổ đông thường niên SABECO năm 2026",
-        "caption": "Đại hội đồng cổ đông SABECO 2026",
-        "sourceLabel": "SABECO",
-        "sourceUrl": "https://www.sabeco.com.vn/truyen-thong/tin-tuc-su-kien/sabeco-duy-tri-chi-tra-co-tuc-50-hai-nam-lien-tiep-khang-dinh-cam-ket-tao-gia-tri-dai-han"
+        "src": "assets/images/reports/sab.webp?v=20260820-cover1",
+        "alt": "Trang bìa báo cáo định giá SAB ngày 20/08/2026",
+        "caption": "Bìa báo cáo định giá SAB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SAB_2026-08-20.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/SAB_2026-08-20.pdf",
       "edition": "Bản định giá 20.08.2026"
@@ -2332,12 +2347,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ cân nhắc 19.610–21.010 đồng/cp khi thesis H1/2026 và kế hoạch 2026 không xấu đi; giải ngân theo nhịp, không FOMO. Stop 5% dưới giá khớp; midpoint 20.310 cho SL minh họa 19.295. T1 28.014; T2 30.943. Trên 36.932 trước earnings upgrade: LOẠI/TRÁNH."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/bsi.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá BSI ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá BSI",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BSI_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BSI_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2375,11 +2390,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 7.550–8.090 đồng/cp khi normalized earnings/EBITDA không bị hạ và không có sự kiện pháp lý/chu kỳ mới làm đổi fair value. Stoploss 5% dưới giá khớp thực tế; entry minh họa 8.000 có stop 7.600, target 10.800 và 13.200. Trên 15.771 nếu normalized earnings không được nâng: LOẠI / TRÁNH mua mới."
       },
       "visual": {
-        "src": "assets/images/reports/dri.webp?v=20260821-company1",
-        "alt": "Vườn cao su và hoạt động chế biến của DRI",
-        "caption": "Vườn cây và hoạt động chế biến cao su DRI",
-        "sourceLabel": "DRI",
-        "sourceUrl": "https://dri.com.vn/"
+        "src": "assets/images/reports/dri.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá DRI ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá DRI",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DRI_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DRI_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2417,12 +2433,12 @@ window.RESEARCH_DATA = {
         "condition": "Trước quyền, chỉ xem xét 11.857–12.704 đồng/cp khi NPL/NIM không xấu đi rõ; stop 5% dưới giá vốn; T1 16.938; T2 17.239. 12.704–22.721: CHỜ; trên 22.721 nếu không nâng dự báo ROE/lợi nhuận: LOẠI/TRÁNH. Sau GDKHQ phải dùng bộ mốc đã quy đổi trong PDF."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/msb.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá MSB ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá MSB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MSB_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/MSB_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2459,12 +2475,12 @@ window.RESEARCH_DATA = {
         "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/pnj.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá PNJ ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá PNJ",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PNJ_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PNJ_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2502,12 +2518,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/tcb.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá TCB ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá TCB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TCB_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/TCB_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2545,12 +2561,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 10.820–11.593 đồng/cp khi NPL/LLR/NIM không xấu thêm; stop 5% dưới giá khớp thực tế; T1 15.458; T2 18.800. Giá quanh 14.400: CHỜ; trên 22.365 nếu không nâng ROE/BVPS: LOẠI/TRÁNH mua mới."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/vib.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá VIB ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá VIB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VIB_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VIB_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2588,12 +2604,12 @@ window.RESEARCH_DATA = {
         "condition": "IF giá 47.600–51.000 và thesis không xấu đi THEN có thể mua theo valuation, ưu tiên giải ngân từng phần. Nếu entry quanh 50.500, stoploss 47.500; target 68.000 và 76.500. Giá 63.100: CHỜ; 68.000–85.000 không có nâng EPS/FCFF: không mua mới; trên 85.000 không có nâng dự phóng: LOẠI/né mua mới."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260819-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/vnm.webp?v=20260819-cover1",
+        "alt": "Trang bìa báo cáo định giá VNM ngày 19/08/2026",
+        "caption": "Bìa báo cáo định giá VNM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VNM_2026-08-19.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VNM_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
@@ -2631,12 +2647,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 17.300–18.500 đồng/cp nếu luận điểm Urê/khí không xấu đi; stoploss 5% từ giá khớp; T1 24.700; T2 33.100. 18.500–40.700: chờ/theo dõi; trên 40.700: loại/tránh mua mới."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/dcm.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá DCM ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá DCM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DCM_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DCM_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2674,12 +2690,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 21.151–22.662 đồng/cp khi nền tảng không xấu thêm và có xác nhận giá/khối lượng; stop 5% dưới giá mua thực tế; T1 24.632; T2 30.216. Trên 35.519 nếu không nâng forecast/ROE thì tránh mua đuổi."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/hdb.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá HDB ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá HDB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HDB_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HDB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2717,12 +2733,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 14.671–15.719 đồng/cp khi NIM/NPL/LLR không xấu hơn luận điểm; stop 5% dưới giá vốn; T1 20.959; T2 26.777. Trên 32.276 nếu không nâng lợi nhuận/ROE thì loại/tránh mua mới."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/mbb.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá MBB ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá MBB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MBB_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/MBB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2761,12 +2777,12 @@ window.RESEARCH_DATA = {
         "condition": "19.710–21.118 đồng/cp chỉ có thể xem xét nếu luận điểm không xấu đi và có xác nhận dòng tiền/price action. Giá trên 36.000: loại/tránh mua mới. Stop 6% ở cận trên vùng mua chỉ là overlay quản trị."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/plx.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá PLX ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá PLX",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PLX_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PLX_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2804,12 +2820,12 @@ window.RESEARCH_DATA = {
         "condition": "Nếu giá vào 15.440–16.543 đồng/cp thì có thể kích hoạt theo valuation; stoploss 5% dưới giá khớp thực tế, không bình quân giá xuống nếu thủng stop. T1 20.700; T2 22.057; trên 26.313: loại/tránh."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/pvt.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá PVT ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá PVT",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PVT_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PVT_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2849,12 +2865,12 @@ window.RESEARCH_DATA = {
         "triggerPrice": 11600
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/shb.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá SHB ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá SHB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SHB_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/SHB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2892,12 +2908,12 @@ window.RESEARCH_DATA = {
         "condition": "20.660–22.136 đồng/cp và thesis không xấu đi: có thể xem xét giải ngân theo kỷ luật vị thế. T1 29.514; T2 38.241. Stop 3–7% chỉ xác định theo lệnh thực tế. Trên 47.514: loại/tránh."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260818-reports2",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/vpb.webp?v=20260818-cover1",
+        "alt": "Trang bìa báo cáo định giá VPB ngày 18/08/2026",
+        "caption": "Bìa báo cáo định giá VPB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VPB_2026-08-18.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VPB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
@@ -2936,12 +2952,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 18.000–19.300 đồng/cp nếu NPL/LLCR và thông tin công bố không xấu đi đáng kể. Sau khi mua, stop tham chiếu -6% từ giá khớp thực tế. T1 22.780; T2 25.700; T3 27.744 đồng/cp."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/acb.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá ACB ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá ACB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/ACB_17-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/ACB_17-08-2026.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -2976,12 +2992,12 @@ window.RESEARCH_DATA = {
         "condition": "P >45.800: TRÁNH mua mới. P 32.700–45.800: THEO DÕI. P 22.900–24.500: chỉ có thể xem xét theo MOS nếu KQKD không xấu thêm. Tại giá hiện tại Stoploss/Target/R/R đều N/A; không tạo mức stop giả từ valuation."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/bfc.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá BFC ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá BFC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BFC_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BFC_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3019,11 +3035,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá."
       },
       "visual": {
-        "src": "assets/images/reports/dhc.webp?v=20260817-company1",
-        "alt": "Dây chuyền sản xuất giấy công nghiệp của Đông Hải Bến Tre",
-        "caption": "Dây chuyền sản xuất giấy DOHACO",
-        "sourceLabel": "Đông Hải Bến Tre",
-        "sourceUrl": "https://dohacobentre.com.vn/public/"
+        "src": "assets/images/reports/dhc.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá DHC ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá DHC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DHC_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DHC_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3062,12 +3079,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 44.500–47.700 đồng/cp khi dữ liệu cơ bản không xấu đi. Stop là 5% dưới giá khớp bình quân; báo cáo minh họa 46.100 → 43.800. T1 63.600; T2 87.700–90.600 đồng/cp. Nếu giả định tăng trưởng/biên bị phá vỡ thì LOẠI."
       },
       "visual": {
-        "kind": "illustration",
-        "src": "assets/images/advisor-banner-3d-v2.webp?v=20260817-reports1",
-        "alt": "Nhận diện báo cáo định giá Xuân Lê TVS",
-        "caption": "Báo cáo định giá cổ phiếu",
-        "sourceLabel": "Xuân Lê TVS",
-        "sourceUrl": "https://sunflower1509.github.io/xuan-le-investment-research/"
+        "src": "assets/images/reports/fpt.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá FPT ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá FPT",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/FPT_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/FPT_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3105,11 +3122,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét giải ngân thăm dò khi giá vào 7.500–8.000 đồng/cp và thesis NAV không xấu đi; không bình quân giá xuống vô điều kiện. Với giá vào tham chiếu khoảng 7.770 đồng/cp, stop khoảng 7.300; mục tiêu định giá lần lượt 10.700 và 13.800 đồng/cp. Sự kiện pháp lý hoặc dự án làm giảm NAV sẽ vô hiệu mọi mốc giá."
       },
       "visual": {
-        "src": "assets/images/reports/icg.webp?v=20260817-company1",
-        "alt": "Tổ hợp Trung tâm Thương mại, Văn phòng và Căn hộ khu vực cầu Vĩnh Tuy của Incomex",
-        "caption": "Tổ hợp khu vực cầu Vĩnh Tuy của Incomex",
-        "sourceLabel": "Việt Nam Mới",
-        "sourceUrl": "https://vietnammoi.vn/khu-dat-doi-dien-aeon-mall-long-bien-chuan-bi-xay-tttm-cua-lien-danh-song-hong-thanh-xuan-202541083458248.htm"
+        "src": "assets/images/reports/icg.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá ICG ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá ICG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/ICG_17-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/ICG_17-08-2026.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3146,11 +3164,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 37.753–40.450 đồng/cp khi không có điểm đỏ mới về trữ lượng, giá hàng hóa, đòn bẩy hoặc vận hành. Ví dụ trong báo cáo dùng giá vào 39.101 đồng/cp, stop 37.146 và mốc định giá 53.933 đồng/cp. Trên 53.933 đồng/cp không mua đuổi; dưới 37.753 đồng/cp phải kiểm tra lại nguyên nhân giảm trước khi hành động."
       },
       "visual": {
-        "src": "assets/images/reports/msr.webp?v=20260817-company2",
-        "alt": "Tổ hợp khai thác và chế biến khoáng sản của Masan High-Tech Materials",
-        "caption": "Tổ hợp sản xuất Masan High-Tech Materials",
-        "sourceLabel": "Masan High-Tech Materials",
-        "sourceUrl": "https://masanhightechmaterials.com/surging-tungsten-prices-propel-msr-to-record-high-profit/"
+        "src": "assets/images/reports/msr.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá MSR ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá MSR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MSR_17-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/MSR_17-08-2026.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3189,11 +3208,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ có thể bắt đầu mua khi giá không vượt 57.338 đồng/cp và luận điểm DMX/BHX không xấu đi; ưu tiên vùng 53.516–57.338 đồng/cp. Nếu mua tại khoảng 57.338 đồng/cp, stop kỷ luật 6% khoảng 53.898; mục tiêu định giá 76.451, 95.115 và 113.636 đồng/cp. Nếu DMX giảm mạnh sau price discovery hoặc BHX không giữ hiệu quả cửa hàng mới thì phải chạy lại SOTP."
       },
       "visual": {
-        "src": "assets/images/reports/mwg.webp?v=20260817-company1",
-        "alt": "Đại diện các doanh nghiệp tại chương trình Top 50 Corporate Sustainability Awards 2026 có MWG tham dự",
-        "caption": "MWG tại Top 50 Corporate Sustainability Awards 2026",
-        "sourceLabel": "MWG",
-        "sourceUrl": "https://mwg.vn/tin-tuc/mobile-world-investment-corporation-mwg-honored-among-the-top-50-corporate-sustainability-awards-in-vietnam-for-5-consecutive-years-5002446"
+        "src": "assets/images/reports/mwg.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá MWG ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá MWG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MWG_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/MWG_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3231,11 +3251,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét vùng trước thưởng 36.665–39.284 đồng/cp khi luận điểm NAV còn nguyên và giá-khối lượng xác nhận. Stop là 5% dưới giá khớp thực tế nên chưa khóa mức tuyệt đối; ví dụ midpoint 37.975 đồng/cp cho stop khoảng 36.076. Phải định giá lại nếu bồi thường, tiền thuê đất hoặc pháp lý Tân Lập thay đổi."
       },
       "visual": {
-        "src": "assets/images/reports/phr.webp?v=20260817-company2",
-        "alt": "Dây chuyền chế biến cao su tại Cao su Phước Hòa",
-        "caption": "Dây chuyền chế biến cao su Phước Hòa",
-        "sourceLabel": "Tạp chí Công Thương",
-        "sourceUrl": "https://tapchicongthuong.vn/cao-su-phuoc-hoa--phr-nhu-cau-va-gia-cao-su-bat-dau-phuc-hoi-tu-cuoi-nam-nay-114438.htm"
+        "src": "assets/images/reports/phr.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá PHR ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá PHR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PHR_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PHR_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3273,11 +3294,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo."
       },
       "visual": {
-        "src": "assets/images/reports/vck.webp?v=20260817-company2",
-        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên VPS năm 2026",
-        "caption": "Đại hội đồng cổ đông thường niên VPS 2026",
-        "sourceLabel": "VPS Securities",
-        "sourceUrl": "https://vps.com.vn/en/post/vps-succesfully-convenes-2026-annual-general-meeting-of-shareholders"
+        "src": "assets/images/reports/vck.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá VCK ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá VCK",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VCK_17-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VCK_17-08-2026.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3311,11 +3333,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định."
       },
       "visual": {
-        "src": "assets/images/reports/vic.webp?v=20260817-company2",
-        "alt": "Toàn cảnh Đại hội đồng cổ đông thường niên Vingroup năm 2026",
-        "caption": "Đại hội đồng cổ đông thường niên Vingroup 2026",
-        "sourceLabel": "Thị trường Tài chính Tiền tệ",
-        "sourceUrl": "https://thitruongtaichinhtiente.vn/dhdcd-vingroup-muc-tieu-doanh-thu-ky-luc-nam-2026-co-dong-cam-on-vic-vi-gia-tang-82337.html"
+        "src": "assets/images/reports/vic.webp?v=20260817-cover1",
+        "alt": "Trang bìa báo cáo định giá VIC ngày 17/08/2026",
+        "caption": "Bìa báo cáo định giá VIC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VIC_2026-08-17.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VIC_2026-08-17.pdf",
       "edition": "Bản định giá 17.08.2026"
@@ -3349,11 +3372,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét vùng định giá 29.339–31.434 đồng/cp khi luận điểm kinh doanh không xấu đi; stop phải xác định theo cấu trúc giá tại thời điểm khớp nên chưa khóa mức tuyệt đối. Thiết lập kỹ thuật trong báo cáo là kịch bản riêng: chỉ kích hoạt khi đóng cửa vượt 43.150 đồng/cp với khối lượng trên 1,50 triệu cổ phiếu; không dùng để thay thế vùng mua định giá."
       },
       "visual": {
-        "src": "assets/images/reports/dgw.webp?v=20260817-company2",
-        "alt": "Đại hội đồng cổ đông thường niên Digiworld năm 2026",
-        "caption": "Đại hội đồng cổ đông thường niên Digiworld 2026",
-        "sourceLabel": "Digiworld",
-        "sourceUrl": "https://digiworld.com.vn/en/press-releases/digiworld-surpasses-usd-1-billion-in-revenue-sets-sights-on-record-breaking-growth-in-2026"
+        "src": "assets/images/reports/dgw.webp?v=20260816-cover1",
+        "alt": "Trang bìa báo cáo định giá DGW ngày 16/08/2026",
+        "caption": "Bìa báo cáo định giá DGW",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DGW_2026-08-16.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/DGW_2026-08-16.pdf",
       "edition": "Bản định giá 16.08.2026"
@@ -3391,11 +3415,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua mới theo định giá khi LPB trên 47.936 đồng/cp. Chỉ xem xét lại vùng 24.595–26.352 đồng/cp nếu NPL không xấu thêm rõ rệt từ 1,85% và tỷ lệ bao phủ không tiếp tục suy giảm từ 66,8%. Ví dụ trong báo cáo dùng giá vào 26.000, stop 24.700; mục tiêu 28.488 và 35.249 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/lpb.webp?v=20260817-company1",
-        "alt": "Mặt tiền trụ sở LPBank",
-        "caption": "Trụ sở LPBank",
-        "sourceLabel": "LPBank",
-        "sourceUrl": "https://lpbank.com.vn/cham-soc-khach-hang/bai-viet/3533-da-dang-hoa-nguon-thu-lpbank-dat-gan-6-000-ty-dong-loi-nhuan-sau-6-thang-dau-nam-2026"
+        "src": "assets/images/reports/lpb.webp?v=20260816-cover1",
+        "alt": "Trang bìa báo cáo định giá LPB ngày 16/08/2026",
+        "caption": "Bìa báo cáo định giá LPB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/LPB_2026-08-16.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/LPB_2026-08-16.pdf",
       "edition": "Bản định giá 16.08.2026"
@@ -3429,11 +3454,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 12.000–12.800 đồng/cp nếu thesis kinh doanh không suy yếu. Entry minh họa 12.500, stop 11.875; T1 17.120, T2 19.670 và T3 22.220 đồng/cp. R/R đẹp tại vùng 12.500 không được dùng để hợp thức hóa lệnh mua ở giá hiện tại 18.300."
       },
       "visual": {
-        "src": "assets/images/reports/pvd.webp?v=20260814-company1",
-        "alt": "Giàn khoan tự nâng PV DRILLING IX của PV Drilling tại lễ đặt tên năm 2026",
-        "caption": "Giàn khoan tự nâng PV DRILLING IX",
-        "sourceLabel": "PV Drilling",
-        "sourceUrl": "https://www.pvdrilling.com.vn/tin-tuc/tin-pv-drilling/pv-drilling-dat-ten-gian-khoan-tu-nang-da-nang-pv-drilling-ix-sn-sang-gia-nhap-doi-hinh-khoan-hien-dai"
+        "src": "assets/images/reports/pvd.webp?v=20260813-cover1",
+        "alt": "Trang bìa báo cáo định giá PVD ngày 13/08/2026",
+        "caption": "Bìa báo cáo định giá PVD",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PVD_Equity_Research_Valuation_2026-08-13.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PVD_Equity_Research_Valuation_2026-08-13.pdf",
       "edition": "Bản định giá 13.08.2026"
@@ -3467,11 +3493,12 @@ window.RESEARCH_DATA = {
         "condition": "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần."
       },
       "visual": {
-        "src": "assets/images/reports/tcx.webp?v=20260813-company1",
-        "alt": "Lãnh đạo Techcom Securities tại lễ niêm yết cổ phiếu TCX trên HOSE",
-        "caption": "Lễ niêm yết cổ phiếu TCX tại HOSE",
-        "sourceLabel": "Báo Tiền Phong",
-        "sourceUrl": "https://tienphong.vn/niem-yet-va-chinh-thuc-giao-dich-hon-231-co-phieu-chung-khoan-tcbs-tcx-ngay-2110-post1789136.tpo"
+        "src": "assets/images/reports/tcx.webp?v=20260813-cover1",
+        "alt": "Trang bìa báo cáo định giá TCX ngày 13/08/2026",
+        "caption": "Bìa báo cáo định giá TCX",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TCX_Equity_Valuation_2026-08-13.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/TCX_Equity_Valuation_2026-08-13.pdf",
       "edition": "Bản định giá 13.08.2026"
@@ -3504,11 +3531,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x."
       },
       "visual": {
-        "src": "assets/images/reports/bid.webp?v=20260813-company1",
-        "alt": "Đội ngũ BIDV tại sự kiện Hybrid Summer 2026",
-        "caption": "Hoạt động đội ngũ BIDV năm 2026",
-        "sourceLabel": "BIDV News",
-        "sourceUrl": "https://bidvinfo.com.vn/en/bidv-launches-the-hybrid-summer-2026-campaign-bridging-sustainable-living-and-smart-finance-10015376.html"
+        "src": "assets/images/reports/bid.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá BID ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá BID",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3542,11 +3570,12 @@ window.RESEARCH_DATA = {
         "condition": "Nếu giá vẫn trên 21.700 đồng/cp mà chưa có bằng chứng ROE sau pha loãng đạt 14–15% thì không mua theo định giá. Mọi luận điểm giao dịch 1–3 tuần phải được tách riêng và không thay thế kết luận định giá."
       },
       "visual": {
-        "src": "assets/images/reports/hcm.webp?v=20260813-company1",
-        "alt": "Đội ngũ HSC tại văn phòng doanh nghiệp",
-        "caption": "Đội ngũ HSC",
-        "sourceLabel": "Tin Nhanh Chứng Khoán",
-        "sourceUrl": "https://www.tinnhanhchungkhoan.vn/hsc-hcm-phat-hanh-them-gan-360-trieu-co-phieu-cho-co-dong-hien-huu-gia-10000-dongcp-post371021.html"
+        "src": "assets/images/reports/hcm.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá HCM ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá HCM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HCM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3580,11 +3609,12 @@ window.RESEARCH_DATA = {
         "condition": "Vùng đầu tư theo MOS là 38.000–40.700 đồng/cp. Kịch bản breakout tách biệt: chỉ xem xét 48.600–49.000 khi đóng cửa trên 48.500 và thanh khoản tối thiểu TB20; stop 45.400, target 53.000 và 56.000 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/ree.webp?v=20260813-company1",
-        "alt": "Trụ sở REE Corporation tại Thành phố Hồ Chí Minh",
-        "caption": "Trụ sở REE Corporation",
-        "sourceLabel": "Znews",
-        "sourceUrl": "https://znews.vn/ree-tinh-nhay-vao-cac-du-an-bat-dong-san-gan-metro-vanh-dai-tphcm-post1542400.html"
+        "src": "assets/images/reports/ree.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá REE ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá REE",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/REE_Equity_Valuation_Report_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/REE_Equity_Valuation_Report_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3618,11 +3648,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi."
       },
       "visual": {
-        "src": "assets/images/reports/shs.webp?v=20260813-company1",
-        "alt": "Ban lãnh đạo SHS tại Đại hội đồng cổ đông thường niên 2026",
-        "caption": "Đại hội đồng cổ đông thường niên SHS 2026",
-        "sourceLabel": "SHS",
-        "sourceUrl": "https://www.shs.com.vn/tin-tuc/dhdcd-2026-shs-buoc-vao-giai-doan-tang-truong-moi-voi-chien-luoc-chuyen-doi-toan-dien"
+        "src": "assets/images/reports/shs.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá SHS ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá SHS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3656,11 +3687,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/vhm.webp?v=20260813-company1",
-        "alt": "Lễ khởi công Khu đô thị Đại học Quốc tế do Vinhomes phát triển",
-        "caption": "Lễ khởi công dự án của Vinhomes tại TP.HCM",
-        "sourceLabel": "Vinhomes",
-        "sourceUrl": "https://market.vinhomes.vn/blog/vingroup-chinh-thuc-khoi-cong-khu-do-thi-dai-hoc-quoc-te-tai-tp-hcm"
+        "src": "assets/images/reports/vhm.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá VHM ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá VHM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3694,11 +3726,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xuất hiện vùng mua có MOS 25–30% khi giá về 10.300–11.000 đồng/cp, ROE TTM tối thiểu 13%, không có provision loss lớn mới và điều khoản tăng vốn không xấu hơn mô hình. Entry tham chiếu 11.000, stop 10.450; Target 1 là 14.640 và Target 2 là 18.157 đồng/cp. Trên 18.200 đồng/cp mà ROE, chất lượng lợi nhuận và pha loãng chưa được nâng tương ứng thì không mua đuổi."
       },
       "visual": {
-        "src": "assets/images/reports/vnd.webp?v=20260813-company1",
-        "alt": "Đội ngũ VNDIRECT tại trụ sở doanh nghiệp",
-        "caption": "Đội ngũ VNDIRECT",
-        "sourceLabel": "VNDIRECT",
-        "sourceUrl": "https://www.vndirect.com.vn/tin_vndirect/vndirect-hoan-thanh-vuot-ke-hoach-2025-loi-nhuan-truoc-thue-dat-2-508-ty-dong/"
+        "src": "assets/images/reports/vnd.webp?v=20260812-cover1",
+        "alt": "Trang bìa báo cáo định giá VND ngày 12/08/2026",
+        "caption": "Bìa báo cáo định giá VND",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VND_Equity_Valuation_2026-08-12.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VND_Equity_Valuation_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
@@ -3731,11 +3764,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét khi giá về 23.600–25.300 đồng/cp và ROE, NPL, CAR không xấu đi. Ví dụ trong báo cáo tại giá mua 25.000 đồng/cp: stop 23.750, target định giá thấp 33.700 và giá trị cơ sở 44.100 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/ctg.webp?v=20260813-company1",
-        "alt": "Đại diện VietinBank tại sự kiện Chuyển đổi số ngành Ngân hàng năm 2025",
-        "caption": "VietinBank tại sự kiện Chuyển đổi số ngành Ngân hàng",
-        "sourceLabel": "VietinBank",
-        "sourceUrl": "https://www.vietinbank.vn/vi/doanh-nghiep/tin-tuc-and-su-kien-khdn/tin-tuc-va-su-kien/vietinbank-toa-sang-tai-su-kien-chuyen-doi-so-nganh-ngan-hang-nam-2025-20250530023016-00-html"
+        "src": "assets/images/reports/ctg.webp?v=20260811-cover1",
+        "alt": "Trang bìa báo cáo định giá CTG ngày 11/08/2026",
+        "caption": "Bìa báo cáo định giá CTG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/CTG_Equity_Valuation_Report_Xuan_Le_TVS.pdf",
       "edition": "Bản định giá 11.08.2026"
@@ -3769,11 +3803,12 @@ window.RESEARCH_DATA = {
         "condition": "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên."
       },
       "visual": {
-        "src": "assets/images/reports/gmd.webp?v=20260813-company1",
-        "alt": "Đội ngũ Gemadept tại lễ động thổ Cảng Gemalink giai đoạn 2",
-        "caption": "Lễ động thổ Cảng Gemalink giai đoạn 2",
-        "sourceLabel": "Diễn đàn Doanh nghiệp",
-        "sourceUrl": "https://diendandoanhnghiep.vn/cang-gemalink-tang-toc-giai-doan-2-nang-tam-vi-the-cua-ngo-giao-thuong-quoc-te-10177365.html"
+        "src": "assets/images/reports/gmd.webp?v=20260810-cover1",
+        "alt": "Trang bìa báo cáo định giá GMD ngày 10/08/2026",
+        "caption": "Bìa báo cáo định giá GMD",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf",
       "edition": "Bản định giá 10.08.2026"
@@ -3803,11 +3838,12 @@ window.RESEARCH_DATA = {
         "condition": "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30% theo conservative floor. Thiết lập trading tách biệt: chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/vsc.webp?v=20260813-company1",
-        "alt": "Toàn cảnh hoạt động cảng container của Viconship",
-        "caption": "Hoạt động cảng container Viconship",
-        "sourceLabel": "Viconship",
-        "sourceUrl": "https://viconship.com/en/"
+        "src": "assets/images/reports/vsc.webp?v=20260807-cover1",
+        "alt": "Trang bìa báo cáo định giá VSC ngày 07/08/2026",
+        "caption": "Bìa báo cáo định giá VSC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VSC_Equity_Research_2026-08-07.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VSC_Equity_Research_2026-08-07.pdf",
       "edition": "Bản định giá 07.08.2026"
@@ -3837,11 +3873,12 @@ window.RESEARCH_DATA = {
         "condition": "Trước ngày GDKHQ 17/08/2026 không mở vị thế mới. Vùng mua định giá là 14.400–15.400 đồng/cp trước quyền; sau quyền chỉ mua thăm dò 17.800–18.200 khi giá giữ nền và khối lượng co lại, stop 17.000, target 20.000–20.700 và 21.800–22.300 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/ssi.webp?v=20260813-company1",
-        "alt": "Đội ngũ Chứng khoán SSI tại lễ khai trương Phòng giao dịch Nguyễn Hữu Cảnh",
-        "caption": "Đội ngũ SSI tại Phòng giao dịch Nguyễn Hữu Cảnh",
-        "sourceLabel": "Tin Nhanh Chứng Khoán",
-        "sourceUrl": "https://m.tinnhanhchungkhoan.vn/chung-khoan-ssi-khai-truong-phong-giao-dich-nguyen-huu-canh-post306133.amp"
+        "src": "assets/images/reports/ssi.webp?v=20260805-cover1",
+        "alt": "Trang bìa báo cáo định giá SSI ngày 05/08/2026",
+        "caption": "Bìa báo cáo định giá SSI",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SSI_Equity_Research_2026-08-05.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/SSI_Equity_Research_2026-08-05.pdf",
       "edition": "Bản định giá 05.08.2026"
@@ -3871,11 +3908,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua đuổi tại 25.800 đồng/cp. Chỉ xem xét vùng định giá 17.900–19.200; vùng kỹ thuật 24.000–24.500 phải có xác nhận dòng tiền. Ví dụ giao dịch kỹ thuật trong báo cáo dùng stop 22.900 và mục tiêu 27.800–29.500 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/vpx.webp",
-        "alt": "Lễ niêm yết cổ phiếu VPX của Chứng khoán VPBank tại HOSE",
-        "caption": "Lễ niêm yết và phiên giao dịch đầu tiên của VPX",
-        "sourceLabel": "Tuổi Trẻ Online",
-        "sourceUrl": "https://tuoitre.vn/co-phieu-vpx-cua-vpbanks-chinh-thuc-giao-dich-tren-hose-20251211113632063.htm"
+        "src": "assets/images/reports/vpx.webp?v=20260804-cover1",
+        "alt": "Trang bìa báo cáo định giá VPX ngày 04/08/2026",
+        "caption": "Bìa báo cáo định giá VPX",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VPX_Equity_Research_04-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VPX_Equity_Research_04-08-2026.pdf",
       "edition": "Bản cập nhật 04.08.2026"
@@ -3905,11 +3943,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua đuổi tại 36.600 đồng/cp. Chỉ xem xét vùng 31.300–33.600; kịch bản breakout trên 39.700 đồng/cp phải có xác nhận theo điều kiện trong báo cáo."
       },
       "visual": {
-        "src": "assets/images/reports/bcm.webp?v=20260813-company1",
-        "alt": "Tổng Giám đốc Becamex IDC phát biểu tại lễ khởi động các khu công nghiệp năm 2025",
-        "caption": "Becamex IDC khởi động các dự án khu công nghiệp sinh thái",
-        "sourceLabel": "Kiểm Sát Online",
-        "sourceUrl": "https://kiemsat.vn/becamex-idc-khoi-dong-cac-du-an-chien-luoc-kien-tao-khu-cong-nghiep-sinh-thai-thong-minh-the-he-moi-70433.html"
+        "src": "assets/images/reports/bcm.webp?v=20260803-cover1",
+        "alt": "Trang bìa báo cáo định giá BCM ngày 03/08/2026",
+        "caption": "Bìa báo cáo định giá BCM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BCM_Bao_cao_dinh_gia_20260803.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BCM_Bao_cao_dinh_gia_20260803.pdf",
       "edition": "Bản chính"
@@ -3939,11 +3978,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua đuổi tại 7.090 đồng/cp. Chỉ giải ngân từng phần trong vùng 5.800–6.200 khi CFO, phải thu và nợ vay cùng cải thiện; stop tham khảo 5.650 đồng/cp."
       },
       "visual": {
-        "src": "assets/images/reports/hii.webp?v=20260813-company1",
-        "alt": "Nhà máy An Tiến Industries tại Yên Bái",
-        "caption": "Nhà máy An Tiến Industries",
-        "sourceLabel": "Người Đưa Tin",
-        "sourceUrl": "https://m.nguoiduatin.vn/an-tien-industries-giai-trinh-viec-co-phieu-tang-tran-5-phien-lien-tiep-204251123130611065.htm"
+        "src": "assets/images/reports/hii.webp?v=20260803-cover1",
+        "alt": "Trang bìa báo cáo định giá HII ngày 03/08/2026",
+        "caption": "Bìa báo cáo định giá HII",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HII_Equity_Valuation_2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HII_Equity_Valuation_2026.pdf",
       "edition": "Bản chính"
@@ -3973,11 +4013,12 @@ window.RESEARCH_DATA = {
         "condition": "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 đồng/cp chỉ áp dụng khi điều kiện trong báo cáo được duy trì."
       },
       "visual": {
-        "src": "assets/images/reports/msn.webp?v=20260813-company1",
-        "alt": "Sân khấu Đại hội đồng cổ đông thường niên Masan 2026",
-        "caption": "Đại hội đồng cổ đông thường niên Masan 2026",
-        "sourceLabel": "Masan Group",
-        "sourceUrl": "https://www.masangroup.com/news/press-releases/masan-agm-2026-the-great-connectivity-unlocking-a-new-growth-cycle/"
+        "src": "assets/images/reports/msn.webp?v=20260803-cover1",
+        "alt": "Trang bìa báo cáo định giá MSN ngày 03/08/2026",
+        "caption": "Bìa báo cáo định giá MSN",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf",
       "edition": "Báo cáo định giá"
@@ -4008,11 +4049,12 @@ window.RESEARCH_DATA = {
         "condition": "Không mua mới tại 20.800 đồng/cp. Chỉ giải ngân từng phần trong vùng 13.600–14.600 khi CAR, đòn bẩy, OCI, vốn chủ sở hữu, LNST và rủi ro pha loãng cùng đáp ứng điều kiện trong báo cáo."
       },
       "visual": {
-        "src": "assets/images/reports/vci.webp",
-        "alt": "Đại diện khách mời và lãnh đạo Vietcap tại Vietcap Investment Day 2026",
-        "caption": "Vietcap Investment Day 2026",
-        "sourceLabel": "DNSE / CafeF",
-        "sourceUrl": "https://www.dnse.com.vn/senses/tin-tuc/vietcap-investment-day-2026-don-dau-cac-lan-song-dau-tu-trong-chu-ky-tang-truong-moi-35204836"
+        "src": "assets/images/reports/vci.webp?v=20260730-cover1",
+        "alt": "Trang bìa báo cáo định giá VCI ngày 30/07/2026",
+        "caption": "Bìa báo cáo định giá VCI",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VCI_Equity_Research_Valuation_Rebuilt_30-07-2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VCI_Equity_Research_Valuation_Rebuilt_30-07-2026.pdf",
       "edition": "Bản tái dựng 24 trang"
@@ -4035,11 +4077,12 @@ window.RESEARCH_DATA = {
       "method": "Residual Income + P/B–ROE + P/E–P/B tương đối",
       "summary": "Giá 12.500 đồng/cp nằm trong vùng giá trị hợp lý 6.000–15.400 đồng/cp nhưng cao hơn giá trị cơ sở 9.500 đồng/cp và chưa đáp ứng biên an toàn; khuyến nghị thực chiến giữ ở mức CHỜ.",
       "visual": {
-        "src": "assets/images/reports/vix.webp",
-        "alt": "Đội ngũ Chứng khoán VIX tại không gian làm việc",
-        "caption": "Hoạt động tại Chứng khoán VIX",
-        "sourceLabel": "VIX Securities",
-        "sourceUrl": "https://vixs.vn/chung-khoan-vix-dat-muc-tieu-gia-nhap-nhom-loi-nhuan-nghin-ty.html"
+        "src": "assets/images/reports/vix.webp?v=20260721-cover1",
+        "alt": "Trang bìa báo cáo định giá VIX ngày 21/07/2026",
+        "caption": "Bìa báo cáo định giá VIX",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VIX_Valuation_Report_2026-07-21.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VIX_Valuation_Report_2026-07-21.pdf",
       "edition": "Bản mới nhất"
@@ -4061,11 +4104,12 @@ window.RESEARCH_DATA = {
       "method": "P/B gắn ROE + Residual Income",
       "summary": "Giá tại ngày định giá nằm trong vùng giá trị hợp lý nhưng chưa tạo biên an toàn hấp dẫn; không mua đuổi.",
       "visual": {
-        "src": "assets/images/reports/vcb.webp",
-        "alt": "Cán bộ Vietcombank sử dụng VCB Tablet hỗ trợ khách hàng",
-        "caption": "VCB Tablet trong hoạt động ngân hàng số",
-        "sourceLabel": "Vietcombank",
-        "sourceUrl": "https://www.vietcombank.com.vn/vi-VN/Trang-thong-tin-dien-tu/Articles/2025/12/24/Van-hoa-so-6_PTSPBL_Kien-tao-giai-phap-ngan-hang-so-di-dong"
+        "src": "assets/images/reports/vcb.webp?v=20260714-cover1",
+        "alt": "Trang bìa báo cáo định giá VCB ngày 14/07/2026",
+        "caption": "Bìa báo cáo định giá VCB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VCB_Bao_cao_dinh_gia_Xuan_Le_TVS.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/VCB_Bao_cao_dinh_gia_Xuan_Le_TVS.pdf",
       "edition": "Bản chính"
@@ -4087,11 +4131,12 @@ window.RESEARCH_DATA = {
       "method": "Residual Income + P/B–ROE",
       "summary": "Giá trị cơ sở 31.461 đồng/cp; vùng giá trị hợp lý 28.400–36.200 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/bvs.webp",
-        "alt": "Ban lãnh đạo Chứng khoán Bảo Việt tại Đại hội đồng cổ đông thường niên 2025",
-        "caption": "Đại hội đồng cổ đông thường niên 2025",
-        "sourceLabel": "BVSC",
-        "sourceUrl": "https://www.facebook.com/ChungKhoanBaoViet.BVSC/posts/1292292632904660/"
+        "src": "assets/images/reports/bvs.webp?v=20260713-cover1",
+        "alt": "Trang bìa báo cáo định giá BVS ngày 13/07/2026",
+        "caption": "Bìa báo cáo định giá BVS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BVS_Valuation_Report_XuanLeTVS_20260713.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BVS_Valuation_Report_XuanLeTVS_20260713.pdf",
       "edition": "Bản mới nhất"
@@ -4113,11 +4158,12 @@ window.RESEARCH_DATA = {
       "method": "DCF FCFF + kiểm chứng tương đối",
       "summary": "Giá trị trung tâm 26.000 đồng/cp; vùng giá trị hợp lý 21.600–30.400 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/ddv.webp",
-        "alt": "Khu nhà máy DAP - Vinachem tại Đình Vũ",
-        "caption": "Nhà máy DAP - Vinachem",
-        "sourceLabel": "DAP - Vinachem",
-        "sourceUrl": "https://www.dap-vinachem.com.vn/"
+        "src": "assets/images/reports/ddv.webp?v=20260713-cover1",
+        "alt": "Trang bìa báo cáo định giá DDV ngày 13/07/2026",
+        "caption": "Bìa báo cáo định giá DDV",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/Bao_cao_dinh_gia_DDV_20260714.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/Bao_cao_dinh_gia_DDV_20260714.pdf",
       "edition": "Bản chính"
@@ -4139,11 +4185,12 @@ window.RESEARCH_DATA = {
       "method": "DCF FCFF + định giá tương đối",
       "summary": "Giá trị cơ sở 96.900 đồng/cp; vùng giá trị hợp lý 65.000–103.000 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/gas.webp",
-        "alt": "Kỹ sư vận hành hệ thống xử lý khí của PV GAS",
-        "caption": "Vận hành công trình xử lý khí",
-        "sourceLabel": "PV GAS",
-        "sourceUrl": "https://www.pvgas.com.vn/en-us/bai-viet/pv-gas-35-nam-doi-moi-sang-tao-va-tien-phong-cong-nghe-trong-nganh-cong-nghiep-khi-viet-nam"
+        "src": "assets/images/reports/gas.webp?v=20260713-cover1",
+        "alt": "Trang bìa báo cáo định giá GAS ngày 13/07/2026",
+        "caption": "Bìa báo cáo định giá GAS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/Bao_cao_dinh_gia_GAS_2026_Xuan_Le_TVS.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/Bao_cao_dinh_gia_GAS_2026_Xuan_Le_TVS.pdf",
       "edition": "Bản chính"
@@ -4165,11 +4212,12 @@ window.RESEARCH_DATA = {
       "method": "DCF FCFF + kiểm chứng định giá tương đối",
       "summary": "Chất lượng hoạt động cốt lõi cải thiện, nhưng định giá thị trường cao hơn đáng kể vùng giá trị hợp lý.",
       "visual": {
-        "src": "assets/images/reports/gee.webp",
-        "alt": "Toàn cảnh nhà máy CADIVI tại Bắc Ninh thuộc hệ sinh thái GELEX Electric",
-        "caption": "Nhà máy CADIVI thuộc GELEX Electric",
-        "sourceLabel": "CADIVI",
-        "sourceUrl": "https://cadivi.vn/vn/thanh-lap-cong-ty-tnhh-mot-thanh-vien-cadivi-mien-bac.html"
+        "src": "assets/images/reports/gee.webp?v=20260713-cover1",
+        "alt": "Trang bìa báo cáo định giá GEE ngày 13/07/2026",
+        "caption": "Bìa báo cáo định giá GEE",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/GEE_Equity_Research_Valuation_2026_Xuan_Le_TVS.pdf?v=c1eb774c",
+        "kind": "report-cover"
       },
       "file": "reports/GEE_Equity_Research_Valuation_2026_Xuan_Le_TVS.pdf?v=c1eb774c",
       "edition": "Đã kiểm tra"
@@ -4191,11 +4239,12 @@ window.RESEARCH_DATA = {
       "method": "DCF FCFF chu kỳ + kiểm chứng tương đối",
       "summary": "Điểm giữa 19.000 đồng/cp; vùng giá trị hợp lý 13.600–24.300 đồng/cp; không mua mới.",
       "visual": {
-        "src": "assets/images/reports/bsr.webp?v=20260813-company1",
-        "alt": "Kỹ sư BSR trao đổi phương án vận hành tại Nhà máy lọc dầu Dung Quất",
-        "caption": "Kỹ sư BSR tại Nhà máy lọc dầu Dung Quất",
-        "sourceLabel": "Đại Đoàn Kết",
-        "sourceUrl": "https://daidoanket.vn/nghien-cuu-khoa-hoc-kim-chi-nam-phat-trien-cua-bsr-10250988.html"
+        "src": "assets/images/reports/bsr.webp?v=20260712-cover1",
+        "alt": "Trang bìa báo cáo định giá BSR ngày 12/07/2026",
+        "caption": "Bìa báo cáo định giá BSR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BSR_Equity_Research_Valuation_2026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/BSR_Equity_Research_Valuation_2026.pdf",
       "edition": "Bản chính"
@@ -4217,11 +4266,12 @@ window.RESEARCH_DATA = {
       "method": "SOTP + DCF FCFF",
       "summary": "Điểm giữa 43.750 đồng/cp; vùng giá trị hợp lý 37.500–50.000 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/pvs.webp",
-        "alt": "Hạng mục chân đế giàn Lạc Đà Vàng do PTSC M&C thi công và hạ thủy",
-        "caption": "Thi công chân đế giàn Lạc Đà Vàng",
-        "sourceLabel": "PTSC M&C",
-        "sourceUrl": "https://mc.ptsc.com.vn/news/ptsc-mc-successfully-completes-jacket-construction-for-lac-da-vang-project-and-reaches-2-million-safe-man-hours"
+        "src": "assets/images/reports/pvs.webp?v=20260711-cover1",
+        "alt": "Trang bìa báo cáo định giá PVS ngày 11/07/2026",
+        "caption": "Bìa báo cáo định giá PVS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PVS_Valuation_Report_XuanLeTVS.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/PVS_Valuation_Report_XuanLeTVS.pdf",
       "edition": "Bản chính"
@@ -4243,11 +4293,12 @@ window.RESEARCH_DATA = {
       "method": "DCF FCFF chu kỳ + kiểm chứng tương đối",
       "summary": "Điểm giữa 29.000 đồng/cp; vùng giá trị hợp lý 25.000–33.000 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/hpg.webp",
-        "alt": "Lò thổi oxy luyện thép tại Hòa Phát Dung Quất 2",
-        "caption": "Vận hành luyện thép tại Dung Quất 2",
-        "sourceLabel": "Hòa Phát",
-        "sourceUrl": "https://www.hoaphat.com.vn/cong-nghe/hoa-phat-khai-lo-thoi-so-2-dung-quat-2-da-san-sang.html"
+        "src": "assets/images/reports/hpg.webp?v=20260710-cover1",
+        "alt": "Trang bìa báo cáo định giá HPG ngày 10/07/2026",
+        "caption": "Bìa báo cáo định giá HPG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf",
       "edition": "Bản chính"
@@ -4269,11 +4320,12 @@ window.RESEARCH_DATA = {
       "method": "P/B–ROE + Residual Income",
       "summary": "Giá trị trọng số 13.568 đồng/cp; vùng giá trị hợp lý 11.300–16.700 đồng/cp.",
       "visual": {
-        "src": "assets/images/reports/tvs.webp",
-        "alt": "Hoạt động tư vấn và kết nối khách hàng tại Chứng khoán Thiên Việt",
-        "caption": "Hoạt động tư vấn đầu tư tại TVS",
-        "sourceLabel": "Thiên Việt Securities",
-        "sourceUrl": "https://www.tvs.vn/en/news/positioned-as-a-trusted-boutique-merchant-investment-bank-tvs-comes-closer-to-investors"
+        "src": "assets/images/reports/tvs.webp?v=20260709-cover1",
+        "alt": "Trang bìa báo cáo định giá TVS ngày 09/07/2026",
+        "caption": "Bìa báo cáo định giá TVS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/Bao_cao_dinh_gia_TVS_09072026.pdf",
+        "kind": "report-cover"
       },
       "file": "reports/Bao_cao_dinh_gia_TVS_09072026.pdf",
       "edition": "Bản chính"
