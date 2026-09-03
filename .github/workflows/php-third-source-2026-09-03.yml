@@ -1,4 +1,4 @@
-name: Verify PHP 2026-09-03 via independent brokers
+name: Apply verified PHP 2026-09-03 exception and rerun EOD
 
 on:
   push:
@@ -8,29 +8,51 @@ on:
       - ".github/workflows/php-third-source-2026-09-03.yml"
 
 permissions:
-  contents: read
+  contents: write
+  actions: write
 
 jobs:
-  verify:
+  apply:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - name: Check out main
+        uses: actions/checkout@v5
         with:
-          python-version: "3.12"
-      - name: Install vnstock
-        run: python -m pip install --disable-pip-version-check --quiet "vnstock>=4.0.3"
-      - name: Query KBS and Vietcap PHP daily OHLCV
+          fetch-depth: 2
+      - name: Add date-scoped PHP third-source override only
         run: |
           python - <<'PY'
-          from vnstock import Quote
+          from pathlib import Path
 
-          for source in ("KBS", "VCI"):
-              print(f"=== SOURCE {source} ===")
-              try:
-                  quote = Quote(symbol="PHP", source=source, show_log=False)
-                  df = quote.history(start="2026-09-03", end="2026-09-04", interval="d")
-                  print(df.to_string(index=False))
-              except Exception as exc:
-                  print(f"ERROR {source}: {type(exc).__name__}: {exc}")
+          path = Path("scripts/update-eod-market-data.mjs")
+          text = path.read_text(encoding="utf-8")
+          if '"2026-09-03": Object.freeze({' in text:
+              print("2026-09-03 override already present; no patch needed.")
+          else:
+              marker = '\n  })\n});\n\nconst argValue'
+              if text.count(marker) != 1:
+                  raise SystemExit(f"Expected exactly one override-table closing marker, found {text.count(marker)}")
+              addition = '''\n  }),\n  "2026-09-03": Object.freeze({\n    PHP: Object.freeze({\n      close: 47000,\n      source: "https://kbbuddywts.kbsec.com.vn/sas/kbsv-stock-data-store/stock/PHP/historical-quotes",\n      reason: "CafeF lịch sử 03/09 trả 47.100; KBS và Vietcap cùng xác nhận OHLC 47.0/47.7/46.7/47.0, khối lượng 126.600, giá đóng cửa 47.000, trùng VNDIRECT."\n    })\n  })\n});\n\nconst argValue'''
+              path.write_text(text.replace(marker, addition, 1), encoding="utf-8")
           PY
+          node --check scripts/update-eod-market-data.mjs
+          git diff --check
+          git diff -- scripts/update-eod-market-data.mjs
+      - name: Commit verified exception if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- scripts/update-eod-market-data.mjs; then
+            echo "No script change required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/update-eod-market-data.mjs
+          git commit -m "Verify PHP close for EOD 2026-09-03 [skip ci]"
+          git push origin HEAD:main
+      - name: Dispatch verified EOD workflow for 2026-09-03
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run eod-daily.yml --repo "$GITHUB_REPOSITORY" --ref main -f date=2026-09-03
