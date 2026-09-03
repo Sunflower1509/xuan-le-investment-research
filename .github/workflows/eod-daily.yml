@@ -31,14 +31,15 @@ jobs:
     timeout-minutes: 35
     steps:
       - name: Check out default branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
+          package-manager-cache: false
 
       - name: Cross-check and lock EOD market data
         id: market
@@ -61,6 +62,32 @@ jobs:
               done
             fi
           fi
+
+          if ! [[ "$RESOLVED_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "Invalid resolved EOD date: $RESOLVED_DATE" >&2
+            exit 2
+          fi
+
+          # Official 2026 exchange closures, sourced from HNX/HOSE/VSDC notices.
+          # HNX annual calendar: https://hnx.vn/en-gb/chi-tiet-lich-nghi-gd-60021971.html?_page=1
+          # HNX New-Year adjustment: https://www.gov.hnx.vn/vi-vn/chi-tiet-lich-nghi-gd-60022084.html?_page=1
+          OFFICIAL_TRADING_HOLIDAYS_2026=" 2026-01-01 2026-01-02 2026-02-16 2026-02-17 2026-02-18 2026-02-19 2026-02-20 2026-04-27 2026-04-30 2026-05-01 2026-08-31 2026-09-01 2026-09-02 "
+          weekday="$(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u)"
+          if (( 10#$weekday >= 6 )); then
+            echo "Resolved EOD target $RESOLVED_DATE is a weekend; safe no-op."
+            echo "status=market-closed" >> "$GITHUB_OUTPUT"
+            echo "date=$RESOLVED_DATE" >> "$GITHUB_OUTPUT"
+            echo "reason=weekend" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$OFFICIAL_TRADING_HOLIDAYS_2026" == *" $RESOLVED_DATE "* ]]; then
+            echo "Resolved EOD target $RESOLVED_DATE is an official 2026 trading holiday; safe no-op."
+            echo "status=market-closed" >> "$GITHUB_OUTPUT"
+            echo "date=$RESOLVED_DATE" >> "$GITHUB_OUTPUT"
+            echo "reason=official-trading-holiday" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           echo "Resolved EOD target: $RESOLVED_DATE (event=${GITHUB_EVENT_NAME:-unknown})"
           node scripts/update-eod-market-data.mjs --date "$RESOLVED_DATE" --status-file "${RUNNER_TEMP}/eod-status.json"
 
@@ -260,6 +287,10 @@ jobs:
           node scripts/verify-live-site.mjs \
             --site-url "${{ steps.deployment.outputs.page_url }}" \
             --artifact-root "${RUNNER_TEMP}/site"
+
+      - name: Market closed - safe no-op
+        if: steps.market.outputs.status == 'market-closed'
+        run: echo "No trading session for ${{ steps.market.outputs.date }} (${{ steps.market.outputs.reason }}); repository and live site remain unchanged."
 
       - name: First scheduled pass not ready - wait for final pass
         if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'

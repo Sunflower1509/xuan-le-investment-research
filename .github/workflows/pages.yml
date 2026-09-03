@@ -24,14 +24,15 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check out latest main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 2
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
+          package-manager-cache: false
       - name: Record pre-processing ledger
         run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
       - name: Process EOD activation ledger
