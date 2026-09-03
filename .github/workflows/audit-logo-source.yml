@@ -12,43 +12,69 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe FireAnt company endpoints
+      - uses: actions/checkout@v5
+        with:
+          ref: audit/stock-logo-source-20260903
+      - name: Audit CafeF logo coverage for every research ticker
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json, urllib.request
-          symbols = ['ACB','FTS','BVH','CMG','HPG','MCH']
-          endpoints = [
-              'https://restv2.fireant.vn/symbols/{s}',
-              'https://restv2.fireant.vn/symbols/{s}/profile',
-          ]
-          def walk(obj, prefix=''):
-              out=[]
-              if isinstance(obj, dict):
-                  for k,v in obj.items():
-                      p=f'{prefix}.{k}' if prefix else k
-                      lk=k.lower()
-                      if any(x in lk for x in ['logo','image','photo','avatar','website','url','site']):
-                          out.append((p,v))
-                      out += walk(v,p)
-              elif isinstance(obj,list):
-                  for i,v in enumerate(obj[:5]): out += walk(v,f'{prefix}[{i}]')
-              return out
-          for s in symbols:
-              print(f'===== {s} =====')
-              for tpl in endpoints:
-                  url=tpl.format(s=s)
-                  req=urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'})
-                  try:
-                      with urllib.request.urlopen(req, timeout=20) as r:
-                          raw=r.read()
-                      print('URL',url,'bytes',len(raw))
-                      data=json.loads(raw)
-                      if isinstance(data,dict): print('top_keys',sorted(data.keys()))
-                      for p,v in walk(data):
-                          if isinstance(v,(str,int,float,bool)) or v is None:
-                              print('candidate',p,repr(v))
-                  except Exception as e:
-                      print('ERROR',url,repr(e))
+          import json, urllib.request, urllib.error, hashlib, struct, time
+          from collections import defaultdict
+
+          text=open('src/data/research-data.js','r',encoding='utf-8').read().strip()
+          prefix='window.RESEARCH_DATA = '
+          if not text.startswith(prefix): raise SystemExit('Unexpected research-data wrapper')
+          payload=text[len(prefix):]
+          if payload.endswith(';'): payload=payload[:-1]
+          data=json.loads(payload)
+          tickers=sorted({str(x['ticker']).strip().upper() for x in data['coverage']})
+          print('coverage_tickers', len(tickers))
+
+          rows=[]
+          hashes=defaultdict(list)
+          failures=[]
+          for i,ticker in enumerate(tickers,1):
+              url=f'https://cafefnew.mediacdn.vn/LOGO/{ticker}.png'
+              req=urllib.request.Request(url,headers={
+                  'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36',
+                  'Accept':'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                  'Referer':f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
+              })
+              try:
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      body=r.read()
+                      status=r.status
+                      ctype=r.headers.get('content-type','')
+                  sig=body[:8]
+                  is_png=sig==b'\x89PNG\r\n\x1a\n'
+                  w=h=None
+                  if is_png and len(body)>=24 and body[12:16]==b'IHDR':
+                      w,h=struct.unpack('>II',body[16:24])
+                  sha=hashlib.sha256(body).hexdigest()
+                  hashes[sha].append(ticker)
+                  ok=status==200 and is_png and len(body)>=500 and (w or 0)>=20 and (h or 0)>=20
+                  row={'ticker':ticker,'ok':ok,'status':status,'contentType':ctype,'bytes':len(body),'width':w,'height':h,'sha256':sha,'url':url}
+                  rows.append(row)
+                  if not ok: failures.append(row)
+                  print(f'[{i:03d}/{len(tickers)}] {ticker} ok={ok} status={status} bytes={len(body)} dim={w}x{h} sha={sha[:12]}')
+              except Exception as e:
+                  row={'ticker':ticker,'ok':False,'error':repr(e),'url':url}
+                  rows.append(row); failures.append(row)
+                  print(f'[{i:03d}/{len(tickers)}] {ticker} ERROR {e!r}')
+              time.sleep(0.03)
+
+          dupes={sha:ts for sha,ts in hashes.items() if len(ts)>1}
+          print('\nSUMMARY')
+          print(json.dumps({
+              'coverage':len(tickers),
+              'success':sum(1 for r in rows if r.get('ok')),
+              'failures':failures,
+              'duplicateHashGroups':dupes,
+              'uniqueHashes':len(hashes),
+              'minBytes':min((r.get('bytes',10**18) for r in rows if r.get('ok')),default=None),
+              'minWidth':min((r.get('width',10**9) for r in rows if r.get('ok')),default=None),
+              'minHeight':min((r.get('height',10**9) for r in rows if r.get('ok')),default=None),
+          },ensure_ascii=False,indent=2))
           PY
