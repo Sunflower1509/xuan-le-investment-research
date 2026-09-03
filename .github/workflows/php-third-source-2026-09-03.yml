@@ -1,0 +1,36 @@
+name: Verify PHP 2026-09-03 via independent brokers
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/php-third-source-2026-09-03.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install vnstock
+        run: python -m pip install --disable-pip-version-check --quiet "vnstock>=4.0.3"
+      - name: Query KBS and Vietcap PHP daily OHLCV
+        run: |
+          python - <<'PY'
+          from vnstock import Quote
+
+          for source in ("KBS", "VCI"):
+              print(f"=== SOURCE {source} ===")
+              try:
+                  quote = Quote(symbol="PHP", source=source, show_log=False)
+                  df = quote.history(start="2026-09-03", end="2026-09-04", interval="d")
+                  print(df.to_string(index=False))
+              except Exception as exc:
+                  print(f"ERROR {source}: {type(exc).__name__}: {exc}")
+          PY
