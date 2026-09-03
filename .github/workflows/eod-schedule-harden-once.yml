@@ -1,0 +1,90 @@
+name: Harden EOD schedule redundancy once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/eod-schedule-harden-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - name: Patch EOD retry schedule without touching site structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path(".github/workflows/eod-daily.yml")
+          text = path.read_text(encoding="utf-8")
+
+          third = '    - cron: "17 17 * * 1-5"\n      timezone: "Asia/Ho_Chi_Minh"\n'
+          if third not in text:
+              anchor = '    - cron: "7 16 * * 1-5"\n      timezone: "Asia/Ho_Chi_Minh"\n'
+              if text.count(anchor) != 1:
+                  raise SystemExit(f"Expected one second-pass schedule anchor, found {text.count(anchor)}")
+              text = text.replace(anchor, anchor + third, 1)
+
+          old = '''      - name: First scheduled pass not ready - wait for final pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
+
+      - name: Fail closed when final pass is still not ready
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '7 16 * * 1-5')
+        run: |
+          echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
+          exit 2
+'''
+          new = '''      - name: First scheduled pass not ready - wait for second pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
+
+      - name: Second scheduled pass not ready - wait for final pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '7 16 * * 1-5'
+        run: echo "EOD sources are still not complete; the 17:17 Asia/Ho_Chi_Minh final pass will re-check."
+
+      - name: Fail closed when final pass is still not ready
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '17 17 * * 1-5')
+        run: |
+          echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
+          exit 2
+'''
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif new not in text:
+              raise SystemExit("Could not find expected not-ready handling block")
+
+          required = [
+              'cron: "27 15 * * 1-5"',
+              'cron: "7 16 * * 1-5"',
+              'cron: "17 17 * * 1-5"',
+              "github.event.schedule == '17 17 * * 1-5'",
+          ]
+          missing = [item for item in required if item not in text]
+          if missing:
+              raise SystemExit(f"Missing required schedule guards: {missing}")
+
+          path.write_text(text, encoding="utf-8")
+          PY
+          git diff --check
+          git diff -- .github/workflows/eod-daily.yml
+      - name: Commit schedule resilience change
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- .github/workflows/eod-daily.yml; then
+            echo "EOD schedule already hardened."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/eod-daily.yml
+          git commit -m "Add third fail-closed EOD retry [skip ci]"
+          git push origin HEAD:main
