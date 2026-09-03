@@ -1,0 +1,32 @@
+name: Diagnose CafeF EOD secondary verification 28 Aug 2026
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/diagnose-cafef-eod-20260828.trigger'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch representative CafeF history pages
+        run: |
+          node --input-type=module <<'NODE'
+          for(const ticker of ['ACB','PET','VGC','FTS','PVS','MCH','ICG']){
+            const urls=[
+              `https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=${ticker}`,
+              `https://cafef.vn/du-lieu/lich-su-giao-dich/${ticker.toLowerCase()}-1.chn`
+            ];
+            for(const url of urls){
+              try{const r=await fetch(url,{headers:{accept:'text/html','user-agent':'Mozilla/5.0 XuanLeTVS-EOD-Verification'},signal:AbortSignal.timeout(20000)});const text=await r.text();const pos=text.indexOf('28/08');console.log('CAFEF',ticker,r.status,url,'len',text.length,'pos',pos,'snippet',pos>=0?text.slice(Math.max(0,pos-1000),pos+2500).replace(/\s+/g,' '):text.slice(0,500).replace(/\s+/g,' '));}catch(e){console.log('ERROR',ticker,url,String(e));}
+            }
+          }
+          NODE
