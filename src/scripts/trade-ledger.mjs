@@ -1,8 +1,12 @@
-import { classifyPrice, finitePositive, parseActionTrigger } from "./action-trigger.mjs";
+import { activationRelation, finitePositive, parseActionTrigger, triggerSatisfied } from "./action-trigger.mjs";
 
 const EVENT_TYPES = new Set(["activated", "partial_exit", "closed"]);
 const ACTIVATION_MODES = new Set(["manual", "automatic-eod"]);
-const AUTOMATIC_TRIGGERS = new Set(["eod-close-transitioned-into-locked-zone", "eod-close-transitioned-into-locked-threshold"]);
+const AUTOMATIC_TRIGGERS = new Set([
+  "eod-close-transitioned-into-locked-zone",
+  "eod-close-transitioned-into-locked-threshold",
+  "eod-close-crossed-locked-buy-ceiling"
+]);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export const validIsoDate = (value) => {
@@ -73,8 +77,8 @@ export const projectTradeLedger = (ledger, coverage = []) => {
         issue(issues, event, "invalid_activation", "Sự kiện kích hoạt thiếu mã, ngày khóa hoặc điều kiện giá hợp lệ.");
         return;
       }
-      if (classifyPrice(event.price, event).relation !== "inside") {
-        issue(issues, event, "price_outside_locked_zone", "Giá kích hoạt không thỏa vùng/ngưỡng đã khóa.");
+      if (!triggerSatisfied(event.price, event)) {
+        issue(issues, event, "price_outside_locked_trigger", "Giá kích hoạt không thỏa ngưỡng giá đã khóa.");
         return;
       }
       if (!activationIsConfirmed(event)) {
@@ -87,6 +91,7 @@ export const projectTradeLedger = (ledger, coverage = []) => {
         activationMode: event.mode || "manual",
         activatedAt: event.date,
         activationPrice: event.price,
+        activationRelation: event.activationRelation || activationRelation(event.price, event),
         zoneLow: trigger.kind === "range" ? trigger.low : null,
         zoneHigh: trigger.kind === "range" ? trigger.high : null,
         triggerType: trigger.kind === "range" ? null : trigger.kind,
