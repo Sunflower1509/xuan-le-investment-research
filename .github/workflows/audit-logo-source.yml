@@ -15,34 +15,33 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: audit/stock-logo-source-20260903
-      - name: Inspect unresolved CafeF profile logo markup
+      - name: Trace dynamic CafeF company logo API
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import urllib.request,re,html,json
-          tickers=['GEL','HDB','HHS','LPB','NLG','OIL','TCB','TCH','VCK','VIB','VJC','VPX']
+          import urllib.request,re,json
+          tickers=['HHS','NLG','OIL','TCH','VJC']
           headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,*/*'}
           for ticker in tickers:
             url=f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
-            print('\n===== ',ticker,url,' =====')
-            try:
-              req=urllib.request.Request(url,headers=headers)
-              with urllib.request.urlopen(req,timeout=12) as r: raw=r.read()
-              text=raw.decode('utf-8','ignore')
-              print('bytes',len(raw),'final')
-              hits=[]
-              for m in re.finditer(r'(?i)(?:LOGO|logo|Logo)',text):
-                a=max(0,m.start()-500);b=min(len(text),m.end()+700)
-                snippet=text[a:b].replace('\r',' ').replace('\n',' ')
-                if ticker.lower() in snippet.lower() or '/LOGO/' in snippet or 'companylogo' in snippet.lower():
-                  hits.append(snippet)
-              for s in hits[:8]: print('SNIP',s[:1500])
-              # print all exact cafef LOGO asset strings regardless of HTML validity
-              urls=[]
-              for p in re.findall(r'https?://[^"\'<>\s]+',text):
-                p=html.unescape(p)
-                if '/LOGO/' in p.upper() or '/logo/' in p.lower(): urls.append(p)
-              print('ASSETS',json.dumps(list(dict.fromkeys(urls))[:20],ensure_ascii=False))
-            except Exception as e: print('ERROR',repr(e))
+            print(f'\n===== {ticker} =====')
+            req=urllib.request.Request(url,headers=headers)
+            with urllib.request.urlopen(req,timeout=15) as r: text=r.read().decode('utf-8','ignore')
+            # Print compact snippets around likely data fetch/assignment instructions.
+            patterns=[r'infoCompanyIntro\s*=\s*\{',r'async\s+init\s*\(',r'this\.data\s*=',r'fetch\s*\(',r'axios',r'\.ajax\s*\(',r'api[^"\'\s<]{0,120}',r'CompanyInfo',r'company-info',r'GetCompany']
+            seen=[]
+            for pat in patterns:
+              for m in re.finditer(pat,text,re.I):
+                a=max(0,m.start()-1300);b=min(len(text),m.end()+2500)
+                sn=' '.join(text[a:b].replace('\r',' ').replace('\n',' ').split())
+                if sn not in seen:
+                  seen.append(sn); print('SNIP',sn[:3800])
+                if len(seen)>=12: break
+              if len(seen)>=12: break
+            # Extract URL-ish literals near infoCompanyIntro block.
+            pos=text.find('infoCompanyIntro')
+            block=text[max(0,pos-3000):pos+22000] if pos>=0 else text
+            urls=re.findall(r'["\']([^"\']*(?:api|Api|API|company|Company|symbol|Symbol|du-lieu)[^"\']*)["\']',block)
+            print('URL_LITERALS',json.dumps(list(dict.fromkeys(urls))[:80],ensure_ascii=False))
           PY
