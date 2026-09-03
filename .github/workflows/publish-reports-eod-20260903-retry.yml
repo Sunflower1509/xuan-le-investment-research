@@ -1,0 +1,188 @@
+name: Guarded retry publish 12 reports and EOD 28 Aug 2026
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/publish-reports-eod-20260903-retry.trigger'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: report-eod-update-20260903-retry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Preserve immutable public structure baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp index.html "${RUNNER_TEMP}/index-before.html"
+          cp assets/css/site.min.css "${RUNNER_TEMP}/site-before.css"
+
+      - name: Install PDF cover tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils webp
+
+      - name: Download exact uploaded PDFs from presigned Adobe assets and verify SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports assets/images/reports
+          fetch_pdf() { curl --fail --location --retry 4 --retry-all-errors --connect-timeout 20 --max-time 180 "$1" -o "$2"; }
+          fetch_pdf 'https://at.adobe.com/hR8RRzjV1skoiBaI' 'reports/PET_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/5sRedUDkeADUMA3Z' 'reports/HDG_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/zEzwfjVyWxP3VnUF' 'reports/SZC_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/pxB9vQjXgHQbooRc' 'reports/LHG_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/4qeshFD2nUVtIAHj' 'reports/DPG_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/nDCidC8GkqfrKIXW' 'reports/MCH_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/hVdJJdlnFfdLh2dI' 'reports/SJS_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/eVi8tBotIAK4Fsun' 'reports/CMG_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/t3JvTGyE99cUVN1A' 'reports/VPI_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/8oLsoMpWTaiw8zSW' 'reports/SBT_2026-08-28.pdf'
+          fetch_pdf 'https://at.adobe.com/GnWwGg8Ei812C7Is' 'reports/BVH_2026-08-31.pdf'
+          fetch_pdf 'https://at.adobe.com/UgvBWcBoTdUJcovQ' 'reports/FTS_2026-09-03.pdf'
+          cat > "${RUNNER_TEMP}/pdf.sha256" <<'EOF'
+          b70013fc18b002297121b06caabecafbc665b4e52960a8a3e2d510a10003fbaf  reports/PET_2026-08-28.pdf
+          5c8956f099c9b47e6c0ff37fe24872178fc364309abe611ead054650106d1e38  reports/HDG_2026-08-28.pdf
+          f0003b861f6f23aede09015b93b428be5c22d46214357daa0c3855ab0fcf1954  reports/SZC_2026-08-28.pdf
+          6b6f467a618f40f7e0dac9ad046a9a86efb2fac354923582567335392ed03b37  reports/LHG_2026-08-28.pdf
+          7be988356d674f36d100f3c532d4707f63705af5bfac3bd4f2c9d01889579aeb  reports/DPG_2026-08-28.pdf
+          4ff9b3cf366ec4f7ccb15e62abe44cccd662f8adbcb6339672aac814100767c6  reports/MCH_2026-08-28.pdf
+          bcf47d8a96eebf6206c5f3e1e5760812319021418136021f076f5a09f543875a  reports/SJS_2026-08-28.pdf
+          a143fa8cfe19dc25eb156779651567a80a6b6bcc77736d1018f994871dc06af3  reports/CMG_2026-08-28.pdf
+          c46c0fc4c47dacf41ecb89e750d1caa62137749c4503677072060c455ecebf18  reports/VPI_2026-08-28.pdf
+          3d723481640714d1d0bb0bc7980b9f8920befeda15cbcfd66b1bdf322c42ce1d  reports/SBT_2026-08-28.pdf
+          8169116131632d70efed2bc62e5cdca705877962c8428b987f1b52c43e7882ba  reports/BVH_2026-08-31.pdf
+          0e4a45afb414d23962d8fde6841d40c0d61a6076c76dd446053647ab237353f0  reports/FTS_2026-09-03.pdf
+          EOF
+          sha256sum -c "${RUNNER_TEMP}/pdf.sha256"
+          for pdf in reports/{PET,HDG,SZC,LHG,DPG,MCH,SJS,CMG,VPI,SBT}_2026-08-28.pdf reports/BVH_2026-08-31.pdf reports/FTS_2026-09-03.pdf; do
+            [[ "$(head -c 5 "$pdf")" == '%PDF-' ]] || { echo "Invalid PDF: $pdf" >&2; exit 2; }
+          done
+
+      - name: Render report covers from exact PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for spec in PET:2026-08-28 HDG:2026-08-28 SZC:2026-08-28 LHG:2026-08-28 DPG:2026-08-28 MCH:2026-08-28 SJS:2026-08-28 CMG:2026-08-28 VPI:2026-08-28 SBT:2026-08-28 BVH:2026-08-31 FTS:2026-09-03; do
+            ticker="${spec%%:*}"; day="${spec##*:}"; lower="$(echo "$ticker" | tr '[:upper:]' '[:lower:]')"
+            pdftoppm -f 1 -singlefile -jpeg -r 120 "reports/${ticker}_${day}.pdf" "${RUNNER_TEMP}/${lower}" >/dev/null 2>&1
+            cwebp -quiet -q 82 "${RUNNER_TEMP}/${lower}.jpg" -o "assets/images/reports/${lower}.webp"
+          done
+
+      - name: Import newest report metadata and purge stale editions
+        run: node scripts/import-reports-20260903.mjs
+
+      - name: Verify report and coverage synchronization before EOD
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          const sandbox={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),sandbox);
+          const d=sandbox.window.RESEARCH_DATA;const vals=d.reports.filter(r=>r.reportType!=='trading');
+          if(!vals.length||vals.length!==d.coverage.length)throw new Error(`valuation=${vals.length}, coverage=${d.coverage.length}`);
+          if(new Set(vals.map(r=>r.ticker)).size!==vals.length)throw new Error('Duplicate valuation ticker');
+          if(new Set(d.coverage.map(c=>c.ticker)).size!==d.coverage.length)throw new Error('Duplicate coverage ticker');
+          for(const ticker of ['PET','HDG','SZC','LHG','DPG','MCH','SJS','CMG','VPI','SBT','BVH','FTS']){const r=vals.find(x=>x.ticker===ticker),c=d.coverage.find(x=>x.ticker===ticker);if(!r||!c||c.reportId!==r.id||c.action?.basisDate!==r.date)throw new Error(`${ticker}: report/coverage mismatch`);if(!fs.existsSync(r.file)||!fs.existsSync(`assets/images/reports/${ticker.toLowerCase()}.webp`))throw new Error(`${ticker}: missing artifact`);}
+          console.log(`REPORT_COVERAGE_OK valuation=${vals.length} coverage=${d.coverage.length}`);
+          NODE
+
+      - name: Cross-check and lock EOD 28 Aug for all coverage
+        run: node scripts/update-eod-market-data.mjs --date 2026-08-28 --max-attempts 2 --wait-ms 10000 --status-file "${RUNNER_TEMP}/eod-status.json"
+
+      - name: Require verified EOD Data Gate
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';const s=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+'/eod-status.json','utf8'));
+          if(s.status!=='verified'||s.date!=='2026-08-28'||s.verifiedCount!==s.coverageCount)throw new Error(`EOD gate failed: ${JSON.stringify(s)}`);
+          console.log('EOD_GATE',JSON.stringify(s));
+          NODE
+
+      - name: Lock VN-Index VN30 HNX and HOSE breadth
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';import vm from 'node:vm';
+          const date='2026-08-28',p='src/data/research-data.js',sandbox={window:{}};vm.runInNewContext(fs.readFileSync(p,'utf8'),sandbox);const data=sandbox.window.RESEARCH_DATA;
+          if(data?.meta?.updated!==date||data.coverage.some(x=>x.priceDate!==date))throw new Error('Coverage not fully current before market lock');
+          const url=`https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:${date}&size=500`,finite=v=>Number.isFinite(Number(v))?Number(v):null,key=r=>String(r?.code||r?.indexCode||r?.symbol||'').toUpperCase();
+          let payload;for(let a=1;a<=4;a++){try{const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-OneTime-MarketSession/1.1'},signal:AbortSignal.timeout(15000)});if(!res.ok)throw new Error(`HTTP ${res.status}`);payload=await res.json();break;}catch(e){if(a===4)throw e;await new Promise(r=>setTimeout(r,5000));}}
+          const rows=Array.isArray(payload?.data)?payload.data:[],find=aliases=>rows.find(r=>aliases.includes(key(r))),parse=(row,label)=>{if(!row)throw new Error(`Missing ${label}`);const close=finite(row.close??row.index??row.value),change=finite(row.change??row.changeValue),changePct=finite(row.pctChange??row.changePct??row.percentChange);if(close===null||change===null||changePct===null)throw new Error(`Incomplete ${label}`);return{code:label,close,change,changePct};};
+          const vn=find(['VNINDEX','VN-INDEX','HOSE']),indices=[parse(vn,'VN-INDEX'),parse(find(['VN30','VN30-INDEX']),'VN30'),parse(find(['HNX','HNXINDEX','HNX-INDEX']),'HNX-INDEX')];
+          const advance=finite(vn?.nmAdvances??vn?.advances??vn?.advance??vn?.up),unchanged=finite(vn?.nmNoChange??vn?.noChange??vn?.unchanged??vn?.reference),decline=finite(vn?.nmDeclines??vn?.declines??vn?.decline??vn?.down),floor=finite(vn?.nmFloors??vn?.floorStocks??vn?.floors??vn?.floor);if([advance,unchanged,decline,floor].some(v=>v===null))throw new Error('HOSE breadth unavailable');
+          data.marketSession={date,status:'Đã khóa EOD — VNDIRECT Finfo',indices,breadth:{advance,unchanged,decline,floor},sources:[{label:'VNDIRECT Finfo — chỉ số & độ rộng EOD 28/08/2026',url}]};fs.writeFileSync(p,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`);console.log('MARKET_SESSION_LOCKED',JSON.stringify(data.marketSession));
+          NODE
+
+      - name: Process and reconcile non-retrospective trade ledger
+        run: |
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+          node scripts/process-trade-ledger.mjs
+          node scripts/reconcile-trade-ledger.mjs --before "${RUNNER_TEMP}/trade-ledger-before.json" --after src/data/trade-ledger.json --research src/data/research-data.js --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Run full regression suite
+        run: node --test tests/*.test.mjs
+
+      - name: Build production assets and update permitted EOD labels
+        run: |
+          bash scripts/build/build-assets.sh
+          node scripts/update-cache-token.mjs --date 2026-08-28
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';const p='index.html',before=fs.readFileSync(p,'utf8'),re=/(<[^>]+data-role=["']ledger-asof["'][^>]*>)Giá theo dõi khóa EOD \d{2}\.\d{2}\.\d{4}(<\/[^>]+>)/g,m=before.match(re)||[];if(m.length!==1)throw new Error(`ledger-asof markers=${m.length}`);fs.writeFileSync(p,before.replace(re,'$1Giá theo dõi khóa EOD 28.08.2026$2'));
+          NODE
+
+      - name: Audit all website artifacts and references
+        run: node scripts/audit-site.mjs
+
+      - name: Guard layout CSS DOM and HTML structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp -s assets/css/site.min.css "${RUNNER_TEMP}/site-before.css" || { echo 'Production CSS changed unexpectedly' >&2; exit 2; }
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const normalize=s=>s
+            .replace(/(<[^>]+data-role=["']report-tab-count["'][^>]*>)\d+(<\/[^>]+>)/g,'$1__COUNT__$2')
+            .replace(/(<[^>]+data-role=["']coverage-tab-count["'][^>]*>)\d+(<\/[^>]+>)/g,'$1__COUNT__$2')
+            .replace(/(<[^>]+data-role=["']ledger-asof["'][^>]*>)[^<]*(<\/[^>]+>)/g,'$1__DATE__$2')
+            .replace(/(<[^>]+data-role=["']coverage-eod-label["'][^>]*>)[^<]*(<\/[^>]+>)/g,'$1__EOD_LABEL__$2')
+            .replace(/(<[^>]+data-role=["']coverage-lock-label["'][^>]*>)[^<]*(<\/[^>]+>)/g,'$1__LOCK_LABEL__$2')
+            .replace(/(<meta\s+name=["']description["']\s+content=["'][^"']*?giá đóng cửa )\d{2}\/\d{2}\/\d{4}([^"']*["']\s*\/?>)/gi,'$1__SEO_DATE__$2')
+            .replace(/assets\/js\/site\.min\.js\?v=[^"']+/g,'assets/js/site.min.js?v=__CACHE__');
+          const a=normalize(fs.readFileSync(process.env.RUNNER_TEMP+'/index-before.html','utf8')),b=normalize(fs.readFileSync('index.html','utf8'));if(a!==b)throw new Error('HTML changed outside count/date/cache whitelist');
+          const order=[...b.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]),expected=['overview','daily-market','position-ledger','action-radar','research'];if(order.join(',')!==expected.join(','))throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          NODE
+
+      - name: Verify final synchronized tree and stale-edition cleanup
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';import vm from 'node:vm';const sandbox={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),sandbox);const d=sandbox.window.RESEARCH_DATA,vals=d.reports.filter(r=>r.reportType!=='trading');
+          if(d.meta.updated!=='2026-08-28'||d.meta.release!=='2026-08-28'||d.marketSession?.date!=='2026-08-28'||d.coverage.some(c=>c.priceDate!=='2026-08-28'))throw new Error('Final EOD sync failed');
+          if(vals.length!==d.coverage.length||new Set(vals.map(r=>r.ticker)).size!==vals.length||new Set(d.coverage.map(c=>c.ticker)).size!==d.coverage.length)throw new Error('Final report/coverage sync failed');
+          for(const t of ['PET','HDG','SZC','LHG','DPG','MCH','SJS','CMG','VPI','SBT','BVH','FTS']){const rs=vals.filter(r=>r.ticker===t);if(rs.length!==1)throw new Error(`${t}: valuation editions=${rs.length}`);const files=fs.readdirSync('reports').filter(n=>n.toUpperCase().startsWith(t+'_')&&n.toLowerCase().endsWith('.pdf'));if(files.length!==1||`reports/${files[0]}`!==rs[0].file)throw new Error(`${t}: stale PDF remains ${files}`);}
+          console.log(`FINAL_SYNC valuation=${vals.length} coverage=${d.coverage.length}`);
+          NODE
+
+      - name: Remove temporary machinery and commit verified state
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f scripts/import-reports-20260903.mjs .github/workflows/publish-reports-eod-20260903-once.yml .github/workflows/publish-reports-eod-20260903-retry.yml .github/publish-reports-eod-20260903.trigger .github/publish-reports-eod-20260903-retry.trigger
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/css/site\.min\.css|index\.html|reports/(PET|HDG|SZC|LHG|DPG|MCH|SJS|CMG|VPI|SBT|BVH|FTS).*\.pdf|assets/images/reports/(pet|hdg|szc|lhg|dpg|mch|sjs|cmg|vpi|sbt|bvh|fts)\.webp|scripts/import-reports-20260903\.mjs|\.github/workflows/publish-reports-eod-20260903-(once|retry)\.yml|\.github/publish-reports-eod-20260903(-retry)?\.trigger)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)";if [[ -n "$unexpected" ]];then echo 'Unexpected changed paths:' >&2;echo "$unexpected" >&2;exit 2;fi
+          git config user.name 'github-actions[bot]';git config user.email '41898282+github-actions[bot]@users.noreply.github.com';git add -A;git commit -m 'Publish latest valuation reports and lock verified EOD 28 Aug 2026';git push origin HEAD:main
