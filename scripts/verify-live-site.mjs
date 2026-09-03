@@ -26,25 +26,64 @@ for (const relative of files) {
   local.set(relative, { bytes, sha256: digest(bytes) });
 }
 
+const reportImageDir = path.join(artifactRoot, "assets/images/reports");
+const reportImageNames = (await fs.readdir(reportImageDir))
+  .filter((name) => name.toLowerCase().endsWith(".webp"))
+  .sort();
+const reportImages = new Map();
+for (const name of reportImageNames) {
+  const relative = `assets/images/reports/${name}`;
+  const bytes = await fs.readFile(path.join(artifactRoot, relative));
+  reportImages.set(relative, { sha256: digest(bytes) });
+}
+if (!reportImageNames.length) throw new Error("Artifact không có ảnh đại diện báo cáo để xác minh live.");
+
 const sectionOrder = (html) => [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
 const expectedOrder = ["overview", "daily-market", "position-ledger", "action-radar", "research"];
 const localIndex = local.get("index.html").bytes.toString("utf8");
 if (sectionOrder(localIndex).join(",") !== expectedOrder.join(",")) throw new Error("Artifact local có thứ tự section không hợp lệ.");
+
+const fetchBytes = async (relative, attempt) => {
+  const url = new URL(relative, siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`);
+  url.searchParams.set("verify", `${Date.now()}-${attempt}`);
+  const response = await fetch(url, {
+    cache: "no-store",
+    headers: { "user-agent": "XuanLeTVS-PostDeploy-Verification/2.0" },
+    signal: AbortSignal.timeout(15000)
+  });
+  if (!response.ok) throw new Error(`${relative}: HTTP ${response.status}`);
+  return Buffer.from(await response.arrayBuffer());
+};
+
+const verifyReportImages = async (attempt) => {
+  const relatives = [...reportImages.keys()];
+  let cursor = 0;
+  const worker = async () => {
+    while (cursor < relatives.length) {
+      const index = cursor;
+      cursor += 1;
+      const relative = relatives[index];
+      const bytes = await fetchBytes(relative, attempt);
+      if (bytes.length < 12 || bytes.subarray(0, 4).toString("ascii") !== "RIFF" || bytes.subarray(8, 12).toString("ascii") !== "WEBP") {
+        throw new Error(`${relative}: live asset không có chữ ký WebP hợp lệ`);
+      }
+      const sha256 = digest(bytes);
+      if (sha256 !== reportImages.get(relative).sha256) {
+        throw new Error(`${relative}: hash live ${sha256} != artifact ${reportImages.get(relative).sha256}`);
+      }
+    }
+  };
+  const concurrency = Math.min(12, Math.max(1, relatives.length));
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  return relatives.length;
+};
 
 let lastError;
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const remoteHashes = {};
     for (const relative of files) {
-      const url = new URL(relative, siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`);
-      url.searchParams.set("verify", `${Date.now()}-${attempt}`);
-      const response = await fetch(url, {
-        cache: "no-store",
-        headers: { "user-agent": "XuanLeTVS-PostDeploy-Verification/1.0" },
-        signal: AbortSignal.timeout(15000)
-      });
-      if (!response.ok) throw new Error(`${relative}: HTTP ${response.status}`);
-      const bytes = Buffer.from(await response.arrayBuffer());
+      const bytes = await fetchBytes(relative, attempt);
       const sha256 = digest(bytes);
       remoteHashes[relative] = sha256;
       if (sha256 !== local.get(relative).sha256) {
@@ -55,7 +94,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
         if (sectionOrder(html).join(",") !== expectedOrder.join(",")) throw new Error("Live index section order mismatch");
       }
     }
-    console.log(JSON.stringify({ ok: true, siteUrl, attempt, hashes: remoteHashes }, null, 2));
+    const reportImagesVerified = await verifyReportImages(attempt);
+    console.log(JSON.stringify({ ok: true, siteUrl, attempt, hashes: remoteHashes, reportImagesVerified }, null, 2));
     process.exit(0);
   } catch (error) {
     lastError = error;
