@@ -130,7 +130,7 @@ export const parseVndirect = (payload, ticker, date) => {
 
 export const parseCafeF = (html, date) => {
   if (typeof html !== "string" || !html.length) throw new Error("CafeF empty page");
-  const [, month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) || [];
+  const [, , month, day] = date.match(/^(\d{4})-(\d{2})-(\d{2})$/) || [];
   if (!day || !month) throw new Error(`CafeF invalid date ${date}`);
   const displayDate = `${day}/${month}`;
   const re = new RegExp(
