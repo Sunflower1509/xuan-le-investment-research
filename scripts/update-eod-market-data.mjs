@@ -27,6 +27,13 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data",
       reason: "CafeF 28/08 lệch giá đóng cửa; Investing lịch sử xác nhận 47.000, trùng VNDIRECT."
     })
+  }),
+  "2026-09-03": Object.freeze({
+    PHP: Object.freeze({
+      close: 47000,
+      source: "https://kbbuddywts.kbsec.com.vn/sas/kbsv-stock-data-store/stock/PHP/historical-quotes",
+      reason: "CafeF lịch sử 03/09 trả 47.100; KBS và Vietcap cùng xác nhận OHLC 47.0/47.7/46.7/47.0, khối lượng 126.600, giá đóng cửa 47.000, trùng VNDIRECT."
+    })
   })
 });
 
