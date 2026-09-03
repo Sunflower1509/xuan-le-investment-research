@@ -5,12 +5,20 @@ import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { projectTradeLedger, validIsoDate, validSourceUrl } from "../src/scripts/trade-ledger.mjs";
-import { classifyPrice, finitePositive, parseActionTrigger, sameLockedTrigger, snapshotTriggerState } from "../src/scripts/action-trigger.mjs";
+import {
+  activationRelation,
+  classifyPrice,
+  crossedLockedTrigger,
+  finitePositive,
+  parseActionTrigger,
+  sameLockedTrigger,
+  snapshotTriggerState
+} from "../src/scripts/action-trigger.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const researchPath = path.join(repositoryRoot, "src/data/research-data.js");
 const ledgerPath = path.join(repositoryRoot, "src/data/trade-ledger.json");
-const TRIGGER_ZONE = "eod-close-transitioned-into-locked-zone";
+const TRIGGER_ZONE = "eod-close-crossed-locked-buy-ceiling";
 const TRIGGER_THRESHOLD = "eod-close-transitioned-into-locked-threshold";
 const TICKER = /^[A-Z0-9]{2,8}$/;
 
@@ -59,6 +67,7 @@ const validateInputs = (source, ledger) => {
 const automationEvent = (item, previous, report) => {
   const trigger = parseActionTrigger(item.action);
   const oneSided = trigger && trigger.kind !== "range";
+  const activationState = activationRelation(item.close, item.action);
   const event = {
     id: `auto-${item.ticker}-${item.priceDate}`,
     tradeId: `${item.ticker}-${item.priceDate}`,
@@ -72,6 +81,7 @@ const automationEvent = (item, previous, report) => {
     zoneBasisDate: item.action.basisDate,
     stop: finitePositive(item.action.stop) ? item.action.stop : null,
     targets: Array.isArray(item.action.targets) ? item.action.targets.filter(finitePositive) : [],
+    activationRelation: activationState,
     confirmation: {
       trigger: oneSided ? TRIGGER_THRESHOLD : TRIGGER_ZONE,
       priceTriggerPassed: true,
@@ -87,7 +97,11 @@ const automationEvent = (item, previous, report) => {
     sourceUrl: item.priceSource,
     note: oneSided
       ? "Tự động kích hoạt theo giá đóng cửa EOD và ngưỡng một phía đã khóa; điều kiện định tính không được máy tự suy diễn."
-      : "Tự động kích hoạt theo giá đóng cửa EOD; điều kiện định tính không được máy tự suy diễn."
+      : activationState === "inside-zone"
+        ? "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa."
+        : activationState === "below-zone"
+          ? "Tự động ghi nhận tín hiệu đã kích hoạt khi giá đóng cửa EOD cắt xuyên dưới cận trên và đóng dưới cận dưới của vùng mua đã khóa."
+          : "Tự động ghi nhận tín hiệu giá đã kích hoạt nhưng giá đóng cửa EOD đồng thời vi phạm mức dừng lỗ đã khóa; không đồng nghĩa với vị thế mua còn hiệu lực."
   };
   if (oneSided) {
     event.triggerType = trigger.kind;
@@ -166,12 +180,12 @@ export const processEodLedger = (source, ledger) => {
       return;
     }
 
-    const priceEnteredZone = previous.relation !== "inside" && current.relation === "inside";
+    const priceCrossedTrigger = crossedLockedTrigger(previous.close, item.close, item.action);
     const eligible = item.action?.eligibility === "active";
     const lockedActionUnchanged = sameLockedTrigger(previous, current);
     const canStart = item.priceDate >= next.meta.startedAt;
     const hasOpenPosition = openTickers.has(item.ticker);
-    const shouldActivate = priceEnteredZone && eligible && lockedActionUnchanged && canStart && !hasOpenPosition;
+    const shouldActivate = priceCrossedTrigger && eligible && lockedActionUnchanged && canStart && !hasOpenPosition;
 
     if (shouldActivate) {
       const event = automationEvent(item, previous, reportsByTicker.get(item.ticker));
@@ -183,7 +197,7 @@ export const processEodLedger = (source, ledger) => {
       } else {
         stats.unchanged += 1;
       }
-    } else if (priceEnteredZone) {
+    } else if (priceCrossedTrigger) {
       stats.blocked += 1;
       const reason = !eligible
         ? `eligibility=${item.action?.eligibility || "unknown"}`
@@ -192,7 +206,7 @@ export const processEodLedger = (source, ledger) => {
           : !canStart
             ? "trước ngày bắt đầu sổ"
             : "đã có vị thế đang mở";
-      warnings.push(`${item.ticker}: giá vào vùng nhưng không kích hoạt (${reason}).`);
+      warnings.push(`${item.ticker}: giá cắt qua ngưỡng kích hoạt nhưng không ghi nhận (${reason}).`);
     } else {
       stats.unchanged += 1;
     }
