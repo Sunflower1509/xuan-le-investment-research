@@ -1,0 +1,54 @@
+name: Audit stock logo source
+
+on:
+  push:
+    branches:
+      - audit/stock-logo-source-20260903
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe FireAnt company endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.request
+          symbols = ['ACB','FTS','BVH','CMG','HPG','MCH']
+          endpoints = [
+              'https://restv2.fireant.vn/symbols/{s}',
+              'https://restv2.fireant.vn/symbols/{s}/profile',
+          ]
+          def walk(obj, prefix=''):
+              out=[]
+              if isinstance(obj, dict):
+                  for k,v in obj.items():
+                      p=f'{prefix}.{k}' if prefix else k
+                      lk=k.lower()
+                      if any(x in lk for x in ['logo','image','photo','avatar','website','url','site']):
+                          out.append((p,v))
+                      out += walk(v,p)
+              elif isinstance(obj,list):
+                  for i,v in enumerate(obj[:5]): out += walk(v,f'{prefix}[{i}]')
+              return out
+          for s in symbols:
+              print(f'===== {s} =====')
+              for tpl in endpoints:
+                  url=tpl.format(s=s)
+                  req=urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'})
+                  try:
+                      with urllib.request.urlopen(req, timeout=20) as r:
+                          raw=r.read()
+                      print('URL',url,'bytes',len(raw))
+                      data=json.loads(raw)
+                      if isinstance(data,dict): print('top_keys',sorted(data.keys()))
+                      for p,v in walk(data):
+                          if isinstance(v,(str,int,float,bool)) or v is None:
+                              print('candidate',p,repr(v))
+                  except Exception as e:
+                      print('ERROR',url,repr(e))
+          PY
