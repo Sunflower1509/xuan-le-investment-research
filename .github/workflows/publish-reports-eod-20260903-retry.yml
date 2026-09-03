@@ -60,18 +60,18 @@ jobs:
           fetch_pdf 'https://at.adobe.com/GnWwGg8Ei812C7Is' 'reports/BVH_2026-08-31.pdf'
           fetch_pdf 'https://at.adobe.com/UgvBWcBoTdUJcovQ' 'reports/FTS_2026-09-03.pdf'
           cat > "${RUNNER_TEMP}/pdf.sha256" <<'EOF'
-          b70013fc18b002297121b06caabecafbc665b4e52960a8a3e2d510a10003fbaf  reports/PET_2026-08-28.pdf
-          5c8956f099c9b47e6c0ff37fe24872178fc364309abe611ead054650106d1e38  reports/HDG_2026-08-28.pdf
-          f0003b861f6f23aede09015b93b428be5c22d46214357daa0c3855ab0fcf1954  reports/SZC_2026-08-28.pdf
-          6b6f467a618f40f7e0dac9ad046a9a86efb2fac354923582567335392ed03b37  reports/LHG_2026-08-28.pdf
-          7be988356d674f36d100f3c532d4707f63705af5bfac3bd4f2c9d01889579aeb  reports/DPG_2026-08-28.pdf
-          4ff9b3cf366ec4f7ccb15e62abe44cccd662f8adbcb6339672aac814100767c6  reports/MCH_2026-08-28.pdf
-          bcf47d8a96eebf6206c5f3e1e5760812319021418136021f076f5a09f543875a  reports/SJS_2026-08-28.pdf
-          a143fa8cfe19dc25eb156779651567a80a6b6bcc77736d1018f994871dc06af3  reports/CMG_2026-08-28.pdf
-          c46c0fc4c47dacf41ecb89e750d1caa62137749c4503677072060c455ecebf18  reports/VPI_2026-08-28.pdf
-          3d723481640714d1d0bb0bc7980b9f8920befeda15cbcfd66b1bdf322c42ce1d  reports/SBT_2026-08-28.pdf
-          8169116131632d70efed2bc62e5cdca705877962c8428b987f1b52c43e7882ba  reports/BVH_2026-08-31.pdf
-          0e4a45afb414d23962d8fde6841d40c0d61a6076c76dd446053647ab237353f0  reports/FTS_2026-09-03.pdf
+          63839c7bde520532fab3c570925aa3a66984b5872105a019b6edf73b2884d5a0  reports/PET_2026-08-28.pdf
+          73c58488be356770e254d51e6b22d514f3667a0c6d4bcbea62bcad5ca65f08c8  reports/HDG_2026-08-28.pdf
+          c3226f3ae4f6c0086fb71de8f630f28b14cd98c0a1f5f20a6b531d879e4d333c  reports/SZC_2026-08-28.pdf
+          a3ddb46b4cb267a199a643b96d3aa141e5949fc8a2be665a61f7d289729f43c8  reports/LHG_2026-08-28.pdf
+          e51c14b8960e44120fe288a23ecb41dcd20cab35c1e146d25ff728e6e368a6a4  reports/DPG_2026-08-28.pdf
+          90f302c544e395817c38488ab8a6d068fda1d531662d2be3789f2b31d74657a2  reports/MCH_2026-08-28.pdf
+          ad7e10c212775307cc6b0780e9dd0172a70791417c5509ada7ff68470b2b8528  reports/SJS_2026-08-28.pdf
+          5570bbc56e0959dc3d2d4ffa740a88b5cc661d22f9705faa7d7e0cb7b43c4603  reports/CMG_2026-08-28.pdf
+          4055dca77c0f962ed14a3dd20e2d75b65a3dc4ddd022d04e5623c393cb9f11eb  reports/VPI_2026-08-28.pdf
+          051da4615b230de508e0c8bb5eae89350ee232ca6ba715abd79fe9876364e842  reports/SBT_2026-08-28.pdf
+          b4927360c629d139fe5e8ee98d75f4c5406816a46cb137fa8a354d46d263a61d  reports/BVH_2026-08-31.pdf
+          3a660b8c11db8923dcc05fa5f6455031fcfceb43ca94e2c3bc87c5a1b56de21a  reports/FTS_2026-09-03.pdf
           EOF
           sha256sum -c "${RUNNER_TEMP}/pdf.sha256"
           for pdf in reports/{PET,HDG,SZC,LHG,DPG,MCH,SJS,CMG,VPI,SBT}_2026-08-28.pdf reports/BVH_2026-08-31.pdf reports/FTS_2026-09-03.pdf; do
