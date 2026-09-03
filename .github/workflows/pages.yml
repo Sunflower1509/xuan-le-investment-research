@@ -33,16 +33,6 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
-      - name: Ensure deterministic PDF cover renderer
-        shell: bash
-        run: |
-          set -euo pipefail
-          if ! command -v pdftoppm >/dev/null 2>&1 || ! command -v cwebp >/dev/null 2>&1; then
-            sudo apt-get update -qq
-            sudo apt-get install -y --no-install-recommends poppler-utils webp
-          fi
-          pdftoppm -v 2>&1 | head -n 1
-          cwebp -version
       - name: Synchronize stock report cover images
         run: node scripts/sync-report-covers.mjs
       - name: Record pre-processing ledger
