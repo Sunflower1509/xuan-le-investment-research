@@ -33,6 +33,18 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
+      - name: Ensure deterministic PDF cover renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v pdftoppm >/dev/null 2>&1 || ! command -v cwebp >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends poppler-utils webp
+          fi
+          pdftoppm -v 2>&1 | head -n 1
+          cwebp -version
+      - name: Synchronize stock report cover images
+        run: node scripts/sync-report-covers.mjs
       - name: Record pre-processing ledger
         run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
       - name: Process EOD activation ledger
@@ -50,15 +62,35 @@ jobs:
         run: bash scripts/build/build-assets.sh
       - name: Audit site integrity
         run: node scripts/audit-site.mjs
+      - name: Audit semantic report-cover integrity
+        run: node scripts/audit-report-covers.mjs
+      - name: Guard public layout and mutation scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- index.html assets/css/site.min.css; then
+            echo "Refusing deployment because HTML/CSS changed during cover synchronization." >&2
+            git diff -- index.html assets/css/site.min.css >&2
+            exit 2
+          fi
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/images/reports/[a-z0-9]+\.webp)$'
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
       - name: Prepare lean production artifact
         run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
-      - name: Persist new EOD ledger events
+      - name: Persist synchronized covers and ledger safely
+        shell: bash
         run: |
-          if ! git diff --quiet -- src/data/trade-ledger.json; then
+          set -euo pipefail
+          if ! git diff --quiet -- src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/trade-ledger.json assets/js/site.min.js
-            git commit -m "Record EOD signal activations [skip ci]"
+            git add src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports
+            git commit -m "Synchronize verified report covers and ledger [skip ci]"
             git push origin HEAD:main
           fi
       - name: Guard against stale deployment
