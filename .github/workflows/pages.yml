@@ -54,6 +54,8 @@ jobs:
         run: node scripts/audit-site.mjs
       - name: Audit semantic report-cover integrity
         run: node scripts/audit-report-covers.mjs
+      - name: Audit company-logo integrity
+        run: node scripts/audit-company-logos.mjs
       - name: Guard public layout and mutation scope
         shell: bash
         run: |

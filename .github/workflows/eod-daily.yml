@@ -216,6 +216,10 @@ jobs:
         if: steps.market.outputs.status == 'verified'
         run: node scripts/audit-site.mjs
 
+      - name: Audit company-logo integrity
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/audit-company-logos.mjs
+
       - name: Prepare lean production artifact
         if: steps.market.outputs.status == 'verified'
         run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"

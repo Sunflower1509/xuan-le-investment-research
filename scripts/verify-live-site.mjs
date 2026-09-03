@@ -38,6 +38,18 @@ for (const name of reportImageNames) {
 }
 if (!reportImageNames.length) throw new Error("Artifact không có ảnh đại diện báo cáo để xác minh live.");
 
+const companyLogoDir = path.join(artifactRoot, "assets/images/logos");
+const companyLogoNames = (await fs.readdir(companyLogoDir))
+  .filter((name) => name.toLowerCase().endsWith(".svg"))
+  .sort();
+const companyLogos = new Map();
+for (const name of companyLogoNames) {
+  const relative = `assets/images/logos/${name}`;
+  const bytes = await fs.readFile(path.join(artifactRoot, relative));
+  companyLogos.set(relative, { sha256: digest(bytes) });
+}
+if (companyLogoNames.length !== 108) throw new Error(`Artifact phải có 108 logo doanh nghiệp, hiện có ${companyLogoNames.length}.`);
+
 const sectionOrder = (html) => [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
 const expectedOrder = ["overview", "daily-market", "position-ledger", "action-radar", "research"];
 const localIndex = local.get("index.html").bytes.toString("utf8");
@@ -78,6 +90,30 @@ const verifyReportImages = async (attempt) => {
   return relatives.length;
 };
 
+const verifyCompanyLogos = async (attempt) => {
+  const relatives = [...companyLogos.keys()];
+  let cursor = 0;
+  const worker = async () => {
+    while (cursor < relatives.length) {
+      const index = cursor;
+      cursor += 1;
+      const relative = relatives[index];
+      const bytes = await fetchBytes(relative, attempt);
+      const text = bytes.toString("utf8").trim();
+      if (!/^(?:<!--[^]*?-->\s*)?<svg\b/i.test(text) || !/<\/svg>\s*$/i.test(text)) {
+        throw new Error(`${relative}: live asset không phải SVG hoàn chỉnh`);
+      }
+      const sha256 = digest(bytes);
+      if (sha256 !== companyLogos.get(relative).sha256) {
+        throw new Error(`${relative}: hash live ${sha256} != artifact ${companyLogos.get(relative).sha256}`);
+      }
+    }
+  };
+  const concurrency = Math.min(12, Math.max(1, relatives.length));
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  return relatives.length;
+};
+
 let lastError;
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
@@ -95,7 +131,8 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
       }
     }
     const reportImagesVerified = await verifyReportImages(attempt);
-    console.log(JSON.stringify({ ok: true, siteUrl, attempt, hashes: remoteHashes, reportImagesVerified }, null, 2));
+    const companyLogosVerified = await verifyCompanyLogos(attempt);
+    console.log(JSON.stringify({ ok: true, siteUrl, attempt, hashes: remoteHashes, reportImagesVerified, companyLogosVerified }, null, 2));
     process.exit(0);
   } catch (error) {
     lastError = error;

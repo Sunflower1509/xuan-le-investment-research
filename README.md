@@ -12,9 +12,12 @@ Trang chính thức: <https://sunflower1509.github.io/xuan-le-investment-researc
 - `src/styles/`: CSS nguồn.
 - `assets/css/` và `assets/js/`: bundle production đã minify; đây là hai tài nguyên mã duy nhất được `index.html` tải.
 - `assets/images/reports/`: ảnh bìa WebP của từng báo cáo.
+- `assets/images/logos/`: logo doanh nghiệp SVG local, ánh xạ 1:1 theo ticker trong `src/data/company-logos.js`.
 - `reports/`: PDF công bố trên website; giữ nguyên đường dẫn public.
 - `scripts/build/`: công cụ build và đóng gói production.
 - `scripts/audit-site.mjs`: kiểm tra tính toàn vẹn dữ liệu, tài nguyên, SEO và thứ tự section.
+- `scripts/audit-company-logos.mjs`: kiểm tra đủ 108 logo, mapping ticker/sàn/ISIN, chữ ký SVG và SHA-256 local/live.
+- `scripts/sync-company-logos.mjs`: đồng bộ logo theo kết quả ticker + sàn chính xác và dừng nếu nhận diện nguồn thay đổi.
 - `scripts/process-trade-ledger.mjs`: xử lý tự động hóa EOD/Trade Ledger.
 - `tests/`: kiểm thử quy tắc tự động hóa.
 
