@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
-import { classifyPrice, sameLockedTrigger, snapshotTriggerState } from "../src/scripts/action-trigger.mjs";
+import { classifyPrice, crossedLockedTrigger, sameLockedTrigger, snapshotTriggerState } from "../src/scripts/action-trigger.mjs";
 import { projectTradeLedger, validIsoDate } from "../src/scripts/trade-ledger.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -56,8 +56,8 @@ export const reconcileTradeLedger = (source, before, after) => {
     if (item.priceDate <= previous.date) continue;
 
     const current = currentSnapshot(item);
-    const priceEntered = previous.relation !== "inside" && current.relation === "inside";
-    if (!priceEntered) continue;
+    const priceCrossed = crossedLockedTrigger(previous.close, item.close, item.action);
+    if (!priceCrossed) continue;
 
     const gates = {
       active: item.action?.eligibility === "active",
