@@ -15,74 +15,34 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: audit/stock-logo-source-20260903
-      - name: Probe official logo assets for unresolved tickers
+      - name: Inspect unresolved CafeF profile logo markup
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import urllib.request, urllib.parse, re, html, json
-          from concurrent.futures import ThreadPoolExecutor, as_completed
-
-          sites={
-            'GEL':['https://gelex-electric.com/','https://gelex-electric.com/en/'],
-            'HDB':['https://hdbank.com.vn/','https://www.hdbank.com.vn/'],
-            'HHS':['https://hoanghuyhhs.vn/','https://www.hoanghuyhhs.vn/'],
-            'LPB':['https://lpbank.com.vn/','https://lpbank.com.vn/ca-nhan'],
-            'NLG':['https://www.namlongvn.com/'],
-            'OIL':['https://www.pvoil.com.vn/','https://pvoil.com.vn/'],
-            'TCB':['https://techcombank.com/'],
-            'TCH':['https://www.hoanghuy.vn/'],
-            'VCK':['https://www.vps.com.vn/'],
-            'VIB':['https://www.vib.com.vn/'],
-            'VJC':['https://www.vietjetair.com/','https://vietjetair.com/'],
-            'VPX':['https://www.vpbanks.com.vn/','https://vpbanks.com.vn/']
-          }
-          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,application/xhtml+xml,*/*;q=0.8'}
-          def get(url):
-            req=urllib.request.Request(url,headers=headers)
-            with urllib.request.urlopen(req,timeout=12) as r: return r.geturl(),r.read(),r.status,r.headers.get('content-type','')
-          def probe(ticker):
-            errors=[]
-            for page in sites[ticker]:
-              try:
-                final,raw,status,ctype=get(page)
-                text=raw.decode('utf-8','ignore')
-                candidates=[]
-                # image/src/srcset/href URLs containing logo/brand or common header asset patterns
-                for tag in re.findall(r'<(?:img|source|link)\b[^>]*>',text,re.I):
-                  attrs={k.lower():html.unescape(v) for k,v in re.findall(r'([\w:-]+)\s*=\s*["\']([^"\']*)["\']',tag)}
-                  blob=' '.join([tag,attrs.get('alt',''),attrs.get('class',''),attrs.get('id',''),attrs.get('rel','')]).lower()
-                  values=[]
-                  for key in ('src','data-src','data-lazy-src','href'):
-                    if attrs.get(key): values.append(attrs[key])
-                  if attrs.get('srcset'):
-                    values += [x.strip().split()[0] for x in attrs['srcset'].split(',') if x.strip()]
-                  for val in values:
-                    if not val or val.startswith('data:'): continue
-                    u=urllib.parse.urljoin(final,val)
-                    score=0
-                    low=(blob+' '+u).lower()
-                    if 'logo' in low: score+=10
-                    if 'brand' in low: score+=4
-                    if 'header' in low: score+=2
-                    if ticker.lower() in low: score+=3
-                    if any(x in low for x in ['favicon','icon-','apple-touch','payment','partner','award']): score-=5
-                    if score>0: candidates.append((score,u,tag[:260]))
-                # Also catch logo URLs embedded in JS/CSS/JSON.
-                for m in re.findall(r'["\']([^"\']*(?:logo|Logo|LOGO)[^"\']*\.(?:svg|png|jpe?g|webp)(?:\?[^"\']*)?)["\']',text):
-                  if not m.startswith('data:'): candidates.append((8,urllib.parse.urljoin(final,html.unescape(m)),'embedded'))
-                # unique, rank high first
-                seen=set(); ranked=[]
-                for score,u,tag in sorted(candidates,key=lambda x:(-x[0],len(x[1]))):
-                  if u in seen: continue
-                  seen.add(u); ranked.append({'score':score,'url':u,'tag':tag})
-                return {'ticker':ticker,'ok':True,'page':page,'final':final,'status':status,'ctype':ctype,'bytes':len(raw),'candidates':ranked[:15]}
-              except Exception as e: errors.append(f'{page}: {e!r}')
-            return {'ticker':ticker,'ok':False,'errors':errors}
-          rows=[]
-          with ThreadPoolExecutor(max_workers=8) as pool:
-            fs={pool.submit(probe,t):t for t in sites}
-            for f in as_completed(fs): rows.append(f.result())
-          rows.sort(key=lambda r:r['ticker'])
-          print(json.dumps(rows,ensure_ascii=False,indent=2))
+          import urllib.request,re,html,json
+          tickers=['GEL','HDB','HHS','LPB','NLG','OIL','TCB','TCH','VCK','VIB','VJC','VPX']
+          headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,*/*'}
+          for ticker in tickers:
+            url=f'https://cafef.vn/du-lieu/{ticker.lower()}/thong-tin-chung.chn'
+            print('\n===== ',ticker,url,' =====')
+            try:
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=12) as r: raw=r.read()
+              text=raw.decode('utf-8','ignore')
+              print('bytes',len(raw),'final')
+              hits=[]
+              for m in re.finditer(r'(?i)(?:LOGO|logo|Logo)',text):
+                a=max(0,m.start()-500);b=min(len(text),m.end()+700)
+                snippet=text[a:b].replace('\r',' ').replace('\n',' ')
+                if ticker.lower() in snippet.lower() or '/LOGO/' in snippet or 'companylogo' in snippet.lower():
+                  hits.append(snippet)
+              for s in hits[:8]: print('SNIP',s[:1500])
+              # print all exact cafef LOGO asset strings regardless of HTML validity
+              urls=[]
+              for p in re.findall(r'https?://[^"\'<>\s]+',text):
+                p=html.unescape(p)
+                if '/LOGO/' in p.upper() or '/logo/' in p.lower(): urls.append(p)
+              print('ASSETS',json.dumps(list(dict.fromkeys(urls))[:20],ensure_ascii=False))
+            except Exception as e: print('ERROR',repr(e))
           PY
