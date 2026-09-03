@@ -38,10 +38,9 @@ window.DAILY_MARKET_INSIGHTS = {
         { label: "Mốc đóng cửa", value: "1.827,72", note: "Đứng ngay dưới vùng 1.830–1.850; do độ rộng yếu và khối ngoại bán ròng mạnh, chưa đủ cơ sở để chuyển sang trạng thái mua chủ động toàn thị trường." }
       ],
       playbook: [
-        { if: "VN-Index giữ trên 1.800–1.805 và độ rộng cải thiện rõ", then: "TIẾP TỤC GIỮ vị thế khỏe; chỉ mua thăm dò ở cổ phiếu có setup riêng và sức mạnh tương đối tốt, tuyệt đối không mua đuổi sau nhịp kéo mạnh." },
-        { if: "VN-Index vượt 1.850 với thanh khoản và độ rộng cùng cải thiện, đồng thời áp lực bán ròng khối ngoại thu hẹp", then: "CÓ THỂ NÂNG DẦN mức giải ngân ở nhóm dẫn dắt xác nhận xu hướng; vẫn chia lệnh và tuân thủ stoploss từng mã." },
-        { if: "Chỉ số tiếp tục dao động 1.830–1.850 nhưng số mã giảm vẫn áp đảo hoặc khối ngoại tiếp tục bán mạnh", then: "KHÔNG MUA ĐUỔI; ưu tiên bảo toàn lợi nhuận ở mã đã tăng nóng và chờ điểm vào có R:R tốt hơn." },
-        { if: "VN-Index đóng dưới 1.800 hoặc xuyên đáy 1.802,11 với áp lực bán mở rộng", then: "GIẢM phần trading, dừng bắt đáy sớm và đánh giá lại các setup ngắn hạn; không bình quân giá xuống khi chưa có tín hiệu hấp thụ cung." }
+        { if: "XÁC NHẬN TÍCH CỰC — VN-Index đóng vượt 1.850, đồng thời độ rộng và thanh khoản cùng cải thiện; không xuất hiện VETO rủi ro mới", then: "NÂNG DẦN TỶ TRỌNG ở cổ phiếu dẫn dắt/setup đã xác nhận; chia lệnh và không mua đuổi." },
+        { if: "CHƯA XÁC NHẬN / ĐI NGANG — VN-Index vẫn giữ trên vùng 1.800–1.805 nhưng chưa đủ điều kiện xác nhận vượt 1.850, hoặc độ rộng/thanh khoản chưa đồng thuận", then: "GIỮ TỶ TRỌNG VỪA PHẢI, tiếp tục nắm mã khỏe; chỉ thăm dò setup có R:R tốt và không mua đuổi." },
+        { if: "MẤT MỐC PHÒNG THỦ / RISK-OFF — VN-Index đóng dưới 1.800 hoặc xuyên đáy 1.802,11 với áp lực bán mở rộng / xuất hiện VETO rõ", then: "GIẢM PHẦN TRADING, dừng bắt đáy sớm và không bình quân giá xuống khi chưa có tín hiệu hấp thụ cung." }
       ],
       focus: "1.800–1.805 • vùng cung 1.830–1.850 • độ rộng • khối ngoại • ngân hàng/chứng khoán yếu • dầu khí/phân bón có sức mạnh tương đối",
       inference: "Số liệu chỉ số và giá trị giao dịch lấy từ điểm tin giao dịch HOSE ngày 03/09/2026; VN-Index 1.827,72, VN30 1.961,57 và GTGD VN-Index 17.464,38 tỷ đồng. Website tiếp tục dùng độ rộng VNDIRECT đã khóa cho cùng phiên là 90 tăng, 49 đứng giá, 234 giảm để nhất quán với marketSession; Báo Đầu tư ghi nhận độ rộng HoSE 93 tăng/236 giảm nên không hòa giải hai universe bằng suy đoán. Đáy phiên 1.802,11, diễn biến VIC, nhóm ngành và khối ngoại được đối chiếu với Báo Đầu tư/CafeF. Không bổ sung MA, basis phái sinh hoặc số liệu tự doanh vì chưa tái lập đủ nguồn trong lần cập nhật này. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán.",

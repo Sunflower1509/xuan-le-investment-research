@@ -6,6 +6,7 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { projectTradeLedger } from "../src/scripts/trade-ledger.mjs";
 import { parseActionTrigger } from "../src/scripts/action-trigger.mjs";
+import { validateDailyPlaybookPolicy } from "../src/scripts/daily-market-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -172,6 +173,8 @@ if (!daily || typeof daily !== "object") {
   entries.forEach((entry) => {
     const scope = `Nhận định ${entry.date || entry.id || "không rõ"}`;
     if (!isIsoDate(entry.date) || !entry.title || !entry.thesis) fail(scope, "thiếu ngày, tiêu đề hoặc luận điểm chính");
+    const playbookPolicy = validateDailyPlaybookPolicy(entry);
+    if (!playbookPolicy.valid) fail(scope, playbookPolicy.message);
     if (!Array.isArray(entry.sources) || !entry.sources.length) fail(scope, "phải có ít nhất một nguồn");
     (entry.sources || []).forEach((source) => {
       if (isHttps(source?.url)) return;
