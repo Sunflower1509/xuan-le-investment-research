@@ -16,6 +16,7 @@ const COVER_SCHEMA = "pdf-page-1-webp-v1";
 const TARGET_WIDTH = 900;
 const MIN_WIDTH = 700;
 const MIN_HEIGHT = 900;
+let rendererReady = false;
 
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 const exists = (relativePath) => fs.existsSync(path.join(root, relativePath));
@@ -26,6 +27,16 @@ const commandExists = (name) => {
   } catch {
     return false;
   }
+};
+const ensureRenderer = () => {
+  if (rendererReady) return;
+  if (!commandExists("pdftoppm") || !commandExists("cwebp")) {
+    console.log("PDF cover renderer missing; installing minimal poppler-utils + webp toolchain...");
+    execFileSync("sudo", ["apt-get", "update", "-qq"], { stdio: "inherit" });
+    execFileSync("sudo", ["apt-get", "install", "-y", "--no-install-recommends", "poppler-utils", "webp"], { stdio: "inherit" });
+  }
+  if (!commandExists("pdftoppm") || !commandExists("cwebp")) throw new Error("Không thể khởi tạo pdftoppm/cwebp để render cover.");
+  rendererReady = true;
 };
 const gitTimestamp = (relativePath) => {
   try {
@@ -92,9 +103,7 @@ const loadResearch = () => {
 };
 
 const renderCover = async (pdfRelative, imageRelative) => {
-  if (!commandExists("pdftoppm") || !commandExists("cwebp")) {
-    throw new Error("Thiếu pdftoppm hoặc cwebp; workflow phải cài poppler-utils và webp trước khi đồng bộ ảnh.");
-  }
+  ensureRenderer();
   const pdf = path.join(root, pdfRelative);
   const image = path.join(root, imageRelative);
   const tmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), "xuan-cover-"));
