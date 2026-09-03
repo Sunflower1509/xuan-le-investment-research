@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   verify:
@@ -25,21 +25,14 @@ jobs:
           package-manager-cache: false
       - name: Run all trigger and ledger tests
         run: node --test tests/*.test.mjs
-      - name: Verify TCH migration evidence without writing
+      - name: Verify TCH migration is exact and idempotent
         run: node scripts/migrate-ledger-buy-ceiling-v3.mjs
-      - name: Apply verified TCH migration idempotently
-        run: node scripts/migrate-ledger-buy-ceiling-v3.mjs --apply
-      - name: Validate migrated ledger without further mutation
+      - name: Validate final ledger without mutation
         run: node scripts/process-trade-ledger.mjs --dry-run
-      - name: Replay historical trigger audit after migration
+      - name: Replay historical trigger audit on final ledger
         run: |
           node scripts/audit-ledger-trigger-history.mjs --report "${RUNNER_TEMP}/ledger-v3-history-audit.json"
           node -e 'const r=require(process.argv[1]); const summary={snapshotDates:r.snapshotDates,candidateCount:r.candidateCount,matched:r.matched,missing:r.missing,late:r.late,actualEarlier:r.actualEarlier,noCandidateForActual:r.noCandidateForActual,parseErrors:r.parseErrors}; console.log(JSON.stringify(summary,null,2)); if(r.parseErrors.length||r.missing.length||r.late.length||r.actualEarlier.length) process.exit(2);' "${RUNNER_TEMP}/ledger-v3-history-audit.json"
-      - name: Upload historical audit
-        uses: actions/upload-artifact@v4
-        with:
-          name: ledger-v3-history-audit
-          path: ${{ runner.temp }}/ledger-v3-history-audit.json
       - name: Build production assets
         run: bash scripts/build/build-assets.sh
       - name: Audit site integrity
@@ -53,16 +46,3 @@ jobs:
           actual="$(grep -oE '<section[^>]+id="[^"]+"' index.html | sed -E 's/.*id="([^"]+)"/\1/' | paste -sd, -)"
           expected="overview,daily-market,position-ledger,action-radar,research"
           test "$actual" = "$expected" || { echo "Section order changed: $actual" >&2; exit 2; }
-      - name: Commit verified ledger migration to branch
-        shell: bash
-        run: |
-          set -euo pipefail
-          if git diff --quiet -- src/data/trade-ledger.json; then
-            echo "Ledger migration already committed; no write needed."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/trade-ledger.json
-          git commit -m "Backfill verified TCH buy-ceiling activation"
-          git push origin HEAD:fix/ledger-buy-ceiling-v3
