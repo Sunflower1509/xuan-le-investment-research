@@ -52,6 +52,30 @@ export const classifyPrice = (close, action = {}) => {
   return { relation: "inside", trigger };
 };
 
+export const triggerSatisfied = (close, action = {}) => {
+  const trigger = parseActionTrigger(action);
+  if (!finitePositive(close) || !trigger) return false;
+  if (trigger.kind === "range") return close <= trigger.high;
+  if (trigger.kind === "at-or-below") return close <= trigger.price;
+  return close >= trigger.price;
+};
+
+export const crossedLockedTrigger = (previousClose, currentClose, action = {}) => {
+  const trigger = parseActionTrigger(action);
+  if (!finitePositive(previousClose) || !finitePositive(currentClose) || !trigger) return false;
+  if (trigger.kind === "range") return previousClose > trigger.high && currentClose <= trigger.high;
+  if (trigger.kind === "at-or-below") return previousClose > trigger.price && currentClose <= trigger.price;
+  return previousClose < trigger.price && currentClose >= trigger.price;
+};
+
+export const activationRelation = (close, action = {}) => {
+  const trigger = parseActionTrigger(action);
+  if (!finitePositive(close) || !trigger || !triggerSatisfied(close, action)) return "not-triggered";
+  if (finitePositive(action.stop) && close <= action.stop) return "stop-breached";
+  if (trigger.kind === "range" && close < trigger.low) return "below-zone";
+  return trigger.kind === "range" ? "inside-zone" : "threshold-met";
+};
+
 export const distanceToTrigger = (close, action = {}) => {
   const classified = classifyPrice(close, action);
   const { trigger, relation } = classified;
