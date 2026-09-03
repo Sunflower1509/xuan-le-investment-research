@@ -1,0 +1,42 @@
+name: Ledger v3 branch verification
+
+on:
+  push:
+    branches:
+      - fix/ledger-buy-ceiling-v3
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Run all trigger and ledger tests
+        run: node --test tests/*.test.mjs
+      - name: Validate current ledger without mutation
+        run: node scripts/process-trade-ledger.mjs --dry-run
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+      - name: Audit site integrity
+        run: node scripts/audit-site.mjs
+      - name: Audit company-logo integrity
+        run: node scripts/audit-company-logos.mjs
+      - name: Assert public section structure unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(grep -oE '<section[^>]+id="[^"]+"' index.html | sed -E 's/.*id="([^"]+)"/\1/' | paste -sd, -)"
+          expected="overview,daily-market,position-ledger,action-radar,research"
+          test "$actual" = "$expected" || { echo "Section order changed: $actual" >&2; exit 2; }
