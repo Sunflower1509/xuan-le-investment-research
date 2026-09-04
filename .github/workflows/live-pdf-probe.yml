@@ -1,0 +1,68 @@
+name: Isolated live release verification
+
+on:
+  push:
+    branches:
+      - ops/report-sync-20260904
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout production main for byte comparison
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Verify live new and retired report URLs
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://sunflower1509.github.io/xuan-le-investment-research'
+          get() {
+            local path="$1" out="$2" expected="$3"
+            local code
+            code=$(curl -L --retry 5 --retry-delay 2 -sS -o "$out" -w '%{http_code}' "$base/$path")
+            echo "$path -> HTTP $code ($(wc -c < "$out") bytes)"
+            test "$code" = "$expected"
+          }
+
+          get '' /tmp/home.html 200
+          cmp index.html /tmp/home.html
+
+          get 'reports/VIC_2026-09-04.pdf' /tmp/vic.pdf 200
+          get 'reports/VGC_2026-08-28.pdf' /tmp/vgc.pdf 200
+          test "$(head -c 5 /tmp/vic.pdf)" = '%PDF-'
+          test "$(head -c 5 /tmp/vgc.pdf)" = '%PDF-'
+          test "$(wc -c < /tmp/vic.pdf)" -eq 541742
+          test "$(wc -c < /tmp/vgc.pdf)" -eq 465798
+          printf '%s  %s\n' \
+            d170347f06dc4319d509e8a3a63be7e3d845b5d52654d14c4df91bb3a0163327 /tmp/vic.pdf \
+            a27f50f017a8cb11ab741d73210b18466b40bd221bb53bdca9ca227104f18416 /tmp/vgc.pdf | sha256sum -c -
+          cmp reports/VIC_2026-09-04.pdf /tmp/vic.pdf
+          cmp reports/VGC_2026-08-28.pdf /tmp/vgc.pdf
+
+          get 'reports/VIC_2026-08-17.pdf' /tmp/vic-old 404
+          get 'reports/VGC_2026-08-27.pdf' /tmp/vgc-old 404
+
+          get 'assets/images/reports/vic.webp?v=20260904-cover1' /tmp/vic.webp 200
+          get 'assets/images/reports/vgc.webp?v=20260828-cover1' /tmp/vgc.webp 200
+          cmp assets/images/reports/vic.webp /tmp/vic.webp
+          cmp assets/images/reports/vgc.webp /tmp/vgc.webp
+
+          get 'assets/js/site.min.js' /tmp/site.min.js 200
+          get 'assets/css/site.min.css' /tmp/site.min.css 200
+          get 'robots.txt' /tmp/robots.txt 200
+          get 'sitemap.xml' /tmp/sitemap.xml 200
+          cmp assets/js/site.min.js /tmp/site.min.js
+          cmp assets/css/site.min.css /tmp/site.min.css
+          cmp robots.txt /tmp/robots.txt
+          cmp sitemap.xml /tmp/sitemap.xml
+
+          echo 'LIVE RELEASE VERIFICATION PASS'
