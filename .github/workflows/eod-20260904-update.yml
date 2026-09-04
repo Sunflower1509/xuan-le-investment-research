@@ -117,3 +117,5 @@ jobs:
           git add src/data/daily-insights.js
           git commit -m "Update daily market view for 04-09-2026 [skip ci]"
           git push origin HEAD:auto/eod-20260904
+
+# trigger
