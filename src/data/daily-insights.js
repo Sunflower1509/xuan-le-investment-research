@@ -6,8 +6,51 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-09-03",
+  updated: "2026-09-04",
   entries: [
+    {
+      id: "market-view-20260904",
+      date: "2026-09-04",
+      publishedAt: "04/09/2026 • Sau phiên",
+      edition: "Số 11",
+      sentiment: "watch",
+      sentimentLabel: "GIỮ / CHỜ",
+      dataStatus: "ĐTCK + CafeF + BNews • EOD 04.09.2026",
+      title: "VN-Index vượt 1.850 nhưng độ rộng chưa xác nhận",
+      thesis: "VN-Index tăng 25,36 điểm (+1,39%) lên 1.853,08 điểm, nhưng độ rộng HOSE vẫn nghiêng về bên giảm với 128 mã tăng, 176 mã giảm và 74 mã đứng giá. Tổng giá trị giao dịch HOSE đạt 16.700,2 tỷ đồng, giảm khoảng 4% và khối lượng giảm 2% so với 03/09. Khối ngoại đảo chiều mua ròng khoảng 95 tỷ đồng trên HOSE. Trạng thái tác nghiệp: GIỮ / CHỜ vì nhịp vượt 1.850 chưa được xác nhận bởi độ rộng và thanh khoản.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "2 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.853,08", change: "+25,36 • +1,39%", tone: "positive" },
+        { label: "GTGD HOSE", value: "16.700,2 tỷ", change: "−4% giá trị • −2% khối lượng so với 03/09", tone: "warning" },
+        { label: "ĐỘ RỘNG HOSE", value: "128 tăng / 176 giảm", change: "74 đứng giá • sắc đỏ vẫn chiếm ưu thế", tone: "warning" },
+        { label: "KHỐI NGOẠI HOSE", value: "MUA RÒNG", change: "+95 tỷ đồng • toàn thị trường khoảng +116 tỷ", tone: "positive" }
+      ],
+      backdrop: [
+        "VN-Index đóng cửa trên 1.850 với mức tăng 25,36 điểm, song mức tăng điểm chưa phản ánh đầy đủ sức khỏe bên dưới khi số mã giảm vẫn nhiều hơn số mã tăng. Thanh khoản HOSE đạt 16.700,2 tỷ đồng và 618,6 triệu cổ phiếu, cùng giảm so với phiên 03/09 nên chưa hình thành xác nhận đồng thuận cho breakout.",
+        "VIC tiếp tục là trụ kéo chính khi tăng 4,74% và đóng góp hơn 19 điểm cho VN-Index. VHM tăng 2,5%, trong khi VPL và VRE cùng hỗ trợ thêm khoảng 3,5 điểm; nhóm bluechip có VPB, STB, VNM, TCB, VIB và TCX tăng giá, nhưng thị trường chung vẫn phân hóa mạnh.",
+        "Khối ngoại đảo chiều mua ròng khoảng 95 tỷ đồng trên HOSE sau phiên bán mạnh trước đó; VIC, VHM và MCH nằm trong nhóm được mua ròng nổi bật. Dòng vốn ngoại cải thiện là điểm cộng, nhưng chưa đủ để thay thế điều kiện xác nhận bằng độ rộng và thanh khoản của toàn thị trường."
+      ],
+      levels: [
+        { label: "Vùng giữ nhịp / retest", value: "1.830–1.850", note: "VN-Index đã đóng trên 1.850 nhưng thanh khoản và độ rộng chưa xác nhận. Nếu retest vùng này và giữ được với cung suy yếu, cấu trúc ngắn hạn vẫn tích cực hơn." },
+        { label: "Vùng xác nhận tích cực", value: "> 1.870", note: "Chỉ nâng trạng thái khi chỉ số đóng vượt 1.870 đồng thời số mã tăng áp đảo, thanh khoản cải thiện và không xuất hiện VETO rủi ro mới." },
+        { label: "Mốc giảm rủi ro", value: "< 1.820", note: "Đóng dưới 1.820 cho thấy vùng hỗ trợ 1.800–1.820 bị xuyên thủng; ưu tiên giảm phần trading và không bình quân giá xuống cơ học." }
+      ],
+      playbook: [
+        { state: "positive", if: "XÁC NHẬN TÍCH CỰC — VN-Index đóng vượt 1.870, độ rộng chuyển sang số mã tăng áp đảo, thanh khoản cải thiện và không xuất hiện VETO rủi ro mới", then: "TĂNG DẦN tỷ trọng ở leader/setup đã xác nhận; chia lệnh, ưu tiên R:R tối thiểu 2:1, stoploss 3–7% theo cấu trúc từng mã và không mua đuổi." },
+        { state: "neutral", if: "CHƯA XÁC NHẬN — VN-Index giữ trên 1.830–1.850 nhưng độ rộng vẫn yếu hoặc thanh khoản chưa đồng thuận", then: "GIỮ / CHỜ với tỷ trọng vừa phải; tiếp tục nắm mã khỏe, chỉ xem xét entry riêng lẻ khi điểm vào và R:R đạt yêu cầu, không mua đuổi theo chỉ số." },
+        { state: "risk_off", if: "RISK-OFF / VETO — VN-Index đóng dưới 1.820 hoặc áp lực bán mở rộng mạnh kèm độ rộng và thanh khoản xấu đi", then: "GIẢM RỦI RO phần trading; dừng bắt đáy sớm, không bình quân giá xuống và chờ tín hiệu hấp thụ cung trước khi đánh giá lại." }
+      ],
+      focus: "1.830–1.850 • xác nhận trên 1.870 • độ rộng HOSE • thanh khoản • VIC/Vingroup • khối ngoại quay lại mua ròng",
+      inference: "VN-Index 1.853,08 điểm, tăng 25,36 điểm (+1,39%), độ rộng 128 tăng/176 giảm, tổng khối lượng 618,6 triệu cổ phiếu và GTGD HOSE 16.700,2 tỷ đồng được đối chiếu từ Tin nhanh Chứng khoán và BNews ngày 04/09/2026; hai nguồn cùng ghi thanh khoản giảm khoảng 2% về khối lượng và 4% về giá trị so với 03/09. CafeF ghi khối ngoại mua ròng khoảng 95 tỷ đồng trên HOSE và khoảng 116 tỷ đồng toàn thị trường. Việc xếp trạng thái GIỮ / CHỜ, các vùng 1.830–1.850, trên 1.870 và dưới 1.820 là diễn giải tác nghiệp của Xuân Lê TVS dựa trên nguyên tắc xác nhận bằng độ rộng/thanh khoản; không nội suy số liệu thiếu và không coi vùng mục tiêu là bảo đảm. Với giao dịch mới, ưu tiên R:R tối thiểu 2:1 và stoploss 3–7% theo cấu trúc từng mã. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      sources: [
+        { label: "Tin nhanh Chứng khoán — VN-Index tăng hơn 25 điểm, EOD 04/09/2026", url: "https://m.tinnhanhchungkhoan.vn/vn-index-tang-hon-25-diem-post397026.html" },
+        { label: "BNews — VN-Index tăng hơn 25 điểm nhờ cổ phiếu đầu ngành bất động sản", url: "https://bnews.vn/vn-index-tang-hon-25-diem-nho-co-phie-u-da-u-nga-nh-ba-t-do-ng-sa-n/435525.html" },
+        { label: "CafeF — Khối ngoại quay lại mua ròng phiên 04/09/2026", url: "https://cafef.vn/khoi-ngoai-quay-xe-mua-rong-phien-vn-index-but-pha-gom-manh-vic-vhm-188260904153527046.chn" },
+        { label: "CafeF/VFS — vùng xác nhận 1.850–1.870 và kịch bản 1.900–1.930", url: "https://cafef.vn/mot-su-kien-lon-sap-dien-ra-ctck-dua-ra-2-kich-ban-cho-thi-truong-chung-khoan-188260903221313469.chn" }
+      ]
+    },
     {
       id: "market-view-20260903",
       date: "2026-09-03",
