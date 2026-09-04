@@ -670,40 +670,45 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "id": "VGC-20260827",
+      "id": "VGC-20260828",
       "ticker": "VGC",
       "company": "Tổng Công ty Viglacera - CTCP",
       "sector": "Bất động sản KCN / Vật liệu xây dựng",
       "exchange": "HOSE",
-      "date": "2026-08-27",
-      "recommendation": "CHỜ / THEO DÕI - CHƯA ĐỦ MOS",
+      "date": "2026-08-28",
+      "recommendation": "CHỜ / THEO DÕI",
       "status": "wait",
-      "marketPrice": 41200,
-      "marketPriceDate": "2026-08-26",
-      "baseValue": 59391,
+      "marketPrice": 40700,
+      "marketPriceDate": "2026-08-27",
+      "baseValue": 57458,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 49800,
-      "rangeHigh": 68900,
-      "gapLabel": "Giá 41.200 đồng/cp thấp hơn cận dưới fair value khoảng 17,3%, chưa đạt kỷ luật MOS 25-30%.",
-      "method": "SOTP: KCN/BĐS theo RNAV + VLXD theo DCF/lợi nhuận chuẩn hóa",
-      "summary": "VGC có tài sản KCN chất lượng và mảng vật liệu xây dựng hồi phục, nhưng giá 41,2k chưa đủ biên an toàn so với cận dưới fair value. Trạng thái CHỜ / THEO DÕI.",
+      "rangeLow": 48676,
+      "rangeHigh": 65308,
+      "gapLabel": "MOS 29,2% so với expected value nhưng chỉ 16,4% so với cận dưới fair value; chưa đạt kỷ luật MOS 25-30% theo cận dưới.",
+      "method": "SOTP: RNAV KCN/BĐS + VLXD chuẩn hóa; P/E forward và broker consensus kiểm chứng",
+      "summary": "VGC có nền tài sản KCN tốt, VLXD phục hồi và nợ ròng thấp, nhưng tại 40.700 đồng/cp biên an toàn so với cận dưới fair value mới khoảng 16,4%; trạng thái CHỜ / THEO DÕI.",
       "action": {
-        "zoneLow": 34860,
-        "zoneHigh": 37350,
-        "baseValue": 59391,
-        "basisDate": "2026-08-27",
+        "zoneLow": 34073,
+        "zoneHigh": 36507,
+        "baseValue": 57458,
+        "stop": null,
+        "targets": [
+          48676,
+          57458
+        ],
+        "basisDate": "2026-08-28",
         "recommendation": "CHỜ / THEO DÕI",
         "eligibility": "active",
-        "condition": "IF giá về 34.860-37.350 và thesis không xấu THEN xem xét vùng mua định giá. Với swing 1-3 tuần, chỉ kích hoạt breakout khi đóng cửa >44.200 với thanh khoản >=0,70 triệu cp; stop khoảng 42.000. IF thủng 39.500 với khối lượng tăng THEN loại setup ngắn hạn."
+        "condition": "IF giá về 34.073-36.507 đồng/cp và thesis KCN/VLXD không xấu đi THEN có thể mua valuation từng phần, stop 5-7% dưới giá vốn, mục tiêu từ 48.676 rồi 57.458. Với swing 1-3 tuần: chỉ IF đóng cửa >=42.000 và thanh khoản >= khoảng 520 nghìn cp THEN xem xét breakout nhỏ, stop 39.600, T1 46.000; follow-through có thể hướng 48.700 và 52.000. IF đóng cửa <39.500 với khối lượng tăng THEN LOẠI setup ngắn hạn."
       },
-      "file": "reports/VGC_2026-08-27.pdf",
-      "edition": "Bản định giá 27.08.2026",
+      "file": "reports/VGC_2026-08-28.pdf",
+      "edition": "Bản định giá 28.08.2026",
       "visual": {
-        "src": "assets/images/reports/vgc.webp?v=20260827-cover1",
-        "alt": "Trang bìa báo cáo định giá VGC ngày 27/08/2026",
+        "src": "assets/images/reports/vgc.webp?v=20260828-cover1",
+        "alt": "Trang bìa báo cáo định giá VGC ngày 28/08/2026",
         "caption": "Bìa báo cáo định giá VGC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VGC_2026-08-27.pdf",
+        "sourceUrl": "reports/VGC_2026-08-28.pdf",
         "kind": "report-cover"
       }
     },
@@ -3305,43 +3310,48 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
-      "id": "VIC-20260817",
+      "id": "VIC-20260904",
       "ticker": "VIC",
       "company": "Tập đoàn Vingroup - CTCP",
       "sector": "Đa ngành",
       "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "TRÁNH",
+      "date": "2026-09-04",
+      "recommendation": "LOẠI / TRÁNH MUA MỚI",
       "status": "reject",
-      "marketPrice": 196500,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 54002,
+      "marketPrice": 255000,
+      "marketPriceDate": "2026-09-04",
+      "baseValue": 83128,
       "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 37867,
-      "rangeHigh": 74650,
-      "gapLabel": "MOS -263,9% so với giá trị kỳ vọng; giá hiện tại cao hơn toàn bộ vùng giá trị hợp lý",
-      "method": "SOTP theo giá trị sổ sách thay thế; phối hợp 80% SOTP và 20% định giá tương đối, có chiết khấu holding",
-      "summary": "Vùng giá trị hợp lý tính toán 37.867–74.650 đồng/cp, giá trị kỳ vọng 54.002 đồng/cp và kịch bản cơ sở 51.745 đồng/cp. Giá 196.500 đồng/cp ngày 17/08/2026 cao hơn toàn bộ vùng giá trị, tương ứng MOS -263,9% so với giá trị kỳ vọng; báo cáo kết luận TRÁNH. Vùng mua theo định giá chỉ là 26.507–28.400 đồng/cp và không được dùng để hợp thức hóa mua đuổi ở giá hiện tại.",
+      "rangeLow": 68819,
+      "rangeHigh": 97998,
+      "gapLabel": "Snapshot intraday 10:35:01 là 255.000 đồng/cp, cao hơn khoảng 207% so với expected value 83.128 đồng/cp và cao hơn toàn bộ dải fair value; không có MOS.",
+      "method": "SOTP; từng mảng dùng mô hình phù hợp, sau đó trừ holding discount và nợ cấp tập đoàn",
+      "summary": "VIC có fair value Bear/Base/Bull 68.819/82.847/97.998 đồng/cp và expected value 83.128 đồng/cp. Snapshot báo cáo 04/09/2026 lúc 10:35:01 là 255.000 đồng/cp; trạng thái LOẠI / TRÁNH MUA MỚI theo định giá. Snapshot này không thay thế dữ liệu EOD của coverage.",
       "action": {
-        "zoneLow": 26507,
-        "zoneHigh": 28400,
-        "baseValue": 54002,
-        "stop": null,
-        "basisDate": "2026-08-17",
-        "recommendation": "TRÁNH",
+        "zoneLow": 48174,
+        "zoneHigh": 51615,
+        "baseValue": 83128,
+        "stop": 46900,
+        "targets": [
+          68819,
+          82847,
+          97998
+        ],
+        "basisDate": "2026-09-04",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
         "eligibility": "veto",
-        "condition": "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định."
+        "condition": "IF giá còn trên 97.998 đồng/cp THEN LOẠI/TRÁNH mua mới. IF 68.819-97.998 hoặc 51.615-68.819 THEN CHỜ. Chỉ IF giá về 48.174-51.615 đồng/cp và funding/nợ cùng luận điểm SOTP không xấu đi THEN mới đánh giá mua từng phần; midpoint minh họa 49.894, stop khoảng 46.900 (~6%), T1/T2/T3 68.819/82.847/97.998. IF dưới 48.174 THEN phải tái thẩm định nguyên nhân giảm, không bắt đáy cơ học."
       },
+      "file": "reports/VIC_2026-09-04.pdf",
+      "edition": "Bản định giá 04.09.2026",
       "visual": {
-        "src": "assets/images/reports/vic.webp?v=20260817-cover1",
-        "alt": "Trang bìa báo cáo định giá VIC ngày 17/08/2026",
+        "src": "assets/images/reports/vic.webp?v=20260904-cover1",
+        "alt": "Trang bìa báo cáo định giá VIC ngày 04/09/2026",
         "caption": "Bìa báo cáo định giá VIC",
         "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VIC_2026-08-17.pdf",
+        "sourceUrl": "reports/VIC_2026-09-04.pdf",
         "kind": "report-cover"
-      },
-      "file": "reports/VIC_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
+      }
     },
     {
       "id": "DGW-20260816",
@@ -6644,15 +6654,20 @@ window.RESEARCH_DATA = {
       "volume": 279400,
       "priceDate": "2026-09-03",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGC~date:2026-09-03&size=10",
-      "reportId": "VGC-20260827",
+      "reportId": "VGC-20260828",
       "action": {
-        "zoneLow": 34860,
-        "zoneHigh": 37350,
-        "baseValue": 59391,
-        "basisDate": "2026-08-27",
+        "zoneLow": 34073,
+        "zoneHigh": 36507,
+        "baseValue": 57458,
+        "stop": null,
+        "targets": [
+          48676,
+          57458
+        ],
+        "basisDate": "2026-08-28",
         "recommendation": "CHỜ / THEO DÕI",
         "eligibility": "active",
-        "condition": "IF giá về 34.860-37.350 và thesis không xấu THEN xem xét vùng mua định giá. Với swing 1-3 tuần, chỉ kích hoạt breakout khi đóng cửa >44.200 với thanh khoản >=0,70 triệu cp; stop khoảng 42.000. IF thủng 39.500 với khối lượng tăng THEN loại setup ngắn hạn."
+        "condition": "IF giá về 34.073-36.507 đồng/cp và thesis KCN/VLXD không xấu đi THEN có thể mua valuation từng phần, stop 5-7% dưới giá vốn, mục tiêu từ 48.676 rồi 57.458. Với swing 1-3 tuần: chỉ IF đóng cửa >=42.000 và thanh khoản >= khoảng 520 nghìn cp THEN xem xét breakout nhỏ, stop 39.600, T1 46.000; follow-through có thể hướng 48.700 và 52.000. IF đóng cửa <39.500 với khối lượng tăng THEN LOẠI setup ngắn hạn."
       },
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGC"
     },
@@ -6739,7 +6754,7 @@ window.RESEARCH_DATA = {
       "company": "Vingroup",
       "sector": "Đa ngành",
       "exchange": "HOSE",
-      "reportId": "VIC-20260817",
+      "reportId": "VIC-20260904",
       "close": 244500,
       "priceDate": "2026-09-03",
       "changePct": 3.6017,
@@ -6747,14 +6762,19 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIC~date:2026-09-03&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VIC",
       "action": {
-        "zoneLow": 26507,
-        "zoneHigh": 28400,
-        "baseValue": 54002,
-        "stop": null,
-        "basisDate": "2026-08-17",
-        "recommendation": "TRÁNH",
+        "zoneLow": 48174,
+        "zoneHigh": 51615,
+        "baseValue": 83128,
+        "stop": 46900,
+        "targets": [
+          68819,
+          82847,
+          97998
+        ],
+        "basisDate": "2026-09-04",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
         "eligibility": "veto",
-        "condition": "Không mua mới khi giá còn trên 74.650 đồng/cp. Chỉ đánh giá lại vùng 26.507–28.400 đồng/cp sau khi cập nhật đầy đủ các cấu phần SOTP, nợ ròng, quyền lợi cổ đông thiểu số và chất lượng lợi nhuận; báo cáo không khóa stop hay mục tiêu giao dịch cố định."
+        "condition": "IF giá còn trên 97.998 đồng/cp THEN LOẠI/TRÁNH mua mới. IF 68.819-97.998 hoặc 51.615-68.819 THEN CHỜ. Chỉ IF giá về 48.174-51.615 đồng/cp và funding/nợ cùng luận điểm SOTP không xấu đi THEN mới đánh giá mua từng phần; midpoint minh họa 49.894, stop khoảng 46.900 (~6%), T1/T2/T3 68.819/82.847/97.998. IF dưới 48.174 THEN phải tái thẩm định nguyên nhân giảm, không bắt đáy cơ học."
       }
     },
     {

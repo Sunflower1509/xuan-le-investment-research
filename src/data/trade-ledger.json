@@ -340,9 +340,9 @@
           "date": "2026-09-03",
           "close": 244500,
           "relation": "above",
-          "zoneLow": 26507,
-          "zoneHigh": 28400,
-          "zoneBasisDate": "2026-08-17",
+          "zoneLow": 48174,
+          "zoneHigh": 51615,
+          "zoneBasisDate": "2026-09-04",
           "eligibility": "veto"
         },
         "VCK": {
@@ -873,9 +873,9 @@
           "date": "2026-09-03",
           "close": 39900,
           "relation": "above",
-          "zoneLow": 34860,
-          "zoneHigh": 37350,
-          "zoneBasisDate": "2026-08-27",
+          "zoneLow": 34073,
+          "zoneHigh": 36507,
+          "zoneBasisDate": "2026-08-28",
           "eligibility": "active"
         },
         "BVH": {
