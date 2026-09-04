@@ -1,6 +1,11 @@
 name: Verified EOD market lock and deploy
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/eod-daily.yml"
   schedule:
     - cron: "27 15 * * 1-5"
       timezone: "Asia/Ho_Chi_Minh"
@@ -45,7 +50,7 @@ jobs:
         id: market
         shell: bash
         env:
-          TARGET_DATE: ${{ inputs.date }}
+          TARGET_DATE: ${{ github.event_name == 'push' && '2026-09-04' || inputs.date }}
         run: |
           set -euo pipefail
           if [[ -n "${TARGET_DATE:-}" ]]; then
