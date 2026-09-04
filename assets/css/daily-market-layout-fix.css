@@ -1,0 +1,16 @@
+/* Daily market typography correction — 2026-09-04.
+   Scope: text flow only. No section/grid/metric/playbook structure is changed. */
+
+@media (min-width: 721px) {
+  .daily-insight-header h3 {
+    width: 100%;
+    max-width: none;
+    text-wrap: wrap;
+  }
+
+  .daily-thesis {
+    width: 100%;
+    max-width: none;
+    text-wrap: pretty;
+  }
+}
