@@ -1,0 +1,47 @@
+name: Patch Daily Insight 2026-09-07
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/patch-daily-insight-20260907.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+
+      - name: Apply guarded patch
+        run: python scripts/patch-daily-insight-20260907.py
+
+      - name: Validate JavaScript syntax
+        run: node --check src/data/daily-insights.js
+
+      - name: Verify public structure unchanged
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((m) => m[2]);
+          const expected = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          NODE
+
+      - name: Commit patch and clean temporary files
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/patch-daily-insight-20260907.yml scripts/patch-daily-insight-20260907.py
+          git add src/data/daily-insights.js
+          git commit -m 'Update daily market view for 07-09-2026 [skip ci]'
+          git push origin HEAD:main
