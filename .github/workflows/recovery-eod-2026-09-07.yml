@@ -83,3 +83,5 @@ jobs:
           sleep 3
           gh workflow run eod-daily.yml --ref main -f date=2026-09-07
           echo "Dispatched eod-daily.yml for 2026-09-07"
+
+# trigger one-shot recovery after workflow registration
