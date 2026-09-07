@@ -46,6 +46,23 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data",
       reason: "CafeF 04/09 trả 46.400; Investing lịch sử và Cophieu68 cùng xác nhận OHLC 47.3/48.0/46.0/46.5, khối lượng 151.600, giá đóng cửa 46.500, trùng VNDIRECT."
     })
+  }),
+  "2026-09-07": Object.freeze({
+    MSR: Object.freeze({
+      close: 48500,
+      source: "https://vn.investing.com/equities/masan-resources-corp-historical-data",
+      reason: "CafeF 07/09 trả 48.400; HNX chính thức và Investing lịch sử cùng xác nhận 48.500, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 13500,
+      source: "https://vn.investing.com/equities/petrovietnam-oil-historical-data",
+      reason: "CafeF 07/09 trả 13.400; HNX chính thức và Investing lịch sử cùng xác nhận 13.500, trùng VNDIRECT."
+    }),
+    PHP: Object.freeze({
+      close: 45800,
+      source: "https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data",
+      reason: "CafeF 07/09 trả 45.600; Investing lịch sử và VNSignal cùng xác nhận 45.800, trùng VNDIRECT."
+    })
   })
 });
 
