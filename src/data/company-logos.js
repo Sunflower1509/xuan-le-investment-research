@@ -1,8 +1,8 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 108,
-    "synced": "2026-09-03",
+    "count": 114,
+    "synced": "2026-09-08",
     "source": "TradingView exact symbol search, locked by ticker + exchange + ISIN; local SVG assets"
   },
   "logos": {
@@ -1193,6 +1193,72 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VSC&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "ea67b28c77d4fef32c1457d9911b0fbd322db5ef8c770ca35dd91eba96b2adc2",
       "bytes": 1693
+    },
+    "BAF": {
+      "path": "assets/images/logos/baf.svg?v=20260908-logo2",
+      "alt": "Logo BAF Viet Nam Agriculture Joint Stock Company (BAF)",
+      "exchange": "HOSE",
+      "isin": "VN000000BAF1",
+      "company": "BAF Viet Nam Agriculture Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-nong-nghiep-baf-viet--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=BAF&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "9347bb877692f3427d7f4564328ac88e0688400541fd4a0ba477d6ca76b72214",
+      "bytes": 2191
+    },
+    "HUT": {
+      "path": "assets/images/logos/hut.svg?v=20260908-logo2",
+      "alt": "Logo Tasco Joint Stock Company (HUT)",
+      "exchange": "HNX",
+      "isin": "VN000000HUT7",
+      "company": "Tasco Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tasco-jsc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=HUT&hl=1&exchange=HNX&lang=en&domain=production",
+      "sha256": "62f416bfc3e07da4b1236f0d1278bb3361c3860c330a84103c8bb86e477c5cdf",
+      "bytes": 1128
+    },
+    "OCB": {
+      "path": "assets/images/logos/ocb.svg?v=20260908-logo2",
+      "alt": "Logo Orient Commercial Joint Stock Bank (OCB)",
+      "exchange": "HOSE",
+      "isin": "VN000000OCB9",
+      "company": "Orient Commercial Joint Stock Bank",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/nh-tmcp-phuong-dong--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=OCB&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "479d882bc88fee92fd59606f82912db901c1e55f9fa9fd134aa89a3bc4282041",
+      "bytes": 647
+    },
+    "PAN": {
+      "path": "assets/images/logos/pan.svg?v=20260908-logo2",
+      "alt": "Logo PAN Group Joint Stock Company (PAN)",
+      "exchange": "HOSE",
+      "isin": "VN000000PAN5",
+      "company": "PAN Group Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/the-pan-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=PAN&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "7f65ac1a9bc8cbb26043b5aaaa57495392cdeed88d4f8512a48b5e541bb6d792",
+      "bytes": 2280
+    },
+    "TNG": {
+      "path": "assets/images/logos/tng.svg?v=20260908-logo2",
+      "alt": "Logo TNG Investment and Trading JSC (TNG)",
+      "exchange": "HNX",
+      "isin": "VN000000TNG4",
+      "company": "TNG Investment and Trading JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tng-investment-and-trading-jsc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TNG&hl=1&exchange=HNX&lang=en&domain=production",
+      "sha256": "1502c5ae1fd9c6f8efa65824d3f0748ff0746e2b63a6741f5e493efb993e74a5",
+      "bytes": 1609
+    },
+    "YEG": {
+      "path": "assets/images/logos/yeg.svg?v=20260908-logo2",
+      "alt": "Logo Yeah1 Group Corp. (YEG)",
+      "exchange": "HOSE",
+      "isin": "VN000000YEG3",
+      "company": "Yeah1 Group Corp.",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-tap-doan-yeah1--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=YEG&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "b422a3bdf8500924debfb5801f28cd738691ac7d7ca1d498477bfcf63cd5064e",
+      "bytes": 1756
     }
   }
 };

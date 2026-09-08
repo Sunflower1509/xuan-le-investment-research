@@ -12,13 +12,14 @@ const loadWindowValue = (relativePath, key) => {
   return context.window[key];
 };
 
-test("108 coverage ticker có đúng 108 logo local được khóa theo sàn và ISIN", () => {
+test("mọi coverage ticker có đúng logo local được khóa theo sàn và ISIN", () => {
   const research = loadWindowValue("src/data/research-data.js", "RESEARCH_DATA");
   const mapping = loadWindowValue("src/data/company-logos.js", "COMPANY_LOGOS");
   const entries = Object.entries(mapping.logos);
-  assert.equal(research.coverage.length, 108);
-  assert.equal(entries.length, 108);
-  assert.equal(mapping.meta.count, 108);
+  const expectedCount = research.coverage.length;
+  assert.ok(expectedCount > 0);
+  assert.equal(entries.length, expectedCount);
+  assert.equal(mapping.meta.count, expectedCount);
   for (const item of research.coverage) {
     const logo = mapping.logos[item.ticker];
     assert.ok(logo, `Thiếu logo ${item.ticker}`);

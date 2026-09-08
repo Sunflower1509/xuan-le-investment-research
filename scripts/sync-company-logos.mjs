@@ -113,7 +113,7 @@ const run = async () => {
     ticker: normalizeTicker(item.ticker),
     exchange: normalizeTicker(item.exchange)
   }));
-  if (universe.length !== 108) throw new Error(`Cổng 108 mã không đạt: coverage=${universe.length}`);
+  if (!universe.length) throw new Error("Coverage trống; không đồng bộ logo.");
   if (new Set(universe.map((item) => item.ticker)).size !== universe.length) throw new Error("Coverage có ticker trùng");
 
   const previous = loadWindowValue(mappingPath, "COMPANY_LOGOS");

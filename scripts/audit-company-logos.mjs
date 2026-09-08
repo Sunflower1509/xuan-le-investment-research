@@ -11,7 +11,6 @@ const researchPath = path.join(root, "src/data/research-data.js");
 const mappingPath = path.join(root, "src/data/company-logos.js");
 const liveBase = process.argv.find((value) => value.startsWith("--base-url="))?.slice("--base-url=".length).replace(/\/+$/, "") || null;
 const expectedSchema = "tradingview-exact-symbol-svg-v1";
-const expectedCount = 108;
 const errors = [];
 
 const loadWindowValue = (file, key) => {
@@ -45,9 +44,10 @@ const pooledMap = async (items, concurrency, worker) => {
 const research = loadWindowValue(researchPath, "RESEARCH_DATA");
 const mapping = loadWindowValue(mappingPath, "COMPANY_LOGOS");
 const coverage = research.coverage.map((item) => ({ ticker: normalizeTicker(item.ticker), exchange: normalizeTicker(item.exchange) }));
+const expectedCount = coverage.length;
 const entries = Object.entries(mapping?.logos || {}).sort(([a], [b]) => a.localeCompare(b));
 
-if (coverage.length !== expectedCount) fail("Coverage", `phải có ${expectedCount} mã, hiện có ${coverage.length}`);
+if (!coverage.length) fail("Coverage", "coverage trống");
 if (mapping?.meta?.schema !== expectedSchema) fail("Mapping", `schema phải là ${expectedSchema}`);
 if (mapping?.meta?.count !== expectedCount) fail("Mapping", `meta.count phải là ${expectedCount}`);
 if (entries.length !== expectedCount) fail("Mapping", `phải có ${expectedCount} ticker, hiện có ${entries.length}`);
