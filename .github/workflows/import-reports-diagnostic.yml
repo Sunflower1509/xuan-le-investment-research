@@ -10,14 +10,19 @@ permissions:
   contents: read
 
 jobs:
-  inspect-firestorage:
+  inspect-schema:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify direct object download API
+      - uses: actions/checkout@v4
+      - name: Print current research schema examples
         run: |
-          set -euo pipefail
-          BASE='https://api.firestorage.ai/dev/file/objects/ISNf3souce2hOU1d/7dBjG9'
-          echo '=== METADATA ==='
-          curl -fsSL "$BASE/files?maxResults=1000" | python3 -m json.tool
-          echo '=== DOWNLOAD TOKEN TEST ==='
-          curl -fsSL -X POST "$BASE/files/01a07e5dcccf763c9a0e44b6f221203f/download" | python3 -m json.tool
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm');
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),s);
+          const d=s.window.RESEARCH_DATA;
+          console.log('COUNTS', {reports:d.reports?.length,coverage:d.coverage?.length});
+          console.log('COVERAGE_KEYS', Object.keys(d.coverage?.[0]||{}));
+          console.log('COVERAGE_EXAMPLE', JSON.stringify(d.coverage?.[0]||{},null,2));
+          console.log('REPORT_STATUSES', [...new Set((d.reports||[]).map(x=>x.status))]);
+          for(const st of [...new Set((d.reports||[]).map(x=>x.status))]) { const r=(d.reports||[]).find(x=>x.status===st); console.log('REPORT_'+st, JSON.stringify(r,null,2)); }
+          NODE
