@@ -985,6 +985,60 @@
           "zoneHigh": null,
           "zoneBasisDate": "2026-08-28",
           "eligibility": "inactive"
+        },
+        "BAF": {
+          "date": "2026-09-07",
+          "close": 32550,
+          "relation": "above",
+          "zoneLow": 12600,
+          "zoneHigh": 13500,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "active"
+        },
+        "HUT": {
+          "date": "2026-09-07",
+          "close": 12700,
+          "relation": "above",
+          "zoneLow": 6736,
+          "zoneHigh": 7217,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "active"
+        },
+        "OCB": {
+          "date": "2026-09-07",
+          "close": 10550,
+          "relation": "above",
+          "zoneLow": 10250,
+          "zoneHigh": 10400,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "active"
+        },
+        "PAN": {
+          "date": "2026-09-07",
+          "close": 19150,
+          "relation": "below",
+          "zoneLow": 20000,
+          "zoneHigh": 20200,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "active"
+        },
+        "TNG": {
+          "date": "2026-09-07",
+          "close": 16600,
+          "relation": "above",
+          "zoneLow": 12250,
+          "zoneHigh": 13125,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "active"
+        },
+        "YEG": {
+          "date": "2026-09-07",
+          "close": 7450,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-09-07",
+          "eligibility": "inactive"
         }
       }
     }
