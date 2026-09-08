@@ -1,0 +1,79 @@
+name: Finalize six valuation reports
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/import-reports-fix2.yml']
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+        with: {fetch-depth: 5}
+      - uses: actions/setup-node@v5
+        with: {node-version: 22, package-manager-cache: false}
+      - name: Fetch exact PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          B='https://api.firestorage.ai/dev/file/objects/ISNf3souce2hOU1d/7dBjG9'
+          f(){ j="$(curl -fsSL -X POST "$B/files/$1/download")"; u="$(node -e 'let x=JSON.parse(process.argv[1]);process.stdout.write(x.downloadUrl)' "$j")"; curl -fsSL "$u" -o "$2"; [[ "$(stat -c%s "$2")" == "$3" && "$(sha256sum "$2"|cut -d' ' -f1)" == "$4" && "$(head -c5 "$2")" == '%PDF-' ]]; }
+          f 01a07e5d62cf73efa053942d3042330f reports/BAF_2026-09-07.pdf 641002 8accabfb556f54748f185257dd846817923520b9768814986d057315a5a1cfcb
+          f 01a07e5da9b87349a10d054d2df127f2 reports/PAN_2026-09-07.pdf 379251 5a65ef703866db292101bd9c78da43fe55a11c29d9585299c63b8fb72c784a89
+          f 01a07e5dcccf763c9a0e44b6f221203f reports/HUT_2026-09-07.pdf 63590 5c2f0a7e72a012d9a3f202370f14a168427425ec4de9875c3a8f716732d2f838
+          f 01a07e5df41a7636b8cf4f13bd2130e4 reports/YEG_2026-09-07.pdf 776721 a028c32841504fa812d69d3364af2e069c0877fc46230f3c63fead9040dc5f01
+          f 01a07e5e1807762eb04216a9f08ace56 reports/TNG_2026-09-07.pdf 544467 9390a951fc824f0c3b6fbc4e09a2d5181f01061628bbf973b7677c549b9a2ec8
+          f 01a07e5e3dea74e9bd0c70f65dde8591 reports/OCB_2026-09-07.pdf 120017 6839aa815fb7f11e4ae9bd611b29ca576bcf6611260b6c0b92ade4006451a869
+      - name: Import data and logos
+        run: node scripts/import-reports-20260907.mjs
+      - name: Lock EOD and rebuild covers/bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/update-eod-market-data.mjs --date 2026-09-07 --status-file /tmp/eod.json
+          node scripts/sync-report-covers.mjs
+          bash scripts/build/build-assets.sh
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html'); s=p.read_text()
+          s,n=re.subn(r'assets/js/site\.min\.js\?v=[^"\']+', 'assets/js/site.min.js?v=20260907-reports-20260908-1', s)
+          s,n1=re.subn(r'(data-role="report-tab-count">)\d+', r'\g<1>114', s)
+          s,n2=re.subn(r'(data-role="coverage-tab-count">)\d+', r'\g<1>114', s)
+          assert (n,n1,n2)==(1,1,1), (n,n1,n2)
+          p.write_text(s)
+          PY
+      - name: Verify entire site synchronization
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/*.test.mjs
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          bash scripts/build/prepare-site.sh /tmp/site
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm');let a={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),a);let d=a.window.RESEARCH_DATA;let b={window:{}};vm.runInNewContext(fs.readFileSync('src/data/company-logos.js','utf8'),b);let l=b.window.COMPANY_LOGOS;let v=d.reports.filter(r=>r.reportType!=='trading');
+          if(v.length!==114||d.coverage.length!==114||Object.keys(l.logos).length!==114)throw Error('count mismatch');
+          if(new Set(v.map(x=>x.ticker)).size!==114||new Set(d.coverage.map(x=>x.ticker)).size!==114)throw Error('duplicate ticker');
+          let refs=[...new Set(v.map(x=>x.file))]; if(refs.length!==114||refs.some(x=>!fs.existsSync(x)))throw Error('PDF reference mismatch');
+          if(fs.readdirSync('assets/images/reports').filter(x=>x.endsWith('.webp')).length!==114)throw Error('cover mismatch');
+          if(fs.readdirSync('assets/images/logos').filter(x=>x.endsWith('.svg')).length!==114)throw Error('logo mismatch');
+          let h=fs.readFileSync('index.html','utf8'),o=[...h.matchAll(/<section\b[^>]*\bid=(["'])([^"']+)\1[^>]*>/g)].map(x=>x[2]);let e=['overview','daily-market','position-ledger','action-radar','research'];if(o.join()!=e.join())throw Error('page structure changed');
+          if(d.meta.updated!=='2026-09-07'||d.coverage.some(x=>x.priceDate!=='2026-09-07'))throw Error('EOD mismatch');
+          for(let t of ['BAF','PAN','HUT','YEG','TNG','OCB']){let r=v.filter(x=>x.ticker===t),c=d.coverage.filter(x=>x.ticker===t);if(r.length!==1||c.length!==1||r[0].id!==c[0].reportId)throw Error('new report sync '+t)}
+          console.log('FULL_SYNC_OK', {reports:v.length,coverage:d.coverage.length,logos:Object.keys(l.logos).length,sections:o});
+          NODE
+      - name: Commit verified state and remove temporary machinery
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/import-reports-diagnostic.yml .github/workflows/import-reports-fix.yml .github/workflows/import-reports-fix2.yml scripts/import-reports-20260907.mjs
+          git config user.name Sunflower1509
+          git config user.email 72440024+Sunflower1509@users.noreply.github.com
+          git add -A
+          git diff --cached --check
+          git commit -m 'Add latest 07-09 valuation reports and synchronize 114-stock site'
+          git push origin HEAD:main
