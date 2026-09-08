@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCoverageCurrent, parseCafeF, parseVndirect, secondaryCloseDecision } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision } from "../scripts/update-eod-market-data.mjs";
 
 const date = "2026-08-20";
 
@@ -26,6 +26,12 @@ test("CafeF chỉ lấy đúng dòng lịch sử của ngày yêu cầu", () => 
     </table>`;
   assert.deepEqual(parseCafeF(html, date), { close: 10500, volume: 1234500, changePct: 5 });
   assert.throws(() => parseCafeF(html, "2026-08-21"), /missing row/);
+});
+
+test("KBS chỉ chấp nhận đúng dòng OHLC ngày yêu cầu", () => {
+  const payload = { data_day: [{ t: "2026-08-20T00:00:00", o: 10000, h: 11000, l: 9000, c: 10500, v: 123456 }] };
+  assert.deepEqual(parseKbsDaily(payload, date), { open: 10000, high: 11000, low: 9000, close: 10500, volume: 123456 });
+  assert.throws(() => parseKbsDaily(payload, "2026-08-21"), /missing row/);
 });
 
 test("giá đóng cửa khớp CafeF được xác minh trực tiếp", () => {
