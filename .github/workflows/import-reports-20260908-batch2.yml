@@ -1,0 +1,343 @@
+name: Import verified valuation reports 2026-09-08 batch 2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-reports-20260908-batch2.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: report-import-20260908-batch2
+  cancel-in-progress: false
+
+jobs:
+  import-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download three PDFs and verify exact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://api.firestorage.ai/dev/file/objects/4sOgN38f96iIaf1A/oS5cvZ'
+          mkdir -p reports
+          download_one() {
+            local id="$1" out="$2" expected_size="$3" expected_sha="$4"
+            local json url size sha sig
+            json="$(curl -fsSL -X POST "$BASE/files/$id/download")"
+            url="$(node -e 'const x=JSON.parse(process.argv[1]); if(!x.downloadUrl) process.exit(2); process.stdout.write(x.downloadUrl)' "$json")"
+            curl -fsSL "$url" -o "$out"
+            size="$(stat -c%s "$out")"
+            sha="$(sha256sum "$out" | awk '{print $1}')"
+            sig="$(head -c 5 "$out")"
+            [[ "$size" == "$expected_size" ]] || { echo "$out size mismatch: $size != $expected_size" >&2; exit 2; }
+            [[ "$sha" == "$expected_sha" ]] || { echo "$out sha mismatch: $sha != $expected_sha" >&2; exit 2; }
+            [[ "$sig" == '%PDF-' ]] || { echo "$out is not a valid PDF" >&2; exit 2; }
+            echo "VERIFIED $out bytes=$size sha256=$sha"
+          }
+          download_one 01a07ff05c0e777d94c9e819a8a8b30e reports/VGI_2026-09-08.pdf 596284 c9c8f44c39647177f5fb46d925f23a6f489f50b43fbc69cbdfa7c654b254230f
+          download_one 01a07ff09a9e703781e1836580315926 reports/CTR_2026-09-08.pdf 290810 26d5c32ceb9c5c2bd9d3725c0ac35a75b002e5cc0d035729aedf4db94572ce91
+          download_one 01a07ff0d00c71d5891b3ba862cd5b7e reports/VTP_2026-09-08.pdf 444347 4f1e9d6d49f4c12c199f3fac8e020968ca45121b62a741b1bebc7e675bc23770
+
+      - name: Replace same-ticker editions and synchronize research metadata
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const path = require('path');
+
+          const dataPath = 'src/data/research-data.js';
+          const indexPath = 'index.html';
+          const sandbox = { window: {} };
+          vm.runInNewContext(fs.readFileSync(dataPath, 'utf8'), sandbox, { filename: dataPath });
+          const data = sandbox.window.RESEARCH_DATA;
+          if (!data || !Array.isArray(data.reports) || !Array.isArray(data.coverage)) throw new Error('Không đọc được research data.');
+
+          fs.writeFileSync(path.join(process.env.RUNNER_TEMP, 'index-before.html'), fs.readFileSync(indexPath, 'utf8'));
+          const targets = new Set(['VGI','CTR','VTP']);
+          const expectedNew = new Map([
+            ['VGI','reports/VGI_2026-09-08.pdf'],
+            ['CTR','reports/CTR_2026-09-08.pdf'],
+            ['VTP','reports/VTP_2026-09-08.pdf']
+          ]);
+          const targetRegex = /(^|[^A-Z0-9])(VGI|CTR|VTP)([^A-Z0-9]|$)/i;
+          const oldTargetReports = data.reports.filter((r) => r?.reportType !== 'trading' && targets.has(String(r.ticker || '').toUpperCase()));
+          const oldReferencedFiles = [...new Set(oldTargetReports.map((r) => String(r.file || '').split(/[?#]/,1)[0]).filter(Boolean))];
+          const directoryCandidates = fs.readdirSync('reports')
+            .filter((f) => f.toLowerCase().endsWith('.pdf') && targetRegex.test(f))
+            .map((f) => `reports/${f}`);
+          const oldTargetFiles = [...new Set([...oldReferencedFiles, ...directoryCandidates])];
+          const removedOldFiles = [];
+          for (const relative of oldTargetFiles) {
+            if ([...expectedNew.values()].includes(relative)) continue;
+            if (fs.existsSync(relative)) {
+              fs.rmSync(relative);
+              removedOldFiles.push(relative);
+            }
+          }
+          fs.writeFileSync(path.join(process.env.RUNNER_TEMP, 'old-target-files.json'), JSON.stringify({
+            previousTargetReports: oldTargetReports.map((r) => ({ticker:r.ticker,date:r.date,file:r.file})),
+            oldReferencedFiles,
+            directoryCandidates,
+            oldTargetFiles,
+            removedOldFiles
+          }, null, 2));
+
+          const newReports = [
+            {
+              id:'VGI-20260908', ticker:'VGI', company:'Tổng Công ty Cổ phần Đầu tư Quốc tế Viettel', sector:'Dịch vụ viễn thông quốc tế', exchange:'UPCoM', date:'2026-09-08',
+              recommendation:'CHỜ / THEO DÕI', status:'wait', marketPrice:86100, marketPriceDate:'2026-09-07', baseValue:76311,
+              valueLabel:'Giá trị kỳ vọng', rangeLow:62000, rangeHigh:94000,
+              gapLabel:'Giá 86.100 đồng/cp cao hơn giá trị kỳ vọng 76.311 đồng/cp khoảng 12,8%; MOS âm, chưa đạt chuẩn 25-30%.',
+              method:'DCF theo FCFF + tách tài sản tài chính ngoài hoạt động; P/E, EV/EBITDA và P/B kiểm chứng',
+              summary:'VGI tăng trưởng hoạt động mạnh và sở hữu lượng tài sản tài chính lớn, nhưng giá hiện tại đã phản ánh phần đáng kể kỳ vọng. Ý kiến kiểm toán ngoại trừ kéo dài, rủi ro quốc gia/tỷ giá và free-float rất thấp là các biến phải giám sát; trạng thái CHỜ / THEO DÕI.',
+              action:{zoneLow:54000,zoneHigh:58000,baseValue:76311,stop:52500,targets:[76300,88400,94000],basisDate:'2026-09-08',recommendation:'CHỜ / THEO DÕI - CÓ MUA TỪNG PHẦN KHI VỀ VÙNG MOS',eligibility:'active',condition:'Chỉ mua từng phần khi giá 54.000-58.000 đồng/cp và luận điểm cơ bản không xấu đi; stop 52.500 hoặc tối đa 7% dưới giá vốn thực tế; T1 76.300, T2 88.400-94.000. Giá 70.000-94.000: CHỜ, không mua đuổi. Trên 94.000 nếu không có nâng EPS/FCFF tương ứng hoặc nếu rủi ro kiểm toán/Cameroon-Myanmar xấu đi: LOẠI/cắt theo kỷ luật.'},
+              file:'reports/VGI_2026-09-08.pdf', edition:'Bản định giá 08.09.2026'
+            },
+            {
+              id:'CTR-20260908', ticker:'CTR', company:'Tổng Công ty Cổ phần Công trình Viettel', sector:'Hạ tầng viễn thông / Xây dựng / Dịch vụ công nghiệp', exchange:'HOSE', date:'2026-09-08',
+              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:74000, marketPriceDate:'2026-09-07', baseValue:79293,
+              valueLabel:'Giá trị kỳ vọng xác suất', rangeLow:59492, rangeHigh:102831,
+              gapLabel:'Giá 74.000 đồng/cp nằm trong vùng giá trị hợp lý nhưng MOS chỉ khoảng 6,7% so với expected value 79.293 và 8,8% so với midpoint 81.162; chưa đạt chuẩn 25-30%.',
+              method:'DCF theo FCFF; P/E, EV/EBITDA và P/B kiểm chứng',
+              summary:'CTR có lợi thế hạ tầng/TowerCo và hệ sinh thái Viettel, nhưng tăng trưởng 6T/2026 nghiêng sang xây dựng biên thấp, trong khi công nợ/dự phòng và độ nhạy WACC/Beta cần theo dõi. Trạng thái THEO DÕI / CHỜ.',
+              action:{triggerType:'at-or-above',triggerPrice:78000,zoneLow:null,zoneHigh:null,baseValue:79293,stop:74000,targets:[86200,88700],basisDate:'2026-09-08',recommendation:'CHỜ - CHỈ MUA THĂM DÒ KHI BREAKOUT XÁC NHẬN',eligibility:'active',condition:'Khung 1-3 tuần: chỉ kích hoạt trade kỹ thuật khi giá đóng cửa từ 78.000 đồng/cp trở lên kèm thanh khoản xác nhận khoảng 318 nghìn cp trở lên; vùng vào 78.000-79.000, stop 74.000 (~5-6%), TP1 86.200, TP2 88.700. Nếu chưa vượt MA200 quanh 77.900 thì CHỜ. Vùng mua định giá sâu 55.505-59.470 đồng/cp chỉ áp dụng khi thesis được đánh giá lại và giữ nguyên.'},
+              file:'reports/CTR_2026-09-08.pdf', edition:'Bản định giá 08.09.2026'
+            },
+            {
+              id:'VTP-20260908', ticker:'VTP', company:'Tổng Công ty Cổ phần Bưu chính Viettel', sector:'Logistics & Bưu chính', exchange:'HOSE', date:'2026-09-08',
+              recommendation:'THEO DÕI / CHỜ', status:'wait', marketPrice:51600, marketPriceDate:'2026-09-08', baseValue:48839,
+              valueLabel:'Điểm neo tổng hợp', rangeLow:34800, rangeHigh:63500,
+              gapLabel:'Giá 51.600 đồng/cp cao hơn điểm neo 48.839 đồng/cp khoảng 5,65%; MOS âm, chưa đạt chuẩn 25-30%.',
+              method:'DCF theo FCFF; P/E, P/B và EV/EBITDA kiểm chứng',
+              summary:'VTP có mạng lưới logistics lớn và dư địa dịch chuyển sang dịch vụ, nhưng DCF nhạy với biên EBIT, CapEx và NWC. Giá hiện tại đã phản ánh một phần đáng kể kỳ vọng hậu 2026; trạng thái THEO DÕI / CHỜ.',
+              action:{zoneLow:24400,zoneHigh:26100,baseValue:48839,stop:null,targets:[34800,63500],basisDate:'2026-09-08',recommendation:'CHỜ / THEO DÕI - CÓ MUA THEO MOS KHI VỀ VÙNG',eligibility:'active',condition:'Chỉ mua theo MOS khi giá 24.400-26.100 đồng/cp; chia lệnh và đặt stop 5% dưới giá vào thực tế. T1 34.800; mục tiêu định giá cao hơn 63.500. Tại giá hiện tại: CHỜ, không mua đuổi. Nếu đang có hàng quanh 51.600, kỷ luật riêng của báo cáo là SL 49.020 và TP 63.500. Trên 63.500: LOẠI/TRÁNH mua mới nếu định giá không nâng.'},
+              file:'reports/VTP_2026-09-08.pdf', edition:'Bản định giá 08.09.2026'
+            }
+          ];
+
+          data.reports = data.reports.filter((r) => r?.reportType === 'trading' || !targets.has(String(r.ticker || '').toUpperCase()));
+          data.reports.unshift(...newReports);
+          data.coverage = data.coverage.filter((c) => !targets.has(String(c.ticker || '').toUpperCase()));
+          for (const report of newReports) {
+            data.coverage.push({
+              ticker: report.ticker,
+              company: report.company,
+              sector: report.sector,
+              exchange: report.exchange,
+              reportId: report.id,
+              close: null,
+              priceDate: null,
+              changePct: null,
+              volume: null,
+              priceSource: null,
+              priceSourceSecondary: null,
+              action: structuredClone(report.action)
+            });
+          }
+          data.coverage.sort((a,b) => String(a.ticker).localeCompare(String(b.ticker)));
+
+          const valuationReports = data.reports.filter((r) => r?.reportType !== 'trading');
+          const byTicker = new Map();
+          for (const r of valuationReports) {
+            const t = String(r.ticker || '').toUpperCase();
+            byTicker.set(t, (byTicker.get(t) || 0) + 1);
+          }
+          for (const t of targets) {
+            if (byTicker.get(t) !== 1) throw new Error(`${t}: phải có đúng một báo cáo định giá sau thay thế, hiện ${byTicker.get(t) || 0}`);
+            if (data.coverage.filter((c) => String(c.ticker).toUpperCase() === t).length !== 1) throw new Error(`${t}: coverage không duy nhất`);
+          }
+          if (valuationReports.length !== data.coverage.length) throw new Error(`Valuation/coverage mismatch ${valuationReports.length}/${data.coverage.length}`);
+
+          fs.writeFileSync(dataPath, `window.RESEARCH_DATA = ${JSON.stringify(data, null, 2)};\n`);
+
+          let html = fs.readFileSync(indexPath, 'utf8');
+          const updateCount = (role, value) => {
+            const re = new RegExp(`(<[^>]+data-role=["']${role}["'][^>]*>)\\d+(<\\/[^>]+>)`, 'g');
+            const matches = html.match(re) || [];
+            if (matches.length !== 1) throw new Error(`${role}: expected exactly one count marker, found ${matches.length}`);
+            html = html.replace(re, `$1${value}$2`);
+          };
+          updateCount('report-tab-count', valuationReports.length);
+          updateCount('coverage-tab-count', data.coverage.length);
+          fs.writeFileSync(indexPath, html);
+
+          console.log('TARGET_REPLACEMENT', JSON.stringify({
+            previousTargetReports: oldTargetReports.map((r) => ({ticker:r.ticker,date:r.date,file:r.file})),
+            oldTargetFiles,
+            removedOldFiles,
+            valuationReports: valuationReports.length,
+            totalReports: data.reports.length,
+            coverage: data.coverage.length
+          }, null, 2));
+          NODE
+
+      - name: Re-lock all coverage to verified EOD 07-09-2026
+        run: node scripts/update-eod-market-data.mjs --date 2026-09-07 --max-attempts 4 --wait-ms 15000
+
+      - name: Synchronize exact company logos for expanded universe
+        run: node scripts/sync-company-logos.mjs
+
+      - name: Synchronize report covers from exact PDFs
+        run: node scripts/sync-report-covers.mjs
+
+      - name: Reconcile trade ledger for newly covered tickers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
+          node scripts/process-trade-ledger.mjs
+          node scripts/reconcile-trade-ledger.mjs \
+            --before "${RUNNER_TEMP}/trade-ledger-before.json" \
+            --after src/data/trade-ledger.json \
+            --research src/data/research-data.js \
+            --report "${RUNNER_TEMP}/ledger-reconciliation.json"
+
+      - name: Build production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Run canonical tests and audits
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/*.test.mjs
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+
+      - name: Full tree synchronization audit and immutable-layout guard
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const path = require('path');
+          const { execFileSync } = require('child_process');
+
+          const load = (file,key) => { const s={window:{}}; vm.runInNewContext(fs.readFileSync(file,'utf8'),s,{filename:file}); return s.window[key]; };
+          const data = load('src/data/research-data.js','RESEARCH_DATA');
+          const logos = load('src/data/company-logos.js','COMPANY_LOGOS');
+          const valuationReports = data.reports.filter((r) => r?.reportType !== 'trading');
+          const targets = new Set(['VGI','CTR','VTP']);
+          const expectedNew = new Map([
+            ['VGI','reports/VGI_2026-09-08.pdf'],['CTR','reports/CTR_2026-09-08.pdf'],['VTP','reports/VTP_2026-09-08.pdf']
+          ]);
+          if (valuationReports.length !== data.coverage.length) throw new Error('valuation/coverage count mismatch');
+          if (valuationReports.length !== 122 || data.coverage.length !== 122) throw new Error(`Expected 122 valuation/coverage after import, got ${valuationReports.length}/${data.coverage.length}`);
+          if (Object.keys(logos?.logos || {}).length !== data.coverage.length) throw new Error('company logo mapping count mismatch');
+          if (data.coverage.some((c) => c.priceDate !== '2026-09-07' || !(Number(c.close)>0) || !c.priceSource || !c.priceSourceSecondary)) throw new Error('coverage EOD chưa đồng bộ hoàn toàn');
+          if (data.meta.updated !== '2026-09-07' || data.meta.release !== '2026-09-07') throw new Error('meta EOD mismatch');
+          for (const t of targets) {
+            const rs = valuationReports.filter((r) => String(r.ticker).toUpperCase() === t);
+            const cs = data.coverage.filter((c) => String(c.ticker).toUpperCase() === t);
+            if (rs.length !== 1 || cs.length !== 1) throw new Error(`${t}: duplicate after import`);
+            if (rs[0].date !== '2026-09-08' || rs[0].file !== expectedNew.get(t)) throw new Error(`${t}: newest report not locked`);
+            if (cs[0].reportId !== rs[0].id || cs[0].action?.basisDate !== rs[0].date) throw new Error(`${t}: coverage/report linkage mismatch`);
+            if (!fs.existsSync(expectedNew.get(t))) throw new Error(`${t}: missing PDF`);
+            if (!fs.existsSync(`assets/images/reports/${t.toLowerCase()}.webp`)) throw new Error(`${t}: missing cover`);
+            if (!fs.existsSync(`assets/images/logos/${t.toLowerCase()}.svg`)) throw new Error(`${t}: missing logo`);
+          }
+
+          const oldMeta = JSON.parse(fs.readFileSync(path.join(process.env.RUNNER_TEMP,'old-target-files.json'),'utf8'));
+          for (const f of oldMeta.oldTargetFiles || []) {
+            if ([...expectedNew.values()].includes(f)) continue;
+            if (fs.existsSync(f)) throw new Error(`Old target PDF still exists: ${f}`);
+          }
+          const targetRegex = /(^|[^A-Z0-9])(VGI|CTR|VTP)([^A-Z0-9]|$)/i;
+          const targetPdfHits = fs.readdirSync('reports').filter((f) => f.toLowerCase().endsWith('.pdf') && targetRegex.test(f)).map((f)=>`reports/${f}`).sort();
+          const expectedTargetFiles = [...expectedNew.values()].sort();
+          if (JSON.stringify(targetPdfHits) !== JSON.stringify(expectedTargetFiles)) throw new Error(`Target PDF tree mismatch: ${JSON.stringify(targetPdfHits)} != ${JSON.stringify(expectedTargetFiles)}`);
+
+          const beforeIndex = fs.readFileSync(path.join(process.env.RUNNER_TEMP,'index-before.html'),'utf8');
+          const afterIndex = fs.readFileSync('index.html','utf8');
+          const normalizeCounts = (html) => html
+            .replace(/(<[^>]+data-role=["']report-tab-count["'][^>]*>)\d+(<\/[^>]+>)/g,'$1__REPORT_COUNT__$2')
+            .replace(/(<[^>]+data-role=["']coverage-tab-count["'][^>]*>)\d+(<\/[^>]+>)/g,'$1__COVERAGE_COUNT__$2');
+          if (normalizeCounts(beforeIndex) !== normalizeCounts(afterIndex)) throw new Error('index.html changed beyond the two synchronized numeric tab counts');
+          const sectionOrder = (html) => [...html.matchAll(/<section\b[^>]*\bid=(["'])([^"']+)\1[^>]*>/g)].map((m)=>m[2]);
+          const expectedSections=['overview','daily-market','position-ledger','action-radar','research'];
+          if (sectionOrder(afterIndex).join(',') !== expectedSections.join(',')) throw new Error(`Section order changed: ${sectionOrder(afterIndex).join(' -> ')}`);
+
+          const reportCovers = fs.readdirSync('assets/images/reports').filter((f)=>f.toLowerCase().endsWith('.webp'));
+          const companyLogos = fs.readdirSync('assets/images/logos').filter((f)=>f.toLowerCase().endsWith('.svg'));
+          const pdfFiles = fs.readdirSync('reports').filter((f)=>f.toLowerCase().endsWith('.pdf'));
+          if (reportCovers.length !== valuationReports.length) throw new Error(`cover count ${reportCovers.length} != valuation reports ${valuationReports.length}`);
+          if (companyLogos.length !== data.coverage.length) throw new Error(`logo count ${companyLogos.length} != coverage ${data.coverage.length}`);
+
+          const cssDiff = execFileSync('git',['diff','--name-only','--','src/styles','assets/css'],{encoding:'utf8'}).trim();
+          if (cssDiff) throw new Error(`CSS/layout assets changed unexpectedly: ${cssDiff}`);
+
+          console.log('TREE_AUDIT', JSON.stringify({
+            valuationReports: valuationReports.length,
+            totalReportsData: data.reports.length,
+            coverage: data.coverage.length,
+            reportCovers: reportCovers.length,
+            companyLogos: companyLogos.length,
+            companyLogoMappings: Object.keys(logos.logos || {}).length,
+            pdfFilesInReportsDirectory: pdfFiles.length,
+            metaEod: data.meta.updated,
+            structure: expectedSections,
+            indexChangesAllowed: ['report-tab-count','coverage-tab-count'],
+            removedOldTargetFiles: oldMeta.removedOldFiles || [],
+            targetPdfHits
+          }, null, 2));
+          NODE
+
+      - name: Guard mutation scope and remove temporary workflow
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/import-reports-20260908-batch2.yml
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const { execFileSync } = require('child_process');
+          const oldMeta = JSON.parse(fs.readFileSync(path.join(process.env.RUNNER_TEMP,'old-target-files.json'),'utf8'));
+          const allowed = new Set([
+            '.github/workflows/import-reports-20260908-batch2.yml',
+            'src/data/research-data.js','src/data/company-logos.js','src/data/trade-ledger.json','assets/js/site.min.js','index.html',
+            'reports/VGI_2026-09-08.pdf','reports/CTR_2026-09-08.pdf','reports/VTP_2026-09-08.pdf',
+            'assets/images/reports/vgi.webp','assets/images/reports/ctr.webp','assets/images/reports/vtp.webp',
+            'assets/images/logos/vgi.svg','assets/images/logos/ctr.svg','assets/images/logos/vtp.svg',
+            ...(oldMeta.oldTargetFiles || [])
+          ]);
+          const changed = execFileSync('git',['diff','--name-only'],{encoding:'utf8'}).trim().split(/\r?\n/).filter(Boolean);
+          const unexpected = changed.filter((f)=>!allowed.has(f));
+          if (unexpected.length) throw new Error(`Unexpected changed paths: ${unexpected.join(', ')}`);
+          console.log('MUTATION_SCOPE_OK', JSON.stringify(changed, null, 2));
+          NODE
+
+      - name: Commit only after every integrity gate passes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git status --short
+          git commit -m "Add VGI CTR VTP 08-09 valuation reports and synchronize site"
+          git push origin HEAD:main
+          echo "FINAL_COMMIT=$(git rev-parse HEAD)"
