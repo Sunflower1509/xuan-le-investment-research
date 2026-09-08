@@ -23,7 +23,16 @@ jobs:
           cat /tmp/headers.txt
           echo '=== SIZE ==='
           wc -c /tmp/share.html
-          echo '=== LINKS / API HINTS ==='
-          grep -Eo 'https?://[^"'"'<> ]+|href="[^"]+"|/api/[^"'"'<> ]+|download[^"'"'<> ]*' /tmp/share.html | head -n 200 || true
-          echo '=== FILENAMES ==='
-          grep -Eo 'BAF_2026-09-07\.pdf|PAN_07-09-2026\.pdf|HUT_2026-09-07\.pdf|YEG_2026-09-07\.pdf|TNG_2026-09-07\.pdf|OCB_Dinh_Gia_07-09-2026_FINAL\.pdf' /tmp/share.html | sort -u || true
+          echo '=== HTML HINTS ==='
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('/tmp/share.html').read_text(errors='replace')
+          for line in s.splitlines():
+              low=line.lower()
+              if any(k in low for k in ['api','download','share','script','sdkxggpxujre','file','public']):
+                  print(line[:1200])
+          print('=== URL-LIKE ===')
+          for x in re.findall(r'https?://[^\"\'<>\s]+', s):
+              print(x[:1200])
+          PY
