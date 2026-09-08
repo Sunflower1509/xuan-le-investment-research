@@ -1084,6 +1084,35 @@
           "zoneHigh": 11400,
           "zoneBasisDate": "2026-09-08",
           "eligibility": "active"
+        },
+        "CTR": {
+          "date": "2026-09-07",
+          "close": 74000,
+          "relation": "below",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active",
+          "triggerType": "at-or-above",
+          "triggerPrice": 78000
+        },
+        "VGI": {
+          "date": "2026-09-07",
+          "close": 86100,
+          "relation": "above",
+          "zoneLow": 54000,
+          "zoneHigh": 58000,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
+        },
+        "VTP": {
+          "date": "2026-09-07",
+          "close": 52000,
+          "relation": "above",
+          "zoneLow": 24400,
+          "zoneHigh": 26100,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
         }
       }
     }

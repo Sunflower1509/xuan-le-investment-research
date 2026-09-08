@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 119/119 mã được khóa tại phiên 07/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 116/119 mã; 3/119 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 48.400 khác VNDIRECT 48.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.400 khác VNDIRECT 13.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 45.600 khác VNDIRECT 45.800; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 102/119 mã; BVS: VNDIRECT 1.216.391 vs CafeF 1.213.600 (chênh 2.791); CEO: VNDIRECT 4.349.830 vs CafeF 4.343.800 (chênh 6.030); DDV: VNDIRECT 405.949 vs CafeF 405.700 (chênh 249); DRI: VNDIRECT 633.939 vs CafeF 633.500 (chênh 439); HUT: VNDIRECT 677.960 vs CafeF 677.400 (chênh 560); ICG: VNDIRECT 2.260 vs CafeF 2.200 (chênh 60); IDC: VNDIRECT 919.998 vs CafeF 918.500 (chênh 1.498); MSR: VNDIRECT 2.361.546 vs CafeF 2.351.600 (chênh 9.946); OIL: VNDIRECT 907.229 vs CafeF 904.900 (chênh 2.329); PHP: VNDIRECT 163.768 vs CafeF 162.700 (chênh 1.068); PLC: VNDIRECT 89.162 vs CafeF 88.800 (chênh 362); PVB: VNDIRECT 35.463 vs CafeF 35.400 (chênh 63); PVC: VNDIRECT 542.616 vs CafeF 542.000 (chênh 616); PVS: VNDIRECT 2.603.842 vs CafeF 2.599.500 (chênh 4.342); SHS: VNDIRECT 8.058.063 vs CafeF 8.048.800 (chênh 9.263); TNG: VNDIRECT 337.576 vs CafeF 337.200 (chênh 376); VGS: VNDIRECT 87.215 vs CafeF 87.000 (chênh 215). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 122/122 mã được khóa tại phiên 07/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 119/122 mã; 3/122 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 48.400 khác VNDIRECT 48.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.400 khác VNDIRECT 13.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 45.600 khác VNDIRECT 45.800; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 104/122 mã; BVS: VNDIRECT 1.216.391 vs CafeF 1.213.600 (chênh 2.791); CEO: VNDIRECT 4.349.830 vs CafeF 4.343.800 (chênh 6.030); DDV: VNDIRECT 405.949 vs CafeF 405.700 (chênh 249); DRI: VNDIRECT 633.939 vs CafeF 633.500 (chênh 439); HUT: VNDIRECT 677.960 vs CafeF 677.400 (chênh 560); ICG: VNDIRECT 2.260 vs CafeF 2.200 (chênh 60); IDC: VNDIRECT 919.998 vs CafeF 918.500 (chênh 1.498); MSR: VNDIRECT 2.361.546 vs CafeF 2.351.600 (chênh 9.946); OIL: VNDIRECT 907.229 vs CafeF 904.900 (chênh 2.329); PHP: VNDIRECT 163.768 vs CafeF 162.700 (chênh 1.068); PLC: VNDIRECT 89.162 vs CafeF 88.800 (chênh 362); PVB: VNDIRECT 35.463 vs CafeF 35.400 (chênh 63); PVC: VNDIRECT 542.616 vs CafeF 542.000 (chênh 616); PVS: VNDIRECT 2.603.842 vs CafeF 2.599.500 (chênh 4.342); SHS: VNDIRECT 8.058.063 vs CafeF 8.048.800 (chênh 9.263); TNG: VNDIRECT 337.576 vs CafeF 337.200 (chênh 376); VGI: VNDIRECT 241.707 vs CafeF 238.500 (chênh 3.207); VGS: VNDIRECT 87.215 vs CafeF 87.000 (chênh 215). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,138 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "VGI-20260908",
+      "ticker": "VGI",
+      "company": "Tổng Công ty Cổ phần Đầu tư Quốc tế Viettel",
+      "sector": "Dịch vụ viễn thông quốc tế",
+      "exchange": "UPCoM",
+      "date": "2026-09-08",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 86100,
+      "marketPriceDate": "2026-09-07",
+      "baseValue": 76311,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 62000,
+      "rangeHigh": 94000,
+      "gapLabel": "Giá 86.100 đồng/cp cao hơn giá trị kỳ vọng 76.311 đồng/cp khoảng 12,8%; MOS âm, chưa đạt chuẩn 25-30%.",
+      "method": "DCF theo FCFF + tách tài sản tài chính ngoài hoạt động; P/E, EV/EBITDA và P/B kiểm chứng",
+      "summary": "VGI tăng trưởng hoạt động mạnh và sở hữu lượng tài sản tài chính lớn, nhưng giá hiện tại đã phản ánh phần đáng kể kỳ vọng. Ý kiến kiểm toán ngoại trừ kéo dài, rủi ro quốc gia/tỷ giá và free-float rất thấp là các biến phải giám sát; trạng thái CHỜ / THEO DÕI.",
+      "action": {
+        "zoneLow": 54000,
+        "zoneHigh": 58000,
+        "baseValue": 76311,
+        "stop": 52500,
+        "targets": [
+          76300,
+          88400,
+          94000
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA TỪNG PHẦN KHI VỀ VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ mua từng phần khi giá 54.000-58.000 đồng/cp và luận điểm cơ bản không xấu đi; stop 52.500 hoặc tối đa 7% dưới giá vốn thực tế; T1 76.300, T2 88.400-94.000. Giá 70.000-94.000: CHỜ, không mua đuổi. Trên 94.000 nếu không có nâng EPS/FCFF tương ứng hoặc nếu rủi ro kiểm toán/Cameroon-Myanmar xấu đi: LOẠI/cắt theo kỷ luật."
+      },
+      "file": "reports/VGI_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/vgi.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá VGI ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá VGI",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VGI_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "CTR-20260908",
+      "ticker": "CTR",
+      "company": "Tổng Công ty Cổ phần Công trình Viettel",
+      "sector": "Hạ tầng viễn thông / Xây dựng / Dịch vụ công nghiệp",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 74000,
+      "marketPriceDate": "2026-09-07",
+      "baseValue": 79293,
+      "valueLabel": "Giá trị kỳ vọng xác suất",
+      "rangeLow": 59492,
+      "rangeHigh": 102831,
+      "gapLabel": "Giá 74.000 đồng/cp nằm trong vùng giá trị hợp lý nhưng MOS chỉ khoảng 6,7% so với expected value 79.293 và 8,8% so với midpoint 81.162; chưa đạt chuẩn 25-30%.",
+      "method": "DCF theo FCFF; P/E, EV/EBITDA và P/B kiểm chứng",
+      "summary": "CTR có lợi thế hạ tầng/TowerCo và hệ sinh thái Viettel, nhưng tăng trưởng 6T/2026 nghiêng sang xây dựng biên thấp, trong khi công nợ/dự phòng và độ nhạy WACC/Beta cần theo dõi. Trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "triggerType": "at-or-above",
+        "triggerPrice": 78000,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 79293,
+        "stop": 74000,
+        "targets": [
+          86200,
+          88700
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - CHỈ MUA THĂM DÒ KHI BREAKOUT XÁC NHẬN",
+        "eligibility": "active",
+        "condition": "Khung 1-3 tuần: chỉ kích hoạt trade kỹ thuật khi giá đóng cửa từ 78.000 đồng/cp trở lên kèm thanh khoản xác nhận khoảng 318 nghìn cp trở lên; vùng vào 78.000-79.000, stop 74.000 (~5-6%), TP1 86.200, TP2 88.700. Nếu chưa vượt MA200 quanh 77.900 thì CHỜ. Vùng mua định giá sâu 55.505-59.470 đồng/cp chỉ áp dụng khi thesis được đánh giá lại và giữ nguyên."
+      },
+      "file": "reports/CTR_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/ctr.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá CTR ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá CTR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/CTR_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VTP-20260908",
+      "ticker": "VTP",
+      "company": "Tổng Công ty Cổ phần Bưu chính Viettel",
+      "sector": "Logistics & Bưu chính",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 51600,
+      "marketPriceDate": "2026-09-08",
+      "baseValue": 48839,
+      "valueLabel": "Điểm neo tổng hợp",
+      "rangeLow": 34800,
+      "rangeHigh": 63500,
+      "gapLabel": "Giá 51.600 đồng/cp cao hơn điểm neo 48.839 đồng/cp khoảng 5,65%; MOS âm, chưa đạt chuẩn 25-30%.",
+      "method": "DCF theo FCFF; P/E, P/B và EV/EBITDA kiểm chứng",
+      "summary": "VTP có mạng lưới logistics lớn và dư địa dịch chuyển sang dịch vụ, nhưng DCF nhạy với biên EBIT, CapEx và NWC. Giá hiện tại đã phản ánh một phần đáng kể kỳ vọng hậu 2026; trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "zoneLow": 24400,
+        "zoneHigh": 26100,
+        "baseValue": 48839,
+        "stop": null,
+        "targets": [
+          34800,
+          63500
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA THEO MOS KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ mua theo MOS khi giá 24.400-26.100 đồng/cp; chia lệnh và đặt stop 5% dưới giá vào thực tế. T1 34.800; mục tiêu định giá cao hơn 63.500. Tại giá hiện tại: CHỜ, không mua đuổi. Nếu đang có hàng quanh 51.600, kỷ luật riêng của báo cáo là SL 49.020 và TP 63.500. Trên 63.500: LOẠI/TRÁNH mua mới nếu định giá không nâng."
+      },
+      "file": "reports/VTP_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/vtp.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá VTP ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá VTP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VTP_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "FRT-20260908",
       "ticker": "FRT",
@@ -5171,6 +5303,35 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "CTR",
+      "company": "Tổng Công ty Cổ phần Công trình Viettel",
+      "sector": "Hạ tầng viễn thông / Xây dựng / Dịch vụ công nghiệp",
+      "exchange": "HOSE",
+      "reportId": "CTR-20260908",
+      "close": 74000,
+      "priceDate": "2026-09-07",
+      "changePct": -2.1164,
+      "volume": 263200,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTR~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CTR",
+      "action": {
+        "triggerType": "at-or-above",
+        "triggerPrice": 78000,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 79293,
+        "stop": 74000,
+        "targets": [
+          86200,
+          88700
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - CHỈ MUA THĂM DÒ KHI BREAKOUT XÁC NHẬN",
+        "eligibility": "active",
+        "condition": "Khung 1-3 tuần: chỉ kích hoạt trade kỹ thuật khi giá đóng cửa từ 78.000 đồng/cp trở lên kèm thanh khoản xác nhận khoảng 318 nghìn cp trở lên; vùng vào 78.000-79.000, stop 74.000 (~5-6%), TP1 86.200, TP2 88.700. Nếu chưa vượt MA200 quanh 77.900 thì CHỜ. Vùng mua định giá sâu 55.505-59.470 đồng/cp chỉ áp dụng khi thesis được đánh giá lại và giữ nguyên."
+      }
+    },
+    {
       "ticker": "D2D",
       "company": "CTCP Phát triển Đô thị Công nghiệp Số 2",
       "exchange": "HOSE",
@@ -7398,6 +7559,34 @@ window.RESEARCH_DATA = {
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGC"
     },
     {
+      "ticker": "VGI",
+      "company": "Tổng Công ty Cổ phần Đầu tư Quốc tế Viettel",
+      "sector": "Dịch vụ viễn thông quốc tế",
+      "exchange": "UPCoM",
+      "reportId": "VGI-20260908",
+      "close": 86100,
+      "priceDate": "2026-09-07",
+      "changePct": 0.1163,
+      "volume": 241707,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGI~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGI",
+      "action": {
+        "zoneLow": 54000,
+        "zoneHigh": 58000,
+        "baseValue": 76311,
+        "stop": 52500,
+        "targets": [
+          76300,
+          88400,
+          94000
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA TỪNG PHẦN KHI VỀ VÙNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ mua từng phần khi giá 54.000-58.000 đồng/cp và luận điểm cơ bản không xấu đi; stop 52.500 hoặc tối đa 7% dưới giá vốn thực tế; T1 76.300, T2 88.400-94.000. Giá 70.000-94.000: CHỜ, không mua đuổi. Trên 94.000 nếu không có nâng EPS/FCFF tương ứng hoặc nếu rủi ro kiểm toán/Cameroon-Myanmar xấu đi: LOẠI/cắt theo kỷ luật."
+      }
+    },
+    {
       "ticker": "VGS",
       "company": "CTCP Ống Thép Việt Đức VG PIPE",
       "sector": "Công nghiệp",
@@ -7749,6 +7938,33 @@ window.RESEARCH_DATA = {
         "recommendation": "CHỜ / THEO DÕI",
         "eligibility": "active",
         "condition": "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30%. Trading 1–3 tuần chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp."
+      }
+    },
+    {
+      "ticker": "VTP",
+      "company": "Tổng Công ty Cổ phần Bưu chính Viettel",
+      "sector": "Logistics & Bưu chính",
+      "exchange": "HOSE",
+      "reportId": "VTP-20260908",
+      "close": 52000,
+      "priceDate": "2026-09-07",
+      "changePct": 1.3645,
+      "volume": 540500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VTP~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VTP",
+      "action": {
+        "zoneLow": 24400,
+        "zoneHigh": 26100,
+        "baseValue": 48839,
+        "stop": null,
+        "targets": [
+          34800,
+          63500
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA THEO MOS KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ mua theo MOS khi giá 24.400-26.100 đồng/cp; chia lệnh và đặt stop 5% dưới giá vào thực tế. T1 34.800; mục tiêu định giá cao hơn 63.500. Tại giá hiện tại: CHỜ, không mua đuổi. Nếu đang có hàng quanh 51.600, kỷ luật riêng của báo cáo là SL 49.020 và TP 63.500. Trên 63.500: LOẠI/TRÁNH mua mới nếu định giá không nâng."
       }
     },
     {

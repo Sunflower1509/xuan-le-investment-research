@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 119,
+    "count": 122,
     "synced": "2026-09-03",
     "source": "TradingView exact symbol search, locked by ticker + exchange + ISIN; local SVG assets"
   },
@@ -170,6 +170,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=CTG&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "386eab0d67857480ea3c131599dfc4dd510a8fe19041e6c0049e8f13851f48fe",
       "bytes": 392
+    },
+    "CTR": {
+      "path": "assets/images/logos/ctr.svg?v=20260903-logo1",
+      "alt": "Logo Viettel Construction JSC (CTR)",
+      "exchange": "HOSE",
+      "isin": "VN000000CTR4",
+      "company": "Viettel Construction JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tctcp-cong-trinh-viettel--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=CTR&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "9dbfc43b5c5cc873f2b1d138e7588856f5bd5937de00fed997a3610c797cc9b3",
+      "bytes": 1788
     },
     "D2D": {
       "path": "assets/images/logos/d2d.svg?v=20260903-logo1",
@@ -1150,6 +1161,17 @@ window.COMPANY_LOGOS = {
       "sha256": "07a483cfde651a5f3765bec277ae0476d4637864a4e4b66af9dee871032c4739",
       "bytes": 2058
     },
+    "VGI": {
+      "path": "assets/images/logos/vgi.svg?v=20260903-logo1",
+      "alt": "Logo Viettel Global Investment JSC (VGI)",
+      "exchange": "UPCOM",
+      "isin": "VN000000VGI0",
+      "company": "Viettel Global Investment JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/viettel-post-jvc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VGI&hl=1&exchange=UPCOM&lang=en&domain=production",
+      "sha256": "6674af8c9f8c4861c6fcfdec7a8f2e14a13b1729ad21a97171c1235a32f592c4",
+      "bytes": 3172
+    },
     "VGS": {
       "path": "assets/images/logos/vgs.svg?v=20260903-logo1",
       "alt": "Logo Vietnam Germany Steel Pipe Joint Stock Company (VGS)",
@@ -1303,6 +1325,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VSC&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "ea67b28c77d4fef32c1457d9911b0fbd322db5ef8c770ca35dd91eba96b2adc2",
       "bytes": 1693
+    },
+    "VTP": {
+      "path": "assets/images/logos/vtp.svg?v=20260903-logo1",
+      "alt": "Logo Viettel Post JSC (VTP)",
+      "exchange": "HOSE",
+      "isin": "VN000000VTP8",
+      "company": "Viettel Post JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/viettel-post-jvc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VTP&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "6674af8c9f8c4861c6fcfdec7a8f2e14a13b1729ad21a97171c1235a32f592c4",
+      "bytes": 3172
     },
     "YEG": {
       "path": "assets/images/logos/yeg.svg?v=20260903-logo1",
