@@ -1,0 +1,29 @@
+name: Import reports diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-reports-diagnostic.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-firestorage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect firestorage share page
+        env:
+          SHARE_URL: https://firestorage.ai/ja/f/sdkXggpXUJrE
+        run: |
+          set -euo pipefail
+          curl -fsSL -D /tmp/headers.txt "$SHARE_URL" -o /tmp/share.html
+          echo '=== HEADERS ==='
+          cat /tmp/headers.txt
+          echo '=== SIZE ==='
+          wc -c /tmp/share.html
+          echo '=== LINKS / API HINTS ==='
+          grep -Eo 'https?://[^"'"'<> ]+|href="[^"]+"|/api/[^"'"'<> ]+|download[^"'"'<> ]*' /tmp/share.html | head -n 200 || true
+          echo '=== FILENAMES ==='
+          grep -Eo 'BAF_2026-09-07\.pdf|PAN_07-09-2026\.pdf|HUT_2026-09-07\.pdf|YEG_2026-09-07\.pdf|TNG_2026-09-07\.pdf|OCB_Dinh_Gia_07-09-2026_FINAL\.pdf' /tmp/share.html | sort -u || true
