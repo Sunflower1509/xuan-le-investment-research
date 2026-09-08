@@ -16,6 +16,7 @@ const COVER_SCHEMA = "pdf-page-1-webp-v1";
 const TARGET_WIDTH = 900;
 const MIN_WIDTH = 700;
 const MIN_HEIGHT = 900;
+const PADDED_LANDSCAPE_HEIGHT = 1165;
 let rendererReady = false;
 
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
@@ -30,12 +31,14 @@ const commandExists = (name) => {
 };
 const ensureRenderer = () => {
   if (rendererReady) return;
-  if (!commandExists("pdftoppm") || !commandExists("cwebp")) {
-    console.log("PDF cover renderer missing; installing minimal poppler-utils + webp toolchain...");
+  if (!commandExists("pdftoppm") || !commandExists("cwebp") || !commandExists("convert") || !commandExists("identify")) {
+    console.log("PDF cover renderer missing; installing minimal poppler-utils + webp + ImageMagick toolchain...");
     execFileSync("sudo", ["apt-get", "update", "-qq"], { stdio: "inherit" });
-    execFileSync("sudo", ["apt-get", "install", "-y", "--no-install-recommends", "poppler-utils", "webp"], { stdio: "inherit" });
+    execFileSync("sudo", ["apt-get", "install", "-y", "--no-install-recommends", "poppler-utils", "webp", "imagemagick"], { stdio: "inherit" });
   }
-  if (!commandExists("pdftoppm") || !commandExists("cwebp")) throw new Error("Không thể khởi tạo pdftoppm/cwebp để render cover.");
+  if (!commandExists("pdftoppm") || !commandExists("cwebp") || !commandExists("convert") || !commandExists("identify")) {
+    throw new Error("Không thể khởi tạo pdftoppm/cwebp/ImageMagick để render cover.");
+  }
   rendererReady = true;
 };
 const gitTimestamp = (relativePath) => {
@@ -109,6 +112,7 @@ const renderCover = async (pdfRelative, imageRelative) => {
   const tmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), "xuan-cover-"));
   const prefix = path.join(tmpDir, "page1");
   const png = `${prefix}.png`;
+  const paddedPng = `${prefix}-padded.png`;
   try {
     execFileSync("pdftoppm", [
       "-f", "1",
@@ -121,8 +125,25 @@ const renderCover = async (pdfRelative, imageRelative) => {
       prefix
     ], { cwd: root, stdio: "pipe" });
     if (!fs.existsSync(png) || fs.statSync(png).size === 0) throw new Error(`Không render được trang 1: ${pdfRelative}`);
+
+    let webpSource = png;
+    const pngWidth = Number(execFileSync("identify", ["-format", "%w", png], { cwd: root, encoding: "utf8" }).trim());
+    const pngHeight = Number(execFileSync("identify", ["-format", "%h", png], { cwd: root, encoding: "utf8" }).trim());
+    if (!(pngWidth > 0 && pngHeight > 0)) throw new Error(`Không đọc được kích thước ảnh trung gian: ${pdfRelative}`);
+    if (pngHeight < MIN_HEIGHT) {
+      execFileSync("convert", [
+        png,
+        "-background", "white",
+        "-gravity", "center",
+        "-extent", `${Math.max(TARGET_WIDTH, pngWidth)}x${PADDED_LANDSCAPE_HEIGHT}`,
+        paddedPng
+      ], { cwd: root, stdio: "pipe" });
+      if (!fs.existsSync(paddedPng) || fs.statSync(paddedPng).size === 0) throw new Error(`Không pad được cover landscape: ${pdfRelative}`);
+      webpSource = paddedPng;
+    }
+
     await fsp.mkdir(path.dirname(image), { recursive: true });
-    execFileSync("cwebp", ["-quiet", "-q", "84", "-m", "6", "-metadata", "none", png, "-o", image], {
+    execFileSync("cwebp", ["-quiet", "-q", "84", "-m", "6", "-metadata", "none", webpSource, "-o", image], {
       cwd: root,
       stdio: "pipe"
     });
@@ -186,7 +207,7 @@ const run = async () => {
   research.meta = research.meta || {};
   research.meta.coverSchema = COVER_SCHEMA;
   research.meta.coverWidth = TARGET_WIDTH;
-  research.meta.coverSource = "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp";
+  research.meta.coverSource = "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion";
 
   fs.writeFileSync(dataPath, `window.RESEARCH_DATA = ${JSON.stringify(research, null, 2)};\n`);
 
