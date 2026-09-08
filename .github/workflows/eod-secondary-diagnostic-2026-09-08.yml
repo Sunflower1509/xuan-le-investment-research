@@ -1,0 +1,73 @@
+name: Temporary EOD secondary-source diagnostic 2026-09-08
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/eod-secondary-diagnostic-2026-09-08.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Compare KBS versus VNDIRECT for all coverage symbols
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const date = '2026-09-08';
+          const [y,m,d] = date.split('-');
+          const kbsDate = `${d}-${m}-${y}`;
+          const code = fs.readFileSync('src/data/research-data.js','utf8');
+          const sandbox = {window:{}};
+          vm.runInNewContext(code,sandbox);
+          const coverage = sandbox.window.RESEARCH_DATA.coverage;
+          const finite = v => Number.isFinite(Number(v)) ? Number(v) : null;
+          const norm = v => { const n=finite(v); if (!(n>0)) return null; return n < 1000 ? Math.round(n*1000) : Math.round(n); };
+          const fetchJson = async url => {
+            const r = await fetch(url,{headers:{accept:'application/json,text/plain,*/*','user-agent':'Mozilla/5.0 XuanLeTVS-EOD-Diagnostic/1.0'},signal:AbortSignal.timeout(20000)});
+            if(!r.ok) throw new Error(`HTTP ${r.status}`);
+            return await r.json();
+          };
+          const compare = async item => {
+            const t=String(item.ticker).toUpperCase();
+            const vurl=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${t}~date:${date}&size=10`;
+            const kurl=`https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/${t}/data_day?sdate=${kbsDate}&edate=${kbsDate}`;
+            try {
+              const [v,k]=await Promise.all([fetchJson(vurl),fetchJson(kurl)]);
+              const vr=(Array.isArray(v?.data)?v.data:[]).find(x=>String(x.code||'').toUpperCase()===t && String(x.date)===date);
+              if(!vr) throw new Error('VNDIRECT missing row');
+              const rows=Array.isArray(k?.data_day)?k.data_day:[];
+              if(!rows.length) throw new Error(`KBS missing data_day keys=${Object.keys(k||{}).join(',')}`);
+              const kr=rows.find(x=>{
+                const raw=String(x?.t ?? x?.time ?? '');
+                const parsed=new Date(raw);
+                if(!Number.isNaN(parsed.getTime())) return parsed.toISOString().slice(0,10)===date;
+                return raw.includes(date) || raw.includes(`${d}/${m}/${y}`) || raw.includes(kbsDate);
+              }) || (rows.length===1 ? rows[0] : null);
+              if(!kr) throw new Error(`KBS date row missing sample=${JSON.stringify(rows.slice(0,2))}`);
+              const vc=norm(vr.close);
+              const kc=norm(kr.c ?? kr.close);
+              if(!vc || !kc) throw new Error(`invalid close VND=${vr.close} KBS=${kr.c ?? kr.close}`);
+              const ko=norm(kr.o ?? kr.open), kh=norm(kr.h ?? kr.high), kl=norm(kr.l ?? kr.low);
+              if(!ko || !kh || !kl || kh < Math.max(ko,kc) || kl > Math.min(ko,kc) || kl > kh) throw new Error(`KBS invalid OHLC ${JSON.stringify(kr)}`);
+              return {ticker:t,ok:vc===kc,vndirect:vc,kbs:kc,kbsRawDate:kr.t ?? kr.time ?? null,kbsUrl:kurl,error:vc===kc?null:'close mismatch'};
+            } catch(e) { return {ticker:t,ok:false,error:String(e?.message||e)}; }
+          };
+          const results=[];
+          for(let i=0;i<coverage.length;i+=5){ results.push(...await Promise.all(coverage.slice(i,i+5).map(compare))); }
+          const ok=results.filter(x=>x.ok);
+          const bad=results.filter(x=>!x.ok);
+          console.log(`KBS_DIAGNOSTIC ${ok.length}/${results.length}`);
+          console.log(JSON.stringify({date,total:results.length,verified:ok.length,errors:bad},null,2));
+          if(bad.length) process.exit(2);
+          NODE
