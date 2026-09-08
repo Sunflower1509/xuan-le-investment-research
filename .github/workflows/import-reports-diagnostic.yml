@@ -18,21 +18,6 @@ jobs:
           SHARE_URL: https://firestorage.ai/ja/f/sdkXggpXUJrE
         run: |
           set -euo pipefail
-          curl -fsSL -D /tmp/headers.txt "$SHARE_URL" -o /tmp/share.html
-          echo '=== HEADERS ==='
-          cat /tmp/headers.txt
-          echo '=== SIZE ==='
-          wc -c /tmp/share.html
-          echo '=== HTML HINTS ==='
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          s=Path('/tmp/share.html').read_text(errors='replace')
-          for line in s.splitlines():
-              low=line.lower()
-              if any(k in low for k in ['api','download','share','script','sdkxggpxujre','file','public']):
-                  print(line[:1200])
-          print('=== URL-LIKE ===')
-          for x in re.findall(r'https?://[^\"\'<>\s]+', s):
-              print(x[:1200])
-          PY
+          curl -fsSL "$SHARE_URL" -o /tmp/share.html
+          echo '=== FULL HTML ==='
+          cat /tmp/share.html
