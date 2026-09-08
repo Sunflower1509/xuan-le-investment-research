@@ -1,0 +1,111 @@
+name: Finalize valuation reports 2026-09-07
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-reports-fix.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: report-import-final-20260907
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and cryptographically verify six PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://api.firestorage.ai/dev/file/objects/ISNf3souce2hOU1d/7dBjG9'
+          mkdir -p reports
+          fetch_pdf(){
+            id="$1"; out="$2"; bytes="$3"; expected="$4"
+            payload="$(curl -fsSL -X POST "$BASE/files/$id/download")"
+            url="$(node -e 'const x=JSON.parse(process.argv[1]);if(!x.downloadUrl)process.exit(2);process.stdout.write(x.downloadUrl)' "$payload")"
+            curl -fsSL "$url" -o "$out"
+            [[ "$(stat -c%s "$out")" == "$bytes" ]] || { echo "SIZE FAIL $out" >&2; exit 2; }
+            [[ "$(sha256sum "$out"|awk '{print $1}')" == "$expected" ]] || { echo "SHA FAIL $out" >&2; exit 2; }
+            [[ "$(head -c5 "$out")" == '%PDF-' ]] || { echo "PDF FAIL $out" >&2; exit 2; }
+            echo "PDF_OK $out $bytes $expected"
+          }
+          fetch_pdf 01a07e5d62cf73efa053942d3042330f reports/BAF_2026-09-07.pdf 641002 8accabfb556f54748f185257dd846817923520b9768814986d057315a5a1cfcb
+          fetch_pdf 01a07e5da9b87349a10d054d2df127f2 reports/PAN_2026-09-07.pdf 379251 5a65ef703866db292101bd9c78da43fe55a11c29d9585299c63b8fb72c784a89
+          fetch_pdf 01a07e5dcccf763c9a0e44b6f221203f reports/HUT_2026-09-07.pdf 63590 5c2f0a7e72a012d9a3f202370f14a168427425ec4de9875c3a8f716732d2f838
+          fetch_pdf 01a07e5df41a7636b8cf4f13bd2130e4 reports/YEG_2026-09-07.pdf 776721 a028c32841504fa812d69d3364af2e069c0877fc46230f3c63fead9040dc5f01
+          fetch_pdf 01a07e5e1807762eb04216a9f08ace56 reports/TNG_2026-09-07.pdf 544467 9390a951fc824f0c3b6fbc4e09a2d5181f01061628bbf973b7677c549b9a2ec8
+          fetch_pdf 01a07e5e3dea74e9bd0c70f65dde8591 reports/OCB_2026-09-07.pdf 120017 6839aa815fb7f11e4ae9bd611b29ca576bcf6611260b6c0b92ade4006451a869
+
+      - name: Import reports, remove superseded editions, synchronize logo universe
+        run: node scripts/import-reports-20260907.mjs
+
+      - name: Re-lock all 114 EOD rows to 07/09/2026
+        run: |
+          node scripts/update-eod-market-data.mjs --date 2026-09-07 --status-file "${RUNNER_TEMP}/eod-status.json"
+          cat "${RUNNER_TEMP}/eod-status.json"
+
+      - name: Render covers and build production bundle
+        run: |
+          node scripts/sync-report-covers.mjs
+          bash scripts/build/build-assets.sh
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html'); s=p.read_text()
+          s,n=re.subn(r'assets/js/site\.min\.js\?v=[^"\']+', 'assets/js/site.min.js?v=20260907-reports-20260908-1', s)
+          if n != 1: raise SystemExit(f'JS cache token matches={n}')
+          p.write_text(s)
+          PY
+
+      - name: Full tests, tree synchronization and structure guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/*.test.mjs
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+          node <<'NODE'
+          const fs=require('fs'),vm=require('vm');
+          const a={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),a);const d=a.window.RESEARCH_DATA;
+          const b={window:{}};vm.runInNewContext(fs.readFileSync('src/data/company-logos.js','utf8'),b);const l=b.window.COMPANY_LOGOS;
+          const v=d.reports.filter(r=>r.reportType!=='trading');
+          const target=['BAF','PAN','HUT','YEG','TNG','OCB'];
+          if(v.length!==114||d.coverage.length!==114||Object.keys(l.logos).length!==114)throw new Error(`SYNC COUNTS ${v.length}/${d.coverage.length}/${Object.keys(l.logos).length}`);
+          if(new Set(v.map(r=>r.ticker)).size!==114||new Set(d.coverage.map(r=>r.ticker)).size!==114)throw new Error('DUPLICATE TICKER');
+          for(const t of target){const r=v.filter(x=>x.ticker===t),c=d.coverage.filter(x=>x.ticker===t);if(r.length!==1||c.length!==1||r[0].id!==c[0].reportId)throw new Error(`NEW REPORT SYNC ${t}`);}
+          const counts={pdf:fs.readdirSync('reports').filter(x=>x.endsWith('.pdf')).length,covers:fs.readdirSync('assets/images/reports').filter(x=>x.endsWith('.webp')).length,logos:fs.readdirSync('assets/images/logos').filter(x=>x.endsWith('.svg')).length};
+          if(counts.pdf!==114||counts.covers!==114||counts.logos!==114)throw new Error(`TREE COUNTS ${JSON.stringify(counts)}`);
+          const html=fs.readFileSync('index.html','utf8');const order=[...html.matchAll(/<section\b[^>]*\bid=(["'])([^"']+)\1[^>]*>/g)].map(x=>x[2]);const expected=['overview','daily-market','position-ledger','action-radar','research'];
+          if(order.join(',')!==expected.join(','))throw new Error(`STRUCTURE CHANGED ${order.join(' -> ')}`);
+          if(d.meta.updated!=='2026-09-07'||d.coverage.some(x=>x.priceDate!=='2026-09-07'))throw new Error('EOD DATE SYNC FAIL');
+          console.log('FULL_SYNC_OK',{reports:v.length,coverage:d.coverage.length,logos:Object.keys(l.logos).length,counts,sectionOrder:order});
+          NODE
+
+      - name: Remove temporary import machinery and push verified final state
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/import-reports-diagnostic.yml .github/workflows/import-reports-fix.yml scripts/import-reports-20260907.mjs
+          git config user.name 'Sunflower1509'
+          git config user.email '72440024+Sunflower1509@users.noreply.github.com'
+          echo 'FINAL_DIFF_PATHS'
+          git status --short
+          git add -A
+          git diff --cached --check
+          git commit -m 'Add latest 07-09 valuation reports and synchronize 114-stock site'
+          git push origin HEAD:main
