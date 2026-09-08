@@ -76,4 +76,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: gh workflow run eod-daily.yml --ref main -f date=2026-09-08
 
-# rerun-token: three-third-source-overrides-v4
+# rerun-token: corrected-negative-control-v5
