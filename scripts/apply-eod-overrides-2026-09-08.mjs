@@ -51,7 +51,7 @@ test("ngoại lệ 08/09 chỉ chấp nhận đúng giá Vietcap/VCI đã xác m
     assert.equal(decision.ok, true);
     assert.equal(decision.mode, "third-source-override");
     assert.match(decision.source, /vietcap\.com\.vn/);
-    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-08", primaryClose: primaryClose - 100, cafeFClose });
+    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-08", primaryClose: primaryClose + 100, cafeFClose });
     assert.equal(wrong.ok, false);
   }
 });
