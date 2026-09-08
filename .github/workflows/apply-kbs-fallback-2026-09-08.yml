@@ -15,7 +15,7 @@ permissions:
 jobs:
   apply:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Check out latest main
         uses: actions/checkout@v5
@@ -28,13 +28,13 @@ jobs:
           node-version: 22
           package-manager-cache: false
 
-      - name: Apply fail-closed KBS fallback patch
+      - name: Confirm fail-closed KBS fallback patch
         run: node scripts/apply-kbs-fallback-patch-2026-09-08.mjs
 
       - name: Run full test suite
         run: node --test tests/*.test.mjs
 
-      - name: Commit backend-only Data Gate patch
+      - name: Commit backend-only Data Gate patch if needed
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -45,10 +45,32 @@ jobs:
             git push origin HEAD:main
           fi
 
+      - name: Wait until generic Pages queue is clear
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          clear=0
+          for attempt in $(seq 1 120); do
+            active="$(gh run list --workflow pages.yml --limit 30 --json status --jq '[.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting")] | length')"
+            echo "Pages active runs: $active"
+            if [[ "$active" == "0" ]]; then
+              clear=1
+              break
+            fi
+            sleep 5
+          done
+          if [[ "$clear" != "1" ]]; then
+            echo "Pages queue did not clear; refusing to dispatch EOD into a competing concurrency slot." >&2
+            exit 2
+          fi
+
       - name: Dispatch verified EOD lock for 2026-09-08
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: gh workflow run eod-daily.yml --ref main -f date=2026-09-08
 
-# rerun-token: corrected-generator-v2
+# rerun-token: serialized-after-pages-v3
