@@ -63,6 +63,23 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data",
       reason: "CafeF 07/09 trả 45.600; Investing lịch sử và VNSignal cùng xác nhận 45.800, trùng VNDIRECT."
     })
+  }),
+  "2026-09-08": Object.freeze({
+    DRI: Object.freeze({
+      close: 14700,
+      source: "https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart",
+      reason: "CafeF 08/09 trả 14.600; Vietcap VCI lịch sử đúng ngày xác nhận OHLC 14.3/14.8/14.2/14.7, khối lượng 1.104.800; KBS date-specific cũng xác nhận đóng cửa 14.700, trùng VNDIRECT."
+    }),
+    MSR: Object.freeze({
+      close: 47900,
+      source: "https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart",
+      reason: "CafeF 08/09 trả 47.700; Vietcap VCI lịch sử đúng ngày xác nhận OHLC 48.9/48.9/47.1/47.9, khối lượng 1.948.500; KBS date-specific cũng xác nhận đóng cửa 47.900, trùng VNDIRECT."
+    }),
+    VGI: Object.freeze({
+      close: 86200,
+      source: "https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart",
+      reason: "CafeF 08/09 trả 85.900; Vietcap VCI lịch sử đúng ngày xác nhận OHLC 86.4/86.5/85.6/86.2, khối lượng 98.900; KBS date-specific cũng xác nhận đóng cửa 86.200, trùng VNDIRECT."
+    })
   })
 });
 

@@ -54,6 +54,22 @@ test("ngoại lệ 28/08 chỉ được chấp nhận khi nguồn thứ ba khóa
   assert.equal(unrelated.ok, false);
 });
 
+test("ngoại lệ 08/09 chỉ chấp nhận đúng giá Vietcap/VCI đã xác minh", () => {
+  const cases = [
+    ["DRI", 14700, 14600],
+    ["MSR", 47900, 47700],
+    ["VGI", 86200, 85900]
+  ];
+  for (const [ticker, primaryClose, cafeFClose] of cases) {
+    const decision = secondaryCloseDecision({ ticker, date: "2026-09-08", primaryClose, cafeFClose });
+    assert.equal(decision.ok, true);
+    assert.equal(decision.mode, "third-source-override");
+    assert.match(decision.source, /vietcap.com.vn/);
+    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-08", primaryClose: primaryClose + 100, cafeFClose });
+    assert.equal(wrong.ok, false);
+  }
+});
+
 test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn", () => {
   const current = [{
     ticker: "AAA",
