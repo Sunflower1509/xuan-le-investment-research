@@ -13,25 +13,8 @@ jobs:
   inspect-firestorage:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect firestorage supporting bundles
+      - name: Inspect transfer metadata API
         run: |
           set -euo pipefail
-          BASE='https://firestorage.ai/_next/static/chunks'
-          for f in '4899-d89df949f2dbd5af.js' '5841-1160578ba9bb4f3e.js' '8437-d65cc193dc908afa.js' '8500-f4d7bfbe7500f274.js'; do
-            curl -fsSL "$BASE/$f" -o "/tmp/$f"
-          done
-          python3 - <<'PY'
-          from pathlib import Path
-          import re, glob
-          for fn in glob.glob('/tmp/*.js'):
-              s=Path(fn).read_text(errors='replace')
-              hits=[]
-              for p in [r'.{0,250}/api/.{0,450}',r'.{0,250}fetch\(.{0,450}',r'.{0,250}download.{0,450}',r'.{0,250}shareId.{0,450}',r'.{0,250}publicId.{0,450}',r'.{0,250}fileId.{0,450}',r'.{0,250}share.{0,450}']:
-                  hits += [' '.join(m.group(0).split()) for m in re.finditer(p,s,re.I|re.S)]
-              if hits:
-                  print('\n===',Path(fn).name,'===')
-                  seen=set()
-                  for x in hits:
-                      if x not in seen:
-                          seen.add(x); print(x[:1600])
-          PY
+          API='https://api.firestorage.ai/dev/file/shares/sdkXggpXUJrE/files?maxResults=1000'
+          curl -fsSL "$API" | python3 -m json.tool
