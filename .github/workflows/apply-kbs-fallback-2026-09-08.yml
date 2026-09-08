@@ -1,4 +1,4 @@
-name: Apply verified KBS EOD fallback and rerun 2026-09-08
+name: Apply verified EOD recovery and rerun 2026-09-08
 
 on:
   push:
@@ -28,20 +28,23 @@ jobs:
           node-version: 22
           package-manager-cache: false
 
-      - name: Confirm fail-closed KBS fallback patch
+      - name: Confirm fail-closed KBS missing-row fallback
         run: node scripts/apply-kbs-fallback-patch-2026-09-08.mjs
+
+      - name: Apply exact-date DRI MSR VGI third-source overrides
+        run: node scripts/apply-eod-overrides-2026-09-08.mjs
 
       - name: Run full test suite
         run: node --test tests/*.test.mjs
 
-      - name: Commit backend-only Data Gate patch if needed
+      - name: Commit only permanent Data Gate logic and tests
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet -- scripts/update-eod-market-data.mjs tests/eod-market-data.test.mjs; then
             git add scripts/update-eod-market-data.mjs tests/eod-market-data.test.mjs
-            git commit -m "Add fail-closed KBS fallback when CafeF EOD row is unavailable [skip ci]"
+            git commit -m "Verify DRI MSR VGI EOD 2026-09-08 with Vietcap third source [skip ci]"
             git push origin HEAD:main
           fi
 
@@ -73,4 +76,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: gh workflow run eod-daily.yml --ref main -f date=2026-09-08
 
-# rerun-token: serialized-after-pages-v3
+# rerun-token: three-third-source-overrides-v4
