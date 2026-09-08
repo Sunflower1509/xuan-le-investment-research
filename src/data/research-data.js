@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 108/108 mã được khóa tại phiên 07/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 105/108 mã; 3/108 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 48.400 khác VNDIRECT 48.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.400 khác VNDIRECT 13.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 45.600 khác VNDIRECT 45.800; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 93/108 mã; BVS: VNDIRECT 1.216.391 vs CafeF 1.213.600 (chênh 2.791); CEO: VNDIRECT 4.349.830 vs CafeF 4.343.800 (chênh 6.030); DDV: VNDIRECT 405.949 vs CafeF 405.700 (chênh 249); DRI: VNDIRECT 633.939 vs CafeF 633.500 (chênh 439); ICG: VNDIRECT 2.260 vs CafeF 2.200 (chênh 60); IDC: VNDIRECT 919.998 vs CafeF 918.500 (chênh 1.498); MSR: VNDIRECT 2.361.546 vs CafeF 2.351.600 (chênh 9.946); OIL: VNDIRECT 907.229 vs CafeF 904.900 (chênh 2.329); PHP: VNDIRECT 163.768 vs CafeF 162.700 (chênh 1.068); PLC: VNDIRECT 89.162 vs CafeF 88.800 (chênh 362); PVB: VNDIRECT 35.463 vs CafeF 35.400 (chênh 63); PVC: VNDIRECT 542.616 vs CafeF 542.000 (chênh 616); PVS: VNDIRECT 2.603.842 vs CafeF 2.599.500 (chênh 4.342); SHS: VNDIRECT 8.058.063 vs CafeF 8.048.800 (chênh 9.263); VGS: VNDIRECT 87.215 vs CafeF 87.000 (chênh 215). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 119/119 mã được khóa tại phiên 07/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 116/119 mã; 3/119 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 48.400 khác VNDIRECT 48.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/masan-resources-corp-historical-data); OIL: CafeF 13.400 khác VNDIRECT 13.500; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/petrovietnam-oil-historical-data); PHP: CafeF 45.600 khác VNDIRECT 45.800; nguồn thứ ba xác nhận VNDIRECT (https://vn.investing.com/equities/port-of-hai-phong-jsc-historical-data). Khối lượng khớp trực tiếp VNDIRECT-CafeF 102/119 mã; BVS: VNDIRECT 1.216.391 vs CafeF 1.213.600 (chênh 2.791); CEO: VNDIRECT 4.349.830 vs CafeF 4.343.800 (chênh 6.030); DDV: VNDIRECT 405.949 vs CafeF 405.700 (chênh 249); DRI: VNDIRECT 633.939 vs CafeF 633.500 (chênh 439); HUT: VNDIRECT 677.960 vs CafeF 677.400 (chênh 560); ICG: VNDIRECT 2.260 vs CafeF 2.200 (chênh 60); IDC: VNDIRECT 919.998 vs CafeF 918.500 (chênh 1.498); MSR: VNDIRECT 2.361.546 vs CafeF 2.351.600 (chênh 9.946); OIL: VNDIRECT 907.229 vs CafeF 904.900 (chênh 2.329); PHP: VNDIRECT 163.768 vs CafeF 162.700 (chênh 1.068); PLC: VNDIRECT 89.162 vs CafeF 88.800 (chênh 362); PVB: VNDIRECT 35.463 vs CafeF 35.400 (chênh 63); PVC: VNDIRECT 542.616 vs CafeF 542.000 (chênh 616); PVS: VNDIRECT 2.603.842 vs CafeF 2.599.500 (chênh 4.342); SHS: VNDIRECT 8.058.063 vs CafeF 8.048.800 (chênh 9.263); TNG: VNDIRECT 337.576 vs CafeF 337.200 (chênh 376); VGS: VNDIRECT 87.215 vs CafeF 87.000 (chênh 215). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; không tự hòa giải hoặc suy diễn nguyên nhân sai khác giữa nguồn. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,221 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "FRT-20260908",
+      "ticker": "FRT",
+      "company": "CTCP Bán lẻ Kỹ thuật số FPT",
+      "sector": "Bán lẻ chuyên dụng",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 139700,
+      "marketPriceDate": "2026-09-08",
+      "baseValue": 140000,
+      "valueLabel": "Điểm giữa tham chiếu",
+      "rangeLow": 118000,
+      "rangeHigh": 162000,
+      "gapLabel": "Giá 139.700 đồng/cp gần điểm giữa 140.000 đồng/cp; MOS theo điểm giữa khoảng 0,21%, chưa đạt chuẩn 25-30%.",
+      "method": "DCF theo FCFF; P/E, P/B và EV/EBITDA kiểm chứng",
+      "summary": "FRT được dẫn dắt bởi tăng trưởng Long Châu nhưng vốn lưu động, tồn kho, nợ vay và CFO là các biến phải giám sát. Giá hiện tại chưa tạo đủ biên an toàn; trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "zoneLow": 118000,
+        "zoneHigh": 125000,
+        "baseValue": 140000,
+        "stop": null,
+        "targets": [
+          150000,
+          162000
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA TỪNG PHẦN KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ cân nhắc mua từng phần khi giá 118.000-125.000 đồng/cp và KQKD/biên Long Châu không xấu đi; stoploss 5-7% từ giá vốn thực tế, không nới stop. Mục tiêu 150.000-162.000 đồng/cp. Nếu giá vẫn 136.000-145.000 mà không có dữ liệu lợi nhuận mới thì CHỜ, không mua đuổi."
+      },
+      "file": "reports/FRT_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/frt.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá FRT ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá FRT",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/FRT_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "CSV-20260908",
+      "ticker": "CSV",
+      "company": "CTCP Hóa chất Cơ bản Miền Nam",
+      "sector": "Hóa chất chu kỳ",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 21200,
+      "marketPriceDate": "2026-09-07",
+      "baseValue": 21309,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 16348,
+      "rangeHigh": 26653,
+      "gapLabel": "Giá 21.200 đồng/cp gần giá trị kỳ vọng 21.309 đồng/cp; MOS khoảng 0,5%, chưa đạt chuẩn 25-30%.",
+      "method": "Lợi nhuận chuẩn hóa 5-7 năm + P/B + EV/EBITDA chuẩn hóa",
+      "summary": "CSV đang giao dịch gần giá trị kỳ vọng nội tại; rủi ro di dời KCN Biên Hòa 1, nhu cầu vốn Nhơn Trạch, CFO âm và CapEx tăng làm phần thưởng/rủi ro chưa đủ hấp dẫn. Trạng thái THEO DÕI / CHỜ.",
+      "action": {
+        "zoneLow": 20000,
+        "zoneHigh": 20500,
+        "baseValue": 21309,
+        "stop": 19000,
+        "targets": [
+          23000,
+          26500
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - CÓ THỂ MUA THĂM DÒ SAU XÁC NHẬN",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét vị thế thăm dò khi giá 20.000-20.500 đồng/cp, không có tin pháp lý xấu mới và xuất hiện nến đảo chiều/khối lượng xác nhận; entry tham chiếu 20.250, stop 19.000, T1 23.000, T2 26.500. Nếu đóng cửa dưới 20.000 với thanh khoản tăng thì LOẠI setup ngắn hạn, không bình quân giá xuống. Trên 26.650 nếu bull case không cải thiện thì tránh mua mới."
+      },
+      "file": "reports/CSV_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/csv.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá CSV ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá CSV",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/CSV_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "PC1-20260908",
+      "ticker": "PC1",
+      "company": "CTCP Tập đoàn PC1",
+      "sector": "Holding hạ tầng - năng lượng - khai khoáng - bất động sản",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 20050,
+      "marketPriceDate": "2026-09-07",
+      "baseValue": 22744,
+      "valueLabel": "Giá trị kỳ vọng SOTP",
+      "rangeLow": 18100,
+      "rangeHigh": 28900,
+      "gapLabel": "Giá 20.050 đồng/cp nằm trong vùng fair value; MOS theo giá trị kỳ vọng 22.744 đồng/cp khoảng 11,8%, chưa đạt 25-30%.",
+      "method": "SOTP; P/E, P/B và EV/EBITDA kiểm chứng",
+      "summary": "PC1 là holding đa tài sản nên SOTP là trục định giá. Tài sản lõi vẫn có giá trị nhưng rủi ro pháp lý/quản trị, pha loãng và đòn bẩy khiến mức giá hiện tại chưa bù đủ bất định; trạng thái CHỜ / THEO DÕI.",
+      "action": {
+        "zoneLow": 15900,
+        "zoneHigh": 17100,
+        "baseValue": 22744,
+        "stop": null,
+        "targets": [
+          22700,
+          24800
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - MUA TỪNG PHẦN CHỈ KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ mua thăm dò/từng phần khi giá 15.900-17.100 đồng/cp và không xuất hiện tin pháp lý xấu mới; stoploss cơ học 5% từ giá vốn, tuyệt đối không quá 7%. Khi giá hồi 22.700-24.800 thì chốt dần/đánh giá lại. Trên 28.900 mà giả định không cải thiện thì tránh mua mới. Kết luận pháp lý bất lợi, kiểm toán ngoại trừ mới hoặc thay đổi điều khoản phát hành buộc định giá lại."
+      },
+      "file": "reports/PC1_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/pc1.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá PC1 ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá PC1",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PC1_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "TCM-20260908",
+      "ticker": "TCM",
+      "company": "CTCP Dệt may - Đầu tư - Thương mại Thành Công",
+      "sector": "Dệt may tích hợp",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 16900,
+      "marketPriceDate": "2026-09-08",
+      "baseValue": 25294,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 16826,
+      "rangeHigh": 41598,
+      "gapLabel": "P0 16.900 đồng/cp gần như trùng cận dưới 16.826 đồng/cp; dù thấp hơn expected value 25.294, vẫn chưa đạt cổng MOS 25-30% dưới cận dưới.",
+      "method": "DCF theo FCFF; P/E, EV/EBITDA và P/B kiểm chứng",
+      "summary": "TCM giao dịch gần cận dưới của vùng giá trị nhưng H1/2026 cho thấy lợi nhuận và biên chịu áp lực. Cổng MOS nghiêm ngặt chưa đạt, vì vậy trạng thái vẫn là CHỜ / THEO DÕI.",
+      "action": {
+        "zoneLow": 11778,
+        "zoneHigh": 12620,
+        "baseValue": 25294,
+        "stop": null,
+        "targets": [
+          16826,
+          25294
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA KHI ĐẠT CỔNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét mua khi giá 11.778-12.620 đồng/cp và không xuất hiện dữ liệu cơ bản xấu mới; stoploss tham chiếu 5% dưới giá vào thực tế. T1 16.826; T2 25.294 đồng/cp. Nếu giá vượt 25.294 mà không có nâng forecast lợi nhuận/WACC tốt hơn thì không mua đuổi; trên 41.598 chuyển sang tránh mua mới theo định giá."
+      },
+      "file": "reports/TCM_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/tcm.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá TCM ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá TCM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TCM_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VDS-20260908",
+      "ticker": "VDS",
+      "company": "CTCP Chứng khoán Rồng Việt",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "date": "2026-09-08",
+      "recommendation": "CHỜ / THEO DÕI",
+      "status": "wait",
+      "marketPrice": 11700,
+      "marketPriceDate": "2026-09-07",
+      "baseValue": 11033,
+      "valueLabel": "Expected value",
+      "rangeLow": 9700,
+      "rangeHigh": 13100,
+      "gapLabel": "Giá 11.700 đồng/cp nằm trong vùng giá trị 9.700-13.100 đồng/cp và cao hơn expected value 11.033; chưa có MOS 25-30%.",
+      "method": "P/B gắn ROE + Residual Income; P/B/P/E chuẩn hóa kiểm chứng",
+      "summary": "VDS có chiết khấu định giá tương đối nhưng ROE thấp hơn nhóm so sánh và kế hoạch tăng vốn làm rủi ro pha loãng đáng kể. Trạng thái hiện tại CHỜ; tactical chỉ khi dòng tiền xác nhận.",
+      "action": {
+        "zoneLow": 11200,
+        "zoneHigh": 11400,
+        "baseValue": 11033,
+        "stop": 10600,
+        "targets": [
+          12400,
+          13100
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - TACTICAL CÓ ĐIỀU KIỆN, KHÔNG PHẢI MUA ĐỊNH GIÁ",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét tactical nhỏ khi giá 11.200-11.400 đồng/cp có nến đảo chiều và thanh khoản quanh hoặc trên 700 nghìn cp; stop 10.600; T1 12.400, T2 13.100. Vùng mua định giá MOS 25-30% là khoảng 6.800-7.300 nếu thesis không xấu đi. Trên 13.100 không mở vị thế mới theo valuation."
+      },
+      "file": "reports/VDS_2026-09-08.pdf",
+      "edition": "Bản định giá 08.09.2026",
+      "visual": {
+        "src": "assets/images/reports/vds.webp?v=20260908-cover1",
+        "alt": "Trang bìa báo cáo định giá VDS ngày 08/09/2026",
+        "caption": "Bìa báo cáo định giá VDS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VDS_2026-09-08.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "BAF-20260907",
       "ticker": "BAF",
@@ -4618,6 +4833,29 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "BAF",
+      "company": "CTCP Nông nghiệp BAF Việt Nam",
+      "sector": "Chăn nuôi & thực phẩm",
+      "exchange": "HOSE",
+      "reportId": "BAF-20260907",
+      "close": 32200,
+      "priceDate": "2026-09-07",
+      "changePct": -1.0753,
+      "volume": 1955000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BAF~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BAF",
+      "action": {
+        "zoneLow": 12600,
+        "zoneHigh": 13500,
+        "baseValue": 22449,
+        "stop": null,
+        "basisDate": "2026-09-07",
+        "recommendation": "CÓ MUA CHỈ KHI ĐỦ MOS VÀ THESIS KHÔNG XẤU ĐI",
+        "eligibility": "active",
+        "condition": "IF giá 12.600-13.500 đồng/cp và thesis không xấu đi THEN có thể giải ngân từng phần; stop kỹ thuật 5% dưới giá vốn và tuyệt đối không nới stop quá 7%. IF CFO tiếp tục âm sâu và net debt/EBITDA không hạ THEN LOẠI, không bình quân giá xuống."
+      }
+    },
+    {
       "ticker": "BCM",
       "company": "Becamex",
       "sector": "Bất động sản",
@@ -4853,6 +5091,33 @@ window.RESEARCH_DATA = {
         "condition": "IF giá về 16.100-17.300 và luận điểm không xấu đi THEN mới xem xét vùng mua theo MOS 25-30%."
       },
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CMG"
+    },
+    {
+      "ticker": "CSV",
+      "company": "CTCP Hóa chất Cơ bản Miền Nam",
+      "sector": "Hóa chất chu kỳ",
+      "exchange": "HOSE",
+      "reportId": "CSV-20260908",
+      "close": 21200,
+      "priceDate": "2026-09-07",
+      "changePct": -3.6364,
+      "volume": 419600,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CSV~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CSV",
+      "action": {
+        "zoneLow": 20000,
+        "zoneHigh": 20500,
+        "baseValue": 21309,
+        "stop": 19000,
+        "targets": [
+          23000,
+          26500
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - CÓ THỂ MUA THĂM DÒ SAU XÁC NHẬN",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét vị thế thăm dò khi giá 20.000-20.500 đồng/cp, không có tin pháp lý xấu mới và xuất hiện nến đảo chiều/khối lượng xác nhận; entry tham chiếu 20.250, stop 19.000, T1 23.000, T2 26.500. Nếu đóng cửa dưới 20.000 với thanh khoản tăng thì LOẠI setup ngắn hạn, không bình quân giá xuống. Trên 26.650 nếu bull case không cải thiện thì tránh mua mới."
+      }
     },
     {
       "ticker": "CTD",
@@ -5232,6 +5497,33 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "FRT",
+      "company": "CTCP Bán lẻ Kỹ thuật số FPT",
+      "sector": "Bán lẻ chuyên dụng",
+      "exchange": "HOSE",
+      "reportId": "FRT-20260908",
+      "close": 136400,
+      "priceDate": "2026-09-07",
+      "changePct": -4.4149,
+      "volume": 315700,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FRT~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=FRT",
+      "action": {
+        "zoneLow": 118000,
+        "zoneHigh": 125000,
+        "baseValue": 140000,
+        "stop": null,
+        "targets": [
+          150000,
+          162000
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA TỪNG PHẦN KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ cân nhắc mua từng phần khi giá 118.000-125.000 đồng/cp và KQKD/biên Long Châu không xấu đi; stoploss 5-7% từ giá vốn thực tế, không nới stop. Mục tiêu 150.000-162.000 đồng/cp. Nếu giá vẫn 136.000-145.000 mà không có dữ liệu lợi nhuận mới thì CHỜ, không mua đuổi."
+      }
+    },
+    {
       "ticker": "FTS",
       "company": "CTCP Chứng khoán FPT",
       "exchange": "HOSE",
@@ -5605,6 +5897,29 @@ window.RESEARCH_DATA = {
         "recommendation": "CÓ THỂ MUA CÓ ĐIỀU KIỆN",
         "eligibility": "active",
         "condition": "Chỉ xem xét 9.450–10.125 đồng/cp khi CFO, nợ vay và biên gộp không xấu thêm; giải ngân từng phần. Stop 7% dưới giá khớp thực tế; entry minh họa 9.788 tương ứng stop khoảng 9.102. T1 13.500; T2 15.354. Nếu nợ vay tiếp tục tăng và CFO FY2026 vẫn âm: veto fundamental."
+      }
+    },
+    {
+      "ticker": "HUT",
+      "company": "CTCP Tasco",
+      "sector": "Holding đa ngành",
+      "exchange": "HNX",
+      "reportId": "HUT-20260907",
+      "close": 12500,
+      "priceDate": "2026-09-07",
+      "changePct": -1.5748,
+      "volume": 677960,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HUT~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HUT",
+      "action": {
+        "zoneLow": 6736,
+        "zoneHigh": 7217,
+        "baseValue": 9786,
+        "stop": null,
+        "basisDate": "2026-09-07",
+        "recommendation": "CHỜ / THEO DÕI",
+        "eligibility": "active",
+        "condition": "Chỉ nâng lên CÓ MUA khi giá về vùng 6.736-7.217 đồng/cp và luận điểm không xấu đi, hoặc xuất hiện dữ liệu mới đủ sức nâng NAV/earnings attributable. Không mua đuổi."
       }
     },
     {
@@ -6022,6 +6337,34 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "OCB",
+      "company": "Ngân hàng TMCP Phương Đông",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "OCB-20260907",
+      "close": 10250,
+      "priceDate": "2026-09-07",
+      "changePct": -2.8436,
+      "volume": 3890500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:OCB~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=OCB",
+      "action": {
+        "zoneLow": 10250,
+        "zoneHigh": 10400,
+        "baseValue": 12612,
+        "stop": 9900,
+        "targets": [
+          10900,
+          11650,
+          12194
+        ],
+        "basisDate": "2026-09-07",
+        "recommendation": "CHỜ - SETUP TACTICAL, KHÔNG PHẢI VÙNG MUA GIÁ TRỊ",
+        "eligibility": "active",
+        "condition": "Vùng 10.250-10.400 là setup tactical, không phải vùng mua giá trị theo MOS 25-30%; nếu tham gia phải giữ vị thế nhỏ và stop 9.900. T1 10.900; T2 11.650; T3 12.194. Nếu vượt 11.000 trước retest thì không mua đuổi, chờ retest 10.900-11.000. Vùng mua định giá 25-30% dưới lower bound là 7.605-8.148."
+      }
+    },
+    {
       "ticker": "OIL",
       "company": "Tổng Công ty Dầu Việt Nam - CTCP",
       "sector": "Năng lượng",
@@ -6074,6 +6417,61 @@ window.RESEARCH_DATA = {
         "recommendation": "LOẠI / TRÁNH MUA MỚI TẠI GIÁ HIỆN TẠI",
         "eligibility": "veto",
         "condition": "4.082–4.374 đồng/cp chỉ là vùng strict có điều kiện; nếu giá giảm về đây phải cập nhật lại toàn bộ BCTC, danh mục tài sản, catalyst, legal và asset impairment trước khi xem xét vị thế nhỏ. Entry/stop/targets 4.300 / 4.050 / 5.832–8.901–13.503 chỉ áp dụng sau khi định giá được refresh; không phải lệnh mua hiện tại."
+      }
+    },
+    {
+      "ticker": "PAN",
+      "company": "CTCP Tập đoàn PAN",
+      "sector": "Holding nông nghiệp / thủy sản / thực phẩm",
+      "exchange": "HOSE",
+      "reportId": "PAN-20260907",
+      "close": 18800,
+      "priceDate": "2026-09-07",
+      "changePct": -1.8277,
+      "volume": 286500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PAN~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PAN",
+      "action": {
+        "zoneLow": 20000,
+        "zoneHigh": 20200,
+        "baseValue": 22198,
+        "stop": 19000,
+        "targets": [
+          21200,
+          21600,
+          22200
+        ],
+        "basisDate": "2026-09-07",
+        "recommendation": "CHỜ - CHỈ KÍCH HOẠT TACTICAL SAU BREAKOUT/RETEST",
+        "eligibility": "active",
+        "condition": "Chỉ cân nhắc tactical khi giá trước đó vượt 20.300 với thanh khoản xác nhận, sau đó retest 20.000-20.200 giữ được; stoploss 19.000; mục tiêu 21.200-21.600 và 22.200. Nếu mất 18.750, setup ngắn hạn bị vô hiệu. Vùng mua định giá cực bảo thủ theo MOS là 11.574-12.401 đồng/cp."
+      }
+    },
+    {
+      "ticker": "PC1",
+      "company": "CTCP Tập đoàn PC1",
+      "sector": "Holding hạ tầng - năng lượng - khai khoáng - bất động sản",
+      "exchange": "HOSE",
+      "reportId": "PC1-20260908",
+      "close": 20050,
+      "priceDate": "2026-09-07",
+      "changePct": -0.2488,
+      "volume": 1060500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PC1~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PC1",
+      "action": {
+        "zoneLow": 15900,
+        "zoneHigh": 17100,
+        "baseValue": 22744,
+        "stop": null,
+        "targets": [
+          22700,
+          24800
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - MUA TỪNG PHẦN CHỈ KHI VỀ VÙNG",
+        "eligibility": "active",
+        "condition": "Chỉ mua thăm dò/từng phần khi giá 15.900-17.100 đồng/cp và không xuất hiện tin pháp lý xấu mới; stoploss cơ học 5% từ giá vốn, tuyệt đối không quá 7%. Khi giá hồi 22.700-24.800 thì chốt dần/đánh giá lại. Trên 28.900 mà giả định không cải thiện thì tránh mua mới. Kết luận pháp lý bất lợi, kiểm toán ngoại trừ mới hoặc thay đổi điều khoản phát hành buộc định giá lại."
       }
     },
     {
@@ -6726,6 +7124,33 @@ window.RESEARCH_DATA = {
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCH"
     },
     {
+      "ticker": "TCM",
+      "company": "CTCP Dệt may - Đầu tư - Thương mại Thành Công",
+      "sector": "Dệt may tích hợp",
+      "exchange": "HOSE",
+      "reportId": "TCM-20260908",
+      "close": 16900,
+      "priceDate": "2026-09-07",
+      "changePct": -0.5882,
+      "volume": 820400,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCM~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCM",
+      "action": {
+        "zoneLow": 11778,
+        "zoneHigh": 12620,
+        "baseValue": 25294,
+        "stop": null,
+        "targets": [
+          16826,
+          25294
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ / THEO DÕI - CÓ MUA KHI ĐẠT CỔNG MOS",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét mua khi giá 11.778-12.620 đồng/cp và không xuất hiện dữ liệu cơ bản xấu mới; stoploss tham chiếu 5% dưới giá vào thực tế. T1 16.826; T2 25.294 đồng/cp. Nếu giá vượt 25.294 mà không có nâng forecast lợi nhuận/WACC tốt hơn thì không mua đuổi; trên 41.598 chuyển sang tránh mua mới theo định giá."
+      }
+    },
+    {
       "ticker": "TCX",
       "company": "Công ty Cổ phần Chứng khoán Kỹ Thương",
       "sector": "Chứng khoán",
@@ -6746,6 +7171,33 @@ window.RESEARCH_DATA = {
         "recommendation": "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ",
         "eligibility": "veto",
         "condition": "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần."
+      }
+    },
+    {
+      "ticker": "TNG",
+      "company": "CTCP Đầu tư và Thương mại TNG",
+      "sector": "Dệt may xuất khẩu",
+      "exchange": "HNX",
+      "reportId": "TNG-20260907",
+      "close": 16600,
+      "priceDate": "2026-09-07",
+      "changePct": 0,
+      "volume": 337576,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TNG~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TNG",
+      "action": {
+        "zoneLow": 12250,
+        "zoneHigh": 13125,
+        "baseValue": 23123,
+        "stop": 12053,
+        "targets": [
+          17500,
+          23250
+        ],
+        "basisDate": "2026-09-07",
+        "recommendation": "CHỜ / THEO DÕI",
+        "eligibility": "active",
+        "condition": "IF giá <=13.125 và OCF/vốn lưu động không xấu thêm THEN có thể giải ngân từng phần; không mua một lần. Entry tham chiếu giữa vùng khoảng 12.688, stop 12.053, T1 17.500, T2 23.250. IF nợ vay tăng nhanh, OCF âm sâu hoặc xuất hiện audit/legal red flag trọng yếu THEN hạ fair range và cắt vị thế."
       }
     },
     {
@@ -6889,6 +7341,33 @@ window.RESEARCH_DATA = {
         "recommendation": "TRÁNH / LOẠI",
         "eligibility": "veto",
         "condition": "Không mua mới khi giá trên 27.668 đồng/cp. Chỉ đánh giá lại 14.102–15.110 đồng/cp nếu triển vọng lợi nhuận không bị phá vỡ; stop chỉ được xác định từ giá khớp thực tế, khoảng 5% và không vượt 7%. Các mốc 20.146 và 27.668 đồng/cp là mốc định giá trong báo cáo."
+      }
+    },
+    {
+      "ticker": "VDS",
+      "company": "CTCP Chứng khoán Rồng Việt",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "reportId": "VDS-20260908",
+      "close": 11700,
+      "priceDate": "2026-09-07",
+      "changePct": -1.2658,
+      "volume": 605100,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VDS~date:2026-09-07&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VDS",
+      "action": {
+        "zoneLow": 11200,
+        "zoneHigh": 11400,
+        "baseValue": 11033,
+        "stop": 10600,
+        "targets": [
+          12400,
+          13100
+        ],
+        "basisDate": "2026-09-08",
+        "recommendation": "CHỜ - TACTICAL CÓ ĐIỀU KIỆN, KHÔNG PHẢI MUA ĐỊNH GIÁ",
+        "eligibility": "active",
+        "condition": "Chỉ xem xét tactical nhỏ khi giá 11.200-11.400 đồng/cp có nến đảo chiều và thanh khoản quanh hoặc trên 700 nghìn cp; stop 10.600; T1 12.400, T2 13.100. Vùng mua định giá MOS 25-30% là khoảng 6.800-7.300 nếu thesis không xấu đi. Trên 13.100 không mở vị thế mới theo valuation."
       }
     },
     {
@@ -7273,144 +7752,15 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "ticker": "BAF",
-      "company": "CTCP Nông nghiệp BAF Việt Nam",
-      "sector": "Chăn nuôi & thực phẩm",
-      "exchange": "HOSE",
-      "reportId": "BAF-20260907",
-      "close": 32550,
-      "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
-      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BAF~date:2026-09-07&size=10",
-      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BAF",
-      "action": {
-        "zoneLow": 12600,
-        "zoneHigh": 13500,
-        "baseValue": 22449,
-        "stop": null,
-        "basisDate": "2026-09-07",
-        "recommendation": "CÓ MUA CHỈ KHI ĐỦ MOS VÀ THESIS KHÔNG XẤU ĐI",
-        "eligibility": "active",
-        "condition": "IF giá 12.600-13.500 đồng/cp và thesis không xấu đi THEN có thể giải ngân từng phần; stop kỹ thuật 5% dưới giá vốn và tuyệt đối không nới stop quá 7%. IF CFO tiếp tục âm sâu và net debt/EBITDA không hạ THEN LOẠI, không bình quân giá xuống."
-      }
-    },
-    {
-      "ticker": "HUT",
-      "company": "CTCP Tasco",
-      "sector": "Holding đa ngành",
-      "exchange": "HNX",
-      "reportId": "HUT-20260907",
-      "close": 12700,
-      "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
-      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HUT~date:2026-09-07&size=10",
-      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HUT",
-      "action": {
-        "zoneLow": 6736,
-        "zoneHigh": 7217,
-        "baseValue": 9786,
-        "stop": null,
-        "basisDate": "2026-09-07",
-        "recommendation": "CHỜ / THEO DÕI",
-        "eligibility": "active",
-        "condition": "Chỉ nâng lên CÓ MUA khi giá về vùng 6.736-7.217 đồng/cp và luận điểm không xấu đi, hoặc xuất hiện dữ liệu mới đủ sức nâng NAV/earnings attributable. Không mua đuổi."
-      }
-    },
-    {
-      "ticker": "OCB",
-      "company": "Ngân hàng TMCP Phương Đông",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "reportId": "OCB-20260907",
-      "close": 10550,
-      "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
-      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:OCB~date:2026-09-07&size=10",
-      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=OCB",
-      "action": {
-        "zoneLow": 10250,
-        "zoneHigh": 10400,
-        "baseValue": 12612,
-        "stop": 9900,
-        "targets": [
-          10900,
-          11650,
-          12194
-        ],
-        "basisDate": "2026-09-07",
-        "recommendation": "CHỜ - SETUP TACTICAL, KHÔNG PHẢI VÙNG MUA GIÁ TRỊ",
-        "eligibility": "active",
-        "condition": "Vùng 10.250-10.400 là setup tactical, không phải vùng mua giá trị theo MOS 25-30%; nếu tham gia phải giữ vị thế nhỏ và stop 9.900. T1 10.900; T2 11.650; T3 12.194. Nếu vượt 11.000 trước retest thì không mua đuổi, chờ retest 10.900-11.000. Vùng mua định giá 25-30% dưới lower bound là 7.605-8.148."
-      }
-    },
-    {
-      "ticker": "PAN",
-      "company": "CTCP Tập đoàn PAN",
-      "sector": "Holding nông nghiệp / thủy sản / thực phẩm",
-      "exchange": "HOSE",
-      "reportId": "PAN-20260907",
-      "close": 19150,
-      "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
-      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PAN~date:2026-09-07&size=10",
-      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PAN",
-      "action": {
-        "zoneLow": 20000,
-        "zoneHigh": 20200,
-        "baseValue": 22198,
-        "stop": 19000,
-        "targets": [
-          21200,
-          21600,
-          22200
-        ],
-        "basisDate": "2026-09-07",
-        "recommendation": "CHỜ - CHỈ KÍCH HOẠT TACTICAL SAU BREAKOUT/RETEST",
-        "eligibility": "active",
-        "condition": "Chỉ cân nhắc tactical khi giá trước đó vượt 20.300 với thanh khoản xác nhận, sau đó retest 20.000-20.200 giữ được; stoploss 19.000; mục tiêu 21.200-21.600 và 22.200. Nếu mất 18.750, setup ngắn hạn bị vô hiệu. Vùng mua định giá cực bảo thủ theo MOS là 11.574-12.401 đồng/cp."
-      }
-    },
-    {
-      "ticker": "TNG",
-      "company": "CTCP Đầu tư và Thương mại TNG",
-      "sector": "Dệt may xuất khẩu",
-      "exchange": "HNX",
-      "reportId": "TNG-20260907",
-      "close": 16600,
-      "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
-      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TNG~date:2026-09-07&size=10",
-      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TNG",
-      "action": {
-        "zoneLow": 12250,
-        "zoneHigh": 13125,
-        "baseValue": 23123,
-        "stop": 12053,
-        "targets": [
-          17500,
-          23250
-        ],
-        "basisDate": "2026-09-07",
-        "recommendation": "CHỜ / THEO DÕI",
-        "eligibility": "active",
-        "condition": "IF giá <=13.125 và OCF/vốn lưu động không xấu thêm THEN có thể giải ngân từng phần; không mua một lần. Entry tham chiếu giữa vùng khoảng 12.688, stop 12.053, T1 17.500, T2 23.250. IF nợ vay tăng nhanh, OCF âm sâu hoặc xuất hiện audit/legal red flag trọng yếu THEN hạ fair range và cắt vị thế."
-      }
-    },
-    {
       "ticker": "YEG",
       "company": "CTCP Tập đoàn Yeah1",
       "sector": "Truyền thông / Giải trí",
       "exchange": "HOSE",
       "reportId": "YEG-20260907",
-      "close": 7450,
+      "close": 7370,
       "priceDate": "2026-09-07",
-      "changePct": 0,
-      "volume": 0,
+      "changePct": -1.2064,
+      "volume": 418000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:YEG~date:2026-09-07&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=YEG",
       "action": {

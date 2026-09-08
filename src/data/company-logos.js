@@ -1,8 +1,8 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 114,
-    "synced": "2026-09-08",
+    "count": 119,
+    "synced": "2026-09-03",
     "source": "TradingView exact symbol search, locked by ticker + exchange + ISIN; local SVG assets"
   },
   "logos": {
@@ -16,6 +16,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=ACB&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "e5eb871f4e6a94d9ecdbb0fde4649579ddf0bfa5f45e13f73e17510d46b1c7fc",
       "bytes": 1011
+    },
+    "BAF": {
+      "path": "assets/images/logos/baf.svg?v=20260903-logo1",
+      "alt": "Logo BAF Viet Nam Agriculture Joint Stock Company (BAF)",
+      "exchange": "HOSE",
+      "isin": "VN000000BAF1",
+      "company": "BAF Viet Nam Agriculture Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-nong-nghiep-baf-viet--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=BAF&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "9347bb877692f3427d7f4564328ac88e0688400541fd4a0ba477d6ca76b72214",
+      "bytes": 2191
     },
     "BCM": {
       "path": "assets/images/logos/bcm.svg?v=20260903-logo1",
@@ -126,6 +137,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=CMG&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "00db52b8388f0cc4d42dab0952f12ca836e9c2e70447bef3bf892710f0761bab",
       "bytes": 2398
+    },
+    "CSV": {
+      "path": "assets/images/logos/csv.svg?v=20260903-logo1",
+      "alt": "Logo South Basic Chemicals Joint Stock Company (CSV)",
+      "exchange": "HOSE",
+      "isin": "VN000000CSV8",
+      "company": "South Basic Chemicals Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/south-basic-chemicals-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=CSV&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "8ee89067afbc15e4e15c5fa98dcdac317016b247f68b0e7a8c2df4e0833c2414",
+      "bytes": 2051
     },
     "CTD": {
       "path": "assets/images/logos/ctd.svg?v=20260903-logo1",
@@ -291,6 +313,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=FPT&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "a24d3cc538f02e5410f111018ac7730ba7becfbe0fbaf8ca2f91f3d3e2fd8d71",
       "bytes": 982
+    },
+    "FRT": {
+      "path": "assets/images/logos/frt.svg?v=20260903-logo1",
+      "alt": "Logo FPT Digital Retail JSC (FRT)",
+      "exchange": "HOSE",
+      "isin": "VN000000FRT7",
+      "company": "FPT Digital Retail JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/fpt-digital-retail-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=FRT&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "a2061c91fe1da1b57dc96062f0643781a8d7f45de99b67908e8455fe968e51d4",
+      "bytes": 1188
     },
     "FTS": {
       "path": "assets/images/logos/fts.svg?v=20260903-logo1",
@@ -468,6 +501,17 @@ window.COMPANY_LOGOS = {
       "sha256": "b92adb243f5dadf6230958d6b1bd8032d666c71b444e262df8f54144ca9e3959",
       "bytes": 4080
     },
+    "HUT": {
+      "path": "assets/images/logos/hut.svg?v=20260903-logo1",
+      "alt": "Logo Tasco Joint Stock Company (HUT)",
+      "exchange": "HNX",
+      "isin": "VN000000HUT7",
+      "company": "Tasco Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tasco-jsc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=HUT&hl=1&exchange=HNX&lang=en&domain=production",
+      "sha256": "62f416bfc3e07da4b1236f0d1278bb3361c3860c330a84103c8bb86e477c5cdf",
+      "bytes": 1128
+    },
     "ICG": {
       "path": "assets/images/logos/icg.svg?v=20260903-logo1",
       "alt": "Logo Song Hong Construction Joint Stock Company (ICG)",
@@ -644,6 +688,17 @@ window.COMPANY_LOGOS = {
       "sha256": "9aa01a25d3b92db1aeb19a0712e835df667970f33269d897708af5e2540665a7",
       "bytes": 1731
     },
+    "OCB": {
+      "path": "assets/images/logos/ocb.svg?v=20260903-logo1",
+      "alt": "Logo Orient Commercial Joint Stock Bank (OCB)",
+      "exchange": "HOSE",
+      "isin": "VN000000OCB9",
+      "company": "Orient Commercial Joint Stock Bank",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/nh-tmcp-phuong-dong--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=OCB&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "479d882bc88fee92fd59606f82912db901c1e55f9fa9fd134aa89a3bc4282041",
+      "bytes": 647
+    },
     "OIL": {
       "path": "assets/images/logos/oil.svg?v=20260903-logo1",
       "alt": "Logo PetroVietnam Oil Corp. (OIL)",
@@ -665,6 +720,28 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=ORS&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "7ef6d44c3da2dbe13bae82451500c98e94f60689a5ac97e8306b29ac9cf753d4",
       "bytes": 2207
+    },
+    "PAN": {
+      "path": "assets/images/logos/pan.svg?v=20260903-logo1",
+      "alt": "Logo PAN Group Joint Stock Company (PAN)",
+      "exchange": "HOSE",
+      "isin": "VN000000PAN5",
+      "company": "PAN Group Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/the-pan-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=PAN&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "7f65ac1a9bc8cbb26043b5aaaa57495392cdeed88d4f8512a48b5e541bb6d792",
+      "bytes": 2280
+    },
+    "PC1": {
+      "path": "assets/images/logos/pc1.svg?v=20260903-logo1",
+      "alt": "Logo PC1 Group JSC (PC1)",
+      "exchange": "HOSE",
+      "isin": "VN000000PC11",
+      "company": "PC1 Group JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/power-construction-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=PC1&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "892239f221edbc76d9b94fdf835ebfc2d2aae228ded5d8cf12e2a4a562b8d3c3",
+      "bytes": 851
     },
     "PDR": {
       "path": "assets/images/logos/pdr.svg?v=20260903-logo1",
@@ -952,6 +1029,17 @@ window.COMPANY_LOGOS = {
       "sha256": "478acebf58f919ca2f2c49ce2119231d89deac0c57e39107e5e75f1487fbb47d",
       "bytes": 1376
     },
+    "TCM": {
+      "path": "assets/images/logos/tcm.svg?v=20260903-logo1",
+      "alt": "Logo Thanh Cong Textile Garment Investment Trading JSC (TCM)",
+      "exchange": "HOSE",
+      "isin": "VN000000TCM5",
+      "company": "Thanh Cong Textile Garment Investment Trading JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/thanh-cong-textile-garment-investment-trading-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TCM&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "42a8f89207fe856a6bacbe4f42d35ee02b280a0873e036894c3e3380ad7222de",
+      "bytes": 665
+    },
     "TCX": {
       "path": "assets/images/logos/tcx.svg?v=20260903-logo1",
       "alt": "Logo Techcom Securities Joint Stock Company (TCX)",
@@ -962,6 +1050,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TCX&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "d3ac919e9f259010ac4676c78abe1ea22eda061022e4072eb5ec706357c807c0",
       "bytes": 297
+    },
+    "TNG": {
+      "path": "assets/images/logos/tng.svg?v=20260903-logo1",
+      "alt": "Logo TNG Investment and Trading JSC (TNG)",
+      "exchange": "HNX",
+      "isin": "VN000000TNG4",
+      "company": "TNG Investment and Trading JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tng-investment-and-trading-jsc--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TNG&hl=1&exchange=HNX&lang=en&domain=production",
+      "sha256": "1502c5ae1fd9c6f8efa65824d3f0748ff0746e2b63a6741f5e493efb993e74a5",
+      "bytes": 1609
     },
     "TPB": {
       "path": "assets/images/logos/tpb.svg?v=20260903-logo1",
@@ -1028,6 +1127,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VCK&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "c72039c779ae256efe3d653cbb5b7d71ff425cfaaaaab4fe56046c4f207164a1",
       "bytes": 1862
+    },
+    "VDS": {
+      "path": "assets/images/logos/vds.svg?v=20260903-logo1",
+      "alt": "Logo Viet Dragon Securities Corp. (VDS)",
+      "exchange": "HOSE",
+      "isin": "VN000000VDS6",
+      "company": "Viet Dragon Securities Corp.",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/viet-dragon-securities--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VDS&hl=1&exchange=HOSE&lang=en&domain=production",
+      "sha256": "aa37a66bf3235c3f29a4de77016560ee66b1040bbff38c3a717f9120045a6961",
+      "bytes": 2407
     },
     "VGC": {
       "path": "assets/images/logos/vgc.svg?v=20260903-logo1",
@@ -1194,63 +1304,8 @@ window.COMPANY_LOGOS = {
       "sha256": "ea67b28c77d4fef32c1457d9911b0fbd322db5ef8c770ca35dd91eba96b2adc2",
       "bytes": 1693
     },
-    "BAF": {
-      "path": "assets/images/logos/baf.svg?v=20260908-logo2",
-      "alt": "Logo BAF Viet Nam Agriculture Joint Stock Company (BAF)",
-      "exchange": "HOSE",
-      "isin": "VN000000BAF1",
-      "company": "BAF Viet Nam Agriculture Joint Stock Company",
-      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-nong-nghiep-baf-viet--big.svg",
-      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=BAF&hl=1&exchange=HOSE&lang=en&domain=production",
-      "sha256": "9347bb877692f3427d7f4564328ac88e0688400541fd4a0ba477d6ca76b72214",
-      "bytes": 2191
-    },
-    "HUT": {
-      "path": "assets/images/logos/hut.svg?v=20260908-logo2",
-      "alt": "Logo Tasco Joint Stock Company (HUT)",
-      "exchange": "HNX",
-      "isin": "VN000000HUT7",
-      "company": "Tasco Joint Stock Company",
-      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tasco-jsc--big.svg",
-      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=HUT&hl=1&exchange=HNX&lang=en&domain=production",
-      "sha256": "62f416bfc3e07da4b1236f0d1278bb3361c3860c330a84103c8bb86e477c5cdf",
-      "bytes": 1128
-    },
-    "OCB": {
-      "path": "assets/images/logos/ocb.svg?v=20260908-logo2",
-      "alt": "Logo Orient Commercial Joint Stock Bank (OCB)",
-      "exchange": "HOSE",
-      "isin": "VN000000OCB9",
-      "company": "Orient Commercial Joint Stock Bank",
-      "sourceUrl": "https://s3-symbol-logo.tradingview.com/nh-tmcp-phuong-dong--big.svg",
-      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=OCB&hl=1&exchange=HOSE&lang=en&domain=production",
-      "sha256": "479d882bc88fee92fd59606f82912db901c1e55f9fa9fd134aa89a3bc4282041",
-      "bytes": 647
-    },
-    "PAN": {
-      "path": "assets/images/logos/pan.svg?v=20260908-logo2",
-      "alt": "Logo PAN Group Joint Stock Company (PAN)",
-      "exchange": "HOSE",
-      "isin": "VN000000PAN5",
-      "company": "PAN Group Joint Stock Company",
-      "sourceUrl": "https://s3-symbol-logo.tradingview.com/the-pan-joint-stock-company--big.svg",
-      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=PAN&hl=1&exchange=HOSE&lang=en&domain=production",
-      "sha256": "7f65ac1a9bc8cbb26043b5aaaa57495392cdeed88d4f8512a48b5e541bb6d792",
-      "bytes": 2280
-    },
-    "TNG": {
-      "path": "assets/images/logos/tng.svg?v=20260908-logo2",
-      "alt": "Logo TNG Investment and Trading JSC (TNG)",
-      "exchange": "HNX",
-      "isin": "VN000000TNG4",
-      "company": "TNG Investment and Trading JSC",
-      "sourceUrl": "https://s3-symbol-logo.tradingview.com/tng-investment-and-trading-jsc--big.svg",
-      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TNG&hl=1&exchange=HNX&lang=en&domain=production",
-      "sha256": "1502c5ae1fd9c6f8efa65824d3f0748ff0746e2b63a6741f5e493efb993e74a5",
-      "bytes": 1609
-    },
     "YEG": {
-      "path": "assets/images/logos/yeg.svg?v=20260908-logo2",
+      "path": "assets/images/logos/yeg.svg?v=20260903-logo1",
       "alt": "Logo Yeah1 Group Corp. (YEG)",
       "exchange": "HOSE",
       "isin": "VN000000YEG3",

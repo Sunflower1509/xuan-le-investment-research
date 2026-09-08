@@ -988,7 +988,7 @@
         },
         "BAF": {
           "date": "2026-09-07",
-          "close": 32550,
+          "close": 32200,
           "relation": "above",
           "zoneLow": 12600,
           "zoneHigh": 13500,
@@ -997,7 +997,7 @@
         },
         "HUT": {
           "date": "2026-09-07",
-          "close": 12700,
+          "close": 12500,
           "relation": "above",
           "zoneLow": 6736,
           "zoneHigh": 7217,
@@ -1006,8 +1006,8 @@
         },
         "OCB": {
           "date": "2026-09-07",
-          "close": 10550,
-          "relation": "above",
+          "close": 10250,
+          "relation": "inside",
           "zoneLow": 10250,
           "zoneHigh": 10400,
           "zoneBasisDate": "2026-09-07",
@@ -1015,7 +1015,7 @@
         },
         "PAN": {
           "date": "2026-09-07",
-          "close": 19150,
+          "close": 18800,
           "relation": "below",
           "zoneLow": 20000,
           "zoneHigh": 20200,
@@ -1033,12 +1033,57 @@
         },
         "YEG": {
           "date": "2026-09-07",
-          "close": 7450,
+          "close": 7370,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
           "zoneBasisDate": "2026-09-07",
           "eligibility": "inactive"
+        },
+        "CSV": {
+          "date": "2026-09-07",
+          "close": 21200,
+          "relation": "above",
+          "zoneLow": 20000,
+          "zoneHigh": 20500,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
+        },
+        "FRT": {
+          "date": "2026-09-07",
+          "close": 136400,
+          "relation": "above",
+          "zoneLow": 118000,
+          "zoneHigh": 125000,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
+        },
+        "PC1": {
+          "date": "2026-09-07",
+          "close": 20050,
+          "relation": "above",
+          "zoneLow": 15900,
+          "zoneHigh": 17100,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
+        },
+        "TCM": {
+          "date": "2026-09-07",
+          "close": 16900,
+          "relation": "above",
+          "zoneLow": 11778,
+          "zoneHigh": 12620,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
+        },
+        "VDS": {
+          "date": "2026-09-07",
+          "close": 11700,
+          "relation": "above",
+          "zoneLow": 11200,
+          "zoneHigh": 11400,
+          "zoneBasisDate": "2026-09-08",
+          "eligibility": "active"
         }
       }
     }
