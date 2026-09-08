@@ -36,3 +36,8 @@ bash scripts/build/prepare-site.sh /tmp/xuan-le-site-preview
 ```
 
 Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/workflows/pages.yml`. Mã nguồn, script build và tài liệu bảo trì được giữ trong repository nhưng không đưa vào artifact công khai. Việc tổ chức thư mục nội bộ không được phép thay đổi `index.html`, thứ tự section, đường dẫn `assets/` hoặc `reports/` trên website.
+
+## Trạng thái đồng bộ gần nhất
+
+- Kiểm toán 08/09/2026: 119 báo cáo định giá = 119 mã Coverage Universe; 119 ảnh bìa báo cáo; 119 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên 07/09/2026.
+- Bố cục công khai được khóa theo thứ tự `overview → daily-market → position-ledger → action-radar → research`; thay đổi số lượng chỉ cập nhật hai bộ đếm báo cáo/coverage, không thay đổi layout hay CSS.
