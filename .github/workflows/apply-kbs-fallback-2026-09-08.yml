@@ -1,0 +1,52 @@
+name: Apply verified KBS EOD fallback and rerun 2026-09-08
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/apply-kbs-fallback-2026-09-08.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Apply fail-closed KBS fallback patch
+        run: node scripts/apply-kbs-fallback-patch-2026-09-08.mjs
+
+      - name: Run full test suite
+        run: node --test tests/*.test.mjs
+
+      - name: Commit backend-only Data Gate patch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- scripts/update-eod-market-data.mjs tests/eod-market-data.test.mjs; then
+            git add scripts/update-eod-market-data.mjs tests/eod-market-data.test.mjs
+            git commit -m "Add fail-closed KBS fallback when CafeF EOD row is unavailable [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Dispatch verified EOD lock for 2026-09-08
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run eod-daily.yml --ref main -f date=2026-09-08
