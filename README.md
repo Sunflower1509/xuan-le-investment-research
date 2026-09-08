@@ -39,5 +39,5 @@ Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/w
 
 ## Trạng thái đồng bộ gần nhất
 
-- Kiểm toán 08/09/2026: 119 báo cáo định giá = 119 mã Coverage Universe; 119 ảnh bìa báo cáo; 119 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên 07/09/2026.
+- Kiểm toán 08/09/2026: 122 báo cáo định giá = 122 mã Coverage Universe; 122 ảnh bìa báo cáo; 122 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên 07/09/2026.
 - Bố cục công khai được khóa theo thứ tự `overview → daily-market → position-ledger → action-radar → research`; thay đổi số lượng chỉ cập nhật hai bộ đếm báo cáo/coverage, không thay đổi layout hay CSS.
