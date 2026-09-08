@@ -13,8 +13,11 @@ jobs:
   inspect-firestorage:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect transfer metadata API
+      - name: Verify direct object download API
         run: |
           set -euo pipefail
-          API='https://api.firestorage.ai/dev/file/shares/sdkXggpXUJrE/files?maxResults=1000'
-          curl -fsSL "$API" | python3 -m json.tool
+          BASE='https://api.firestorage.ai/dev/file/objects/ISNf3souce2hOU1d/7dBjG9'
+          echo '=== METADATA ==='
+          curl -fsSL "$BASE/files?maxResults=1000" | python3 -m json.tool
+          echo '=== DOWNLOAD TOKEN TEST ==='
+          curl -fsSL -X POST "$BASE/files/01a07e5dcccf763c9a0e44b6f221203f/download" | python3 -m json.tool
