@@ -48,7 +48,10 @@ for (const name of companyLogoNames) {
   const bytes = await fs.readFile(path.join(artifactRoot, relative));
   companyLogos.set(relative, { sha256: digest(bytes) });
 }
-if (companyLogoNames.length !== 108) throw new Error(`Artifact phải có 108 logo doanh nghiệp, hiện có ${companyLogoNames.length}.`);
+const expectedUniverseCount = reportImageNames.length;
+if (companyLogoNames.length !== expectedUniverseCount) {
+  throw new Error(`Artifact phải có số logo doanh nghiệp bằng số báo cáo hiện hành (${expectedUniverseCount}), hiện có ${companyLogoNames.length}.`);
+}
 
 const sectionOrder = (html) => [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
 const expectedOrder = ["overview", "daily-market", "position-ledger", "action-radar", "research"];
