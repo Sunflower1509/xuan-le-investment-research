@@ -6,8 +6,51 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-09-08",
+  updated: "2026-09-09",
   entries: [
+    {
+      id: "market-view-20260909",
+      date: "2026-09-09",
+      publishedAt: "09/09/2026 • Sau phiên",
+      edition: "Số 14",
+      sentiment: "watch",
+      sentimentLabel: "GIỮ / CHỜ",
+      dataStatus: "ĐTCK + Thời báo Tài chính Việt Nam • EOD 09.09.2026",
+      title: "VN-Index giữ 1.820 sau rung lắc, thanh khoản chưa xác nhận",
+      thesis: "VN-Index giảm 3,32 điểm (-0,18%) xuống 1.827,12 điểm sau khi có lúc mất hơn 18 điểm trong phiên chiều. Độ rộng HOSE nghiêng về phía giảm với 120 mã tăng, 190 mã giảm và 60 mã tham chiếu. Tổng GTGD đạt 14.557 tỷ đồng, tăng khoảng 2,6% và khối lượng tăng khoảng 1,3% so với 08/09 nhưng vẫn ở mức thấp. Số liệu khối ngoại EOD chưa được xác minh đủ nguồn tại thời điểm khóa. TRẠNG THÁI TÁC NGHIỆP: GIỮ / CHỜ.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "2 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.827,12", change: "−3,32 • −0,18%", tone: "warning" },
+        { label: "GTGD HOSE", value: "14.557 tỷ", change: "+2,6% giá trị • +1,3% khối lượng vs 08/09", tone: "neutral" },
+        { label: "ĐỘ RỘNG HOSE", value: "120 tăng / 190 giảm", change: "60 tham chiếu • bên giảm chiếm ưu thế", tone: "warning" },
+        { label: "DÒNG TIỀN / KHỐI NGOẠI", value: "—", change: "Chưa xác minh đủ nguồn EOD", tone: "neutral" }
+      ],
+      backdrop: [
+        "VN-Index từng tiến sát 1.850 điểm trong phiên sáng nhưng không vượt được vùng cản. Sang phiên chiều, áp lực bán tăng mạnh từ khoảng 14h khiến chỉ số có lúc mất hơn 18 điểm, lùi sát 1.820 trước khi lực cầu cuối phiên giúp thu hẹp mức giảm còn 3,32 điểm.",
+        "Độ rộng HOSE tiếp tục kém tích cực với 190 mã giảm so với 120 mã tăng. Tổng khối lượng đạt 566,8 triệu cổ phiếu và GTGD 14.557 tỷ đồng, chỉ tăng nhẹ so với 08/09; mức thanh khoản này chưa đủ để xác nhận một nhịp bứt phá mới khỏi vùng 1.850.",
+        "VIC và VHM là hai lực cản chính khi cùng giảm, trong khi VPL, VCB, TCB, GAS, BSR và HPG hỗ trợ chỉ số. Cấu trúc dòng tiền vẫn phân hóa và phụ thuộc đáng kể vào nhóm vốn hóa lớn, vì vậy chưa có cơ sở nâng trạng thái lên positive.",
+        "Số liệu giao dịch khối ngoại phiên 09/09 chưa được tái lập đủ từ nguồn EOD độc lập tại thời điểm khóa. Theo nguyên tắc không nội suy, website để trống chỉ tiêu này thay vì sử dụng ước tính hoặc số liệu chưa xác nhận."
+      ],
+      levels: [
+        { label: "Vùng phòng thủ gần", value: "1.820–1.825", note: "Chỉ số đã kiểm định sát 1.820 trong phiên và hồi lên trên vùng này. Đóng dưới 1.820 sẽ kích hoạt điều kiện risk-off rõ hơn." },
+        { label: "Vùng cân bằng / cần lấy lại", value: "1.830–1.850", note: "Cần phục hồi và giữ lại vùng này với độ rộng tích cực hơn và thanh khoản cải thiện trước khi nâng mức chấp nhận rủi ro." },
+        { label: "Ngưỡng xác nhận tích cực", value: "> 1.870", note: "Chỉ chuyển sang positive khi đóng vượt 1.870, số mã tăng áp đảo, thanh khoản đồng thuận và không xuất hiện VETO mới." }
+      ],
+      playbook: [
+        { state: "positive", if: "XÁC NHẬN TÍCH CỰC — VN-Index đóng vượt 1.870, độ rộng chuyển sang số mã tăng áp đảo, thanh khoản cải thiện rõ và không xuất hiện VETO rủi ro", then: "TĂNG DẦN tỷ trọng ở leader/setup hợp lệ; chia lệnh, ưu tiên R:R tối thiểu 2:1 và stoploss 3–7% theo cấu trúc từng mã; không mua đuổi khi điểm vào không còn phù hợp." },
+        { state: "neutral", if: "CÂN BẰNG / THIẾU XÁC NHẬN — VN-Index giữ trên 1.820 nhưng chưa vượt bền 1.850 hoặc độ rộng/thanh khoản chưa đồng thuận", then: "GIỮ / CHỜ với tỷ trọng vừa phải; giữ mã khỏe, chờ điểm vào có R:R tốt và chỉ giải ngân khi setup riêng đạt điều kiện; không mua đuổi." },
+        { state: "risk_off", if: "RISK-OFF / VETO — VN-Index đóng dưới 1.820 hoặc xuất hiện VETO rõ từ độ rộng xấu mạnh, thanh khoản bán tăng hay nhóm vốn hóa lớn mở rộng đà giảm", then: "GIẢM RỦI RO phần trading; không bắt đáy sớm, không bình quân giá xuống và tuân thủ stoploss 3–7% theo cấu trúc từng mã." }
+      ],
+      focus: "1.820–1.825 • vùng cản 1.830–1.850 • xác nhận trên 1.870 • độ rộng • thanh khoản • nhóm vốn hóa lớn",
+      inference: "VN-Index 1.827,12 điểm, giảm 3,32 điểm (-0,18%), độ rộng 120 tăng/60 tham chiếu/190 giảm, khối lượng 566,8 triệu cổ phiếu và GTGD 14.557 tỷ đồng được đối chiếu giữa Tin nhanh Chứng khoán và Thời báo Tài chính Việt Nam ngày 09/09/2026. So với 08/09, GTGD tăng khoảng 2,6% và khối lượng tăng khoảng 1,3%, nhưng mức tuyệt đối vẫn thấp; phần trăm thay đổi được tính trực tiếp từ số liệu EOD đã công bố. Số liệu khối ngoại chưa được tái lập đủ nguồn nên để “—”, không nội suy. Việc xếp trạng thái GIỮ / CHỜ là diễn giải tác nghiệp của Xuân Lê TVS theo quy tắc loại trừ: chỉ số chưa đóng dưới 1.820 để kích hoạt risk_off, nhưng cũng chưa đủ điều kiện độ rộng/thanh khoản để chuyển positive. Các vùng 1.820–1.825, 1.830–1.850 và trên 1.870 là mốc tác nghiệp có điều kiện, không phải mức được bảo đảm. Với giao dịch mới, ưu tiên R:R tối thiểu 2:1 và stoploss 3–7% theo cấu trúc từng mã. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      sources: [
+        { label: "Tin nhanh Chứng khoán — Phiên chiều 9/9: Rung lắc mạnh, VN-Index giữ vùng 1.820", url: "https://m.tinnhanhchungkhoan.vn/phien-giao-dich-chieu-99-rung-lac-manh-vn-index-giu-duoc-vung-1820-diem-post397289.html" },
+        { label: "Thời báo Tài chính Việt Nam — Snapshot HOSE đóng cửa 09/09/2026", url: "https://thoibaotaichinhvietnam.vn/chung-khoan" },
+        { label: "Tin nhanh Chứng khoán — Góc nhìn kỹ thuật phiên 9/9", url: "https://m.tinnhanhchungkhoan.vn/goc-nhin-ky-thuat-phien-giao-dich-chung-khoan-ngay-99-thi-truong-da-can-bang-hon-post397223.html" }
+      ]
+    },
     {
       id: "market-view-20260908",
       date: "2026-09-08",
