@@ -1,0 +1,46 @@
+name: Manual dispatch verified EOD 2026-09-09
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/manual-dispatch-eod-2026-09-09.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Wait until Pages queue is clear
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          clear=0
+          for attempt in $(seq 1 120); do
+            active="$(gh run list --workflow pages.yml --limit 30 --json status --jq '[.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting")] | length')"
+            echo "Pages active runs: $active"
+            if [[ "$active" == "0" ]]; then
+              clear=1
+              break
+            fi
+            sleep 5
+          done
+          if [[ "$clear" != "1" ]]; then
+            echo "Pages queue did not clear; refusing to dispatch competing EOD run." >&2
+            exit 2
+          fi
+
+      - name: Dispatch EOD 2026-09-09
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run eod-daily.yml --ref main -f date=2026-09-09
