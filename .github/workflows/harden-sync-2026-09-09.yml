@@ -1,0 +1,52 @@
+name: Harden EOD concurrency queue 2026-09-09
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/harden-sync-2026-09-09.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Add queued concurrency to EOD workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/eod-daily.yml')
+          s = p.read_text()
+          old = "concurrency:\n  group: pages\n  cancel-in-progress: false"
+          new = "concurrency:\n  group: pages\n  queue: max\n  cancel-in-progress: false"
+          if s.count(old) != 1:
+              raise SystemExit(f'Expected exactly one concurrency block, found {s.count(old)}')
+          p.write_text(s.replace(old, new, 1))
+          PY
+          grep -A4 '^concurrency:' .github/workflows/eod-daily.yml
+
+      - name: Remove temporary dispatch helpers and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -f .github/workflows/manual-dispatch-eod-2026-09-09.yml
+          git rm -f .github/workflows/harden-sync-2026-09-09.yml
+          git add .github/workflows/eod-daily.yml
+          git diff --cached --check
+          git commit -m "Harden EOD concurrency queue and remove temporary dispatch helpers [skip ci]"
+          git push origin HEAD:main
