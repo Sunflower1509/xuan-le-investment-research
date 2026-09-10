@@ -1,0 +1,46 @@
+name: Diagnose EOD 2026-09-10 third sources
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/diagnose-eod-2026-09-10.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify KBS exact-date OHLC for DRI and OIL
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const tickers = ['DRI','OIL'];
+          const date = '2026-09-10';
+          const [y,m,d] = date.split('-');
+          const kbsDate = `${d}-${m}-${y}`;
+          const norm = (v) => {
+            const n = Number(v);
+            if (!(n > 0)) return null;
+            return n < 1000 ? Math.round(n * 1000) : Math.round(n);
+          };
+          for (const ticker of tickers) {
+            const url = `https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/${ticker}/data_day?sdate=${kbsDate}&edate=${kbsDate}`;
+            const r = await fetch(url, { headers: { accept:'application/json', 'user-agent':'XuanLeTVS-EOD-Diagnostic/1.0' }, signal: AbortSignal.timeout(20000) });
+            if (!r.ok) throw new Error(`${ticker} KBS HTTP ${r.status}`);
+            const p = await r.json();
+            const rows = Array.isArray(p?.data_day) ? p.data_day : [];
+            const row = rows[0];
+            if (!row) throw new Error(`${ticker} KBS missing row`);
+            const out = {ticker, date, open:norm(row.o ?? row.open), high:norm(row.h ?? row.high), low:norm(row.l ?? row.low), close:norm(row.c ?? row.close), volume:Number(row.v ?? row.volume)};
+            if (![out.open,out.high,out.low,out.close].every(v => v > 0) || !(out.volume >= 0)) throw new Error(`${ticker} invalid KBS row ${JSON.stringify(out)}`);
+            if (out.high < Math.max(out.open,out.close) || out.low > Math.min(out.open,out.close) || out.low > out.high) throw new Error(`${ticker} inconsistent KBS OHLC ${JSON.stringify(out)}`);
+            console.log('KBS_EXACT_DATE', JSON.stringify(out));
+          }
+          NODE
