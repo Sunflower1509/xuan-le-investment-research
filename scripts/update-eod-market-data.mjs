@@ -80,6 +80,18 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart",
       reason: "CafeF 08/09 trả 85.900; Vietcap VCI lịch sử đúng ngày xác nhận OHLC 86.4/86.5/85.6/86.2, khối lượng 98.900; KBS date-specific cũng xác nhận đóng cửa 86.200, trùng VNDIRECT."
     })
+  }),
+  "2026-09-10": Object.freeze({
+    DRI: Object.freeze({
+      close: 14700,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=10-09-2026&edate=10-09-2026",
+      reason: "CafeF 10/09 trả 14.600; KBS date-specific xác nhận OHLC 15.0/15.0/14.5/14.7, khối lượng 858.800 và Cophieu68 lịch sử đúng ngày ghi 14.700, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 13800,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=10-09-2026&edate=10-09-2026",
+      reason: "CafeF 10/09 trả 13.700; KBS date-specific xác nhận OHLC 14.0/14.1/13.6/13.8, khối lượng 1.302.700; Cophieu68 và 24HMoney lịch sử đúng ngày cùng ghi 13.800, trùng VNDIRECT."
+    })
   })
 });
 
