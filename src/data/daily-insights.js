@@ -6,8 +6,49 @@
  * 4) Chỉ nhập số liệu đã xác minh và luôn bổ sung đường dẫn trong `sources`.
  */
 window.DAILY_MARKET_INSIGHTS = {
-  updated: "2026-09-09",
+  updated: "2026-09-10",
   entries: [
+    {
+      id: "market-view-20260910",
+      date: "2026-09-10",
+      publishedAt: "10/09/2026 • Sau phiên",
+      edition: "Số 15",
+      sentiment: "watch",
+      sentimentLabel: "GIỮ / CHỜ",
+      dataStatus: "VnExpress + VnEconomy • EOD 10.09.2026",
+      title: "VN-Index giữ vùng 1.820, thanh khoản thấp chưa xác nhận xu hướng",
+      thesis: "VN-Index gần như đi ngang, giảm khoảng 0,4 điểm sau một phiên kiểm định vùng 1.820 rồi phục hồi. Hơn 44% cổ phiếu tăng, trong đó DGC, GEE và PVD tăng trần, nhưng áp lực từ một số cổ phiếu trụ khiến chỉ số không giữ được sắc xanh. VnEconomy ghi nhận thanh khoản ở mức rất thấp và khối ngoại đảo chiều mua ròng mạnh. TRẠNG THÁI TÁC NGHIỆP: GIỮ / CHỜ vì chỉ số vẫn trong vùng cân bằng và chưa có xác nhận đồng thuận từ thanh khoản.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "2 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "QUANH 1.827", change: "−0,4 điểm • gần tham chiếu", tone: "neutral" },
+        { label: "THANH KHOẢN", value: "RẤT THẤP", change: "Áp lực bán suy yếu • cầu chưa xác nhận", tone: "warning" },
+        { label: "ĐỘ RỘNG", value: ">44% MÃ TĂNG", change: "DGC, GEE, PVD tăng trần • thị trường phân hóa", tone: "neutral" },
+        { label: "KHỐI NGOẠI", value: "MUA RÒNG", change: "Đảo chiều mua ròng mạnh • không dùng số tuyệt đối chưa tái lập", tone: "positive" }
+      ],
+      backdrop: [
+        "VN-Index kiểm định lại vùng 1.820 trong phiên và phục hồi về cuối ngày, nhưng vẫn kết phiên gần tham chiếu. Việc giữ được vùng này giúp chưa kích hoạt điều kiện risk-off theo mốc vô hiệu hiện hành.",
+        "Độ rộng cải thiện hơn so với phiên trước khi hơn 44% cổ phiếu tăng; DGC, GEE và PVD tăng trần. Tuy vậy, một số cổ phiếu vốn hóa lớn tạo sức ép khiến chỉ số không thể chuyển sang một phiên tăng xác nhận.",
+        "Thanh khoản được VnEconomy ghi nhận ở mức rất thấp. Khối ngoại đảo chiều mua ròng mạnh là điểm cộng, nhưng riêng yếu tố này không thay thế điều kiện xác nhận bằng thanh khoản và độ rộng cho trạng thái positive."
+      ],
+      levels: [
+        { label: "Vùng phòng thủ / vô hiệu gần", value: "1.815–1.820", note: "Phiên 10/09 tiếp tục kiểm định khu vực 1.820 và phục hồi. Đóng cửa dưới 1.820 hoặc xuất hiện VETO rủi ro rõ sẽ ưu tiên chuyển risk-off." },
+        { label: "Vùng cân bằng / cần vượt", value: "1.830–1.850", note: "Chỉ số vẫn chưa thoát dứt khoát vùng tích lũy. Cần vượt vùng này cùng độ rộng tích cực và thanh khoản cải thiện trước khi nâng mức chấp nhận rủi ro." },
+        { label: "Ngưỡng xác nhận tích cực", value: "> 1.870", note: "Chỉ chuyển sang positive khi đóng vượt 1.870, độ rộng và thanh khoản đồng thuận, đồng thời không có VETO rủi ro." }
+      ],
+      playbook: [
+        { state: "positive", if: "XÁC NHẬN TÍCH CỰC — VN-Index đóng vượt 1.870, độ rộng chuyển sang số mã tăng áp đảo, thanh khoản cải thiện rõ và không xuất hiện VETO rủi ro", then: "TĂNG DẦN tỷ trọng ở leader/setup hợp lệ; chia lệnh, ưu tiên giao dịch có R:R tối thiểu 2:1 và stoploss 3–7% theo cấu trúc từng mã; không mua đuổi khi điểm vào không còn phù hợp." },
+        { state: "neutral", if: "CÂN BẰNG / THIẾU XÁC NHẬN — VN-Index còn vận động quanh 1.820–1.850 hoặc độ rộng/thanh khoản chưa đồng thuận đầy đủ", then: "GIỮ / CHỜ với tỷ trọng vừa phải; giữ mã khỏe, chờ điểm vào có R:R tốt và chỉ giải ngân khi setup riêng đạt điều kiện; không mua đuổi." },
+        { state: "risk_off", if: "RISK-OFF / VETO — VN-Index đóng dưới 1.820 hoặc xuất hiện VETO rõ từ độ rộng xấu mạnh, thanh khoản bán tăng hay nhóm vốn hóa lớn mở rộng đà giảm", then: "GIẢM RỦI RO phần trading; không bắt đáy sớm, không bình quân giá xuống và tuân thủ stoploss 3–7% theo cấu trúc từng mã." }
+      ],
+      focus: "1.815–1.820 • vùng cân bằng 1.830–1.850 • xác nhận trên 1.870 • thanh khoản thấp • độ rộng • khối ngoại đảo chiều mua ròng",
+      inference: "VnExpress ghi nhận phiên 10/09/2026 thị trường giảm khoảng 0,4 điểm dù hơn 44% cổ phiếu tăng, với DGC, GEE và PVD tăng trần; website vì vậy không tự gán mức đóng cửa tuyệt đối có độ chính xác giả khi nguồn EOD đang truy cập chỉ công bố mức thay đổi làm tròn. VnEconomy xác nhận VN-Index phục hồi sau khi kiểm định vùng 1.820, thanh khoản rất thấp và khối ngoại đảo chiều mua ròng mạnh. Do chưa tái lập được giá trị tuyệt đối của thanh khoản và mua ròng từ hai nguồn EOD độc lập, website chỉ dùng mô tả định tính đã được xác nhận, không nội suy số liệu. Trạng thái GIỮ / CHỜ tuân thủ quy tắc loại trừ: chưa có điều kiện đóng dưới mốc vô hiệu/VETO để chuyển risk_off, đồng thời chưa đủ xác nhận thanh khoản và độ rộng để chuyển positive. Các mốc 1.815–1.820, 1.830–1.850 và trên 1.870 là mốc tác nghiệp có điều kiện, không phải mức được bảo đảm. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      sources: [
+        { label: "VnExpress — Cổ phiếu trụ chặn mạch tăng của chứng khoán, EOD 10/09/2026", url: "https://vnexpress.net/kinh-doanh/chung-khoan" },
+        { label: "VnEconomy — Thị trường ổn định quanh mốc 1.820 điểm, vốn ngoại đảo chiều mua", url: "https://vneconomy.vn/thi-truong-chung-khoan.htm" }
+      ]
+    },
     {
       id: "market-view-20260909",
       date: "2026-09-09",
@@ -223,46 +264,46 @@ window.DAILY_MARKET_INSIGHTS = {
       ]
     },
     {
-    id: "market-view-20260818",
-    date: "2026-08-18",
-    publishedAt: "18/08/2026 • Sau phiên",
-    edition: "Số 09",
-    sentiment: "watch",
-    sentimentLabel: "CHỜ XÁC NHẬN",
-    dataStatus: "VNDIRECT Finfo • EOD 18.08.2026",
-    title: "VN-Index tăng nhẹ, độ rộng vẫn nghiêng về bên giảm",
-    thesis: "Kết phiên 18/08/2026, VN-Index tăng 4,56 điểm (+0,26%) lên 1.732,02 điểm. Chỉ số dao động 1.724,33–1.750,86 điểm nhưng đóng cửa thấp hơn đáng kể so với đỉnh phiên; độ rộng HOSE gồm 124 mã tăng, 163 mã giảm và 76 mã đứng giá. VN30 giảm 0,08% trong khi HNX-Index tăng 1,32%, cho thấy trạng thái phân hóa. Giá trị giao dịch HOSE đạt khoảng 14.872,43 tỷ đồng, trong đó khớp lệnh khoảng 11.484,33 tỷ đồng. Trạng thái tác nghiệp: CHỜ XÁC NHẬN, không mua đuổi.",
-    author: "Xuân Lê TVS",
-    role: "Môi giới và tư vấn đầu tư",
-    readingTime: "3 phút đọc",
-    metrics: [
-      { label: "VN-INDEX", value: "1.732,02", change: "+4,56 • +0,26%", tone: "positive" },
-      { label: "GTGD HOSE", value: "14.872,43 tỷ", change: "Khớp lệnh 11.484,33 tỷ", tone: "neutral" },
-      { label: "ĐỘ RỘNG HOSE", value: "124 tăng / 163 giảm", change: "76 đứng giá • 5 trần • 4 sàn", tone: "warning" },
-      { label: "VN30 / HNX", value: "−0,08% / +1,32%", change: "Phân hóa giữa nhóm vốn hóa lớn và HNX", tone: "warning" }
-    ],
-    backdrop: [
-      "VN-Index mở cửa 1.727,62 điểm, cao nhất 1.750,86, thấp nhất 1.724,33 và đóng cửa 1.732,02; mức đóng cửa thấp hơn đỉnh phiên 18,84 điểm.",
-      "Độ rộng HOSE nghiêng về phía giảm với 163 mã giảm so với 124 mã tăng; số mã trần/sàn theo snapshot chỉ số là 5/4. Vì vậy mức tăng 0,26% của chỉ số chưa đi kèm xác nhận độ rộng.",
-      "VN30 giảm 1,54 điểm xuống 1.876,14 trong khi HNX-Index tăng 3,68 điểm lên 282,32; diễn biến này cho thấy dòng tiền và sức mạnh giá phân hóa giữa các nhóm thị trường."
-    ],
-    levels: [
-      { label: "Biên dưới phiên 18/08", value: "1.724,33", note: "Đây là đáy thực tế của phiên 18/08, dùng làm mốc vô hiệu ngắn hạn cho kế hoạch tác nghiệp; không suy diễn thành hỗ trợ dài hạn." },
-      { label: "Mốc đóng cửa", value: "1.732,02", note: "Giữ trên mức đóng cửa này cùng độ rộng cải thiện mới củng cố trạng thái; bản thân việc đứng trên 1.732,02 chưa đủ để nâng tín hiệu." },
-      { label: "Biên trên phiên 18/08", value: "1.750,86", note: "Chỉ xem là xác nhận tốt hơn nếu chỉ số đóng vượt biên trên và độ rộng/thanh khoản đồng thuận; không mua đuổi chỉ vì chạm mốc trong phiên." }
-    ],
-    playbook: [
-      { if: "VN-Index duy trì trên 1.732,02 và độ rộng chuyển sang số mã tăng lớn hơn số mã giảm", then: "TIẾP TỤC GIỮ các vị thế đã có tín hiệu hợp lệ; chỉ xem xét entry mới theo đúng vùng/ngưỡng riêng của từng mã, không mua đuổi." },
-      { if: "VN-Index đóng cửa vượt 1.750,86 với độ rộng và thanh khoản cùng xác nhận", then: "NÂNG MỨC XÁC NHẬN nhưng vẫn giải ngân theo từng setup; không chuyển thành mua toàn thị trường." },
-      { if: "VN-Index đóng cửa dưới 1.724,33", then: "GIẢM RỦI RO phần trading và đánh giá lại các setup ngắn hạn; không tự động bình quân giá xuống." }
-    ],
-    focus: "Mốc 1.724,33–1.750,86 • độ rộng HOSE • phân hóa VN30/HNX • ưu tiên setup riêng, không mua đuổi",
-    inference: "Giá chỉ số, OHLC, giá trị giao dịch và độ rộng lấy trực tiếp từ snapshot VNDIRECT Finfo ngày 18/08/2026 lúc 15:08:07. Endpoint dự phòng VNDIRECT finfo-api không kết nối được trong lần kiểm chứng và nguồn vietstock.info bị Cloudflare chặn, vì vậy bản này không tự bổ sung số liệu khối ngoại, MA hay thanh khoản bình quân chưa tái lập được. Các mốc 1.724,33 và 1.750,86 chỉ là đáy/đỉnh thực tế của phiên 18/08 được dùng làm mốc IF–THEN ngắn hạn, không phải vùng hỗ trợ/kháng cự dài hạn suy đoán. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
-    sources: [
-      { label: "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026", url: "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500" },
-      { label: "DNSE OpenAPI — tài liệu OHLC cho chỉ số thị trường", url: "https://developers.dnse.com.vn/docs/dnse/get-ohlc-history/" }
-    ]
-  },
+      id: "market-view-20260818",
+      date: "2026-08-18",
+      publishedAt: "18/08/2026 • Sau phiên",
+      edition: "Số 09",
+      sentiment: "watch",
+      sentimentLabel: "CHỜ XÁC NHẬN",
+      dataStatus: "VNDIRECT Finfo • EOD 18.08.2026",
+      title: "VN-Index tăng nhẹ, độ rộng vẫn nghiêng về bên giảm",
+      thesis: "Kết phiên 18/08/2026, VN-Index tăng 4,56 điểm (+0,26%) lên 1.732,02 điểm. Chỉ số dao động 1.724,33–1.750,86 điểm nhưng đóng cửa thấp hơn đáng kể so với đỉnh phiên; độ rộng HOSE gồm 124 mã tăng, 163 mã giảm và 76 mã đứng giá. VN30 giảm 0,08% trong khi HNX-Index tăng 1,32%, cho thấy trạng thái phân hóa. Giá trị giao dịch HOSE đạt khoảng 14.872,43 tỷ đồng, trong đó khớp lệnh khoảng 11.484,33 tỷ đồng. Trạng thái tác nghiệp: CHỜ XÁC NHẬN, không mua đuổi.",
+      author: "Xuân Lê TVS",
+      role: "Môi giới và tư vấn đầu tư",
+      readingTime: "3 phút đọc",
+      metrics: [
+        { label: "VN-INDEX", value: "1.732,02", change: "+4,56 • +0,26%", tone: "positive" },
+        { label: "GTGD HOSE", value: "14.872,43 tỷ", change: "Khớp lệnh 11.484,33 tỷ", tone: "neutral" },
+        { label: "ĐỘ RỘNG HOSE", value: "124 tăng / 163 giảm", change: "76 đứng giá • 5 trần • 4 sàn", tone: "warning" },
+        { label: "VN30 / HNX", value: "−0,08% / +1,32%", change: "Phân hóa giữa nhóm vốn hóa lớn và HNX", tone: "warning" }
+      ],
+      backdrop: [
+        "VN-Index mở cửa 1.727,62 điểm, cao nhất 1.750,86, thấp nhất 1.724,33 và đóng cửa 1.732,02; mức đóng cửa thấp hơn đỉnh phiên 18,84 điểm.",
+        "Độ rộng HOSE nghiêng về phía giảm với 163 mã giảm so với 124 mã tăng; số mã trần/sàn theo snapshot chỉ số là 5/4. Vì vậy mức tăng 0,26% của chỉ số chưa đi kèm xác nhận độ rộng.",
+        "VN30 giảm 1,54 điểm xuống 1.876,14 trong khi HNX-Index tăng 3,68 điểm lên 282,32; diễn biến này cho thấy dòng tiền và sức mạnh giá phân hóa giữa các nhóm thị trường."
+      ],
+      levels: [
+        { label: "Biên dưới phiên 18/08", value: "1.724,33", note: "Đây là đáy thực tế của phiên 18/08, dùng làm mốc vô hiệu ngắn hạn cho kế hoạch tác nghiệp; không suy diễn thành hỗ trợ dài hạn." },
+        { label: "Mốc đóng cửa", value: "1.732,02", note: "Giữ trên mức đóng cửa này cùng độ rộng cải thiện mới củng cố trạng thái; bản thân việc đứng trên 1.732,02 chưa đủ để nâng tín hiệu." },
+        { label: "Biên trên phiên 18/08", value: "1.750,86", note: "Chỉ xem là xác nhận tốt hơn nếu chỉ số đóng vượt biên trên và độ rộng/thanh khoản đồng thuận; không mua đuổi chỉ vì chạm mốc trong phiên." }
+      ],
+      playbook: [
+        { if: "VN-Index duy trì trên 1.732,02 và độ rộng chuyển sang số mã tăng lớn hơn số mã giảm", then: "TIẾP TỤC GIỮ các vị thế đã có tín hiệu hợp lệ; chỉ xem xét entry mới theo đúng vùng/ngưỡng riêng của từng mã, không mua đuổi." },
+        { if: "VN-Index đóng cửa vượt 1.750,86 với độ rộng và thanh khoản cùng xác nhận", then: "NÂNG MỨC XÁC NHẬN nhưng vẫn giải ngân theo từng setup; không chuyển thành mua toàn thị trường." },
+        { if: "VN-Index đóng cửa dưới 1.724,33", then: "GIẢM RỦI RO phần trading và đánh giá lại các setup ngắn hạn; không tự động bình quân giá xuống." }
+      ],
+      focus: "Mốc 1.724,33–1.750,86 • độ rộng HOSE • phân hóa VN30/HNX • ưu tiên setup riêng, không mua đuổi",
+      inference: "Giá chỉ số, OHLC, giá trị giao dịch và độ rộng lấy trực tiếp từ snapshot VNDIRECT Finfo ngày 18/08/2026 lúc 15:08:07. Endpoint dự phòng VNDIRECT finfo-api không kết nối được trong lần kiểm chứng và nguồn vietstock.info bị Cloudflare chặn, vì vậy bản này không tự bổ sung số liệu khối ngoại, MA hay thanh khoản bình quân chưa tái lập được. Các mốc 1.724,33 và 1.750,86 chỉ là đáy/đỉnh thực tế của phiên 18/08 được dùng làm mốc IF–THEN ngắn hạn, không phải vùng hỗ trợ/kháng cự dài hạn suy đoán. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      sources: [
+        { label: "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/08/2026", url: "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-08-18&size=500" },
+        { label: "DNSE OpenAPI — tài liệu OHLC cho chỉ số thị trường", url: "https://developers.dnse.com.vn/docs/dnse/get-ohlc-history/" }
+      ]
+    },
     {
       id: "market-view-20260812",
       date: "2026-08-12",
