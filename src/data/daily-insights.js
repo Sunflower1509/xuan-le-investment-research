@@ -15,38 +15,41 @@ window.DAILY_MARKET_INSIGHTS = {
       edition: "Số 15",
       sentiment: "watch",
       sentimentLabel: "GIỮ / CHỜ",
-      dataStatus: "VnExpress + VnEconomy • EOD 10.09.2026",
-      title: "VN-Index giữ vùng 1.820, thanh khoản thấp chưa xác nhận xu hướng",
-      thesis: "VN-Index gần như đi ngang, giảm khoảng 0,4 điểm sau một phiên kiểm định vùng 1.820 rồi phục hồi. Hơn 44% cổ phiếu tăng, trong đó DGC, GEE và PVD tăng trần, nhưng áp lực từ một số cổ phiếu trụ khiến chỉ số không giữ được sắc xanh. VnEconomy ghi nhận thanh khoản ở mức rất thấp và khối ngoại đảo chiều mua ròng mạnh. TRẠNG THÁI TÁC NGHIỆP: GIỮ / CHỜ vì chỉ số vẫn trong vùng cân bằng và chưa có xác nhận đồng thuận từ thanh khoản.",
+      dataStatus: "Nhân Dân + TBTCO + BSC + VnEconomy • EOD 10.09.2026",
+      title: "VN-Index giữ vùng 1.820 nhưng thanh khoản và độ rộng chưa xác nhận",
+      thesis: "VN-Index đóng cửa 1.829,23 điểm, tăng 2,11 điểm (+0,12%) sau khi có lúc lùi xuống 1.812,98 điểm. Độ rộng HOSE vẫn nghiêng về bên giảm với 132 mã tăng, 70 mã tham chiếu và 163 mã giảm. Khối lượng đạt 484,57 triệu cổ phiếu, GTGD 13.565,93 tỷ đồng, giảm khoảng 14,5% về khối lượng và 6,8% về giá trị so với 09/09. Khối ngoại mua ròng 369,28 tỷ đồng trên HOSE. TRẠNG THÁI TÁC NGHIỆP: GIỮ / CHỜ vì chỉ số giữ được vùng phòng thủ nhưng chưa có xác nhận đồng thuận từ độ rộng và thanh khoản.",
       author: "Xuân Lê TVS",
       role: "Môi giới và tư vấn đầu tư",
       readingTime: "2 phút đọc",
       metrics: [
-        { label: "VN-INDEX", value: "QUANH 1.827", change: "−0,4 điểm • gần tham chiếu", tone: "neutral" },
-        { label: "THANH KHOẢN", value: "RẤT THẤP", change: "Áp lực bán suy yếu • cầu chưa xác nhận", tone: "warning" },
-        { label: "ĐỘ RỘNG", value: ">44% MÃ TĂNG", change: "DGC, GEE, PVD tăng trần • thị trường phân hóa", tone: "neutral" },
-        { label: "KHỐI NGOẠI", value: "MUA RÒNG", change: "Đảo chiều mua ròng mạnh • không dùng số tuyệt đối chưa tái lập", tone: "positive" }
+        { label: "VN-INDEX", value: "1.829,23", change: "+2,11 • +0,12%", tone: "positive" },
+        { label: "GTGD HOSE", value: "13.565,93 tỷ", change: "−6,8% giá trị • −14,5% khối lượng vs 09/09", tone: "warning" },
+        { label: "ĐỘ RỘNG HOSE", value: "132 tăng / 163 giảm", change: "70 tham chiếu • bên giảm vẫn chiếm ưu thế", tone: "warning" },
+        { label: "KHỐI NGOẠI HOSE", value: "MUA RÒNG", change: "+369,28 tỷ đồng", tone: "positive" }
       ],
       backdrop: [
-        "VN-Index kiểm định lại vùng 1.820 trong phiên và phục hồi về cuối ngày, nhưng vẫn kết phiên gần tham chiếu. Việc giữ được vùng này giúp chưa kích hoạt điều kiện risk-off theo mốc vô hiệu hiện hành.",
-        "Độ rộng cải thiện hơn so với phiên trước khi hơn 44% cổ phiếu tăng; DGC, GEE và PVD tăng trần. Tuy vậy, một số cổ phiếu vốn hóa lớn tạo sức ép khiến chỉ số không thể chuyển sang một phiên tăng xác nhận.",
-        "Thanh khoản được VnEconomy ghi nhận ở mức rất thấp. Khối ngoại đảo chiều mua ròng mạnh là điểm cộng, nhưng riêng yếu tố này không thay thế điều kiện xác nhận bằng thanh khoản và độ rộng cho trạng thái positive."
+        "VN-Index có lúc giảm về 1.812,98 điểm nhưng phục hồi trong phiên chiều và đóng cửa tại 1.829,23 điểm, tăng 2,11 điểm. Việc hồi trở lại trên 1.820 giúp chưa kích hoạt điều kiện risk-off theo mốc vô hiệu hiện hành.",
+        "Độ rộng HOSE vẫn chưa xác nhận xu hướng tăng khi có 132 mã tăng, 70 mã tham chiếu và 163 mã giảm. Tổng khối lượng đạt 484,57 triệu cổ phiếu và GTGD 13.565,93 tỷ đồng; so với 09/09 giảm khoảng 14,5% về khối lượng và 6,8% về giá trị. Giá trị khớp lệnh theo BSC đạt khoảng 11.240 tỷ đồng, giảm 9,02% so với phiên trước.",
+        "Khối ngoại đảo chiều mua ròng 369,28 tỷ đồng trên HOSE; toàn thị trường được các nguồn ghi nhận mua ròng xấp xỉ 394–401 tỷ đồng tùy phạm vi thống kê. Dòng vốn ngoại cải thiện là điểm cộng nhưng chưa thay thế điều kiện xác nhận bằng độ rộng và thanh khoản của toàn thị trường.",
+        "Nhóm vốn hóa lớn phân hóa: VHM, FPT, VCB, STB và MWG hỗ trợ chỉ số, trong khi VPL, GAS, HPG, HVN và BSR gây áp lực. Do điểm số tăng nhẹ nhưng độ rộng vẫn âm và thanh khoản giảm, chưa có cơ sở chuyển sang trạng thái positive."
       ],
       levels: [
-        { label: "Vùng phòng thủ / vô hiệu gần", value: "1.815–1.820", note: "Phiên 10/09 tiếp tục kiểm định khu vực 1.820 và phục hồi. Đóng cửa dưới 1.820 hoặc xuất hiện VETO rủi ro rõ sẽ ưu tiên chuyển risk-off." },
-        { label: "Vùng cân bằng / cần vượt", value: "1.830–1.850", note: "Chỉ số vẫn chưa thoát dứt khoát vùng tích lũy. Cần vượt vùng này cùng độ rộng tích cực và thanh khoản cải thiện trước khi nâng mức chấp nhận rủi ro." },
-        { label: "Ngưỡng xác nhận tích cực", value: "> 1.870", note: "Chỉ chuyển sang positive khi đóng vượt 1.870, độ rộng và thanh khoản đồng thuận, đồng thời không có VETO rủi ro." }
+        { label: "Vùng phòng thủ / mốc vô hiệu", value: "1.815–1.820", note: "Phiên 10/09 đã xuyên vùng này trong phiên nhưng đóng cửa trở lại phía trên. Chỉ kích hoạt risk-off khi đóng dưới 1.820 hoặc xuất hiện VETO rủi ro rõ." },
+        { label: "Vùng cân bằng / cần lấy lại", value: "1.830–1.850", note: "VN-Index đóng ngay dưới 1.830. Cần vượt và duy trì vùng này với độ rộng tích cực hơn và thanh khoản cải thiện để nâng mức chấp nhận rủi ro." },
+        { label: "Ngưỡng xác nhận tích cực", value: "> 1.870", note: "Chỉ chuyển sang positive khi đóng vượt 1.870, số mã tăng áp đảo, thanh khoản đồng thuận và không có VETO rủi ro." }
       ],
       playbook: [
         { state: "positive", if: "XÁC NHẬN TÍCH CỰC — VN-Index đóng vượt 1.870, độ rộng chuyển sang số mã tăng áp đảo, thanh khoản cải thiện rõ và không xuất hiện VETO rủi ro", then: "TĂNG DẦN tỷ trọng ở leader/setup hợp lệ; chia lệnh, ưu tiên giao dịch có R:R tối thiểu 2:1 và stoploss 3–7% theo cấu trúc từng mã; không mua đuổi khi điểm vào không còn phù hợp." },
-        { state: "neutral", if: "CÂN BẰNG / THIẾU XÁC NHẬN — VN-Index còn vận động quanh 1.820–1.850 hoặc độ rộng/thanh khoản chưa đồng thuận đầy đủ", then: "GIỮ / CHỜ với tỷ trọng vừa phải; giữ mã khỏe, chờ điểm vào có R:R tốt và chỉ giải ngân khi setup riêng đạt điều kiện; không mua đuổi." },
+        { state: "neutral", if: "CÂN BẰNG / THIẾU XÁC NHẬN — VN-Index còn vận động quanh 1.820–1.850 hoặc chưa có sự đồng thuận đầy đủ từ độ rộng và thanh khoản", then: "GIỮ / CHỜ với tỷ trọng vừa phải; giữ mã khỏe, chờ điểm vào có R:R tốt và chỉ giải ngân khi setup riêng đạt điều kiện; không mua đuổi." },
         { state: "risk_off", if: "RISK-OFF / VETO — VN-Index đóng dưới 1.820 hoặc xuất hiện VETO rõ từ độ rộng xấu mạnh, thanh khoản bán tăng hay nhóm vốn hóa lớn mở rộng đà giảm", then: "GIẢM RỦI RO phần trading; không bắt đáy sớm, không bình quân giá xuống và tuân thủ stoploss 3–7% theo cấu trúc từng mã." }
       ],
-      focus: "1.815–1.820 • vùng cân bằng 1.830–1.850 • xác nhận trên 1.870 • thanh khoản thấp • độ rộng • khối ngoại đảo chiều mua ròng",
-      inference: "VnExpress ghi nhận phiên 10/09/2026 thị trường giảm khoảng 0,4 điểm dù hơn 44% cổ phiếu tăng, với DGC, GEE và PVD tăng trần; website vì vậy không tự gán mức đóng cửa tuyệt đối có độ chính xác giả khi nguồn EOD đang truy cập chỉ công bố mức thay đổi làm tròn. VnEconomy xác nhận VN-Index phục hồi sau khi kiểm định vùng 1.820, thanh khoản rất thấp và khối ngoại đảo chiều mua ròng mạnh. Do chưa tái lập được giá trị tuyệt đối của thanh khoản và mua ròng từ hai nguồn EOD độc lập, website chỉ dùng mô tả định tính đã được xác nhận, không nội suy số liệu. Trạng thái GIỮ / CHỜ tuân thủ quy tắc loại trừ: chưa có điều kiện đóng dưới mốc vô hiệu/VETO để chuyển risk_off, đồng thời chưa đủ xác nhận thanh khoản và độ rộng để chuyển positive. Các mốc 1.815–1.820, 1.830–1.850 và trên 1.870 là mốc tác nghiệp có điều kiện, không phải mức được bảo đảm. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      focus: "1.815–1.820 • vùng cân bằng 1.830–1.850 • xác nhận trên 1.870 • độ rộng HOSE • thanh khoản giảm • khối ngoại mua ròng",
+      inference: "VN-Index 1.829,23 điểm, tăng 2,11 điểm (+0,12%), độ rộng HOSE 132 tăng/70 tham chiếu/163 giảm, khối lượng 484,57 triệu cổ phiếu và GTGD 13.565,93 tỷ đồng được đối chiếu giữa Báo Nhân Dân và Thời báo Tài chính Việt Nam ngày 10/09/2026. Mức giảm khoảng 14,5% về khối lượng và 6,8% về giá trị so với 09/09 được đối chiếu với số liệu phiên trước và nguồn EOD công bố. BSC ghi giá trị khớp lệnh VN-Index 11.240 tỷ đồng, giảm 9,02% và khối ngoại mua ròng 369,28 tỷ đồng trên HOSE. VnEconomy ghi đáy phiên 1.812,98 điểm và xác nhận chỉ số phục hồi sau khi kiểm định vùng 1.820. Việc xếp trạng thái GIỮ / CHỜ tuân thủ quy tắc loại trừ: phiên không đóng dưới mốc vô hiệu và không xuất hiện VETO đủ mạnh để chuyển risk_off, nhưng cũng chưa đạt ngưỡng xác nhận 1.870 và thiếu đồng thuận từ độ rộng/thanh khoản nên không thể chuyển positive. Các mốc 1.815–1.820, 1.830–1.850 và trên 1.870 là mốc tác nghiệp có điều kiện, không phải mức được bảo đảm. Không nội suy số liệu thiếu. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
       sources: [
-        { label: "VnExpress — Cổ phiếu trụ chặn mạch tăng của chứng khoán, EOD 10/09/2026", url: "https://vnexpress.net/kinh-doanh/chung-khoan" },
-        { label: "VnEconomy — Thị trường ổn định quanh mốc 1.820 điểm, vốn ngoại đảo chiều mua", url: "https://vneconomy.vn/thi-truong-chung-khoan.htm" }
+        { label: "Báo Nhân Dân — Chứng khoán ngày 10/9: VN-Index giữ sắc xanh, nhóm bán lẻ và công nghệ dẫn dắt", url: "https://nhandan.vn/chung-khoan-ngay-109-vn-index-giu-sac-xanh-nhom-ban-le-va-cong-nghe-dan-dat-thi-truong-post987537.html" },
+        { label: "Thời báo Tài chính Việt Nam — VN-Index đảo chiều tăng nhẹ, thanh khoản vẫn thấp", url: "https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-10-9-vn-index-dao-chieu-tang-nhe-thanh-khoan-van-thap-203601.html" },
+        { label: "BSC Brief 10.09 — Tâm lý e ngại rủi ro tiếp tục chi phối thị trường", url: "https://www.bsc.com.vn/bao-cao/15885-bsc-brief-10-09-tam-ly-e-ngai-rui-ro-tiep-tuc-chi-phoi-thi-truong/" },
+        { label: "VnEconomy — Thị trường ổn định quanh mốc 1.820 điểm, vốn ngoại đảo chiều mua", url: "https://vneconomy.vn/thi-truong-on-dinh-quanh-moc-1820-diem-von-ngoai-dao-chieu-mua.htm" }
       ]
     },
     {
