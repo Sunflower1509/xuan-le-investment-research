@@ -1,5 +1,5 @@
 const REPORT_PARAM = "report";
-const MODULE_VERSION = "1.0.0";
+const MODULE_VERSION = "1.1.0";
 
 const LINK_HOST_SELECTORS = [
   ".priority-code",
@@ -9,7 +9,8 @@ const LINK_HOST_SELECTORS = [
   ".coverage-card-head h3",
   ".watchlist-item > div:first-child > strong",
   ".compare-code",
-  "[data-role='priority-summary'] > div:nth-child(2) > strong"
+  "[data-role='priority-summary'] > div:nth-child(2) > strong",
+  "[data-role='exclusion-list'] article > div:first-child > strong"
 ];
 
 const normalizeToken = (value) => String(value ?? "").trim().toUpperCase();
@@ -88,7 +89,13 @@ export const initReportDeepLinks = () => {
       .report-deep-link:hover{text-decoration-style:solid;text-decoration-thickness:.08em}
       .report-deep-link:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:3px;text-decoration-color:currentColor}
       .priority-code>.report-deep-link,.table-ticker>.report-deep-link,.ledger-ticker>.report-deep-link,.ticker-mark>.report-deep-link,.compare-code>.report-deep-link{display:inline-block}
-      @media (prefers-reduced-motion:reduce){.report-deep-link{transition:none}}
+      .action-table td .table-ticker>.report-deep-link{display:inline-flex!important;align-items:center;min-height:36px;margin:0!important;padding:.3rem .62rem;color:var(--navy);background:linear-gradient(135deg,rgba(8,28,49,.065),rgba(8,120,90,.045));border:1px solid rgba(8,28,49,.2);border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);font-family:var(--font-editorial);font-size:1.18rem!important;font-weight:760;line-height:1;text-decoration:none;transition:border-color .16s,background .16s,box-shadow .16s}
+      .action-table td .table-ticker>.report-deep-link:hover{color:var(--emerald);background:var(--emerald-pale);border-color:rgba(8,120,90,.45);box-shadow:inset 0 0 0 1px rgba(255,255,255,.78),0 5px 14px rgba(8,120,90,.08)}
+      .exclusion-panel .report-exclusion-link{display:inline-flex;align-items:center;width:max-content;margin-top:10px;padding:7px 10px;color:var(--emerald);background:rgba(230,244,239,.72);border:1px solid rgba(8,120,90,.22);border-radius:8px;font-size:.58rem;font-weight:820;line-height:1.2;text-decoration:none;transition:border-color .16s,background .16s,transform .16s}
+      .exclusion-panel .report-exclusion-link:hover{background:var(--emerald-pale);border-color:rgba(8,120,90,.45);transform:translateY(-1px)}
+      .exclusion-panel .report-exclusion-link:focus-visible{outline:2px solid rgba(8,120,90,.55);outline-offset:3px}
+      @media (width<=780px){.action-table td .table-ticker>.report-deep-link{min-height:38px;padding:.32rem .66rem;font-size:1.28rem!important}}
+      @media (prefers-reduced-motion:reduce){.report-deep-link,.report-exclusion-link{transition:none}}
     `;
     document.head.appendChild(style);
   };
@@ -187,12 +194,37 @@ export const initReportDeepLinks = () => {
     }
   };
 
+  const decorateExclusionLinks = (root = document) => {
+    root.querySelectorAll("[data-role='exclusion-list'] article").forEach((article) => {
+      if (article.querySelector(".report-exclusion-link")) return;
+      const tickerHost = article.querySelector(":scope > div:first-child > strong");
+      const ticker = normalizeToken(tickerHost?.textContent);
+      const id = latestByTicker.get(ticker)?.id;
+      if (!id) return;
+
+      const anchor = document.createElement("a");
+      anchor.className = "report-exclusion-link";
+      anchor.href = reportUrl(id).href;
+      anchor.dataset.reportDeepLink = "";
+      anchor.dataset.reportId = id;
+      anchor.textContent = "Mở hồ sơ định giá ↗";
+      anchor.title = `Mở hồ sơ định giá ${ticker}`;
+      anchor.setAttribute("aria-label", `Mở hồ sơ định giá ${ticker}`);
+      article.appendChild(anchor);
+    });
+  };
+
+  const decorateReportLinks = (root = document) => {
+    decorateTickerLinks(root);
+    decorateExclusionLinks(root);
+  };
+
   const scheduleDecorate = () => {
     if (decorateQueued) return;
     decorateQueued = true;
     queueMicrotask(() => {
       decorateQueued = false;
-      decorateTickerLinks(document);
+      decorateReportLinks(document);
     });
   };
 
@@ -242,7 +274,7 @@ export const initReportDeepLinks = () => {
   };
 
   injectLinkStyles();
-  decorateTickerLinks(document);
+  decorateReportLinks(document);
 
   document.addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : null;
