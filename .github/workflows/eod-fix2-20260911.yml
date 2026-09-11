@@ -1,0 +1,31 @@
+name: EOD fix 20260911
+on:
+  push:
+    paths:
+      - .github/workflows/eod-fix2-20260911.yml
+permissions:
+  contents: write
+  actions: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Patch verified overrides
+        run: node scripts/patch-eod-20260911.mjs
+      - name: Commit patch
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add scripts/update-eod-market-data.mjs
+          git diff --cached --quiet || git commit -m "Verify 2026-09-11 EOD mismatch exceptions [skip ci]"
+          git push origin HEAD:main
+      - name: Dispatch EOD
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run eod-daily.yml --ref main -f date=2026-09-11
