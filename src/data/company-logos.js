@@ -1,13 +1,13 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 122,
-    "synced": "2026-09-03",
-    "source": "TradingView exact symbol search, locked by ticker + exchange + ISIN; local SVG assets"
+    "count": 125,
+    "synced": "2026-09-11",
+    "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
   "logos": {
     "ACB": {
-      "path": "assets/images/logos/acb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/acb.svg?v=20260911-logo2",
       "alt": "Logo Asia Commercial Joint Stock Bank (ACB)",
       "exchange": "HOSE",
       "isin": "VN000000ACB8",
@@ -18,7 +18,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1011
     },
     "BAF": {
-      "path": "assets/images/logos/baf.svg?v=20260903-logo1",
+      "path": "assets/images/logos/baf.svg?v=20260911-logo2",
       "alt": "Logo BAF Viet Nam Agriculture Joint Stock Company (BAF)",
       "exchange": "HOSE",
       "isin": "VN000000BAF1",
@@ -29,7 +29,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2191
     },
     "BCM": {
-      "path": "assets/images/logos/bcm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bcm.svg?v=20260911-logo2",
       "alt": "Logo Becamex Investment And Industrial Development Group (BCM)",
       "exchange": "HOSE",
       "isin": "VN000000BCM3",
@@ -40,7 +40,7 @@ window.COMPANY_LOGOS = {
       "bytes": 359
     },
     "BFC": {
-      "path": "assets/images/logos/bfc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bfc.svg?v=20260911-logo2",
       "alt": "Logo Binh Dien Fertilizer JSC (BFC)",
       "exchange": "HOSE",
       "isin": "VN000000BFC7",
@@ -51,7 +51,7 @@ window.COMPANY_LOGOS = {
       "bytes": 7961
     },
     "BID": {
-      "path": "assets/images/logos/bid.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bid.svg?v=20260911-logo2",
       "alt": "Logo Joint Stock Commercial Bank for Investment and Development of Vietnam (BID)",
       "exchange": "HOSE",
       "isin": "VN000000BID9",
@@ -62,7 +62,7 @@ window.COMPANY_LOGOS = {
       "bytes": 635
     },
     "BMP": {
-      "path": "assets/images/logos/bmp.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bmp.svg?v=20260911-logo2",
       "alt": "Logo Binh Minh Plastics JSC (BMP)",
       "exchange": "HOSE",
       "isin": "VN000000BMP5",
@@ -73,7 +73,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3968
     },
     "BSI": {
-      "path": "assets/images/logos/bsi.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bsi.svg?v=20260911-logo2",
       "alt": "Logo BIDV Securities JSC (BSI)",
       "exchange": "HOSE",
       "isin": "VN000000BSI7",
@@ -84,7 +84,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1109
     },
     "BSR": {
-      "path": "assets/images/logos/bsr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bsr.svg?v=20260911-logo2",
       "alt": "Logo Petrovietnam Refining And Petrochemical Corporation. (BSR)",
       "exchange": "HOSE",
       "isin": "VN000000BSR8",
@@ -95,7 +95,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2682
     },
     "BVH": {
-      "path": "assets/images/logos/bvh.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bvh.svg?v=20260911-logo2",
       "alt": "Logo Bao Viet Holdings (BVH)",
       "exchange": "HOSE",
       "isin": "VN000000BVH3",
@@ -106,7 +106,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2972
     },
     "BVS": {
-      "path": "assets/images/logos/bvs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/bvs.svg?v=20260911-logo2",
       "alt": "Logo Bao Viet Securities JSC (BVS)",
       "exchange": "HNX",
       "isin": "VN000000BVS0",
@@ -117,7 +117,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2972
     },
     "CEO": {
-      "path": "assets/images/logos/ceo.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ceo.svg?v=20260911-logo2",
       "alt": "Logo CEO Group JSC (CEO)",
       "exchange": "HNX",
       "isin": "VN000000CEO3",
@@ -128,7 +128,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1406
     },
     "CMG": {
-      "path": "assets/images/logos/cmg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/cmg.svg?v=20260911-logo2",
       "alt": "Logo CMC Corporation (CMG)",
       "exchange": "HOSE",
       "isin": "VN000000CMG2",
@@ -139,7 +139,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2398
     },
     "CSV": {
-      "path": "assets/images/logos/csv.svg?v=20260903-logo1",
+      "path": "assets/images/logos/csv.svg?v=20260911-logo2",
       "alt": "Logo South Basic Chemicals Joint Stock Company (CSV)",
       "exchange": "HOSE",
       "isin": "VN000000CSV8",
@@ -150,7 +150,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2051
     },
     "CTD": {
-      "path": "assets/images/logos/ctd.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ctd.svg?v=20260911-logo2",
       "alt": "Logo Coteccons Construction JSC (CTD)",
       "exchange": "HOSE",
       "isin": "VN000000CTD4",
@@ -161,7 +161,7 @@ window.COMPANY_LOGOS = {
       "bytes": 685
     },
     "CTG": {
-      "path": "assets/images/logos/ctg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ctg.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Joint Stock Commercial Bank for Industry and Trade (CTG)",
       "exchange": "HOSE",
       "isin": "VN000000CTG7",
@@ -172,7 +172,7 @@ window.COMPANY_LOGOS = {
       "bytes": 392
     },
     "CTR": {
-      "path": "assets/images/logos/ctr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ctr.svg?v=20260911-logo2",
       "alt": "Logo Viettel Construction JSC (CTR)",
       "exchange": "HOSE",
       "isin": "VN000000CTR4",
@@ -183,7 +183,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1788
     },
     "D2D": {
-      "path": "assets/images/logos/d2d.svg?v=20260903-logo1",
+      "path": "assets/images/logos/d2d.svg?v=20260911-logo2",
       "alt": "Logo Industrial Urban Development Joint Stock Company No. 2 (D2D)",
       "exchange": "HOSE",
       "isin": "VN000000D2D0",
@@ -194,7 +194,7 @@ window.COMPANY_LOGOS = {
       "bytes": 689
     },
     "DBC": {
-      "path": "assets/images/logos/dbc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dbc.svg?v=20260911-logo2",
       "alt": "Logo DABACO Group (DBC)",
       "exchange": "HOSE",
       "isin": "VN000000DBC2",
@@ -205,7 +205,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2044
     },
     "DCM": {
-      "path": "assets/images/logos/dcm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dcm.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Ca Mau Fertilizer Joint Stock Company (DCM)",
       "exchange": "HOSE",
       "isin": "VN000000DCM9",
@@ -216,7 +216,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "DDV": {
-      "path": "assets/images/logos/ddv.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ddv.svg?v=20260911-logo2",
       "alt": "Logo DAP-VINACHEM Joint Stock Co (DDV)",
       "exchange": "UPCOM",
       "isin": "VN000000DDV8",
@@ -227,7 +227,7 @@ window.COMPANY_LOGOS = {
       "bytes": 4937
     },
     "DGW": {
-      "path": "assets/images/logos/dgw.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dgw.svg?v=20260911-logo2",
       "alt": "Logo Digiworld Corp. (DGW)",
       "exchange": "HOSE",
       "isin": "VN000000DGW9",
@@ -238,7 +238,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2544
     },
     "DHC": {
-      "path": "assets/images/logos/dhc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dhc.svg?v=20260911-logo2",
       "alt": "Logo Dong Hai JSC of Ben Tre (DHC)",
       "exchange": "HOSE",
       "isin": "VN000000DHC9",
@@ -249,7 +249,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1879
     },
     "DIG": {
-      "path": "assets/images/logos/dig.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dig.svg?v=20260911-logo2",
       "alt": "Logo Development Investment Joint Stock Corporation (DIG)",
       "exchange": "HOSE",
       "isin": "VN000000DIG8",
@@ -260,7 +260,7 @@ window.COMPANY_LOGOS = {
       "bytes": 742
     },
     "DPG": {
-      "path": "assets/images/logos/dpg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dpg.svg?v=20260911-logo2",
       "alt": "Logo Dat Phuong JSC (DPG)",
       "exchange": "HOSE",
       "isin": "VN000000DPG3",
@@ -271,7 +271,7 @@ window.COMPANY_LOGOS = {
       "bytes": 395
     },
     "DPR": {
-      "path": "assets/images/logos/dpr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dpr.svg?v=20260911-logo2",
       "alt": "Logo Dong Phu Rubber JSC (DPR)",
       "exchange": "HOSE",
       "isin": "VN000000DPR0",
@@ -282,7 +282,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3885
     },
     "DRI": {
-      "path": "assets/images/logos/dri.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dri.svg?v=20260911-logo2",
       "alt": "Logo DakLak Rubber Investment Joint Stock Co (DRI)",
       "exchange": "UPCOM",
       "isin": "VN000000DRI5",
@@ -293,7 +293,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1422
     },
     "DXG": {
-      "path": "assets/images/logos/dxg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/dxg.svg?v=20260911-logo2",
       "alt": "Logo Bluemarq Group Joint Stock Company (DXG)",
       "exchange": "HOSE",
       "isin": "VN000000DXG7",
@@ -303,8 +303,19 @@ window.COMPANY_LOGOS = {
       "sha256": "30cb2ddaeb8ce55d54a0a942a8f6da765f1a3e6e4e21757b8716235b8efefd40",
       "bytes": 609
     },
+    "DXP": {
+      "path": "assets/images/logos/dxp.svg?v=20260911-logo2",
+      "alt": "Logo Doan Xa Port Joint Stock Company (DXP)",
+      "exchange": "HNX",
+      "isin": "VN000000DXP8",
+      "company": "Doan Xa Port Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/doan-xa-port--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=DXP&hl=1&exchange=HNX&lang=en&search_type=stock&domain=production",
+      "sha256": "f8f25b731508cde49a03433c97fb29626e4e876e14301d64c2c9416cc36a873a",
+      "bytes": 875
+    },
     "EIB": {
-      "path": "assets/images/logos/eib.svg?v=20260903-logo1",
+      "path": "assets/images/logos/eib.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Export Import Commercial Joint Stock Bank (EIB)",
       "exchange": "HOSE",
       "isin": "VN000000EIB7",
@@ -315,7 +326,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1576
     },
     "FPT": {
-      "path": "assets/images/logos/fpt.svg?v=20260903-logo1",
+      "path": "assets/images/logos/fpt.svg?v=20260911-logo2",
       "alt": "Logo FPT Corporation (FPT)",
       "exchange": "HOSE",
       "isin": "VN000000FPT1",
@@ -326,7 +337,7 @@ window.COMPANY_LOGOS = {
       "bytes": 982
     },
     "FRT": {
-      "path": "assets/images/logos/frt.svg?v=20260903-logo1",
+      "path": "assets/images/logos/frt.svg?v=20260911-logo2",
       "alt": "Logo FPT Digital Retail JSC (FRT)",
       "exchange": "HOSE",
       "isin": "VN000000FRT7",
@@ -337,7 +348,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1188
     },
     "FTS": {
-      "path": "assets/images/logos/fts.svg?v=20260903-logo1",
+      "path": "assets/images/logos/fts.svg?v=20260911-logo2",
       "alt": "Logo FPT Securities Joint Stock Company (FTS)",
       "exchange": "HOSE",
       "isin": "VN000000FTS5",
@@ -348,7 +359,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1188
     },
     "GAS": {
-      "path": "assets/images/logos/gas.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gas.svg?v=20260911-logo2",
       "alt": "Logo Petrovietnam Gas JSC (GAS)",
       "exchange": "HOSE",
       "isin": "VN000000GAS3",
@@ -359,7 +370,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2672
     },
     "GEE": {
-      "path": "assets/images/logos/gee.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gee.svg?v=20260911-logo2",
       "alt": "Logo Gelex Electric Joint Stock Company (GEE)",
       "exchange": "HOSE",
       "isin": "VN000000GEE5",
@@ -370,7 +381,7 @@ window.COMPANY_LOGOS = {
       "bytes": 609
     },
     "GEL": {
-      "path": "assets/images/logos/gel.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gel.svg?v=20260911-logo2",
       "alt": "Logo GELEX Infrastructure Joint Stock Company (GEL)",
       "exchange": "HOSE",
       "isin": "VN000000GEL0",
@@ -381,7 +392,7 @@ window.COMPANY_LOGOS = {
       "bytes": 609
     },
     "GEX": {
-      "path": "assets/images/logos/gex.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gex.svg?v=20260911-logo2",
       "alt": "Logo Gelex Group Joint Stock Co (GEX)",
       "exchange": "HOSE",
       "isin": "VN000000GEX5",
@@ -392,7 +403,7 @@ window.COMPANY_LOGOS = {
       "bytes": 609
     },
     "GMD": {
-      "path": "assets/images/logos/gmd.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gmd.svg?v=20260911-logo2",
       "alt": "Logo GEMADEPT GROUP CORPORATION (GMD)",
       "exchange": "HOSE",
       "isin": "VN000000GMD0",
@@ -403,7 +414,7 @@ window.COMPANY_LOGOS = {
       "bytes": 7966
     },
     "GVR": {
-      "path": "assets/images/logos/gvr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/gvr.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Rubber Group Limited (GVR)",
       "exchange": "HOSE",
       "isin": "VN000000GVR1",
@@ -414,7 +425,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1001
     },
     "HAH": {
-      "path": "assets/images/logos/hah.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hah.svg?v=20260911-logo2",
       "alt": "Logo Hai An Transport & Stevedoring JSC (HAH)",
       "exchange": "HOSE",
       "isin": "VN000000HAH4",
@@ -425,7 +436,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2522
     },
     "HCM": {
-      "path": "assets/images/logos/hcm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hcm.svg?v=20260911-logo2",
       "alt": "Logo Ho Chi Minh City Securities Corp. (HCM)",
       "exchange": "HOSE",
       "isin": "VN000000HCM0",
@@ -436,7 +447,7 @@ window.COMPANY_LOGOS = {
       "bytes": 935
     },
     "HDB": {
-      "path": "assets/images/logos/hdb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hdb.svg?v=20260911-logo2",
       "alt": "Logo Ho Chi Minh City Development Joint Stock Commercial Bank (HDB)",
       "exchange": "HOSE",
       "isin": "VN000000HDB1",
@@ -447,7 +458,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2661
     },
     "HDC": {
-      "path": "assets/images/logos/hdc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hdc.svg?v=20260911-logo2",
       "alt": "Logo Ba Ria-Vung Tau House Development JSC (HDC)",
       "exchange": "HOSE",
       "isin": "VN000000HDC9",
@@ -458,7 +469,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1974
     },
     "HDG": {
-      "path": "assets/images/logos/hdg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hdg.svg?v=20260911-logo2",
       "alt": "Logo Ha Do Group Joint Stock Company (HDG)",
       "exchange": "HOSE",
       "isin": "VN000000HDG0",
@@ -468,8 +479,19 @@ window.COMPANY_LOGOS = {
       "sha256": "73a85221e6e006f7bbab34ccdcb063b4f18af2c0d2aec0167f98983a9a2e074c",
       "bytes": 600
     },
+    "HHP": {
+      "path": "assets/images/logos/hhp.svg?v=20260911-logo2",
+      "alt": "Logo Hai Phong Hoang Ha Paper JSC (HHP)",
+      "exchange": "HOSE",
+      "isin": "VN000000HHP2",
+      "company": "Hai Phong Hoang Ha Paper JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-giay-hoang-ha-hp--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=HHP&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "2e54ad5fff6c2c37c6d9873ec26a6fa8f81b2b7c66f9f6ac20c9731734a232e7",
+      "bytes": 2353
+    },
     "HHS": {
-      "path": "assets/images/logos/hhs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hhs.svg?v=20260911-logo2",
       "alt": "Logo Hoang Huy Investment Services JSC (HHS)",
       "exchange": "HOSE",
       "isin": "VN000000HHS6",
@@ -480,7 +502,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1232
     },
     "HII": {
-      "path": "assets/images/logos/hii.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hii.svg?v=20260911-logo2",
       "alt": "Logo An Tien Industries Joint Stock Co (HII)",
       "exchange": "HOSE",
       "isin": "VN000000HII5",
@@ -491,7 +513,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1575
     },
     "HPG": {
-      "path": "assets/images/logos/hpg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hpg.svg?v=20260911-logo2",
       "alt": "Logo Hoa Phat Group JSC (HPG)",
       "exchange": "HOSE",
       "isin": "VN000000HPG4",
@@ -502,7 +524,7 @@ window.COMPANY_LOGOS = {
       "bytes": 544
     },
     "HSG": {
-      "path": "assets/images/logos/hsg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hsg.svg?v=20260911-logo2",
       "alt": "Logo Hoa Sen Group (HSG)",
       "exchange": "HOSE",
       "isin": "VN000000HSG8",
@@ -513,7 +535,7 @@ window.COMPANY_LOGOS = {
       "bytes": 4080
     },
     "HUT": {
-      "path": "assets/images/logos/hut.svg?v=20260903-logo1",
+      "path": "assets/images/logos/hut.svg?v=20260911-logo2",
       "alt": "Logo Tasco Joint Stock Company (HUT)",
       "exchange": "HNX",
       "isin": "VN000000HUT7",
@@ -524,7 +546,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1128
     },
     "ICG": {
-      "path": "assets/images/logos/icg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/icg.svg?v=20260911-logo2",
       "alt": "Logo Song Hong Construction Joint Stock Company (ICG)",
       "exchange": "HNX",
       "isin": "VN000000ICG0",
@@ -535,7 +557,7 @@ window.COMPANY_LOGOS = {
       "bytes": 5482
     },
     "IDC": {
-      "path": "assets/images/logos/idc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/idc.svg?v=20260911-logo2",
       "alt": "Logo IDICO Corp. JSC (IDC)",
       "exchange": "HNX",
       "isin": "VN000000IDC7",
@@ -546,7 +568,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1258
     },
     "KBC": {
-      "path": "assets/images/logos/kbc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/kbc.svg?v=20260911-logo2",
       "alt": "Logo Kinh Bac City Development Holding Corporation (KBC)",
       "exchange": "HOSE",
       "isin": "VN000000KBC7",
@@ -557,7 +579,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1807
     },
     "KDH": {
-      "path": "assets/images/logos/kdh.svg?v=20260903-logo1",
+      "path": "assets/images/logos/kdh.svg?v=20260911-logo2",
       "alt": "Logo Khang Dien House Trading & Investment JSC (KDH)",
       "exchange": "HOSE",
       "isin": "VN000000KDH2",
@@ -568,7 +590,7 @@ window.COMPANY_LOGOS = {
       "bytes": 289
     },
     "LHG": {
-      "path": "assets/images/logos/lhg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/lhg.svg?v=20260911-logo2",
       "alt": "Logo Long Hau Corp. (LHG)",
       "exchange": "HOSE",
       "isin": "VN000000LHG3",
@@ -579,7 +601,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1342
     },
     "LPB": {
-      "path": "assets/images/logos/lpb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/lpb.svg?v=20260911-logo2",
       "alt": "Logo Fortune Vietnam Joint Stock Commercial Bank (LPB)",
       "exchange": "HOSE",
       "isin": "VN000000LPB7",
@@ -590,7 +612,7 @@ window.COMPANY_LOGOS = {
       "bytes": 532
     },
     "MBB": {
-      "path": "assets/images/logos/mbb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/mbb.svg?v=20260911-logo2",
       "alt": "Logo Military Commercial Joint Stock Bank (MBB)",
       "exchange": "HOSE",
       "isin": "VN000000MBB5",
@@ -601,7 +623,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2035
     },
     "MCH": {
-      "path": "assets/images/logos/mch.svg?v=20260903-logo1",
+      "path": "assets/images/logos/mch.svg?v=20260911-logo2",
       "alt": "Logo Masan Consumer Corporation (MCH)",
       "exchange": "HOSE",
       "isin": "VN000000MCH0",
@@ -612,7 +634,7 @@ window.COMPANY_LOGOS = {
       "bytes": 359
     },
     "MSB": {
-      "path": "assets/images/logos/msb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/msb.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Maritime Commercial Joint Stock Bank (MSB)",
       "exchange": "HOSE",
       "isin": "VN000000MSB9",
@@ -623,7 +645,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1960
     },
     "MSN": {
-      "path": "assets/images/logos/msn.svg?v=20260903-logo1",
+      "path": "assets/images/logos/msn.svg?v=20260911-logo2",
       "alt": "Logo Masan Group Corporation (MSN)",
       "exchange": "HOSE",
       "isin": "VN000000MSN4",
@@ -634,7 +656,7 @@ window.COMPANY_LOGOS = {
       "bytes": 359
     },
     "MSR": {
-      "path": "assets/images/logos/msr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/msr.svg?v=20260911-logo2",
       "alt": "Logo Masan High-Tech Materials Corp. (MSR)",
       "exchange": "UPCOM",
       "isin": "VN000000MSR5",
@@ -645,7 +667,7 @@ window.COMPANY_LOGOS = {
       "bytes": 580
     },
     "MWG": {
-      "path": "assets/images/logos/mwg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/mwg.svg?v=20260911-logo2",
       "alt": "Logo Mobile World Investment Corp (MWG)",
       "exchange": "HOSE",
       "isin": "VN000000MWG0",
@@ -656,7 +678,7 @@ window.COMPANY_LOGOS = {
       "bytes": 449
     },
     "NKG": {
-      "path": "assets/images/logos/nkg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/nkg.svg?v=20260911-logo2",
       "alt": "Logo Nam Kim Steel Joint Stock Company (NKG)",
       "exchange": "HOSE",
       "isin": "VN000000NKG3",
@@ -667,7 +689,7 @@ window.COMPANY_LOGOS = {
       "bytes": 652
     },
     "NLG": {
-      "path": "assets/images/logos/nlg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/nlg.svg?v=20260911-logo2",
       "alt": "Logo Nam Long Investment Corp. (NLG)",
       "exchange": "HOSE",
       "isin": "VN000000NLG1",
@@ -678,7 +700,7 @@ window.COMPANY_LOGOS = {
       "bytes": 541
     },
     "NTC": {
-      "path": "assets/images/logos/ntc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ntc.svg?v=20260911-logo2",
       "alt": "Logo Nam Tan Uyen Joint Stock Corporation (NTC)",
       "exchange": "HOSE",
       "isin": "VN000000NTC3",
@@ -689,7 +711,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1001
     },
     "NVL": {
-      "path": "assets/images/logos/nvl.svg?v=20260903-logo1",
+      "path": "assets/images/logos/nvl.svg?v=20260911-logo2",
       "alt": "Logo No Va Land Investment Group Corp. (NVL)",
       "exchange": "HOSE",
       "isin": "VN000000NVL0",
@@ -700,7 +722,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1731
     },
     "OCB": {
-      "path": "assets/images/logos/ocb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ocb.svg?v=20260911-logo2",
       "alt": "Logo Orient Commercial Joint Stock Bank (OCB)",
       "exchange": "HOSE",
       "isin": "VN000000OCB9",
@@ -711,7 +733,7 @@ window.COMPANY_LOGOS = {
       "bytes": 647
     },
     "OIL": {
-      "path": "assets/images/logos/oil.svg?v=20260903-logo1",
+      "path": "assets/images/logos/oil.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Oil Corp. (OIL)",
       "exchange": "UPCOM",
       "isin": "VN000000OIL5",
@@ -722,7 +744,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2674
     },
     "ORS": {
-      "path": "assets/images/logos/ors.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ors.svg?v=20260911-logo2",
       "alt": "Logo Orient Securities Corp. (ORS)",
       "exchange": "HOSE",
       "isin": "VN000000ORS1",
@@ -733,7 +755,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2207
     },
     "PAN": {
-      "path": "assets/images/logos/pan.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pan.svg?v=20260911-logo2",
       "alt": "Logo PAN Group Joint Stock Company (PAN)",
       "exchange": "HOSE",
       "isin": "VN000000PAN5",
@@ -744,7 +766,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2280
     },
     "PC1": {
-      "path": "assets/images/logos/pc1.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pc1.svg?v=20260911-logo2",
       "alt": "Logo PC1 Group JSC (PC1)",
       "exchange": "HOSE",
       "isin": "VN000000PC11",
@@ -755,7 +777,7 @@ window.COMPANY_LOGOS = {
       "bytes": 851
     },
     "PDR": {
-      "path": "assets/images/logos/pdr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pdr.svg?v=20260911-logo2",
       "alt": "Logo Phat Dat Real Estate Development Corp. (PDR)",
       "exchange": "HOSE",
       "isin": "VN000000PDR0",
@@ -766,7 +788,7 @@ window.COMPANY_LOGOS = {
       "bytes": 526
     },
     "PET": {
-      "path": "assets/images/logos/pet.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pet.svg?v=20260911-logo2",
       "alt": "Logo Petrovietnam General Services Corporation (PET)",
       "exchange": "HOSE",
       "isin": "VN000000PET4",
@@ -777,7 +799,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "PHP": {
-      "path": "assets/images/logos/php.svg?v=20260903-logo1",
+      "path": "assets/images/logos/php.svg?v=20260911-logo2",
       "alt": "Logo Port of Hai Phong JSC (PHP)",
       "exchange": "UPCOM",
       "isin": "VN000000PHP5",
@@ -788,7 +810,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1630
     },
     "PHR": {
-      "path": "assets/images/logos/phr.svg?v=20260903-logo1",
+      "path": "assets/images/logos/phr.svg?v=20260911-logo2",
       "alt": "Logo Phuoc Hoa Rubber JSC (PHR)",
       "exchange": "HOSE",
       "isin": "VN000000PHR1",
@@ -799,7 +821,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1001
     },
     "PLC": {
-      "path": "assets/images/logos/plc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/plc.svg?v=20260911-logo2",
       "alt": "Logo Petrolimex Petrochemical JSC (PLC)",
       "exchange": "HNX",
       "isin": "VN000000PLC5",
@@ -810,7 +832,7 @@ window.COMPANY_LOGOS = {
       "bytes": 901
     },
     "PLX": {
-      "path": "assets/images/logos/plx.svg?v=20260903-logo1",
+      "path": "assets/images/logos/plx.svg?v=20260911-logo2",
       "alt": "Logo Vietnam National Petroleum Group (PLX)",
       "exchange": "HOSE",
       "isin": "VN000000PLX1",
@@ -821,7 +843,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1433
     },
     "PNJ": {
-      "path": "assets/images/logos/pnj.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pnj.svg?v=20260911-logo2",
       "alt": "Logo Phu Nhuan Jewelry JSC (PNJ)",
       "exchange": "HOSE",
       "isin": "VN000000PNJ6",
@@ -832,7 +854,7 @@ window.COMPANY_LOGOS = {
       "bytes": 998
     },
     "POW": {
-      "path": "assets/images/logos/pow.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pow.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Power Corporation (POW)",
       "exchange": "HOSE",
       "isin": "VN000000POW7",
@@ -843,7 +865,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2674
     },
     "PVB": {
-      "path": "assets/images/logos/pvb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvb.svg?v=20260911-logo2",
       "alt": "Logo Petrovietnam Coating JSC (PVB)",
       "exchange": "HNX",
       "isin": "VN000000PVB6",
@@ -854,7 +876,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "PVC": {
-      "path": "assets/images/logos/pvc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvc.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Chemical and Services Corporation (PVC)",
       "exchange": "HNX",
       "isin": "VN000000PVC4",
@@ -865,7 +887,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "PVD": {
-      "path": "assets/images/logos/pvd.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvd.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Drilling & Well Services JSC (PVD)",
       "exchange": "HOSE",
       "isin": "VN000000PVD2",
@@ -876,7 +898,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2672
     },
     "PVP": {
-      "path": "assets/images/logos/pvp.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvp.svg?v=20260911-logo2",
       "alt": "Logo Pacific Petroleum Transportation JSC (PVP)",
       "exchange": "HOSE",
       "isin": "VN000000PVP6",
@@ -887,7 +909,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "PVS": {
-      "path": "assets/images/logos/pvs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvs.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Technical Services Corporation (PVS)",
       "exchange": "HNX",
       "isin": "VN000000PVS0",
@@ -898,7 +920,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1585
     },
     "PVT": {
-      "path": "assets/images/logos/pvt.svg?v=20260903-logo1",
+      "path": "assets/images/logos/pvt.svg?v=20260911-logo2",
       "alt": "Logo PetroVietnam Transportation Corp. (PVT)",
       "exchange": "HOSE",
       "isin": "VN000000PVT8",
@@ -909,7 +931,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3365
     },
     "REE": {
-      "path": "assets/images/logos/ree.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ree.svg?v=20260911-logo2",
       "alt": "Logo Refrigeration Electrical Engineering Corp. (REE)",
       "exchange": "HOSE",
       "isin": "VN000000REE2",
@@ -920,7 +942,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1351
     },
     "SAB": {
-      "path": "assets/images/logos/sab.svg?v=20260903-logo1",
+      "path": "assets/images/logos/sab.svg?v=20260911-logo2",
       "alt": "Logo Saigon Beer Alcohol Beverage Corp. (SAB)",
       "exchange": "HOSE",
       "isin": "VN000000SAB4",
@@ -931,7 +953,7 @@ window.COMPANY_LOGOS = {
       "bytes": 10280
     },
     "SBT": {
-      "path": "assets/images/logos/sbt.svg?v=20260903-logo1",
+      "path": "assets/images/logos/sbt.svg?v=20260911-logo2",
       "alt": "Logo Thanh Thanh Cong - Bien Hoa JSC (SBT)",
       "exchange": "HOSE",
       "isin": "VN000000SBT4",
@@ -942,7 +964,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1633
     },
     "SHB": {
-      "path": "assets/images/logos/shb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/shb.svg?v=20260911-logo2",
       "alt": "Logo Sai Gon - Hanoi Commercial Joint Stock Bank (SHB)",
       "exchange": "HOSE",
       "isin": "VN000000SHB9",
@@ -953,7 +975,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1284
     },
     "SHS": {
-      "path": "assets/images/logos/shs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/shs.svg?v=20260911-logo2",
       "alt": "Logo Saigon - Hanoi Securities JSC (SHS)",
       "exchange": "HNX",
       "isin": "VN000000SHS3",
@@ -963,8 +985,19 @@ window.COMPANY_LOGOS = {
       "sha256": "2fb7c34a35e6c2db87ca9a231ecbf8ace902e512ff350a43382edf05c6506a36",
       "bytes": 1446
     },
+    "SIP": {
+      "path": "assets/images/logos/sip.svg?v=20260911-logo2",
+      "alt": "Logo Saigon VRG Investment Corp. (SIP)",
+      "exchange": "HOSE",
+      "isin": "VN000000SIP7",
+      "company": "Saigon VRG Investment Corp.",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-dau-tu-sai-gon-vrg--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=SIP&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "4a4b7b1ab7876d0a61125877682f3872169f1a044c52642b6f2dd60037a4346e",
+      "bytes": 738
+    },
     "SJS": {
-      "path": "assets/images/logos/sjs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/sjs.svg?v=20260911-logo2",
       "alt": "Logo SJ Group Joint Stock Company (SJS)",
       "exchange": "HOSE",
       "isin": "VN000000SJS9",
@@ -975,7 +1008,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2053
     },
     "SSB": {
-      "path": "assets/images/logos/ssb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ssb.svg?v=20260911-logo2",
       "alt": "Logo Southeast Asia Commercial Joint Stock Bank (SSB)",
       "exchange": "HOSE",
       "isin": "VN000000SSB6",
@@ -986,7 +1019,7 @@ window.COMPANY_LOGOS = {
       "bytes": 839
     },
     "SSI": {
-      "path": "assets/images/logos/ssi.svg?v=20260903-logo1",
+      "path": "assets/images/logos/ssi.svg?v=20260911-logo2",
       "alt": "Logo SSI Securities Corp. (SSI)",
       "exchange": "HOSE",
       "isin": "VN000000SSI1",
@@ -997,7 +1030,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2896
     },
     "STB": {
-      "path": "assets/images/logos/stb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/stb.svg?v=20260911-logo2",
       "alt": "Logo Saigon Treasure Commercial Joint Stock Bank (STB)",
       "exchange": "HOSE",
       "isin": "VN000000STB4",
@@ -1008,7 +1041,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2294
     },
     "SZC": {
-      "path": "assets/images/logos/szc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/szc.svg?v=20260911-logo2",
       "alt": "Logo Sonadezi Chau Duc Shareholding Company (SZC)",
       "exchange": "HOSE",
       "isin": "VN000000SZC9",
@@ -1019,7 +1052,7 @@ window.COMPANY_LOGOS = {
       "bytes": 472
     },
     "TCB": {
-      "path": "assets/images/logos/tcb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tcb.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Technological & Commercial Joint Stock Bank (TCB)",
       "exchange": "HOSE",
       "isin": "VN000000TCB8",
@@ -1030,7 +1063,7 @@ window.COMPANY_LOGOS = {
       "bytes": 302
     },
     "TCH": {
-      "path": "assets/images/logos/tch.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tch.svg?v=20260911-logo2",
       "alt": "Logo Hoang Huy Investment Financial Services JSC (TCH)",
       "exchange": "HOSE",
       "isin": "VN000000TCH5",
@@ -1041,7 +1074,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1376
     },
     "TCM": {
-      "path": "assets/images/logos/tcm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tcm.svg?v=20260911-logo2",
       "alt": "Logo Thanh Cong Textile Garment Investment Trading JSC (TCM)",
       "exchange": "HOSE",
       "isin": "VN000000TCM5",
@@ -1052,7 +1085,7 @@ window.COMPANY_LOGOS = {
       "bytes": 665
     },
     "TCX": {
-      "path": "assets/images/logos/tcx.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tcx.svg?v=20260911-logo2",
       "alt": "Logo Techcom Securities Joint Stock Company (TCX)",
       "exchange": "HOSE",
       "isin": "VN000000TCX2",
@@ -1063,7 +1096,7 @@ window.COMPANY_LOGOS = {
       "bytes": 297
     },
     "TNG": {
-      "path": "assets/images/logos/tng.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tng.svg?v=20260911-logo2",
       "alt": "Logo TNG Investment and Trading JSC (TNG)",
       "exchange": "HNX",
       "isin": "VN000000TNG4",
@@ -1074,7 +1107,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1609
     },
     "TPB": {
-      "path": "assets/images/logos/tpb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tpb.svg?v=20260911-logo2",
       "alt": "Logo Tien Phong Commercial Joint Stock Bank (TPB)",
       "exchange": "HOSE",
       "isin": "VN000000TPB0",
@@ -1085,7 +1118,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1113
     },
     "TVS": {
-      "path": "assets/images/logos/tvs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/tvs.svg?v=20260911-logo2",
       "alt": "Logo Thien Viet Securities JSC (TVS)",
       "exchange": "HOSE",
       "isin": "VN000000TVS2",
@@ -1096,7 +1129,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1191
     },
     "VCB": {
-      "path": "assets/images/logos/vcb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vcb.svg?v=20260911-logo2",
       "alt": "Logo Joint Stock Commercial Bank for Foreign Trade of Vietnam (VCB)",
       "exchange": "HOSE",
       "isin": "VN000000VCB4",
@@ -1107,7 +1140,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1040
     },
     "VCG": {
-      "path": "assets/images/logos/vcg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vcg.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Construction & Import-Export Joint Stock Corporation (VCG)",
       "exchange": "HOSE",
       "isin": "VN000000VCG3",
@@ -1118,7 +1151,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3054
     },
     "VCI": {
-      "path": "assets/images/logos/vci.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vci.svg?v=20260911-logo2",
       "alt": "Logo Vietcap Securities Joint Stock Company (VCI)",
       "exchange": "HOSE",
       "isin": "VN000000VCI9",
@@ -1129,7 +1162,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1735
     },
     "VCK": {
-      "path": "assets/images/logos/vck.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vck.svg?v=20260911-logo2",
       "alt": "Logo VPS Securities JSC (VCK)",
       "exchange": "HOSE",
       "isin": "VN000000VCK5",
@@ -1140,7 +1173,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1862
     },
     "VDS": {
-      "path": "assets/images/logos/vds.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vds.svg?v=20260911-logo2",
       "alt": "Logo Viet Dragon Securities Corp. (VDS)",
       "exchange": "HOSE",
       "isin": "VN000000VDS6",
@@ -1151,7 +1184,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2407
     },
     "VGC": {
-      "path": "assets/images/logos/vgc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vgc.svg?v=20260911-logo2",
       "alt": "Logo Viglacera Corp. (VGC)",
       "exchange": "HOSE",
       "isin": "VN000000VGC3",
@@ -1162,7 +1195,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2058
     },
     "VGI": {
-      "path": "assets/images/logos/vgi.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vgi.svg?v=20260911-logo2",
       "alt": "Logo Viettel Global Investment JSC (VGI)",
       "exchange": "UPCOM",
       "isin": "VN000000VGI0",
@@ -1173,7 +1206,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3172
     },
     "VGS": {
-      "path": "assets/images/logos/vgs.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vgs.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Germany Steel Pipe Joint Stock Company (VGS)",
       "exchange": "HNX",
       "isin": "VN000000VGS9",
@@ -1184,7 +1217,7 @@ window.COMPANY_LOGOS = {
       "bytes": 559
     },
     "VHM": {
-      "path": "assets/images/logos/vhm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vhm.svg?v=20260911-logo2",
       "alt": "Logo Vinhomes Joint Stock Company (VHM)",
       "exchange": "HOSE",
       "isin": "VN000000VHM0",
@@ -1195,7 +1228,7 @@ window.COMPANY_LOGOS = {
       "bytes": 954
     },
     "VIB": {
-      "path": "assets/images/logos/vib.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vib.svg?v=20260911-logo2",
       "alt": "Logo Viet Nam International Commercial Joint Stock Bank (VIB)",
       "exchange": "HOSE",
       "isin": "VN000000VIB1",
@@ -1206,7 +1239,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1445
     },
     "VIC": {
-      "path": "assets/images/logos/vic.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vic.svg?v=20260911-logo2",
       "alt": "Logo Vingroup Joint Stock Company (VIC)",
       "exchange": "HOSE",
       "isin": "VN000000VIC9",
@@ -1217,7 +1250,7 @@ window.COMPANY_LOGOS = {
       "bytes": 897
     },
     "VIX": {
-      "path": "assets/images/logos/vix.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vix.svg?v=20260911-logo2",
       "alt": "Logo VIX Securities Joint Stock Company (VIX)",
       "exchange": "HOSE",
       "isin": "VN000000VIX5",
@@ -1228,7 +1261,7 @@ window.COMPANY_LOGOS = {
       "bytes": 498
     },
     "VJC": {
-      "path": "assets/images/logos/vjc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vjc.svg?v=20260911-logo2",
       "alt": "Logo VietJet Aviation Joint Stock Company (VJC)",
       "exchange": "HOSE",
       "isin": "VN000000VJC7",
@@ -1239,7 +1272,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3112
     },
     "VND": {
-      "path": "assets/images/logos/vnd.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vnd.svg?v=20260911-logo2",
       "alt": "Logo VNDirect Securities Corp. (VND)",
       "exchange": "HOSE",
       "isin": "VN000000VND7",
@@ -1250,7 +1283,7 @@ window.COMPANY_LOGOS = {
       "bytes": 448
     },
     "VNM": {
-      "path": "assets/images/logos/vnm.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vnm.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Dairy Products Corp. (VNM)",
       "exchange": "HOSE",
       "isin": "VN000000VNM8",
@@ -1261,7 +1294,7 @@ window.COMPANY_LOGOS = {
       "bytes": 2809
     },
     "VPB": {
-      "path": "assets/images/logos/vpb.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vpb.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Prosperity Joint-Stock Commercial Bank (VPB)",
       "exchange": "HOSE",
       "isin": "VN000000VPB6",
@@ -1272,7 +1305,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1990
     },
     "VPI": {
-      "path": "assets/images/logos/vpi.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vpi.svg?v=20260911-logo2",
       "alt": "Logo Van Phu - Invest Investment JSC (VPI)",
       "exchange": "HOSE",
       "isin": "VN000000VPI1",
@@ -1283,7 +1316,7 @@ window.COMPANY_LOGOS = {
       "bytes": 698
     },
     "VPL": {
-      "path": "assets/images/logos/vpl.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vpl.svg?v=20260911-logo2",
       "alt": "Logo Vinpearl Joint Stock Company (VPL)",
       "exchange": "HOSE",
       "isin": "VN000000VPL5",
@@ -1294,7 +1327,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1035
     },
     "VPX": {
-      "path": "assets/images/logos/vpx.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vpx.svg?v=20260911-logo2",
       "alt": "Logo Vpbank Securities JSC (VPX)",
       "exchange": "HOSE",
       "isin": "VN000000VPX0",
@@ -1305,7 +1338,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1089
     },
     "VRE": {
-      "path": "assets/images/logos/vre.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vre.svg?v=20260911-logo2",
       "alt": "Logo Vincom Retail JSC (VRE)",
       "exchange": "HOSE",
       "isin": "VN000000VRE6",
@@ -1316,7 +1349,7 @@ window.COMPANY_LOGOS = {
       "bytes": 853
     },
     "VSC": {
-      "path": "assets/images/logos/vsc.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vsc.svg?v=20260911-logo2",
       "alt": "Logo Vietnam Container Shipping JSC (VSC)",
       "exchange": "HOSE",
       "isin": "VN000000VSC8",
@@ -1327,7 +1360,7 @@ window.COMPANY_LOGOS = {
       "bytes": 1693
     },
     "VTP": {
-      "path": "assets/images/logos/vtp.svg?v=20260903-logo1",
+      "path": "assets/images/logos/vtp.svg?v=20260911-logo2",
       "alt": "Logo Viettel Post JSC (VTP)",
       "exchange": "HOSE",
       "isin": "VN000000VTP8",
@@ -1338,7 +1371,7 @@ window.COMPANY_LOGOS = {
       "bytes": 3172
     },
     "YEG": {
-      "path": "assets/images/logos/yeg.svg?v=20260903-logo1",
+      "path": "assets/images/logos/yeg.svg?v=20260911-logo2",
       "alt": "Logo Yeah1 Group Corp. (YEG)",
       "exchange": "HOSE",
       "isin": "VN000000YEG3",
