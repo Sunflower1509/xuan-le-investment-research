@@ -47,6 +47,11 @@ export const withReportParam = (href, reportId) => {
 
 export const withoutReportParam = (href) => withReportParam(href, null);
 
+export const displayDateToIso = (value) => {
+  const match = String(value ?? "").trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  return match ? `${match[3]}-${match[2]}-${match[1]}` : null;
+};
+
 const isPlainPrimaryClick = (event) => event.button === 0
   && !event.metaKey
   && !event.ctrlKey
@@ -126,7 +131,32 @@ export const initReportDeepLinks = () => {
     return true;
   };
 
+  const compareReportId = (host, ticker) => {
+    if (!host.matches(".compare-code")) return null;
+    const headerCell = host.closest("th");
+    const headerRow = headerCell?.parentElement;
+    const columnIndex = headerRow ? [...headerRow.children].indexOf(headerCell) : -1;
+    const table = host.closest(".compare-table");
+    if (!table || columnIndex <= 0) return null;
+
+    const dateRow = [...table.querySelectorAll("tbody tr")].find((row) =>
+      row.querySelector("th")?.textContent.trim() === "Ngày định giá"
+    );
+    const reportDate = displayDateToIso(dateRow?.children[columnIndex]?.textContent);
+    if (!reportDate) return null;
+
+    const matches = reports.filter((report) =>
+      normalizeToken(report?.ticker) === ticker
+      && report?.date === reportDate
+      && report?.reportType !== "trading"
+    );
+    return matches.length === 1 ? matches[0].id : null;
+  };
+
   const scopedReportId = (host, ticker) => {
+    const compareId = compareReportId(host, ticker);
+    if (compareId) return compareId;
+
     const scope = host.closest(".report-card-v4, .coverage-card, .priority-card, .watchlist-item");
     const trigger = scope?.querySelector("[data-action='open-report'][data-id]");
     const scopedId = trigger?.dataset.id;
