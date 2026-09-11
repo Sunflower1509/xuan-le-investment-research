@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   buildLatestReportMap,
+  displayDateToIso,
   resolveReportId,
   sortReportsForTickerLink,
   withReportParam,
@@ -27,6 +28,11 @@ test("ticker alias resolves to the latest valuation report and prefers valuation
   assert.equal(resolveReportId("aaa", reports), "AAA-20260910");
   assert.equal(buildLatestReportMap(reports).get("AAA").id, "AAA-20260910");
   assert.equal(sortReportsForTickerLink(reports)[0].id, "BBB-20260911");
+});
+
+test("display date is normalized for exact compare-report resolution", () => {
+  assert.equal(displayDateToIso("28/08/2026"), "2026-08-28");
+  assert.equal(displayDateToIso("2026-08-28"), null);
 });
 
 test("unknown or blank report tokens are rejected", () => {
@@ -56,6 +62,7 @@ test("production bundle imports the enhancement and all key report surfaces are 
   for (const selector of ["priority-code", "table-ticker", "ledger-ticker", "ticker-mark", "coverage-card-head", "watchlist-item", "compare-code"]) {
     assert.match(module, new RegExp(selector));
   }
+  assert.match(module, /Ngày định giá/);
   assert.match(module, /command-select/);
   assert.match(module, /share-report/);
   assert.match(module, /searchParams\.set\(REPORT_PARAM/);
