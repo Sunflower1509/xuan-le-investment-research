@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "enabled": false,
-  "websocketUrl": ""
+  "enabled": true,
+  "websocketUrl": "wss://xuan-le-online-presence.info-kinhte24h.workers.dev/v1/presence"
 }

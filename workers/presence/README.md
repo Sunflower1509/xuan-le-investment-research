@@ -15,18 +15,27 @@ Realtime online-user counter for the Xuân Lê TVS GitHub Pages site.
 
 Cloudflare Durable Objects with WebSocket Hibernation are used so idle realtime connections can stay open without keeping JavaScript execution resident.
 
-### Option A — deploy from GitHub Actions
+### Production — Cloudflare Workers Builds
 
-1. In the GitHub repository, add Actions secrets:
-   - `CLOUDFLARE_API_TOKEN`
-   - `CLOUDFLARE_ACCOUNT_ID`
-2. In Cloudflare Workers, note the account's `workers.dev` subdomain (the part after the Worker name and before `.workers.dev`).
-3. Run the `Deploy Online Presence Worker` workflow manually and enter that subdomain.
-4. The workflow deploys the Worker, verifies `/health`, then enables `assets/js/presence-config.json` with the final `wss://.../v1/presence` endpoint and pushes the activation commit to `main`.
+The production Worker is connected directly to the GitHub repository through Cloudflare Workers Builds.
 
-The normal Pages workflow then rebuilds/deploys the site automatically.
+- Production branch: `main`
+- Build command: `npm --prefix workers/presence install --no-audit --no-fund`
+- Deploy command: `npm --prefix workers/presence run deploy`
+- Worker name: `xuan-le-online-presence`
+- Production URL: `https://xuan-le-online-presence.info-kinhte24h.workers.dev`
+- Health endpoint: `/health`
+- WebSocket endpoint: `/v1/presence`
 
-### Option B — deploy locally
+A push to `main` automatically triggers a Cloudflare build/deploy. No Cloudflare API token or GitHub Actions secret is required for the normal deployment path.
+
+The frontend runtime configuration is published from `assets/js/presence-config.json`. It currently points to:
+
+```text
+wss://xuan-le-online-presence.info-kinhte24h.workers.dev/v1/presence
+```
+
+### Local development
 
 ```bash
 cd workers/presence
@@ -35,21 +44,10 @@ npx wrangler login
 npm run deploy
 ```
 
-After deployment, set `assets/js/presence-config.json` to:
-
-```json
-{
-  "version": 1,
-  "enabled": true,
-  "websocketUrl": "wss://xuan-le-online-presence.YOUR-SUBDOMAIN.workers.dev/v1/presence"
-}
-```
-
-Commit that one config change to `main`; the standard Pages workflow will publish it.
-
 ## Operational notes
 
 - `online` means unique browser identities with an active registered WebSocket, not verified physical people.
 - Multiple tabs in the same browser are designed to count as one.
 - Clearing site storage creates a new random browser identity.
 - A malicious client can manufacture identities; v1 is an operational presence metric, not an anti-fraud identity system.
+- Production `workers.dev` remains public because the website must connect to it without authentication. Preview URLs are explicitly disabled in `wrangler.jsonc`.
