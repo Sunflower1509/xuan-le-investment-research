@@ -1,12 +1,159 @@
-name: Report sync staging 20260911
+name: Verified report sync staging 20260911
+
 on:
   push:
     branches: [ops/report-sync-20260911]
+  workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v5
-      - run: echo staging
+      - name: Checkout isolated staging branch
+        uses: actions/checkout@v5
+        with:
+          ref: ops/report-sync-20260911
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Lock audited production baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          main_sha="$(git rev-parse origin/main)"
+          test "$main_sha" = 'b507dced699eb4fc5cb927f37939e2d40ef3c798'
+          echo "$main_sha" > /tmp/main-base
+          git show "$main_sha:index.html" > /tmp/index-main.html
+
+      - name: Install deterministic PDF tooling
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils webp >/dev/null
+
+      - name: Fetch temporary transport package
+        shell: bash
+        run: |
+          set -euo pipefail
+          share='P4mWa25YKVEP'
+          prod='https://api.firestorage.ai/prod/file'
+          dev='https://api.firestorage.ai/dev/file'
+          curl -fsS --retry 3 -o /tmp/session.json -X POST -H 'Content-Type: application/json' --data '{"password":null}' "$prod/shares/$share/cushion-sessions"
+          cid=$(python -c 'import json; print(json.load(open("/tmp/session.json"))["cushionId"])')
+          curl -fsS --retry 3 -o /tmp/resolve.json -X POST "$dev/cushions/$cid/resolve"
+          fid=$(python -c 'import json; print(json.load(open("/tmp/resolve.json"))["finalId"])')
+          curl -fsS --retry 3 -o /tmp/files.json -X POST "$dev/download-sessions/$fid/files?maxResults=1000"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/files.json'))
+          expected={'DHC_2026-09-09.pdf':298373,'HHP_2026-09-10.pdf':287118,'DXP_2026-09-11.pdf':579571,'SIP_2026-09-09.pdf':572165}
+          files={f['fileName']:f for f in data.get('files',[])}
+          if set(files)!=set(expected): raise SystemExit(f'Unexpected transport files: {sorted(files)}')
+          for name,size in expected.items():
+              f=files[name]
+              if f.get('contentType')!='application/pdf' or f.get('sizeBytes')!=size or not f.get('downloadUrl'): raise SystemExit(f'Invalid metadata: {name}')
+              open('/tmp/'+name+'.url','w').write(f['downloadUrl'])
+          PY
+          for name in DHC_2026-09-09.pdf HHP_2026-09-10.pdf DXP_2026-09-11.pdf SIP_2026-09-09.pdf; do curl -fsSL --retry 3 "$(cat /tmp/$name.url)" -o "reports/$name"; done
+          printf '%s  %s\n' \
+            81c8a7651bd9de17288d3ac693b20c0d09a08675b0d28fa01a93da51ca8db041 reports/DHC_2026-09-09.pdf \
+            1429b18fc5257208448b44c75ff52de0cfb3da0791618c09534e1b492a5ae9c1 reports/HHP_2026-09-10.pdf \
+            1110d5b60d4868467105514b9e8943b8e85be3a44984b7f6878749de59a8eb5c reports/DXP_2026-09-11.pdf \
+            4abaf16196e894f907ecc1127fc42201d4712e62e9fd937fb66a3b6f43e387d8 reports/SIP_2026-09-09.pdf | sha256sum -c -
+          for f in reports/DHC_2026-09-09.pdf reports/HHP_2026-09-10.pdf reports/DXP_2026-09-11.pdf reports/SIP_2026-09-09.pdf; do test "$(head -c 5 "$f")" = '%PDF-'; pdfinfo "$f" | grep -q '^Pages:'; done
+
+      - name: Apply report metadata replacement
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/report-sync-staging-20260911.mjs
+          rm -f reports/DHC_2026-08-17.pdf
+          test ! -e reports/DHC_2026-08-17.pdf
+
+      - name: Verify expanded EOD universe at 10 September close
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/update-eod-market-data.mjs --date 2026-09-10 --status-file /tmp/eod-status.json --retries 3 --wait-ms 20000
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),ctx);const d=ctx.window.RESEARCH_DATA;
+          if(d.meta?.updated!=='2026-09-10'||d.reports.length!==125||d.coverage.length!==125)throw new Error('EOD/count lock failed');
+          const bad=d.coverage.filter(c=>c.priceDate!=='2026-09-10'||!(c.close>0)||!Number.isFinite(c.changePct)||!(c.volume>=0)||!String(c.priceSource||'').startsWith('https://')||!String(c.priceSourceSecondary||'').startsWith('https://'));
+          if(bad.length)throw new Error('Incomplete EOD coverage: '+bad.map(x=>x.ticker).join(','));
+          if(!String(d.meta?.note||'').includes('125/125'))throw new Error('Integrity note missing 125/125');
+          console.log('EOD 10/09/2026 verified for 125/125 tickers');
+          NODE
+
+      - name: Sync logos and covers from source artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/sync-company-logos.mjs
+          rm -f assets/images/reports/dhc.webp assets/images/reports/hhp.webp assets/images/reports/dxp.webp assets/images/reports/sip.webp
+          node scripts/sync-report-covers.mjs
+
+      - name: Reconcile ledger and run all tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp src/data/trade-ledger.json /tmp/trade-ledger-before.json
+          node scripts/process-trade-ledger.mjs
+          node scripts/reconcile-trade-ledger.mjs --before /tmp/trade-ledger-before.json --after src/data/trade-ledger.json --research src/data/research-data.js --report /tmp/ledger-reconciliation.json
+          node --test tests/*.test.mjs
+
+      - name: Build and audit full site
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+
+      - name: Verify dedupe hashes and structure lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' \
+            81c8a7651bd9de17288d3ac693b20c0d09a08675b0d28fa01a93da51ca8db041 reports/DHC_2026-09-09.pdf \
+            1429b18fc5257208448b44c75ff52de0cfb3da0791618c09534e1b492a5ae9c1 reports/HHP_2026-09-10.pdf \
+            1110d5b60d4868467105514b9e8943b8e85be3a44984b7f6878749de59a8eb5c reports/DXP_2026-09-11.pdf \
+            4abaf16196e894f907ecc1127fc42201d4712e62e9fd937fb66a3b6f43e387d8 reports/SIP_2026-09-09.pdf | sha256sum -c -
+          test ! -e reports/DHC_2026-08-17.pdf
+          base="$(cat /tmp/main-base)"
+          git diff --exit-code "$base" -- assets/css/daily-market-layout-fix.css assets/css/site.min.css src/data/daily-insights.js .github/workflows/pages.yml .github/workflows/eod-daily.yml
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),ctx);const d=ctx.window.RESEARCH_DATA;
+          for(const t of ['DHC','HHP','DXP','SIP'])if(d.reports.filter(r=>r.ticker===t&&r.reportType!=='trading').length!==1)throw new Error(t+' duplicate/missing');
+          if(new Set(d.reports.filter(r=>r.reportType!=='trading').map(r=>r.ticker)).size!==125)throw new Error('valuation dedupe failed');
+          const ids={DHC:'DHC-20260909',HHP:'HHP-20260910',DXP:'DXP-20260911',SIP:'SIP-20260909'};
+          for(const [t,id] of Object.entries(ids)){const r=d.reports.find(x=>x.ticker===t),c=d.coverage.find(x=>x.ticker===t);if(r?.id!==id||c?.reportId!==id||c?.action?.basisDate!==r.date)throw new Error(t+' report/coverage mismatch');}
+          NODE
+          node - <<'NODE'
+          const fs=require('fs');const before=fs.readFileSync('/tmp/index-main.html','utf8');const after=fs.readFileSync('index.html','utf8');const normalized=after.replace('data-role="report-tab-count">125</span>','data-role="report-tab-count">122</span>').replace('data-role="coverage-tab-count">125</span>','data-role="coverage-tab-count">122</span>').replace('assets/js/site.min.js?v=20260911-report-sync','assets/js/site.min.js?v=20260910-eod-auto');if(normalized!==before)throw new Error('Unexpected index.html structural/content change');
+          NODE
+
+      - name: Commit audited staging state
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$(cat /tmp/main-base)"
+          git fetch origin main --quiet
+          test "$(git rev-parse origin/main)" = "$base"
+          git status --short
+          git add -A reports assets/images/reports assets/images/logos src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js index.html
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git diff --cached --quiet; then echo 'No production changes staged' >&2; exit 1; fi
+          git commit -m 'Stage verified DHC HHP DXP SIP report sync [skip ci]'
+          git push origin HEAD:ops/report-sync-20260911
