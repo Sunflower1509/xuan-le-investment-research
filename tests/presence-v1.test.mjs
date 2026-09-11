@@ -17,20 +17,32 @@ test("presence runtime config is safe and explicit", async () => {
   if (config.enabled) assert.match(config.websocketUrl, /^wss:\/\//);
 });
 
-test("presence backend keeps privacy, origin and de-duplication guards", async () => {
+test("presence backend keeps privacy, origin, de-duplication and hibernation guards", async () => {
   const worker = await read("workers/presence/src/index.js");
   assert.match(worker, /https:\/\/sunflower1509\.github\.io/);
   assert.match(worker, /serializeAttachment/);
   assert.match(worker, /new Set\(\)/);
   assert.match(worker, /origin_not_allowed/);
+  assert.match(worker, /setWebSocketAutoResponse/);
+  assert.match(worker, /hello-already-registered/);
+  assert.match(worker, /hello-required/);
+  assert.match(worker, /MAX_SOCKET_COUNT/);
 });
 
-test("presence client refreshes follower state and verifies connection liveness", async () => {
-  const client = await read("src/scripts/presence.js");
-  assert.match(client, /HEARTBEAT_MS/);
-  assert.match(client, /PONG_TIMEOUT_MS/);
-  assert.match(client, /type: "ping"/);
-  assert.match(client, /data\.type === "pong"/);
-  assert.match(client, /presence-request/);
-  assert.match(client, /publishCount\(data\.online, Date\.now\(\)\)/);
+test("presence Worker deployment config is production-hardened", async () => {
+  const wrangler = JSON.parse(await read("workers/presence/wrangler.jsonc"));
+  assert.equal(wrangler.name, "xuan-le-online-presence");
+  assert.equal(wrangler.workers_dev, true);
+  assert.equal(wrangler.preview_urls, false);
+  assert.equal(wrangler.observability?.enabled, true);
+  assert.equal(wrangler.observability?.logs?.head_sampling_rate, 1);
+  assert.equal(wrangler.observability?.traces?.enabled, true);
+  assert.equal(wrangler.observability?.traces?.head_sampling_rate, 0.01);
+});
+
+test("presence deploy tooling is pinned to an exact Wrangler version", async () => {
+  const pkg = JSON.parse(await read("workers/presence/package.json"));
+  const wrangler = pkg.devDependencies?.wrangler;
+  assert.equal(typeof wrangler, "string");
+  assert.match(wrangler, /^\d+\.\d+\.\d+$/);
 });

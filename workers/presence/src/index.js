@@ -2,6 +2,9 @@ import { DurableObject } from "cloudflare:workers";
 
 const PROTOCOL_VERSION = 1;
 const MAX_SOCKET_COUNT = 5000;
+const MAX_MESSAGE_BYTES = 1024;
+const AUTO_PING = JSON.stringify({ type: "ping" });
+const AUTO_PONG = JSON.stringify({ type: "pong" });
 const DEFAULT_ALLOWED_ORIGINS = new Set([
   "https://sunflower1509.github.io",
   "http://localhost:8080",
@@ -16,13 +19,15 @@ function allowedOrigins(env) {
   return configured.length ? new Set(configured) : DEFAULT_ALLOWED_ORIGINS;
 }
 
-function json(data, status = 200) {
+function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
       "x-content-type-options": "nosniff",
+      "x-robots-tag": "noindex, nofollow, nosnippet",
+      ...extraHeaders,
     },
   });
 }
@@ -30,6 +35,10 @@ function json(data, status = 200) {
 function isAllowedOrigin(request, env) {
   const origin = request.headers.get("Origin");
   return Boolean(origin && allowedOrigins(env).has(origin));
+}
+
+function readAttachment(ws) {
+  try { return ws.deserializeAttachment() || null; } catch { return null; }
 }
 
 export default {
@@ -41,6 +50,9 @@ export default {
     }
 
     if (url.pathname !== "/v1/presence") return json({ error: "not_found" }, 404);
+    if (request.method !== "GET") {
+      return json({ error: "method_not_allowed" }, 405, { allow: "GET" });
+    }
     if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
       return json({ error: "websocket_upgrade_required" }, 426);
     }
@@ -52,6 +64,13 @@ export default {
 };
 
 export class PresenceRoom extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.ctx.setWebSocketAutoResponse(
+      new WebSocketRequestResponsePair(AUTO_PING, AUTO_PONG),
+    );
+  }
+
   async fetch(request) {
     if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
       return json({ error: "websocket_upgrade_required" }, 426);
@@ -71,7 +90,7 @@ export class PresenceRoom extends DurableObject {
   }
 
   webSocketMessage(ws, message) {
-    if (typeof message !== "string" || message.length > 1024) {
+    if (typeof message !== "string" || message.length > MAX_MESSAGE_BYTES) {
       ws.close(1008, "invalid-message");
       return;
     }
@@ -82,7 +101,13 @@ export class PresenceRoom extends DurableObject {
       return;
     }
 
+    const attachment = readAttachment(ws);
+
     if (data?.type === "hello") {
+      if (attachment?.visitorId) {
+        ws.close(1008, "hello-already-registered");
+        return;
+      }
       const visitorId = String(data.visitorId || "");
       const protocol = Number(data.protocol);
       if (protocol !== PROTOCOL_VERSION || !/^[a-f0-9-]{32,36}$/i.test(visitorId)) {
@@ -95,8 +120,14 @@ export class PresenceRoom extends DurableObject {
       return;
     }
 
+    if (!attachment?.visitorId) {
+      ws.close(1008, "hello-required");
+      return;
+    }
+
+    // Fallback for runtimes that do not apply the automatic ping/pong response.
     if (data?.type === "ping") {
-      ws.send(JSON.stringify({ type: "pong", at: new Date().toISOString() }));
+      ws.send(AUTO_PONG);
       return;
     }
 
@@ -114,15 +145,15 @@ export class PresenceRoom extends DurableObject {
   }
 
   broadcastPresence() {
-    const sockets = this.ctx.getWebSockets();
     const visitors = new Set();
+    const registeredSockets = [];
 
-    for (const ws of sockets) {
+    for (const ws of this.ctx.getWebSockets()) {
       if (ws.readyState !== 1) continue;
-      try {
-        const attachment = ws.deserializeAttachment();
-        if (attachment?.visitorId) visitors.add(attachment.visitorId);
-      } catch { /* ignore malformed/legacy socket attachment */ }
+      const attachment = readAttachment(ws);
+      if (!attachment?.visitorId) continue;
+      visitors.add(attachment.visitorId);
+      registeredSockets.push(ws);
     }
 
     const payload = JSON.stringify({
@@ -132,12 +163,8 @@ export class PresenceRoom extends DurableObject {
       protocol: PROTOCOL_VERSION,
     });
 
-    for (const ws of sockets) {
-      if (ws.readyState !== 1) continue;
-      try {
-        const attachment = ws.deserializeAttachment();
-        if (attachment?.visitorId) ws.send(payload);
-      } catch { /* stale sockets are cleaned up by runtime */ }
+    for (const ws of registeredSockets) {
+      try { ws.send(payload); } catch { /* stale sockets are cleaned up by runtime */ }
     }
   }
 }

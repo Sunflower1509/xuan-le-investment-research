@@ -13,7 +13,9 @@ Realtime online-user counter for the Xuân Lê TVS GitHub Pages site.
 
 ## Cloudflare deployment
 
-Cloudflare Durable Objects with WebSocket Hibernation are used so idle realtime connections can stay open without keeping JavaScript execution resident.
+Cloudflare Durable Objects with the Hibernation WebSocket API are used so idle realtime connections can stay open without keeping JavaScript execution resident.
+
+The heartbeat payload is handled through `setWebSocketAutoResponse`, so normal ping/pong health checks do not wake a hibernated Durable Object. The JSON heartbeat format remains backward-compatible with the browser client.
 
 ### Production — Cloudflare Workers Builds
 
@@ -26,14 +28,17 @@ The production Worker is connected directly to the GitHub repository through Clo
 - Production URL: `https://xuan-le-online-presence.info-kinhte24h.workers.dev`
 - Health endpoint: `/health`
 - WebSocket endpoint: `/v1/presence`
+- Preview URLs: disabled
+- Observability: enabled, with full log sampling and 1% trace sampling
+- Wrangler: pinned to an exact version in `package.json` to avoid unreviewed minor-version drift
 
-A push to `main` automatically triggers a Cloudflare build/deploy. No Cloudflare API token or GitHub Actions secret is required for the normal deployment path.
-
-The frontend runtime configuration is published from `assets/js/presence-config.json`. It currently points to:
+The frontend runtime configuration is published from `assets/js/presence-config.json` and currently points to:
 
 ```text
 wss://xuan-le-online-presence.info-kinhte24h.workers.dev/v1/presence
 ```
+
+For this monorepo, Cloudflare Build watch paths should include only `workers/presence/*` so unrelated website content changes do not consume Worker build minutes. This is a Cloudflare Dashboard setting, not a repository setting.
 
 ### Local development
 
@@ -49,5 +54,7 @@ npm run deploy
 - `online` means unique browser identities with an active registered WebSocket, not verified physical people.
 - Multiple tabs in the same browser are designed to count as one.
 - Clearing site storage creates a new random browser identity.
+- Duplicate `hello` registration and application messages sent before registration are rejected.
+- WebSocket message size and total concurrent sockets are bounded defensively.
 - A malicious client can manufacture identities; v1 is an operational presence metric, not an anti-fraud identity system.
 - Production `workers.dev` remains public because the website must connect to it without authentication. Preview URLs are explicitly disabled in `wrangler.jsonc`.
