@@ -1,0 +1,12 @@
+name: Report sync staging 20260911
+on:
+  push:
+    branches: [ops/report-sync-20260911]
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: echo staging
