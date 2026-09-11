@@ -8,4 +8,5 @@ import "./data/daily-insights-20260911.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
 import "./scripts/company-logo-avatars.js";
+import "./scripts/report-deeplinks.js";
 import "./scripts/presence.js";
