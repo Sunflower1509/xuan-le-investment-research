@@ -1,3 +1,6 @@
 tmp/
 node_modules/
 .DS_Store
+workers/presence/.wrangler/
+workers/presence/.dev.vars
+workers/presence/.env
