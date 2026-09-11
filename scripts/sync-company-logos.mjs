@@ -14,13 +14,14 @@ const logoDir = path.join(root, "assets/images/logos");
 const sourceHost = "symbol-search.tradingview.com";
 const assetHost = "s3-symbol-logo.tradingview.com";
 const schema = "tradingview-exact-symbol-svg-v1";
-const version = "20260903-logo1";
-const concurrency = 12;
+const version = "20260911-logo2";
+const concurrency = 4;
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 const normalizeTicker = (value) => String(value || "").trim().toUpperCase();
 const stripMarkup = (value) => String(value || "").replace(/<[^>]*>/g, "").trim();
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
+const localAssetPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
 const loadWindowValue = (file, key) => {
   if (!fs.existsSync(file)) return null;
@@ -31,11 +32,14 @@ const loadWindowValue = (file, key) => {
 
 const fetchWithRetry = async (url, attempt = 0) => {
   const response = await fetch(url, {
+    method: "GET",
     headers: {
-      "user-agent": "Mozilla/5.0 (compatible; XuanLeTVSLogoSync/1.0)",
+      "accept": "application/json,text/plain,*/*",
+      "user-agent": "Mozilla/5.0 (compatible; XuanLeTVSLogoSync/2.0)",
       "origin": "https://www.tradingview.com",
       "referer": "https://www.tradingview.com/"
-    }
+    },
+    signal: AbortSignal.timeout(20_000)
   });
   if ((response.status === 429 || response.status >= 500) && attempt < 4) {
     await sleep(900 * (attempt + 1));
@@ -54,7 +58,7 @@ const pooledMap = async (items, worker) => {
       output[index] = await worker(items[index]);
     }
   };
-  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, run));
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length || 1) }, run));
   return output;
 };
 
@@ -75,11 +79,12 @@ const validateSvg = (buffer, ticker) => {
 };
 
 const resolveSymbol = async ({ ticker, exchange }) => {
-  const url = new URL(`https://${sourceHost}/symbol_search/v3/`);
+  const url = new URL(`https://${sourceHost}/symbol_search/v3`);
   url.searchParams.set("text", ticker);
   url.searchParams.set("hl", "1");
   url.searchParams.set("exchange", exchange);
   url.searchParams.set("lang", "en");
+  url.searchParams.set("search_type", "stock");
   url.searchParams.set("domain", "production");
   const payload = await (await fetchWithRetry(url)).json();
   const exact = (payload.symbols || []).filter((item) => (
@@ -106,23 +111,60 @@ const resolveSymbol = async ({ ticker, exchange }) => {
   };
 };
 
+const preserveLockedLogo = async (universeItem, locked) => {
+  if (!locked || normalizeTicker(locked.exchange) !== universeItem.exchange) return null;
+  if (!/^VN[A-Z0-9]{10}$/.test(String(locked.isin || ""))) return null;
+  let source;
+  let query;
+  try {
+    source = new URL(locked.sourceUrl);
+    query = new URL(locked.queryUrl);
+  } catch {
+    return null;
+  }
+  if (source.hostname !== assetHost || query.hostname !== sourceHost) return null;
+  const relativePath = localAssetPath(locked.path);
+  const absolutePath = path.join(root, relativePath);
+  if (!relativePath.startsWith("assets/images/logos/") || !fs.existsSync(absolutePath)) return null;
+  const buffer = await fsp.readFile(absolutePath);
+  validateSvg(buffer, universeItem.ticker);
+  const hash = sha256(buffer);
+  if (locked.sha256 && locked.sha256 !== hash) throw new Error(`${universeItem.ticker}: local logo hash drift`);
+  return {
+    ticker: universeItem.ticker,
+    exchange: universeItem.exchange,
+    company: locked.company,
+    isin: locked.isin,
+    sourceUrl: locked.sourceUrl,
+    queryUrl: locked.queryUrl,
+    path: `${relativePath}?v=${version}`,
+    bytes: buffer.length,
+    sha256: hash,
+    reused: true
+  };
+};
+
 const run = async () => {
   const research = loadWindowValue(researchPath, "RESEARCH_DATA");
   if (!research || !Array.isArray(research.coverage)) throw new Error("Không đọc được RESEARCH_DATA.coverage");
-  const universe = research.coverage.map((item) => ({
-    ticker: normalizeTicker(item.ticker),
-    exchange: normalizeTicker(item.exchange)
-  }));
+  const universe = research.coverage.map((item) => ({ ticker: normalizeTicker(item.ticker), exchange: normalizeTicker(item.exchange) }));
   if (!universe.length) throw new Error("Coverage trống; không đồng bộ logo.");
   if (new Set(universe.map((item) => item.ticker)).size !== universe.length) throw new Error("Coverage có ticker trùng");
 
   const previous = loadWindowValue(mappingPath, "COMPANY_LOGOS");
   const previousByTicker = new Map(Object.entries(previous?.logos || {}));
-  const resolved = await pooledMap(universe, resolveSymbol);
+  const preserved = [];
+  const unresolved = [];
+  for (const item of universe) {
+    const locked = previousByTicker.get(item.ticker);
+    const kept = await preserveLockedLogo(item, locked);
+    if (kept) preserved.push(kept); else unresolved.push(item);
+  }
 
+  const resolved = await pooledMap(unresolved, resolveSymbol);
   for (const item of resolved) {
     const locked = previousByTicker.get(item.ticker);
-    if (locked && (locked.exchange !== item.exchange || locked.isin !== item.isin)) {
+    if (locked && (normalizeTicker(locked.exchange) !== item.exchange || locked.isin !== item.isin)) {
       throw new Error(`${item.ticker}: nhận diện nguồn đổi từ ${locked.exchange}/${locked.isin} sang ${item.exchange}/${item.isin}`);
     }
   }
@@ -133,39 +175,34 @@ const run = async () => {
     validateSvg(buffer, item.ticker);
     const relativePath = `assets/images/logos/${item.ticker.toLowerCase()}.svg`;
     await fsp.writeFile(path.join(root, relativePath), buffer);
-    return {
-      ...item,
-      path: `${relativePath}?v=${version}`,
-      bytes: buffer.length,
-      sha256: sha256(buffer)
-    };
+    return { ...item, path: `${relativePath}?v=${version}`, bytes: buffer.length, sha256: sha256(buffer), reused: false };
   });
 
-  const logos = Object.fromEntries(downloaded
-    .sort((a, b) => a.ticker.localeCompare(b.ticker))
-    .map((item) => [item.ticker, {
-      path: item.path,
-      alt: `Logo ${item.company} (${item.ticker})`,
-      exchange: item.exchange,
-      isin: item.isin,
-      company: item.company,
-      sourceUrl: item.sourceUrl,
-      queryUrl: item.queryUrl,
-      sha256: item.sha256,
-      bytes: item.bytes
-    }]));
+  const combined = [...preserved, ...downloaded].sort((a, b) => a.ticker.localeCompare(b.ticker));
+  if (combined.length !== universe.length) throw new Error(`Logo count ${combined.length} != coverage ${universe.length}`);
+  const logos = Object.fromEntries(combined.map((item) => [item.ticker, {
+    path: item.path,
+    alt: `Logo ${item.company} (${item.ticker})`,
+    exchange: item.exchange,
+    isin: item.isin,
+    company: item.company,
+    sourceUrl: item.sourceUrl,
+    queryUrl: item.queryUrl,
+    sha256: item.sha256,
+    bytes: item.bytes
+  }]));
   const payload = {
     meta: {
       schema,
-      count: downloaded.length,
-      synced: "2026-09-03",
-      source: "TradingView exact symbol search, locked by ticker + exchange + ISIN; local SVG assets"
+      count: combined.length,
+      synced: "2026-09-11",
+      source: "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
     },
     logos
   };
   await fsp.writeFile(mappingPath, `window.COMPANY_LOGOS = ${JSON.stringify(payload, null, 2)};\n`);
 
-  const expected = new Set(downloaded.map((item) => `${item.ticker.toLowerCase()}.svg`));
+  const expected = new Set(combined.map((item) => `${item.ticker.toLowerCase()}.svg`));
   const unexpected = (await fsp.readdir(logoDir)).filter((file) => file.endsWith(".svg") && !expected.has(file));
   if (unexpected.length) throw new Error(`Thư mục logo có tài sản ngoài universe: ${unexpected.join(", ")}`);
 
@@ -173,10 +210,12 @@ const run = async () => {
     ok: true,
     schema,
     coverage: universe.length,
-    exactMatches: resolved.length,
-    localAssets: downloaded.length,
+    reused: preserved.length,
+    resolvedNew: resolved.length,
+    downloadedNew: downloaded.length,
+    localAssets: combined.length,
     mapped: Object.keys(logos).length,
-    totalBytes: downloaded.reduce((sum, item) => sum + item.bytes, 0)
+    totalBytes: combined.reduce((sum, item) => sum + item.bytes, 0)
   }, null, 2));
 };
 
