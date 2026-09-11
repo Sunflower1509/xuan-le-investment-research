@@ -1,6 +1,9 @@
 name: EOD schedule watchdog
 
 on:
+  push:
+    paths:
+      - ".github/workflows/eod-watchdog.yml"
   schedule:
     - cron: "47 16 * * 1-5"
       timezone: "Asia/Ho_Chi_Minh"
@@ -25,13 +28,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          TARGET_DATE="$(TZ=Asia/Ho_Chi_Minh date +%F)"
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import vm from 'node:vm';
-          const target = new Intl.DateTimeFormat('en-CA', {
+          const parts = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit'
-          }).format(new Date());
+          }).formatToParts(new Date());
+          const map = Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
+          const target = `${map.year}-${map.month}-${map.day}`;
           const code = fs.readFileSync('src/data/research-data.js', 'utf8');
           const sandbox = { window: {} };
           vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
