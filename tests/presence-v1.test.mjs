@@ -24,3 +24,13 @@ test("presence backend keeps privacy, origin and de-duplication guards", async (
   assert.match(worker, /new Set\(\)/);
   assert.match(worker, /origin_not_allowed/);
 });
+
+test("presence client refreshes follower state and verifies connection liveness", async () => {
+  const client = await read("src/scripts/presence.js");
+  assert.match(client, /HEARTBEAT_MS/);
+  assert.match(client, /PONG_TIMEOUT_MS/);
+  assert.match(client, /type: "ping"/);
+  assert.match(client, /data\.type === "pong"/);
+  assert.match(client, /presence-request/);
+  assert.match(client, /publishCount\(data\.online, Date\.now\(\)\)/);
+});
