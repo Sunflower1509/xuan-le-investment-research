@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 122/122 mã được khóa tại phiên 10/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 120/122 mã; không dùng fallback KBS. 2/122 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: DRI: CafeF 14.600 khác VNDIRECT 14.700; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=10-09-2026&edate=10-09-2026); OIL: CafeF 13.700 khác VNDIRECT 13.800; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=10-09-2026&edate=10-09-2026). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 105/122 mã; BVS: VNDIRECT 616.507 vs CafeF 615.800 (chênh 707); CEO: VNDIRECT 2.520.504 vs CafeF 2.515.900 (chênh 4.604); DDV: VNDIRECT 193.623 vs CafeF 193.500 (chênh 123); DRI: VNDIRECT 859.292 vs CafeF 858.700 (chênh 592); HUT: VNDIRECT 1.601.623 vs CafeF 1.601.300 (chênh 323); ICG: VNDIRECT 1.111 vs CafeF 1.100 (chênh 11); IDC: VNDIRECT 893.856 vs CafeF 892.300 (chênh 1.556); MSR: VNDIRECT 2.608.140 vs CafeF 2.597.000 (chênh 11.140); OIL: VNDIRECT 1.305.280 vs CafeF 1.302.600 (chênh 2.680); PHP: VNDIRECT 76.655 vs CafeF 75.900 (chênh 755); PVB: VNDIRECT 27.313 vs CafeF 27.100 (chênh 213); PVC: VNDIRECT 378.930 vs CafeF 378.500 (chênh 430); PVS: VNDIRECT 1.815.978 vs CafeF 1.813.100 (chênh 2.878); SHS: VNDIRECT 6.106.478 vs CafeF 6.099.100 (chênh 7.378); TNG: VNDIRECT 181.628 vs CafeF 181.300 (chênh 328); VGI: VNDIRECT 165.256 vs CafeF 163.600 (chênh 1.656); VGS: VNDIRECT 39.132 vs CafeF 39.100 (chênh 32). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 125/125 mã được khóa tại phiên 10/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 123/125 mã; không dùng fallback KBS. 2/125 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: DRI: CafeF 14.600 khác VNDIRECT 14.700; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=10-09-2026&edate=10-09-2026); OIL: CafeF 13.700 khác VNDIRECT 13.800; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=10-09-2026&edate=10-09-2026). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 107/125 mã; BVS: VNDIRECT 616.507 vs CafeF 615.800 (chênh 707); CEO: VNDIRECT 2.520.504 vs CafeF 2.515.900 (chênh 4.604); DDV: VNDIRECT 193.623 vs CafeF 193.500 (chênh 123); DRI: VNDIRECT 859.292 vs CafeF 858.700 (chênh 592); HUT: VNDIRECT 1.601.623 vs CafeF 1.601.300 (chênh 323); ICG: VNDIRECT 1.111 vs CafeF 1.100 (chênh 11); IDC: VNDIRECT 893.856 vs CafeF 892.300 (chênh 1.556); MSR: VNDIRECT 2.608.140 vs CafeF 2.597.000 (chênh 11.140); OIL: VNDIRECT 1.305.280 vs CafeF 1.302.600 (chênh 2.680); PHP: VNDIRECT 76.655 vs CafeF 75.900 (chênh 755); PVB: VNDIRECT 27.313 vs CafeF 27.100 (chênh 213); PVC: VNDIRECT 378.930 vs CafeF 378.500 (chênh 430); PVS: VNDIRECT 1.815.978 vs CafeF 1.813.100 (chênh 2.878); SHS: VNDIRECT 6.106.478 vs CafeF 6.099.100 (chênh 7.378); TNG: VNDIRECT 181.628 vs CafeF 181.300 (chênh 328); VGI: VNDIRECT 165.256 vs CafeF 163.600 (chênh 1.656); VGS: VNDIRECT 39.132 vs CafeF 39.100 (chênh 32); DXP: VNDIRECT 173.120 vs CafeF 173.000 (chênh 120). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,180 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "DXP-20260911",
+      "ticker": "DXP",
+      "company": "Công ty Cổ phần Cảng Đoạn Xá",
+      "sector": "Cảng biển & logistics",
+      "exchange": "HNX",
+      "date": "2026-09-11",
+      "recommendation": "THEO DÕI",
+      "status": "wait",
+      "marketPrice": 13400,
+      "marketPriceDate": "2026-09-10",
+      "baseValue": 15861,
+      "valueLabel": "Giá trị kỳ vọng sau pha loãng",
+      "rangeLow": 14000,
+      "rangeHigh": 18500,
+      "gapLabel": "Giá 13.400 đồng/cp thấp hơn cận dưới 14.000 khoảng 4,3%, nhưng MOS theo điểm giữa vùng giá trị chỉ khoảng 17,5%; chưa đạt ngưỡng 25-30%.",
+      "method": "DCF theo FCFF; kiểm chứng P/E, P/B và EV/EBITDA",
+      "summary": "DXP có vùng giá trị hợp lý 14.000-18.500 đồng/cp và giá trị kỳ vọng sau pha loãng 15.861 đồng/cp. Giá đóng cửa 10/09/2026 là 13.400 đồng/cp; trạng thái THEO DÕI vì chưa đủ MOS 25-30%.",
+      "action": {
+        "zoneLow": 10500,
+        "zoneHigh": 11000,
+        "baseValue": 15861,
+        "stop": 10000,
+        "targets": [
+          14000,
+          15500
+        ],
+        "basisDate": "2026-09-11",
+        "recommendation": "THEO DÕI",
+        "eligibility": "active",
+        "condition": "IF giá 13.000-14.000 nhưng chưa có catalyst kỹ thuật xác nhận THEN CHỜ. IF giá về 10.500-11.000 và luận điểm cơ bản không xấu đi THEN có thể mua thăm dò 30-40%, stop khoảng 10.0-10.4k, target 14.0-15.5k. IF đang nắm quanh 13.4k và thủng 12.7k với thanh khoản tăng THEN giảm/cắt vị thế."
+      },
+      "file": "reports/DXP_2026-09-11.pdf",
+      "edition": "Bản định giá 11.09.2026",
+      "visual": {
+        "src": "assets/images/reports/dxp.webp?v=20260911-cover1",
+        "alt": "Trang bìa báo cáo định giá DXP ngày 11/09/2026",
+        "caption": "Bìa báo cáo định giá DXP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DXP_2026-09-11.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "HHP-20260910",
+      "ticker": "HHP",
+      "company": "Công ty Cổ phần HHP Global",
+      "sector": "Giấy & vật liệu",
+      "exchange": "HOSE",
+      "date": "2026-09-10",
+      "recommendation": "LOẠI / TRÁNH MUA MỚI",
+      "status": "reject",
+      "marketPrice": 17200,
+      "marketPriceDate": "2026-09-09",
+      "baseValue": 8639,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 4727,
+      "rangeHigh": 13719,
+      "gapLabel": "Giá 17.200 đồng/cp cao hơn cận trên giá trị hợp lý 13.719 khoảng 25,4%; không có biên an toàn cho vị thế mua mới.",
+      "method": "Lợi nhuận chuẩn hóa chu kỳ; kiểm chứng P/B và EV/EBITDA chuẩn hóa",
+      "summary": "HHP có vùng giá trị hợp lý 4.727-13.719 đồng/cp, giá trị kỳ vọng 8.639 đồng/cp. Tại giá đóng cửa 09/09/2026 là 17.200 đồng/cp, trạng thái LOẠI / TRÁNH MUA MỚI.",
+      "action": {
+        "zoneLow": 6047,
+        "zoneHigh": 6479,
+        "baseValue": 8639,
+        "stop": 6155,
+        "targets": [
+          8055,
+          8639,
+          13719
+        ],
+        "basisDate": "2026-09-10",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
+        "eligibility": "active",
+        "condition": "IF giá >13.719 THEN LOẠI / TRÁNH MUA MỚI. IF giá 8.055-13.719 THEN CHỜ. IF giá 6.047-6.479 và nợ/FCF/biên lợi nhuận không xấu đi, không xuất hiện red flag pháp lý THEN có thể mua thăm dò; với entry bảo thủ 6.479, stop 6.155, T1/T2/T3 8.055/8.639/13.719."
+      },
+      "file": "reports/HHP_2026-09-10.pdf",
+      "edition": "Bản định giá 10.09.2026",
+      "visual": {
+        "src": "assets/images/reports/hhp.webp?v=20260910-cover1",
+        "alt": "Trang bìa báo cáo định giá HHP ngày 10/09/2026",
+        "caption": "Bìa báo cáo định giá HHP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HHP_2026-09-10.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "DHC-20260909",
+      "ticker": "DHC",
+      "company": "Công ty Cổ phần Đông Hải Bến Tre",
+      "sector": "Giấy & bao bì",
+      "exchange": "HOSE",
+      "date": "2026-09-09",
+      "recommendation": "CHỜ",
+      "status": "wait",
+      "marketPrice": 36300,
+      "marketPriceDate": "2026-09-09",
+      "baseValue": 34162,
+      "valueLabel": "Expected anchor",
+      "rangeLow": 29106,
+      "rangeHigh": 40173,
+      "gapLabel": "Giá 36.300 đồng/cp nằm trong vùng giá trị nhưng cao hơn điểm neo kỳ vọng khoảng 34.162 đồng/cp; không đạt MOS 25-30%.",
+      "method": "Lợi nhuận chuẩn hóa chu kỳ 5-7 năm; P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
+      "summary": "DHC có khoảng giá trị hợp lý 29.106-40.173 đồng/cp; expected anchor khoảng 34.162 đồng/cp. Snapshot 09/09/2026 là 36.300 đồng/cp nên trạng thái CHỜ, không mua đuổi.",
+      "action": {
+        "zoneLow": 34000,
+        "zoneHigh": 34600,
+        "baseValue": 34162,
+        "stop": 32400,
+        "targets": [
+          39500,
+          42000
+        ],
+        "basisDate": "2026-09-09",
+        "recommendation": "CHỜ",
+        "eligibility": "active",
+        "condition": "IF pullback 34.0-34.6 và giữ/reclaim hỗ trợ THEN có thể mở vị thế trading từng phần sau xác nhận, stop 32.4, target 39.5/42.0. IF đóng cửa >37.1 và thanh khoản xác nhận THEN có thể đánh breakout tỷ trọng kiểm soát, stop khoảng 35.0, target 42.0. IF thủng 32.4 THEN CUTLOSS, không bình quân giá xuống."
+      },
+      "file": "reports/DHC_2026-09-09.pdf",
+      "edition": "Bản định giá 09.09.2026",
+      "visual": {
+        "src": "assets/images/reports/dhc.webp?v=20260909-cover1",
+        "alt": "Trang bìa báo cáo định giá DHC ngày 09/09/2026",
+        "caption": "Bìa báo cáo định giá DHC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DHC_2026-09-09.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "SIP-20260909",
+      "ticker": "SIP",
+      "company": "Công ty Cổ phần Đầu tư Sài Gòn VRG",
+      "sector": "BĐS KCN & tiện ích",
+      "exchange": "HOSE",
+      "date": "2026-09-09",
+      "recommendation": "CHỜ",
+      "status": "wait",
+      "marketPrice": 49150,
+      "marketPriceDate": "2026-09-09",
+      "baseValue": 58235,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 53054,
+      "rangeHigh": 64900,
+      "gapLabel": "MOS tại 49.150 đồng/cp chỉ khoảng 15,6% so với giá trị kỳ vọng 58.235 đồng/cp; chưa đạt ngưỡng 25-30%.",
+      "method": "DDM nhiều giai đoạn; kiểm chứng Forward P/E, P/B và NAV/consensus",
+      "summary": "SIP có giá trị kỳ vọng 58.235 đồng/cp, vùng giá trị lõi 53.054-64.900 đồng/cp và khoảng kịch bản đầy đủ 41.398-77.951 đồng/cp. Giá 49.150 đồng/cp ngày 09/09/2026 cho MOS 15,6%; trạng thái CHỜ.",
+      "action": {
+        "zoneLow": 40764,
+        "zoneHigh": 43676,
+        "baseValue": 58235,
+        "stop": 41300,
+        "targets": [
+          53000,
+          58235,
+          64900
+        ],
+        "basisDate": "2026-09-09",
+        "recommendation": "CHỜ",
+        "eligibility": "active",
+        "condition": "IF giá về 40.764-43.676 và dữ liệu cơ bản không xấu đi THEN xem xét mua từng phần. Ví dụ entry 43.500, stop 41.300 (-5,1%), target 53.000, R/R xấp xỉ 4,3:1. IF 43.676-53.000 THEN CHỜ, không mua đuổi."
+      },
+      "file": "reports/SIP_2026-09-09.pdf",
+      "edition": "Bản định giá 09.09.2026",
+      "visual": {
+        "src": "assets/images/reports/sip.webp?v=20260909-cover1",
+        "alt": "Trang bìa báo cáo định giá SIP ngày 09/09/2026",
+        "caption": "Bìa báo cáo định giá SIP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SIP_2026-09-09.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "VGI-20260908",
       "ticker": "VGI",
@@ -3602,49 +3776,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
-      "id": "DHC-20260817",
-      "ticker": "DHC",
-      "company": "Công ty Cổ phần Đông Hải Bến Tre",
-      "sector": "Công nghiệp",
-      "exchange": "HOSE",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 34800,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 33668,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 27452,
-      "rangeHigh": 39791,
-      "gapLabel": "Giá 34.800 đồng/cp cao hơn giá trị kỳ vọng khoảng 3,4% và vẫn nằm trong vùng giá trị hợp lý",
-      "method": "Lợi nhuận chuẩn hóa 6 năm (2020–2025); P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 27.452–39.791 đồng/cp; giá trị kỳ vọng 33.668 đồng/cp. Giá 34.800 đồng/cp ngày 17/08/2026 cao hơn giá trị kỳ vọng khoảng 3,4% nhưng vẫn nằm trong vùng giá trị hợp lý; báo cáo giữ trạng thái THEO DÕI / CHỜ. Vùng mua yêu cầu MOS 25–30% là 19.217–20.589 đồng/cp, với điều kiện nền tảng kinh doanh không xấu đi.",
-      "action": {
-        "zoneLow": 19217,
-        "zoneHigh": 20589,
-        "baseValue": 33668,
-        "stop": null,
-        "targets": [
-          33668,
-          39791
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá."
-      },
-      "visual": {
-        "src": "assets/images/reports/dhc.webp?v=20260817-cover1",
-        "alt": "Trang bìa báo cáo định giá DHC ngày 17/08/2026",
-        "caption": "Bìa báo cáo định giá DHC",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/DHC_2026-08-17.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/DHC_2026-08-17.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
       "id": "FPT-20260817",
       "ticker": "FPT",
       "company": "Công ty Cổ phần FPT",
@@ -5454,10 +5585,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "DHC",
-      "company": "Đông Hải Bến Tre",
-      "sector": "Công nghiệp",
+      "company": "Công ty Cổ phần Đông Hải Bến Tre",
+      "sector": "Giấy & bao bì",
       "exchange": "HOSE",
-      "reportId": "DHC-20260817",
+      "reportId": "DHC-20260909",
       "close": 36600,
       "priceDate": "2026-09-10",
       "changePct": 0.8264,
@@ -5465,18 +5596,18 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-09-10&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DHC",
       "action": {
-        "zoneLow": 19217,
-        "zoneHigh": 20589,
-        "baseValue": 33668,
-        "stop": null,
+        "zoneLow": 34000,
+        "zoneHigh": 34600,
+        "baseValue": 34162,
+        "stop": 32400,
         "targets": [
-          33668,
-          39791
+          39500,
+          42000
         ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI / CHỜ",
+        "basisDate": "2026-09-09",
+        "recommendation": "CHỜ",
         "eligibility": "active",
-        "condition": "Chỉ có thể mua theo định giá khi giá không vượt 20.589 đồng/cp và nền tảng kinh doanh không xấu đi; ưu tiên giải ngân từng phần. Stop-loss là 5% dưới giá mua thực tế, nên không khóa một mức stop tuyệt đối trước khi có giá khớp. Giá 27.452–39.791 đồng/cp: chờ/theo dõi; trên 39.791 đồng/cp: loại/tránh mua mới theo định giá."
+        "condition": "IF pullback 34.0-34.6 và giữ/reclaim hỗ trợ THEN có thể mở vị thế trading từng phần sau xác nhận, stop 32.4, target 39.5/42.0. IF đóng cửa >37.1 và thanh khoản xác nhận THEN có thể đánh breakout tỷ trọng kiểm soát, stop khoảng 35.0, target 42.0. IF thủng 32.4 THEN CUTLOSS, không bình quân giá xuống."
       }
     },
     {
@@ -7987,6 +8118,89 @@ window.RESEARCH_DATA = {
         "recommendation": "LOẠI MUA MỚI",
         "eligibility": "inactive",
         "condition": "Không mua mới ở P0 7.450. Chỉ đánh giá lại giao dịch tactical nếu xuất hiện đúng setup trong báo cáo: retest 7.20-7.35 rồi đóng lại trên 7.45 với khối lượng tăng, hoặc breakout trên 7.99-8.00 với khoảng 0,9 triệu cp. Kết luận định giá vẫn là LOẠI."
+      }
+    },
+    {
+      "ticker": "DXP",
+      "company": "Công ty Cổ phần Cảng Đoạn Xá",
+      "sector": "Cảng biển & logistics",
+      "exchange": "HNX",
+      "reportId": "DXP-20260911",
+      "close": 13400,
+      "priceDate": "2026-09-10",
+      "changePct": -2.1898,
+      "volume": 173120,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DXP~date:2026-09-10&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DXP",
+      "action": {
+        "zoneLow": 10500,
+        "zoneHigh": 11000,
+        "baseValue": 15861,
+        "stop": 10000,
+        "targets": [
+          14000,
+          15500
+        ],
+        "basisDate": "2026-09-11",
+        "recommendation": "THEO DÕI",
+        "eligibility": "active",
+        "condition": "IF giá 13.000-14.000 nhưng chưa có catalyst kỹ thuật xác nhận THEN CHỜ. IF giá về 10.500-11.000 và luận điểm cơ bản không xấu đi THEN có thể mua thăm dò 30-40%, stop khoảng 10.0-10.4k, target 14.0-15.5k. IF đang nắm quanh 13.4k và thủng 12.7k với thanh khoản tăng THEN giảm/cắt vị thế."
+      }
+    },
+    {
+      "ticker": "HHP",
+      "company": "Công ty Cổ phần HHP Global",
+      "sector": "Giấy & vật liệu",
+      "exchange": "HOSE",
+      "reportId": "HHP-20260910",
+      "close": 17100,
+      "priceDate": "2026-09-10",
+      "changePct": -0.5814,
+      "volume": 919400,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HHP~date:2026-09-10&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HHP",
+      "action": {
+        "zoneLow": 6047,
+        "zoneHigh": 6479,
+        "baseValue": 8639,
+        "stop": 6155,
+        "targets": [
+          8055,
+          8639,
+          13719
+        ],
+        "basisDate": "2026-09-10",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
+        "eligibility": "active",
+        "condition": "IF giá >13.719 THEN LOẠI / TRÁNH MUA MỚI. IF giá 8.055-13.719 THEN CHỜ. IF giá 6.047-6.479 và nợ/FCF/biên lợi nhuận không xấu đi, không xuất hiện red flag pháp lý THEN có thể mua thăm dò; với entry bảo thủ 6.479, stop 6.155, T1/T2/T3 8.055/8.639/13.719."
+      }
+    },
+    {
+      "ticker": "SIP",
+      "company": "Công ty Cổ phần Đầu tư Sài Gòn VRG",
+      "sector": "BĐS KCN & tiện ích",
+      "exchange": "HOSE",
+      "reportId": "SIP-20260909",
+      "close": 49000,
+      "priceDate": "2026-09-10",
+      "changePct": 0,
+      "volume": 50200,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SIP~date:2026-09-10&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SIP",
+      "action": {
+        "zoneLow": 40764,
+        "zoneHigh": 43676,
+        "baseValue": 58235,
+        "stop": 41300,
+        "targets": [
+          53000,
+          58235,
+          64900
+        ],
+        "basisDate": "2026-09-09",
+        "recommendation": "CHỜ",
+        "eligibility": "active",
+        "condition": "IF giá về 40.764-43.676 và dữ liệu cơ bản không xấu đi THEN xem xét mua từng phần. Ví dụ entry 43.500, stop 41.300 (-5,1%), target 53.000, R/R xấp xỉ 4,3:1. IF 43.676-53.000 THEN CHỜ, không mua đuổi."
       }
     }
   ]
