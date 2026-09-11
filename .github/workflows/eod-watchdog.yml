@@ -1,0 +1,55 @@
+name: EOD schedule watchdog
+
+on:
+  schedule:
+    - cron: "47 16 * * 1-5"
+      timezone: "Asia/Ho_Chi_Minh"
+    - cron: "17 17 * * 1-5"
+      timezone: "Asia/Ho_Chi_Minh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@v5
+
+      - name: Check EOD freshness
+        id: freshness
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET_DATE="$(TZ=Asia/Ho_Chi_Minh date +%F)"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+          const target = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit'
+          }).format(new Date());
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
+          const current = sandbox.window.RESEARCH_DATA?.meta?.updated || '';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `target=${target}\ncurrent=${current}\nstale=${current === target ? 'false' : 'true'}\n`);
+          console.log(`EOD freshness: target=${target} current=${current || 'missing'}`);
+          NODE
+
+      - name: Dispatch verified EOD when stale
+        if: steps.freshness.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run eod-daily.yml --ref main -f date="${{ steps.freshness.outputs.target }}"
+          echo "Dispatched verified EOD recovery for ${{ steps.freshness.outputs.target }}"
+
+      - name: Already current
+        if: steps.freshness.outputs.stale == 'false'
+        run: echo "EOD already current for ${{ steps.freshness.outputs.target }}; no action required."
