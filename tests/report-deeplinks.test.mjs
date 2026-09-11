@@ -59,12 +59,16 @@ test("production bundle imports the enhancement and all key report surfaces are 
   const module = fs.readFileSync(path.join(root, "src/scripts/report-deeplinks.js"), "utf8");
 
   assert.match(index, /report-deeplinks\.js/);
-  for (const selector of ["priority-code", "table-ticker", "ledger-ticker", "ticker-mark", "coverage-card-head", "watchlist-item", "compare-code"]) {
+  for (const selector of ["priority-code", "table-ticker", "ledger-ticker", "ticker-mark", "coverage-card-head", "watchlist-item", "compare-code", "exclusion-list"]) {
     assert.match(module, new RegExp(selector));
   }
   assert.match(module, /Ngày định giá/);
   assert.match(module, /command-select/);
   assert.match(module, /share-report/);
+  assert.match(module, /report-exclusion-link/);
+  assert.match(module, /Mở hồ sơ định giá ↗/);
+  assert.match(module, /\.action-table td \.table-ticker>\.report-deep-link/);
+  assert.match(module, /font-size:1\.18rem!important/);
   assert.match(module, /searchParams\.set\(REPORT_PARAM/);
   assert.doesNotMatch(module, /report\.file/);
 });
