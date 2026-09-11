@@ -17,6 +17,7 @@ const schema = "tradingview-exact-symbol-svg-v1";
 const version = "20260911-logo2";
 const concurrency = 4;
 
+// Pages runs this before validation so coverage, mapping metadata and local logo assets stay one-to-one.
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 const normalizeTicker = (value) => String(value || "").trim().toUpperCase();
 const stripMarkup = (value) => String(value || "").replace(/<[^>]*>/g, "").trim();
