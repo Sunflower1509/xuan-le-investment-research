@@ -38,6 +38,8 @@ jobs:
           package-manager-cache: false
       - name: Synchronize stock report cover images
         run: node scripts/sync-report-covers.mjs
+      - name: Synchronize company logos
+        run: node scripts/sync-company-logos.mjs
       - name: Record pre-processing ledger
         run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
       - name: Process EOD activation ledger
@@ -64,11 +66,11 @@ jobs:
         run: |
           set -euo pipefail
           if ! git diff --quiet -- index.html assets/css/site.min.css; then
-            echo "Refusing deployment because HTML/CSS changed during cover synchronization." >&2
+            echo "Refusing deployment because HTML/CSS changed during synchronization." >&2
             git diff -- index.html assets/css/site.min.css >&2
             exit 2
           fi
-          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/images/reports/[a-z0-9]+\.webp)$'
+          allowed='^(src/data/research-data\.js|src/data/company-logos\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/images/reports/[a-z0-9]+\.webp|assets/images/logos/[a-z0-9]+\.svg)$'
           unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
             echo "Unexpected changed paths:" >&2
@@ -77,15 +79,15 @@ jobs:
           fi
       - name: Prepare lean production artifact
         run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
-      - name: Persist synchronized covers and ledger safely
+      - name: Persist synchronized covers, logos and ledger safely
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet -- src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports; then
+          if ! git diff --quiet -- src/data/research-data.js src/data/company-logos.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports assets/images/logos; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports
-            git commit -m "Synchronize verified report covers and ledger [skip ci]"
+            git add src/data/research-data.js src/data/company-logos.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports assets/images/logos
+            git commit -m "Synchronize verified report covers, company logos and ledger [skip ci]"
             git push origin HEAD:main
           fi
       - name: Guard against stale deployment
