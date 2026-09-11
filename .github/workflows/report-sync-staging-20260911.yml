@@ -56,7 +56,7 @@ jobs:
           python - <<'PY'
           import json
           data=json.load(open('/tmp/files.json'))
-          expected={'DHC_2026-09-09.pdf':298373,'HHP_2026-09-10.pdf':287118,'DXP_2026-09-11.pdf':579571,'SIP_2026-09-09.pdf':572165}
+          expected={'DHC_2026-09-09.pdf':298373,'HHP_2026-09-10.pdf':287118,'DXP_2026-09-11.pdf':579571,'SIP_20260909.pdf':572165}
           files={f['fileName']:f for f in data.get('files',[])}
           if set(files)!=set(expected): raise SystemExit(f'Unexpected transport files: {sorted(files)}')
           for name,size in expected.items():
@@ -64,7 +64,8 @@ jobs:
               if f.get('contentType')!='application/pdf' or f.get('sizeBytes')!=size or not f.get('downloadUrl'): raise SystemExit(f'Invalid metadata: {name}')
               open('/tmp/'+name+'.url','w').write(f['downloadUrl'])
           PY
-          for name in DHC_2026-09-09.pdf HHP_2026-09-10.pdf DXP_2026-09-11.pdf SIP_2026-09-09.pdf; do curl -fsSL --retry 3 "$(cat /tmp/$name.url)" -o "reports/$name"; done
+          for name in DHC_2026-09-09.pdf HHP_2026-09-10.pdf DXP_2026-09-11.pdf; do curl -fsSL --retry 3 "$(cat /tmp/$name.url)" -o "reports/$name"; done
+          curl -fsSL --retry 3 "$(cat /tmp/SIP_20260909.pdf.url)" -o reports/SIP_2026-09-09.pdf
           printf '%s  %s\n' \
             81c8a7651bd9de17288d3ac693b20c0d09a08675b0d28fa01a93da51ca8db041 reports/DHC_2026-09-09.pdf \
             1429b18fc5257208448b44c75ff52de0cfb3da0791618c09534e1b492a5ae9c1 reports/HHP_2026-09-10.pdf \
