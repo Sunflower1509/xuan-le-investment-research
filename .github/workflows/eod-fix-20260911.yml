@@ -1,0 +1,74 @@
+name: Apply verified EOD fix 20260911
+
+on:
+  push:
+    paths:
+      - ".github/workflows/eod-fix-20260911.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  fix-and-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+      - name: Add date-specific verified secondary-close overrides
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('scripts/update-eod-market-data.mjs')
+          s = p.read_text()
+          if '"2026-09-11": Object.freeze({' in s:
+              print('2026-09-11 overrides already present')
+              raise SystemExit(0)
+          anchor = '\n});\n\nconst argValue'
+          if anchor not in s:
+              raise SystemExit('Override object anchor not found')
+          block = '''
+  ,"2026-09-11": Object.freeze({
+    DRI: Object.freeze({
+      close: 14500,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=11-09-2026&edate=11-09-2026",
+      reason: "CafeF 11/09 trả 14.400; KBS date-specific xác nhận OHLC 14.7/14.7/14.3/14.5, khối lượng 676.700, giá đóng cửa 14.500, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 13800,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=11-09-2026&edate=11-09-2026",
+      reason: "CafeF 11/09 trả 13.700; KBS date-specific xác nhận OHLC 13.9/14.5/13.6/13.8, khối lượng 3.534.100; HNX sau phiên cũng hiển thị OIL 13.800, trùng VNDIRECT."
+    }),
+    PHP: Object.freeze({
+      close: 45500,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PHP/data_day?sdate=11-09-2026&edate=11-09-2026",
+      reason: "CafeF 11/09 trả 45.400; KBS date-specific xác nhận OHLC 46.0/47.3/44.9/45.5, khối lượng 234.800, giá đóng cửa 45.500, trùng VNDIRECT."
+    }),
+    VGI: Object.freeze({
+      close: 84000,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VGI/data_day?sdate=11-09-2026&edate=11-09-2026",
+      reason: "CafeF 11/09 trả 84.100; KBS date-specific xác nhận OHLC 85.8/86.6/83.9/84.0, khối lượng 279.300, giá đóng cửa 84.000, trùng VNDIRECT."
+    })
+  })'''
+          s = s.replace(anchor, block + anchor, 1)
+          p.write_text(s)
+          PY
+          node --check scripts/update-eod-market-data.mjs
+      - name: Commit verifier fix
+        shell: bash
+        run: |
+          if ! git diff --quiet -- scripts/update-eod-market-data.mjs; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add scripts/update-eod-market-data.mjs
+            git commit -m "Verify 2026-09-11 EOD mismatch exceptions [skip ci]"
+            git push origin HEAD:main
+          fi
+      - name: Dispatch verified EOD workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh workflow run eod-daily.yml --ref main -f date=2026-09-11
