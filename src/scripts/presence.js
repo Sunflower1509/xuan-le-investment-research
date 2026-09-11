@@ -9,7 +9,9 @@ const OnlinePresence = (() => {
   const LEASE_MS = 8000;
   const RENEW_MS = 2500;
   const FOLLOWER_CHECK_MS = 3000;
-  const FRESH_COUNT_MS = 15000;
+  const FRESH_COUNT_MS = 25000;
+  const HEARTBEAT_MS = 10000;
+  const PONG_TIMEOUT_MS = 6000;
   const MAX_RECONNECT_MS = 30000;
   const HELLO_TIMEOUT_MS = 8000;
 
@@ -23,7 +25,10 @@ const OnlinePresence = (() => {
   let followerTimer = null;
   let reconnectTimer = null;
   let helloTimer = null;
+  let heartbeatTimer = null;
+  let pongTimer = null;
   let reconnectAttempt = 0;
+  let lastCount = null;
   let mounted = false;
   let node = null;
   let valueNode = null;
@@ -163,6 +168,30 @@ const OnlinePresence = (() => {
     return false;
   }
 
+  function stopHeartbeat() {
+    clearInterval(heartbeatTimer);
+    heartbeatTimer = null;
+    clearTimeout(pongTimer);
+    pongTimer = null;
+  }
+
+  function startHeartbeat(ws) {
+    stopHeartbeat();
+    heartbeatTimer = setInterval(() => {
+      if (!isLeader || ws !== socket || ws.readyState !== WebSocket.OPEN || pongTimer) return;
+      try {
+        ws.send(JSON.stringify({ type: "ping" }));
+      } catch {
+        try { ws.close(1011, "heartbeat-send-failed"); } catch { /* noop */ }
+        return;
+      }
+      pongTimer = setTimeout(() => {
+        pongTimer = null;
+        if (ws === socket && ws.readyState === WebSocket.OPEN) ws.close(1013, "heartbeat-timeout");
+      }, PONG_TIMEOUT_MS);
+    }, HEARTBEAT_MS);
+  }
+
   function becomeLeader() {
     if (isLeader) return;
     isLeader = true;
@@ -190,6 +219,7 @@ const OnlinePresence = (() => {
     reconnectTimer = null;
     clearTimeout(helloTimer);
     helloTimer = null;
+    stopHeartbeat();
     if (socket) {
       try { socket.close(1000, "leader-changed"); } catch { /* noop */ }
       socket = null;
@@ -204,6 +234,7 @@ const OnlinePresence = (() => {
   }
 
   function publishCount(count, at = Date.now()) {
+    lastCount = count;
     const payload = { type: "presence", count, at };
     safeSet(COUNT_KEY, JSON.stringify(payload));
     channel?.postMessage(payload);
@@ -213,12 +244,16 @@ const OnlinePresence = (() => {
   function useFreshSharedCount() {
     const shared = parseJson(safeGet(COUNT_KEY));
     if (shared && Number.isInteger(shared.count) && Date.now() - Number(shared.at) < FRESH_COUNT_MS) {
+      lastCount = shared.count;
       setUi("live", shared.count);
-    } else if (navigator.onLine === false) {
-      setUi("offline");
-    } else {
-      setUi("connecting");
+      return;
     }
+    if (navigator.onLine === false) {
+      setUi("offline");
+      return;
+    }
+    setUi("connecting");
+    if (!isLeader) channel?.postMessage({ type: "presence-request", tabId, at: Date.now() });
   }
 
   function scheduleReconnect() {
@@ -263,19 +298,27 @@ const OnlinePresence = (() => {
       if (data.type === "hello-ack") {
         clearTimeout(helloTimer);
         helloTimer = null;
+        startHeartbeat(ws);
+      }
+      if (data.type === "pong") {
+        clearTimeout(pongTimer);
+        pongTimer = null;
+        if (Number.isInteger(lastCount) && lastCount >= 0) publishCount(lastCount, Date.now());
       }
       if (data.type === "presence" && Number.isInteger(data.online) && data.online >= 0) {
         clearTimeout(helloTimer);
         helloTimer = null;
-        const at = Number.isFinite(Date.parse(data.at)) ? Date.parse(data.at) : Date.now();
-        publishCount(data.online, at);
+        publishCount(data.online, Date.now());
       }
     });
 
     ws.addEventListener("close", () => {
       clearTimeout(helloTimer);
       helloTimer = null;
-      if (ws === socket) socket = null;
+      if (ws === socket) {
+        stopHeartbeat();
+        socket = null;
+      }
       if (!isLeader) return;
       setUi(navigator.onLine === false ? "offline" : "connecting");
       scheduleReconnect();
@@ -290,7 +333,11 @@ const OnlinePresence = (() => {
     const message = event.data;
     if (!message || typeof message !== "object") return;
     if (message.type === "presence" && Number.isInteger(message.count) && Date.now() - Number(message.at) < FRESH_COUNT_MS) {
+      lastCount = message.count;
       setUi("live", message.count);
+    }
+    if (message.type === "presence-request" && isLeader && Number.isInteger(lastCount) && lastCount >= 0) {
+      publishCount(lastCount, Date.now());
     }
     if (message.type === "leader" && message.tabId !== tabId && isLeader) {
       const lease = readLease();
@@ -337,7 +384,10 @@ const OnlinePresence = (() => {
         connect();
       } else tryBecomeLeader();
     });
-    addEventListener("offline", () => setUi("offline"));
+    addEventListener("offline", () => {
+      stopHeartbeat();
+      setUi("offline");
+    });
     addEventListener("pagehide", releaseLeadership);
     addEventListener("pageshow", () => {
       if (!isLeader) setTimeout(tryBecomeLeader, 50 + Math.random() * 200);
