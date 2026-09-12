@@ -9,9 +9,10 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA = "verified-core-asset-webp-v1";
-const EXPECTED_COUNT = 9;
+const EXPECTED_COVERAGE_TARGET = 125;
 const EXPECTED_WIDTH = 960;
 const EXPECTED_HEIGHT = 540;
+const MIN_QUALITY_SCORE = 8;
 
 const loadWindowData = (relativePath, key) => {
   const filename = path.join(root, relativePath);
@@ -39,14 +40,19 @@ const run = () => {
   const research = loadWindowData("src/data/research-data.js", "RESEARCH_DATA");
 
   assert(visuals?.meta?.schema === SCHEMA, `Sai schema company visual: ${visuals?.meta?.schema || "trống"}`);
-  assert(visuals?.meta?.pilot === true, "Company visual audit hiện chỉ cho phép pilot=true.");
-  const entries = Object.values(visuals?.visuals || {});
-  assert(entries.length === EXPECTED_COUNT, `Pilot phải có ${EXPECTED_COUNT} mã, hiện có ${entries.length}.`);
+  assert(visuals?.meta?.rollout === true, "Company visual phải ở trạng thái rollout=true.");
+  assert(Number(visuals?.meta?.coverageTarget) === EXPECTED_COVERAGE_TARGET, `coverageTarget phải là ${EXPECTED_COVERAGE_TARGET}.`);
+  assert(String(visuals?.meta?.standardVersion || "") === "CIVS-1.0", "standardVersion phải là CIVS-1.0.");
 
-  const valuationReports = (research?.reports || []).filter((report) => report?.reportType !== "trading");
-  const reportByTicker = new Map(valuationReports.map((report) => [String(report.ticker || "").toUpperCase(), report]));
+  const coverage = Array.isArray(research?.coverage) ? research.coverage : [];
+  assert(coverage.length === EXPECTED_COVERAGE_TARGET, `Coverage Universe phải có ${EXPECTED_COVERAGE_TARGET} mã, hiện có ${coverage.length}.`);
+  const coverageByTicker = new Map(coverage.map((item) => [String(item?.ticker || "").toUpperCase(), item]));
+
+  const entries = Object.values(visuals?.visuals || {});
+  assert(entries.length >= 1 && entries.length <= EXPECTED_COVERAGE_TARGET, `Số company visual không hợp lệ: ${entries.length}.`);
+
   const logoMap = logos?.logos || {};
-  const sectors = new Set();
+  const tickers = new Set();
   const hashes = new Set();
   const sourceImages = new Set();
   const audited = [];
@@ -54,13 +60,18 @@ const run = () => {
   for (const entry of entries) {
     const ticker = String(entry.ticker || "").toUpperCase();
     assert(ticker, "Có company visual thiếu ticker.");
-    assert(entry.kind === "company-asset" && entry.verified === true, `${ticker}: visual phải là verified company-asset.`);
-    assert(reportByTicker.has(ticker), `${ticker}: không có hồ sơ định giá trong RESEARCH_DATA.`);
-    assert(logoMap[ticker]?.path, `${ticker}: thiếu logo đã xác minh trong COMPANY_LOGOS.`);
+    assert(!tickers.has(ticker), `${ticker}: ticker visual bị trùng.`);
+    tickers.add(ticker);
 
-    const report = reportByTicker.get(ticker);
-    assert(report.sector === entry.sector, `${ticker}: sector visual (${entry.sector}) khác report (${report.sector}).`);
-    sectors.add(entry.sector);
+    assert(entry.kind === "company-asset" && entry.verified === true, `${ticker}: visual phải là verified company-asset.`);
+    assert(coverageByTicker.has(ticker), `${ticker}: không thuộc Coverage Universe.`);
+    assert(logoMap[ticker]?.path, `${ticker}: thiếu logo đã xác minh trong COMPANY_LOGOS.`);
+    assert(["A", "B", "C"].includes(String(entry.sourceTier || "")), `${ticker}: sourceTier phải là A/B/C.`);
+    assert(String(entry.identityType || "").trim().length >= 3, `${ticker}: thiếu identityType.`);
+    assert(Number(entry.qualityScore) >= MIN_QUALITY_SCORE && Number(entry.qualityScore) <= 10, `${ticker}: qualityScore phải nằm trong ${MIN_QUALITY_SCORE}–10.`);
+
+    const coverageItem = coverageByTicker.get(ticker);
+    if (coverageItem?.sector && entry.sector) assert(coverageItem.sector === entry.sector, `${ticker}: sector visual (${entry.sector}) khác coverage (${coverageItem.sector}).`);
 
     for (const [label, value] of [["sourceUrl", entry.sourceUrl], ["sourceImageUrl", entry.sourceImageUrl]]) {
       let url;
@@ -97,14 +108,26 @@ const run = () => {
     assert(!hashes.has(hash), `${ticker}: nội dung ảnh trùng một company visual khác.`);
     hashes.add(hash);
 
-    audited.push({ ticker, sector: entry.sector, sourceHost, imageHost, dimensions, bytes: buffer.length, sha256: hash });
+    audited.push({ ticker, sector: entry.sector, sourceTier: entry.sourceTier, identityType: entry.identityType, qualityScore: Number(entry.qualityScore), sourceHost, imageHost, dimensions, bytes: buffer.length, sha256: hash });
   }
 
-  assert(sectors.size === EXPECTED_COUNT, `Pilot phải đại diện ${EXPECTED_COUNT} nhóm ngành khác nhau, hiện chỉ có ${sectors.size}.`);
-  assert(visuals.meta.count === EXPECTED_COUNT, "meta.count không khớp số visual thực tế.");
+  const missing = [...coverageByTicker.keys()].filter((ticker) => !tickers.has(ticker)).sort();
+  assert(visuals.meta.count === entries.length, "meta.count không khớp số visual thực tế.");
+  assert(visuals.meta.verifiedCount === entries.length, "meta.verifiedCount không khớp số visual thực tế.");
+  assert(visuals.meta.pendingCount === missing.length, "meta.pendingCount không khớp số mã chưa chuẩn hóa.");
   assert(visuals.meta.target === `${EXPECTED_WIDTH}x${EXPECTED_HEIGHT}`, "meta.target chưa được sync đúng.");
 
-  console.log(JSON.stringify({ ok: true, schema: SCHEMA, count: audited.length, distinctSectors: sectors.size, audited }, null, 2));
+  console.log(JSON.stringify({
+    ok: true,
+    schema: SCHEMA,
+    standardVersion: visuals.meta.standardVersion,
+    coverageTarget: EXPECTED_COVERAGE_TARGET,
+    verifiedCount: audited.length,
+    pendingCount: missing.length,
+    rolloutProgressPct: Number(((audited.length / EXPECTED_COVERAGE_TARGET) * 100).toFixed(1)),
+    missingTickers: missing,
+    audited
+  }, null, 2));
 };
 
 try {
