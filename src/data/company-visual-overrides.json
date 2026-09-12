@@ -17,21 +17,45 @@
         "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
       }
     },
+    "OIL": {
+      "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
+      "officialDomain": "pvoil.com.vn"
+    },
+    "PVC": {
+      "sourceUrl": "https://www.pvchem.com.vn/gioi-thieu/gioi-thieu-chung/",
+      "officialDomain": "pvchem.com.vn"
+    },
+    "PVP": {
+      "sourceUrl": "https://www.pvtrans.com/ourboats",
+      "officialDomain": "pvtrans.com"
+    },
+    "PVT": {
+      "sourceUrl": "https://www.pvtrans.com/ourboats",
+      "officialDomain": "pvtrans.com"
+    },
     "SBT": {
       "sourceUrl": "https://www.ttcagris.com.vn/thong-tin-dn/vung-nguyen-lieu-nha-may/vung-nguyen-lieu",
       "officialDomain": "ttcagris.com.vn"
+    },
+    "VCG": {
+      "sourceUrl": "https://vinaconex.com.vn/tin-tuc/project-progress",
+      "officialDomain": "vinaconex.com.vn"
     },
     "VGC": {
       "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
       "officialDomain": "viglacera.com.vn"
     },
-    "OIL": {
-      "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
-      "officialDomain": "pvoil.com.vn"
+    "VIB": {
+      "sourceUrl": "https://www.vib.com.vn/vn/tin-tuc/he-thong/vib-khai-truong-tru-so-chinh-hcm",
+      "officialDomain": "vib.com.vn"
     },
-    "PVT": {
-      "sourceUrl": "https://www.pvtrans.com/ourboats",
-      "officialDomain": "pvtrans.com"
+    "VJC": {
+      "sourceUrl": "https://www.vietjetair.com/en/pages/our-fleet-1601131595327",
+      "officialDomain": "vietjetair.com"
+    },
+    "VPL": {
+      "sourceUrl": "https://vinpearl.com/vi/about-us",
+      "officialDomain": "vinpearl.com"
     }
   }
 }
