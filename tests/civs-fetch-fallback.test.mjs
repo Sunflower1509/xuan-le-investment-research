@@ -6,12 +6,15 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const helper = fs.readFileSync(path.join(root, "scripts/civs-fetch-fallback.mjs"), "utf8");
+const overlay = fs.readFileSync(path.join(root, "scripts/civs-registry-overlay.mjs"), "utf8");
+const overrides = JSON.parse(fs.readFileSync(path.join(root, "src/data/company-visual-overrides.json"), "utf8"));
 const wrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
 
-test("CIVS discovery fallback loads before the strict v3 engine", () => {
-  const helperAt = wrapper.indexOf("civs-fetch-fallback.mjs");
+test("CIVS discovery helpers load before the strict v3 engine", () => {
+  const fetchAt = wrapper.indexOf("civs-fetch-fallback.mjs");
+  const overlayAt = wrapper.indexOf("civs-registry-overlay.mjs");
   const engineAt = wrapper.indexOf("sync-company-visuals-v3.mjs");
-  assert.ok(helperAt >= 0 && engineAt > helperAt);
+  assert.ok(fetchAt >= 0 && overlayAt > fetchAt && engineAt > overlayAt);
 });
 
 test("fallback never disables TLS verification and never proxies image bytes", () => {
@@ -26,4 +29,26 @@ test("Reader is only a rate-limited page discovery transport", () => {
   assert.match(helper, /markdownToDiscoveryHtml/);
   assert.match(helper, /jina-reader/);
   assert.match(helper, /canonicalVariants/);
+});
+
+test("source overrides are an in-memory verified overlay, never a registry rewrite", () => {
+  assert.equal(overrides.meta.schema, "civs-source-overrides-v1");
+  assert.ok(Object.keys(overrides.overrides).length >= 5);
+  assert.match(overlay, /fs\.readFileSync\s*=\s*function patchedReadFileSync/);
+  assert.match(overlay, /diskRegistryMutated:\s*false/);
+  assert.doesNotMatch(overlay, /writeFileSync|writeFile\(/);
+  for (const [ticker, item] of Object.entries(overrides.overrides)) {
+    assert.match(item.sourceUrl, /^https:\/\//, `${ticker} sourceUrl must be HTTPS`);
+    assert.ok(item.officialDomain, `${ticker} must identify officialDomain`);
+    if (item.sourceImageUrl) assert.match(item.sourceImageUrl, /^https:\/\//, `${ticker} source image must be HTTPS`);
+  }
+});
+
+test("BSR exact asset override remains first-party and economic-identity specific", () => {
+  const bsr = overrides.overrides.BSR;
+  assert.equal(bsr.officialDomain, "bsr.com.vn");
+  assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
+  assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
+  assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
+  assert.equal(bsr.qualityScore, 10);
 });
