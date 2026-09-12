@@ -5,7 +5,11 @@ window.COMPANY_VISUALS = {
     "count": 9,
     "updated": "2026-09-12",
     "policy": "Official-company-source-only; real core operations/assets or verified corporate workplace/headquarters where physical operating assets are not the economic identity; no generative, stock or third-party editorial imagery.",
-    "display": "Research cards only; valuation dialogs keep the dated report cover."
+    "display": "Research cards only; valuation dialogs keep the dated report cover.",
+    "synced": "2026-09-12",
+    "target": "960x540",
+    "quality": 84,
+    "verification": "Every image is downloaded from an explicit URL embedded by an official company source page, normalized locally, hashed, and audited before deployment."
   },
   "visuals": {
     "DXP": {
@@ -16,14 +20,24 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://img.youtube.com/vi/Jp0i2sW9sTE/maxresdefault.jpg",
       "sourceLabel": "Cảng Đoạn Xá — video giới thiệu 2026 trên website chính thức",
       "officialDomain": "doanxaport.com.vn",
-      "allowedImageHosts": ["img.youtube.com"],
-      "src": "assets/images/company-visuals/dxp.webp",
+      "allowedImageHosts": [
+        "img.youtube.com"
+      ],
+      "src": "assets/images/company-visuals/dxp.webp?v=bf4b320e79e5",
       "alt": "Hoạt động khai thác tại Cảng Đoạn Xá (DXP)",
       "caption": "Hoạt động khai thác Cảng Đoạn Xá",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1280,
+      "sourceHeight": 720,
+      "sha256": "bf4b320e79e5698ffa2e8c447d73d719ae5b1a694dc67bdf6315bb92a2924844",
+      "bytes": 15590,
+      "sourceBytes": 37904,
+      "syncedOn": "2026-09-12"
     },
     "DHC": {
       "ticker": "DHC",
@@ -33,14 +47,24 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://dohacobentre.com.vn/upload/images/5S/20220607_093707.jpg",
       "sourceLabel": "Đông Hải Bến Tre — website chính thức",
       "officialDomain": "dohacobentre.com.vn",
-      "allowedImageHosts": ["dohacobentre.com.vn"],
-      "src": "assets/images/company-visuals/dhc.webp",
+      "allowedImageHosts": [
+        "dohacobentre.com.vn"
+      ],
+      "src": "assets/images/company-visuals/dhc.webp?v=60c6f57e5d07",
       "alt": "Dây chuyền sản xuất giấy tại Nhà máy Giao Long của Đông Hải Bến Tre (DHC)",
       "caption": "Dây chuyền sản xuất giấy Nhà máy Giao Long",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1600,
+      "sourceHeight": 1200,
+      "sha256": "60c6f57e5d075b42c4ea5941de4730fa6a81a25bd60df62185d631615a5296f5",
+      "bytes": 58846,
+      "sourceBytes": 238711,
+      "syncedOn": "2026-09-12"
     },
     "GAS": {
       "ticker": "GAS",
@@ -50,14 +74,25 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://www.pvgas.com.vn/Portals/0/images/2025/Hinh%201%20-%20Thumbnail_18.JPG",
       "sourceLabel": "PV GAS — website chính thức",
       "officialDomain": "pvgas.com.vn",
-      "allowedImageHosts": ["www.pvgas.com.vn", "pvgas.com.vn"],
-      "src": "assets/images/company-visuals/gas.webp",
+      "allowedImageHosts": [
+        "www.pvgas.com.vn",
+        "pvgas.com.vn"
+      ],
+      "src": "assets/images/company-visuals/gas.webp?v=b4ca928909d0",
       "alt": "Kho LNG Thị Vải, hạ tầng khí trọng yếu của PV GAS (GAS)",
       "caption": "Kho LNG Thị Vải của PV GAS",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 5464,
+      "sourceHeight": 3640,
+      "sha256": "b4ca928909d0c7ff79c3c9d0951a88ff67c244b306261835ff1ad1d531e70348",
+      "bytes": 131952,
+      "sourceBytes": 14309430,
+      "syncedOn": "2026-09-12"
     },
     "FPT": {
       "ticker": "FPT",
@@ -67,14 +102,24 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://bctn2025.fpt.com/wp-content/uploads/2026/03/Image-3-1.jpg",
       "sourceLabel": "FPT — Báo cáo thường niên 2025 chính thức",
       "officialDomain": "fpt.com",
-      "allowedImageHosts": ["bctn2025.fpt.com"],
-      "src": "assets/images/company-visuals/fpt.webp",
+      "allowedImageHosts": [
+        "bctn2025.fpt.com"
+      ],
+      "src": "assets/images/company-visuals/fpt.webp?v=638219314d3f",
       "alt": "Trung tâm Dữ liệu FPT Fornix HCM02 của FPT",
       "caption": "Trung tâm Dữ liệu FPT Fornix HCM02",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 800,
+      "sourceHeight": 450,
+      "sha256": "638219314d3f6d72a9f958b6210c232de8bf4bcf32b0c1782e5c533984bd0f2c",
+      "bytes": 103214,
+      "sourceBytes": 296281,
+      "syncedOn": "2026-09-12"
     },
     "HPG": {
       "ticker": "HPG",
@@ -84,14 +129,25 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://file.hoaphat.com.vn/hoaphat-com-vn/2019/12/phoi-thep-3-1.jpg",
       "sourceLabel": "Thép Hòa Phát — website chính thức",
       "officialDomain": "hoaphat.com.vn",
-      "allowedImageHosts": ["file.hoaphat.com.vn", "thep.hoaphat.com.vn"],
-      "src": "assets/images/company-visuals/hpg.webp",
+      "allowedImageHosts": [
+        "file.hoaphat.com.vn",
+        "thep.hoaphat.com.vn"
+      ],
+      "src": "assets/images/company-visuals/hpg.webp?v=2134c7e15b64",
       "alt": "Hoạt động sản xuất phôi thép của Hòa Phát (HPG)",
       "caption": "Sản xuất phôi thép Hòa Phát",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 4200,
+      "sourceHeight": 2800,
+      "sha256": "2134c7e15b6487f1c062f9facc2d980c10809ed0e42b38bd8116b5dd930ba7a2",
+      "bytes": 35910,
+      "sourceBytes": 949032,
+      "syncedOn": "2026-09-12"
     },
     "VHM": {
       "ticker": "VHM",
@@ -101,14 +157,24 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://storage.googleapis.com/digital-platform/hinh_anh_tien_do_vinhomes_ocean_park_cap_nhat_hinh_anh_moi_nhat_so_4_b9d2724feb/hinh_anh_tien_do_vinhomes_ocean_park_cap_nhat_hinh_anh_moi_nhat_so_4_b9d2724feb.jpg",
       "sourceLabel": "Vinhomes Market — website chính thức",
       "officialDomain": "vinhomes.vn",
-      "allowedImageHosts": ["storage.googleapis.com"],
-      "src": "assets/images/company-visuals/vhm.webp",
+      "allowedImageHosts": [
+        "storage.googleapis.com"
+      ],
+      "src": "assets/images/company-visuals/vhm.webp?v=a2cfc5675b83",
       "alt": "Hình ảnh thực tế khu đô thị Vinhomes Ocean Park của Vinhomes (VHM)",
       "caption": "Hình ảnh thực tế Vinhomes Ocean Park",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1920,
+      "sourceHeight": 1280,
+      "sha256": "a2cfc5675b83f5b1e2541e1715a82b7a475b20d046a9f784c1d48c3ca5a2330a",
+      "bytes": 76030,
+      "sourceBytes": 396804,
+      "syncedOn": "2026-09-12"
     },
     "BID": {
       "ticker": "BID",
@@ -118,14 +184,25 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://bidv.com.vn/wps/wcm/connect/8f274ffc-e382-487a-a610-512caaf73795/2/DJI_0002.JPG?CVID=&MOD=AJPERES",
       "sourceLabel": "BIDV — website chính thức",
       "officialDomain": "bidv.com.vn",
-      "allowedImageHosts": ["bidv.com.vn", "www.bidv.com.vn"],
-      "src": "assets/images/company-visuals/bid.webp",
+      "allowedImageHosts": [
+        "bidv.com.vn",
+        "www.bidv.com.vn"
+      ],
+      "src": "assets/images/company-visuals/bid.webp?v=7670614db95c",
       "alt": "BIDV Tower, trụ sở chính của Ngân hàng BIDV (BID)",
       "caption": "BIDV Tower — trụ sở chính BIDV",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 3992,
+      "sourceHeight": 2992,
+      "sha256": "7670614db95c18111e390e2c6972232299a3e48a259ee0f8ba4715152376c738",
+      "bytes": 108914,
+      "sourceBytes": 10387494,
+      "syncedOn": "2026-09-12"
     },
     "DBC": {
       "ticker": "DBC",
@@ -135,14 +212,25 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://dabaco.vn/wp-content/uploads/2026/05/trang-chu-Linh-vuc-san-xuat-scaled.jpg",
       "sourceLabel": "DABACO — website chính thức",
       "officialDomain": "dabaco.vn",
-      "allowedImageHosts": ["dabaco.vn", "www.dabaco.vn"],
-      "src": "assets/images/company-visuals/dbc.webp",
+      "allowedImageHosts": [
+        "dabaco.vn",
+        "www.dabaco.vn"
+      ],
+      "src": "assets/images/company-visuals/dbc.webp?v=f7d10820eb87",
       "alt": "Hoạt động sản xuất trong chuỗi Feed–Farm–Food của DABACO (DBC)",
       "caption": "Chuỗi sản xuất Feed–Farm–Food của DABACO",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 2560,
+      "sourceHeight": 1707,
+      "sha256": "f7d10820eb87b1c9d334ef4a9b3b676d26194e922b9c1476b0f04bf22836ba99",
+      "bytes": 106820,
+      "sourceBytes": 669761,
+      "syncedOn": "2026-09-12"
     },
     "FRT": {
       "ticker": "FRT",
@@ -152,14 +240,25 @@ window.COMPANY_VISUALS = {
       "sourceImageUrl": "https://cdn2.fptshop.com.vn/unsafe/Uploads/images/tin-tuc/152313/Originals/H1.jpg",
       "sourceLabel": "FPT Shop / FPT Retail — website chính thức",
       "officialDomain": "fptshop.com.vn",
-      "allowedImageHosts": ["cdn2.fptshop.com.vn", "fptshop.com.vn"],
-      "src": "assets/images/company-visuals/frt.webp",
+      "allowedImageHosts": [
+        "cdn2.fptshop.com.vn",
+        "fptshop.com.vn"
+      ],
+      "src": "assets/images/company-visuals/frt.webp?v=28d7b12092df",
       "alt": "Không gian cửa hàng FPT Shop thuộc hệ sinh thái bán lẻ của FPT Retail (FRT)",
       "caption": "Không gian cửa hàng FPT Shop",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
-      "verifiedOn": "2026-09-12"
+      "verifiedOn": "2026-09-12",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1600,
+      "sourceHeight": 1200,
+      "sha256": "28d7b12092df5e0215fea3fb9e8aa3a7916f177140ec778785ab5cf8c586d2fd",
+      "bytes": 173540,
+      "sourceBytes": 1177942,
+      "syncedOn": "2026-09-12"
     }
   }
 };
