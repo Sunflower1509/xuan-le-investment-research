@@ -18,7 +18,7 @@ const loadWindowData = (relativePath, key) => {
 const visuals = loadWindowData("src/data/company-visuals.js", "COMPANY_VISUALS");
 const research = loadWindowData("src/data/research-data.js", "RESEARCH_DATA");
 
-const expected = ["DXP", "DHC", "GAS", "FPT", "HPG", "VHM", "BID", "DBC", "SSI"];
+const expected = ["DXP", "DHC", "GAS", "FPT", "HPG", "VHM", "BID", "DBC", "FRT"];
 
 test("company identity visual pilot is deliberately limited to nine verified tickers", () => {
   assert.equal(visuals.meta.schema, "verified-core-asset-webp-v1");
