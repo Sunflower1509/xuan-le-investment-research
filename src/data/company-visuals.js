@@ -1,31 +1,43 @@
 window.COMPANY_VISUALS = {
   "meta": {
     "schema": "verified-core-asset-webp-v1",
-    "pilot": true,
+    "standardVersion": "CIVS-1.0",
+    "rollout": true,
+    "coverageTarget": 125,
     "count": 9,
+    "verifiedCount": 9,
+    "pendingCount": 116,
+    "rolloutProgressPct": 7.2,
     "updated": "2026-09-12",
-    "policy": "Official-company-source-only; real core operations/assets or verified corporate workplace/headquarters where physical operating assets are not the economic identity; no generative, stock or third-party editorial imagery.",
-    "display": "Research cards only; valuation dialogs keep the dated report cover.",
+    "policy": "CIVS 1.0 — official first-party source only; real core operations/assets preferred, verified headquarters/workplace or product/network identity only when economically appropriate; minimum quality gate 8/10; no generative, stock or third-party editorial imagery.",
+    "display": "Research cards only; valuation dialogs keep the dated report cover. Unverified tickers retain report-cover fallback.",
     "synced": "2026-09-12",
     "target": "960x540",
     "quality": 84,
-    "verification": "Every image is downloaded from an explicit URL embedded by an official company source page, normalized locally, hashed, and audited before deployment."
+    "verification": "CIVS 1.0: every published visual must pass first-party source validation, >=8/10 quality gate, local normalization, SHA-256 audit and fail-closed deployment checks."
   },
   "visuals": {
     "DXP": {
       "ticker": "DXP",
       "sector": "Cảng biển & logistics",
-      "subject": "Hoạt động khai thác Cảng Đoạn Xá",
-      "sourceUrl": "https://doanxaport.com.vn/",
-      "sourceImageUrl": "https://img.youtube.com/vi/Jp0i2sW9sTE/maxresdefault.jpg",
-      "sourceLabel": "Cảng Đoạn Xá — video giới thiệu 2026 trên website chính thức",
+      "subject": "Cơ sở hạ tầng Cảng Đoạn Xá",
+      "sourceUrl": "https://doanxaport.com.vn/gioi-thieu/",
+      "sourceLabel": "Cảng Đoạn Xá — trang giới thiệu/cơ sở hạ tầng chính thức",
       "officialDomain": "doanxaport.com.vn",
       "allowedImageHosts": [
-        "img.youtube.com"
+        "doanxaport.com.vn",
+        "www.doanxaport.com.vn"
       ],
+      "sourceDiscovery": {
+        "type": "img-alt",
+        "value": "Cơ sở hạ tầng"
+      },
+      "sourceTier": "A",
+      "identityType": "core-port-infrastructure",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/dxp.webp?v=bf4b320e79e5",
-      "alt": "Hoạt động khai thác tại Cảng Đoạn Xá (DXP)",
-      "caption": "Hoạt động khai thác Cảng Đoạn Xá",
+      "alt": "Cơ sở hạ tầng khai thác tại Cảng Đoạn Xá (DXP)",
+      "caption": "Cơ sở hạ tầng Cảng Đoạn Xá",
       "kind": "company-asset",
       "objectPosition": "center center",
       "verified": true,
@@ -50,6 +62,9 @@ window.COMPANY_VISUALS = {
       "allowedImageHosts": [
         "dohacobentre.com.vn"
       ],
+      "sourceTier": "A",
+      "identityType": "core-production-asset",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/dhc.webp?v=60c6f57e5d07",
       "alt": "Dây chuyền sản xuất giấy tại Nhà máy Giao Long của Đông Hải Bến Tre (DHC)",
       "caption": "Dây chuyền sản xuất giấy Nhà máy Giao Long",
@@ -78,6 +93,9 @@ window.COMPANY_VISUALS = {
         "www.pvgas.com.vn",
         "pvgas.com.vn"
       ],
+      "sourceTier": "A",
+      "identityType": "core-energy-infrastructure",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/gas.webp?v=b4ca928909d0",
       "alt": "Kho LNG Thị Vải, hạ tầng khí trọng yếu của PV GAS (GAS)",
       "caption": "Kho LNG Thị Vải của PV GAS",
@@ -105,6 +123,9 @@ window.COMPANY_VISUALS = {
       "allowedImageHosts": [
         "bctn2025.fpt.com"
       ],
+      "sourceTier": "A",
+      "identityType": "core-digital-infrastructure",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/fpt.webp?v=638219314d3f",
       "alt": "Trung tâm Dữ liệu FPT Fornix HCM02 của FPT",
       "caption": "Trung tâm Dữ liệu FPT Fornix HCM02",
@@ -133,6 +154,9 @@ window.COMPANY_VISUALS = {
         "file.hoaphat.com.vn",
         "thep.hoaphat.com.vn"
       ],
+      "sourceTier": "A",
+      "identityType": "core-production-asset",
+      "qualityScore": 9,
       "src": "assets/images/company-visuals/hpg.webp?v=2134c7e15b64",
       "alt": "Hoạt động sản xuất phôi thép của Hòa Phát (HPG)",
       "caption": "Sản xuất phôi thép Hòa Phát",
@@ -160,6 +184,9 @@ window.COMPANY_VISUALS = {
       "allowedImageHosts": [
         "storage.googleapis.com"
       ],
+      "sourceTier": "A",
+      "identityType": "core-project-asset",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/vhm.webp?v=a2cfc5675b83",
       "alt": "Hình ảnh thực tế khu đô thị Vinhomes Ocean Park của Vinhomes (VHM)",
       "caption": "Hình ảnh thực tế Vinhomes Ocean Park",
@@ -188,6 +215,9 @@ window.COMPANY_VISUALS = {
         "bidv.com.vn",
         "www.bidv.com.vn"
       ],
+      "sourceTier": "B",
+      "identityType": "headquarters",
+      "qualityScore": 9,
       "src": "assets/images/company-visuals/bid.webp?v=7670614db95c",
       "alt": "BIDV Tower, trụ sở chính của Ngân hàng BIDV (BID)",
       "caption": "BIDV Tower — trụ sở chính BIDV",
@@ -216,6 +246,9 @@ window.COMPANY_VISUALS = {
         "dabaco.vn",
         "www.dabaco.vn"
       ],
+      "sourceTier": "A",
+      "identityType": "core-production-network",
+      "qualityScore": 10,
       "src": "assets/images/company-visuals/dbc.webp?v=f7d10820eb87",
       "alt": "Hoạt động sản xuất trong chuỗi Feed–Farm–Food của DABACO (DBC)",
       "caption": "Chuỗi sản xuất Feed–Farm–Food của DABACO",
@@ -244,6 +277,9 @@ window.COMPANY_VISUALS = {
         "cdn2.fptshop.com.vn",
         "fptshop.com.vn"
       ],
+      "sourceTier": "A",
+      "identityType": "core-retail-network",
+      "qualityScore": 9,
       "src": "assets/images/company-visuals/frt.webp?v=28d7b12092df",
       "alt": "Không gian cửa hàng FPT Shop thuộc hệ sinh thái bán lẻ của FPT Retail (FRT)",
       "caption": "Không gian cửa hàng FPT Shop",
