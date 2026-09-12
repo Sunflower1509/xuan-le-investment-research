@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "schema": "civs-source-overrides-v1",
+    "updated": "2026-09-13",
+    "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
+  },
+  "overrides": {
+    "BSR": {
+      "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
+      "officialDomain": "bsr.com.vn",
+      "sourceImageUrl": "https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496",
+      "qualityScore": 10,
+      "sourceDiscovery": {
+        "type": "manual-official",
+        "strategy": "exact-first-party-core-asset-v1",
+        "resolvedFromOfficialPage": true,
+        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+      }
+    },
+    "SBT": {
+      "sourceUrl": "https://www.ttcagris.com.vn/thong-tin-dn/vung-nguyen-lieu-nha-may/vung-nguyen-lieu",
+      "officialDomain": "ttcagris.com.vn"
+    },
+    "VGC": {
+      "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
+      "officialDomain": "viglacera.com.vn"
+    },
+    "OIL": {
+      "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
+      "officialDomain": "pvoil.com.vn"
+    },
+    "PVT": {
+      "sourceUrl": "https://www.pvtrans.com/ourboats",
+      "officialDomain": "pvtrans.com"
+    }
+  }
+}
