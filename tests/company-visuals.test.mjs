@@ -41,19 +41,22 @@ test("CIVS rollout is structurally capable of complete 125-code coverage", () =>
   }
 });
 
-test("every already-published visual preserves strict CIVS source and quality metadata", () => {
+test("every published visual preserves strict CIVS source and quality metadata", () => {
   const coverage = new Set(research.coverage.map((item) => item.ticker));
   for (const [ticker, item] of Object.entries(visuals.visuals)) {
     assert.equal(item.ticker, ticker);
     assert.equal(item.kind, "company-asset");
-    assert.equal(item.verified, true);
     assert.ok(coverage.has(ticker), `${ticker} must belong to Coverage Universe`);
     assert.match(item.sourceUrl, /^https:\/\//);
-    assert.ok(item.sourceImageUrl?.startsWith("https://") || item.sourceDiscovery, `${ticker} must have sourceImageUrl or sourceDiscovery`);
     assert.ok(["A", "B", "C"].includes(item.sourceTier), `${ticker} sourceTier must be A/B/C`);
     assert.ok(typeof item.identityType === "string" && item.identityType.length >= 3, `${ticker} identityType is required`);
+    if (item.verified !== true) {
+      assert.ok(!item.src && !item.sha256, `${ticker} pending visual must not be published`);
+      continue;
+    }
+    assert.ok(item.sourceImageUrl?.startsWith("https://"), `${ticker} published visual needs sourceImageUrl`);
     assert.ok(Number(item.qualityScore) >= 8 && Number(item.qualityScore) <= 10, `${ticker} qualityScore must be 8–10`);
-    if (item.sourceImageUrl) assert.doesNotMatch(item.sourceImageUrl, /(unsplash|pexels|pixabay|shutterstock|alamy|istock|freepik|midjourney|openai)/i);
+    assert.doesNotMatch(item.sourceImageUrl, /(unsplash|pexels|pixabay|shutterstock|alamy|istock|freepik|midjourney|openai)/i);
   }
 });
 
@@ -76,25 +79,29 @@ test("production bundle keeps company visuals non-invasive and limited to resear
   assert.match(module, /company-visual-logo/);
   assert.match(module, /NGUỒN DN ↗/);
   assert.match(module, /MutationObserver/);
+  assert.match(module, /!visual\?\.verified/);
   assert.doesNotMatch(module, /#report-dialog|report-visual-dialog/);
 });
 
-test("v2 sync and audit are 125-aware, provenance-aware and fail-closed", () => {
+test("v3 sync and audit are resumable, 125-aware, provenance-aware and fail-safe", () => {
   const syncWrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
   const auditWrapper = fs.readFileSync(path.join(root, "scripts/audit-company-visuals.mjs"), "utf8");
-  const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-v2.mjs"), "utf8");
-  const audit = fs.readFileSync(path.join(root, "scripts/audit-company-visuals-v2.mjs"), "utf8");
-  assert.match(syncWrapper, /sync-company-visuals-v2\.mjs/);
-  assert.match(auditWrapper, /audit-company-visuals-v2\.mjs/);
+  const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-v3.mjs"), "utf8");
+  const audit = fs.readFileSync(path.join(root, "scripts/audit-company-visuals-v3.mjs"), "utf8");
+  assert.match(syncWrapper, /sync-company-visuals-v3\.mjs/);
+  assert.match(auditWrapper, /audit-company-visuals-v3\.mjs/);
   assert.match(sync, /hero-auto/);
   assert.match(sync, /resolvedFromOfficialPage/);
   assert.match(sync, /qualityBreakdown/);
   assert.match(sync, /entries\.length !== 125/);
-  assert.match(sync, /pendingCount = 0|pendingCount: 0/);
+  assert.match(sync, /pendingCount/);
+  assert.match(sync, /sanitizeFailedEntry/);
+  assert.match(sync, /safe report-cover fallback/);
   assert.match(audit, /verifiedCount/);
   assert.match(audit, /pendingCount/);
   assert.match(audit, /external CDN thiếu provenance/);
-  assert.match(audit, /entries\.length === EXPECTED/);
+  assert.match(audit, /candidate set phải có/);
+  assert.match(audit, /CIVS_REQUIRE_COMPLETE/);
 });
 
 test("deployment still synchronizes, audits and verifies live bytes before publish", () => {
