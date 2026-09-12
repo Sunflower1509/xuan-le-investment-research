@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "schema": "civs-source-overrides-v1",
+    "updated": "2026-09-13",
+    "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
+  },
+  "overrides": {
+    "BSR": {
+      "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
+      "officialDomain": "bsr.com.vn",
+      "sourceImageUrl": "https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496",
+      "qualityScore": 10,
+      "sourceDiscovery": {
+        "type": "manual-official",
+        "strategy": "exact-first-party-core-asset-v1",
+        "resolvedFromOfficialPage": true,
+        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+      }
+    },
+    "OIL": {
+      "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
+      "officialDomain": "pvoil.com.vn"
+    },
+    "PVC": {
+      "sourceUrl": "https://www.pvchem.com.vn/gioi-thieu/gioi-thieu-chung/",
+      "officialDomain": "pvchem.com.vn"
+    },
+    "PVP": {
+      "sourceUrl": "https://www.pvtrans.com/ourboats",
+      "officialDomain": "pvtrans.com"
+    },
+    "PVT": {
+      "sourceUrl": "https://www.pvtrans.com/ourboats",
+      "officialDomain": "pvtrans.com"
+    },
+    "SBT": {
+      "sourceUrl": "https://www.ttcagris.com.vn/thong-tin-dn/vung-nguyen-lieu-nha-may/vung-nguyen-lieu",
+      "officialDomain": "ttcagris.com.vn"
+    },
+    "VCG": {
+      "sourceUrl": "https://vinaconex.com.vn/tin-tuc/project-progress",
+      "officialDomain": "vinaconex.com.vn"
+    },
+    "VGC": {
+      "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
+      "officialDomain": "viglacera.com.vn"
+    },
+    "VIB": {
+      "sourceUrl": "https://www.vib.com.vn/vn/tin-tuc/he-thong/vib-khai-truong-tru-so-chinh-hcm",
+      "officialDomain": "vib.com.vn"
+    },
+    "VJC": {
+      "sourceUrl": "https://www.vietjetair.com/en/pages/our-fleet-1601131595327",
+      "officialDomain": "vietjetair.com"
+    },
+    "VPL": {
+      "sourceUrl": "https://vinpearl.com/vi/about-us",
+      "officialDomain": "vinpearl.com"
+    }
+  }
+}
