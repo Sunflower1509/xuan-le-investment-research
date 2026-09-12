@@ -30,12 +30,14 @@ window.COMPANY_VISUALS = {
       ],
       "sourceDiscovery": {
         "type": "img-alt",
-        "value": "Cơ sở hạ tầng"
+        "value": "Cơ sở hạ tầng",
+        "resolvedLabel": "Cơ sở hạ tầng",
+        "resolvedOn": "2026-09-12"
       },
       "sourceTier": "A",
       "identityType": "core-port-infrastructure",
       "qualityScore": 10,
-      "src": "assets/images/company-visuals/dxp.webp?v=bf4b320e79e5",
+      "src": "assets/images/company-visuals/dxp.webp?v=b9d7b73a7f78",
       "alt": "Cơ sở hạ tầng khai thác tại Cảng Đoạn Xá (DXP)",
       "caption": "Cơ sở hạ tầng Cảng Đoạn Xá",
       "kind": "company-asset",
@@ -44,12 +46,13 @@ window.COMPANY_VISUALS = {
       "verifiedOn": "2026-09-12",
       "width": 960,
       "height": 540,
-      "sourceWidth": 1280,
-      "sourceHeight": 720,
-      "sha256": "bf4b320e79e5698ffa2e8c447d73d719ae5b1a694dc67bdf6315bb92a2924844",
-      "bytes": 15590,
-      "sourceBytes": 37904,
-      "syncedOn": "2026-09-12"
+      "sourceWidth": 1069,
+      "sourceHeight": 892,
+      "sha256": "b9d7b73a7f78fe8b380a3a8e20d8e201459427b0d35a3ce41d5435fc06382f6c",
+      "bytes": 120484,
+      "sourceBytes": 165210,
+      "syncedOn": "2026-09-12",
+      "sourceImageUrl": "https://doanxaport.com.vn/Upload/about/co-so-ha-tang.webp"
     },
     "DHC": {
       "ticker": "DHC",
