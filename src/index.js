@@ -1,5 +1,6 @@
 import "./data/research-data.js";
 import "./data/company-logos.js";
+import "./data/company-visuals.js";
 import "./data/daily-insights.js";
 import "./data/daily-insights-20260819.js";
 import "./data/daily-insights-20260821.js";
@@ -8,5 +9,6 @@ import "./data/daily-insights-20260911.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
 import "./scripts/company-logo-avatars.js";
+import "./scripts/company-visual-cards.js";
 import "./scripts/report-deeplinks.js";
 import "./scripts/presence.js";
