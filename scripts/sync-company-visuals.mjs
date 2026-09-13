@@ -12,6 +12,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
 const deadline = Date.now() + 85 * 60 * 1000;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
 const readData = () => {
   try {
@@ -23,6 +24,10 @@ const readData = () => {
 };
 
 const readMeta = () => readData()?.meta || null;
+
+const writeData = (data) => {
+  fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
+};
 
 const normalizeVerifiedLegacyProvenance = () => {
   const data = readData();
@@ -45,9 +50,59 @@ const normalizeVerifiedLegacyProvenance = () => {
     resolvedFromOfficialPage: true,
     resolvedLabel: vhm.subject || "Hình ảnh thực tế Vinhomes Ocean Park"
   };
-  fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
+  writeData(data);
   console.log("[CIVS WRAPPER] normalized verified VHM external-CDN provenance from the exact official Vinhomes page.");
   return true;
+};
+
+const demoteAuditInvalidLocalOutputs = () => {
+  const data = readData();
+  if (!data?.visuals) throw new Error("CIVS wrapper: COMPANY_VISUALS unavailable while enforcing local output gates.");
+  const demoted = [];
+
+  for (const entry of Object.values(data.visuals)) {
+    if (entry?.verified !== true || !entry.src) continue;
+    const assetRelative = localPath(entry.src);
+    const assetPath = path.join(root, assetRelative);
+    const exists = fs.existsSync(assetPath);
+    const size = exists ? fs.statSync(assetPath).size : 0;
+    if (exists && size > 10_000) continue;
+
+    if (exists) fs.unlinkSync(assetPath);
+    entry.verified = false;
+    entry.pending = true;
+    entry.lastFailure = exists
+      ? `${entry.ticker}: normalized WebP ${size} bytes dưới CIVS publish floor 10001 bytes; giữ report-cover fallback.`
+      : `${entry.ticker}: thiếu local CIVS asset; giữ report-cover fallback.`;
+    delete entry.src;
+    delete entry.sha256;
+    delete entry.width;
+    delete entry.height;
+    delete entry.sourceWidth;
+    delete entry.sourceHeight;
+    delete entry.bytes;
+    delete entry.sourceBytes;
+    delete entry.syncedOn;
+    delete entry.verifiedOn;
+    demoted.push(String(entry.ticker || "").toUpperCase());
+  }
+
+  if (!demoted.length) return demoted;
+  const entries = Object.values(data.visuals);
+  const verified = entries.filter((entry) => entry?.verified === true);
+  const pending = entries.filter((entry) => entry?.verified !== true);
+  data.meta.count = verified.length;
+  data.meta.verifiedCount = verified.length;
+  data.meta.pendingCount = pending.length;
+  data.meta.pendingTickers = pending.map((entry) => String(entry.ticker || "").toUpperCase()).sort();
+  data.meta.rolloutProgressPct = Number(((verified.length / 125) * 100).toFixed(1));
+  data.meta.complete = verified.length === 125;
+  data.meta.verification = data.meta.complete
+    ? "CIVS 1.0 COMPLETE: 125/125 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
+    : `CIVS 1.0 RESUMABLE: ${verified.length}/125 visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
+  writeData(data);
+  console.log(`[CIVS WRAPPER] demoted audit-invalid local outputs to safe fallback: ${demoted.join(", ")}.`);
+  return demoted;
 };
 
 while (Date.now() < deadline) {
@@ -65,3 +120,4 @@ if (!(Number(finalMeta?.candidateCount) === 125 && Number(finalMeta?.verifiedCou
 }
 
 normalizeVerifiedLegacyProvenance();
+demoteAuditInvalidLocalOutputs();
