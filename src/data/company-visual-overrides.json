@@ -42,6 +42,11 @@
       "officialDomain": "hsc.com.vn",
       "keywords": ["HSC ONE", "trading", "platform", "brokerage", "market access", "Our Services"]
     },
+    "HDG": {
+      "sourceUrl": "https://hado.com.vn/tap-doan-ha-do-khanh-thanh-nha-may-thuy-dien-dak-mi-2-cong-suat-147-mw-tai-quang-nam",
+      "officialDomain": "hado.com.vn",
+      "keywords": ["Nhà máy Thủy điện Đăk Mi 2", "thủy điện", "147 MW", "nhà máy", "năng lượng"]
+    },
     "MBB": {
       "sourceUrl": "https://news.mbbank.com.vn/news/khai-truong-mb-bac-nghe-an-1779420942",
       "officialDomain": "mbbank.com.vn",
@@ -72,8 +77,9 @@
       "officialDomain": "vinaconex.com.vn"
     },
     "VGC": {
-      "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
-      "officialDomain": "viglacera.com.vn"
+      "sourceUrl": "https://viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
+      "officialDomain": "viglacera.com.vn",
+      "keywords": ["Bất động sản khu công nghiệp", "khu công nghiệp", "industrial park", "hạ tầng", "Viglacera"]
     },
     "VIB": {
       "sourceUrl": "https://www.vib.com.vn/vn/tin-tuc/he-thong/vib-khai-truong-tru-so-chinh-hcm",
