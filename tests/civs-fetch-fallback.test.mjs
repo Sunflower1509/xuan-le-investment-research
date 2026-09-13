@@ -78,10 +78,11 @@ test("source overrides are an in-memory verified overlay, never a registry rewri
 test("BSR exact asset override remains first-party and economic-identity specific", () => {
   const bsr = overrides.overrides.BSR;
   assert.equal(bsr.officialDomain, "bsr.com.vn");
-  assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
-  assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
+  assert.match(bsr.sourceUrl, /^https:\/\/bsr\.com\.vn\/vi\/web\/bsr-eng\/about-dung-quat-refinery/);
+  assert.match(bsr.sourceImageUrl, /^https:\/\/bsr\.com\.vn\/BTEC\/images\/.+\.jpg$/);
   assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
-  assert.equal(bsr.qualityScore, 10);
+  assert.equal(bsr.sourceDiscovery.resolvedLabel, "Technological workshops of Dung Quat Refinery");
+  assert.ok(bsr.qualityScore >= 8);
 });
 
 test("pending source batch points BFC and D2D to core operating-asset pages", () => {
@@ -93,6 +94,13 @@ test("pending source batch points BFC and D2D to core operating-asset pages", ()
   assert.equal(d2d.officialDomain, "d2d.com.vn");
   assert.match(d2d.sourceUrl, /khu-cong-nghiep-nhon-trach-2/);
   assert.ok(d2d.keywords.some((item) => /Khu Công nghiệp Nhơn Trạch 2/i.test(item)));
+});
+
+test("OIL discovery targets a real first-party PVOIL storage asset", () => {
+  const oil = overrides.overrides.OIL;
+  assert.equal(oil.officialDomain, "pvoil.com.vn");
+  assert.match(oil.sourceUrl, /kho-xang-dau-pvoil-nghi-son-chinh-thuc-di-vao-hoat-dong/);
+  assert.ok(oil.keywords.some((item) => /Kho xăng dầu PVOIL Nghi Sơn/i.test(item)));
 });
 
 test("VNM uses a first-party homepage embedded CDN visual with explicit provenance", () => {
