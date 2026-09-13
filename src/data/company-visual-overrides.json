@@ -6,16 +6,28 @@
   },
   "overrides": {
     "BSR": {
-      "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
+      "sourceUrl": "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
       "officialDomain": "bsr.com.vn",
-      "sourceImageUrl": "https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496",
+      "sourceImageUrl": "https://bsr.com.vn/BTEC/images/1711105108743/6362768901455073146.jpg",
       "qualityScore": 10,
       "sourceDiscovery": {
         "type": "manual-official",
-        "strategy": "exact-first-party-core-asset-v1",
+        "strategy": "exact-first-party-core-asset-v2",
         "resolvedFromOfficialPage": true,
-        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+        "resolvedLabel": "NMLD Dung Quat crude oil tank area"
       }
+    },
+    "D2D": {
+      "sourceUrl": "https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2",
+      "officialDomain": "d2d.com.vn"
+    },
+    "HDC": {
+      "sourceUrl": "https://www.hodeco.vn/view/28/the-light-city",
+      "officialDomain": "hodeco.vn"
+    },
+    "MBB": {
+      "sourceUrl": "https://news.mbbank.com.vn/news/khai-truong-mb-bac-nghe-an-1779420942",
+      "officialDomain": "mbbank.com.vn"
     },
     "OIL": {
       "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
@@ -37,12 +49,20 @@
       "sourceUrl": "https://www.ttcagris.com.vn/thong-tin-dn/vung-nguyen-lieu-nha-may/vung-nguyen-lieu",
       "officialDomain": "ttcagris.com.vn"
     },
+    "SHS": {
+      "sourceUrl": "https://www.shs.com.vn/tin-tuc/shs-khai-truong-tru-so-chinh-moi-mo-rong-mang-luoi-va-quy-mo-hoat-dong-toan-quoc",
+      "officialDomain": "shs.com.vn"
+    },
+    "SIP": {
+      "sourceUrl": "https://saigonvrg.com.vn/vi/kcn-phuoc-dong",
+      "officialDomain": "saigonvrg.com.vn"
+    },
     "VCG": {
       "sourceUrl": "https://vinaconex.com.vn/tin-tuc/project-progress",
       "officialDomain": "vinaconex.com.vn"
     },
     "VGC": {
-      "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
+      "sourceUrl": "https://viglacera.com.vn/bat-dong-san",
       "officialDomain": "viglacera.com.vn"
     },
     "VIB": {
