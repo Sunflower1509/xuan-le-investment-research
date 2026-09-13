@@ -73,6 +73,17 @@ test("BSR exact asset override remains first-party and economic-identity specifi
   assert.equal(bsr.qualityScore, 10);
 });
 
+test("Vinamilk exact farm asset keeps official-page CDN provenance", () => {
+  const vnm = overrides.overrides.VNM;
+  assert.equal(vnm.officialDomain, "vinamilk.com.vn");
+  assert.equal(vnm.sourceUrl, "https://www.vinamilk.com.vn/vi/mobile/phat-trien-kinh-te-dia-phuong/phat-trien-ben-vung");
+  assert.equal(vnm.sourceImageUrl, "https://d8um25gjecm9v.cloudfront.net/cms/Hero_1_5cbd9c8358_95c596dd49.webp");
+  assert.deepEqual(vnm.allowedImageHosts, ["d8um25gjecm9v.cloudfront.net"]);
+  assert.equal(vnm.embeddedImageHostVerified, true);
+  assert.equal(vnm.sourceDiscovery.resolvedFromOfficialPage, true);
+  assert.ok(vnm.qualityScore >= 8);
+});
+
 test("pending source batch points to exact first-party economic-identity pages", () => {
   assert.equal(overrides.overrides.BFC.sourceUrl, "https://binhdien.com/truyenthong/tintuc/xanh-hoa-tu-nha-may-den-ruong-vuon.html");
   assert.match(overrides.overrides.CMG.sourceUrl, /^https:\/\/www\.cmc\.com\.vn\/insight-detail\/cmc-approved-for-over-usd-250-million-investment-/);
