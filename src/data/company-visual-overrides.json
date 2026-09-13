@@ -1,10 +1,15 @@
 {
   "meta": {
     "schema": "civs-source-overrides-v1",
-    "updated": "2026-09-13",
+    "updated": "2026-09-14",
     "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
   },
   "overrides": {
+    "BFC": {
+      "sourceUrl": "https://binhdien.com/truyenthong/tintuc/xanh-hoa-tu-nha-may-den-ruong-vuon.html",
+      "officialDomain": "binhdien.com",
+      "keywords": ["Nhà máy Phân bón Bình Điền Long An", "nhà kho", "điện mặt trời", "nhà máy", "phân bón", "sản xuất"]
+    },
     "BSR": {
       "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
       "officialDomain": "bsr.com.vn",
@@ -16,6 +21,11 @@
         "resolvedFromOfficialPage": true,
         "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
       }
+    },
+    "D2D": {
+      "sourceUrl": "https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2",
+      "officialDomain": "d2d.com.vn",
+      "keywords": ["Khu Công nghiệp Nhơn Trạch 2", "khu công nghiệp", "hạ tầng", "industrial", "Nhơn Trạch"]
     },
     "OIL": {
       "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
@@ -50,8 +60,23 @@
       "officialDomain": "vib.com.vn"
     },
     "VJC": {
-      "sourceUrl": "https://www.vietjetair.com/en/pages/our-fleet-1601131595327",
-      "officialDomain": "vietjetair.com"
+      "sourceUrl": "https://www.vietjetair.com/vi/pages/doi-bay-sinh-dong-nhat-the-gioi-1600932601668",
+      "officialDomain": "vietjetair.com",
+      "keywords": ["Tàu bay Vietjet", "đội tàu bay", "aircraft", "A321", "A330"]
+    },
+    "VNM": {
+      "sourceUrl": "https://www.vinamilk.com.vn/",
+      "officialDomain": "vinamilk.com.vn",
+      "sourceImageUrl": "https://d8um25gjecm9v.cloudfront.net/cms/Hero_2_2d8335b753_d8a4066a24.png",
+      "allowedImageHosts": ["d8um25gjecm9v.cloudfront.net"],
+      "embeddedImageHostVerified": true,
+      "qualityScore": 9,
+      "sourceDiscovery": {
+        "type": "manual-official",
+        "strategy": "exact-official-homepage-embedded-cdn-v1",
+        "resolvedFromOfficialPage": true,
+        "resolvedLabel": "Vinamilk — hệ thống 14 nhà máy công nghệ hàng đầu thế giới"
+      }
     },
     "VPL": {
       "sourceUrl": "https://vinpearl.com/vi/about-us",
