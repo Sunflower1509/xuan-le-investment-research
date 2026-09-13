@@ -92,6 +92,8 @@ test("pending source batch points to exact first-party economic-identity pages",
   assert.match(overrides.overrides.HDC.sourceUrl, /hodeco\.vn\/view\/28\/the-light-city$/);
   assert.equal(overrides.overrides.HDG.sourceUrl, "https://hado.com.vn/nha-may-dien-mat-troi-ha-do-ninh-phuoc");
   assert.match(overrides.overrides.MBB.sourceUrl, /news\.mbbank\.com\.vn\/news\/khai-truong-mb-bac-nghe-an-/);
+  assert.equal(overrides.overrides.NKG.officialDomain, "tonnamkim.com");
+  assert.match(overrides.overrides.NKG.sourceUrl, /^https:\/\/tonnamkim\.com\/nam-kim-phu-my-completes-installation-/);
   assert.match(overrides.overrides.PVB.sourceUrl, /pvcoating\.vn\/project-news\/pvid-transfer-the-line-pipes-to-the-coating-plant-/);
   assert.match(overrides.overrides.SHS.sourceUrl, /shs\.com\.vn\/tin-tuc\/shs-khai-truong-tru-so-chinh-moi-/);
   assert.equal(overrides.overrides.SIP.sourceUrl, "https://saigonvrg.com.vn/vi/kcn-phuoc-dong");
