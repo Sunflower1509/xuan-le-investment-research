@@ -26,6 +26,17 @@ test("sync wrapper keeps the process alive until the 125-candidate state is pers
   assert.match(wrapper, /không persist được candidate set 125 mã/);
 });
 
+test("VHM legacy CDN provenance is normalized only for the exact verified official baseline", () => {
+  assert.match(wrapper, /market\.vinhomes\.vn\/blog\/tien-do-vinhomes-ocean-park/);
+  assert.match(wrapper, /storage\\\.googleapis\\\.com\\\/digital-platform/);
+  assert.match(wrapper, /vhm\.officialDomain === "vinhomes\.vn"/);
+  assert.match(wrapper, /allowedImageHosts\) && vhm\.allowedImageHosts\.includes\("storage\.googleapis\.com"\)/);
+  assert.match(wrapper, /embeddedImageHostVerified = true/);
+  assert.match(wrapper, /resolvedFromOfficialPage: true/);
+  assert.match(wrapper, /legacy-baseline-provenance-v1/);
+  assert.match(wrapper, /migration refused/);
+});
+
 test("fallback never disables TLS verification and never proxies image bytes", () => {
   assert.doesNotMatch(helper, /--insecure|\s-k\b|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED/);
   assert.match(helper, /!isHtmlRequest\(options\).*nativeFetch/);
