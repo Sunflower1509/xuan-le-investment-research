@@ -22,10 +22,30 @@
         "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
       }
     },
+    "CMG": {
+      "sourceUrl": "https://www.cmc.com.vn/insight-detail/president-nguyen-xuan-phuc-hope-cmc-tan-thuan-will-be-the-heart-of-digital-transformation-202208176929.html",
+      "officialDomain": "cmc.com.vn",
+      "keywords": ["Tan Thuan Data Center", "data center", "CMC Creative Space", "rack", "digital infrastructure"]
+    },
+    "CTG": {
+      "sourceUrl": "https://www.vietinbank.vn/toa-nha-tru-so-chinh-vietinbank-dat-danh-hieu-cong-trinh-xay-dung-su-dung-nang-luong-xanh-4-sao-04-html",
+      "officialDomain": "vietinbank.vn",
+      "keywords": ["Tòa nhà VietinBank 108 Trần Hưng Đạo", "trụ sở chính", "VietinBank", "tòa nhà", "head office"]
+    },
     "D2D": {
       "sourceUrl": "https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2",
       "officialDomain": "d2d.com.vn",
       "keywords": ["Khu Công nghiệp Nhơn Trạch 2", "khu công nghiệp", "hạ tầng", "industrial", "Nhơn Trạch"]
+    },
+    "HCM": {
+      "sourceUrl": "https://www.hsc.com.vn/en/who-we-serve",
+      "officialDomain": "hsc.com.vn",
+      "keywords": ["HSC ONE", "trading", "platform", "brokerage", "market access", "Our Services"]
+    },
+    "MBB": {
+      "sourceUrl": "https://news.mbbank.com.vn/news/khai-truong-mb-bac-nghe-an-1779420942",
+      "officialDomain": "mbbank.com.vn",
+      "keywords": ["MB Bắc Nghệ An", "trụ sở mới", "chi nhánh", "cơ sở vật chất", "MB"]
     },
     "OIL": {
       "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
