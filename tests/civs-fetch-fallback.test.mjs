@@ -67,8 +67,17 @@ test("source overrides are an in-memory verified overlay, never a registry rewri
 test("BSR exact asset override remains first-party and economic-identity specific", () => {
   const bsr = overrides.overrides.BSR;
   assert.equal(bsr.officialDomain, "bsr.com.vn");
-  assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
-  assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
+  assert.equal(bsr.sourceUrl, "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery");
+  assert.match(bsr.sourceImageUrl, /^https:\/\/bsr\.com\.vn\/BTEC\/images\//);
   assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
   assert.equal(bsr.qualityScore, 10);
+});
+
+test("pending source batch points to exact first-party economic-identity pages", () => {
+  assert.match(overrides.overrides.D2D.sourceUrl, /d2d\.com\.vn\/du-an-da-hoan-thanh\/du-an-khu-cong-nghiep-nhon-trach-2$/);
+  assert.match(overrides.overrides.HDC.sourceUrl, /hodeco\.vn\/view\/28\/the-light-city$/);
+  assert.match(overrides.overrides.MBB.sourceUrl, /news\.mbbank\.com\.vn\/news\/khai-truong-mb-bac-nghe-an-/);
+  assert.match(overrides.overrides.SHS.sourceUrl, /shs\.com\.vn\/tin-tuc\/shs-khai-truong-tru-so-chinh-moi-/);
+  assert.equal(overrides.overrides.SIP.sourceUrl, "https://saigonvrg.com.vn/vi/kcn-phuoc-dong");
+  assert.equal(overrides.overrides.VGC.sourceUrl, "https://viglacera.com.vn/bat-dong-san");
 });
