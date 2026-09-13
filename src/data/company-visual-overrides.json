@@ -5,6 +5,10 @@
     "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
   },
   "overrides": {
+    "BFC": {
+      "sourceUrl": "https://binhdien.com/truyenthong/tintuc/xanh-hoa-tu-nha-may-den-ruong-vuon.html",
+      "officialDomain": "binhdien.com"
+    },
     "BSR": {
       "sourceUrl": "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
       "officialDomain": "bsr.com.vn",
@@ -40,6 +44,10 @@
     "OIL": {
       "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
       "officialDomain": "pvoil.com.vn"
+    },
+    "PVB": {
+      "sourceUrl": "https://pvcoating.vn/project-news/pvid-transfer-the-line-pipes-to-the-coating-plant-to-imlement-hai-su-trang-te-giac-trang-bach-ho-project.html",
+      "officialDomain": "pvcoating.vn"
     },
     "PVC": {
       "sourceUrl": "https://www.pvchem.com.vn/gioi-thieu/gioi-thieu-chung/",
