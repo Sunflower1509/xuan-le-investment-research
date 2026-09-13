@@ -74,6 +74,8 @@ test("BSR exact asset override remains first-party and economic-identity specifi
 });
 
 test("pending source batch points to exact first-party economic-identity pages", () => {
+  assert.match(overrides.overrides.CMG.sourceUrl, /^https:\/\/www\.cmc\.com\.vn\/insight-detail\/cmc-approved-for-over-usd-250-million-investment-/);
+  assert.match(overrides.overrides.CTG.sourceUrl, /^https:\/\/www\.vietinbank\.vn\/toa-nha-tru-so-chinh-vietinbank-/);
   assert.match(overrides.overrides.D2D.sourceUrl, /d2d\.com\.vn\/du-an-da-hoan-thanh\/du-an-khu-cong-nghiep-nhon-trach-2$/);
   assert.match(overrides.overrides.HDC.sourceUrl, /hodeco\.vn\/view\/28\/the-light-city$/);
   assert.match(overrides.overrides.MBB.sourceUrl, /news\.mbbank\.com\.vn\/news\/khai-truong-mb-bac-nghe-an-/);
