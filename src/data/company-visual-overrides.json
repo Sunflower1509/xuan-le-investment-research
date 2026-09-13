@@ -89,6 +89,20 @@
       "sourceUrl": "https://www.vietjetair.com/en/pages/our-fleet-1601131595327",
       "officialDomain": "vietjetair.com"
     },
+    "VNM": {
+      "sourceUrl": "https://www.vinamilk.com.vn/vi/mobile/phat-trien-kinh-te-dia-phuong/phat-trien-ben-vung",
+      "officialDomain": "vinamilk.com.vn",
+      "sourceImageUrl": "https://d8um25gjecm9v.cloudfront.net/cms/Hero_1_5cbd9c8358_95c596dd49.webp",
+      "allowedImageHosts": ["d8um25gjecm9v.cloudfront.net"],
+      "embeddedImageHostVerified": true,
+      "qualityScore": 9,
+      "sourceDiscovery": {
+        "type": "manual-official-external-cdn",
+        "strategy": "exact-official-embedded-farm-asset-v1",
+        "resolvedFromOfficialPage": true,
+        "resolvedLabel": "Luôn vắt tươi ngon — từ 14 trang trại xanh trải dài toàn quốc"
+      }
+    },
     "VPL": {
       "sourceUrl": "https://vinpearl.com/vi/about-us",
       "officialDomain": "vinpearl.com"
