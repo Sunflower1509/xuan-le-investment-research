@@ -37,6 +37,17 @@ test("VHM legacy CDN provenance is normalized only for the exact verified offici
   assert.match(wrapper, /migration refused/);
 });
 
+test("published local outputs below the audit byte floor are demoted to safe fallback", () => {
+  assert.match(wrapper, /demoteAuditInvalidLocalOutputs/);
+  assert.match(wrapper, /size > 10_000/);
+  assert.match(wrapper, /fs\.unlinkSync\(assetPath\)/);
+  assert.match(wrapper, /entry\.verified = false/);
+  assert.match(wrapper, /entry\.pending = true/);
+  assert.match(wrapper, /giữ report-cover fallback/);
+  assert.match(wrapper, /rolloutProgressPct/);
+  assert.match(wrapper, /pendingTickers/);
+});
+
 test("fallback never disables TLS verification and never proxies image bytes", () => {
   assert.doesNotMatch(helper, /--insecure|\s-k\b|rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED/);
   assert.match(helper, /!isHtmlRequest\(options\).*nativeFetch/);
