@@ -11,15 +11,15 @@
       "keywords": ["Nhà máy Phân bón Bình Điền Long An", "nhà kho", "điện mặt trời", "nhà máy", "phân bón", "sản xuất"]
     },
     "BSR": {
-      "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
+      "sourceUrl": "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
       "officialDomain": "bsr.com.vn",
-      "sourceImageUrl": "https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496",
-      "qualityScore": 10,
+      "sourceImageUrl": "https://bsr.com.vn/BTEC/images/1711105279254/63627689381308708715.jpg",
+      "qualityScore": 9,
       "sourceDiscovery": {
         "type": "manual-official",
         "strategy": "exact-first-party-core-asset-v1",
         "resolvedFromOfficialPage": true,
-        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+        "resolvedLabel": "Technological workshops of Dung Quat Refinery"
       }
     },
     "CMG": {
@@ -53,8 +53,9 @@
       "keywords": ["MB Bắc Nghệ An", "trụ sở mới", "chi nhánh", "cơ sở vật chất", "MB"]
     },
     "OIL": {
-      "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
-      "officialDomain": "pvoil.com.vn"
+      "sourceUrl": "https://www.pvoil.com.vn/kho-xang-dau-pvoil-nghi-son-chinh-thuc-di-vao-hoat-dong",
+      "officialDomain": "pvoil.com.vn",
+      "keywords": ["Kho xăng dầu PVOIL Nghi Sơn", "Kho Nghi Sơn", "xe bồn PVOIL", "kho xăng dầu", "xuất hàng"]
     },
     "PVC": {
       "sourceUrl": "https://www.pvchem.com.vn/gioi-thieu/gioi-thieu-chung/",
