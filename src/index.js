@@ -14,4 +14,4 @@ import "./scripts/company-visual-cards.js";
 import "./scripts/report-deeplinks.js";
 import "./scripts/presence.js";
 
-// Daily market deploy path: CIVS keeps a complete pending scaffold; full network verification runs only when CIVS inputs change.
+// Daily market deploy path: fail-safe CIVS scaffold + mandatory renderer-backed integrity audit; full network verification stays conditional.
