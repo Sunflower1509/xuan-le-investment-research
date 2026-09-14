@@ -14,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-v2
+  group: pages-v3
   queue: max
   cancel-in-progress: false
 
@@ -57,6 +57,8 @@ jobs:
         run: node scripts/sync-report-covers.mjs
       - name: Synchronize company logos
         run: node scripts/sync-company-logos.mjs
+      - name: Ensure complete company-visual candidate scaffold
+        run: node scripts/ensure-company-visual-candidates.mjs
       - name: Synchronize verified company identity visuals
         if: steps.company_visuals.outputs.needs_sync == 'true'
         run: node scripts/sync-company-visuals.mjs
