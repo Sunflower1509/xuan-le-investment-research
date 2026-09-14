@@ -13,3 +13,5 @@ import "./scripts/company-logo-avatars.js";
 import "./scripts/company-visual-cards.js";
 import "./scripts/report-deeplinks.js";
 import "./scripts/presence.js";
+
+// Daily market deploy path: full CIVS synchronization is conditional; integrity audit remains mandatory.
