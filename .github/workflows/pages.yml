@@ -83,6 +83,15 @@ jobs:
         run: node scripts/audit-report-covers.mjs
       - name: Audit company-logo integrity
         run: node scripts/audit-company-logos.mjs
+      - name: Ensure CIVS audit renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v identify >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends imagemagick
+          fi
+          identify -version | head -n 1
       - name: Audit verified company identity visuals
         run: node scripts/audit-company-visuals.mjs
       - name: Guard public layout and mutation scope
