@@ -1,5 +1,6 @@
 name: EOD schedule watchdog
 
+# Automation trigger marker: 2026-09-14
 on:
   push:
     paths:
