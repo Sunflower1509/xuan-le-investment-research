@@ -14,4 +14,4 @@ import "./scripts/company-visual-cards.js";
 import "./scripts/report-deeplinks.js";
 import "./scripts/presence.js";
 
-// Daily market deploy path: full CIVS synchronization is conditional; integrity audit remains mandatory.
+// Daily market deploy path: CIVS keeps a complete pending scaffold; full network verification runs only when CIVS inputs change.
