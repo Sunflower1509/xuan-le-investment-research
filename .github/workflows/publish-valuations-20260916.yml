@@ -13,13 +13,10 @@ jobs:
   inspect-transfer:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect firestorage client API calls
+      - name: Inspect firestorage share bootstrap
         shell: bash
         run: |
           set -euo pipefail
-          js='https://firestorage.ai/_next/static/chunks/app/(files)/ja/f/page-4d19ae0a4ce39d79.js'
-          curl -fsSL -o /tmp/page.js "$js"
-          echo '=== JS size ==='
-          wc -c /tmp/page.js
-          echo '=== likely API/download strings ==='
-          grep -oE '.{0,120}(api|download|share|file|publicId|shareId).{0,220}' /tmp/page.js | head -n 160 || true
+          curl -fsSL -o /tmp/page.html 'https://firestorage.ai/ja/f/McFRreXLULej'
+          echo '=== PAGE ==='
+          cat /tmp/page.html
