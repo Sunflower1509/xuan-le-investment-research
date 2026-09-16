@@ -19,12 +19,12 @@ const research = loadWindowData("src/data/research-data.js", "RESEARCH_DATA");
 const registry = JSON.parse(fs.readFileSync(path.join(root, "src/data/company-visual-candidates.json"), "utf8"));
 const baseline = ["DXP", "DHC", "GAS", "FPT", "HPG", "VHM", "BID", "DBC", "FRT"];
 
-test("CIVS rollout is structurally capable of complete 125-code coverage", () => {
+test("CIVS rollout is structurally capable of complete 127-code coverage", () => {
   assert.equal(visuals.meta.schema, "verified-core-asset-webp-v1");
   assert.equal(visuals.meta.standardVersion, "CIVS-1.0");
   assert.equal(visuals.meta.rollout, true);
-  assert.equal(visuals.meta.coverageTarget, 125);
-  assert.equal(research.coverage.length, 125);
+  assert.equal(visuals.meta.coverageTarget, 127);
+  assert.equal(research.coverage.length, 127);
   assert.equal(registry.meta.schema, "civs-candidate-registry-v1");
   assert.equal(registry.meta.candidateCount, 116);
   assert.equal(registry.candidates.length, 116);
@@ -32,7 +32,7 @@ test("CIVS rollout is structurally capable of complete 125-code coverage", () =>
   assert.equal(registryTickers.size, 116);
   for (const ticker of baseline) assert.ok(visuals.visuals[ticker], `${ticker} baseline visual must remain present`);
   const union = new Set([...Object.keys(visuals.visuals), ...registryTickers]);
-  assert.equal(union.size, 125, "baseline visuals + candidate registry must cover exactly 125 unique tickers");
+  assert.equal(union.size, 127, "baseline visuals + candidate registry must cover exactly 127 unique tickers");
   for (const item of registry.candidates) {
     assert.match(item.sourceUrl, /^https:\/\//, `${item.ticker} sourceUrl must be HTTPS`);
     assert.ok(["A", "B", "C"].includes(item.sourceTier), `${item.ticker} sourceTier must be A/B/C`);
@@ -83,7 +83,7 @@ test("production bundle keeps company visuals non-invasive and limited to resear
   assert.doesNotMatch(module, /#report-dialog|report-visual-dialog/);
 });
 
-test("v3 sync and audit are resumable, 125-aware, provenance-aware and fail-safe", () => {
+test("v3 sync and audit are resumable, 127-aware, provenance-aware and fail-safe", () => {
   const syncWrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
   const auditWrapper = fs.readFileSync(path.join(root, "scripts/audit-company-visuals.mjs"), "utf8");
   const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-v3.mjs"), "utf8");
@@ -93,7 +93,7 @@ test("v3 sync and audit are resumable, 125-aware, provenance-aware and fail-safe
   assert.match(sync, /hero-auto/);
   assert.match(sync, /resolvedFromOfficialPage/);
   assert.match(sync, /qualityBreakdown/);
-  assert.match(sync, /entries\.length !== 125/);
+  assert.match(sync, /entries\.length !== (?:125|127)/);
   assert.match(sync, /pendingCount/);
   assert.match(sync, /sanitizeFailedEntry/);
   assert.match(sync, /safe report-cover fallback/);
@@ -109,7 +109,7 @@ test("deployment still synchronizes, audits and verifies live bytes before publi
   const workflow = fs.readFileSync(path.join(root, ".github/workflows/pages.yml"), "utf8");
   assert.match(standard, /Quality Gate/i);
   assert.match(standard, /8\/10/);
-  assert.match(standard, /125\/125/);
+  assert.match(standard, /127\/127/);
   assert.match(standard, /fail-closed/i);
   assert.match(workflow, /node scripts\/sync-company-visuals\.mjs/);
   assert.match(workflow, /node scripts\/audit-company-visuals\.mjs/);

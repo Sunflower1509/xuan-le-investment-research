@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA = "verified-core-asset-webp-v1";
-const EXPECTED = 125;
+const EXPECTED = 127;
 const WIDTH = 960;
 const HEIGHT = 540;
 const MIN_SCORE = 8;
@@ -112,7 +112,7 @@ const run = () => {
   const coverageTickers = new Set(coverage.map((item) => String(item?.ticker || "").toUpperCase()));
   assert(coverageTickers.size === EXPECTED, "Coverage ticker bị trùng hoặc trống.");
   const logoMap = logos?.logos || {};
-  assert(Object.keys(logoMap).length === EXPECTED, "COMPANY_LOGOS không đủ 125.");
+  assert(Object.keys(logoMap).length === EXPECTED, "COMPANY_LOGOS không đủ 127.");
 
   const entries = Object.values(visuals?.visuals || {});
   assert(entries.length === EXPECTED, `CIVS candidate set phải có ${EXPECTED} mã sau sync, hiện ${entries.length}.`);
@@ -133,7 +133,7 @@ const run = () => {
   assert(Number(visuals.meta.verifiedCount) === audited.length, `verifiedCount ${visuals.meta.verifiedCount} không khớp ${audited.length}.`);
   assert(Number(visuals.meta.pendingCount) === pending.length, `pendingCount ${visuals.meta.pendingCount} không khớp ${pending.length}.`);
   assert(Number(visuals.meta.count) === audited.length, `meta.count phải bằng số visual published ${audited.length}.`);
-  assert(Number(visuals.meta.candidateCount || EXPECTED) === EXPECTED, "meta.candidateCount phải 125.");
+  assert(Number(visuals.meta.candidateCount || EXPECTED) === EXPECTED, "meta.candidateCount phải 127.");
   assert(visuals.meta.target === `${WIDTH}x${HEIGHT}`, "meta.target sai.");
   const expectedProgress = Number(((audited.length / EXPECTED) * 100).toFixed(1));
   assert(Number(visuals.meta.rolloutProgressPct) === expectedProgress, `rolloutProgressPct phải ${expectedProgress}.`);
@@ -141,7 +141,7 @@ const run = () => {
   const complete = audited.length === EXPECTED && pending.length === 0;
   assert(Boolean(visuals.meta.complete) === complete, `meta.complete không khớp trạng thái ${audited.length}/${EXPECTED}.`);
   if (REQUIRE_COMPLETE) assert(complete, `CIVS_REQUIRE_COMPLETE=1 nhưng mới đạt ${audited.length}/${EXPECTED}.`);
-  if (complete) assert(hashes.size === EXPECTED, "125/125 complete phải có 125 unique hashes.");
+  if (complete) assert(hashes.size === EXPECTED, "127/127 complete phải có 127 unique hashes.");
 
   console.log(JSON.stringify({
     ok: true,

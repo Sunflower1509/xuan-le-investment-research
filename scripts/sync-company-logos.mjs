@@ -14,7 +14,7 @@ const logoDir = path.join(root, "assets/images/logos");
 const sourceHost = "symbol-search.tradingview.com";
 const assetHost = "s3-symbol-logo.tradingview.com";
 const schema = "tradingview-exact-symbol-svg-v1";
-const version = "20260911-logo2";
+const version = "20260916-logo3";
 const concurrency = 4;
 
 // Pages runs this before validation so coverage, mapping metadata and local logo assets stay one-to-one.
@@ -196,7 +196,7 @@ const run = async () => {
     meta: {
       schema,
       count: combined.length,
-      synced: "2026-09-11",
+      synced: "2026-09-16",
       source: "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
     },
     logos
