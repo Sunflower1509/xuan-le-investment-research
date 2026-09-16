@@ -1,4 +1,4 @@
-name: One-time valuation report publisher 2026-09-16
+name: One-time guarded TNH QNS valuation publisher
 
 on:
   push:
@@ -7,27 +7,187 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  inspect-transfer:
+  publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Resolve firestorage API base
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download exact uploaded valuation PDFs
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL -o /tmp/app.js 'https://firestorage.ai/_next/static/chunks/4899-d89df949f2dbd5af.js'
+          mkdir -p reports
           python3 - <<'PY'
-          import pathlib,re
-          s=pathlib.Path('/tmp/app.js').read_text()
-          for needle in ['/api','api.','shares/${','let f=','const f=','f="','f=']:
-              print('\n###',needle)
-              start=0; n=0
-              while n<12:
-                  i=s.find(needle,start)
-                  if i<0: break
-                  print(s[max(0,i-350):i+700])
-                  print('\n---')
-                  start=i+len(needle); n+=1
+          import json, pathlib, urllib.request
+          api='https://api.firestorage.ai/dev/file'
+          jobs=[
+            ('McFRreXLULej','TNH_11-09-2026.pdf','reports/TNH_2026-09-11.pdf'),
+            ('FTvzqn9Gy_3m','QNS_2026-09-16.pdf','reports/QNS_2026-09-16.pdf'),
+          ]
+          for share, expected, out in jobs:
+              with urllib.request.urlopen(f'{api}/shares/{share}/files?maxResults=1000', timeout=30) as r:
+                  payload=json.load(r)
+              matches=[x for x in payload.get('files',[]) if x.get('fileName')==expected]
+              if len(matches)!=1:
+                  raise SystemExit(f'{share}: expected exactly one {expected}, got {len(matches)}')
+              file_id=matches[0]['fileId']
+              req=urllib.request.Request(f'{api}/shares/{share}/files/{file_id}/download', data=b'', method='POST')
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  dl=json.load(r)['downloadUrl']
+              with urllib.request.urlopen(dl, timeout=60) as r:
+                  data=r.read()
+              pathlib.Path(out).write_bytes(data)
+              print(out, len(data))
           PY
+          printf '6e0826b9b8ff287b6136a603daa8cdc80dddfa32326aa5963e1df3214829d315  reports/TNH_2026-09-11.pdf\n4fdaa667cf5ef1bfc993fb5d6fce1d23f3f27d05f4dc3208089be81a7bb3466c  reports/QNS_2026-09-16.pdf\n' | sha256sum -c -
+          head -c 5 reports/TNH_2026-09-11.pdf | grep -q '%PDF-'
+          head -c 5 reports/QNS_2026-09-16.pdf | grep -q '%PDF-'
+
+      - name: Keep only latest TNH and QNS report files
+        shell: bash
+        run: |
+          set -euo pipefail
+          find reports -maxdepth 1 -type f -iname 'TNH*.pdf' ! -name 'TNH_2026-09-11.pdf' -print -delete
+          find reports -maxdepth 1 -type f -iname 'QNS*.pdf' ! -name 'QNS_2026-09-16.pdf' -print -delete
+
+      - name: Add latest reports and synchronized coverage records
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs'); const vm=require('vm');
+          const file='src/data/research-data.js';
+          const ctx={window:{}}; vm.runInNewContext(fs.readFileSync(file,'utf8'),ctx,{filename:file});
+          const data=ctx.window.RESEARCH_DATA;
+          const qns={
+            id:'QNS-20260916',ticker:'QNS',company:'Công ty Cổ phần Đường Quảng Ngãi',sector:'Thực phẩm & đồ uống',exchange:'UPCOM',date:'2026-09-16',
+            recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:49900,marketPriceDate:'2026-09-15',baseValue:67496,valueLabel:'Giá trị kỳ vọng',rangeLow:49451,rangeHigh:85615,
+            gapLabel:'Giá 49.900 đồng/cp nằm sát cận dưới 49.451 đồng/cp; MOS so với giá trị kỳ vọng khoảng 26,1% nhưng gần như không có MOS so với cận dưới stress, chưa đạt điều kiện MUA cơ học.',
+            method:'DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B',
+            summary:'QNS có khoảng giá trị hợp lý 49.451-85.615 đồng/cp, giá trị kỳ vọng 67.496 đồng/cp. Giá 49.900 đồng/cp ngày 15/09/2026 sát cận dưới nhưng chưa thấp hơn cận dưới 25-30%; trạng thái THEO DÕI / CHỜ.',
+            action:{zoneLow:47000,zoneHigh:48000,baseValue:67496,stop:44800,targets:[52700,56500],basisDate:'2026-09-16',recommendation:'THEO DÕI / CHỜ',eligibility:'active',condition:'IF lùi 47.000-48.000, không thủng 46.800 và xuất hiện phiên hồi có khối lượng cải thiện THEN có thể mua thăm dò, stop 44.800-45.000, target 52.700 rồi 56.500. IF đóng cửa >50.200 với KL >= khoảng 521.000 cp THEN chờ xác nhận/retest rồi mới tăng tỷ trọng. IF đóng cửa <46.800 với KL tăng THEN không mua / cắt vị thế ngắn hạn.'},
+            file:'reports/QNS_2026-09-16.pdf',edition:'Bản định giá 16.09.2026',visual:{src:'assets/images/reports/qns.webp?v=20260916-cover1',alt:'Trang bìa báo cáo định giá QNS ngày 16/09/2026',caption:'Bìa báo cáo định giá QNS',sourceLabel:'Xuân Lê TVS Equity Research',sourceUrl:'reports/QNS_2026-09-16.pdf',kind:'report-cover'}
+          };
+          const tnh={
+            id:'TNH-20260911',ticker:'TNH',company:'Công ty Cổ phần Tập đoàn Bệnh viện TNH',sector:'Dịch vụ y tế & bệnh viện tư nhân',exchange:'HOSE',date:'2026-09-11',
+            recommendation:'THEO DÕI / CHỜ',status:'wait',marketPrice:8180,marketPriceDate:'2026-09-11',baseValue:11690,valueLabel:'Neo tổng hợp',rangeLow:8900,rangeHigh:14400,
+            gapLabel:'Giá tham chiếu intraday 8.180 đồng/cp thấp hơn điểm giữa khoảng 29,8% nhưng chỉ thấp hơn cận dưới khoảng 8,1%; chưa đạt MOS 25-30% so với cận dưới.',
+            method:'DCF theo FCFF; kiểm chứng EV/EBITDA và P/B',
+            summary:'TNH có khoảng giá trị hợp lý trung tâm 8.900-14.400 đồng/cp và neo tổng hợp khoảng 11.690 đồng/cp. Báo cáo giữ trạng thái THEO DÕI / CHỜ vì chưa đủ biên an toàn theo cận dưới và setup tức thời chưa có R/R hấp dẫn.',
+            action:{zoneLow:7850,zoneHigh:8000,baseValue:11690,stop:7550,targets:[8500,9000],basisDate:'2026-09-11',recommendation:'THEO DÕI / CHỜ',eligibility:'active',condition:'IF retest 7.850-8.000 và giữ được hỗ trợ với lực bán suy yếu THEN có thể thăm dò nhỏ sau xác nhận, stop 7.550, target 8.500 rồi 9.000. IF breakout >8.500 kèm thanh khoản duy trì THEN chờ retest 8.400-8.550 rồi mới cân nhắc. IF thủng 7.700 với đóng cửa yếu THEN không bắt đáy; chờ nền mới.'},
+            file:'reports/TNH_2026-09-11.pdf',edition:'Bản định giá 11.09.2026',visual:{src:'assets/images/reports/tnh.webp?v=20260911-cover1',alt:'Trang bìa báo cáo định giá TNH ngày 11/09/2026',caption:'Bìa báo cáo định giá TNH',sourceLabel:'Xuân Lê TVS Equity Research',sourceUrl:'reports/TNH_2026-09-11.pdf',kind:'report-cover'}
+          };
+          const fresh=[qns,tnh]; const tickers=new Set(fresh.map(x=>x.ticker));
+          data.reports=(data.reports||[]).filter(r=>!tickers.has(r.ticker)).concat(fresh).sort((a,b)=>String(b.date).localeCompare(String(a.date))||String(a.ticker).localeCompare(String(b.ticker)));
+          data.coverage=(data.coverage||[]).filter(c=>!tickers.has(c.ticker));
+          for(const r of fresh) data.coverage.push({ticker:r.ticker,company:r.company,sector:r.sector,exchange:r.exchange,reportId:r.id,action:structuredClone(r.action)});
+          data.coverage.sort((a,b)=>String(a.ticker).localeCompare(String(b.ticker)));
+          if(data.reports.filter(r=>r.reportType!=='trading').length!==127) throw new Error('valuation report count must be 127');
+          if(data.coverage.length!==127) throw new Error('coverage count must be 127');
+          for(const t of tickers){ if(data.reports.filter(r=>r.ticker===t).length!==1) throw new Error(`${t}: duplicate report`); if(data.coverage.filter(c=>c.ticker===t).length!==1) throw new Error(`${t}: duplicate coverage`); }
+          fs.writeFileSync(file,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`);
+          NODE
+
+      - name: Extend fail-safe company-visual scaffold without changing public layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('scripts/ensure-company-visual-candidates.mjs'); s=p.read_text()
+          s=s.replace('const EXPECTED = 125;','const EXPECTED = 127;').replace('/125 visuals','/127 visuals').replace('/ 125) * 100','/ 127) * 100').replace('125/125','127/127')
+          marker='const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];\n'
+          supplement='''const SUPPLEMENTAL_CANDIDATES = [\n  { ticker: "QNS", sourceUrl: "https://qns.com.vn/", officialDomain: "qns.com.vn", sourceTier: "A", identityType: "food-sugar-soy-production", keywords: ["QNS", "Vinasoy", "đường An Khê", "nhà máy", "sữa đậu nành"] },\n  { ticker: "TNH", sourceUrl: "https://tnh.com.vn/", officialDomain: "tnh.com.vn", sourceTier: "A", identityType: "private-hospital-system", keywords: ["TNH", "bệnh viện", "hospital", "cơ sở y tế", "Thái Nguyên"] }\n];\n'''
+          if 'SUPPLEMENTAL_CANDIDATES' not in s: s=s.replace(marker,marker+supplement)
+          s=s.replace('for (const candidate of registry.candidates) {','for (const candidate of [...registry.candidates, ...SUPPLEMENTAL_CANDIDATES]) {')
+          p.write_text(s)
+
+          p=Path('scripts/audit-company-visuals-v3.mjs'); s=p.read_text().replace('125','127'); s=s.replace('candidateCount) === 116','candidateCount) === 116'); p.write_text(s)
+          p=Path('tests/company-visuals.test.mjs'); s=p.read_text().replace('125','127'); s=s.replace(r'/entries\.length !== 127/',r'/entries\.length !== (?:125|127)/'); p.write_text(s)
+          p=Path('docs/company-identity-visual-standard.md'); p.write_text(p.read_text().replace('125','127'))
+          p=Path('scripts/sync-company-logos.mjs'); s=p.read_text().replace('20260911-logo2','20260916-logo3').replace('synced: "2026-09-11"','synced: "2026-09-16"'); p.write_text(s)
+          PY
+
+      - name: Preserve DOM and update only counts/cache token
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp index.html /tmp/index-before.html
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text()
+          old=s
+          s=s.replace('assets/js/site.min.js?v=20260915-eod-auto','assets/js/site.min.js?v=20260916-report-sync')
+          s=s.replace('data-role="report-tab-count">125</span>','data-role="report-tab-count">127</span>')
+          s=s.replace('data-role="coverage-tab-count">125</span>','data-role="coverage-tab-count">127</span>')
+          if s==old: raise SystemExit('index expected substitutions were not found')
+          p.write_text(s)
+          PY
+          git diff -- index.html
+          test "$(git diff --numstat -- index.html | awk '{print $1+$2}')" = "6"
+          git diff --quiet -- assets/css/site.min.css
+
+      - name: Lock EOD 15-09 for the expanded 127-code universe
+        run: node scripts/update-eod-market-data.mjs --date 2026-09-15 --max-attempts 3 --wait-ms 15000
+
+      - name: Synchronize new report covers and company logos
+        run: |
+          node scripts/sync-report-covers.mjs
+          node scripts/sync-company-logos.mjs
+
+      - name: Validate temporary 127-code company-visual scaffold
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp src/data/company-visuals.js /tmp/company-visuals-before.js
+          node scripts/ensure-company-visual-candidates.mjs
+          node scripts/audit-company-visuals.mjs
+          node --test tests/*.test.mjs
+          cp /tmp/company-visuals-before.js src/data/company-visuals.js
+
+      - name: Audit site and report/logo synchronization
+        run: |
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+
+      - name: Guard mutation scope and remove one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/publish-valuations-20260916.yml
+          git diff --quiet -- assets/css/site.min.css
+          test "$(find reports -maxdepth 1 -type f -iname 'TNH*.pdf' | wc -l)" -eq 1
+          test "$(find reports -maxdepth 1 -type f -iname 'QNS*.pdf' | wc -l)" -eq 1
+          node - <<'NODE'
+          const fs=require('fs'),vm=require('vm'); const c={window:{}}; vm.runInNewContext(fs.readFileSync('src/data/research-data.js','utf8'),c);
+          const d=c.window.RESEARCH_DATA, vals=d.reports.filter(r=>r.reportType!=='trading');
+          if(vals.length!==127||d.coverage.length!==127) throw new Error('127/127 invariant failed');
+          for(const t of ['TNH','QNS']){if(vals.filter(x=>x.ticker===t).length!==1) throw new Error(t+' report duplicate');if(d.coverage.filter(x=>x.ticker===t).length!==1) throw new Error(t+' coverage duplicate');}
+          NODE
+          echo 'Changed paths:'
+          git status --short
+
+      - name: Commit verified publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Sunflower1509'
+          git config user.email '72440024+Sunflower1509@users.noreply.github.com'
+          git add -A
+          git commit -m 'Publish verified QNS and TNH valuation reports'
+          git push origin HEAD:main
