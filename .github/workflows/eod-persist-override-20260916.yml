@@ -1,0 +1,128 @@
+name: Persist verified 2026-09-16 EOD exceptions
+
+on:
+  push:
+    paths:
+      - ".github/workflows/eod-persist-override-20260916.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  persist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Persist exact-date verified exceptions and regression test
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          const updaterPath = 'scripts/update-eod-market-data.mjs';
+          let updater = fs.readFileSync(updaterPath, 'utf8');
+          if (!updater.includes('"2026-09-16": Object.freeze({')) {
+            const marker = '\n});\n\nconst argValue';
+            const count = updater.split(marker).length - 1;
+            if (count !== 1) throw new Error(`Updater insertion marker count=${count}, expected 1`);
+            const block = `,
+  "2026-09-16": Object.freeze({
+    MSR: Object.freeze({
+      close: 47100,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=16-09-2026&edate=16-09-2026",
+      reason: "CafeF 16/09 trả 47.000; KBS date-specific xác nhận OHLC 48.0/48.0/46.8/47.1, khối lượng 1.093.300, giá đóng cửa 47.100, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 15000,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=16-09-2026&edate=16-09-2026",
+      reason: "CafeF 16/09 trả 14.900; KBS date-specific xác nhận OHLC 14.8/15.5/14.6/15.0, khối lượng 5.316.100, giá đóng cửa 15.000, trùng VNDIRECT."
+    })
+  })`;
+            updater = updater.replace(marker, `${block}${marker}`);
+            fs.writeFileSync(updaterPath, updater);
+          }
+
+          const testPath = 'tests/eod-market-data.test.mjs';
+          let tests = fs.readFileSync(testPath, 'utf8');
+          if (!tests.includes('ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh')) {
+            const marker = 'test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn"';
+            const count = tests.split(marker).length - 1;
+            if (count !== 1) throw new Error(`Test insertion marker count=${count}, expected 1`);
+            const block = `test("ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh", () => {
+  const cases = [
+    ["MSR", 47100, 47000],
+    ["OIL", 15000, 14900]
+  ];
+  for (const [ticker, primaryClose, cafeFClose] of cases) {
+    const decision = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose, cafeFClose });
+    assert.equal(decision.ok, true);
+    assert.equal(decision.mode, "third-source-override");
+    assert.match(decision.source, /kbsec\\.com\\.vn/);
+    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose: primaryClose + 100, cafeFClose });
+    assert.equal(wrong.ok, false);
+  }
+});
+
+`;
+            tests = tests.replace(marker, `${block}${marker}`);
+            fs.writeFileSync(testPath, tests);
+          }
+          NODE
+
+      - name: Run complete test suite
+        run: node --test tests/*.test.mjs
+
+      - name: Verify exact-date decisions fail closed
+        run: |
+          node --input-type=module <<'NODE'
+          import { secondaryCloseDecision } from './scripts/update-eod-market-data.mjs';
+          const cases = [
+            ['MSR', 47100, 47000],
+            ['OIL', 15000, 14900]
+          ];
+          for (const [ticker, primaryClose, cafeFClose] of cases) {
+            const ok = secondaryCloseDecision({ ticker, date: '2026-09-16', primaryClose, cafeFClose });
+            if (!ok.ok || ok.mode !== 'third-source-override' || !ok.source.includes('kbsec.com.vn')) {
+              throw new Error(`Verified override rejected for ${ticker}`);
+            }
+            const wrong = secondaryCloseDecision({ ticker, date: '2026-09-16', primaryClose: primaryClose + 100, cafeFClose });
+            if (wrong.ok) throw new Error(`Wrong primary close was accepted for ${ticker}`);
+          }
+          console.log('Exact-date 2026-09-16 overrides verified and fail-closed.');
+          NODE
+
+      - name: Guard mutation scope and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(scripts/update-eod-market-data\.mjs|tests/eod-market-data\.test\.mjs)$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          if git diff --quiet; then
+            echo "No persistence changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/update-eod-market-data.mjs tests/eod-market-data.test.mjs
+          git commit -m "Persist verified 2026-09-16 EOD exceptions [skip ci]"
+          git push origin HEAD:main
