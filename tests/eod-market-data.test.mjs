@@ -85,6 +85,20 @@ test("ngoại lệ 10/09 chỉ chấp nhận đúng giá KBS exact-date đã xá
   }
 });
 
+test("ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh", () => {
+  const cases = [
+    ["MSR", 47100, 47000],
+    ["OIL", 15000, 14900]
+  ];
+  for (const [ticker, primaryClose, cafeFClose] of cases) {
+    const decision = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose, cafeFClose });
+    assert.equal(decision.ok, true);
+    assert.equal(decision.mode, "third-source-override");
+    assert.match(decision.source, /kbsec\.com\.vn/);
+    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose: primaryClose + 100, cafeFClose });
+    assert.equal(wrong.ok, false);
+  }
+});
 test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn", () => {
   const current = [{
     ticker: "AAA",
