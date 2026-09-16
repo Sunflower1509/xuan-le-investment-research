@@ -13,10 +13,23 @@ jobs:
   inspect-transfer:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect firestorage share bootstrap
+      - name: Inspect firestorage client chunks
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL -o /tmp/page.html 'https://firestorage.ai/ja/f/McFRreXLULej'
-          echo '=== PAGE ==='
-          cat /tmp/page.html
+          urls=(
+            'https://firestorage.ai/_next/static/chunks/8500-f4d7bfbe7500f274.js'
+            'https://firestorage.ai/_next/static/chunks/8437-d65cc193dc908afa.js'
+            'https://firestorage.ai/_next/static/chunks/5841-1160578ba9bb4f3e.js'
+            'https://firestorage.ai/_next/static/chunks/4899-d89df949f2dbd5af.js'
+            'https://firestorage.ai/_next/static/chunks/app/%28files%29/ja/f/page-4d19ae0a4ce39d79.js'
+          )
+          i=0
+          for url in "${urls[@]}"; do
+            f="/tmp/c${i}.js"; i=$((i+1))
+            echo "=== $url ==="
+            curl -fsSL -o "$f" "$url"
+            wc -c "$f"
+            head -c 250 "$f"; echo
+            grep -oE '.{0,140}(api/|download|presign|shareId|publicId|share|files|objects).{0,260}' "$f" | head -n 120 || true
+          done
