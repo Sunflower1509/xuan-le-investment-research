@@ -1,0 +1,39 @@
+name: One-time valuation report publisher 2026-09-16
+
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-valuations-20260916.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect temporary transfer pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          for item in 'TNH|https://firestorage.ai/ja/f/McFRreXLULej' 'QNS|https://firestorage.ai/ja/f/FTvzqn9Gy_3m'; do
+            ticker="${item%%|*}"
+            url="${item#*|}"
+            echo "=== ${ticker} ==="
+            curl -fsSL -D "/tmp/${ticker}.headers" -o "/tmp/${ticker}.body" "$url"
+            head -n 40 "/tmp/${ticker}.headers"
+            file "/tmp/${ticker}.body"
+            wc -c "/tmp/${ticker}.body"
+            python3 - "$ticker" <<'PY'
+import pathlib,re,sys
+p=pathlib.Path('/tmp')/(sys.argv[1]+'.body')
+text=p.read_text(errors='replace')
+for pattern in [r'https?://[^\"\'<> ]+', r'href=[\"\']([^\"\']+)', r'src=[\"\']([^\"\']+)']:
+    vals=[]
+    for m in re.finditer(pattern,text,re.I):
+        v=m.group(1) if m.lastindex else m.group(0)
+        if any(x in v.lower() for x in ['download','file','storage','api','pdf']): vals.append(v)
+    print('\n'.join(dict.fromkeys(vals))[:12000])
+PY
+          done
