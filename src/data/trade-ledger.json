@@ -1140,6 +1140,24 @@
           "zoneHigh": 43676,
           "zoneBasisDate": "2026-09-09",
           "eligibility": "active"
+        },
+        "QNS": {
+          "date": "2026-09-15",
+          "close": 49900,
+          "relation": "above",
+          "zoneLow": 47000,
+          "zoneHigh": 48000,
+          "zoneBasisDate": "2026-09-16",
+          "eligibility": "active"
+        },
+        "TNH": {
+          "date": "2026-09-15",
+          "close": 7700,
+          "relation": "below",
+          "zoneLow": 7850,
+          "zoneHigh": 8000,
+          "zoneBasisDate": "2026-09-11",
+          "eligibility": "active"
         }
       }
     }
