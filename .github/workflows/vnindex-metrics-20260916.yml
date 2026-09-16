@@ -1,0 +1,55 @@
+name: One-time VNINDEX metrics 2026-09-16
+
+on:
+  push:
+    paths:
+      - ".github/workflows/vnindex-metrics-20260916.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Compute VNINDEX moving averages and liquidity baselines
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const url = 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-16&size=500';
+          const response = await fetch(url, { headers: { accept: 'application/json', 'user-agent': 'XuanLeTVS-VNINDEX-Metrics/1.0' }, signal: AbortSignal.timeout(20000) });
+          if (!response.ok) throw new Error(`VNDIRECT HTTP ${response.status}`);
+          const payload = await response.json();
+          let rows = (Array.isArray(payload?.data) ? payload.data : [])
+            .filter(r => String(r.code || '').toUpperCase() === 'VNINDEX' && String(r.date || '') <= '2026-09-16')
+            .sort((a,b) => String(a.date).localeCompare(String(b.date)));
+          console.log('ROW_COUNT', rows.length);
+          if (rows.length < 200) throw new Error(`Insufficient VNINDEX history: ${rows.length}`);
+          const finite = v => Number.isFinite(Number(v)) ? Number(v) : null;
+          const avg = arr => arr.reduce((s,v)=>s+v,0)/arr.length;
+          const tail = n => rows.slice(-n);
+          const closes = n => tail(n).map(r=>finite(r.close)).filter(v=>v!==null);
+          const volumes = n => tail(n).map(r=>finite(r.nmVolume ?? r.totalVolume ?? r.volume)).filter(v=>v!==null);
+          const values = n => tail(n).map(r=>finite(r.nmValue ?? r.totalValue ?? r.value)).filter(v=>v!==null);
+          const last = rows.at(-1);
+          const metrics = {
+            date: last.date,
+            close: finite(last.close),
+            ma20: avg(closes(20)),
+            ma50: avg(closes(50)),
+            ma200: avg(closes(200)),
+            volume: finite(last.nmVolume ?? last.totalVolume ?? last.volume),
+            volumeAvg5: avg(volumes(5)),
+            volumeAvg10: avg(volumes(10)),
+            volumeAvg20: avg(volumes(20)),
+            value: finite(last.nmValue ?? last.totalValue ?? last.value),
+            valueAvg5: values(5).length === 5 ? avg(values(5)) : null,
+            valueAvg10: values(10).length === 10 ? avg(values(10)) : null,
+            valueAvg20: values(20).length === 20 ? avg(values(20)) : null,
+            lastRow: last
+          };
+          console.log('VNINDEX_METRICS', JSON.stringify(metrics));
+          NODE
