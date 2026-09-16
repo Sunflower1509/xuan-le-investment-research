@@ -32,53 +32,54 @@ jobs:
           set -euo pipefail
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-
           const updaterPath = 'scripts/update-eod-market-data.mjs';
           let updater = fs.readFileSync(updaterPath, 'utf8');
           if (!updater.includes('"2026-09-16": Object.freeze({')) {
             const marker = '\n});\n\nconst argValue';
             const count = updater.split(marker).length - 1;
             if (count !== 1) throw new Error(`Updater insertion marker count=${count}, expected 1`);
-            const block = `,
-  "2026-09-16": Object.freeze({
-    MSR: Object.freeze({
-      close: 47100,
-      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=16-09-2026&edate=16-09-2026",
-      reason: "CafeF 16/09 trả 47.000; KBS date-specific xác nhận OHLC 48.0/48.0/46.8/47.1, khối lượng 1.093.300, giá đóng cửa 47.100, trùng VNDIRECT."
-    }),
-    OIL: Object.freeze({
-      close: 15000,
-      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=16-09-2026&edate=16-09-2026",
-      reason: "CafeF 16/09 trả 14.900; KBS date-specific xác nhận OHLC 14.8/15.5/14.6/15.0, khối lượng 5.316.100, giá đóng cửa 15.000, trùng VNDIRECT."
-    })
-  })`;
-            updater = updater.replace(marker, `${block}${marker}`);
+            const lines = [
+              ',',
+              '  "2026-09-16": Object.freeze({',
+              '    MSR: Object.freeze({',
+              '      close: 47100,',
+              '      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=16-09-2026&edate=16-09-2026",',
+              '      reason: "CafeF 16/09 trả 47.000; KBS date-specific xác nhận OHLC 48.0/48.0/46.8/47.1, khối lượng 1.093.300, giá đóng cửa 47.100, trùng VNDIRECT."',
+              '    }),',
+              '    OIL: Object.freeze({',
+              '      close: 15000,',
+              '      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=16-09-2026&edate=16-09-2026",',
+              '      reason: "CafeF 16/09 trả 14.900; KBS date-specific xác nhận OHLC 14.8/15.5/14.6/15.0, khối lượng 5.316.100, giá đóng cửa 15.000, trùng VNDIRECT."',
+              '    })',
+              '  })'
+            ];
+            updater = updater.replace(marker, `${lines.join('\n')}${marker}`);
             fs.writeFileSync(updaterPath, updater);
           }
-
           const testPath = 'tests/eod-market-data.test.mjs';
           let tests = fs.readFileSync(testPath, 'utf8');
           if (!tests.includes('ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh')) {
             const marker = 'test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn"';
             const count = tests.split(marker).length - 1;
             if (count !== 1) throw new Error(`Test insertion marker count=${count}, expected 1`);
-            const block = `test("ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh", () => {
-  const cases = [
-    ["MSR", 47100, 47000],
-    ["OIL", 15000, 14900]
-  ];
-  for (const [ticker, primaryClose, cafeFClose] of cases) {
-    const decision = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose, cafeFClose });
-    assert.equal(decision.ok, true);
-    assert.equal(decision.mode, "third-source-override");
-    assert.match(decision.source, /kbsec\\.com\\.vn/);
-    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose: primaryClose + 100, cafeFClose });
-    assert.equal(wrong.ok, false);
-  }
-});
-
-`;
-            tests = tests.replace(marker, `${block}${marker}`);
+            const lines = [
+              'test("ngoại lệ 16/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh", () => {',
+              '  const cases = [',
+              '    ["MSR", 47100, 47000],',
+              '    ["OIL", 15000, 14900]',
+              '  ];',
+              '  for (const [ticker, primaryClose, cafeFClose] of cases) {',
+              '    const decision = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose, cafeFClose });',
+              '    assert.equal(decision.ok, true);',
+              '    assert.equal(decision.mode, "third-source-override");',
+              '    assert.match(decision.source, /kbsec\\.com\\.vn/);',
+              '    const wrong = secondaryCloseDecision({ ticker, date: "2026-09-16", primaryClose: primaryClose + 100, cafeFClose });',
+              '    assert.equal(wrong.ok, false);',
+              '  }',
+              '});',
+              ''
+            ];
+            tests = tests.replace(marker, `${lines.join('\n')}${marker}`);
             fs.writeFileSync(testPath, tests);
           }
           NODE
@@ -90,15 +91,10 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           import { secondaryCloseDecision } from './scripts/update-eod-market-data.mjs';
-          const cases = [
-            ['MSR', 47100, 47000],
-            ['OIL', 15000, 14900]
-          ];
+          const cases = [['MSR', 47100, 47000], ['OIL', 15000, 14900]];
           for (const [ticker, primaryClose, cafeFClose] of cases) {
             const ok = secondaryCloseDecision({ ticker, date: '2026-09-16', primaryClose, cafeFClose });
-            if (!ok.ok || ok.mode !== 'third-source-override' || !ok.source.includes('kbsec.com.vn')) {
-              throw new Error(`Verified override rejected for ${ticker}`);
-            }
+            if (!ok.ok || ok.mode !== 'third-source-override' || !ok.source.includes('kbsec.com.vn')) throw new Error(`Verified override rejected for ${ticker}`);
             const wrong = secondaryCloseDecision({ ticker, date: '2026-09-16', primaryClose: primaryClose + 100, cafeFClose });
             if (wrong.ok) throw new Error(`Wrong primary close was accepted for ${ticker}`);
           }
