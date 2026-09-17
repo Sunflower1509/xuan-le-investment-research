@@ -1,0 +1,56 @@
+name: One-time VNINDEX metrics 2026-09-17
+
+on:
+  push:
+    paths:
+      - '.github/workflows/vnindex-metrics-20260917.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Fetch VNDIRECT series and calculate locked metrics
+        run: |
+          node --input-type=module <<'NODE'
+          const url = 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-17&size=500';
+          const res = await fetch(url, {headers:{accept:'application/json','user-agent':'XuanLeTVS-Metrics/1.0'}});
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const payload = await res.json();
+          const rows = (payload.data || []).filter(r => String(r.code || r.indexCode || '').toUpperCase().replace('-','') === 'VNINDEX');
+          rows.sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+          const target = rows.find(r => r.date === '2026-09-17');
+          if (!target) throw new Error('Missing target row');
+          const n = v => Number.isFinite(Number(v)) ? Number(v) : null;
+          const close = r => n(r.close ?? r.index ?? r.value);
+          const value = r => n(r.nmValue ?? r.matchValue ?? r.matchedValue ?? r.valueMatched ?? r.totalMatchValue);
+          const volume = r => n(r.nmVolume ?? r.matchVolume ?? r.matchedVolume ?? r.volumeMatched ?? r.totalMatchVolume);
+          const avg = (arr, fn, len) => {
+            const vals = arr.slice(-len).map(fn).filter(Number.isFinite);
+            if (vals.length !== len) return null;
+            return vals.reduce((a,b)=>a+b,0)/len;
+          };
+          const before = rows.filter(r => r.date < '2026-09-17');
+          const out = {
+            count: rows.length,
+            targetKeys: Object.keys(target).sort(),
+            target,
+            ma20: avg(rows, close, 20),
+            ma50: avg(rows, close, 50),
+            ma200: avg(rows, close, 200),
+            targetMatchedValue: value(target),
+            targetMatchedVolume: volume(target),
+            valueAvg5Before: avg(before, value, 5),
+            valueAvg10Before: avg(before, value, 10),
+            valueAvg20Before: avg(before, value, 20),
+            volumeAvg20Before: avg(before, volume, 20)
+          };
+          console.log('LOCKED_METRICS', JSON.stringify(out));
+          NODE
