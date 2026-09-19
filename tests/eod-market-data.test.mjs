@@ -113,6 +113,24 @@ test("ngoại lệ 17/09 chỉ chấp nhận đúng giá KBS exact-date đã xá
     assert.equal(wrong.ok, false);
   }
 });
+test("ngoại lệ 18/09 chỉ chấp nhận đúng giá nguồn thứ ba đã xác minh", () => {
+  const cases = [
+    ["DDV", 16900, 17000, /stockbiz\.vn/],
+    ["MSR", 47300, 47200, /stockbiz\.vn/],
+    ["OIL", 14400, 14300, /bsc\.com\.vn/]
+  ];
+  for (const [ticker, primaryClose, cafeFClose, sourcePattern] of cases) {
+    const decision = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose, cafeFClose });
+    assert.equal(decision.ok, true);
+    assert.equal(decision.mode, "third-source-override");
+    assert.match(decision.source, sourcePattern);
+    const wrongPrimary = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose: primaryClose + 100, cafeFClose });
+    assert.equal(wrongPrimary.ok, false);
+    const wrongCafeF = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose, cafeFClose: cafeFClose + 100 });
+    assert.equal(wrongCafeF.ok, false);
+  }
+});
+
 test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn", () => {
   const current = [{
     ticker: "AAA",
