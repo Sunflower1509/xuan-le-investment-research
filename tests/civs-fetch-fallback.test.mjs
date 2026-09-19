@@ -78,8 +78,35 @@ test("source overrides are an in-memory verified overlay, never a registry rewri
 test("BSR exact asset override remains first-party and economic-identity specific", () => {
   const bsr = overrides.overrides.BSR;
   assert.equal(bsr.officialDomain, "bsr.com.vn");
-  assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
-  assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
+  assert.equal(bsr.sourceUrl, "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery");
+  assert.match(bsr.sourceImageUrl, /^https:\/\/bsr\.com\.vn\/BTEC\/images\//);
   assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
   assert.equal(bsr.qualityScore, 10);
+});
+
+test("Vinamilk exact farm asset keeps official-page CDN provenance", () => {
+  const vnm = overrides.overrides.VNM;
+  assert.equal(vnm.officialDomain, "vinamilk.com.vn");
+  assert.equal(vnm.sourceUrl, "https://www.vinamilk.com.vn/vi/mobile/phat-trien-kinh-te-dia-phuong/phat-trien-ben-vung");
+  assert.equal(vnm.sourceImageUrl, "https://d8um25gjecm9v.cloudfront.net/cms/Hero_1_5cbd9c8358_95c596dd49.webp");
+  assert.deepEqual(vnm.allowedImageHosts, ["d8um25gjecm9v.cloudfront.net"]);
+  assert.equal(vnm.embeddedImageHostVerified, true);
+  assert.equal(vnm.sourceDiscovery.resolvedFromOfficialPage, true);
+  assert.ok(vnm.qualityScore >= 8);
+});
+
+test("pending source batch points to exact first-party economic-identity pages", () => {
+  assert.equal(overrides.overrides.BFC.sourceUrl, "https://binhdien.com/truyenthong/tintuc/xanh-hoa-tu-nha-may-den-ruong-vuon.html");
+  assert.match(overrides.overrides.CMG.sourceUrl, /^https:\/\/www\.cmc\.com\.vn\/insight-detail\/cmc-approved-for-over-usd-250-million-investment-/);
+  assert.match(overrides.overrides.CTG.sourceUrl, /^https:\/\/www\.vietinbank\.vn\/toa-nha-tru-so-chinh-vietinbank-/);
+  assert.match(overrides.overrides.D2D.sourceUrl, /d2d\.com\.vn\/du-an-da-hoan-thanh\/du-an-khu-cong-nghiep-nhon-trach-2$/);
+  assert.match(overrides.overrides.HDC.sourceUrl, /hodeco\.vn\/view\/28\/the-light-city$/);
+  assert.equal(overrides.overrides.HDG.sourceUrl, "https://hado.com.vn/nha-may-dien-mat-troi-ha-do-ninh-phuoc");
+  assert.match(overrides.overrides.MBB.sourceUrl, /news\.mbbank\.com\.vn\/news\/khai-truong-mb-bac-nghe-an-/);
+  assert.equal(overrides.overrides.NKG.officialDomain, "tonnamkim.com");
+  assert.match(overrides.overrides.NKG.sourceUrl, /^https:\/\/tonnamkim\.com\/nam-kim-phu-my-completes-installation-/);
+  assert.match(overrides.overrides.PVB.sourceUrl, /pvcoating\.vn\/project-news\/pvid-transfer-the-line-pipes-to-the-coating-plant-/);
+  assert.match(overrides.overrides.SHS.sourceUrl, /shs\.com\.vn\/tin-tuc\/shs-khai-truong-tru-so-chinh-moi-/);
+  assert.equal(overrides.overrides.SIP.sourceUrl, "https://saigonvrg.com.vn/vi/kcn-phuoc-dong");
+  assert.equal(overrides.overrides.VGC.sourceUrl, "https://viglacera.com.vn/bat-dong-san");
 });

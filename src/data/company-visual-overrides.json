@@ -5,21 +5,57 @@
     "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
   },
   "overrides": {
+    "BFC": {
+      "sourceUrl": "https://binhdien.com/truyenthong/tintuc/xanh-hoa-tu-nha-may-den-ruong-vuon.html",
+      "officialDomain": "binhdien.com"
+    },
     "BSR": {
-      "sourceUrl": "https://www.bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
+      "sourceUrl": "https://bsr.com.vn/vi/web/bsr-eng/about-dung-quat-refinery",
       "officialDomain": "bsr.com.vn",
-      "sourceImageUrl": "https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496",
+      "sourceImageUrl": "https://bsr.com.vn/BTEC/images/1711105108743/6362768901455073146.jpg",
       "qualityScore": 10,
       "sourceDiscovery": {
         "type": "manual-official",
-        "strategy": "exact-first-party-core-asset-v1",
+        "strategy": "exact-first-party-core-asset-v2",
         "resolvedFromOfficialPage": true,
-        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+        "resolvedLabel": "NMLD Dung Quat crude oil tank area"
       }
+    },
+    "CMG": {
+      "sourceUrl": "https://www.cmc.com.vn/insight-detail/cmc-approved-for-over-usd-250-million-investment-to-build-the-foundation-of-vietnams-ai-heart-202507148977.html",
+      "officialDomain": "cmc.com.vn"
+    },
+    "CTG": {
+      "sourceUrl": "https://www.vietinbank.vn/toa-nha-tru-so-chinh-vietinbank-dat-danh-hieu-cong-trinh-xay-dung-su-dung-nang-luong-xanh-4-sao-04-html",
+      "officialDomain": "vietinbank.vn"
+    },
+    "D2D": {
+      "sourceUrl": "https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2",
+      "officialDomain": "d2d.com.vn"
+    },
+    "HDC": {
+      "sourceUrl": "https://www.hodeco.vn/view/28/the-light-city",
+      "officialDomain": "hodeco.vn"
+    },
+    "HDG": {
+      "sourceUrl": "https://hado.com.vn/nha-may-dien-mat-troi-ha-do-ninh-phuoc",
+      "officialDomain": "hado.com.vn"
+    },
+    "MBB": {
+      "sourceUrl": "https://news.mbbank.com.vn/news/khai-truong-mb-bac-nghe-an-1779420942",
+      "officialDomain": "mbbank.com.vn"
+    },
+    "NKG": {
+      "sourceUrl": "https://tonnamkim.com/nam-kim-phu-my-completes-installation-of-phase-1-continuous-pickling-and-cold-rolling-line/?lang=en",
+      "officialDomain": "tonnamkim.com"
     },
     "OIL": {
       "sourceUrl": "https://www.pvoil.com.vn/he-thong-kho-xang-dau",
       "officialDomain": "pvoil.com.vn"
+    },
+    "PVB": {
+      "sourceUrl": "https://pvcoating.vn/project-news/pvid-transfer-the-line-pipes-to-the-coating-plant-to-imlement-hai-su-trang-te-giac-trang-bach-ho-project.html",
+      "officialDomain": "pvcoating.vn"
     },
     "PVC": {
       "sourceUrl": "https://www.pvchem.com.vn/gioi-thieu/gioi-thieu-chung/",
@@ -37,12 +73,20 @@
       "sourceUrl": "https://www.ttcagris.com.vn/thong-tin-dn/vung-nguyen-lieu-nha-may/vung-nguyen-lieu",
       "officialDomain": "ttcagris.com.vn"
     },
+    "SHS": {
+      "sourceUrl": "https://www.shs.com.vn/tin-tuc/shs-khai-truong-tru-so-chinh-moi-mo-rong-mang-luoi-va-quy-mo-hoat-dong-toan-quoc",
+      "officialDomain": "shs.com.vn"
+    },
+    "SIP": {
+      "sourceUrl": "https://saigonvrg.com.vn/vi/kcn-phuoc-dong",
+      "officialDomain": "saigonvrg.com.vn"
+    },
     "VCG": {
       "sourceUrl": "https://vinaconex.com.vn/tin-tuc/project-progress",
       "officialDomain": "vinaconex.com.vn"
     },
     "VGC": {
-      "sourceUrl": "https://www.viglacera.com.vn/fields/bat-dong-san-khu-cong-nghiep",
+      "sourceUrl": "https://viglacera.com.vn/bat-dong-san",
       "officialDomain": "viglacera.com.vn"
     },
     "VIB": {
@@ -52,6 +96,20 @@
     "VJC": {
       "sourceUrl": "https://www.vietjetair.com/en/pages/our-fleet-1601131595327",
       "officialDomain": "vietjetair.com"
+    },
+    "VNM": {
+      "sourceUrl": "https://www.vinamilk.com.vn/vi/mobile/phat-trien-kinh-te-dia-phuong/phat-trien-ben-vung",
+      "officialDomain": "vinamilk.com.vn",
+      "sourceImageUrl": "https://d8um25gjecm9v.cloudfront.net/cms/Hero_1_5cbd9c8358_95c596dd49.webp",
+      "allowedImageHosts": ["d8um25gjecm9v.cloudfront.net"],
+      "embeddedImageHostVerified": true,
+      "qualityScore": 9,
+      "sourceDiscovery": {
+        "type": "manual-official-external-cdn",
+        "strategy": "exact-official-embedded-farm-asset-v1",
+        "resolvedFromOfficialPage": true,
+        "resolvedLabel": "Luôn vắt tươi ngon — từ 14 trang trại xanh trải dài toàn quốc"
+      }
     },
     "VPL": {
       "sourceUrl": "https://vinpearl.com/vi/about-us",
