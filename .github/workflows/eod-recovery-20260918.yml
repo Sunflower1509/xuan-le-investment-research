@@ -302,3 +302,5 @@ jobs:
       - name: Already current - safe no-op
         if: steps.market.outputs.status == 'already-current'
         run: echo "Repository already carries the requested EOD date; no duplicate processing or deployment is needed."
+
+# retrigger after metrics
