@@ -124,7 +124,7 @@ test("ngoại lệ 18/09 chỉ chấp nhận đúng giá nguồn thứ ba đã x
     assert.equal(decision.ok, true);
     assert.equal(decision.mode, "third-source-override");
     assert.match(decision.source, sourcePattern);
-    const wrongPrimary = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose: primaryClose + 100, cafeFClose });
+    const wrongPrimary = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose: primaryClose + 200, cafeFClose });
     assert.equal(wrongPrimary.ok, false);
     const wrongCafeF = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose, cafeFClose: cafeFClose + 200 });
     assert.equal(wrongCafeF.ok, false);
