@@ -160,6 +160,23 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VGI/data_day?sdate=17-09-2026&edate=17-09-2026",
       reason: "CafeF 17/09 trả 81.500; KBS date-specific xác nhận OHLC 82.8/82.8/81.4/81.8, khối lượng 192.900, giá đóng cửa 81.800, trùng VNDIRECT; Stockbiz lịch sử đúng ngày cũng ghi 81.800."
     })
+  }),
+  "2026-09-18": Object.freeze({
+    DDV: Object.freeze({
+      close: 16900,
+      source: "https://web.stockbiz.vn/Stocks/DDV/HistoricalQuotes.aspx",
+      reason: "CafeF 18/09 trả 17.000; Stockbiz hậu phiên lúc 15:00, Simplize và Investing lịch sử cùng xác nhận giá đóng cửa 16.900, trùng VNDIRECT."
+    }),
+    MSR: Object.freeze({
+      close: 47300,
+      source: "https://web.stockbiz.vn/Stocks/MSR/LookupQuote.aspx?Date=18%2F09%2F2026",
+      reason: "CafeF 18/09 trả 47.200; Stockbiz, Simplize và Investing lịch sử đúng ngày cùng xác nhận giá đóng cửa 47.300, trùng VNDIRECT."
+    }),
+    OIL: Object.freeze({
+      close: 14400,
+      source: "https://www.bsc.com.vn/du-lieu-lich-su/?mck=OIL",
+      reason: "CafeF 18/09 trả 14.300; BSC lịch sử và Stockbiz hậu phiên cùng xác nhận giá đóng cửa 14.400, trùng VNDIRECT."
+    })
   })
 });
 
