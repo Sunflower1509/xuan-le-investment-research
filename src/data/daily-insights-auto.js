@@ -10,6 +10,215 @@
    */
   const entries = [
     {
+      "id": "market-view-20260918",
+      "date": "2026-09-18",
+      "publishedAt": "18/09/2026 • Sau phiên",
+      "edition": "Số 21",
+      "sentiment": "watch",
+      "sentimentLabel": "CHỜ / PHÒNG THỦ",
+      "dataStatus": "VNDIRECT Finfo + VNDIRECT Market Recap + BSC + VietnamBiz + 24HMoney + SHS/DNSE + FTSE Russell • EOD 18.09.2026",
+      "title": "Thanh khoản bùng nổ vì ETF nhưng 1.840 thất bại — không mua đuổi",
+      "thesis": "Dữ liệu đến hết phiên 18/09/2026. VN-Index đóng 1.815,66 điểm, giảm 7,11 điểm (-0,39%); VN30 giảm 0,55% còn 1.964,17 điểm trong khi HNX-Index tăng 0,51% lên 275,29 điểm. VNDIRECT Finfo khóa độ rộng HOSE 182 mã tăng, 67 tham chiếu, 126 mã giảm và 4 mã sàn. Khớp lệnh HOSE đạt 22.052,58 tỷ đồng, cao hơn bình quân 5/10/20 phiên lần lượt khoảng 54,4% / 65,8% / 61,8%, nhưng hơn 10.500 tỷ đồng dồn vào ATC do cơ cấu ETF nên không được xem là tín hiệu cầu chủ động thuần túy. Khối ngoại mua ròng 1.254,92 tỷ đồng trên HOSE; tự doanh bán ròng khoảng 82 tỷ đồng. Confluence Score +3/7, nhưng hard veto kích hoạt vì bán mạnh cuối phiên, thất bại tại vùng 1.840 và R:R từ giá đóng cửa tới cản gần so với mốc vô hiệu 1.792,62 chỉ khoảng 1,1:1. TRẠNG THÁI TÁC NGHIỆP: CHỜ / PHÒNG THỦ; không mua đuổi, không tăng margin.",
+      "author": "Xuân Lê TVS",
+      "role": "Môi giới và tư vấn đầu tư",
+      "readingTime": "5 phút đọc",
+      "metrics": [
+        {
+          "label": "VN-INDEX",
+          "value": "1.815,66",
+          "change": "−7,11 • −0,39%",
+          "tone": "warning"
+        },
+        {
+          "label": "ĐỘ RỘNG HOSE",
+          "value": "182 tăng / 126 giảm",
+          "change": "67 tham chiếu • 4 mã sàn",
+          "tone": "positive"
+        },
+        {
+          "label": "KHỚP LỆNH HOSE",
+          "value": "~22.053 tỷ",
+          "change": "+61,8% so với TB20 ~13.633 tỷ • ETF/ATC chi phối",
+          "tone": "warning"
+        },
+        {
+          "label": "KHỐI NGOẠI",
+          "value": "MUA RÒNG ~1.255 tỷ",
+          "change": "HOSE • quay lại mua ròng mạnh",
+          "tone": "positive"
+        }
+      ],
+      "backdrop": [
+        "Bản chất phiên 18/09 là một phiên thất bại tại kháng cự với nhiễu cơ cấu ETF rất lớn, không phải một phiên phân phối diện rộng thuần túy. VN-Index từng chạm 1.841,20 nhưng đóng 1.815,66, giảm 0,39%; VN30 giảm mạnh hơn 0,55%, trong khi HNX tăng 0,51% và độ rộng HOSE theo VNDIRECT vẫn dương 182 tăng/67 tham chiếu/126 giảm. Điều này cho thấy áp lực tập trung ở nhóm vốn hóa lớn hơn là toàn bộ mặt bằng cổ phiếu.",
+        "Thanh khoản bùng nổ nhưng chất lượng không thể đọc theo cách thông thường. Chuỗi VNDIRECT khóa khớp lệnh HOSE 22.052,58 tỷ đồng, cao hơn TB5 14.281,67 tỷ khoảng 54,4%, TB10 13.303,75 tỷ khoảng 65,8% và TB20 13.632,99 tỷ khoảng 61,8%; khối lượng 721,52 triệu cổ phiếu cao hơn TB20 khoảng 38,3%. Tuy nhiên hơn 10.500 tỷ đồng dồn vào ATC trong phiên cơ cấu ETF, nên phần tăng thanh khoản này bị chi phối đáng kể bởi giao dịch cơ học và không đủ để nâng đánh giá.",
+        "Về kỹ thuật, close 1.815,66 vẫn trên MA20 1.806,33, MA50 1.776,80 và MA200 1.792,62. Dù vậy, việc chạm 1.841,20 rồi đảo chiều đóng dưới tham chiếu tạo cấu trúc nến đỏ thất bại tại cản 1.840 và kích hoạt hard veto bán cuối phiên. Xu hướng trung hạn chưa gãy, nhưng nhịp ngắn hạn chuyển sang TRUNG TÍNH và cần tái xác nhận.",
+        "Bản đồ dòng tiền cho thấy luân chuyển rõ hơn là rút tiền toàn thị trường. Dịch vụ tài chính tăng 1,1%, tài nguyên cơ bản tăng 1,0% và hàng hóa & dịch vụ công nghiệp tăng 0,2%; HPG, STB nằm trong nhóm nâng đỡ và đồng thời được khối ngoại mua ròng mạnh. Ngược lại, công nghệ giảm 2,9%, viễn thông giảm 1,4%, du lịch & giải trí giảm 1,3%, dầu khí giảm 1,2% và ngân hàng giảm 0,9%; CTG, TCB, BID, MBB là nhóm kéo chỉ số xuống mạnh.",
+        "Khối ngoại là điểm cộng rõ với mua ròng 1.254,92 tỷ đồng trên HOSE, tập trung ở HPG, PNJ, SHB, STB và NVL. Trong khi đó tự doanh bán ròng tổng khoảng 82 tỷ đồng; quy mô này nhỏ hơn nhiều so với lực mua ngoại và không đủ để đảo chiều kết luận dòng vốn, nhưng vẫn cho thấy tổ chức trong nước không đồng thuận hoàn toàn với nhịp cơ cấu.",
+        "Phái sinh cho tín hiệu hai chiều: hợp đồng tháng 10 41I1GA000 kết phiên 1.970 điểm, basis dương khoảng 5,83 điểm so với VN30, nhưng DNSE ghi nhận áp lực chốt lời gia tăng mạnh về cuối phiên. Vì vậy yếu tố phái sinh được chấm trung tính. Bối cảnh nâng hạng FTSE có hiệu lực từ mở cửa 21/09 là chất xúc tác dài hơn, nhưng phiên 18/09 cho thấy không nên đồng nhất dòng tiền cơ cấu với tín hiệu mua chủ động."
+      ],
+      "levels": [
+        {
+          "label": "Hỗ trợ gần / MA20",
+          "value": "1.805–1.810",
+          "note": "MA20 khóa từ chuỗi VNDIRECT ở 1.806,33. IF chỉ số giữ được vùng này, độ rộng còn dương và nhóm dẫn dắt không gãy nền, THEN ưu tiên giữ hàng khỏe; chưa mua đuổi."
+        },
+        {
+          "label": "Hỗ trợ mạnh / mốc vô hiệu",
+          "value": "1.790–1.795",
+          "note": "MA200 ở 1.792,62. IF đóng dưới 1.792,62 cùng độ rộng xấu đi, THEN hủy view hồi phục ngắn hạn và giảm rủi ro phần trading."
+        },
+        {
+          "label": "Kháng cự gần / vùng veto",
+          "value": "1.830–1.841",
+          "note": "Phiên 18/09 đã chạm 1.841,20 nhưng thất bại. IF chưa đóng vượt 1.841 với độ rộng tích cực và dòng tiền không còn bị ATC/ETF chi phối, THEN vẫn giữ CHỜ / PHÒNG THỦ."
+        },
+        {
+          "label": "Kháng cự mạnh",
+          "value": "1.848–1.875",
+          "note": "Vùng cung phía trên của nhịp đầu tháng 9. Tại close 1.815,66, reward tới 1.848 so với risk về MA200 chỉ khoảng 1,4:1, vẫn dưới chuẩn 2:1."
+        },
+        {
+          "label": "Hỗ trợ sâu / MA50",
+          "value": "1.775–1.780",
+          "note": "MA50 ở 1.776,80 là lớp hỗ trợ sâu. IF mất cả MA200 và tiếp tục xuyên vùng này, THEN chuyển hẳn sang risk-off, không bắt dao."
+        }
+      ],
+      "confluence": {
+        "score": 3,
+        "maxScore": 7,
+        "factors": [
+          {
+            "factor": "Giá / MA / cấu trúc",
+            "score": 1,
+            "note": "Close vẫn trên MA20/MA50/MA200, dù thất bại tại 1.840 làm xu hướng ngắn hạn giảm chất lượng."
+          },
+          {
+            "factor": "Thanh khoản",
+            "score": -1,
+            "note": "Khớp lệnh cao hơn TB20 khoảng 61,8% nhưng đi cùng đảo chiều giảm và hơn 10.500 tỷ dồn ATC do ETF; thanh khoản không xác nhận chiều tăng."
+          },
+          {
+            "factor": "Độ rộng",
+            "score": 1,
+            "note": "VNDIRECT khóa 182 tăng/126 giảm; breadth vẫn dương dù chỉ số đỏ."
+          },
+          {
+            "factor": "Dòng tiền",
+            "score": 0,
+            "note": "Có luân chuyển sang dịch vụ tài chính/tài nguyên nhưng chỉ 6/19 ngành tăng; không đủ gọi là lan tỏa mạnh."
+          },
+          {
+            "factor": "Khối ngoại",
+            "score": 1,
+            "note": "Mua ròng 1.254,92 tỷ đồng trên HOSE, đảo chiều tích cực sau phiên bán ròng 17/09."
+          },
+          {
+            "factor": "Chất lượng dẫn dắt",
+            "score": 1,
+            "note": "VN30 yếu hơn VN-Index trong khi mid/small-cap và HNX tốt hơn; không phải chỉ kéo trụ."
+          },
+          {
+            "factor": "Vĩ mô / phái sinh",
+            "score": 0,
+            "note": "F1M tháng 10 basis +5,83 hỗ trợ, nhưng áp lực chốt lời cuối phiên và nhiễu ETF trước ngày FTSE có hiệu lực khiến tín hiệu chưa sạch."
+          }
+        ],
+        "veto": [
+          "Cuối phiên bị bán mạnh: VN-Index chạm 1.841,20 rồi đóng 1.815,66 dưới tham chiếu",
+          "Kháng cự 1.830–1.841 chưa được vượt và giữ dứt khoát",
+          "R:R tại close 1.815,66 tới 1.841 so với mốc vô hiệu MA200 1.792,62 chỉ khoảng 1,1:1; tới 1.848 cũng chỉ khoảng 1,4:1, dưới chuẩn 2:1"
+        ]
+      },
+      "scenarios": [
+        {
+          "state": "positive",
+          "probability": 25,
+          "if": "VN-Index giữ 1.805–1.810 rồi đóng vượt 1.841, độ rộng tiếp tục dương, ngân hàng ngừng kéo lùi và dòng tiền sau ETF vẫn lan tỏa",
+          "then": "Gỡ veto kháng cự từng phần; chỉ mua sau breakout/retest thành công ở leader cơ bản tốt, thăm dò nhỏ trước và chỉ tăng khi R:R ≥2:1."
+        },
+        {
+          "state": "neutral",
+          "probability": 50,
+          "if": "VN-Index dao động trong 1.793–1.841, thanh khoản trở về trạng thái bình thường sau cơ cấu và độ rộng không xấu đi",
+          "then": "Duy trì CHỜ / PHÒNG THỦ; giữ cổ phiếu mạnh hơn thị trường, không mua đuổi, tỷ trọng chiến thuật tối đa 20% và không tăng margin."
+        },
+        {
+          "state": "risk_off",
+          "probability": 25,
+          "if": "VN-Index đóng dưới MA200 1.792,62, đặc biệt khi breadth chuyển âm và nhóm ngân hàng tiếp tục suy yếu",
+          "then": "Giảm rủi ro phần trading, dừng mở mới, xử lý vị thế vi phạm stoploss 3–7%; không bình quân giá xuống bằng margin."
+        }
+      ],
+      "playbook": [
+        {
+          "state": "positive",
+          "if": "XÁC NHẬN TÍCH CỰC — giữ 1.805–1.810 và đóng vượt 1.841 với breadth dương, leader lan tỏa, dòng tiền không còn co cụm vào ATC/ETF",
+          "then": "CHỈ MUA SAU RETEST. Thăm dò ở leader cơ bản tốt, stoploss 3–7%, R:R ≥2:1. Chỉ nâng tỷ trọng dần nếu veto được gỡ và score tái tính vẫn đủ chuẩn."
+        },
+        {
+          "state": "neutral",
+          "if": "THIẾU XÁC NHẬN — dao động 1.793–1.841 hoặc tiếp tục bị bán khi áp sát 1.830–1.841",
+          "then": "CHỜ / PHÒNG THỦ. Giữ hàng khỏe sẵn có, tỷ trọng chiến thuật ≤20%, tiền mặt cao, không mua đuổi và không tăng margin."
+        },
+        {
+          "state": "risk_off",
+          "if": "RISK-OFF — đóng dưới MA200 1.792,62 và độ rộng chuyển xấu; nghiêm trọng hơn nếu mất vùng MA50 1.775–1.780",
+          "then": "GIẢM RỦI RO phần trading, dừng mua mới, thực thi stoploss 3–7%; không bắt dao và không bình quân giá xuống."
+        }
+      ],
+      "focus": "CHỜ / PHÒNG THỦ • Score +3/7 • VETO bán cuối phiên + thất bại 1.840 + R:R <2 • MA20 1.806,33 • MA200 1.792,62 • MA50 1.776,80 • KL HOSE ~22.053 tỷ nhưng ETF/ATC >10.500 tỷ • khối ngoại +1.254,92 tỷ • tự doanh ~-82 tỷ • 41I1GA000 basis +5,83 • tỷ trọng chiến thuật ≤20% • không margin",
+      "inference": "EOD 18/09/2026 đã vượt Data Gate 127/127 sau khi ba ngoại lệ DDV/MSR/OIL được nguồn thứ ba hậu phiên xác nhận trùng VNDIRECT. VNDIRECT Finfo khóa VN-Index 1.815,66 (-0,39%), VN30 1.964,17 (-0,55%), HNX-Index 275,29 (+0,51%) và breadth HOSE 182 tăng/67 tham chiếu/126 giảm/4 sàn. Chuỗi 217 phiên VNDIRECT cho MA20 1.806,33, MA50 1.776,80, MA200 1.792,62; khớp lệnh HOSE 22.052,58 tỷ so với TB5 14.281,67 tỷ, TB10 13.303,75 tỷ và TB20 13.632,99 tỷ; khối lượng 721,52 triệu cp cao hơn TB20 khoảng 38,3%. BSC ghi khối ngoại mua ròng 1.254,92 tỷ HOSE; 24HMoney ghi tự doanh bán ròng tổng 82,05 tỷ; SHS ghi 41I1GA000 đóng 1.970, basis +5,83. VietnamBiz ghi hơn 10.500 tỷ đồng dồn vào ATC do cơ cấu ETF. Confluence Score = +3/7 với cấu phần +1,-1,+1,0,+1,+1,0. Hard veto có hiệu lực vì bán mạnh cuối phiên, cản 1.830–1.841 thất bại và R:R dưới 2:1. Kết luận: CHỜ / PHÒNG THỦ; không mua đuổi, không tăng margin.",
+      "limitations": [
+        "Dữ liệu độ rộng khác nhẹ theo phạm vi tổng hợp: VNDIRECT Finfo khóa 182 tăng/67 tham chiếu/126 giảm, BSC ghi 185 tăng/67 tham chiếu/130 giảm. Bản nhận định dùng duy nhất VNDIRECT cho bảng chính để không trộn scope.",
+        "Trường low/open của một số vendor chỉ số 18/09 không đồng nhất; bản nhận định không dùng low để chấm nến và chỉ dùng các điểm đã đồng thuận: high 1.841,20, close 1.815,66 cùng diễn biến đảo chiều cuối phiên.",
+        "Thanh khoản 22.052,58 tỷ bị méo đáng kể bởi cơ cấu ETF với hơn 10.500 tỷ đồng ở ATC; vì vậy không coi mức tăng thanh khoản là xác nhận mua chủ động.",
+        "Tự doanh: 24HMoney ghi tổng bán ròng 82,05 tỷ đồng, VietnamBiz ghi khoảng 84 tỷ đồng trên HOSE; bài dùng 24HMoney cho tổng và chỉ coi VietnamBiz là đối chiếu."
+      ],
+      "zaloPost": "Phiên 18/09 nhìn qua tưởng chỉ là một nhịp giảm nhẹ, nhưng phần cần chú ý nằm ở cách thị trường bị kéo ngược trong ATC. VN-Index chạm 1.841,20 rồi đóng 1.815,66, giảm 0,39%. Độ rộng theo VNDIRECT vẫn có 182 mã tăng so với 126 mã giảm, nên đây chưa phải bán tháo diện rộng; áp lực chính nằm ở nhóm vốn hóa lớn, đặc biệt ngân hàng.\n\nThanh khoản khớp lệnh lên khoảng 22,05 nghìn tỷ đồng, cao hơn bình quân 20 phiên khoảng 61,8%, nhưng không nên đọc con số này như tín hiệu tiền chủ động vào mạnh. Hơn 10.500 tỷ đồng dồn vào ATC trong phiên cơ cấu ETF. Khối ngoại mua ròng khoảng 1.255 tỷ đồng là điểm cộng, trong khi tự doanh bán ròng khoảng 82 tỷ. Dòng tiền đang luân chuyển: dịch vụ tài chính và tài nguyên giữ nhịp, còn công nghệ, dầu khí và ngân hàng chịu áp lực.\n\nVề kỹ thuật, chỉ số vẫn trên MA20 1.806,33 và MA200 1.792,62, nên cấu trúc chưa gãy. Tuy nhiên vùng 1.830–1.841 tiếp tục là cản thật. Score đạt +3/7 nhưng veto vẫn bật vì bán cuối phiên, thất bại tại kháng cự và R:R hiện chưa đạt chuẩn 2:1. Vì vậy kế hoạch cho phiên 21/09 vẫn là CHỜ / PHÒNG THỦ, không mua đuổi và không tăng margin.\n\nIF VN-Index giữ 1.805–1.810, breadth còn dương và leader không gãy nền, THEN ưu tiên giữ cổ phiếu khỏe hơn thị trường. IF đóng vượt 1.841 sau khi dòng tiền ETF qua đi và ngân hàng ngừng kéo lùi, THEN mới xem xét mua sau retest, từng deal phải có stoploss 3–7% và R:R tối thiểu 2:1. IF đóng dưới 1.792,62, THEN giảm phần trading và dừng mở mới. Việc cần làm ngay là rà các mã yếu hơn thị trường, hạ đòn bẩy và giữ tiền chờ tín hiệu sạch hơn.\n\nNội dung mang tính tham khảo, không phải cam kết hay khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      "sources": [
+        {
+          "label": "VNDIRECT Finfo — chỉ số & độ rộng EOD 18/09/2026",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-09-18&size=500"
+        },
+        {
+          "label": "VNDIRECT Finfo — chuỗi VNINDEX tính MA & thanh khoản",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-18&size=500"
+        },
+        {
+          "label": "VNDIRECT — La bàn thị trường 18/09/2026",
+          "url": "https://www.vndirect.com.vn/la-ban-thi-truong-18-09-2026-vn-index-giam-04-khoi-ngoai-mua-rong/"
+        },
+        {
+          "label": "BSC Brief 18/09 — chỉ số, thanh khoản, ngành & khối ngoại",
+          "url": "https://www.bsc.com.vn/bao-cao/15925-bsc-brief-18-09-mot-so-co-phieu-ngan-hang-keo-vn-index-dong-cua-duoi-tham-chieu/"
+        },
+        {
+          "label": "VietnamBiz — phiên cơ cấu ETF 18/09, hơn 10.500 tỷ dồn ATC",
+          "url": "https://vietnambiz.vn/etf/etf.html"
+        },
+        {
+          "label": "24HMoney — tự doanh VN-Index 18/09/2026",
+          "url": "https://24hmoney.vn/indices/vn-index/giao-dich-tu-doanh"
+        },
+        {
+          "label": "VietnamBiz — tự doanh bán ròng khoảng 84 tỷ trên HOSE",
+          "url": "https://vietnambiz.vn/tu-doanh-mua-rong-gan-800-ty-dong-co-phieu-vpb-sau-4-phien-2026918182740101.htm"
+        },
+        {
+          "label": "SHS — bản tin tuần 14–18/09, phái sinh 41I1GA000",
+          "url": "https://www.shs.com.vn/nhan-dinh-thi-truong/ban-tin-thi-truong-tuan-14-18092026-chuong-moi-bat-dau-ngoi-sao-thi-truong-moi-noi"
+        },
+        {
+          "label": "DNSE — phái sinh chịu áp lực điều chỉnh cuối phiên 18/09",
+          "url": "https://www.dnse.com.vn/nhan-dinh-thi-truong/trang/ban-tin-phai-sinh"
+        },
+        {
+          "label": "FTSE Russell/LSEG — Việt Nam lên Secondary Emerging từ 21/09/2026",
+          "url": "https://www.lseg.com/en/media-centre/press-releases/ftse-russell/2026/ftse-russell-announces-results-march-2026-semi-annual-country-classification-review-equities-fixed-income"
+        }
+      ]
+    },
+    {
       "id": "market-view-20260917",
       "date": "2026-09-17",
       "publishedAt": "17/09/2026 • Sau phiên",
