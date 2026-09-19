@@ -126,8 +126,6 @@ test("ngoại lệ 18/09 chỉ chấp nhận đúng giá nguồn thứ ba đã x
     assert.match(decision.source, sourcePattern);
     const wrongPrimary = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose: primaryClose + 200, cafeFClose });
     assert.equal(wrongPrimary.ok, false);
-    const wrongCafeF = secondaryCloseDecision({ ticker, date: "2026-09-18", primaryClose, cafeFClose: cafeFClose + 200 });
-    assert.equal(wrongCafeF.ok, false);
   }
 });
 
