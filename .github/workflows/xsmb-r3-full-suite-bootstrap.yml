@@ -34,6 +34,8 @@ jobs:
 
       - name: Materialize test fixture paths
         run: |
+          sudo mkdir -p /mnt/data
+          sudo chown -R "$(id -u):$(id -g)" /mnt/data
           mkdir -p /mnt/data/xsmb_R3_test_output
           cp xsmb_runtime/xsmb_reference_runner_R3_final.py /mnt/data/xsmb_reference_runner_R3_final.py
           cp xsmb_runtime/xsmb_R3_test_harness_py312.py /mnt/data/xsmb_R3_test_harness_py312.py
