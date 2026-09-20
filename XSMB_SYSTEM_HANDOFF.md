@@ -65,6 +65,7 @@ Important evidence in the same Drive folder:
 - `xsmb-feature-attribution-20260921.zip` — ID `1tfN-_jDTdENxAn15Ef-W3yvMXxKoEVJX`
 - `xsmb-r4-snapshot-certification_PASS.zip` — ID `1e_u_YxyeD91-jHXlCmjpNg0eAht8_7Mv`
 - `xsmb-r4-two-command-smoke_PASS.zip` — ID `1LHh--pr0PhnSbXRMmWiav4V478jEUYMm`
+- `xsmb-r3-to-r4-transition-test_PASS.zip` — ID `1QfUGhf7JgJ57ggrT3k0Al_6lQX0uwBy3`
 
 ### GitHub
 
@@ -141,6 +142,15 @@ Current prospective forecast:
 - Forecast-manifest payload SHA256: `d9339229c6704826ab22daf293bdc1869fa442c0252fa5f0868cf49398e52dde`
 
 The R4 forensic/certification refit may have a different probability binary SHA across ephemeral hosts due to floating-point/BLAS dispatch. It MUST NOT replace the canonical R3 locked probability vector. The locked R3 record remains authoritative for 2026-09-21.
+
+
+## 6A. Deep-audit operational findings (2026-09-20)
+
+- Runtime-gate workflow cache configuration was corrected by adding `cache-dependency-path: xsmb_runtime/requirements-runtime.txt`. GitHub Actions run **35524230997** then completed **PASS** under Python 3.12.12.
+- End-to-end software transition was explicitly tested: **R3_LOCKED -> SETTLED -> R4_PROMOTED -> R4_LOCKED_NEXT**. GitHub Actions run **35524297339** completed **PASS**; model math changed = false.
+- The current canonical production workbook remains byte-identical to the locked 2026-09-21 state at SHA256 `c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1` during this audit.
+- `R5_SUMMARY`, `R3_HARDENING` and `CANONICAL_BRIDGE` contain some historical/static preparation text that predates the already-locked 2026-09-21 forecast. These static snapshot fields are **not live operational authority**. Live authority is determined from `MODEL_ACTIVATION`, `PROSPECTIVE_LEDGER`, immutable manifests and pinned hashes. Do not infer current forecast state from stale snapshot prose.
+- Do not edit those historical snapshot sheets while the 2026-09-21 forecast is still LOCKED_PRE_DRAW merely to make the prose current. Any human-facing status cleanup should occur only through a controlled post-settlement maintenance transaction.
 
 ## 7. Authority hierarchy
 
@@ -251,7 +261,7 @@ Changes to M7 features, target, hyperparameters, calibration definition, trainin
 
 ---
 
-**HANDOFF REVISION:** `H2-20260920-R4-SNAPSHOT`
+**HANDOFF REVISION:** `H3-20260920-DEEP-AUDIT`
 
 **STATUS:** `ACTIVE_BOOTSTRAP_POINTER`
 
