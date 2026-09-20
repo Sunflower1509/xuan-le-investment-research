@@ -1,0 +1,20 @@
+name: Export XSMB Handoff
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - "XSMB_SYSTEM_HANDOFF.md"
+      - ".github/workflows/xsmb-export-handoff.yml"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xsmb-system-handoff-h3
+          path: XSMB_SYSTEM_HANDOFF.md
+          if-no-files-found: error
+          retention-days: 30
