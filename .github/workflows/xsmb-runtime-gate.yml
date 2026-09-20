@@ -1,0 +1,42 @@
+name: XSMB Python 3.12 Runtime Gate
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/xsmb-runtime-gate.yml"
+      - "xsmb_runtime/**"
+  workflow_dispatch:
+
+jobs:
+  runtime-gate:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.12"
+          cache: "pip"
+
+      - name: Install exact runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Run frozen runtime gate
+        run: |
+          python xsmb_runtime/runtime_gate.py | tee xsmb_runtime/runtime_gate_result.json
+
+      - name: Upload runtime evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: xsmb-runtime-gate-python312
+          path: xsmb_runtime/runtime_gate_result.json
+          if-no-files-found: error
