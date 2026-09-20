@@ -32,7 +32,8 @@ jobs:
 
       - name: Materialize test fixture paths
         run: |
-          mkdir -p /mnt/data/xsmb_R3_test_output
+          sudo mkdir -p /mnt/data/xsmb_R3_test_output
+          sudo chown -R "$USER":"$USER" /mnt/data
           cp xsmb_runtime/xsmb_reference_runner_R3_final.py /mnt/data/xsmb_reference_runner_R3_final.py
           cp xsmb_runtime/xsmb_R3_test_harness_py312.py /mnt/data/xsmb_R3_test_harness_py312.py
           cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx /mnt/data/XSMB_RECONCILIATION_R5_1200_v2_1_R3_HARDENED.xlsx
