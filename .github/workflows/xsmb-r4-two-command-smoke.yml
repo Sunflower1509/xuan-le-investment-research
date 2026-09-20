@@ -40,8 +40,10 @@ jobs:
 
       - name: Prepare fixtures
         run: |
-          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx update-test.xlsx
-          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx run-test.xlsx
+          curl -fL "https://at.adobe.com/Yy98l8l1w9IqtwnN" -o production-preforecast.xlsx
+          echo "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676  production-preforecast.xlsx" | sha256sum -c -
+          cp production-preforecast.xlsx update-test.xlsx
+          cp production-preforecast.xlsx run-test.xlsx
           mkdir -p update-manifests run-manifests test-evidence
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json update-manifests/
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json run-manifests/
