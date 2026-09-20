@@ -50,8 +50,9 @@ jobs:
       - name: Prepare isolated audit workspaces
         run: |
           mkdir -p audit/manifests replay/manifests
-          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx audit/preforecast.xlsx
-          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
+          curl -fL "https://at.adobe.com/Yy98l8l1w9IqtwnN" -o audit/preforecast.xlsx
+          echo "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676  audit/preforecast.xlsx" | sha256sum -c -
+          cp audit/preforecast.xlsx replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json audit/manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json replay/manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
           cp original-forecast/manifests/*.forecast.json audit/manifests/
@@ -188,9 +189,25 @@ jobs:
           print(json.dumps(report,indent=2))
           PY
 
+      - name: Smoke-test two-command UPDATE_RESULT wrapper
+        run: |
+          cp audit/preforecast.xlsx update-test.xlsx
+          mkdir -p update-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json update-manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py update-result             --workbook update-test.xlsx             --manifest-dir update-manifests             --actual-date 2026-09-20             --evidence-json xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json             > TWO_COMMAND_UPDATE_RESULT_SMOKE.json
+          python - <<'PY'
+          import json
+          r=json.load(open("TWO_COMMAND_UPDATE_RESULT_SMOKE.json"))
+          assert r["operation"]=="UPDATE_RESULT"
+          assert r["result"]["status"]=="ALREADY_INGESTED"
+          assert r["latest_verified_date"]=="2026-09-20"
+          assert r["next_forecast_date"]=="2026-09-21"
+          print("TWO_COMMAND_UPDATE_RESULT_SMOKE=PASS")
+          PY
+
       - name: Smoke-test two-command RUN_NEXT wrapper
         run: |
-          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx wrapper-test.xlsx
+          cp audit/preforecast.xlsx wrapper-test.xlsx
           mkdir -p wrapper-manifests
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json wrapper-manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
           PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next             --workbook wrapper-test.xlsx             --manifest-dir wrapper-manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             --forecast-date 2026-09-21             > TWO_COMMAND_RUN_NEXT_SMOKE.json
@@ -211,6 +228,7 @@ jobs:
             AUDIT_10_ROUNDS_20260921.json
             RERUN_FORECAST_20260921.json
             RERUN_COMPARISON_20260921.json
+            TWO_COMMAND_UPDATE_RESULT_SMOKE.json
             TWO_COMMAND_RUN_NEXT_SMOKE.json
             replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
             replay/manifests/*.forecast.json
