@@ -61,7 +61,12 @@ jobs:
 
       - name: Smoke RUN_NEXT with R4 snapshot
         run: |
+          set +e
           PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next             --workbook run-test.xlsx             --manifest-dir run-manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             --forecast-date 2026-09-21             > RUN_NEXT_R4_SMOKE.json
+          rc=$?
+          set -e
+          cat RUN_NEXT_R4_SMOKE.json
+          if [ "$rc" -ne 0 ]; then exit "$rc"; fi
           python - <<'PY'
           import json, pathlib
           r=json.load(open("RUN_NEXT_R4_SMOKE.json"))
@@ -82,6 +87,7 @@ jobs:
           PY
 
       - name: Upload smoke evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: xsmb-r4-two-command-smoke
