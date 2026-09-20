@@ -6,7 +6,7 @@ User-facing operations:
   2) RUN_NEXT      -> run-next
 
 This wrapper does not change M7 mathematics. It delegates all model/data
-integrity decisions to xsmb_reference_runner_R3_final.py.
+integrity decisions to xsmb_reference_runner_R4_snapshot.py.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
-import xsmb_reference_runner_R3_final as core
+import xsmb_reference_runner_R4_snapshot as core
 
 DEFAULT_WORKBOOK = "XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx"
 DEFAULT_MANIFEST_DIR = "manifests"
