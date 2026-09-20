@@ -71,7 +71,7 @@ jobs:
       - name: Assert R4 model math equals R3
         run: |
           PYTHONPATH=xsmb_runtime python - <<'PY'
-          import importlib.util
+          import importlib.util, sys
           from pathlib import Path
           wb=Path("xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx")
           mdir=Path("r4-equivalence-manifests"); mdir.mkdir(exist_ok=True)
@@ -80,7 +80,10 @@ jobs:
           )
           def load(name,path):
               s=importlib.util.spec_from_file_location(name,path)
-              m=importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+              m=importlib.util.module_from_spec(s)
+              sys.modules[name]=m
+              s.loader.exec_module(m)
+              return m
           r3=load("r3","xsmb_runtime/xsmb_reference_runner_R3_final.py")
           r4=load("r4","xsmb_runtime/xsmb_reference_runner_R4_snapshot.py")
           s3=r3.load_workbook_state(wb,mdir)
