@@ -222,9 +222,15 @@ jobs:
           python - <<'PY'
           import json
           r=json.load(open("TWO_COMMAND_RUN_NEXT_SMOKE.json"))
+          replay=json.load(open("RERUN_FORECAST_20260921.json"))
           assert r["operation"]=="RUN_NEXT"
-          assert r["result"]["probability_sha256"]=="e0db1ad1c5353741d0aa1f01a615af346e9b243a58d30977398dc59335401a33"
-          assert r["result"]["top5"]==["09","07","34","82","80"]
+          assert r["forecast_date"]=="2026-09-21"
+          assert r["data_cutoff"]=="2026-09-20"
+          assert r["result"]["forecast_id"]==replay["forecast_id"]
+          assert r["result"]["data_hash"]==replay["data_hash"]
+          assert r["result"]["probability_sha256"]==replay["probability_sha256"]
+          assert r["result"]["top5"]==replay["top5"]==["09","07","34","82","80"]
+          assert r["result"]["probabilities"]==replay["probabilities"]
           print("TWO_COMMAND_RUN_NEXT_SMOKE=PASS")
           PY
 
