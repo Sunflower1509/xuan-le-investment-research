@@ -5,6 +5,7 @@ on:
     branches: ["xsmb-v2.1-python312-runtime"]
     paths:
       - "xsmb_runtime/xsmb_ops.py"
+      - "xsmb_runtime/certification/R4_SNAPSHOT_CERTIFICATION.json"
       - ".github/workflows/xsmb-r4-two-command-smoke.yml"
   workflow_dispatch:
 
