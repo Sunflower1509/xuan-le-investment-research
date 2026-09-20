@@ -357,8 +357,10 @@ record('C09','ingest observed when forecast row exists','reject',tC09)
 
 # C10 future observed date.
 def tC10():
- ev=json.loads(REAL_EVIDENCE.read_text()); ev['actual_date']='2026-09-21'; pth=ROOT/'c10e.json'; pth.write_text(json.dumps(ev))
- try:r.ingest_observed(BASE,'2026-09-21',pth,ROOT/'c10m'); raise AssertionError('passed')
+ # Use a far-future date so this assertion is calendar-independent.
+ future_date='2099-01-01'
+ ev=json.loads(REAL_EVIDENCE.read_text()); ev['actual_date']=future_date; pth=ROOT/'c10e.json'; pth.write_text(json.dumps(ev))
+ try:r.ingest_observed(BASE,future_date,pth,ROOT/'c10m'); raise AssertionError('passed')
  except r.RunnerError as e: assert 'future draw' in e.reason; return e.payload()
 record('C10','ingest observed future date','reject',tC10,BASE)
 
