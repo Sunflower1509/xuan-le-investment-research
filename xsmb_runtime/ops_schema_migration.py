@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json, math, sys, shutil
+import argparse, importlib.util, json, math, sys
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
