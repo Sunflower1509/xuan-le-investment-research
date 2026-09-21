@@ -1,0 +1,55 @@
+name: Kiem tra du lieu 2026-09-21
+
+on:
+  push:
+    paths:
+      - ".github/workflows/data-check-20260921.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Kiem tra nguon thu ba va chi so
+        run: |
+          node --input-type=module <<'NODE'
+          const date='2026-09-21';
+          const tickers=['DDV','DRI','MSR'];
+          const kbsDate='21-09-2026';
+          const norm=v=>{const n=Number(v); if(!Number.isFinite(n)) return null; return n<1000?Math.round(n*1000):Math.round(n);};
+          for (const ticker of tickers) {
+            const url=`https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/${ticker}/data_day?sdate=${kbsDate}&edate=${kbsDate}`;
+            const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-Check/1.0'}});
+            if(!res.ok){console.log('KBS',ticker,'HTTP',res.status);continue;}
+            const p=await res.json();
+            const rows=Array.isArray(p?.data_day)?p.data_day:[];
+            const row=rows[0]||null;
+            console.log('KBS',ticker,JSON.stringify(row), 'NORM_CLOSE', norm(row?.c??row?.close));
+          }
+          const url='https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-21&size=500';
+          const res=await fetch(url,{headers:{accept:'application/json','user-agent':'XuanLeTVS-Metrics/1.2'}});
+          if(!res.ok) throw new Error('VNDIRECT HTTP '+res.status);
+          const p=await res.json();
+          const rows=(p.data||[]).filter(r=>String(r.code||'').toUpperCase().replace('-','')==='VNINDEX').sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+          const n=v=>Number.isFinite(Number(v))?Number(v):null;
+          const close=r=>n(r.close);
+          const val=r=>n(r.nmValue);
+          const vol=r=>n(r.nmVolume);
+          const avg=(arr,fn,len)=>{const a=arr.slice(-len).map(fn).filter(Number.isFinite); return a.length===len?a.reduce((x,y)=>x+y,0)/len:null;};
+          const target=rows.find(r=>r.date===date);
+          const before=rows.filter(r=>r.date<date);
+          console.log('CHI_SO',JSON.stringify({
+            target,
+            ma20:avg(rows,close,20),ma50:avg(rows,close,50),ma200:avg(rows,close,200),
+            giaTriKhop:val(target),khoiLuongKhop:vol(target),
+            tb5:avg(before,val,5),tb10:avg(before,val,10),tb20:avg(before,val,20),
+            klTb20:avg(before,vol,20)
+          }));
+          NODE
