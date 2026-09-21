@@ -90,14 +90,15 @@ jobs:
         run: |
           mkdir -p state-manifests
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json state-manifests/
-          python xsmb_runtime/xsmb_state_manifest.py             --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py             --workbook xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx             --manifest-dir state-manifests             --output XSMB_CURRENT_SYSTEM_STATE_V1.json
+          python xsmb_runtime/xsmb_state_manifest.py             --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py             --workbook xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx             --manifest-dir state-manifests             --output XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json --context FIXTURE_TEST
           python - <<'PY'
           import json
           from pathlib import Path
-          x=json.loads(Path("XSMB_CURRENT_SYSTEM_STATE_V1.json").read_text())
+          x=json.loads(Path("XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json").read_text())
           assert x["artifact_type"]=="XSMB_CURRENT_SYSTEM_STATE_V1"
           p=x["payload"]
-          assert p["authority_note"].startswith("Derived witness only")
+          assert p["source_context"]=="FIXTURE_TEST"
+          assert p["authority_note"].startswith("TEST FIXTURE ONLY")
           assert p["latest_verified_draw"]=="2026-09-20"
           assert p["locked_pre_draw_count"]==0
           print("LIVE_STATE_MANIFEST=PASS")
@@ -377,7 +378,7 @@ jobs:
           PY
           sha256sum \
             OPS_HARDENING_PRECERTIFICATION.json \
-            XSMB_CURRENT_SYSTEM_STATE_V1.json \
+            XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json \
             OPS_SCHEMA_MIGRATION_REPORT.json \
             ops_hardened_fixture.xlsx \
             xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json \
@@ -399,7 +400,7 @@ jobs:
           path: |
             OPS_HARDENING_PRECERTIFICATION.json
             OPS_HARDENING_SHA256SUMS.txt
-            XSMB_CURRENT_SYSTEM_STATE_V1.json
+            XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json
             OPS_SCHEMA_MIGRATION_REPORT.json
             OPS_SCHEMA_MIGRATION_DIFF.json
             OPS_HARDENED_RUNNER_CANDIDATE_CERT.json
