@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json
+import argparse, importlib.util, json, sys
 from pathlib import Path
 
 R4_SHA256="71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
@@ -9,7 +9,7 @@ TARGET_SETTLED_DATE="2026-09-22"
 def load_runner(path:Path):
     spec=importlib.util.spec_from_file_location("xsmb_promotion_gate_runner",path)
     if spec is None or spec.loader is None: raise RuntimeError(f"cannot load runner {path}")
-    mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod
+    mod=importlib.util.module_from_spec(spec); sys.modules[spec.name]=mod; spec.loader.exec_module(mod); return mod
 
 def main():
     p=argparse.ArgumentParser(description="Fail-closed post-settlement gate for OPS_HARDENING promotion.")
