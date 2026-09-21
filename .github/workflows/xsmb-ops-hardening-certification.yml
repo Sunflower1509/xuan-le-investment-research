@@ -60,6 +60,9 @@ jobs:
       - name: Runtime gate
         run: python xsmb_runtime/runtime_gate.py
 
+      - name: Repository hygiene audit 10 gates
+        run: python xsmb_runtime/repository_hygiene_audit.py
+
       - name: R3 calendar-independent 34 tests
         run: python /mnt/data/xsmb_R3_test_harness_py312.py
 
@@ -369,7 +372,8 @@ jobs:
               "durable_rollback_anchor_byte_identity":True,
               "premature_promotion_rejected":True,
               "static_handoff":True,
-              "production_runners_unchanged":True
+              "production_runners_unchanged":True,
+              "repository_hygiene_10_of_10":True
             },
             "runtime":{"python":platform.python_version()}
           }
@@ -378,6 +382,7 @@ jobs:
           PY
           sha256sum \
             OPS_HARDENING_PRECERTIFICATION.json \
+            REPOSITORY_HYGIENE_AUDIT_V1.json \
             XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json \
             OPS_SCHEMA_MIGRATION_REPORT.json \
             ops_hardened_fixture.xlsx \
@@ -399,6 +404,7 @@ jobs:
           name: xsmb-ops-hardening-v1-precertification
           path: |
             OPS_HARDENING_PRECERTIFICATION.json
+            REPOSITORY_HYGIENE_AUDIT_V1.json
             OPS_HARDENING_SHA256SUMS.txt
             XSMB_CURRENT_SYSTEM_STATE_FIXTURE_V1.json
             OPS_SCHEMA_MIGRATION_REPORT.json
