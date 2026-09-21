@@ -4,8 +4,8 @@ on:
   push:
     branches: ["xsmb-v2.1-python312-runtime"]
     paths:
-      - "xsmb_runtime/xsmb_feature_attribution_20260921.py"
-      - ".github/workflows/xsmb-feature-attribution-20260921.yml"
+      - "archive/xsmb/tools/2026-09-21/xsmb_feature_attribution_20260921.py"
+      - "archive/xsmb/workflows/2026-09-21/xsmb-feature-attribution-20260921.yml"
   workflow_dispatch:
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
 
       - name: Compute exact feature attribution
         run: |
-          python xsmb_runtime/xsmb_feature_attribution_20260921.py             original-forecast/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx             manifests             | tee FEATURE_ATTRIBUTION_SUMMARY_20260921.json
+          python archive/xsmb/tools/2026-09-21/xsmb_feature_attribution_20260921.py             original-forecast/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx             manifests             | tee FEATURE_ATTRIBUTION_SUMMARY_20260921.json
 
       - name: Assert locked forecast identity
         run: |
