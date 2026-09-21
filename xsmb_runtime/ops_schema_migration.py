@@ -48,6 +48,43 @@ def existing_value_hash(core:Any, wb, excluded:set[str])->str:
         payload.append({"sheet":name,"rows":rows})
     return core.sha256_bytes(core.canonical_json(payload).encode("utf-8"))
 
+def sheet_value_hashes(core:Any, wb, excluded:set[str])->dict[str,str]:
+    out={}
+    for name in wb.sheetnames:
+        if name in excluded: continue
+        sh=wb[name]
+        rows=[[norm(cell.value) for cell in row] for row in sh.iter_rows()]
+        out[name]=core.sha256_bytes(core.canonical_json(rows).encode("utf-8"))
+    return out
+
+def legacy_cell_diff(before_path:Path, after_path:Path, excluded:set[str])->list[dict[str,Any]]:
+    a=load_workbook(before_path,read_only=False,data_only=False,keep_links=True)
+    b=load_workbook(after_path,read_only=False,data_only=False,keep_links=True)
+    diffs=[]
+    try:
+        names=[n for n in a.sheetnames if n not in excluded]
+        for name in names:
+            if name not in b.sheetnames:
+                diffs.append({"sheet":name,"error":"missing_after"})
+                continue
+            sa,sb=a[name],b[name]
+            maxr=max(sa.max_row,sb.max_row); maxc=max(sa.max_column,sb.max_column)
+            for r in range(1,maxr+1):
+                for col in range(1,maxc+1):
+                    va,vb=norm(sa.cell(r,col).value),norm(sb.cell(r,col).value)
+                    if va!=vb:
+                        diffs.append({
+                            "sheet":name,"cell":sa.cell(r,col).coordinate,
+                            "before":va,"after":vb,
+                            "before_type":type(sa.cell(r,col).value).__name__,
+                            "after_type":type(sb.cell(r,col).value).__name__,
+                        })
+                        if len(diffs)>=200:
+                            return diffs
+        return diffs
+    finally:
+        a.close(); b.close()
+
 def write_kv_sheet(wb,name:str,rows:list[tuple[Any,Any,Any,Any]]):
     if name in wb.sheetnames: del wb[name]
     sh=wb.create_sheet(name)
@@ -57,8 +94,10 @@ def write_kv_sheet(wb,name:str,rows:list[tuple[Any,Any,Any,Any]]):
 def migrate(input_path:Path, output_path:Path, manifest_dir:Path, runner_path:Path, promotion_manifest:Path|None)->dict[str,Any]:
     core=load_runner(runner_path)
     before_state=core.load_workbook_state(input_path,manifest_dir)
+    excluded={"MODEL_GOVERNANCE","OPERATIONAL_STATE","RUNNER_HISTORY"}
     wb=load_workbook(input_path,read_only=False,data_only=False,keep_links=True)
-    legacy_hash_before=existing_value_hash(core,wb,{"MODEL_GOVERNANCE","OPERATIONAL_STATE","RUNNER_HISTORY"})
+    legacy_hash_before=existing_value_hash(core,wb,excluded)
+    legacy_sheet_hashes_before=sheet_value_hashes(core,wb,excluded)
     a=activation_map(wb)
 
     gov=[]
@@ -106,10 +145,22 @@ def migrate(input_path:Path, output_path:Path, manifest_dir:Path, runner_path:Pa
     wb.save(output_path); wb.close()
 
     check=load_workbook(output_path,read_only=False,data_only=False,keep_links=True)
-    legacy_hash_after=existing_value_hash(core,check,{"MODEL_GOVERNANCE","OPERATIONAL_STATE","RUNNER_HISTORY"})
+    legacy_hash_after=existing_value_hash(core,check,excluded)
+    legacy_sheet_hashes_after=sheet_value_hashes(core,check,excluded)
     check.close()
     if legacy_hash_after!=legacy_hash_before:
-        raise core.RunnerError("OPS SCHEMA FAIL — DO NOT PROMOTE","legacy workbook values changed during schema migration",{"before":legacy_hash_before,"after":legacy_hash_after})
+        diff=legacy_cell_diff(input_path,output_path,excluded)
+        diagnostic={
+            "status":"FAIL",
+            "reason":"legacy workbook values changed during schema migration",
+            "legacy_hash_before":legacy_hash_before,
+            "legacy_hash_after":legacy_hash_after,
+            "sheet_hashes_before":legacy_sheet_hashes_before,
+            "sheet_hashes_after":legacy_sheet_hashes_after,
+            "first_differences":diff,
+        }
+        output_path.with_name("OPS_SCHEMA_MIGRATION_DIFF.json").write_text(json.dumps(diagnostic,ensure_ascii=False,indent=2),encoding="utf-8")
+        raise core.RunnerError("OPS SCHEMA FAIL — DO NOT PROMOTE","legacy workbook values changed during schema migration",diagnostic)
 
     after_state=core.load_workbook_state(output_path,manifest_dir)
     if before_state.draws.dates!=after_state.draws.dates or before_state.draws.lotto!=after_state.draws.lotto or before_state.ledger_records!=after_state.ledger_records:
