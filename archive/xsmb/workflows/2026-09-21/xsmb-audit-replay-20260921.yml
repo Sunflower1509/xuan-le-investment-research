@@ -1,0 +1,250 @@
+name: XSMB 10-Round Audit + Replay 2026-09-21
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - ".github/workflows/xsmb-audit-replay-20260921.yml"
+      - "xsmb_runtime/xsmb_ops.py"
+  workflow_dispatch:
+
+jobs:
+  audit-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download exact-runtime 34-test evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: xsmb-r3-python312-34-tests
+          path: test-evidence
+          github-token: ${{ github.token }}
+          run-id: 35517198556
+
+      - name: Download original locked forecast artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: xsmb-run-forecast-20260921-locked
+          path: original-forecast
+          github-token: ${{ github.token }}
+          run-id: 35518134400
+
+      - name: Prepare isolated audit workspaces
+        run: |
+          mkdir -p audit/manifests replay/manifests
+          curl -fL "https://at.adobe.com/Yy98l8l1w9IqtwnN" -o audit/preforecast.xlsx
+          echo "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676  audit/preforecast.xlsx" | sha256sum -c -
+          cp audit/preforecast.xlsx replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json audit/manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json replay/manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+          cp original-forecast/manifests/*.forecast.json audit/manifests/
+          cp original-forecast/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx audit/locked.xlsx
+
+      - name: Ten-round deep audit
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import copy, hashlib, json, math, shutil
+          from datetime import datetime
+          from pathlib import Path
+
+          import numpy as np
+          import xsmb_reference_runner_R3_final as core
+
+          out=[]
+          def add(i,name,status,detail):
+              out.append({"round":i,"name":name,"status":status,"detail":detail})
+              if status != "PASS":
+                  raise SystemExit(f"AUDIT ROUND {i} FAIL: {name}: {detail}")
+
+          # 1. Frozen spec / runner / runtime.
+          runtime=core.assert_runtime()
+          assert core.SPEC_HASH == "9a830c5a5926cf7e7adc310da5c4ee0f456b5304fc0b88d4b99aa48572f04bdc"
+          assert core.runner_sha256() == "7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b"
+          add(1,"Frozen spec, runner and runtime locks","PASS",runtime)
+
+          # 2. Exact-runtime test evidence.
+          te=core._validate_test_evidence(Path("test-evidence/TEST_EVIDENCE_MANIFEST_V1.json"), core.runner_sha256())
+          p=te["payload"]
+          assert p["passed"] == 34 and p["failed"] == 0 and p["runtime_exact_production_match"] is True
+          add(2,"R1-R15 + C01-C19 exact-runtime evidence","PASS",{"passed":34,"failed":0,"manifest_sha256":te["manifest_sha256"]})
+
+          # 3. Pre-forecast workbook integrity and immutable MASTER.
+          pre=Path("audit/preforecast.xlsx")
+          pre_sha=core.sha256_file(pre)
+          assert pre_sha == "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676", pre_sha
+          st=core.load_workbook_state(pre, "audit/manifests")
+          assert core.canonical_master_hash(st.draws) == "50b00fe9d85cc951c1d4f66a5f9fd8cdd36011caea826f0dd26b922ada73b9c7"
+          assert st.draws.dates[-1] == "2026-09-20"
+          add(3,"Production-preforecast workbook + MASTER integrity","PASS",{"workbook_sha256":pre_sha,"latest_draw":st.draws.dates[-1]})
+
+          # 4. 20/09 observed-no-forecast provenance, no backfill.
+          obs=core._validate_payload_manifest(Path("audit/manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json"),"XSMB_OBSERVED_NO_FORECAST_V1")
+          op=obs["payload"]
+          assert op["actual_date"]=="2026-09-20"
+          assert op["forecast_row_exists"] is False and op["p00_p99_generated"] is False and op["top5_generated"] is False
+          assert op["source_family_count"] >= 2 and op["full27_consensus"] is True
+          assert not [r for r in st.ledger_records if r.get("forecast_date") and core.normalize_date(r["forecast_date"])=="2026-09-20"]
+          add(4,"20/09 OBSERVED_NO_FORECAST provenance","PASS",{"families":op["winning_families"],"manifest_sha256":obs["manifest_sha256"]})
+
+          # 5. Preflight identity, leakage/continuity/cutoff checks.
+          gate=core.preflight_forecast(pre,"2026-09-21","2026-09-20","audit/manifests","test-evidence/TEST_EVIDENCE_MANIFEST_V1.json")
+          assert gate["status"]=="PREFLIGHT PASS"
+          assert gate["forecast_id"]=="XSMB-20260921-v2.1-LIVE-001-824bf0c9f304-9a830c5a5926"
+          assert gate["data_hash"]=="824bf0c9f30475477ca904ff442f331741c7287d8c21c2df6f128e446278ffff"
+          add(5,"Prospective preflight identity and anti-leakage","PASS",{"forecast_id":gate["forecast_id"],"data_hash":gate["data_hash"]})
+
+          # 6. Original locked artifact exact hashes + internal manifest hash.
+          locked=Path("audit/locked.xlsx")
+          assert core.sha256_file(locked)=="c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1"
+          fm_path=next(Path("audit/manifests").glob("*.forecast.json"))
+          assert core.sha256_file(fm_path)=="ed95f5f56f0ae9ee06d58435f53fb408dc2653a5c6d44b6951b6cf41d49a9457"
+          fm=core._validate_payload_manifest(fm_path,"XSMB_FORECAST_MANIFEST_V1")
+          assert fm["manifest_sha256"]=="d9339229c6704826ab22daf293bdc1869fa442c0252fa5f0868cf49398e52dde"
+          add(6,"Locked workbook + forecast manifest hashes","PASS",{"workbook_file_sha256":core.sha256_file(locked),"manifest_file_sha256":core.sha256_file(fm_path),"manifest_payload_sha256":fm["manifest_sha256"]})
+
+          # 7. Ledger-manifest immutable equivalence.
+          locked_state=core.load_workbook_state(locked,"audit/manifests")
+          rows=[r for r in locked_state.ledger_records if r.get("forecast_id")==fm["payload"]["forecast_id"]]
+          assert len(rows)==1
+          core._validate_forecast_record_against_manifest(rows[0],fm)
+          assert rows[0]["record_status"]=="LOCKED_PRE_DRAW"
+          add(7,"Ledger/manifest immutable-field equivalence","PASS",{"record_status":rows[0]["record_status"]})
+
+          # 8. Probability vector validity, SHA and rank/tie-break.
+          probs=fm["payload"]["probabilities"]
+          assert list(probs.keys()) == [f"{i:02d}" for i in range(100)]
+          vec=np.array([float(probs[f"{i:02d}"]) for i in range(100)],dtype=np.float64)
+          assert np.isfinite(vec).all() and ((vec>=0)&(vec<=1)).all()
+          assert core.probability_sha256(vec)=="e0db1ad1c5353741d0aa1f01a615af346e9b243a58d30977398dc59335401a33"
+          rank=sorted([f"{i:02d}" for i in range(100)], key=lambda n:(-probs[n],int(n)))
+          assert rank[:5]==["09","07","34","82","80"]==fm["payload"]["top5_ranked"]
+          add(8,"P00-P99 validity + SHA + deterministic TOP5","PASS",{"top5":rank[:5],"probability_sha256":core.probability_sha256(vec),"min":float(vec.min()),"max":float(vec.max())})
+
+          # 9. Idempotency: rerun against already-locked workbook must not change bytes.
+          idem=Path("audit/idempotent.xlsx")
+          shutil.copy2(locked,idem)
+          before=core.sha256_file(idem)
+          res=core.run_forecast(idem,"2026-09-21","2026-09-20","audit/manifests","test-evidence/TEST_EVIDENCE_MANIFEST_V1.json")
+          after=core.sha256_file(idem)
+          assert res["status"]=="ALREADY_EXISTS" and before==after
+          add(9,"Duplicate RUN_FORECAST idempotency","PASS",{"status":res["status"],"workbook_unchanged":before==after})
+
+          # 10. Authority isolation: stale certification-note sheets are non-authoritative.
+          # Core load/preflight does not consume R3_HARDENING/CANONICAL_BRIDGE runtime claims.
+          # Live state is Ledger + manifests + MODEL_ACTIVATION required fields.
+          assert locked_state.activation["first_forecast_status"]=="ACTIVE"
+          assert locked_state.activation["research_state"]=="NO VERIFIED EDGE"
+          add(10,"Authoritative-state isolation from documentation snapshots","PASS",{"first_forecast_status":"ACTIVE","research_state":"NO VERIFIED EDGE","note":"R3_HARDENING/CANONICAL_BRIDGE are certification snapshots, not live authority"})
+
+          Path("AUDIT_10_ROUNDS_20260921.json").write_text(json.dumps({"status":"10/10 PASS","rounds":out},ensure_ascii=False,indent=2),encoding="utf-8")
+          print("AUDIT_10_ROUNDS=10/10 PASS")
+          PY
+
+      - name: Final replay forecast after 10/10 audit
+        run: |
+          set -euo pipefail
+          python xsmb_runtime/xsmb_reference_runner_R3_final.py run-forecast             --workbook replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx             --forecast-date 2026-09-21             --data-cutoff 2026-09-20             --manifest-dir replay/manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             | tee RERUN_FORECAST_20260921.json
+
+      - name: Compare replay to original locked forecast
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          original=json.loads(Path("original-forecast/RUN_FORECAST_20260921.json").read_text())
+          replay=json.loads(Path("RERUN_FORECAST_20260921.json").read_text())
+          assert replay["status"]=="LOCKED_PRE_DRAW"
+          assert replay["forecast_id"]==original["forecast_id"]
+          assert replay["data_hash"]==original["data_hash"]
+          assert replay["top5"]==original["top5"]
+          keys=[f"{i:02d}" for i in range(100)]
+          diffs=[abs(float(replay["probabilities"][k])-float(original["probabilities"][k])) for k in keys]
+          max_diff=max(diffs)
+          exact=(replay["probabilities"]==original["probabilities"])
+          # Cross-host GitHub runners can select different CPU/BLAS code paths.
+          # Preserve this finding rather than hiding it; rank must remain identical
+          # and numerical drift must remain at floating-point noise scale.
+          assert max_diff <= 1e-11, max_diff
+          report={
+            "status":"REPLAY_RANK_IDENTICAL_FLOAT_DRIFT_DETECTED" if not exact else "REPLAY_IDENTICAL",
+            "forecast_id":replay["forecast_id"],
+            "data_hash":replay["data_hash"],
+            "original_probability_sha256":original["probability_sha256"],
+            "replay_probability_sha256":replay["probability_sha256"],
+            "top5":replay["top5"],
+            "probabilities_exact_json_equal":exact,
+            "max_absolute_probability_difference":max_diff,
+            "note":"Original LOCKED_PRE_DRAW forecast remains canonical. Cross-host bitwise drift is recorded as an operational reproducibility gap; no Ledger overwrite is permitted."
+          }
+          Path("RERUN_COMPARISON_20260921.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+          print(json.dumps(report,indent=2))
+          PY
+
+      - name: Smoke-test two-command UPDATE_RESULT wrapper
+        run: |
+          cp audit/preforecast.xlsx update-test.xlsx
+          mkdir -p update-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json update-manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py update-result             --workbook update-test.xlsx             --manifest-dir update-manifests             --actual-date 2026-09-20             --evidence-json xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json             > TWO_COMMAND_UPDATE_RESULT_SMOKE.json
+          python - <<'PY'
+          import json
+          r=json.load(open("TWO_COMMAND_UPDATE_RESULT_SMOKE.json"))
+          assert r["operation"]=="UPDATE_RESULT"
+          assert r["result"]["status"]=="ALREADY_INGESTED"
+          assert r["latest_verified_date"]=="2026-09-20"
+          assert r["next_forecast_date"]=="2026-09-21"
+          print("TWO_COMMAND_UPDATE_RESULT_SMOKE=PASS")
+          PY
+
+      - name: Smoke-test two-command RUN_NEXT wrapper
+        run: |
+          cp audit/preforecast.xlsx wrapper-test.xlsx
+          mkdir -p wrapper-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json wrapper-manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next             --workbook wrapper-test.xlsx             --manifest-dir wrapper-manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             --forecast-date 2026-09-21             > TWO_COMMAND_RUN_NEXT_SMOKE.json
+          python - <<'PY'
+          import json
+          r=json.load(open("TWO_COMMAND_RUN_NEXT_SMOKE.json"))
+          replay=json.load(open("RERUN_FORECAST_20260921.json"))
+          assert r["operation"]=="RUN_NEXT"
+          assert r["forecast_date"]=="2026-09-21"
+          assert r["data_cutoff"]=="2026-09-20"
+          assert r["result"]["forecast_id"]==replay["forecast_id"]
+          assert r["result"]["data_hash"]==replay["data_hash"]
+          assert r["result"]["probability_sha256"]==replay["probability_sha256"]
+          assert r["result"]["top5"]==replay["top5"]==["09","07","34","82","80"]
+          assert r["result"]["probabilities"]==replay["probabilities"]
+          print("TWO_COMMAND_RUN_NEXT_SMOKE=PASS")
+          PY
+
+      - name: Upload audit + replay evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: xsmb-audit-10-rounds-replay-20260921
+          path: |
+            AUDIT_10_ROUNDS_20260921.json
+            RERUN_FORECAST_20260921.json
+            RERUN_COMPARISON_20260921.json
+            TWO_COMMAND_UPDATE_RESULT_SMOKE.json
+            TWO_COMMAND_RUN_NEXT_SMOKE.json
+            replay/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
+            replay/manifests/*.forecast.json
+          if-no-files-found: error
+          retention-days: 90
