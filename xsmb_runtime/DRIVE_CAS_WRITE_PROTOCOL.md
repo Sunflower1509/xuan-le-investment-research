@@ -100,15 +100,19 @@ write.
   - one Drive revision created,
   - revision count delta exactly +1,
   - read-back SHA equals expected output SHA.
-- Evidence is recorded in
+- Raw certification evidence is recorded in
   `xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json`.
+- The production gate consumes the aggregated certificate
+  `xsmb_runtime/certification/DRIVE_WRITE_CERTIFICATION_V2.json`; that file
+  must validate before any production write is authorized.
 
 ## GitHub Actions serialization
 
-All future production writer workflows must use the same fixed concurrency
-group (for example `xsmb-production-writer`) so GitHub cannot run two protocol
-writers at the same time. The Drive CAS lock remains mandatory even when GitHub
-concurrency is enabled because it protects across separate clients.
+If a future production writer is implemented in GitHub Actions, all such
+writer workflows must use the same fixed concurrency group (for example
+`xsmb-production-writer`). GitHub concurrency is supplementary; the certified
+Drive CAS lock is the mandatory cross-client serialization authority and
+protects writes originating outside GitHub as well.
 
 ## Rollback revision limitation
 
