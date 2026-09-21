@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json
+import argparse, importlib.util, json, sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -10,6 +10,7 @@ def load_runner(path: Path):
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot load runner: {path}")
     mod=importlib.util.module_from_spec(spec)
+    sys.modules[spec.name]=mod
     spec.loader.exec_module(mod)
     return mod
 
