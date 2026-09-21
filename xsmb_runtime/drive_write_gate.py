@@ -62,7 +62,7 @@ def validate_certification(cert: dict[str, Any]) -> None:
         "cas_lock_authority_certified":True,
         "stale_lock_revision_rejected":True,
         "single_writer_acl_verified":True,
-        "github_concurrency_verified":True,
+        "cross_client_serialization_verified":True,
         "durable_rollback_anchor_verified":True,
         "post_write_readback_verified":True,
         "revision_count_guard_verified":True,
