@@ -63,7 +63,7 @@ jobs:
                   sh.cell(sh.max_row+1,1).value=k
                   sh.cell(sh.max_row,2).value=v
               setv("reference_runner_sha256","7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b")
-              setv("implementation_gate","IMPLEMENTATION PASS")
+              setv("implementation_gate","PASS_R3_HARDENED_TEST_EVIDENCE")
               setv("first_forecast_status","ACTIVE")
               wb.save(path)
               wb.close()
