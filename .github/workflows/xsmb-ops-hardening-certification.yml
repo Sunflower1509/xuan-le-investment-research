@@ -308,6 +308,7 @@ jobs:
             OPS_HARDENING_SHA256SUMS.txt
             XSMB_CURRENT_SYSTEM_STATE_V1.json
             OPS_SCHEMA_MIGRATION_REPORT.json
+            OPS_SCHEMA_MIGRATION_DIFF.json
             OPS_HARDENED_RUNNER_CANDIDATE_CERT.json
             ops_hardened_fixture.xlsx
             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json
