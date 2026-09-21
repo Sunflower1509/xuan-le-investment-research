@@ -1,0 +1,18 @@
+{
+  "schema_version": "XSMB_DRIVE_CAS_CERTIFICATION_V1",
+  "status": "PASS_FOR_LOCK_AUTHORITY",
+  "certified_at_local": "2026-09-22T04:41:00+07:00",
+  "production_lock_document_id": "1DLWoCsG43VbEgrNSIYhlYw1S3x5Sct_3jeTGQMMKe-c",
+  "canonical_file_id": "1UYD3egf24aUfblq6laJE2FFLMEiZrAob",
+  "canonical_workbook_sha256": "5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f",
+  "canonical_drive_revision_id": "0B13hhnXzcUPeNTk5cXV2VVV6RzF2MlJPUjJOZEhsVjZ2bHhJPQ",
+  "protocol": "XSMB_DRIVE_CAS_LOCK_V1",
+  "lock_final_state": "RELEASED",
+  "lock_final_epoch": 1,
+  "stale_revision_rejection": true,
+  "stale_revision_rejection_error": "required revision ID does not match the latest revision",
+  "workbook_unchanged_after_certification": true,
+  "native_blob_conditional_write_available_in_current_connector": false,
+  "rollback_revision_keepForever_available_in_current_connector": false,
+  "interpretation": "Google Docs requiredRevisionId is certified as the transaction CAS authority. Drive blob content replacement remains separately guarded by pre-hash/revision verification, post-write read-back and rollback anchor."
+}
