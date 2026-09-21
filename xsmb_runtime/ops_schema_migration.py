@@ -71,10 +71,13 @@ def migrate(input_path:Path, output_path:Path, manifest_dir:Path, runner_path:Pa
         ("operational_state_schema_version","XSMB_OPERATIONAL_STATE_V1","ACTIVE","Sole operational-state sheet for future hardened runner."),
         ("active_runner_sha256",a.get("reference_runner_sha256"),"ACTIVE","Migrated from current live runner pin."),
         ("operational_revision",a.get("operational_revision") or "R3-HARDENED","ACTIVE","Current operational runner revision."),
+        ("implementation_gate",a.get("implementation_gate"),"ACTIVE","Current implementation authorization gate."),
+        ("first_forecast_status",a.get("first_forecast_status"),"ACTIVE","Operational lifecycle state."),
+        ("runner_promotion_status",a.get("runner_promotion_status"),"ACTIVE","Current runner-promotion state."),
         ("active_test_evidence_manifest_sha256",a.get("runner_promotion_test_evidence_manifest_sha256") or a.get("test_evidence_manifest_sha256"),"ACTIVE","Current exact-runtime authorization evidence."),
         ("active_certification_sha256",a.get("runner_promotion_certification_sha256"),"ACTIVE","Current runner certification when applicable."),
         ("research_state",a.get("research_state") or "NO VERIFIED EDGE","ACTIVE","Descriptive research state; not a forecast override."),
-        ("legacy_model_activation_policy","READ_ONLY_ARCHIVE","LOCKED","MODEL_ACTIVATION is retained for audit compatibility but is not operational authority after promotion."),
+        ("legacy_model_activation_policy","READ_ONLY_ARCHIVE","LOCKED","MODEL_ACTIVATION is retained for audit compatibility but is not operational authority after hardened-runner promotion."),
     ]
     write_kv_sheet(wb,"OPERATIONAL_STATE",ops)
 
