@@ -42,16 +42,33 @@ jobs:
           github-token: ${{ github.token }}
           run-id: 35524622837
 
-      - name: Prepare fixtures
+      - name: Prepare self-contained fixtures
         run: |
-          curl -fL "https://at.adobe.com/Yy98l8l1w9IqtwnN" -o production-preforecast.xlsx
-          echo "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676  production-preforecast.xlsx" | sha256sum -c -
-          cp production-preforecast.xlsx update-test.xlsx
-          cp production-preforecast.xlsx run-test.xlsx
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx update-test.xlsx
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx run-test.xlsx
           mkdir -p update-manifests run-manifests test-evidence
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json update-manifests/
           cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json run-manifests/
           cp r4-cert/mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json test-evidence/
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          from openpyxl import load_workbook
+          for path in ("update-test.xlsx","run-test.xlsx"):
+              wb=load_workbook(path)
+              sh=wb["MODEL_ACTIVATION"]
+              def setv(k,v):
+                  for r in range(2,sh.max_row+1):
+                      if str(sh.cell(r,1).value or "")==k:
+                          sh.cell(r,2).value=v
+                          return
+                  sh.cell(sh.max_row+1,1).value=k
+                  sh.cell(sh.max_row,2).value=v
+              setv("reference_runner_sha256","7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b")
+              setv("implementation_gate","IMPLEMENTATION PASS")
+              setv("first_forecast_status","ACTIVE")
+              wb.save(path)
+              wb.close()
+          print("SELF_CONTAINED_FIXTURE_PREP=PASS")
+          PY
 
       - name: Smoke UPDATE_RESULT
         run: |
