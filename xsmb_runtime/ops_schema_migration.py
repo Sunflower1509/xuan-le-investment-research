@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json, sys, sys, shutil
+import argparse, importlib.util, json, math, sys, shutil
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
@@ -30,12 +30,23 @@ def activation_map(wb)->dict[str,Any]:
     return out
 
 def norm(v:Any)->Any:
-    # XLSX save/reload may normalize an explicit empty string to an empty cell.
-    # Treat both as the same semantic blank; all non-blank legacy values remain exact.
+    # Compare Excel semantic values rather than Python/openpyxl storage types.
+    # XLSX round-trips may normalize "" -> blank and integer-like numerics
+    # 0 <-> 0.0 (including -0.0) without changing the spreadsheet value.
     if v in ("", None): return None
-    if isinstance(v,(datetime,date)): return v.isoformat()
-    if isinstance(v,(str,int,float,bool)): return v
-    return str(v)
+    if isinstance(v,(datetime,date)): return ["datetime",v.isoformat()]
+    if isinstance(v,bool): return ["bool",v]
+    if isinstance(v,str): return ["str",v]
+    if isinstance(v,(int,float)):
+        x=float(v)
+        if not math.isfinite(x):
+            return ["number",repr(x)]
+        if x==0.0:
+            return ["number","0"]
+        if x.is_integer():
+            return ["number",str(int(x))]
+        return ["number",format(x,".17g")]
+    return ["other",type(v).__name__,str(v)]
 
 def _semantic_cells(sh)->list[list[Any]]:
     # Hash semantic cell content, not worksheet used-range metadata. XLSX writers may
