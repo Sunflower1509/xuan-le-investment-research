@@ -251,6 +251,22 @@ jobs:
           print(json.dumps(cert,indent=2))
           PY
 
+      - name: Validate real Drive write certification V2
+        run: |
+          python - <<'PY'
+          import importlib.util, json, sys
+          from pathlib import Path
+          p=Path("xsmb_runtime/drive_write_gate.py")
+          s=importlib.util.spec_from_file_location("drive_write_gate_cert",p)
+          m=importlib.util.module_from_spec(s); sys.modules[s.name]=m; s.loader.exec_module(m)
+          cert=json.loads(Path("xsmb_runtime/certification/DRIVE_WRITE_CERTIFICATION_V2.json").read_text())
+          m.validate_certification(cert)
+          assert cert["canonical_file_id"]=="1UYD3egf24aUfblq6laJE2FFLMEiZrAob"
+          assert cert["cas_lock_document_id"]=="1DLWoCsG43VbEgrNSIYhlYw1S3x5Sct_3jeTGQMMKe-c"
+          assert cert["rollback_anchor_file_id"]=="1CsOPqGjHcJX8BSNkiEl-fLXA6MEL3GkC"
+          print("REAL_DRIVE_WRITE_CERTIFICATION_V2=PASS")
+          PY
+
       - name: Test Drive CAS write gate V2
         run: |
           cat > drive_cert_pass.json <<'JSON'
@@ -260,7 +276,7 @@ jobs:
             "cas_lock_authority_certified":true,
             "stale_lock_revision_rejected":true,
             "single_writer_acl_verified":true,
-            "github_concurrency_verified":true,
+            "cross_client_serialization_verified":true,
             "durable_rollback_anchor_verified":true,
             "post_write_readback_verified":true,
             "revision_count_guard_verified":true,
@@ -380,6 +396,7 @@ jobs:
             "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
             "promotion_gate_sha256":sha("xsmb_runtime/ops_hardening_promotion_gate.py"),
             "drive_cas_writer_cert_sha256":sha("xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json"),
+            "drive_write_cert_v2_sha256":sha("xsmb_runtime/certification/DRIVE_WRITE_CERTIFICATION_V2.json"),
             "drive_cas_protocol_sha256":sha("xsmb_runtime/DRIVE_CAS_WRITE_PROTOCOL.md"),
             "rollback_anchor_cert_sha256":sha("xsmb_runtime/certification/ROLLBACK_ANCHOR_CERTIFICATION_V1.json"),
             "handoff_sha256":sha("XSMB_SYSTEM_HANDOFF.md"),
@@ -411,6 +428,7 @@ jobs:
             OPS_SCHEMA_MIGRATION_REPORT.json \
             ops_hardened_fixture.xlsx \
             xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json \
+            xsmb_runtime/certification/DRIVE_WRITE_CERTIFICATION_V2.json \
             xsmb_runtime/certification/ROLLBACK_ANCHOR_CERTIFICATION_V1.json \
             xsmb_runtime/DRIVE_CAS_WRITE_PROTOCOL.md \
             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json \
@@ -434,6 +452,7 @@ jobs:
             OPS_SCHEMA_MIGRATION_REPORT.json
             OPS_SCHEMA_MIGRATION_DIFF.json
             OPS_HARDENED_RUNNER_CANDIDATE_CERT.json
+            xsmb_runtime/certification/DRIVE_WRITE_CERTIFICATION_V2.json
             ops_hardened_fixture.xlsx
             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json
             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json
