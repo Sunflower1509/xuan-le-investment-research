@@ -1,0 +1,179 @@
+name: XSMB R4 Snapshot Certification
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - "xsmb_runtime/xsmb_reference_runner_R4_snapshot.py"
+      - "xsmb_runtime/xsmb_R4_test_harness_py312.py"
+      - ".github/workflows/xsmb-r4-snapshot-certification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Set up Python 3.12.12
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Materialize R4 test fixture
+        run: |
+          sudo mkdir -p /mnt/data/xsmb_R4_test_output
+          sudo chown -R "$USER":"$USER" /mnt/data
+          cp xsmb_runtime/xsmb_reference_runner_R4_snapshot.py /mnt/data/xsmb_reference_runner_R4_snapshot.py
+          cp xsmb_runtime/xsmb_R4_test_harness_py312.py /mnt/data/xsmb_R4_test_harness_py312.py
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx /mnt/data/XSMB_RECONCILIATION_R5_1200_v2_1_R3_HARDENED.xlsx
+          cp xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json /mnt/data/settlement_evidence_20260920_4source.json
+
+      - name: Verify R4 runtime
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import xsmb_reference_runner_R4_snapshot as r
+          x=r.assert_runtime()
+          assert x["python"].startswith("3.12.")
+          print("R4_RUNTIME=PASS")
+          print("R4_RUNNER_SHA256="+r.runner_sha256())
+          PY
+
+      - name: Run legacy hardening suite unchanged
+        run: python /mnt/data/xsmb_R4_test_harness_py312.py
+
+      - name: Enforce 34 of 34 on R4
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          results=json.loads(Path("/mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json").read_text())
+          evidence=json.loads(Path("/mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json").read_text())
+          p=evidence["payload"]
+          assert results["passed"] == 34 and results["failed"] == 0, results
+          assert p["passed"] == 34 and p["failed"] == 0, p
+          assert p["runtime_exact_production_match"] is True, p
+          print("R4_LEGACY_HARDENING=34/34 PASS")
+          PY
+
+      - name: Assert R4 model math equals R3
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import importlib.util, sys
+          from pathlib import Path
+          wb=Path("xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx")
+          mdir=Path("r4-equivalence-manifests"); mdir.mkdir(exist_ok=True)
+          (mdir/"XSMB_OBSERVED_NO_FORECAST_20260920.json").write_bytes(
+              Path("xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json").read_bytes()
+          )
+          def load(name,path):
+              s=importlib.util.spec_from_file_location(name,path)
+              m=importlib.util.module_from_spec(s)
+              sys.modules[name]=m
+              s.loader.exec_module(m)
+              return m
+          r3=load("r3","xsmb_runtime/xsmb_reference_runner_R3_final.py")
+          r4=load("r4","xsmb_runtime/xsmb_reference_runner_R4_snapshot.py")
+          s3=r3.load_workbook_state(wb,mdir)
+          s4=r4.load_workbook_state(wb,mdir)
+          a=r3.fit_predict(s3.draws,1202)
+          b=r4.fit_predict(s4.draws,1202)
+          assert a["probability_sha256"] == b["probability_sha256"], (a["probability_sha256"],b["probability_sha256"])
+          assert a["probabilities"] == b["probabilities"]
+          assert a["top5"] == b["top5"]
+          assert a["data_hash"] == b["data_hash"]
+          print("R4_MODEL_MATH_EQUIVALENCE_TO_R3=PASS")
+          print("PROBABILITY_SHA256="+b["probability_sha256"])
+          print("TOP5="+",".join(b["top5"]))
+          PY
+
+      - name: Validate immutable model snapshot
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import json, math
+          from pathlib import Path
+          import numpy as np
+          import xsmb_reference_runner_R4_snapshot as r
+
+          wb=Path("xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx")
+          mdir=Path("r4-snapshot-manifests"); mdir.mkdir(exist_ok=True)
+          (mdir/"XSMB_OBSERVED_NO_FORECAST_20260920.json").write_bytes(
+              Path("xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json").read_bytes()
+          )
+          state=r.load_workbook_state(wb,mdir)
+          pred=r.fit_predict(state.draws,1202)
+          snap=pred["model_snapshot"]
+
+          assert snap["schema_version"]=="XSMB_MODEL_SNAPSHOT_V1"
+          assert snap["operational_revision"]=="R4-SNAPSHOT"
+          assert len(snap["feature_order"])==18
+          assert len(snap["scaler_mean"])==18
+          assert len(snap["scaler_scale"])==18
+          assert len(snap["base_coef"])==18
+          assert len(snap["calibrator_coef"])==1
+          sha=r.sha256_bytes(r.canonical_json(snap).encode("utf-8"))
+          assert sha==pred["model_snapshot_sha256"]
+
+          x=r.feature_matrix(state.draws,1202)
+          mean=np.asarray(snap["scaler_mean"],dtype=np.float64)
+          scale=np.asarray(snap["scaler_scale"],dtype=np.float64)
+          beta=np.asarray(snap["base_coef"],dtype=np.float64)
+          z=((x-mean)/scale) @ beta + float(snap["base_intercept"])
+          cz=z*float(snap["calibrator_coef"][0])+float(snap["calibrator_intercept"])
+          p=1.0/(1.0+np.exp(-cz))
+          p=np.clip(p,1e-6,1-1e-6)
+          original=np.asarray(list(pred["probabilities"].values()),dtype=np.float64)
+          maxdiff=float(np.max(np.abs(p-original)))
+          assert maxdiff <= 2e-12, maxdiff
+          rank=sorted(range(100),key=lambda j:(-float(p[j]),j))[:5]
+          assert [f"{j:02d}" for j in rank]==pred["top5"]
+
+          cert={
+            "status":"PASS",
+            "operational_revision":"R4-SNAPSHOT",
+            "model_spec":r.SPEC_CORE["spec_version"],
+            "spec_hash":r.SPEC_HASH,
+            "runner_sha256":r.runner_sha256(),
+            "model_snapshot_sha256":pred["model_snapshot_sha256"],
+            "data_hash":pred["data_hash"],
+            "probability_sha256":pred["probability_sha256"],
+            "top5":pred["top5"],
+            "snapshot_reconstruction_max_abs_diff":maxdiff,
+            "model_math_changed":False,
+            "checks":{
+              "legacy_hardening_34_of_34":True,
+              "same_host_R3_R4_probability_identity":True,
+              "snapshot_schema_and_hash":True,
+              "snapshot_reconstructs_rank":True,
+              "snapshot_reconstructs_probability_within_2e_12":True
+            }
+          }
+          Path("R4_SNAPSHOT_CERTIFICATION.json").write_text(json.dumps(cert,indent=2),encoding="utf-8")
+          print(json.dumps(cert,indent=2))
+          PY
+
+      - name: Upload R4 certification
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-r4-snapshot-certification
+          path: |
+            R4_SNAPSHOT_CERTIFICATION.json
+            /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json
+            /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json
+          if-no-files-found: error
+          retention-days: 90

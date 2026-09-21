@@ -1,0 +1,195 @@
+name: XSMB R3 to R4 Transition Test
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - ".github/workflows/xsmb-r3-to-r4-transition-test.yml"
+      - "xsmb_runtime/xsmb_ops.py"
+      - "xsmb_runtime/xsmb_reference_runner_R4_snapshot.py"
+      - "xsmb_runtime/certification/R4_SNAPSHOT_CERTIFICATION.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  transition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download certified R4 test evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-r4-snapshot-certification
+          path: r4-cert
+          github-token: ${{ github.token }}
+          run-id: 35524622837
+
+      - name: Build R3 locked test state for 2026-09-20
+        run: |
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx transition.xlsx
+          mkdir -p transition-manifests test-evidence
+          cp r4-cert/mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json test-evidence/
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import json
+          from pathlib import Path
+          from openpyxl import load_workbook
+          import xsmb_reference_runner_R3_final as r3
+
+          path=Path("transition.xlsx")
+          wb=load_workbook(path)
+          rec=wb["RECONCILIATION_1200"]
+          # Software-test fixture only: remove the already-ingested 2026-09-20 row.
+          for c in range(1,14):
+              rec.cell(1202,c).value=None
+          led=wb["PROSPECTIVE_LEDGER"]
+          for rr in range(2,led.max_row+1):
+              if led.cell(rr,1).value not in (None,""):
+                  for c in range(1,17):
+                      led.cell(rr,c).value=None
+          act=wb["MODEL_ACTIVATION"]
+          def setv(k,v):
+              for rr in range(2,act.max_row+1):
+                  if str(act.cell(rr,1).value or "")==k:
+                      act.cell(rr,2).value=v
+                      return
+              act.cell(act.max_row+1,1).value=k
+              act.cell(act.max_row,2).value=v
+          setv("reference_runner_sha256", r3.runner_sha256())
+          setv("implementation_gate", r3.IMPLEMENTATION_GATE_PASS)
+          setv("first_forecast_status","ACTIVE")
+          wb.save(path); wb.close()
+
+          state=r3.load_workbook_state(path,"transition-manifests")
+          assert len(state.draws.dates)==1200 and state.draws.dates[-1]=="2026-09-19"
+          pred=r3.fit_predict(state.draws,1201)
+          fid=f"XSMB-20260920-v2.1-LIVE-001-{pred['data_hash'][:12]}-{r3.SPEC_HASH[:12]}"
+          generated="2026-09-20T17:00:00+07:00"
+
+          payload={
+            "artifact_type":"XSMB_FORECAST_MANIFEST_V1",
+            "command":{"name":"RUN_FORECAST","model_spec":"v2.1-LIVE-001","forecast_date":"2026-09-20","data_cutoff":"2026-09-19","mode":"PROSPECTIVE"},
+            "prompt_revision":r3.PROMPT_REVISION,
+            "model_spec_version":"v2.1-LIVE-001",
+            "spec_hash":r3.SPEC_HASH,
+            "runner_sha256":r3.runner_sha256(),
+            "runtime_versions":r3.runtime_manifest(),
+            "forecast_id":fid,
+            "forecast_date":"2026-09-20",
+            "generated_at_local":generated,
+            "data_cutoff":"2026-09-19",
+            "data_hash":pred["data_hash"],
+            "target_index":1201,
+            "model":"M7_logistic_l2",
+            "feature_order":r3.SPEC_CORE["feature_order"],
+            "fit_target_range":pred["fit_target_range"],
+            "calibration_target_range":pred["calibration_target_range"],
+            "m0_uniform":pred["m0_uniform"],
+            "probabilities":pred["probabilities"],
+            "top5_ranked":pred["top5"],
+            "probability_sha256":pred["probability_sha256"],
+            "reproducibility":{"same_probabilities_bitwise":True,"same_top5":True,"max_absolute_difference":0.0},
+            "validation_report":{"mode":"TEST_TRANSITION_FIXTURE_ONLY"},
+            "research_state":"NO VERIFIED EDGE",
+            "record_status":"LOCKED_PRE_DRAW"
+          }
+          manifest=r3._manifest_with_hash(payload)
+          mp=Path("transition-manifests")/f"{fid}.forecast.json"
+          mp.write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8")
+
+          wb=load_workbook(path)
+          led=wb["PROSPECTIVE_LEDGER"]
+          vals=[fid,"2026-09-20",generated,"2026-09-19",pred["data_hash"],"v2.1-LIVE-001","NO VERIFIED EDGE","M7_logistic_l2",r3.canonical_json(pred["probabilities"]),r3.canonical_json(pred["top5"]),None,None,None,None,None,"LOCKED_PRE_DRAW"]
+          for c,v in enumerate(vals,1):
+              led.cell(2,c).value=v
+          wb.save(path); wb.close()
+          Path("R3_TEST_FORECAST_ID.txt").write_text(fid)
+          print("R3_LOCKED_FIXTURE=PASS",fid)
+          PY
+
+      - name: Settle R3 forecast through R4 UPDATE_RESULT
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py update-result             --workbook transition.xlsx             --manifest-dir transition-manifests             --actual-date 2026-09-20             --evidence-json xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json             > TRANSITION_UPDATE_RESULT.json
+          python - <<'PY'
+          import json
+          r=json.load(open("TRANSITION_UPDATE_RESULT.json"))
+          assert r["operation"]=="UPDATE_RESULT"
+          assert r["mode"]=="SETTLE_EXISTING_FORECAST"
+          assert r["result"]["status"]=="SETTLED_VERIFIED"
+          assert r["latest_verified_date"]=="2026-09-20"
+          print("R3_SETTLED_BY_R4_OPS=PASS")
+          PY
+
+      - name: Promote R3 to R4 and RUN_NEXT
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next             --workbook transition.xlsx             --manifest-dir transition-manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             --forecast-date 2026-09-21             > TRANSITION_RUN_NEXT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.load(open("TRANSITION_RUN_NEXT.json"))
+          assert r["operation"]=="RUN_NEXT"
+          assert r["runner_activation"]["status"]=="PROMOTED"
+          assert r["runner_activation"]["from_runner_sha256"]=="7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b"
+          assert r["runner_activation"]["runner_sha256"]=="71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
+          x=r["result"]
+          assert x["status"]=="LOCKED_PRE_DRAW"
+          assert x["top5"]==["09","07","34","82","80"]
+          assert x.get("model_snapshot_sha256")
+          promo=Path("transition-manifests/XSMB_RUNNER_PROMOTION_R3_TO_R4_SNAPSHOT.json")
+          assert promo.exists()
+          print("R3_TO_R4_PROMOTION_AND_FORECAST=PASS")
+          PY
+
+      - name: Verify final transition state
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          from pathlib import Path
+          import json
+          import xsmb_reference_runner_R4_snapshot as r4
+          s=r4.load_workbook_state("transition.xlsx","transition-manifests")
+          assert s.draws.dates[-1]=="2026-09-20"
+          assert s.activation["reference_runner_sha256"]==r4.runner_sha256()
+          statuses=[(x["forecast_date"],x["record_status"]) for x in s.ledger_records]
+          assert statuses==[("2026-09-20","SETTLED_VERIFIED"),("2026-09-21","LOCKED_PRE_DRAW")], statuses
+          report={
+            "status":"PASS",
+            "transition":"R3_LOCKED -> SETTLED -> R4_PROMOTED -> R4_LOCKED_NEXT",
+            "active_runner_sha256":r4.runner_sha256(),
+            "latest_verified_draw":"2026-09-20",
+            "ledger_statuses":statuses,
+            "model_math_changed":False
+          }
+          Path("R3_TO_R4_TRANSITION_CERT.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+          print(json.dumps(report,indent=2))
+          PY
+
+      - name: Upload transition evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-r3-to-r4-transition-test
+          path: |
+            R3_TO_R4_TRANSITION_CERT.json
+            TRANSITION_UPDATE_RESULT.json
+            TRANSITION_RUN_NEXT.json
+            transition-manifests/*.json
+          if-no-files-found: warn
+          retention-days: 90

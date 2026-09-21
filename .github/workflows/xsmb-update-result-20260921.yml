@@ -1,0 +1,231 @@
+name: XSMB UPDATE_RESULT 2026-09-21
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - ".github/workflows/xsmb-update-result-20260921.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download original locked forecast artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-run-forecast-20260921-locked
+          path: original
+          github-token: ${{ github.token }}
+          run-id: 35518134400
+
+      - name: Download raw independent source evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-settlement-raw-20260921
+          path: raw-evidence
+          github-token: ${{ github.token }}
+          run-id: 35599576738
+
+      - name: Prepare canonical settlement state
+        run: |
+          cp original/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx settlement.xlsx
+          mkdir -p manifests
+          cp original/manifests/*.forecast.json manifests/
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json manifests/
+          echo "c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1  settlement.xlsx" | sha256sum -c -
+
+      - name: Parse raw pages and build evidence JSON
+        run: |
+          python - <<'PY'
+          import hashlib, html, json, re
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          root=Path("raw-evidence")
+
+          def sha256_file(path):
+              h=hashlib.sha256()
+              with path.open("rb") as f:
+                  for chunk in iter(lambda:f.read(1024*1024),b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          def canon(v):
+              return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":"))
+
+          def parse_minhngoc(path):
+              s=path.read_text(encoding="utf-8",errors="ignore")
+              assert "21/09/2026" in s
+              out=[]
+              specs=[("giaidb",1),("giai1",1),("giai2",2),("giai3",6),("giai4",4),("giai5",6),("giai6",3),("giai7",4)]
+              for cls,n in specs:
+                  m=re.search(rf'<td class="{cls}">\s*(.*?)</td>',s,re.S|re.I)
+                  assert m, cls
+                  vals=re.findall(r'<div>\s*(\d+)\s*</div>',m.group(1),re.S)
+                  assert len(vals)==n,(cls,vals)
+                  out.extend(vals)
+              assert len(out)==27
+              return out
+
+          def parse_xosodaiphat(path):
+              s=path.read_text(encoding="utf-8",errors="ignore")
+              assert "21/09/2026" in s
+              i=s.find('id="table-23"')
+              assert i>=0
+              j=s.find("</table>",i)
+              assert j>i
+              seg=s[i:j]
+              vals=re.findall(r'<span class="[^"]*\bmb_g\d+\b[^"]*"[^>]*>\s*(\d+)\s*</span>',seg,re.S|re.I)
+              assert len(vals)==27,vals
+              return vals
+
+          def parse_xskt(path):
+              s=path.read_text(encoding="utf-8",errors="ignore")
+              assert "21-09-2026" in s or "21/9" in s
+              i=s.find('id="MB0"')
+              assert i>=0
+              j=s.find("</table>",i)
+              assert j>i
+              seg=s[i:j]
+              rows=re.findall(r'<tr><td[^>]*title="Giải[^"]*"[^>]*>.*?</td><td[^>]*>(.*?)</td>',seg,re.S|re.I)
+              assert len(rows)==8,len(rows)
+              vals=[]
+              for body in rows:
+                  txt=re.sub(r'<[^>]+>',' ',body)
+                  vals.extend(re.findall(r'(?<!\d)\d{2,5}(?!\d)',html.unescape(txt)))
+              assert len(vals)==27,vals
+              return vals
+
+          srcs=[
+              ("minhngoc.net","https://www.minhngoc.net/ket-qua-xo-so/mien-bac/21-09-2026.html",root/"minhngoc.html",parse_minhngoc),
+              ("xosodaiphat.net","https://www.xosodaiphat.net/xo-so-mien-bac-ngay-21-09-2026.html",root/"xosodaiphat.html",parse_xosodaiphat),
+              ("xskt.com.vn","https://xskt.com.vn/xsmb/ngay-21-9",root/"xskt.html",parse_xskt),
+          ]
+          parsed=[]
+          for family,url,path,parser in srcs:
+              prizes=parser(path)
+              lotto=[x[-2:].zfill(2) for x in prizes]
+              parsed.append((family,url,path,prizes,lotto))
+
+          assert all(x[3]==parsed[0][3] for x in parsed), [x[3] for x in parsed]
+          assert all(x[4]==parsed[0][4] for x in parsed), [x[4] for x in parsed]
+
+          retrieved=datetime.now(ZoneInfo("Asia/Ho_Chi_Minh")).isoformat()
+          sources=[]
+          for family,url,path,prizes,lotto in parsed:
+              extract_sha=hashlib.sha256(canon({"prizes_27":prizes,"lotto_27":lotto}).encode("utf-8")).hexdigest()
+              raw_sha=sha256_file(path)
+              sources.append({
+                  "source_type":"FULL_27",
+                  "source_family":family,
+                  "reference":url,
+                  "canonical_order":True,
+                  "prizes_27":prizes,
+                  "lotto_27":lotto,
+                  "artifact_sha256":raw_sha,
+                  "retrieved_at":retrieved,
+                  "raw_evidence_sha256":raw_sha,
+                  "extract_sha256":extract_sha,
+              })
+
+          evidence={"actual_date":"2026-09-21","sources":sources}
+          Path("settlement_evidence_20260921_3source.json").write_text(
+              json.dumps(evidence,ensure_ascii=False,indent=2),encoding="utf-8"
+          )
+          print("EVIDENCE_CONSENSUS=PASS")
+          print("SOURCE_FAMILIES="+",".join(x["source_family"] for x in sources))
+          print("RAW_SHA256="+json.dumps({x["source_family"]:x["raw_evidence_sha256"] for x in sources},sort_keys=True))
+          print("EXTRACT_SHA256="+sources[0]["extract_sha256"])
+          PY
+
+      - name: Execute UPDATE_RESULT
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py update-result             --workbook settlement.xlsx             --manifest-dir manifests             --actual-date 2026-09-21             --evidence-json settlement_evidence_20260921_3source.json             > UPDATE_RESULT_20260921.json
+          cat UPDATE_RESULT_20260921.json
+
+      - name: Verify settlement invariants
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          import xsmb_reference_runner_R4_snapshot as r
+
+          result=json.loads(Path("UPDATE_RESULT_20260921.json").read_text())
+          assert result["operation"]=="UPDATE_RESULT",result
+          assert result["mode"]=="SETTLE_EXISTING_FORECAST",result
+          x=result["result"]
+          assert x["status"]=="SETTLED_VERIFIED",x
+          assert x["forecast_id"]=="XSMB-20260921-v2.1-LIVE-001-824bf0c9f304-9a830c5a5926",x
+          assert x["actual_date"]=="2026-09-21",x
+
+          state=r.load_workbook_state("settlement.xlsx","manifests")
+          assert state.draws.dates[-1]=="2026-09-21"
+          rows=[z for z in state.ledger_records if z["forecast_date"]=="2026-09-21"]
+          assert len(rows)==1,rows
+          row=rows[0]
+          assert row["record_status"]=="SETTLED_VERIFIED",row
+          probs=json.loads(row["p00_to_p99_json"])
+          psha=r.probability_sha256([float(probs[f"{i:02d}"]) for i in range(100)])
+          assert psha=="e0db1ad1c5353741d0aa1f01a615af346e9b243a58d30977398dc59335401a33",psha
+          assert json.loads(row["top5_ranked"])==["09","07","34","82","80"]
+          assert int(row["hits_at_5"])==int(x["hits_at_5"])
+
+          report={
+              "status":"PASS",
+              "forecast_id":x["forecast_id"],
+              "actual_date":x["actual_date"],
+              "record_status":row["record_status"],
+              "hits_at_5":x["hits_at_5"],
+              "brier_m7":x["brier_m7"],
+              "log_loss_m7":x["log_loss_m7"],
+              "brier_m0":x["brier_m0"],
+              "log_loss_m0":x["log_loss_m0"],
+              "research_state":x["research_state"],
+              "probability_sha256_preserved":psha,
+              "top5_preserved":json.loads(row["top5_ranked"]),
+              "updated_workbook_sha256":r.sha256_file("settlement.xlsx"),
+              "settlement_manifest":x["settlement_manifest"],
+          }
+          Path("SETTLEMENT_VERIFICATION_20260921.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+          print(json.dumps(report,indent=2))
+          PY
+
+      - name: Upload settled production artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-update-result-20260921-settled
+          path: |
+            settlement.xlsx
+            UPDATE_RESULT_20260921.json
+            SETTLEMENT_VERIFICATION_20260921.json
+            settlement_evidence_20260921_3source.json
+            manifests/*.forecast.json
+            manifests/*.settlement.json
+            raw-evidence/*.html
+            raw-evidence/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 90

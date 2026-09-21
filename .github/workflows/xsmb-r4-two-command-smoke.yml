@@ -1,0 +1,122 @@
+name: XSMB R4 Two-Command Smoke
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - "xsmb_runtime/xsmb_ops.py"
+      - "xsmb_runtime/certification/R4_SNAPSHOT_CERTIFICATION.json"
+      - ".github/workflows/xsmb-r4-two-command-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download certified R4 test evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-r4-snapshot-certification
+          path: r4-cert
+          github-token: ${{ github.token }}
+          run-id: 35524622837
+
+      - name: Prepare self-contained fixtures
+        run: |
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx update-test.xlsx
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx run-test.xlsx
+          mkdir -p update-manifests run-manifests test-evidence
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json update-manifests/
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json run-manifests/
+          cp r4-cert/mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json test-evidence/
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          from openpyxl import load_workbook
+          for path in ("update-test.xlsx","run-test.xlsx"):
+              wb=load_workbook(path)
+              sh=wb["MODEL_ACTIVATION"]
+              def setv(k,v):
+                  for r in range(2,sh.max_row+1):
+                      if str(sh.cell(r,1).value or "")==k:
+                          sh.cell(r,2).value=v
+                          return
+                  sh.cell(sh.max_row+1,1).value=k
+                  sh.cell(sh.max_row,2).value=v
+              setv("reference_runner_sha256","7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b")
+              setv("implementation_gate","PASS_R3_HARDENED_TEST_EVIDENCE")
+              setv("first_forecast_status","ACTIVE")
+              wb.save(path)
+              wb.close()
+          print("SELF_CONTAINED_FIXTURE_PREP=PASS")
+          PY
+
+      - name: Smoke UPDATE_RESULT
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py update-result             --workbook update-test.xlsx             --manifest-dir update-manifests             --actual-date 2026-09-20             --evidence-json xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json             > UPDATE_RESULT_R4_SMOKE.json
+          python - <<'PY'
+          import json
+          r=json.load(open("UPDATE_RESULT_R4_SMOKE.json"))
+          assert r["operation"]=="UPDATE_RESULT"
+          assert r["result"]["status"]=="ALREADY_INGESTED"
+          assert r["latest_verified_date"]=="2026-09-20"
+          print("UPDATE_RESULT_R4=PASS")
+          PY
+
+      - name: Smoke RUN_NEXT with R4 snapshot
+        run: |
+          set +e
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next             --workbook run-test.xlsx             --manifest-dir run-manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             --forecast-date 2026-09-21             > RUN_NEXT_R4_SMOKE.json
+          rc=$?
+          set -e
+          cat RUN_NEXT_R4_SMOKE.json
+          if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+          python - <<'PY'
+          import json, pathlib
+          r=json.load(open("RUN_NEXT_R4_SMOKE.json"))
+          x=r["result"]
+          assert r["operation"]=="RUN_NEXT"
+          assert x["status"]=="LOCKED_PRE_DRAW"
+          assert x["top5"]==["09","07","34","82","80"]
+          assert x.get("model_snapshot_sha256")
+          mp=pathlib.Path(x["forecast_manifest"])
+          m=json.loads(mp.read_text())
+          p=m["payload"]
+          assert p["model_snapshot"]["schema_version"]=="XSMB_MODEL_SNAPSHOT_V1"
+          assert p["model_snapshot_sha256"]==x["model_snapshot_sha256"]
+          assert len(p["model_snapshot"]["scaler_mean"])==18
+          assert len(p["model_snapshot"]["base_coef"])==18
+          assert len(p["model_snapshot"]["calibrator_coef"])==1
+          print("RUN_NEXT_R4_SNAPSHOT=PASS")
+          PY
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-r4-two-command-smoke
+          path: |
+            UPDATE_RESULT_R4_SMOKE.json
+            RUN_NEXT_R4_SMOKE.json
+            run-manifests/*.forecast.json
+          if-no-files-found: error
+          retention-days: 90

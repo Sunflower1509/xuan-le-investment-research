@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "operational_revision": "R4-SNAPSHOT",
+  "model_spec": "v2.1-LIVE-001",
+  "spec_hash": "9a830c5a5926cf7e7adc310da5c4ee0f456b5304fc0b88d4b99aa48572f04bdc",
+  "runner_sha256": "71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea",
+  "model_snapshot_sha256": "f2583fb1bec50e48d48d3ec00c0f0e7fb0d2dc275fd7502a3b18541843b6d316",
+  "data_hash": "824bf0c9f30475477ca904ff442f331741c7287d8c21c2df6f128e446278ffff",
+  "probability_sha256": "46f8e092f4bca12081f69b9ea7b9188acf52dd2be5ea4a6a087e472314ec7f00",
+  "top5": [
+    "09",
+    "07",
+    "34",
+    "82",
+    "80"
+  ],
+  "snapshot_reconstruction_max_abs_diff": 0.0,
+  "model_math_changed": false,
+  "checks": {
+    "legacy_hardening_34_of_34": true,
+    "same_host_R3_R4_probability_identity": true,
+    "snapshot_schema_and_hash": true,
+    "snapshot_reconstructs_rank": true,
+    "snapshot_reconstructs_probability_within_2e_12": true
+  }
+}

@@ -1,0 +1,150 @@
+name: XSMB RUN_NEXT Production 2026-09-22
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - ".github/workflows/xsmb-run-next-production-20260922.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  run-next-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download canonical settled production state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-update-result-20260921-settled
+          path: settled
+          github-token: ${{ github.token }}
+          run-id: 35599846145
+
+      - name: Download certified R4 exact-runtime evidence
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-r4-snapshot-certification
+          path: r4-cert
+          github-token: ${{ github.token }}
+          run-id: 35553776608
+
+      - name: Materialize production state and verify immutable inputs
+        run: |
+          cp settled/settlement.xlsx production.xlsx
+          mkdir -p manifests test-evidence
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json manifests/
+          cp settled/manifests/*.json manifests/
+          cp r4-cert/mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json test-evidence/
+          test "$(sha256sum production.xlsx | awk '{print $1}')" = "fa9a2483ad579c08f81d5f7ee15df4b89cb3d7c0364f447481d3ecebd4b3f0c7"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R3_final.py | awk '{print $1}')" = "7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R4_snapshot.py | awk '{print $1}')" = "71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
+          test "$(sha256sum xsmb_runtime/certification/R4_SNAPSHOT_CERTIFICATION.json | awk '{print $1}')" = "93c4e1cea98518fa023cd1c31a71b0c495388cd132faaf82e91a48394500aabe"
+          echo "INPUT_WORKBOOK_SHA256=fa9a2483ad579c08f81d5f7ee15df4b89cb3d7c0364f447481d3ecebd4b3f0c7" > INPUT_PINS.txt
+          echo "SETTLEMENT_ARTIFACT_RUN_ID=35599846145" >> INPUT_PINS.txt
+          echo "SETTLEMENT_ARTIFACT_DIGEST=sha256:b20473d706aa583943b3bbee371b30d35feda3631102dc1bed5ac55a35010b5c" >> INPUT_PINS.txt
+          echo "R4_CERT_RUN_ID=35553776608" >> INPUT_PINS.txt
+
+      - name: Execute RUN_NEXT fail-closed
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_ops.py run-next \
+            --workbook production.xlsx \
+            --manifest-dir manifests \
+            --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json \
+            --forecast-date 2026-09-22 \
+            > RUN_NEXT_20260922.json
+          cat RUN_NEXT_20260922.json
+
+      - name: Verify final production state
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import xsmb_reference_runner_R4_snapshot as r4
+
+          op=json.loads(Path("RUN_NEXT_20260922.json").read_text())
+          assert op["operation"]=="RUN_NEXT", op
+          assert op["forecast_date"]=="2026-09-22", op
+          assert op["data_cutoff"]=="2026-09-21", op
+          assert op["runner_activation"]["status"] in {"PROMOTED","ALREADY_ACTIVE"}, op
+          assert op["runner_activation"]["runner_sha256"]=="71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea", op
+          x=op["result"]
+          assert x["status"]=="LOCKED_PRE_DRAW", x
+          assert x["forecast_date"]=="2026-09-22", x
+          assert x.get("model_snapshot_sha256"), x
+
+          s=r4.load_workbook_state("production.xlsx","manifests")
+          assert s.draws.dates[-1]=="2026-09-21", s.draws.dates[-1]
+          assert s.activation["reference_runner_sha256"]==r4.runner_sha256()
+          locked=[z for z in s.ledger_records if str(z.get("record_status") or "")=="LOCKED_PRE_DRAW"]
+          assert len(locked)==1, locked
+          assert str(locked[0]["forecast_date"])[:10]=="2026-09-22", locked
+
+          fpath=Path(x["forecast_manifest"])
+          fobj=json.loads(fpath.read_text())
+          assert fobj["payload"]["forecast_id"]==x["forecast_id"]
+          assert fobj["payload"]["forecast_date"]=="2026-09-22"
+          assert fobj["payload"]["data_cutoff"]=="2026-09-21"
+          assert fobj["payload"]["runner_sha256"]==r4.runner_sha256()
+          assert fobj["payload"]["model_snapshot_sha256"]==x["model_snapshot_sha256"]
+
+          promo=Path("manifests/XSMB_RUNNER_PROMOTION_R3_TO_R4_SNAPSHOT.json")
+          assert promo.exists()
+          report={
+            "status":"PASS",
+            "operation":"RUN_NEXT",
+            "forecast_date":"2026-09-22",
+            "data_cutoff":"2026-09-21",
+            "input_workbook_sha256":"fa9a2483ad579c08f81d5f7ee15df4b89cb3d7c0364f447481d3ecebd4b3f0c7",
+            "output_workbook_sha256":hashlib.sha256(Path("production.xlsx").read_bytes()).hexdigest(),
+            "runner_sha256":r4.runner_sha256(),
+            "spec_hash":r4.SPEC_HASH,
+            "master_content_sha256":r4.FROZEN_MASTER_1200_SHA256,
+            "forecast_id":x["forecast_id"],
+            "probability_sha256":x["probability_sha256"],
+            "model_snapshot_sha256":x["model_snapshot_sha256"],
+            "top5":x["top5"],
+            "forecast_manifest_file_sha256":hashlib.sha256(fpath.read_bytes()).hexdigest(),
+            "promotion_manifest_file_sha256":hashlib.sha256(promo.read_bytes()).hexdigest(),
+            "research_state":op["research_state"],
+            "runtime":r4.runtime_manifest(),
+            "locked_pre_draw_count":len(locked),
+          }
+          Path("RUN_NEXT_VERIFICATION_20260922.json").write_text(json.dumps(report,ensure_ascii=False,indent=2))
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+          sha256sum production.xlsx manifests/*.json RUN_NEXT_20260922.json RUN_NEXT_VERIFICATION_20260922.json > SHA256SUMS.txt
+
+      - name: Upload immutable RUN_NEXT evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-run-next-20260922-locked
+          path: |
+            production.xlsx
+            RUN_NEXT_20260922.json
+            RUN_NEXT_VERIFICATION_20260922.json
+            INPUT_PINS.txt
+            SHA256SUMS.txt
+            manifests/*.json
+            test-evidence/TEST_EVIDENCE_MANIFEST_V1.json
+          if-no-files-found: error
+          retention-days: 90

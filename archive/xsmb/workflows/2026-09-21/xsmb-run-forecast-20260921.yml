@@ -1,0 +1,95 @@
+name: XSMB RUN_FORECAST 2026-09-21
+
+on:
+  push:
+    branches: ["xsmb-v2.1-python312-runtime"]
+    paths:
+      - ".github/workflows/xsmb-run-forecast-20260921.yml"
+  workflow_dispatch:
+
+jobs:
+  run-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download pinned production workbook
+        run: |
+          curl -fL "https://at.adobe.com/Yy98l8l1w9IqtwnN" -o XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
+          echo "b3dcf99f334638b14272187c914a7b15813c0ded21246f9dd5559cb0d80a4676  XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx" | sha256sum -c -
+
+      - name: Prepare observed-no-forecast manifest
+        run: |
+          mkdir -p manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json manifests/XSMB_OBSERVED_NO_FORECAST_20260920.json
+
+      - name: Download exact-runtime 34-test evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: xsmb-r3-python312-34-tests
+          path: test-evidence
+          github-token: ${{ github.token }}
+          run-id: 35517198556
+
+      - name: Verify runtime and runner hash
+        run: |
+          python xsmb_runtime/runtime_gate.py
+          echo "7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b  xsmb_runtime/xsmb_reference_runner_R3_final.py" | sha256sum -c -
+
+      - name: RUN_FORECAST 2026-09-21
+        run: |
+          set -euo pipefail
+          python xsmb_runtime/xsmb_reference_runner_R3_final.py run-forecast             --workbook XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx             --forecast-date 2026-09-21             --data-cutoff 2026-09-20             --manifest-dir manifests             --test-evidence test-evidence/TEST_EVIDENCE_MANIFEST_V1.json             | tee RUN_FORECAST_20260921.json
+
+      - name: Enforce LOCKED_PRE_DRAW
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("RUN_FORECAST_20260921.json").read_text())
+          assert r["status"] == "LOCKED_PRE_DRAW", r
+          assert r["forecast_date"] == "2026-09-21", r
+          assert r["forecast_id"] == "XSMB-20260921-v2.1-LIVE-001-824bf0c9f304-9a830c5a5926", r
+          assert r["data_hash"] == "824bf0c9f30475477ca904ff442f331741c7287d8c21c2df6f128e446278ffff", r
+          assert len(r["probabilities"]) == 100, len(r["probabilities"])
+          assert len(r["top5"]) == 5, r["top5"]
+          print("RUN_FORECAST_20260921=LOCKED_PRE_DRAW")
+          print("TOP5=" + ",".join(r["top5"]))
+          print("PROBABILITY_SHA256=" + r["probability_sha256"])
+          PY
+
+      - name: Hash committed workbook and manifest
+        run: |
+          sha256sum XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx > FORECAST_COMMITTED_WORKBOOK_SHA256.txt
+          ls -la manifests
+          sha256sum manifests/*.forecast.json > FORECAST_MANIFEST_SHA256.txt
+
+      - name: Upload forecast artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: xsmb-run-forecast-20260921-locked
+          path: |
+            RUN_FORECAST_20260921.json
+            XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx
+            FORECAST_COMMITTED_WORKBOOK_SHA256.txt
+            FORECAST_MANIFEST_SHA256.txt
+            manifests/*.forecast.json
+          if-no-files-found: error
+          retention-days: 90
