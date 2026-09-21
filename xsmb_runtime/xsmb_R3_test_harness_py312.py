@@ -110,10 +110,15 @@ def fake_prediction(draws,target):
 
 def helper_script(path: Path):
     path.write_text(r'''import importlib.util,sys,json,os
+from datetime import datetime
 from pathlib import Path
 runner=Path(sys.argv[1]); spec=importlib.util.spec_from_file_location("rr",runner); rr=importlib.util.module_from_spec(spec); sys.modules["rr"]=rr; spec.loader.exec_module(rr)
 rr.assert_runtime=lambda: rr.runtime_manifest()
 rr._validate_test_evidence=lambda *a,**k: {"payload":{"testing":True}}
+class FixedTestDateTime(datetime):
+ @classmethod
+ def now(cls,tz=None): return cls(2026,9,21,17,0,0,tzinfo=tz)
+rr.datetime=FixedTestDateTime
 def fp(draws,target):
  p={f"{i:02d}":float((i+1)/1000) for i in range(100)}
  return {"probabilities":p,"top5":["99","98","97","96","95"],"probability_sha256":rr.probability_sha256(list(p.values())),"fit_target_range":[61,target-201],"calibration_target_range":[target-200,target-1],"m0_uniform":0.24}
@@ -338,15 +343,19 @@ def tC07():
 record('C07','interrupted commit','recovery to one consistent committed state',tC07)
 
 # C08 run-forecast idempotency using fast test monkeypatches.
+# The wall clock is frozen inside the test only. Production runner behavior is unchanged.
 def tC08():
  p=ROOT/'c08.xlsx'; shutil.copy2(BASE,p); md=ROOT/'c08m'; md.mkdir(); r.ingest_observed(p,'2026-09-20',REAL_EVIDENCE,md); te=make_test_evidence(ROOT/'c08te.json')
- olda,oldt,oldf=r.assert_runtime,r._validate_test_evidence,r.fit_predict; oldv=r.time_series_validation
- r.assert_runtime=lambda:r.runtime_manifest(); r._validate_test_evidence=lambda *a,**k:{'payload':{}}; r.fit_predict=fake_prediction; r.time_series_validation=lambda d,t:{'mode':'TEST_FAST'}
+ olda,oldt,oldf=r.assert_runtime,r._validate_test_evidence,r.fit_predict; oldv,olddt=r.time_series_validation,r.datetime
+ class FixedTestDateTime(datetime):
+  @classmethod
+  def now(cls,tz=None): return cls(2026,9,21,17,0,0,tzinfo=tz)
+ r.assert_runtime=lambda:r.runtime_manifest(); r._validate_test_evidence=lambda *a,**k:{'payload':{}}; r.fit_predict=fake_prediction; r.time_series_validation=lambda d,t:{'mode':'TEST_FAST'}; r.datetime=FixedTestDateTime
  try:
   a=r.run_forecast(p,'2026-09-21','2026-09-20',md,te); b=r.run_forecast(p,'2026-09-21','2026-09-20',md,te)
- finally:r.assert_runtime, r._validate_test_evidence, r.fit_predict, r.time_series_validation=olda,oldt,oldf,oldv
- wb=load_workbook(p); led=wb['PROSPECTIVE_LEDGER']; rows=[rr for rr in range(2,led.max_row+1) if led.cell(rr,1).value not in (None,'')]; wb.close(); assert len(rows)==1 and b['status']=='ALREADY_EXISTS'; return {'rows':len(rows),'rerun_status':b['status']}
-record('C08','identical RUN_FORECAST rerun','idempotent; no duplicate Ledger row',tC08)
+ finally:r.assert_runtime, r._validate_test_evidence, r.fit_predict, r.time_series_validation, r.datetime=olda,oldt,oldf,oldv,olddt
+ wb=load_workbook(p); led=wb['PROSPECTIVE_LEDGER']; rows=[rr for rr in range(2,led.max_row+1) if led.cell(rr,1).value not in (None,'')]; wb.close(); assert len(rows)==1 and b['status']=='ALREADY_EXISTS'; return {'rows':len(rows),'rerun_status':b['status'],'test_clock':'2026-09-21T17:00:00+07:00'}
+record('C08','identical RUN_FORECAST rerun','idempotent; no duplicate Ledger row; calendar-independent fixed test clock',tC08)
 
 # C09 ingest observed when forecast exists.
 def tC09():
