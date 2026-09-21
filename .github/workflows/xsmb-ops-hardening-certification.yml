@@ -1,0 +1,218 @@
+name: XSMB OPS_HARDENING V1 Certification
+
+on:
+  push:
+    branches: ["xsmb-ops-hardening-v1"]
+    paths:
+      - "xsmb_runtime/**"
+      - "XSMB_SYSTEM_HANDOFF.md"
+      - ".github/workflows/xsmb-ops-hardening-certification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: xsmb-ops-hardening-v1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Verify production runners unchanged
+        run: |
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R3_final.py | awk '{print $1}')" = "7c9f1bf773a484c20a09942a90a31613179963869dca30e65be8541d5bc7fd7b"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R4_snapshot.py | awk '{print $1}')" = "71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
+          echo "RUNNERS_UNCHANGED=PASS"
+
+      - name: Materialize hardening fixtures
+        run: |
+          sudo mkdir -p /mnt/data/xsmb_R3_test_output /mnt/data/xsmb_R4_test_output
+          sudo chown -R "$USER":"$USER" /mnt/data
+          cp xsmb_runtime/xsmb_reference_runner_R3_final.py /mnt/data/xsmb_reference_runner_R3_final.py
+          cp xsmb_runtime/xsmb_reference_runner_R4_snapshot.py /mnt/data/xsmb_reference_runner_R4_snapshot.py
+          cp xsmb_runtime/xsmb_R3_test_harness_py312.py /mnt/data/xsmb_R3_test_harness_py312.py
+          cp xsmb_runtime/xsmb_R4_test_harness_py312.py /mnt/data/xsmb_R4_test_harness_py312.py
+          cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx /mnt/data/XSMB_RECONCILIATION_R5_1200_v2_1_R3_HARDENED.xlsx
+          cp xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json /mnt/data/settlement_evidence_20260920_4source.json
+
+      - name: Runtime gate
+        run: python xsmb_runtime/runtime_gate.py
+
+      - name: R3 calendar-independent 34 tests
+        run: python /mnt/data/xsmb_R3_test_harness_py312.py
+
+      - name: R4 calendar-independent 34 tests
+        run: python /mnt/data/xsmb_R4_test_harness_py312.py
+
+      - name: Enforce exact-runtime suites
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for label,root,result_name in [
+              ("R3",Path("/mnt/data/xsmb_R3_test_output"),"R3_34_TEST_RESULTS.json"),
+              ("R4",Path("/mnt/data/xsmb_R4_test_output"),"R4_34_TEST_RESULTS.json"),
+          ]:
+              result=json.loads((root/result_name).read_text())
+              evidence=json.loads((root/"TEST_EVIDENCE_MANIFEST_V1.json").read_text())
+              assert result["passed"]==34 and result["failed"]==0,(label,result)
+              p=evidence["payload"]
+              assert p["passed"]==34 and p["failed"]==0,(label,p)
+              assert p["runtime_exact_production_match"] is True,(label,p["runtime_observed"])
+              ids={x["id"]:x["status"] for x in result["tests"]}
+              assert ids["C08"]=="PASS" and ids["C17"]=="PASS",(label,ids.get("C08"),ids.get("C17"))
+          print("R3_R4_CALENDAR_INDEPENDENT_34_34=PASS")
+          PY
+
+      - name: Test live-state manifest generator
+        run: |
+          mkdir -p state-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json state-manifests/
+          python xsmb_runtime/xsmb_state_manifest.py             --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py             --workbook xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx             --manifest-dir state-manifests             --output XSMB_CURRENT_SYSTEM_STATE_V1.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("XSMB_CURRENT_SYSTEM_STATE_V1.json").read_text())
+          assert x["artifact_type"]=="XSMB_CURRENT_SYSTEM_STATE_V1"
+          p=x["payload"]
+          assert p["authority_note"].startswith("Derived witness only")
+          assert p["latest_verified_draw"]=="2026-09-20"
+          assert p["locked_pre_draw_count"]==0
+          print("LIVE_STATE_MANIFEST=PASS")
+          PY
+
+      - name: Test operational schema migration on fixture
+        run: |
+          mkdir -p schema-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json schema-manifests/
+          python xsmb_runtime/ops_schema_migration.py             --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py             --input xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx             --output ops_hardened_fixture.xlsx             --manifest-dir schema-manifests             --report OPS_SCHEMA_MIGRATION_REPORT.json
+          python - <<'PY'
+          import json
+          from openpyxl import load_workbook
+          from pathlib import Path
+          r=json.loads(Path("OPS_SCHEMA_MIGRATION_REPORT.json").read_text())
+          assert r["status"]=="PASS"
+          assert r["model_math_changed"] is False
+          assert r["legacy_values_hash_before"]==r["legacy_values_hash_after"]
+          wb=load_workbook("ops_hardened_fixture.xlsx",read_only=True,data_only=False)
+          assert "MODEL_GOVERNANCE" in wb.sheetnames
+          assert "OPERATIONAL_STATE" in wb.sheetnames
+          assert "RUNNER_HISTORY" in wb.sheetnames
+          wb.close()
+          print("OPS_SCHEMA_MIGRATION=PASS")
+          PY
+
+      - name: Test Drive write gate is fail-closed without CAS certification
+        run: |
+          cat > drive_cert_fail.json <<'JSON'
+          {
+            "schema_version":"XSMB_DRIVE_WRITE_CERTIFICATION_V1",
+            "status":"NOT_CERTIFIED",
+            "atomic_stale_write_rejection":false,
+            "single_writer_acl_verified":false,
+            "github_concurrency_verified":true,
+            "rollback_revision_verified":false,
+            "post_write_readback_verified":false,
+            "canonical_file_id":"TEST_ONLY",
+            "certification_evidence_sha256":"UNAVAILABLE"
+          }
+          JSON
+          cat > expected.json <<'JSON'
+          {"file_id":"TEST_ONLY","revision_id":"R1","version":1,"content_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+          JSON
+          cp expected.json observed.json
+          if python xsmb_runtime/drive_write_gate.py --certification drive_cert_fail.json --expected-before expected.json --observed-before observed.json; then
+            echo "FAIL: uncertified Drive writer was accepted"
+            exit 1
+          fi
+          echo "DRIVE_WRITE_GATE_FAIL_CLOSED=PASS"
+
+      - name: Assert static handoff contains no live snapshot section
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path("XSMB_SYSTEM_HANDOFF.md").read_text()
+          assert "Live operational state — never copy into this static handoff" in s
+          assert "CURRENT FORECAST 2026-09-21 REMAINS R3-LOCKED" not in s
+          assert "Latest verified draw currently in production data:" not in s
+          print("STATIC_HANDOFF=PASS")
+          PY
+
+      - name: Emit OPS_HARDENING pre-certification
+        run: |
+          python - <<'PY'
+          import hashlib,json,platform
+          from pathlib import Path
+          def sha(p):
+              return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          report={
+            "schema_version":"XSMB_OPS_HARDENING_CERTIFICATION_V1",
+            "status":"PASS_WITH_EXTERNAL_BLOCKER",
+            "production_promotion_eligible":False,
+            "promotion_blockers":[
+              "FORECAST_2026_09_22_NOT_YET_SETTLED",
+              "DRIVE_ATOMIC_CAS_NOT_YET_CERTIFIED_ON_NON_PRODUCTION_FILE"
+            ],
+            "model_spec_changed":False,
+            "model_math_changed":False,
+            "r3_runner_sha256":sha("xsmb_runtime/xsmb_reference_runner_R3_final.py"),
+            "r4_runner_sha256":sha("xsmb_runtime/xsmb_reference_runner_R4_snapshot.py"),
+            "r3_harness_sha256":sha("xsmb_runtime/xsmb_R3_test_harness_py312.py"),
+            "r4_harness_sha256":sha("xsmb_runtime/xsmb_R4_test_harness_py312.py"),
+            "state_manifest_generator_sha256":sha("xsmb_runtime/xsmb_state_manifest.py"),
+            "schema_migration_sha256":sha("xsmb_runtime/ops_schema_migration.py"),
+            "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
+            "handoff_sha256":sha("XSMB_SYSTEM_HANDOFF.md"),
+            "checks":{
+              "r3_calendar_independent_34_34":True,
+              "r4_calendar_independent_34_34":True,
+              "live_state_manifest":True,
+              "schema_migration_fixture":True,
+              "drive_gate_fails_closed_without_certification":True,
+              "static_handoff":True,
+              "production_runners_unchanged":True
+            },
+            "runtime":{"python":platform.python_version()}
+          }
+          Path("OPS_HARDENING_PRECERTIFICATION.json").write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+          sha256sum             OPS_HARDENING_PRECERTIFICATION.json             XSMB_CURRENT_SYSTEM_STATE_V1.json             OPS_SCHEMA_MIGRATION_REPORT.json             ops_hardened_fixture.xlsx             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json             /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json             /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json             > OPS_HARDENING_SHA256SUMS.txt
+
+      - name: Upload OPS_HARDENING evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-ops-hardening-v1-precertification
+          path: |
+            OPS_HARDENING_PRECERTIFICATION.json
+            OPS_HARDENING_SHA256SUMS.txt
+            XSMB_CURRENT_SYSTEM_STATE_V1.json
+            OPS_SCHEMA_MIGRATION_REPORT.json
+            ops_hardened_fixture.xlsx
+            /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json
+            /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json
+            /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json
+            /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json
+          if-no-files-found: error
+          retention-days: 90
