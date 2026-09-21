@@ -48,24 +48,39 @@
 
 ### Google Drive
 
-Folder:
+Root folder:
 - ID: `12cglwUqellMQJj0seymzW_mgwGOxFM31`
 - URL: https://drive.google.com/drive/folders/12cglwUqellMQJj0seymzW_mgwGOxFM31
 
+Consolidated storage layout:
+- `00_PRODUCTION` — ID `1LHbeHKbuWxtOVav-tq-r74g2Kpn9nTbP`
+- `01_CURRENT_EVIDENCE` — ID `1GhPQrCi7TLc7o7MQlTxp4CWTzifYs2fo`
+- `02_SETTLEMENT_EVIDENCE` — ID `1C1rm_aiL0ROTtPAO5whomcpbqQieOom6`
+- `03_AUDIT_ARTIFACTS` — ID `1wMUakLmM2CMRRUIsf00oI3Oae84bgiHu`
+- `90_ARCHIVE` — ID `1_HtxA1Y_X79Fl6-oEUAL51YmSIzz9m2I`
+- `99_LEGACY_WORKING` — ID `1i7XXXZSDHTdw_yARnka7FrEHT0qYvvrN`
+
 Current canonical production workbook:
+- Folder: `00_PRODUCTION`
 - File: `XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx`
 - Drive file ID: `1UYD3egf24aUfblq6laJE2FFLMEiZrAob`
 - URL: https://docs.google.com/spreadsheets/d/1UYD3egf24aUfblq6laJE2FFLMEiZrAob/edit
-- Locked-forecast workbook SHA256 at this snapshot: `c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1`
+- Locked-forecast workbook SHA256 re-verified after storage consolidation: `c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1`
 
-Important evidence in the same Drive folder:
-- `xsmb-r3-python312-34-tests_PASS.zip` — ID `19kMu5hyE8E7LyM92ARlNjM7pSx94zUZ6`
-- `xsmb-run-forecast-20260921-locked.zip` — ID `1pwqL46-lux9eoiy9THkzJFc418KoEX2c`
-- `xsmb-audit-10-rounds-replay-20260921_PASS.zip` — ID `1iH17nPhP2dcEnwTdvlAhncy_3Qb30dQW`
-- `xsmb-feature-attribution-20260921.zip` — ID `1tfN-_jDTdENxAn15Ef-W3yvMXxKoEVJX`
-- `xsmb-r4-snapshot-certification_PASS.zip` — ID `1e_u_YxyeD91-jHXlCmjpNg0eAht8_7Mv`
-- `xsmb-r4-two-command-smoke_PASS.zip` — ID `1LHh--pr0PhnSbXRMmWiav4V478jEUYMm`
+Bootstrap handoff:
+- Folder: `00_PRODUCTION`
+- File: `XSMB_SYSTEM_HANDOFF.md`
+- Drive file ID: `1iALrBp3BIpCDU1yyopp7dxWKL2YZqUo3`
+
+Current evidence:
+- `xsmb-runtime-gate-python312_PASS_20260921.zip` — ID `1R9N-ou97Kx-xjsmZ6mKeAfmFJFMUEADN`
+- `xsmb-r3-python312-34-tests_PASS_20260921.zip` — ID `1MH2UVZdhBpBIQfFyGRHwHeKS-EVdlvLx`
+- `xsmb-r4-snapshot-certification_PASS_20260921.zip` — ID `1f05Zs5h6YzVTAdhUda5KlpunNQh1Y05b`
 - `xsmb-r3-to-r4-transition-test_PASS.zip` — ID `1QfUGhf7JgJ57ggrT3k0Al_6lQX0uwBy3`
+- `xsmb-r4-two-command-smoke_PASS.zip` — ID `1LHh--pr0PhnSbXRMmWiav4V478jEUYMm`
+- `xsmb-run-forecast-20260921-locked.zip` — ID `1pwqL46-lux9eoiy9THkzJFc418KoEX2c`
+
+Historical/preparation files, duplicate copies and legacy runtime exports are not deleted; they are isolated under `90_ARCHIVE` and `99_LEGACY_WORKING`. The two same-named PRE_FORECAST XLSX copies were byte-for-byte identical before consolidation; one is retained as the normal build archive and the second is explicitly labeled `DUPLICATE_EXACT__...`.
 
 ### GitHub
 
@@ -82,6 +97,18 @@ Two-command wrapper:
 
 Operational documentation:
 - `xsmb_runtime/TWO_COMMAND_OPERATIONS.md`
+
+Active XSMB workflows are intentionally limited to:
+- `.github/workflows/xsmb-runtime-gate.yml`
+- `.github/workflows/xsmb-r3-full-suite.yml`
+- `.github/workflows/xsmb-r3-to-r4-transition-test.yml`
+- `.github/workflows/xsmb-r4-snapshot-certification.yml`
+- `.github/workflows/xsmb-r4-two-command-smoke.yml`
+
+Completed one-off workflows for 2026-09-21 were moved outside `.github/workflows` to:
+- `archive/xsmb/workflows/2026-09-21/`
+
+They remain in Git history for audit but are no longer executable as active workflows. Active third-party Actions are pinned to full commit SHAs and workflows use explicit least-privilege permissions.
 
 ## 4. Exact production runtime
 
@@ -261,7 +288,7 @@ Changes to M7 features, target, hyperparameters, calibration definition, trainin
 
 ---
 
-**HANDOFF REVISION:** `H3-20260920-DEEP-AUDIT`
+**HANDOFF REVISION:** `H4-20260921-STORAGE-REPO-CONSOLIDATION-R1`
 
 **STATUS:** `ACTIVE_BOOTSTRAP_POINTER`
 
