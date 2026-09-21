@@ -107,6 +107,30 @@ jobs:
           print("LIVE_STATE_MANIFEST=PASS")
           PY
 
+          # A state witness must never perform transaction recovery itself.
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          wb=Path("xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx").resolve()
+          root=wb.parent/".xsmb-transactions"
+          root.mkdir(exist_ok=True)
+          j=root/"state-witness-readonly-test.journal.json"
+          j.write_text(json.dumps({
+              "transaction_id":"STATE-WITNESS-READONLY-TEST",
+              "operation":"TEST_ONLY",
+              "workbook_path":str(wb),
+              "state":"STAGED"
+          }),encoding="utf-8")
+          PY
+          if python xsmb_runtime/xsmb_state_manifest.py             --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py             --workbook xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx             --manifest-dir state-manifests             --output SHOULD_NOT_EXIST.json --context FIXTURE_TEST; then
+            echo "FAIL: state witness accepted unresolved transaction"
+            exit 1
+          fi
+          test ! -f SHOULD_NOT_EXIST.json
+          rm -f xsmb_runtime/fixtures/.xsmb-transactions/state-witness-readonly-test.journal.json
+          rmdir xsmb_runtime/fixtures/.xsmb-transactions 2>/dev/null || true
+          echo "LIVE_STATE_READ_ONLY_FAIL_CLOSED=PASS"
+
       - name: Test operational schema migration on fixture
         run: |
           mkdir -p schema-manifests
