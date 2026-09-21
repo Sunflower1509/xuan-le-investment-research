@@ -7,16 +7,11 @@ from typing import Any
 from openpyxl import load_workbook
 
 GOVERNANCE_KEYS=[
- "proposed_version","status","activation_gate","spec_gate","research_state","null_control",
+ "proposed_version","status","activation_gate","spec_gate","null_control",
  "prospective_challenger","forecast_objective","live_checkpoints","spec_hash","data_basis",
  "prompt_status","heuristic_status","penalty_fix","pre_draw_lock","post_draw_lock",
  "no_target_leakage","no_backfill","freeze_basis","rule"
 ]
-OPERATIONAL_KEYS=[
- "reference_runner_sha256","operational_revision","runner_promotion_status",
- "runner_promotion_test_evidence_manifest_sha256","runner_promotion_certification_sha256"
-]
-
 def load_runner(path: Path):
     spec=importlib.util.spec_from_file_location("xsmb_schema_runner",path)
     if spec is None or spec.loader is None: raise RuntimeError(f"cannot load runner {path}")
