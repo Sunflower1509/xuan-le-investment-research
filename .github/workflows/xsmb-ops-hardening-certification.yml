@@ -203,30 +203,78 @@ jobs:
           print(json.dumps(cert,indent=2))
           PY
 
-      - name: Test Drive write gate is fail-closed without CAS certification
+      - name: Test Drive CAS write gate V2
         run: |
-          cat > drive_cert_fail.json <<'JSON'
+          cat > drive_cert_pass.json <<'JSON'
           {
-            "schema_version":"XSMB_DRIVE_WRITE_CERTIFICATION_V1",
-            "status":"NOT_CERTIFIED",
-            "atomic_stale_write_rejection":false,
-            "single_writer_acl_verified":false,
+            "schema_version":"XSMB_DRIVE_WRITE_CERTIFICATION_V2",
+            "status":"PASS",
+            "cas_lock_authority_certified":true,
+            "stale_lock_revision_rejected":true,
+            "single_writer_acl_verified":true,
             "github_concurrency_verified":true,
-            "rollback_revision_verified":false,
-            "post_write_readback_verified":false,
+            "durable_rollback_anchor_verified":true,
+            "post_write_readback_verified":true,
+            "revision_count_guard_verified":true,
             "canonical_file_id":"TEST_ONLY",
-            "certification_evidence_sha256":"UNAVAILABLE"
+            "cas_lock_document_id":"LOCK_TEST",
+            "rollback_anchor_file_id":"ROLLBACK_TEST",
+            "certification_evidence_sha256":"TEST_CERT"
           }
           JSON
           cat > expected.json <<'JSON'
-          {"file_id":"TEST_ONLY","revision_id":"R1","version":1,"content_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+          {"file_id":"TEST_ONLY","revision_id":"R1","revision_count":5,"content_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","size_bytes":4}
           JSON
           cp expected.json observed.json
-          if python xsmb_runtime/drive_write_gate.py --certification drive_cert_fail.json --expected-before expected.json --observed-before observed.json; then
-            echo "FAIL: uncertified Drive writer was accepted"
+          cat > lock.json <<'JSON'
+          {"document_id":"LOCK_TEST","state":"HELD","epoch":3,"transaction_id":"TX-1","canonical_file_id":"TEST_ONLY","canonical_workbook_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","canonical_drive_revision_id":"R1"}
+          JSON
+          printf 'DATA' > expected_output.bin
+          cat > after.json <<'JSON'
+          {"file_id":"TEST_ONLY","revision_id":"R2","revision_count":6,"content_sha256":"c97c29c7a71b392b437ee03fd17f09bb10b75e879466fc0eb757b2c4a78ac938","size_bytes":4}
+          JSON
+          python xsmb_runtime/drive_write_gate.py \
+            --certification drive_cert_pass.json \
+            --expected-before expected.json \
+            --observed-before observed.json \
+            --lock-state lock.json \
+            --observed-after after.json \
+            --expected-output expected_output.bin
+
+          # Stale pre-write fingerprint must fail.
+          python - <<'PY'
+          import json
+          p=json.load(open("observed.json"))
+          p["revision_id"]="STALE"
+          json.dump(p,open("observed_stale.json","w"))
+          PY
+          if python xsmb_runtime/drive_write_gate.py \
+            --certification drive_cert_pass.json \
+            --expected-before expected.json \
+            --observed-before observed_stale.json \
+            --lock-state lock.json; then
+            echo "FAIL: stale Drive fingerprint was accepted"
             exit 1
           fi
-          echo "DRIVE_WRITE_GATE_FAIL_CLOSED=PASS"
+
+          # Unexpected extra revision must fail post-write.
+          python - <<'PY'
+          import json
+          p=json.load(open("after.json"))
+          p["revision_count"]=7
+          json.dump(p,open("after_conflict.json","w"))
+          PY
+          if python xsmb_runtime/drive_write_gate.py \
+            --certification drive_cert_pass.json \
+            --expected-before expected.json \
+            --observed-before observed.json \
+            --lock-state lock.json \
+            --observed-after after_conflict.json \
+            --expected-output expected_output.bin; then
+            echo "FAIL: concurrent revision delta was accepted"
+            exit 1
+          fi
+          echo "DRIVE_CAS_WRITE_GATE_V2=PASS"
 
       - name: Prove production promotion remains fail-closed before 22 Sep settlement
         run: |
@@ -262,11 +310,13 @@ jobs:
               return hashlib.sha256(Path(p).read_bytes()).hexdigest()
           report={
             "schema_version":"XSMB_OPS_HARDENING_CERTIFICATION_V1",
-            "status":"PASS_WITH_EXTERNAL_BLOCKER",
+            "status":"PASS_PENDING_POST_SETTLEMENT_PROMOTION",
             "production_promotion_eligible":False,
             "promotion_blockers":[
-              "FORECAST_2026_09_22_NOT_YET_SETTLED",
-              "DRIVE_ATOMIC_CAS_NOT_YET_CERTIFIED_ON_NON_PRODUCTION_FILE"
+              "FORECAST_2026_09_22_NOT_YET_SETTLED"
+            ],
+            "operational_limitations":[
+              "CURRENT_DRIVE_CONNECTOR_DOES_NOT_EXPOSE_KEEP_REVISION_FOREVER; DURABLE_BYTE_VERIFIED_ROLLBACK_ANCHOR_IS_USED"
             ],
             "model_spec_changed":False,
             "model_math_changed":False,
@@ -279,6 +329,9 @@ jobs:
             "candidate_runner_sha256":sha("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py"),
             "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
             "promotion_gate_sha256":sha("xsmb_runtime/ops_hardening_promotion_gate.py"),
+            "drive_cas_writer_cert_sha256":sha("xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json"),
+            "drive_cas_protocol_sha256":sha("xsmb_runtime/DRIVE_CAS_WRITE_PROTOCOL.md"),
+            "rollback_anchor_cert_sha256":sha("xsmb_runtime/certification/ROLLBACK_ANCHOR_CERTIFICATION_V1.json"),
             "handoff_sha256":sha("XSMB_SYSTEM_HANDOFF.md"),
             "checks":{
               "r3_calendar_independent_34_34":True,
@@ -286,7 +339,10 @@ jobs:
               "live_state_manifest":True,
               "schema_migration_fixture":True,
               "hardened_runner_model_identity":True,
-              "drive_gate_fails_closed_without_certification":True,
+              "drive_cas_gate_v2":True,
+              "external_cas_lock_stale_revision_rejection":True,
+              "external_blob_revision_delta_and_readback":True,
+              "durable_rollback_anchor_byte_identity":True,
               "premature_promotion_rejected":True,
               "static_handoff":True,
               "production_runners_unchanged":True
@@ -296,7 +352,19 @@ jobs:
           Path("OPS_HARDENING_PRECERTIFICATION.json").write_text(json.dumps(report,indent=2))
           print(json.dumps(report,indent=2))
           PY
-          sha256sum             OPS_HARDENING_PRECERTIFICATION.json             XSMB_CURRENT_SYSTEM_STATE_V1.json             OPS_SCHEMA_MIGRATION_REPORT.json             ops_hardened_fixture.xlsx             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json             /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json             /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json             > OPS_HARDENING_SHA256SUMS.txt
+          sha256sum \
+            OPS_HARDENING_PRECERTIFICATION.json \
+            XSMB_CURRENT_SYSTEM_STATE_V1.json \
+            OPS_SCHEMA_MIGRATION_REPORT.json \
+            ops_hardened_fixture.xlsx \
+            xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json \
+            xsmb_runtime/certification/ROLLBACK_ANCHOR_CERTIFICATION_V1.json \
+            xsmb_runtime/DRIVE_CAS_WRITE_PROTOCOL.md \
+            /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json \
+            /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json \
+            /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json \
+            /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json \
+            > OPS_HARDENING_SHA256SUMS.txt
 
       - name: Upload OPS_HARDENING evidence
         if: always()
