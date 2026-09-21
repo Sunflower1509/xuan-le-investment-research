@@ -1,0 +1,36 @@
+name: Kiem tra phai sinh 2026-09-21
+
+on:
+  push:
+    paths:
+      - ".github/workflows/phai-sinh-check-20260921.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Kiem tra hop dong tuong lai VN30
+        run: |
+          node --input-type=module <<'NODE'
+          const from=1789948800,to=1790035200;
+          const urls=[
+            ['DNSE-D',`https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=D&from=${from}&to=${to}`],
+            ['DNSE-1',`https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${from}&to=${to}`],
+            ['VNDIRECT-D',`https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&symbol=41I1GA000&from=${from}&to=${to}`],
+            ['VNDIRECT-F1M',`https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&symbol=VN30F1M&from=${from}&to=${to}`]
+          ];
+          for (const [name,url] of urls) {
+            try {
+              const r=await fetch(url,{headers:{accept:'application/json','user-agent':'Mozilla/5.0 XuanLeTVS-Check/1.0'}});
+              const txt=await r.text();
+              console.log('PHAI_SINH',name,'HTTP',r.status,txt.slice(0,6000));
+            } catch(e) { console.log('PHAI_SINH',name,'LOI',String(e)); }
+          }
+          NODE
