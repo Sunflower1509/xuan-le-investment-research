@@ -14,8 +14,38 @@ def load_runner(path: Path):
     spec.loader.exec_module(mod)
     return mod
 
+def _assert_no_pending_transactions(core: Any, workbook: Path)->None:
+    root=workbook.parent/".xsmb-transactions"
+    if not root.exists():
+        return
+    pending=[]
+    for journal_path in sorted(root.glob("*.journal.json")):
+        try:
+            j=json.loads(journal_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            raise core.RunnerError(
+                "STATE MANIFEST FAIL — DO NOT WRITE",
+                "transaction journal is unreadable; state witness remains read-only",
+                {"journal":str(journal_path),"error":str(exc)}
+            ) from exc
+        if j.get("workbook_path")!=str(workbook.resolve()):
+            continue
+        if j.get("state") not in {"COMMITTED","ROLLED_BACK"}:
+            pending.append({
+                "journal":str(journal_path),
+                "transaction_id":j.get("transaction_id"),
+                "state":j.get("state"),
+                "operation":j.get("operation"),
+            })
+    if pending:
+        raise core.RunnerError(
+            "STATE MANIFEST FAIL — DO NOT WRITE",
+            "unresolved transaction exists; run explicit recovery before generating state witness",
+            {"pending_transactions":pending}
+        )
+
 def build_state(core: Any, workbook: Path, manifest_dir: Path, expected_sha: str|None=None, source_context: str="PRODUCTION")->dict[str,Any]:
-    core.recover_transactions(workbook)
+    _assert_no_pending_transactions(core,workbook)
     state=core.load_workbook_state(workbook,manifest_dir)
     if expected_sha and state.workbook_sha256 != expected_sha:
         raise core.RunnerError("STATE MANIFEST FAIL — DO NOT WRITE","canonical workbook SHA mismatch",{"expected":expected_sha,"observed":state.workbook_sha256})
