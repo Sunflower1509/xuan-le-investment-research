@@ -1,0 +1,25 @@
+{
+  "schema_version": "XSMB_DRIVE_WRITE_CERTIFICATION_V2",
+  "status": "PASS",
+  "certified_protocol": "XSMB_DRIVE_CAS_LOCK_V1",
+  "canonical_file_id": "1UYD3egf24aUfblq6laJE2FFLMEiZrAob",
+  "cas_lock_document_id": "1DLWoCsG43VbEgrNSIYhlYw1S3x5Sct_3jeTGQMMKe-c",
+  "rollback_anchor_file_id": "1CsOPqGjHcJX8BSNkiEl-fLXA6MEL3GkC",
+  "cas_lock_authority_certified": true,
+  "stale_lock_revision_rejected": true,
+  "single_writer_acl_verified": true,
+  "cross_client_serialization_verified": true,
+  "durable_rollback_anchor_verified": true,
+  "post_write_readback_verified": true,
+  "revision_count_guard_verified": true,
+  "native_blob_conditional_write_available": false,
+  "native_keep_forever_available_in_current_connector": false,
+  "certification_evidence_sha256": "7081a5b2571d14aab05134490afa570e1a21bade4f4973f6e414171cbbcc5725",
+  "rollback_anchor_sha256": "5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f",
+  "rollback_anchor_certification_file_sha256": "00a5eafcdd95ecb0e23e26cde4766361247ec63b927cac3e8eeacf0853bbc6af",
+  "limitations": [
+    "Drive blob replacement action does not expose atomic conditional content write.",
+    "Drive connector does not expose revisions.update keepForever; durable byte-verified rollback anchor is mandatory."
+  ],
+  "rule": "No production blob write is authorized unless the CAS lock is HELD by the same transaction and all pre/post fingerprint checks pass."
+}
