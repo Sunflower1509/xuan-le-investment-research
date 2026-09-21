@@ -1,14 +1,34 @@
-# XSMB v2.1 production runtime gate
+# XSMB v2.1 runtime and OPS_HARDENING
 
-This branch isolates the runtime gate for MODEL_SPEC v2.1-LIVE-001.
+This directory contains the production-compatible runtime, frozen model runners,
+hardening tests, operational state tools and certification evidence for
+`MODEL_SPEC v2.1-LIVE-001`.
 
-Frozen runtime requirements:
-- Python 3.12.x
+Frozen numerical runtime:
+- Python 3.12.12
 - NumPy 2.3.5
 - SciPy 1.17.0
 - scikit-learn 1.8.0
 - openpyxl 3.1.5
 - OMP/OPENBLAS/MKL/NUMEXPR thread counts = 1
 
-This gate does not run a forecast and does not modify the XSMB model mathematics.
-It only proves that an exact production-compatible runtime can be provisioned.
+Model mathematics remain frozen. OPS_HARDENING changes operational controls,
+state authority and Drive write discipline only.
+
+Key files:
+- `xsmb_reference_runner_R3_final.py` — frozen predecessor.
+- `xsmb_reference_runner_R4_snapshot.py` — certified R4 snapshot runner.
+- `xsmb_reference_runner_R4_ops_hardened.py` — pre-certified OPS_HARDENED candidate.
+- `xsmb_R3_test_harness_py312.py`, `xsmb_R4_test_harness_py312.py`,
+  `xsmb_OPS_test_harness_py312.py` — exact-runtime 34-test suites.
+- `ops_schema_migration.py` — candidate schema migration.
+- `ops_hardening_promotion_gate.py` — blocks promotion until required settlement state.
+- `xsmb_state_manifest.py` — machine-generated derived state witness.
+- `drive_write_gate.py` and `DRIVE_CAS_WRITE_PROTOCOL.md` — fail-closed CAS write discipline.
+
+Dated one-off workflows and historical forensic tools do not belong in this
+runtime directory; they are isolated under `archive/xsmb/`.
+
+Production promotion of OPS_HARDENING remains forbidden until the required
+post-settlement gate passes. No file in this directory authorizes model tuning
+or changes to M7_logistic_l2.
