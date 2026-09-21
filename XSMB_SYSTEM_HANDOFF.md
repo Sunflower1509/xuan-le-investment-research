@@ -77,10 +77,13 @@ Current evidence:
 - `xsmb-r3-python312-34-tests_PASS_20260921.zip` — ID `1MH2UVZdhBpBIQfFyGRHwHeKS-EVdlvLx`
 - `xsmb-r4-snapshot-certification_PASS_20260921.zip` — ID `1f05Zs5h6YzVTAdhUda5KlpunNQh1Y05b`
 - `xsmb-r3-to-r4-transition-test_PASS.zip` — ID `1QfUGhf7JgJ57ggrT3k0Al_6lQX0uwBy3`
-- `xsmb-r4-two-command-smoke_PASS.zip` — ID `1LHh--pr0PhnSbXRMmWiav4V478jEUYMm`
+- `xsmb-r4-two-command-smoke_PASS_20260921.zip` — ID `1Io_2u6o1yCs-sR6RiWUd80pX9yAycGS6`
 - `xsmb-run-forecast-20260921-locked.zip` — ID `1pwqL46-lux9eoiy9THkzJFc418KoEX2c`
 
-Historical/preparation files, duplicate copies and legacy runtime exports are not deleted; they are isolated under `90_ARCHIVE` and `99_LEGACY_WORKING`. The two same-named PRE_FORECAST XLSX copies were byte-for-byte identical before consolidation; one is retained as the normal build archive and the second is explicitly labeled `DUPLICATE_EXACT__...`.
+Historical/preparation files, duplicate copies and legacy runtime exports are not deleted; they are isolated under `90_ARCHIVE` and `99_LEGACY_WORKING`.
+
+Storage/repository consolidation audit:
+- `xsmb_runtime/audit/XSMB_STORAGE_REPO_CONSOLIDATION_R1_20260921.md` The two same-named PRE_FORECAST XLSX copies were byte-for-byte identical before consolidation; one is retained as the normal build archive and the second is explicitly labeled `DUPLICATE_EXACT__...`.
 
 ### GitHub
 
