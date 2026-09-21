@@ -1,0 +1,15 @@
+{
+  "schema_version": "XSMB_ROLLBACK_ANCHOR_CERTIFICATION_V1",
+  "status": "PASS",
+  "canonical_file_id": "1UYD3egf24aUfblq6laJE2FFLMEiZrAob",
+  "canonical_drive_revision_id": "0B13hhnXzcUPeNTk5cXV2VVV6RzF2MlJPUjJOZEhsVjZ2bHhJPQ",
+  "canonical_workbook_sha256": "5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f",
+  "rollback_anchor_file_id": "1CsOPqGjHcJX8BSNkiEl-fLXA6MEL3GkC",
+  "rollback_anchor_file_name": "XSMB_ROLLBACK_ANCHOR_PRE_OPS_HARDENING_5041ffa925154a11.xlsx",
+  "rollback_anchor_sha256": "5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f",
+  "byte_identity_verified": true,
+  "storage_folder": "03_AUDIT_ARTIFACTS",
+  "keepForever_revision_pinned": false,
+  "reason_keepForever_not_pinned": "Current connected Drive toolset exposes revision listing/fetch but not revisions.update(keepForever=true).",
+  "policy": "Do not overwrite this rollback anchor. Use only for controlled recovery after hash/revision verification."
+}
