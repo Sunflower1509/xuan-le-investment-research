@@ -46,12 +46,14 @@ jobs:
 
       - name: Materialize hardening fixtures
         run: |
-          sudo mkdir -p /mnt/data/xsmb_R3_test_output /mnt/data/xsmb_R4_test_output
+          sudo mkdir -p /mnt/data/xsmb_R3_test_output /mnt/data/xsmb_R4_test_output /mnt/data/xsmb_OPS_test_output
           sudo chown -R "$USER":"$USER" /mnt/data
           cp xsmb_runtime/xsmb_reference_runner_R3_final.py /mnt/data/xsmb_reference_runner_R3_final.py
           cp xsmb_runtime/xsmb_reference_runner_R4_snapshot.py /mnt/data/xsmb_reference_runner_R4_snapshot.py
+          cp xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py /mnt/data/xsmb_reference_runner_R4_ops_hardened.py
           cp xsmb_runtime/xsmb_R3_test_harness_py312.py /mnt/data/xsmb_R3_test_harness_py312.py
           cp xsmb_runtime/xsmb_R4_test_harness_py312.py /mnt/data/xsmb_R4_test_harness_py312.py
+          cp xsmb_runtime/xsmb_OPS_test_harness_py312.py /mnt/data/xsmb_OPS_test_harness_py312.py
           cp xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx /mnt/data/XSMB_RECONCILIATION_R5_1200_v2_1_R3_HARDENED.xlsx
           cp xsmb_runtime/fixtures/settlement_evidence_20260920_4source.json /mnt/data/settlement_evidence_20260920_4source.json
 
@@ -120,6 +122,24 @@ jobs:
           assert "RUNNER_HISTORY" in wb.sheetnames
           wb.close()
           print("OPS_SCHEMA_MIGRATION=PASS")
+          PY
+
+      - name: OPS-HARDENED candidate exact-runtime 34 tests
+        run: |
+          cp ops_hardened_fixture.xlsx /mnt/data/XSMB_OPS_HARDENED_FIXTURE.xlsx
+          python /mnt/data/xsmb_OPS_test_harness_py312.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          results=json.loads(Path("/mnt/data/xsmb_OPS_test_output/OPS_34_TEST_RESULTS.json").read_text())
+          evidence=json.loads(Path("/mnt/data/xsmb_OPS_test_output/TEST_EVIDENCE_MANIFEST_V1.json").read_text())
+          p=evidence["payload"]
+          assert results["passed"]==34 and results["failed"]==0, results
+          assert p["passed"]==34 and p["failed"]==0, p
+          assert p["runtime_exact_production_match"] is True, p["runtime_observed"]
+          ids={x["id"]:x["status"] for x in results["tests"]}
+          assert ids["C08"]=="PASS" and ids["C17"]=="PASS", ids
+          print("OPS_HARDENED_EXACT_RUNTIME_34_34=PASS")
           PY
 
       - name: Certify hardened candidate preserves R4 model mathematics
@@ -327,6 +347,8 @@ jobs:
             "state_manifest_generator_sha256":sha("xsmb_runtime/xsmb_state_manifest.py"),
             "schema_migration_sha256":sha("xsmb_runtime/ops_schema_migration.py"),
             "candidate_runner_sha256":sha("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py"),
+            "candidate_test_harness_sha256":sha("xsmb_runtime/xsmb_OPS_test_harness_py312.py"),
+            "candidate_test_evidence_file_sha256":sha("/mnt/data/xsmb_OPS_test_output/TEST_EVIDENCE_MANIFEST_V1.json"),
             "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
             "promotion_gate_sha256":sha("xsmb_runtime/ops_hardening_promotion_gate.py"),
             "drive_cas_writer_cert_sha256":sha("xsmb_runtime/certification/DRIVE_CAS_WRITER_CERTIFICATION_V1.json"),
@@ -338,6 +360,7 @@ jobs:
               "r4_calendar_independent_34_34":True,
               "live_state_manifest":True,
               "schema_migration_fixture":True,
+              "hardened_runner_exact_runtime_34_34":True,
               "hardened_runner_model_identity":True,
               "drive_cas_gate_v2":True,
               "external_cas_lock_stale_revision_rejection":True,
@@ -364,6 +387,8 @@ jobs:
             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json \
             /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json \
             /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json \
+            /mnt/data/xsmb_OPS_test_output/OPS_34_TEST_RESULTS.json \
+            /mnt/data/xsmb_OPS_test_output/TEST_EVIDENCE_MANIFEST_V1.json \
             > OPS_HARDENING_SHA256SUMS.txt
 
       - name: Upload OPS_HARDENING evidence
@@ -383,5 +408,7 @@ jobs:
             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json
             /mnt/data/xsmb_R4_test_output/R4_34_TEST_RESULTS.json
             /mnt/data/xsmb_R4_test_output/TEST_EVIDENCE_MANIFEST_V1.json
+            /mnt/data/xsmb_OPS_test_output/OPS_34_TEST_RESULTS.json
+            /mnt/data/xsmb_OPS_test_output/TEST_EVIDENCE_MANIFEST_V1.json
           if-no-files-found: error
           retention-days: 90
