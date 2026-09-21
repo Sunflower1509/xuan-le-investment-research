@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json, sys, sys
+import argparse, importlib.util, json, sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -14,7 +14,7 @@ def load_runner(path: Path):
     spec.loader.exec_module(mod)
     return mod
 
-def build_state(core: Any, workbook: Path, manifest_dir: Path, expected_sha: str|None=None)->dict[str,Any]:
+def build_state(core: Any, workbook: Path, manifest_dir: Path, expected_sha: str|None=None, source_context: str="PRODUCTION")->dict[str,Any]:
     core.recover_transactions(workbook)
     state=core.load_workbook_state(workbook,manifest_dir)
     if expected_sha and state.workbook_sha256 != expected_sha:
@@ -36,10 +36,13 @@ def build_state(core: Any, workbook: Path, manifest_dir: Path, expected_sha: str
     else:
         next_action=f"RUN_NEXT forecast_date={(date.fromisoformat(latest)+timedelta(days=1)).isoformat()}"
     activation=state.activation
+    if source_context not in {"PRODUCTION","FIXTURE_TEST"}:
+        raise core.RunnerError("STATE MANIFEST FAIL — DO NOT WRITE","invalid source_context",{"source_context":source_context})
     payload={
         "schema_version":"XSMB_CURRENT_SYSTEM_STATE_V1",
+        "source_context":source_context,
         "generated_at_local":datetime.now(core.VIETNAM_TZ).isoformat(),
-        "canonical_workbook_path":str(workbook.resolve()),
+        ("canonical_workbook_path" if source_context=="PRODUCTION" else "fixture_workbook_path"):str(workbook.resolve()),
         "canonical_workbook_sha256":state.workbook_sha256,
         "spec_hash":core.SPEC_HASH,
         "master_content_sha256":core.FROZEN_MASTER_1200_SHA256,
@@ -57,7 +60,11 @@ def build_state(core: Any, workbook: Path, manifest_dir: Path, expected_sha: str
         "locked_forecast_date":core.normalize_date(lock["forecast_date"]) if lock else None,
         "locked_forecast_data_hash":lock.get("data_hash") if lock else None,
         "next_expected_action":next_action,
-        "authority_note":"Derived witness only. Canonical workbook + Ledger + immutable manifests remain authoritative."
+        "authority_note":(
+            "Derived witness only. Canonical workbook + Ledger + immutable manifests remain authoritative."
+            if source_context=="PRODUCTION"
+            else "TEST FIXTURE ONLY. This manifest is certification evidence and MUST NOT be treated as live production state."
+        )
     }
     return {"artifact_type":"XSMB_CURRENT_SYSTEM_STATE_V1","manifest_sha256":core.sha256_bytes(core.canonical_json(payload).encode("utf-8")),"payload":payload}
 
@@ -68,9 +75,10 @@ def main():
     p.add_argument("--runner",default="xsmb_runtime/xsmb_reference_runner_R4_snapshot.py")
     p.add_argument("--output",required=True)
     p.add_argument("--expected-workbook-sha256")
+    p.add_argument("--context",choices=["PRODUCTION","FIXTURE_TEST"],default="PRODUCTION")
     a=p.parse_args()
     core=load_runner(Path(a.runner))
-    obj=build_state(core,Path(a.workbook),Path(a.manifest_dir),a.expected_workbook_sha256)
+    obj=build_state(core,Path(a.workbook),Path(a.manifest_dir),a.expected_workbook_sha256,a.context)
     out=Path(a.output); out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
     check=json.loads(out.read_text(encoding="utf-8"))
