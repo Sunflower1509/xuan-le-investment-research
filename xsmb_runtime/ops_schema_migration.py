@@ -37,24 +37,29 @@ def norm(v:Any)->Any:
     if isinstance(v,(str,int,float,bool)): return v
     return str(v)
 
+def _semantic_cells(sh)->list[list[Any]]:
+    # Hash semantic cell content, not worksheet used-range metadata. XLSX writers may
+    # legitimately shrink/expand styled blank ranges while preserving every value.
+    cells=[]
+    for row in sh.iter_rows():
+        for cell in row:
+            v=norm(cell.value)
+            if v is not None:
+                cells.append([cell.coordinate,v])
+    return cells
+
 def existing_value_hash(core:Any, wb, excluded:set[str])->str:
     payload=[]
     for name in wb.sheetnames:
         if name in excluded: continue
-        sh=wb[name]
-        rows=[]
-        for row in sh.iter_rows():
-            rows.append([norm(c.value) for c in row])
-        payload.append({"sheet":name,"rows":rows})
+        payload.append({"sheet":name,"cells":_semantic_cells(wb[name])})
     return core.sha256_bytes(core.canonical_json(payload).encode("utf-8"))
 
 def sheet_value_hashes(core:Any, wb, excluded:set[str])->dict[str,str]:
     out={}
     for name in wb.sheetnames:
         if name in excluded: continue
-        sh=wb[name]
-        rows=[[norm(cell.value) for cell in row] for row in sh.iter_rows()]
-        out[name]=core.sha256_bytes(core.canonical_json(rows).encode("utf-8"))
+        out[name]=core.sha256_bytes(core.canonical_json(_semantic_cells(wb[name])).encode("utf-8"))
     return out
 
 def legacy_cell_diff(before_path:Path, after_path:Path, excluded:set[str])->list[dict[str,Any]]:
