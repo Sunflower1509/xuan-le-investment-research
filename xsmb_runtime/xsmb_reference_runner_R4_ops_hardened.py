@@ -136,12 +136,19 @@ RECON_HEADERS = [
 ]
 VALID_RESEARCH_STATES = {"NO VERIFIED EDGE", "VERIFIED EDGE"}
 VALID_FIRST_FORECAST_STATES = {"NOT_STARTED", "ACTIVE"}
+MODEL_GOVERNANCE_SCHEMA = "XSMB_MODEL_GOVERNANCE_V1"
+OPERATIONAL_STATE_SCHEMA = "XSMB_OPERATIONAL_STATE_V1"
+RUNNER_HISTORY_HEADERS = [
+    "Event ID", "Event Type", "From Runner SHA256", "To Runner SHA256",
+    "Operational Revision", "Test Evidence SHA256", "Certification SHA256",
+    "Model Math Changed", "Event Time Local", "Source Manifest SHA256",
+]
 SOURCE_TYPES = {"FULL_27", "PDF_LOTO_27", "THIRD_SOURCE_FULL_27"}
 OBSERVED_STATUS = "SETTLED_VERIFIED_OBSERVED_NO_FORECAST"
 OBSERVED_CLASS = "PROSPECTIVE_OBSERVED_NO_FORECAST"
 SETTLED_CLASS = "PROSPECTIVE_SETTLED_VERIFIED"
 IMPLEMENTATION_GATE_PASS = "PASS_R3_HARDENED_TEST_EVIDENCE"
-TEST_SUITE_REVISION = "R3-HARDENED-34"
+TEST_SUITE_REVISION = "OPS-HARDENED-34"
 OPERATIONAL_REVISION = "R4-OPS-HARDENED"
 MODEL_SNAPSHOT_SCHEMA = "XSMB_MODEL_SNAPSHOT_V1"
 ALL_TEST_IDS = [f"R{i}" for i in range(1, 16)] + [f"C{i:02d}" for i in range(1, 20)]
@@ -378,7 +385,7 @@ def _validate_activation(activation: dict[str, Any]) -> None:
     }
     bad = {k: {"expected": v, "observed": activation.get(k)} for k, v in exact.items() if activation.get(k) != v}
     if bad:
-        raise RunnerError("PRE-DRAW GATE FAIL — DO NOT FORECAST", "MODEL_ACTIVATION mismatch", bad)
+        raise RunnerError("PRE-DRAW GATE FAIL — DO NOT FORECAST", "MODEL_GOVERNANCE/OPERATIONAL_STATE mismatch", bad)
     if activation.get("research_state") not in VALID_RESEARCH_STATES:
         raise RunnerError("PRE-DRAW GATE FAIL — DO NOT FORECAST", "invalid research_state")
     if activation.get("first_forecast_status") not in VALID_FIRST_FORECAST_STATES:
@@ -398,8 +405,57 @@ def load_workbook_state(workbook_path: str | Path, manifest_dir: str | Path | No
 
         governance = _sheet_key_values(wb["MODEL_GOVERNANCE"])
         operational = _sheet_key_values(wb["OPERATIONAL_STATE"])
-        if operational.get("operational_state_schema_version") != "XSMB_OPERATIONAL_STATE_V1":
+        if governance.get("model_governance_schema_version") != MODEL_GOVERNANCE_SCHEMA:
+            raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "MODEL_GOVERNANCE schema mismatch")
+        if governance.get("model_math_changed") not in (False, 0):
+            raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "MODEL_GOVERNANCE model_math_changed must remain false")
+        if operational.get("operational_state_schema_version") != OPERATIONAL_STATE_SCHEMA:
             raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "OPERATIONAL_STATE schema mismatch")
+        if operational.get("legacy_model_activation_policy") != "READ_ONLY_ARCHIVE":
+            raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "legacy MODEL_ACTIVATION policy mismatch")
+
+        history = wb["RUNNER_HISTORY"]
+        history_headers = [str(history.cell(1, col).value or "").strip() for col in range(1, len(RUNNER_HISTORY_HEADERS) + 1)]
+        if history_headers != RUNNER_HISTORY_HEADERS:
+            raise RunnerError(
+                "IMPLEMENTATION GATE FAIL — DO NOT FORECAST",
+                "RUNNER_HISTORY schema mismatch",
+                {"observed": history_headers},
+            )
+        history_rows = []
+        for rr in range(2, history.max_row + 1):
+            event_id = str(history.cell(rr, 1).value or "").strip()
+            if not event_id:
+                continue
+            row = {
+                RUNNER_HISTORY_HEADERS[col - 1]: history.cell(rr, col).value
+                for col in range(1, len(RUNNER_HISTORY_HEADERS) + 1)
+            }
+            history_rows.append(row)
+        if not history_rows:
+            raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "RUNNER_HISTORY is empty")
+        event_ids = [str(row["Event ID"]) for row in history_rows]
+        if len(event_ids) != len(set(event_ids)):
+            raise RunnerError("IMPLEMENTATION GATE FAIL — DO NOT FORECAST", "RUNNER_HISTORY contains duplicate Event ID", event_ids)
+        bad_math = [
+            str(row["Event ID"]) for row in history_rows
+            if row["Model Math Changed"] not in (False, 0)
+        ]
+        if bad_math:
+            raise RunnerError(
+                "IMPLEMENTATION GATE FAIL — DO NOT FORECAST",
+                "RUNNER_HISTORY contains model-math-changing event",
+                {"event_ids": bad_math},
+            )
+        active_runner = str(operational.get("active_runner_sha256") or "")
+        last_to_runner = str(history_rows[-1]["To Runner SHA256"] or "")
+        if last_to_runner != active_runner:
+            raise RunnerError(
+                "IMPLEMENTATION GATE FAIL — DO NOT FORECAST",
+                "RUNNER_HISTORY tail does not match active runner",
+                {"history_tail": last_to_runner, "active_runner": active_runner},
+            )
+
         activation = dict(governance)
         activation.update({
             "research_state": operational.get("research_state") or governance.get("research_state"),
