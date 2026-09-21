@@ -122,6 +122,87 @@ jobs:
           print("OPS_SCHEMA_MIGRATION=PASS")
           PY
 
+      - name: Certify hardened candidate preserves R4 model mathematics
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import importlib.util, json, shutil, sys
+          from pathlib import Path
+          from openpyxl import load_workbook
+
+          def load(name,path):
+              s=importlib.util.spec_from_file_location(name,path)
+              m=importlib.util.module_from_spec(s)
+              sys.modules[name]=m
+              s.loader.exec_module(m)
+              return m
+
+          r4=load("ops_cert_r4","xsmb_runtime/xsmb_reference_runner_R4_snapshot.py")
+          hc=load("ops_cert_hardened","xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py")
+          mdir=Path("schema-manifests")
+          old=r4.load_workbook_state("xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx",mdir)
+          new=hc.load_workbook_state("ops_hardened_fixture.xlsx",mdir)
+          assert old.draws.dates==new.draws.dates
+          assert old.draws.lotto==new.draws.lotto
+          target=len(old.draws.dates)+1
+          a=r4.fit_predict(old.draws,target)
+          b=hc.fit_predict(new.draws,target)
+          assert a["probabilities"]==b["probabilities"]
+          assert a["probability_sha256"]==b["probability_sha256"]
+          assert a["top5"]==b["top5"]
+          assert a["data_hash"]==b["data_hash"]
+
+          # Legacy MODEL_ACTIVATION is no longer an authority for the hardened candidate.
+          shutil.copy2("ops_hardened_fixture.xlsx","legacy_tamper.xlsx")
+          wb=load_workbook("legacy_tamper.xlsx")
+          sh=wb["MODEL_ACTIVATION"]
+          for rr in range(2,sh.max_row+1):
+              if str(sh.cell(rr,1).value or "")=="reference_runner_sha256":
+                  sh.cell(rr,2).value="LEGACY_TAMPER_SHOULD_BE_IGNORED"
+              if str(sh.cell(rr,1).value or "")=="research_state":
+                  sh.cell(rr,2).value="LEGACY_TAMPER_SHOULD_BE_IGNORED"
+          wb.save("legacy_tamper.xlsx"); wb.close()
+          legacy=hc.load_workbook_state("legacy_tamper.xlsx",mdir)
+          assert legacy.draws.dates==new.draws.dates
+          assert legacy.activation["reference_runner_sha256"]==new.activation["reference_runner_sha256"]
+          assert legacy.activation["research_state"]==new.activation["research_state"]
+
+          # OPERATIONAL_STATE tampering must fail closed.
+          shutil.copy2("ops_hardened_fixture.xlsx","ops_tamper.xlsx")
+          wb=load_workbook("ops_tamper.xlsx")
+          sh=wb["OPERATIONAL_STATE"]
+          for rr in range(2,sh.max_row+1):
+              if str(sh.cell(rr,1).value or "")=="operational_state_schema_version":
+                  sh.cell(rr,2).value="BROKEN"
+          wb.save("ops_tamper.xlsx"); wb.close()
+          try:
+              hc.load_workbook_state("ops_tamper.xlsx",mdir)
+              raise AssertionError("OPERATIONAL_STATE tamper was accepted")
+          except hc.RunnerError:
+              pass
+
+          cert={
+              "status":"PASS",
+              "candidate_runner_sha256":hc.runner_sha256(),
+              "predecessor_runner_sha256":r4.runner_sha256(),
+              "model_spec":hc.SPEC_CORE["spec_version"],
+              "spec_hash":hc.SPEC_HASH,
+              "master_content_sha256":hc.FROZEN_MASTER_1200_SHA256,
+              "probability_sha256":b["probability_sha256"],
+              "top5":b["top5"],
+              "model_math_changed":False,
+              "checks":{
+                  "draw_identity":True,
+                  "probability_identity":True,
+                  "top5_identity":True,
+                  "data_hash_identity":True,
+                  "legacy_model_activation_not_authoritative":True,
+                  "operational_state_tamper_fail_closed":True
+              }
+          }
+          Path("OPS_HARDENED_RUNNER_CANDIDATE_CERT.json").write_text(json.dumps(cert,indent=2))
+          print(json.dumps(cert,indent=2))
+          PY
+
       - name: Test Drive write gate is fail-closed without CAS certification
         run: |
           cat > drive_cert_fail.json <<'JSON'
@@ -195,6 +276,7 @@ jobs:
             "r4_harness_sha256":sha("xsmb_runtime/xsmb_R4_test_harness_py312.py"),
             "state_manifest_generator_sha256":sha("xsmb_runtime/xsmb_state_manifest.py"),
             "schema_migration_sha256":sha("xsmb_runtime/ops_schema_migration.py"),
+            "candidate_runner_sha256":sha("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py"),
             "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
             "promotion_gate_sha256":sha("xsmb_runtime/ops_hardening_promotion_gate.py"),
             "handoff_sha256":sha("XSMB_SYSTEM_HANDOFF.md"),
@@ -203,6 +285,7 @@ jobs:
               "r4_calendar_independent_34_34":True,
               "live_state_manifest":True,
               "schema_migration_fixture":True,
+              "hardened_runner_model_identity":True,
               "drive_gate_fails_closed_without_certification":True,
               "premature_promotion_rejected":True,
               "static_handoff":True,
@@ -225,6 +308,7 @@ jobs:
             OPS_HARDENING_SHA256SUMS.txt
             XSMB_CURRENT_SYSTEM_STATE_V1.json
             OPS_SCHEMA_MIGRATION_REPORT.json
+            OPS_HARDENED_RUNNER_CANDIDATE_CERT.json
             ops_hardened_fixture.xlsx
             /mnt/data/xsmb_R3_test_output/R3_34_TEST_RESULTS.json
             /mnt/data/xsmb_R3_test_output/TEST_EVIDENCE_MANIFEST_V1.json
