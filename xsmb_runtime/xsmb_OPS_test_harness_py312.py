@@ -32,14 +32,26 @@ def set_activation(wb,key,val):
     }
     sh=wb['MODEL_GOVERNANCE'] if key in governance_keys else wb['OPERATIONAL_STATE']
     target=mapping.get(key,key)
+    updated=False
     for rr in range(2,sh.max_row+1):
         if str(sh.cell(rr,1).value or '')==target:
-            sh.cell(rr,2).value=val; return
-    rr=sh.max_row+1
-    sh.cell(rr,1).value=target; sh.cell(rr,2).value=val
-    if sh.title=='OPERATIONAL_STATE':
-        sh.cell(rr,3).value='TEST'
-        sh.cell(rr,4).value='Software-test marker only.'
+            sh.cell(rr,2).value=val
+            updated=True
+            break
+    if not updated:
+        rr=sh.max_row+1
+        sh.cell(rr,1).value=target; sh.cell(rr,2).value=val
+        if sh.title=='OPERATIONAL_STATE':
+            sh.cell(rr,3).value='TEST'
+            sh.cell(rr,4).value='Software-test marker only.'
+    if key=='reference_runner_sha256':
+        hs=wb['RUNNER_HISTORY']
+        last=None
+        for rr in range(2,hs.max_row+1):
+            if str(hs.cell(rr,1).value or '').strip():
+                last=rr
+        assert last is not None
+        hs.cell(last,4).value=val
 
 
 def make_base_fixture(dest: Path)->Path:
