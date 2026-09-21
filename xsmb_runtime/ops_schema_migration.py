@@ -30,8 +30,11 @@ def activation_map(wb)->dict[str,Any]:
     return out
 
 def norm(v:Any)->Any:
+    # XLSX save/reload may normalize an explicit empty string to an empty cell.
+    # Treat both as the same semantic blank; all non-blank legacy values remain exact.
+    if v in ("", None): return None
     if isinstance(v,(datetime,date)): return v.isoformat()
-    if isinstance(v,(str,int,float,bool)) or v is None: return v
+    if isinstance(v,(str,int,float,bool)): return v
     return str(v)
 
 def existing_value_hash(core:Any, wb, excluded:set[str])->str:
