@@ -214,6 +214,37 @@ jobs:
           assert legacy.activation["reference_runner_sha256"]==new.activation["reference_runner_sha256"]
           assert legacy.activation["research_state"]==new.activation["research_state"]
 
+          # MODEL_GOVERNANCE tampering must fail closed.
+          shutil.copy2("ops_hardened_fixture.xlsx","governance_tamper.xlsx")
+          wb=load_workbook("governance_tamper.xlsx")
+          sh=wb["MODEL_GOVERNANCE"]
+          for rr in range(2,sh.max_row+1):
+              if str(sh.cell(rr,1).value or "")=="model_governance_schema_version":
+                  sh.cell(rr,2).value="BROKEN"
+          wb.save("governance_tamper.xlsx"); wb.close()
+          try:
+              hc.load_workbook_state("governance_tamper.xlsx",mdir)
+              raise AssertionError("MODEL_GOVERNANCE tamper was accepted")
+          except hc.RunnerError:
+              pass
+
+          # RUNNER_HISTORY tail tampering must fail closed.
+          shutil.copy2("ops_hardened_fixture.xlsx","history_tamper.xlsx")
+          wb=load_workbook("history_tamper.xlsx")
+          sh=wb["RUNNER_HISTORY"]
+          last=None
+          for rr in range(2,sh.max_row+1):
+              if str(sh.cell(rr,1).value or "").strip():
+                  last=rr
+          assert last is not None
+          sh.cell(last,4).value="BROKEN_RUNNER_SHA"
+          wb.save("history_tamper.xlsx"); wb.close()
+          try:
+              hc.load_workbook_state("history_tamper.xlsx",mdir)
+              raise AssertionError("RUNNER_HISTORY tamper was accepted")
+          except hc.RunnerError:
+              pass
+
           # OPERATIONAL_STATE tampering must fail closed.
           shutil.copy2("ops_hardened_fixture.xlsx","ops_tamper.xlsx")
           wb=load_workbook("ops_tamper.xlsx")
@@ -244,6 +275,8 @@ jobs:
                   "top5_identity":True,
                   "data_hash_identity":True,
                   "legacy_model_activation_not_authoritative":True,
+                  "model_governance_tamper_fail_closed":True,
+                  "runner_history_tamper_fail_closed":True,
                   "operational_state_tamper_fail_closed":True
               }
           }
