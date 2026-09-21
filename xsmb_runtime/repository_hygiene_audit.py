@@ -123,6 +123,7 @@ def main():
         required=[
           RUNTIME/"certification"/"DRIVE_CAS_LOCK_CERTIFICATION_V1.json",
           RUNTIME/"certification"/"DRIVE_CAS_WRITER_CERTIFICATION_V1.json",
+          RUNTIME/"certification"/"DRIVE_WRITE_CERTIFICATION_V2.json",
           RUNTIME/"certification"/"ROLLBACK_ANCHOR_CERTIFICATION_V1.json",
           RUNTIME/"DRIVE_CAS_WRITE_PROTOCOL.md",
           RUNTIME/"xsmb_reference_runner_R4_ops_hardened.py",
