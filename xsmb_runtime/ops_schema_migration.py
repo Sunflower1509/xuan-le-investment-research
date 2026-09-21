@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, importlib.util, json, shutil
+import argparse, importlib.util, json, sys, shutil
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
@@ -20,7 +20,7 @@ OPERATIONAL_KEYS=[
 def load_runner(path: Path):
     spec=importlib.util.spec_from_file_location("xsmb_schema_runner",path)
     if spec is None or spec.loader is None: raise RuntimeError(f"cannot load runner {path}")
-    mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod
+    mod=importlib.util.module_from_spec(spec); sys.modules[spec.name]=mod; spec.loader.exec_module(mod); return mod
 
 def activation_map(wb)->dict[str,Any]:
     sh=wb["MODEL_ACTIVATION"]; out={}
