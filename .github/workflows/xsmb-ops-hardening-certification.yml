@@ -147,6 +147,20 @@ jobs:
           fi
           echo "DRIVE_WRITE_GATE_FAIL_CLOSED=PASS"
 
+      - name: Prove production promotion remains fail-closed before 22 Sep settlement
+        run: |
+          mkdir -p promotion-manifests
+          cp xsmb_runtime/fixtures/XSMB_OBSERVED_NO_FORECAST_20260920.json promotion-manifests/
+          if python xsmb_runtime/ops_hardening_promotion_gate.py \
+            --runner xsmb_runtime/xsmb_reference_runner_R4_snapshot.py \
+            --workbook xsmb_runtime/fixtures/XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION_PREP.xlsx \
+            --manifest-dir promotion-manifests \
+            --required-settled-date 2026-09-22; then
+            echo "FAIL: promotion gate accepted an unsettled fixture"
+            exit 1
+          fi
+          echo "PREMATURE_PROMOTION_REJECTION=PASS"
+
       - name: Assert static handoff contains no live snapshot section
         run: |
           python - <<'PY'
@@ -182,6 +196,7 @@ jobs:
             "state_manifest_generator_sha256":sha("xsmb_runtime/xsmb_state_manifest.py"),
             "schema_migration_sha256":sha("xsmb_runtime/ops_schema_migration.py"),
             "drive_write_gate_sha256":sha("xsmb_runtime/drive_write_gate.py"),
+            "promotion_gate_sha256":sha("xsmb_runtime/ops_hardening_promotion_gate.py"),
             "handoff_sha256":sha("XSMB_SYSTEM_HANDOFF.md"),
             "checks":{
               "r3_calendar_independent_34_34":True,
@@ -189,6 +204,7 @@ jobs:
               "live_state_manifest":True,
               "schema_migration_fixture":True,
               "drive_gate_fails_closed_without_certification":True,
+              "premature_promotion_rejected":True,
               "static_handoff":True,
               "production_runners_unchanged":True
             },
