@@ -65,14 +65,27 @@ Current canonical production workbook:
 - File: `XSMB_RECONCILIATION_R5_1200_v2_1_PRODUCTION.xlsx`
 - Drive file ID: `1UYD3egf24aUfblq6laJE2FFLMEiZrAob`
 - URL: https://docs.google.com/spreadsheets/d/1UYD3egf24aUfblq6laJE2FFLMEiZrAob/edit
-- Locked-forecast workbook SHA256 re-verified after storage consolidation: `c475234e8a9acca5b6043f98164418b4b63a3fb13e7b705dd193293dc5eee9d1`
+- Current workbook SHA256 is deliberately not copied into this static handoff; derive it from the canonical bytes on every operation.
 
 Bootstrap handoff:
 - Folder: `00_PRODUCTION`
 - File: `XSMB_SYSTEM_HANDOFF.md`
 - Drive file ID: `1iALrBp3BIpCDU1yyopp7dxWKL2YZqUo3`
 
-Current evidence:
+Production CAS transaction authority:
+- Folder: `00_PRODUCTION`
+- Google Doc: `XSMB_PRODUCTION_CAS_LOCK`
+- Drive file ID: `1DLWoCsG43VbEgrNSIYhlYw1S3x5Sct_3jeTGQMMKe-c`
+- Protocol: `XSMB_DRIVE_CAS_LOCK_V1`
+- Purpose: serialize/compare-and-swap production writes only; never a data authority.
+
+Durable rollback anchor prepared before OPS_HARDENING:
+- Folder: `03_AUDIT_ARTIFACTS`
+- Drive file ID: `1CsOPqGjHcJX8BSNkiEl-fLXA6MEL3GkC`
+- SHA256: `5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f`
+- This is an independent byte-verified rollback copy. Do not mislabel it as a native Drive `keepForever` revision pin.
+
+Baseline certification evidence (historical anchors, not live-state authority):
 - `xsmb-runtime-gate-python312_PASS_20260921.zip` — ID `1R9N-ou97Kx-xjsmZ6mKeAfmFJFMUEADN`
 - `xsmb-r3-python312-34-tests_PASS_20260921.zip` — ID `1MH2UVZdhBpBIQfFyGRHwHeKS-EVdlvLx`
 - `xsmb-r4-snapshot-certification_PASS_20260921.zip` — ID `1f05Zs5h6YzVTAdhUda5KlpunNQh1Y05b`
@@ -90,8 +103,11 @@ Storage/repository consolidation audit:
 Repository:
 - `Sunflower1509/xuan-le-investment-research`
 
-Operational development branch:
+Operational production branch:
 - `xsmb-v2.1-python312-runtime`
+
+OPS_HARDENING candidate branch (non-production until post-settlement promotion):
+- `xsmb-ops-hardening-v1`
 
 Two-command wrapper:
 - `xsmb_runtime/xsmb_ops.py`
@@ -100,6 +116,7 @@ Two-command wrapper:
 
 Operational documentation:
 - `xsmb_runtime/TWO_COMMAND_OPERATIONS.md`
+- `xsmb_runtime/DRIVE_CAS_WRITE_PROTOCOL.md`
 
 Active XSMB workflows are intentionally limited to:
 - `.github/workflows/xsmb-runtime-gate.yml`
