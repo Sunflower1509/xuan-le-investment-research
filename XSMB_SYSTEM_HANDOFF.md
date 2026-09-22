@@ -57,6 +57,7 @@ Consolidated storage layout:
 - `01_CURRENT_EVIDENCE` — ID `1GhPQrCi7TLc7o7MQlTxp4CWTzifYs2fo`
 - `02_SETTLEMENT_EVIDENCE` — ID `1C1rm_aiL0ROTtPAO5whomcpbqQieOom6`
 - `03_AUDIT_ARTIFACTS` — ID `1wMUakLmM2CMRRUIsf00oI3Oae84bgiHu`
+- `04_RECOVERY_REFERENCE` — ID `1X5bVoY2MFkF8dKgppWurReNTXkYNnfwB`
 - `90_ARCHIVE` — ID `1_HtxA1Y_X79Fl6-oEUAL51YmSIzz9m2I`
 - `99_LEGACY_WORKING` — ID `1i7XXXZSDHTdw_yARnka7FrEHT0qYvvrN`
 
@@ -84,6 +85,21 @@ Durable rollback anchor prepared before OPS_HARDENING:
 - Drive file ID: `1CsOPqGjHcJX8BSNkiEl-fLXA6MEL3GkC`
 - SHA256: `5041ffa925154a1100b4ed21aff766ef0e79ac492703af5685e153ccea65953f`
 - This is an independent byte-verified rollback copy. Do not mislabel it as a native Drive `keepForever` revision pin.
+
+Recovery reference — NOT production runtime:
+- Folder: `04_RECOVERY_REFERENCE`
+- File: `XSMB_QUANT_EDGE_DAILY_FULL_EXECUTION_PROMPT_RECOVERY_REFERENCE.md`
+- Drive file ID: `1XFSsGnIxbopDGnGWVSR9kB8yhXudriBL`
+- GitHub path: `docs/xsmb/recovery/XSMB_QUANT_EDGE_DAILY_FULL_EXECUTION_PROMPT_RECOVERY_REFERENCE.md`
+- Classification: `RECOVERY_REFERENCE`
+- Execution role: `NONE`
+- Production authority: `false`
+- This file is for manual incident/reconstruction only. Production runtime/workflows MUST NOT auto-read, import or execute it.
+
+Artifact governance:
+- Drive root file: `XSMB_ARTIFACT_GOVERNANCE.md`
+- GitHub path: `docs/xsmb/XSMB_ARTIFACT_GOVERNANCE.md`
+- The governance policy defines the hard boundary between PRODUCTION_RUNTIME, RECOVERY_REFERENCE, EVIDENCE, AUDIT_ROLLBACK, ARCHIVE and LEGACY classes.
 
 Baseline certification evidence (historical anchors, not live-state authority):
 - `xsmb-runtime-gate-python312_PASS_20260921.zip` — ID `1R9N-ou97Kx-xjsmZ6mKeAfmFJFMUEADN`
@@ -194,10 +210,11 @@ When sources disagree, use this hierarchy:
 5. **PROSPECTIVE_LEDGER + immutable per-run manifests**
 6. **Exact-runtime TEST_EVIDENCE + operational certification evidence**
 7. **Transaction journals / backups / audit artifacts**
-8. **This handoff file**
-9. **Chat history / memory**
+8. **Static artifact-governance + this handoff file**
+9. **RECOVERY_REFERENCE artifacts**
+10. **Chat history / memory**
 
-Never use chat memory to override a higher-authority artifact.
+Never use a RECOVERY_REFERENCE or chat memory to override a higher-authority live artifact. Recovery material may only be used through an explicit incident/reconstruction process followed by full certification.
 
 ## 8. Fail-closed rules
 
