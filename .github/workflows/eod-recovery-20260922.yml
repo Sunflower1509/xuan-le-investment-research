@@ -1,0 +1,24 @@
+name: One-time EOD recovery 2026-09-22
+
+on:
+  push:
+    paths:
+      - ".github/workflows/eod-recovery-20260922.yml"
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch verified EOD 2026-09-22
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run eod-daily.yml --repo "${{ github.repository }}" --ref main -f date=2026-09-22
+          echo "Dispatched verified EOD recovery for 2026-09-22"
