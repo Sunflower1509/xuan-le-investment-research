@@ -153,8 +153,41 @@ def main():
         ]
         hit=[x for x in forbidden if x in h]
         assert not hit,hit
-        return {"static_bootstrap":True}
-    record(rows,"A10","Static handoff contains no copied live-state snapshot",a10)
+
+        recovery=ROOT/"docs"/"xsmb"/"recovery"/"XSMB_QUANT_EDGE_DAILY_FULL_EXECUTION_PROMPT_RECOVERY_REFERENCE.md"
+        governance=ROOT/"docs"/"xsmb"/"XSMB_ARTIFACT_GOVERNANCE.md"
+        assert recovery.exists(),str(recovery)
+        assert governance.exists(),str(governance)
+        rt=recovery.read_text(encoding="utf-8")
+        assert 'artifact_type: XSMB_RECOVERY_REFERENCE_FULL_PROMPT' in rt
+        assert 'usage_class: "RECOVERY_REFERENCE"' in rt
+        assert 'execution_role: "NONE"' in rt
+        assert 'production_authority: false' in rt
+        assert 'automatic_runtime_consumption: "PROHIBITED"' in rt
+        assert "RECOVERY REFERENCE — DO NOT EXECUTE DIRECTLY" in rt
+        assert not (ROOT/"docs"/"xsmb"/"XSMB_QUANT_EDGE_DAILY_FULL_EXECUTION_PROMPT.md").exists()
+
+        forbidden_ref="docs/xsmb/recovery/"
+        offenders=[]
+        for base in (RUNTIME,WORKFLOWS):
+            for p in sorted(base.rglob("*")):
+                if not p.is_file() or p.suffix not in {".py",".yml",".yaml",".json",".md",".txt"}:
+                    continue
+                if forbidden_ref in p.read_text(encoding="utf-8",errors="ignore"):
+                    offenders.append(str(p.relative_to(ROOT)))
+        assert not offenders,{"runtime_or_workflow_consumes_recovery_reference":offenders}
+
+        g=governance.read_text(encoding="utf-8")
+        assert "PRODUCTION_RUNTIME" in g and "RECOVERY_REFERENCE" in g
+        assert "04_RECOVERY_REFERENCE" in h
+        assert "Production authority: `false`" in h
+        return {
+            "static_bootstrap":True,
+            "recovery_reference_classified":True,
+            "runtime_auto_consumption":False,
+            "governance_policy_present":True,
+        }
+    record(rows,"A10","Static handoff and recovery/runtime boundary are enforced",a10)
 
     passed=sum(x["status"]=="PASS" for x in rows)
     failed=len(rows)-passed
