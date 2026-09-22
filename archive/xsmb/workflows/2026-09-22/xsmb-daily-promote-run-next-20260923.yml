@@ -1,0 +1,296 @@
+name: XSMB OPS_HARDENING Promote + RUN_NEXT 2026-09-23
+
+on:
+  push:
+    branches: ["xsmb-ops-hardening-v1"]
+    paths:
+      - ".github/workflows/xsmb-daily-promote-run-next-20260923.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: xsmb-production-writer
+  cancel-in-progress: false
+
+jobs:
+  promote-and-run-next:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+
+      - name: Download verified 22 Sep settlement artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-update-result-20260922-settled
+          path: settled
+          github-token: ${{ github.token }}
+          run-id: 35722875190
+
+      - name: Download final governed OPS_HARDENING certification
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-ops-hardening-v1-precertification
+          path: hardening
+          github-token: ${{ github.token }}
+          run-id: 35679242623
+
+      - name: Materialize pins and certified evidence
+        run: |
+          cp settled/settlement.xlsx production.xlsx
+          mkdir -p manifests test-evidence
+          cp settled/manifests/*.json manifests/
+          cp hardening/mnt/data/xsmb_OPS_test_output/TEST_EVIDENCE_MANIFEST_V1.json test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json
+          cp hardening/home/runner/work/xuan-le-investment-research/xuan-le-investment-research/OPS_HARDENING_PRECERTIFICATION.json .
+          cp hardening/home/runner/work/xuan-le-investment-research/xuan-le-investment-research/OPS_HARDENED_RUNNER_CANDIDATE_CERT.json .
+          test "$(sha256sum production.xlsx | awk '{print $1}')" = "54f4467632153a476fbc0a7946022ec2bf883a9ed9b171f24b1254048749d585"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R4_snapshot.py | awk '{print $1}')" = "71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py | awk '{print $1}')" = "1634a48ecadef5fa9c366292fcbb9964b9a9121f4286e78f549bca77d2d0c614"
+          test "$(sha256sum test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json | awk '{print $1}')" = "b512edc2c39147ceef83c219b8484b405fd6d5ea77119a79654118ec8a4fb77f"
+          cat > INPUT_PINS.txt <<'EOF'
+          SETTLED_WORKBOOK_SHA256=54f4467632153a476fbc0a7946022ec2bf883a9ed9b171f24b1254048749d585
+          SETTLEMENT_RUN_ID=35722875190
+          SETTLEMENT_ARTIFACT_ID=10691972796
+          SETTLEMENT_ARTIFACT_DIGEST=sha256:6b6c6054ec4df6fd9dcd5c6e1ef7f73526466612b50d61783ec1571df7127a9e
+          OPS_CERT_RUN_ID=35679242623
+          OPS_CERT_ARTIFACT_ID=10675125385
+          OPS_CERT_ARTIFACT_DIGEST=sha256:de53ddf8497862c40d7f4ac20ee6b0fcce8243c39146e99545216a7bd2bb9aaf
+          R4_SHA256=71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea
+          OPS_RUNNER_SHA256=1634a48ecadef5fa9c366292fcbb9964b9a9121f4286e78f549bca77d2d0c614
+          EOF
+
+      - name: Re-run post-settlement promotion gate
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/ops_hardening_promotion_gate.py             --workbook production.xlsx --manifest-dir manifests             > OPS_HARDENING_POST_SETTLEMENT_GATE.json
+          cat OPS_HARDENING_POST_SETTLEMENT_GATE.json
+
+      - name: Migrate schema without changing legacy values
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/ops_schema_migration.py             --input production.xlsx             --output migrated.xlsx             --manifest-dir manifests             --report OPS_SCHEMA_MIGRATION_LIVE_20260922.json
+          cat OPS_SCHEMA_MIGRATION_LIVE_20260922.json
+
+      - name: Promote operational runner R4 to OPS_HARDENED transactionally
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import hashlib, importlib.util, json, shutil, sys
+          from datetime import datetime
+          from pathlib import Path
+          from openpyxl import load_workbook
+          import xsmb_reference_runner_R4_snapshot as r4
+
+          def load_mod(name,path):
+              spec=importlib.util.spec_from_file_location(name,path)
+              mod=importlib.util.module_from_spec(spec); sys.modules[name]=mod; spec.loader.exec_module(mod); return mod
+
+          ops=load_mod("ops_hardened_runner",Path("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py"))
+          settled_sha="54f4467632153a476fbc0a7946022ec2bf883a9ed9b171f24b1254048749d585"
+          r4_sha="71703fdc5fb26d83e19a65e974074a3d8c684aa921fabc359d55d80af306f9ea"
+          ops_sha="1634a48ecadef5fa9c366292fcbb9964b9a9121f4286e78f549bca77d2d0c614"
+
+          precert=json.loads(Path("OPS_HARDENING_PRECERTIFICATION.json").read_text())
+          assert precert["status"]=="PASS_PENDING_POST_SETTLEMENT_PROMOTION",precert
+          assert precert["model_spec_changed"] is False and precert["model_math_changed"] is False
+          assert precert["r4_runner_sha256"]==r4_sha
+          assert precert["candidate_runner_sha256"]==ops_sha
+          assert precert["promotion_blockers"]==["FORECAST_2026_09_22_NOT_YET_SETTLED"]
+
+          candidate_cert_path=Path("OPS_HARDENED_RUNNER_CANDIDATE_CERT.json")
+          candidate_cert=json.loads(candidate_cert_path.read_text())
+          assert candidate_cert["status"]=="PASS"
+          assert candidate_cert["candidate_runner_sha256"]==ops_sha
+          assert candidate_cert["predecessor_runner_sha256"]==r4_sha
+          assert candidate_cert["model_math_changed"] is False
+          assert all(candidate_cert["checks"].values())
+          candidate_cert_file_sha=hashlib.sha256(candidate_cert_path.read_bytes()).hexdigest()
+
+          test_path=Path("test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json")
+          test_manifest=ops._validate_test_evidence(test_path,ops_sha)
+          assert test_manifest["payload"]["test_suite_revision"]=="OPS-HARDENED-34"
+          assert int(test_manifest["payload"]["passed"])==34 and int(test_manifest["payload"]["failed"])==0
+
+          report=json.loads(Path("OPS_SCHEMA_MIGRATION_LIVE_20260922.json").read_text())
+          assert report["status"]=="PASS" and report["model_math_changed"] is False
+          assert report["input_workbook_sha256"]==settled_sha
+
+          shutil.copy2("production.xlsx","promoted.xlsx")
+          wb=load_workbook("migrated.xlsx",read_only=False,data_only=False,keep_links=True)
+
+          def set_kv(sheet,key,value):
+              for rr in range(2,sheet.max_row+1):
+                  if str(sheet.cell(rr,1).value or "")==key:
+                      sheet.cell(rr,2).value=value
+                      return
+              rr=sheet.max_row+1
+              sheet.cell(rr,1).value=key; sheet.cell(rr,2).value=value
+              sheet.cell(rr,3).value="ACTIVE"
+              sheet.cell(rr,4).value="OPS_HARDENING promotion."
+
+          ops_state=wb["OPERATIONAL_STATE"]
+          set_kv(ops_state,"active_runner_sha256",ops_sha)
+          set_kv(ops_state,"operational_revision","R4-OPS-HARDENED")
+          set_kv(ops_state,"implementation_gate",ops.IMPLEMENTATION_GATE_PASS)
+          set_kv(ops_state,"runner_promotion_status","CERTIFIED_OPS_HARDENED")
+          set_kv(ops_state,"active_test_evidence_manifest_sha256",test_manifest["manifest_sha256"])
+          set_kv(ops_state,"active_certification_sha256",candidate_cert_file_sha)
+
+          promoted_at=datetime.now(ops.VIETNAM_TZ).isoformat()
+          payload={
+              "artifact_type":"XSMB_OPS_HARDENING_PROMOTION_V1",
+              "from_runner_sha256":r4_sha,
+              "to_runner_sha256":ops_sha,
+              "operational_revision":"R4-OPS-HARDENED",
+              "model_spec_version":ops.SPEC_CORE["spec_version"],
+              "spec_hash":ops.SPEC_HASH,
+              "master_content_sha256":ops.FROZEN_MASTER_1200_SHA256,
+              "model_math_changed":False,
+              "required_settled_date":"2026-09-22",
+              "post_settlement_gate_sha256":hashlib.sha256(Path("OPS_HARDENING_POST_SETTLEMENT_GATE.json").read_bytes()).hexdigest(),
+              "schema_migration_report_sha256":hashlib.sha256(Path("OPS_SCHEMA_MIGRATION_LIVE_20260922.json").read_bytes()).hexdigest(),
+              "test_evidence_manifest_sha256":test_manifest["manifest_sha256"],
+              "test_evidence_file_sha256":hashlib.sha256(test_path.read_bytes()).hexdigest(),
+              "candidate_certification_file_sha256":candidate_cert_file_sha,
+              "precertification_file_sha256":hashlib.sha256(Path("OPS_HARDENING_PRECERTIFICATION.json").read_bytes()).hexdigest(),
+              "promoted_at_local":promoted_at,
+          }
+          manifest=r4._manifest_with_hash(payload)
+
+          hist=wb["RUNNER_HISTORY"]
+          rr=hist.max_row+1
+          values=[
+              f"PROMOTION-{manifest['manifest_sha256'][:16]}",
+              "OPS_HARDENING_PROMOTION",
+              r4_sha,ops_sha,"R4-OPS-HARDENED",
+              test_manifest["manifest_sha256"],candidate_cert_file_sha,
+              False,promoted_at,manifest["manifest_sha256"],
+          ]
+          for cc,v in enumerate(values,1): hist.cell(rr,cc).value=v
+
+          mpath=Path("manifests/XSMB_OPS_HARDENING_PROMOTION_V1.json")
+          commit=r4.commit_workbook_and_manifest(
+              "promoted.xlsx",wb,mpath,manifest,settled_sha,"OPS_HARDENING_PROMOTION"
+          )
+          wb.close()
+
+          state=ops.load_workbook_state("promoted.xlsx","manifests")
+          assert state.draws.dates[-1]=="2026-09-22"
+          assert state.activation["reference_runner_sha256"]==ops_sha
+          assert state.activation["operational_revision"]=="R4-OPS-HARDENED"
+          assert state.activation["runner_promotion_status"]=="CERTIFIED_OPS_HARDENED"
+          assert state.activation["runner_promotion_test_evidence_manifest_sha256"]==test_manifest["manifest_sha256"]
+          assert not [z for z in state.ledger_records if str(z.get("record_status") or "")=="LOCKED_PRE_DRAW"]
+
+          out={
+              "status":"PROMOTED",
+              "from_runner_sha256":r4_sha,
+              "to_runner_sha256":ops_sha,
+              "operational_revision":"R4-OPS-HARDENED",
+              "model_math_changed":False,
+              "promotion_manifest":str(mpath),
+              "promotion_manifest_payload_sha256":manifest["manifest_sha256"],
+              "candidate_certification_file_sha256":candidate_cert_file_sha,
+              "test_evidence_manifest_sha256":test_manifest["manifest_sha256"],
+              **commit,
+          }
+          Path("OPS_HARDENING_PROMOTION_RESULT.json").write_text(json.dumps(out,indent=2),encoding="utf-8")
+          print(json.dumps(out,indent=2))
+          PY
+
+      - name: RUN_NEXT 2026-09-23 under OPS_HARDENED
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py run-forecast             --workbook promoted.xlsx             --forecast-date 2026-09-23             --data-cutoff 2026-09-22             --manifest-dir manifests             --test-evidence test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json             > RUN_NEXT_20260923.json
+          cat RUN_NEXT_20260923.json
+
+      - name: Verify final hardened production state
+        run: |
+          PYTHONPATH=xsmb_runtime python - <<'PY'
+          import hashlib, importlib.util, json, sys
+          from pathlib import Path
+
+          spec=importlib.util.spec_from_file_location("ops_final",Path("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py"))
+          ops=importlib.util.module_from_spec(spec); sys.modules["ops_final"]=ops; spec.loader.exec_module(ops)
+
+          x=json.loads(Path("RUN_NEXT_20260923.json").read_text())
+          assert x["status"]=="LOCKED_PRE_DRAW",x
+          assert x["forecast_date"]=="2026-09-23",x
+          assert x["model_snapshot_sha256"],x
+
+          s=ops.load_workbook_state("promoted.xlsx","manifests")
+          assert s.draws.dates[-1]=="2026-09-22"
+          assert s.activation["reference_runner_sha256"]==ops.runner_sha256()
+          assert s.activation["operational_revision"]=="R4-OPS-HARDENED"
+          locked=[z for z in s.ledger_records if str(z.get("record_status") or "")=="LOCKED_PRE_DRAW"]
+          assert len(locked)==1,locked
+          assert ops.normalize_date(locked[0]["forecast_date"])=="2026-09-23"
+          settled=[z for z in s.ledger_records if str(z.get("record_status") or "")=="SETTLED_VERIFIED"]
+          assert len(settled)==2,settled
+
+          fpath=Path(x["forecast_manifest"])
+          fobj=json.loads(fpath.read_text())
+          assert fobj["payload"]["runner_sha256"]==ops.runner_sha256()
+          assert fobj["payload"]["forecast_date"]=="2026-09-23"
+          assert fobj["payload"]["data_cutoff"]=="2026-09-22"
+
+          report={
+              "status":"PASS",
+              "operation":"OPS_HARDENING_PROMOTION_PLUS_RUN_NEXT",
+              "forecast_date":"2026-09-23",
+              "data_cutoff":"2026-09-22",
+              "output_workbook_sha256":ops.sha256_file("promoted.xlsx"),
+              "runner_sha256":ops.runner_sha256(),
+              "operational_revision":"R4-OPS-HARDENED",
+              "spec_hash":ops.SPEC_HASH,
+              "master_content_sha256":ops.FROZEN_MASTER_1200_SHA256,
+              "forecast_id":x["forecast_id"],
+              "probability_sha256":x["probability_sha256"],
+              "model_snapshot_sha256":x["model_snapshot_sha256"],
+              "top5":x["top5"],
+              "probabilities":x["probabilities"],
+              "forecast_manifest_file_sha256":hashlib.sha256(fpath.read_bytes()).hexdigest(),
+              "promotion_manifest_file_sha256":hashlib.sha256(Path("manifests/XSMB_OPS_HARDENING_PROMOTION_V1.json").read_bytes()).hexdigest(),
+              "research_state":s.activation["research_state"],
+              "locked_pre_draw_count":1,
+              "settled_verified_count":2,
+              "runtime":ops.runtime_manifest(),
+          }
+          Path("RUN_NEXT_VERIFICATION_20260923.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+          sha256sum promoted.xlsx RUN_NEXT_20260923.json RUN_NEXT_VERIFICATION_20260923.json             OPS_HARDENING_PROMOTION_RESULT.json OPS_HARDENING_POST_SETTLEMENT_GATE.json             OPS_SCHEMA_MIGRATION_LIVE_20260922.json manifests/*.json             test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json > SHA256SUMS.txt
+
+      - name: Upload immutable hardened RUN_NEXT evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-ops-hardened-run-next-20260923-locked
+          path: |
+            promoted.xlsx
+            RUN_NEXT_20260923.json
+            RUN_NEXT_VERIFICATION_20260923.json
+            OPS_HARDENING_PROMOTION_RESULT.json
+            OPS_HARDENING_POST_SETTLEMENT_GATE.json
+            OPS_SCHEMA_MIGRATION_LIVE_20260922.json
+            OPS_HARDENING_PRECERTIFICATION.json
+            OPS_HARDENED_RUNNER_CANDIDATE_CERT.json
+            INPUT_PINS.txt
+            SHA256SUMS.txt
+            manifests/*.json
+            test-evidence/OPS_TEST_EVIDENCE_MANIFEST_V1.json
+          if-no-files-found: error
+          retention-days: 90
