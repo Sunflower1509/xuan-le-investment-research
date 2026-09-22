@@ -1,0 +1,101 @@
+name: XSMB Audit Replay Forecast 2026-09-23
+
+on:
+  push:
+    branches: ["xsmb-ops-hardening-v1"]
+    paths:
+      - ".github/workflows/xsmb-audit-replay-forecast-20260923.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: xsmb-audit-replay-20260923
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12.12"
+      - name: Install exact frozen runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r xsmb_runtime/requirements-runtime.txt
+      - name: Download immutable 23 Sep locked artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: xsmb-ops-hardened-run-next-20260923-locked
+          path: locked
+          github-token: ${{ github.token }}
+          run-id: 35724042838
+      - name: Verify immutable input pins
+        run: |
+          test "$(sha256sum locked/promoted.xlsx | awk '{print $1}')" = "7c2109160a590f3544b399d1f345f83b3355a3076066aca6b2ce84a0553ca28b"
+          test "$(sha256sum xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py | awk '{print $1}')" = "1634a48ecadef5fa9c366292fcbb9964b9a9121f4286e78f549bca77d2d0c614"
+      - name: Fresh-process reproducibility audit
+        run: |
+          PYTHONPATH=xsmb_runtime python xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py repro-test             --workbook locked/promoted.xlsx             --manifest-dir locked/manifests             --target-index 1204             --output REPRO_20260923.json             --fresh-process
+          cat REPRO_20260923.json
+      - name: Compare replay with immutable locked forecast
+        run: |
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          locked=json.loads(Path("locked/RUN_NEXT_20260923.json").read_text())
+          repro=json.loads(Path("REPRO_20260923.json").read_text())
+          assert repro["status"]=="PASS",repro
+          assert repro["same_probabilities_bitwise"] is True,repro
+          assert repro["same_top5"] is True,repro
+          assert repro["max_absolute_difference"]==0.0,repro
+          assert repro["fresh_process"]["status"]=="PASS",repro
+          assert repro["run_1_probability_sha256"]==locked["probability_sha256"],(repro,locked)
+          assert repro["run_2_probability_sha256"]==locked["probability_sha256"],(repro,locked)
+          assert repro["fresh_process"]["run_1_probability_sha256"]==locked["probability_sha256"],(repro,locked)
+          assert repro["fresh_process"]["run_2_probability_sha256"]==locked["probability_sha256"],(repro,locked)
+          assert repro["top5_run_1"]==locked["top5"],(repro,locked)
+          assert repro["top5_run_2"]==locked["top5"],(repro,locked)
+          assert repro["fresh_process"]["top5_run_1"]==locked["top5"],(repro,locked)
+          assert repro["fresh_process"]["top5_run_2"]==locked["top5"],(repro,locked)
+          probs=locked["probabilities"]
+          ranked=sorted(probs.items(),key=lambda kv:(-float(kv[1]),kv[0]))
+          assert [x[0] for x in ranked[:5]]==locked["top5"],ranked[:10]
+          report={
+            "status":"PASS",
+            "audit_type":"READ_ONLY_INDEPENDENT_REPLAY",
+            "forecast_date":"2026-09-23",
+            "target_index":1204,
+            "data_cutoff":repro["data_cutoff"],
+            "data_hash":repro["data_hash"],
+            "probability_sha256":locked["probability_sha256"],
+            "top5":locked["top5"],
+            "top10":ranked[:10],
+            "same_process_bitwise":True,
+            "fresh_process_bitwise":True,
+            "max_absolute_difference":0.0,
+            "locked_workbook_sha256":hashlib.sha256(Path("locked/promoted.xlsx").read_bytes()).hexdigest(),
+            "runner_sha256":hashlib.sha256(Path("xsmb_runtime/xsmb_reference_runner_R4_ops_hardened.py").read_bytes()).hexdigest()
+          }
+          Path("FORECAST_20260923_AUDIT_REPLAY_PASS.json").write_text(json.dumps(report,indent=2),encoding="utf-8")
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: xsmb-forecast-20260923-audit-replay-PASS
+          path: |
+            REPRO_20260923.json
+            FORECAST_20260923_AUDIT_REPLAY_PASS.json
+          if-no-files-found: error
+          retention-days: 90
