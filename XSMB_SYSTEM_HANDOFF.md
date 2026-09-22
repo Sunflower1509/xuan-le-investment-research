@@ -123,7 +123,7 @@ Repository:
 Operational production branch:
 - `xsmb-v2.1-python312-runtime`
 
-OPS_HARDENING candidate branch (non-production until post-settlement promotion):
+OPS_HARDENING development/history branch (promotion completed; active runner must still be read from canonical OPERATIONAL_STATE):
 - `xsmb-ops-hardening-v1`
 
 Two-command wrapper:
