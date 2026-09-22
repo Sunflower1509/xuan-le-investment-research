@@ -98,6 +98,7 @@ Recovery reference — NOT production runtime:
 
 Artifact governance:
 - Drive root file: `XSMB_ARTIFACT_GOVERNANCE.md`
+- Drive file ID: `1_ZHEAu1GJipFaHg-3Bkio4f88JsSzect`
 - GitHub path: `docs/xsmb/XSMB_ARTIFACT_GOVERNANCE.md`
 - The governance policy defines the hard boundary between PRODUCTION_RUNTIME, RECOVERY_REFERENCE, EVIDENCE, AUDIT_ROLLBACK, ARCHIVE and LEGACY classes.
 
