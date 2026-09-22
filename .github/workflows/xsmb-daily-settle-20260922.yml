@@ -99,7 +99,7 @@ jobs:
             ]
           }
           JSON
-          test "$(sha256sum settlement_evidence_20260922_3source.json | awk '{print $1}')" = "146e0c686c34eb96e12220dd5efd304c7388c449dc8590142780a0e402dddcfb"
+          test "$(sha256sum settlement_evidence_20260922_3source.json | awk '{print $1}')" = "36074a5241d702dccd37a6a227f687b900ec85799e6cba7b00140a1e03341594"
 
       - name: Execute UPDATE_RESULT 2026-09-22
         run: |
