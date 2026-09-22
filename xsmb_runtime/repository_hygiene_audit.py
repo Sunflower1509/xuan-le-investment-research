@@ -121,10 +121,11 @@ def main():
 
     def a08():
         ops=(RUNTIME/"xsmb_ops.py").read_text(encoding="utf-8")
-        assert "import xsmb_reference_runner_R4_snapshot as core" in ops
-        assert "xsmb_reference_runner_R4_ops_hardened as core" not in ops
-        return {"pre_settlement_wrapper_remains_r4":True}
-    record(rows,"A08","No premature switch of production two-command wrapper",a08)
+        assert "import xsmb_reference_runner_R4_ops_hardened as core" in ops
+        assert "import xsmb_reference_runner_R4_snapshot as core" not in ops
+        assert 'OPERATIONAL_REVISION' in ops
+        return {"post_promotion_wrapper_bound_to_ops_hardened":True}
+    record(rows,"A08","Production two-command wrapper is bound to certified OPS_HARDENED",a08)
 
     def a09():
         required=[
