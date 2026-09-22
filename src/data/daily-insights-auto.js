@@ -10,6 +10,198 @@
    */
   const entries = [
     {
+      "id": "market-view-20260922",
+      "date": "2026-09-22",
+      "publishedAt": "22/09/2026 • Sau phiên",
+      "edition": "Số 23",
+      "sentiment": "watch",
+      "sentimentLabel": "PHÒNG THỦ / CHỜ XÁC NHẬN",
+      "dataStatus": "VNDIRECT + VnEconomy + DNSE + KBS • dữ liệu cuối ngày 22.09.2026 • tự doanh: CHƯA XÁC MINH",
+      "title": "Lấy lại 1.800 điểm nhưng thanh khoản hụt mạnh — chưa đủ điều kiện mở mua",
+      "thesis": "Dữ liệu đến hết phiên 22/09/2026. Chỉ số VN đóng 1.816,93 điểm, tăng 17,26 điểm (+0,96%); VN30 tăng 0,62% lên 1.965,36 điểm và HNX tăng 0,93% lên 276,93 điểm. Độ rộng sàn TP.HCM theo bộ dữ liệu đã khóa là 157 mã tăng, 79 mã tham chiếu và 120 mã giảm. Giá trị khớp lệnh chỉ đạt 10.237,94 tỷ đồng, thấp hơn bình quân 20 phiên khoảng 28,6%. Chỉ số vừa lấy lại đường trung bình 20 phiên 1.814,11 và vẫn đứng trên đường trung bình 200 phiên 1.793,88 cùng đường trung bình 50 phiên 1.775,25. Khối ngoại theo VnEconomy đảo chiều mua ròng hơn 322 tỷ đồng; dữ liệu tự doanh 22/09 chưa xác minh độc lập. Hợp đồng tương lai gần nhất đóng 1.962,9 điểm, thấp hơn VN30 cơ sở 2,46 điểm. Điểm đồng thuận +2/7 nhưng cổng loại trừ vẫn kích hoạt. TRẠNG THÁI TÁC NGHIỆP: PHÒNG THỦ / CHỜ XÁC NHẬN; không mua đuổi, không tăng đòn bẩy.",
+      "author": "Xuân Lê TVS",
+      "role": "Môi giới và tư vấn đầu tư",
+      "readingTime": "5 phút đọc",
+      "metrics": [
+        {
+          "label": "CHỈ SỐ VN",
+          "value": "1.816,93",
+          "change": "+17,26 • +0,96%",
+          "tone": "positive"
+        },
+        {
+          "label": "ĐỘ RỘNG SÀN TP.HCM",
+          "value": "157 tăng / 120 giảm",
+          "change": "79 tham chiếu • 7 mã sàn",
+          "tone": "positive"
+        },
+        {
+          "label": "GIÁ TRỊ KHỚP LỆNH",
+          "value": "~10.238 tỷ",
+          "change": "−28,6% so với bình quân 20 phiên ~14.343 tỷ",
+          "tone": "warning"
+        },
+        {
+          "label": "KHỐI NGOẠI",
+          "value": "MUA RÒNG >322 tỷ",
+          "change": "Đảo chiều mua trở lại theo VnEconomy",
+          "tone": "positive"
+        }
+      ],
+      "backdrop": [
+        "Bản chất phiên 22/09 là hồi phục có cải thiện độ rộng nhưng chất lượng dòng tiền chưa đủ mạnh để xác nhận một nhịp tăng bền. Chỉ số VN mở cửa 1.798,90 điểm, có lúc lùi xuống 1.787,62 rồi hồi lên cao nhất 1.828,19 trước khi đóng 1.816,93. Cấu trúc nến xanh rút chân cho thấy lực bán ở vùng thấp đã giảm, nhưng cung vẫn xuất hiện khi chỉ số tiến gần 1.830.",
+        "Thanh khoản là điểm yếu lớn nhất. Giá trị khớp lệnh chỉ khoảng 10.237,94 tỷ đồng, thấp hơn bình quân 5 phiên khoảng 33,0%, thấp hơn bình quân 10 phiên khoảng 27,6% và thấp hơn bình quân 20 phiên khoảng 28,6%; khối lượng khớp cũng thấp hơn bình quân 20 phiên khoảng 27,6%. Một phiên tăng gần 1% nhưng tiền vào hụt mạnh không đủ điều kiện xác nhận mở vị thế mới diện rộng.",
+        "Độ rộng cải thiện với 157 mã tăng so với 120 mã giảm, phù hợp với nhận định của VnEconomy rằng mặt bằng giá có lan tỏa tích cực hơn so với phiên trước. Tuy nhiên điểm số vẫn được nâng đỡ đáng kể bởi VIC, VHM và MSN. Vì vậy dòng tiền được đánh giá là có lan tỏa vừa phải nhưng vẫn thiên về một số cổ phiếu vốn hóa lớn, chưa xuất hiện nhóm dẫn dắt đủ rộng.",
+        "Về kỹ thuật, chỉ số VN đóng trên đường trung bình 20 phiên 1.814,11 khoảng 2,82 điểm, đồng thời vẫn cao hơn đường trung bình 200 phiên 1.793,88 và đường trung bình 50 phiên 1.775,25. Ngắn hạn chuyển từ YẾU sang TRUNG TÍNH, nhưng chưa đủ cơ sở chuyển sang trạng thái TÍCH CỰC vì vùng 1.825–1.830 chưa được vượt dứt khoát và thanh khoản chưa xác nhận.",
+        "Bản đồ dòng tiền cho thấy tiền vào chọn lọc ở một số cổ phiếu bất động sản vốn hóa lớn và tiêu dùng, nổi bật VIC, VHM, MSN trong vai trò nâng chỉ số. Ngân hàng tiếp tục phân hóa khi SSB, VPB và ACB nằm trong nhóm gây sức ép giảm điểm. Đọc xoay vòng hiện tại là tiền rời trạng thái bán mạnh của phiên trước để quay lại một số trụ, nhưng chưa đủ rộng để xem là dòng tiền dẫn dắt thực sự.",
+        "Khối ngoại là điểm cộng khi đảo chiều mua ròng hơn 322 tỷ đồng theo VnEconomy sau phiên bán mạnh trước đó. Dữ liệu tự doanh ngày 22/09 chưa được xác minh độc lập sau nhiều lượt tìm nên không dùng để chấm điểm. Phái sinh vẫn thận trọng: hợp đồng tương lai gần nhất đóng 1.962,9 điểm so với VN30 cơ sở 1.965,36 điểm, chênh lệch âm 2,46 điểm."
+      ],
+      "levels": [
+        {
+          "label": "Hỗ trợ gần / đường trung bình 20 phiên",
+          "value": "1.810–1.815",
+          "note": "Đường trung bình 20 phiên ở 1.814,11. Nếu chỉ số giữ được vùng này và độ rộng tiếp tục dương, ưu tiên giữ cổ phiếu khỏe hơn thị trường; chưa mua đuổi."
+        },
+        {
+          "label": "Hỗ trợ mạnh / đường trung bình 200 phiên",
+          "value": "1.790–1.795",
+          "note": "Đường trung bình 200 phiên ở 1.793,88. Nếu đóng dưới vùng này cùng số mã giảm áp đảo, phải giảm rủi ro phần giao dịch ngắn hạn."
+        },
+        {
+          "label": "Kháng cự gần",
+          "value": "1.825–1.830",
+          "note": "Đỉnh phiên 22/09 ở 1.828,19. Chỉ khi đóng vượt vùng này với thanh khoản cải thiện rõ và độ rộng tiếp tục tích cực mới xem xét gỡ bớt trạng thái phòng thủ."
+        },
+        {
+          "label": "Kháng cự mạnh",
+          "value": "1.840–1.850",
+          "note": "Đây là vùng cung đã nhiều lần gây rung lắc. Tại giá đóng cửa 1.816,93, tỷ lệ lợi nhuận/rủi ro tới vùng này so với đường trung bình 200 phiên vẫn thấp hơn chuẩn 2:1."
+        },
+        {
+          "label": "Mốc vô hiệu ngắn hạn",
+          "value": "<1.790",
+          "note": "Đóng dưới 1.790 làm suy yếu lại cấu trúc hồi phục; mất tiếp vùng 1.775–1.780 quanh đường trung bình 50 phiên thì chuyển sang giảm rủi ro mạnh hơn."
+        }
+      ],
+      "confluence": {
+        "score": 2,
+        "maxScore": 7,
+        "factors": [
+          {
+            "factor": "Giá / đường trung bình / cấu trúc",
+            "score": 1,
+            "note": "Đóng trên đường trung bình 20, 50 và 200 phiên; nến xanh rút chân cho thấy lực cầu có phản ứng tại vùng thấp."
+          },
+          {
+            "factor": "Thanh khoản",
+            "score": -1,
+            "note": "Giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 28,6%, không xác nhận mức tăng gần 1% của chỉ số."
+          },
+          {
+            "factor": "Độ rộng",
+            "score": 1,
+            "note": "157 mã tăng so với 120 mã giảm; độ rộng đã chuyển tích cực hơn phiên trước."
+          },
+          {
+            "factor": "Dòng tiền",
+            "score": 0,
+            "note": "Có cải thiện nhưng điểm số vẫn được nâng đỡ đáng kể bởi một số cổ phiếu vốn hóa lớn; chưa có sự lan tỏa đủ mạnh."
+          },
+          {
+            "factor": "Khối ngoại",
+            "score": 1,
+            "note": "Đảo chiều mua ròng hơn 322 tỷ đồng theo VnEconomy, cải thiện so với phiên trước."
+          },
+          {
+            "factor": "Chất lượng nhóm dẫn dắt",
+            "score": 0,
+            "note": "VIC, VHM và MSN kéo chỉ số rõ, trong khi ngân hàng còn phân hóa; chưa có nhóm dẫn dắt đồng thuận đủ rộng."
+          },
+          {
+            "factor": "Vĩ mô / phái sinh",
+            "score": 0,
+            "note": "Hợp đồng tương lai gần nhất thấp hơn VN30 cơ sở 2,46 điểm; mức chênh lệch không quá sâu nhưng chưa ủng hộ tăng rủi ro."
+          }
+        ],
+        "veto": [
+          "Thanh khoản không xác nhận: giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 28,6% trong một phiên chỉ số tăng gần 1%",
+          "Dòng tiền còn tập trung đáng kể vào một số cổ phiếu vốn hóa lớn, chưa tạo được nhóm dẫn dắt đủ rộng",
+          "Tỷ lệ lợi nhuận/rủi ro tại vùng đóng cửa tới kháng cự 1.840–1.850 so với mốc vô hiệu quanh 1.794 chưa đạt chuẩn 2:1"
+        ]
+      },
+      "scenarios": [
+        {
+          "state": "positive",
+          "probability": 25,
+          "if": "Chỉ số VN giữ 1.810–1.815 rồi đóng vượt 1.830, giá trị khớp lệnh cải thiện ít nhất về quanh bình quân 20 phiên khoảng 14.343 tỷ đồng, độ rộng tiếp tục dương và khối ngoại không quay lại bán mạnh",
+          "then": "Chỉ mua thăm dò sau khi vượt cản và kiểm định lại thành công; ưu tiên cổ phiếu dẫn dắt có nền cơ bản tốt, mức cắt lỗ 3–7% và tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1."
+        },
+        {
+          "state": "neutral",
+          "probability": 50,
+          "if": "Chỉ số VN dao động trong 1.794–1.830, giữ được các đường trung bình dài hơn nhưng thanh khoản vẫn thấp và nhóm dẫn dắt chưa mở rộng",
+          "then": "Duy trì PHÒNG THỦ / CHỜ XÁC NHẬN; giữ cổ phiếu khỏe sẵn có, tỷ trọng chiến thuật tối đa khoảng 20%, không mua đuổi và không tăng đòn bẩy."
+        },
+        {
+          "state": "risk_off",
+          "probability": 25,
+          "if": "Chỉ số VN đóng dưới 1.790 và đặc biệt mất vùng 1.775–1.780 cùng độ rộng chuyển xấu",
+          "then": "Hạ thêm tỷ trọng, dừng mở vị thế mới, xử lý cổ phiếu vi phạm mức cắt lỗ 3–7% và không bình quân giá xuống bằng đòn bẩy."
+        }
+      ],
+      "playbook": [
+        {
+          "state": "positive",
+          "if": "XÁC NHẬN TÍCH CỰC — giữ 1.810–1.815 và đóng vượt 1.830 với giá trị khớp lệnh quay về quanh bình quân 20 phiên, độ rộng dương và nhóm dẫn dắt mở rộng",
+          "then": "MUA THĂM DÒ SAU KHI KIỂM ĐỊNH LẠI. Chỉ chọn cổ phiếu cơ bản tốt, cắt lỗ 3–7%, tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1 và chưa tăng đòn bẩy vội."
+        },
+        {
+          "state": "neutral",
+          "if": "CHƯA XÁC NHẬN — chỉ số giữ 1.794–1.830 nhưng thanh khoản thấp hoặc điểm số tiếp tục phụ thuộc vào vài cổ phiếu vốn hóa lớn",
+          "then": "GIỮ / CHỜ. Tỷ trọng chiến thuật tối đa khoảng 20%, tiền mặt cao, không mua đuổi và không tăng đòn bẩy."
+        },
+        {
+          "state": "risk_off",
+          "if": "RỦI RO TĂNG — đóng dưới 1.790; nghiêm trọng hơn nếu mất vùng 1.775–1.780 và số mã giảm áp đảo",
+          "then": "HẠ TỶ TRỌNG. Dừng mở mới, xử lý vị thế yếu hoặc chạm mức cắt lỗ 3–7%; không bình quân giá xuống."
+        }
+      ],
+      "focus": "PHÒNG THỦ / CHỜ XÁC NHẬN • Điểm đồng thuận +2/7 • cổng loại trừ: thanh khoản yếu + dòng tiền còn tập trung ở trụ + tỷ lệ lợi nhuận/rủi ro <2 • đường trung bình 20 phiên 1.814,11 • đường trung bình 200 phiên 1.793,88 • đường trung bình 50 phiên 1.775,25 • giá trị khớp lệnh ~10.238 tỷ • khối ngoại mua ròng >322 tỷ • phái sinh thấp hơn cơ sở 2,46 điểm • tỷ trọng chiến thuật ≤20% • không tăng đòn bẩy",
+      "inference": "Dữ liệu cuối ngày 22/09/2026 đã vượt cổng dữ liệu với 127/127 mã; ngoại lệ OIL giữa CafeF và VNDIRECT đã được KBS đúng ngày xác nhận trùng VNDIRECT ở 14.300 đồng. VNDIRECT khóa chỉ số VN 1.816,93 (+0,96%), VN30 1.965,36 (+0,62%), HNX 276,93 (+0,93%) và độ rộng sàn TP.HCM 157 tăng/79 tham chiếu/120 giảm/7 sàn. Chuỗi 219 phiên cho đường trung bình 20 phiên 1.814,11, đường trung bình 50 phiên 1.775,25 và đường trung bình 200 phiên 1.793,88; giá trị khớp lệnh 10.237,94 tỷ đồng so với bình quân 5 phiên 15.277,15 tỷ, bình quân 10 phiên 14.141,64 tỷ và bình quân 20 phiên 14.343,34 tỷ. VnEconomy ghi khối ngoại đảo chiều mua ròng hơn 322 tỷ đồng và mức tăng chỉ số được nâng đỡ đáng kể bởi VIC, VHM, MSN. DNSE cho thấy hợp đồng tương lai gần nhất đóng 1.962,9 điểm, thấp hơn VN30 cơ sở 2,46 điểm. Điểm đồng thuận = +2/7 với cấu phần +1,-1,+1,0,+1,0,0. Cổng loại trừ có hiệu lực; kết luận: PHÒNG THỦ / CHỜ XÁC NHẬN.",
+      "limitations": [
+        "Dữ liệu tự doanh ngày 22/09 chưa được xác minh độc lập sau nhiều lượt tìm trên 24HMoney, VietnamBiz, VnEconomy và các nguồn tổng hợp; không dùng biến này để nâng hoặc hạ điểm đồng thuận.",
+        "Giá trị giao dịch tổng cộng của một số nguồn bao gồm cả thỏa thuận; phần so sánh nền thanh khoản trong bản nhận định chỉ dùng giá trị khớp lệnh VNDIRECT để giữ cùng phạm vi.",
+        "Khối ngoại được nêu theo con số hơn 322 tỷ đồng trong bài hậu phiên của VnEconomy; không tự quy đổi sang phạm vi sàn riêng nếu nguồn không ghi rõ."
+      ],
+      "zaloPost": "Phiên 22/09 giúp chỉ số lấy lại 1.800 điểm, nhưng chưa phải lúc để vội nâng rủi ro danh mục. Chỉ số VN đóng 1.816,93 điểm, tăng 0,96%; độ rộng cải thiện với 157 mã tăng so với 120 mã giảm. Điểm tích cực là lực bán ở vùng thấp đã dịu lại và khối ngoại đảo chiều mua ròng hơn 322 tỷ đồng.\n\nTuy nhiên phần quan trọng nhất nằm ở thanh khoản. Giá trị khớp lệnh chỉ khoảng 10,24 nghìn tỷ đồng, thấp hơn bình quân 20 phiên khoảng 28,6%. Chỉ số tăng gần 1% nhưng tiền vào lại hụt mạnh, trong khi VIC, VHM và MSN đóng góp đáng kể cho nhịp hồi. Điều đó cho thấy thị trường có phục hồi, nhưng dòng tiền dẫn dắt vẫn chưa đủ rộng để mở vị thế mới diện rộng.\n\nVề kỹ thuật, chỉ số vừa lấy lại đường trung bình 20 phiên tại 1.814,11 và vẫn đứng trên đường trung bình 200 phiên quanh 1.793,88. Vùng 1.825–1.830 là cản gần. Nếu chỉ số giữ 1.810–1.815 rồi đóng vượt 1.830 với giá trị khớp lệnh quay về ít nhất quanh bình quân 20 phiên và độ rộng tiếp tục dương, lúc đó mới xem xét mua thăm dò sau khi kiểm định lại. Nếu chưa có các điều kiện này, tiếp tục chờ.\n\nỞ chiều ngược lại, nếu đóng dưới 1.790, cần giảm phần giao dịch ngắn hạn; mất tiếp 1.775–1.780 thì dừng bắt đáy. Việc nên làm phiên tới là giữ các cổ phiếu còn khỏe hơn thị trường, loại bớt mã yếu khi hồi, giữ tiền mặt cao và không tăng đòn bẩy. Tỷ trọng chiến thuật mới tối đa khoảng 20%; từng giao dịch phải có mức cắt lỗ 3–7% và tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1.\n\nChỉ số xanh nhưng tiền chưa xác nhận thì vẫn phải giữ kỷ luật. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      "sources": [
+        {
+          "label": "VNDIRECT — chỉ số và độ rộng cuối phiên 22/09/2026",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-09-22&size=500"
+        },
+        {
+          "label": "VNDIRECT — chuỗi chỉ số VN tính các đường trung bình và nền thanh khoản",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-22&size=500"
+        },
+        {
+          "label": "VnEconomy — vốn ngoại đảo chiều mua ròng, thị trường phân hóa",
+          "url": "https://vneconomy.vn/von-ngoai-dao-chieu-mua-rong-thi-truong-phan-hoa.htm"
+        },
+        {
+          "label": "VnEconomy — bán ít, độ rộng cải thiện nhưng thanh khoản rất thấp",
+          "url": "https://vneconomy.vn/blog-chung-khoan-ban-it.htm"
+        },
+        {
+          "label": "KBS — xác minh OIL ngày 22/09/2026",
+          "url": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=22-09-2026&edate=22-09-2026"
+        },
+        {
+          "label": "DNSE — dữ liệu hợp đồng tương lai VN30 gần nhất",
+          "url": "https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=1790035200&to=1790121600"
+        }
+      ]
+    },
+    {
       "id": "market-view-20260921",
       "date": "2026-09-21",
       "publishedAt": "21/09/2026 • Sau phiên",
