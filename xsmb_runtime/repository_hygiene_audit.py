@@ -171,6 +171,8 @@ def main():
         offenders=[]
         for base in (RUNTIME,WORKFLOWS):
             for p in sorted(base.rglob("*")):
+                if p.resolve()==Path(__file__).resolve():
+                    continue
                 if not p.is_file() or p.suffix not in {".py",".yml",".yaml",".json",".md",".txt"}:
                     continue
                 if forbidden_ref in p.read_text(encoding="utf-8",errors="ignore"):
