@@ -129,6 +129,19 @@ test("ngoại lệ 18/09 chỉ chấp nhận đúng giá nguồn thứ ba đã x
   }
 });
 
+test("ngoại lệ OIL 22/09 chỉ chấp nhận đúng giá KBS exact-date đã xác minh", () => {
+  const decision = secondaryCloseDecision({ ticker: "OIL", date: "2026-09-22", primaryClose: 14300, cafeFClose: 14200 });
+  assert.equal(decision.ok, true);
+  assert.equal(decision.mode, "third-source-override");
+  assert.match(decision.source, /kbsec\.com\.vn/);
+
+  const wrongPrimary = secondaryCloseDecision({ ticker: "OIL", date: "2026-09-22", primaryClose: 14400, cafeFClose: 14200 });
+  assert.equal(wrongPrimary.ok, false);
+
+  const unrelated = secondaryCloseDecision({ ticker: "MSR", date: "2026-09-22", primaryClose: 14300, cafeFClose: 14200 });
+  assert.equal(unrelated.ok, false);
+});
+
 test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được khóa đủ hai nguồn", () => {
   const current = [{
     ticker: "AAA",
