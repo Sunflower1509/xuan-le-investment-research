@@ -18,10 +18,11 @@ state authority and Drive write discipline only.
 Key files:
 - `xsmb_reference_runner_R3_final.py` — frozen predecessor.
 - `xsmb_reference_runner_R4_snapshot.py` — certified R4 snapshot runner.
-- `xsmb_reference_runner_R4_ops_hardened.py` — pre-certified OPS_HARDENED candidate.
+- `xsmb_reference_runner_R4_ops_hardened.py` — certified OPS_HARDENED runner candidate; production activation requires the controlled post-settlement promotion transaction.
 - `xsmb_R3_test_harness_py312.py`, `xsmb_R4_test_harness_py312.py`,
   `xsmb_OPS_test_harness_py312.py` — exact-runtime 34-test suites.
 - `ops_schema_migration.py` — candidate schema migration.
+- `xsmb_ops.py` — two-command wrapper bound to OPS_HARDENED after promotion; routine commands remain `update-result` and `run-next`.
 - `ops_hardening_promotion_gate.py` — blocks promotion until required settlement state.
 - `xsmb_state_manifest.py` — machine-generated derived state witness.
 - `drive_write_gate.py` and `DRIVE_CAS_WRITE_PROTOCOL.md` — fail-closed CAS write discipline.
@@ -29,6 +30,6 @@ Key files:
 Dated one-off workflows and historical forensic tools do not belong in this
 runtime directory; they are isolated under `archive/xsmb/`.
 
-Production promotion of OPS_HARDENING remains forbidden until the required
-post-settlement gate passes. No file in this directory authorizes model tuning
+OPS_HARDENING may be activated only after the post-settlement gate, exact-runtime
+promotion evidence, CAS write-back and read-back verification all pass. No file in this directory authorizes model tuning
 or changes to M7_logistic_l2.
