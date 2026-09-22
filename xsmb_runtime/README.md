@@ -18,10 +18,10 @@ state authority and Drive write discipline only.
 Key files:
 - `xsmb_reference_runner_R3_final.py` — frozen predecessor.
 - `xsmb_reference_runner_R4_snapshot.py` — certified R4 snapshot runner.
-- `xsmb_reference_runner_R4_ops_hardened.py` — certified OPS_HARDENED runner candidate; production activation requires the controlled post-settlement promotion transaction.
+- `xsmb_reference_runner_R4_ops_hardened.py` — certified OPS_HARDENED production runner after the controlled post-settlement promotion transaction.
 - `xsmb_R3_test_harness_py312.py`, `xsmb_R4_test_harness_py312.py`,
   `xsmb_OPS_test_harness_py312.py` — exact-runtime 34-test suites.
-- `ops_schema_migration.py` — candidate schema migration.
+- `ops_schema_migration.py` — certified schema migration used by the completed OPS_HARDENING promotion.
 - `xsmb_ops.py` — two-command wrapper bound to OPS_HARDENED after promotion; routine commands remain `update-result` and `run-next`.
 - `ops_hardening_promotion_gate.py` — blocks promotion until required settlement state.
 - `xsmb_state_manifest.py` — machine-generated derived state witness.
