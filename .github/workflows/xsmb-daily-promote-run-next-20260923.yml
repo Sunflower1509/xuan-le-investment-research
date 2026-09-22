@@ -193,7 +193,7 @@ jobs:
           assert state.activation["reference_runner_sha256"]==ops_sha
           assert state.activation["operational_revision"]=="R4-OPS-HARDENED"
           assert state.activation["runner_promotion_status"]=="CERTIFIED_OPS_HARDENED"
-          assert state.activation["active_test_evidence_manifest_sha256"]==test_manifest["manifest_sha256"]
+          assert state.activation["runner_promotion_test_evidence_manifest_sha256"]==test_manifest["manifest_sha256"]
           assert not [z for z in state.ledger_records if str(z.get("record_status") or "")=="LOCKED_PRE_DRAW"]
 
           out={
