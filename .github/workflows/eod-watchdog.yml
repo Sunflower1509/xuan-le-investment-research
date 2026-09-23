@@ -57,3 +57,5 @@ jobs:
       - name: Already current
         if: steps.freshness.outputs.stale == 'false'
         run: echo "EOD already current for ${{ steps.freshness.outputs.target }}; no action required."
+
+# Manual recovery trigger: 2026-09-23 15:19 ICT
