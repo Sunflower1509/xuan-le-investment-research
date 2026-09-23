@@ -1,0 +1,172 @@
+/* Data navigation: bounded, stateful pagination for long research datasets. */
+.data-pagination {
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(248, 251, 250, .96), rgba(255, 255, 255, .98));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 76px;
+  padding: 16px 22px;
+}
+
+.data-pagination[hidden] {
+  display: none !important;
+}
+
+.pagination-meta {
+  min-width: 0;
+}
+
+.pagination-meta strong,
+.pagination-meta span {
+  display: block;
+}
+
+.pagination-meta strong {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-size: .66rem;
+  font-weight: 820;
+}
+
+.pagination-meta span {
+  color: var(--muted);
+  margin-top: 4px;
+  font-size: .52rem;
+  line-height: 1.45;
+}
+
+.pagination-size {
+  align-items: center;
+  gap: 8px;
+  color: var(--slate);
+  display: flex;
+  font-size: .52rem;
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.pagination-size select {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--slate) 50%) calc(100% - 14px) calc(50% - 2px) / 4px 4px no-repeat,
+    linear-gradient(135deg, var(--slate) 50%, transparent 50%) calc(100% - 10px) calc(50% - 2px) / 4px 4px no-repeat,
+    #fff;
+  color: var(--ink);
+  min-height: 38px;
+  min-width: 72px;
+  padding: 0 28px 0 12px;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+}
+
+.pagination-nav {
+  min-width: 0;
+}
+
+.pagination-list {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-button {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0 10px;
+  color: var(--slate);
+  background: #fff;
+  cursor: pointer;
+  font-size: .58rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease, transform .15s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  border-color: rgba(8, 120, 90, .42);
+  color: var(--emerald);
+  transform: translateY(-1px);
+}
+
+.pagination-button[aria-current="page"] {
+  border-color: var(--navy);
+  color: #fff;
+  background: var(--navy);
+  box-shadow: 0 5px 16px rgba(8, 28, 49, .16);
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: .38;
+}
+
+.pagination-button:focus-visible,
+.pagination-size select:focus-visible {
+  outline: 3px solid rgba(8, 120, 90, .22);
+  outline-offset: 2px;
+}
+
+.pagination-ellipsis {
+  color: var(--muted);
+  min-width: 22px;
+  text-align: center;
+  font-size: .66rem;
+  font-weight: 820;
+}
+
+.action-table-shell,
+.research-shell {
+  scroll-margin-top: calc(var(--header-h) + 14px);
+}
+
+@media (max-width: 820px) {
+  .data-pagination {
+    grid-template-columns: 1fr auto;
+  }
+
+  .pagination-nav {
+    grid-column: 1 / -1;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+
+  .pagination-list {
+    justify-content: flex-start;
+    min-width: max-content;
+  }
+}
+
+@media (max-width: 560px) {
+  .data-pagination {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    min-height: 0;
+    padding: 14px 16px 16px;
+  }
+
+  .pagination-size {
+    justify-content: space-between;
+  }
+
+  .pagination-nav {
+    grid-column: auto;
+    margin: 0 -4px;
+    padding: 0 4px 3px;
+  }
+
+  .pagination-button {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
