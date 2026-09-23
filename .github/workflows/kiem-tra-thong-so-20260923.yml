@@ -37,7 +37,7 @@ jobs:
             tb5:avg(before,val,5),tb10:avg(before,val,10),tb20:avg(before,val,20),
             klTb20:avg(before,vol,20)
           }));
-          const from=1790208000,to=1790294400;
+          const from=1790096400,to=1790182800;
           const durl=`https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${from}&to=${to}`;
           const dr=await fetch(durl,{headers:{accept:'application/json','user-agent':'Mozilla/5.0 XuanLeTVS-Check/1.3'}});
           if(!dr.ok) throw new Error('DNSE HTTP '+dr.status);
