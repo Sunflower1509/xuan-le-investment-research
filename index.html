@@ -7,7 +7,7 @@
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="description" content="Institutional Research Terminal của Xuân Lê TVS: giá đóng cửa 22/09/2026, bảng ưu tiên theo khoảng cách tới vùng mua, dashboard định giá và thư viện báo cáo PDF.">
   <meta property="og:title" content="Xuân Lê TVS | Institutional Research Terminal">
-  <meta property="og:description" content="Hành động có điều kiện. Rút lui có nguyên tắc. Báo cáo định giá và không gian nghiên cứu cổ phiếu Việt Nam.">
+  <meta property="og:description" content="Đúng cổ phiếu. Đúng thời điểm. Đúng kỷ luật. Báo cáo định giá và không gian nghiên cứu cổ phiếu Việt Nam.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:url" content="https://sunflower1509.github.io/xuan-le-investment-research/">
@@ -20,8 +20,10 @@
   <link rel="canonical" href="https://sunflower1509.github.io/xuan-le-investment-research/">
   <link rel="icon" href="favicon.svg">
   <link rel="preload" as="image" href="assets/images/advisor-banner-3d-v2.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/xuan-le-portrait-hero.png" type="image/png" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/site.min.css?v=20260813-company-images1">
   <link rel="stylesheet" href="assets/css/daily-market-layout-fix.css?v=20260904-1">
+  <link rel="stylesheet" href="assets/css/hero-banner-v2.css?v=20260923-1">
   <script defer src="assets/js/site.min.js?v=20260922-eod-auto"></script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Xuân Lê TVS","jobTitle":"Môi giới và tư vấn đầu tư","telephone":"+84977811398","url":"https://sunflower1509.github.io/xuan-le-investment-research/"}
@@ -47,6 +49,8 @@
     <symbol id="i-position" viewBox="0 0 24 24"><path d="M4 7h16v12H4z"></path><path d="M8 7V5h8v2M4 11h16M10 14h4"></path></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"></path></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"></path></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"></path></symbol>
   </svg>
 
   <header class="terminal-header">
@@ -77,27 +81,54 @@
   <main id="main-content">
     <section class="terminal-hero" id="overview">
       <div class="hero-light"></div>
-      <div class="terminal-container hero-grid">
-        <div class="hero-copy">
+      <div class="terminal-container hero-v2-grid">
+        <div class="hero-v2-copy">
           <p class="terminal-eyebrow">Equity Research • Vietnam Market</p>
-          <h1>
-            <span class="slogan-line slogan-line-primary">Hành động có điều kiện.</span>
-            <span class="slogan-line slogan-line-secondary">Rút lui có nguyên tắc.</span>
-          </h1>
-          <div class="advisor-line">
-            <span class="advisor-avatar">XL</span>
-            <div><strong>Xuân Lê TVS</strong><span>Môi giới và tư vấn đầu tư</span></div>
-            <a href="tel:+84977811398">0977.811.398</a>
+          <h1 class="hero-slogan">Đúng cổ phiếu. Đúng thời điểm. <span class="slogan-accent">Đúng kỷ luật.</span></h1>
+
+          <div class="hero-v2-actions">
+            <a class="hero-cta" href="#daily-market">
+              <span>Xem nhận định hôm nay</span>
+              <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </a>
+          </div>
+
+          <div class="hero-contact" aria-label="Thông tin liên hệ Xuân Lê TVS">
+            <span class="advisor-avatar" aria-hidden="true">XL</span>
+            <div class="hero-contact-copy">
+              <strong>Xuân Lê TVS</strong>
+              <span>Môi giới &amp; Tư vấn đầu tư</span>
+            </div>
+            <span class="hero-contact-separator" aria-hidden="true"></span>
+            <a class="hero-phone" href="tel:+84977811398">
+              <svg aria-hidden="true"><use href="#i-phone"></use></svg>
+              <span>0977.811.398</span>
+            </a>
+            <span class="hero-contact-separator" aria-hidden="true"></span>
+            <a class="hero-zalo" href="https://zalo.me/0977811398" target="_blank" rel="noreferrer">
+              <svg aria-hidden="true"><use href="#i-message"></use></svg>
+              <span>Zalo</span>
+              <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </a>
+          </div>
+
+          <div class="hero-pillars" role="list" aria-label="Nguyên tắc đồng hành">
+            <div class="hero-pillar" role="listitem">
+              <span class="hero-pillar-badge"><svg aria-hidden="true"><use href="#i-shield"></use></svg></span>
+              <strong>Quản trị rủi ro chặt chẽ</strong>
+            </div>
+            <div class="hero-pillar" role="listitem">
+              <span class="hero-pillar-badge"><svg aria-hidden="true"><use href="#i-star"></use></svg></span>
+              <strong>Kỷ luật là lợi thế</strong>
+            </div>
+            <div class="hero-pillar" role="listitem">
+              <span class="hero-pillar-badge"><svg aria-hidden="true"><use href="#i-users"></use></svg></span>
+              <strong>Đồng hành cùng nhà đầu tư</strong>
+            </div>
           </div>
         </div>
 
-        <div class="hero-terminal" role="group" aria-label="Nguyên tắc đầu tư">
-          <div class="hero-trust-grid">
-            <div><svg><use href="#i-shield"></use></svg><span><strong>Quản trị rủi ro</strong>Biên an toàn trước hành động</span></div>
-            <div><svg><use href="#i-check"></use></svg><span><strong>Kỷ luật là lợi thế</strong>IF–THEN và mốc vô hiệu</span></div>
-            <div><svg><use href="#i-chart"></use></svg><span><strong>Dữ liệu có nguồn</strong>Giả định được gắn nhãn</span></div>
-          </div>
-        </div>
+        <div class="hero-portrait" aria-hidden="true"></div>
       </div>
     </section>
 
