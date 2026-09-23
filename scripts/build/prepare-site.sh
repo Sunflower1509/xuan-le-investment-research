@@ -63,16 +63,19 @@ cp -a "${font_files[@]}" "$stage_dir/assets/fonts/"
 js_fingerprint="$(sha256sum assets/js/site.min.js | awk '{print substr($1,1,12)}')"
 css_fingerprint="$(sha256sum assets/css/site.min.css | awk '{print substr($1,1,12)}')"
 daily_css_fingerprint="$(sha256sum assets/css/daily-market-layout-fix.css | awk '{print substr($1,1,12)}')"
+data_nav_css_fingerprint="$(sha256sum assets/css/data-navigation.css | awk '{print substr($1,1,12)}')"
 
 sed -E -i \
   -e "s#assets/js/site\.min\.js(\?v=[^\"']*)?#assets/js/site.min.js?v=${js_fingerprint}#g" \
   -e "s#assets/css/site\.min\.css(\?v=[^\"']*)?#assets/css/site.min.css?v=${css_fingerprint}#g" \
   -e "s#assets/css/daily-market-layout-fix\.css(\?v=[^\"']*)?#assets/css/daily-market-layout-fix.css?v=${daily_css_fingerprint}#g" \
+  -e "s#assets/css/data-navigation\.css(\?v=[^\"']*)?#assets/css/data-navigation.css?v=${data_nav_css_fingerprint}#g" \
   "$stage_dir/index.html"
 
 grep -qF "assets/js/site.min.js?v=${js_fingerprint}" "$stage_dir/index.html"
 grep -qF "assets/css/site.min.css?v=${css_fingerprint}" "$stage_dir/index.html"
 grep -qF "assets/css/daily-market-layout-fix.css?v=${daily_css_fingerprint}" "$stage_dir/index.html"
+grep -qF "assets/css/data-navigation.css?v=${data_nav_css_fingerprint}" "$stage_dir/index.html"
 
-printf 'Prepared production artifact at %s (js=%s css=%s daily-css=%s)\n' \
-  "$stage_dir" "$js_fingerprint" "$css_fingerprint" "$daily_css_fingerprint"
+printf 'Prepared production artifact at %s (js=%s css=%s daily-css=%s data-nav-css=%s)\n' \
+  "$stage_dir" "$js_fingerprint" "$css_fingerprint" "$daily_css_fingerprint" "$data_nav_css_fingerprint"
