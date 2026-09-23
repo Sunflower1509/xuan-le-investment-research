@@ -221,10 +221,10 @@ import {
     root.innerHTML = `
       <div class="pagination-meta">
         <strong>Hiển thị ${model.start + 1}–${model.end} / ${model.totalItems} ${escapeHtml(unitLabel)}</strong>
-        <span>Trang ${model.page}/${model.totalPages} • chỉ render dữ liệu của trang hiện tại</span>
+        <span>Trang ${model.page}/${model.totalPages} • ${model.pageSize} ${escapeHtml(unitLabel)}/trang</span>
       </div>
       <label class="pagination-size">
-        <span>Số dòng</span>
+        <span>Mỗi trang</span>
         <select data-role="pagination-size" data-scope="${scope}" aria-label="Số mục mỗi trang">
           ${pageSizes.map((size) => `<option value="${size}"${size === model.pageSize ? " selected" : ""}>${size}</option>`).join("")}
         </select>
