@@ -1,4 +1,5 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
+import { normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
 import {
@@ -46,14 +47,38 @@ import {
     }
   };
 
+  const ACTION_PAGE_SIZES = [15, 20, 30, 50];
+  const REPORT_PAGE_SIZES = [12, 24, 36];
+  const COVERAGE_PAGE_SIZES = [15, 20, 30, 50];
+  const compactViewport = window.matchMedia("(max-width: 720px)").matches;
+  const defaultActionPageSize = () => compactViewport ? 20 : 30;
+  const researchPageSizes = (tab) => tab === "reports" ? REPORT_PAGE_SIZES : COVERAGE_PAGE_SIZES;
+  const defaultResearchPageSize = (tab) => tab === "reports" ? 12 : compactViewport ? 20 : 30;
+  const defaultSortForTab = (tab) => tab === "reports" ? "newest" : "priority";
+  const parsePositiveInteger = (value, fallback = 1) => {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+  };
+  const validResearchTab = (value) => ["reports", "coverage", "watchlist"].includes(value) ? value : "reports";
+  const validResearchSort = (value, tab) => ["priority", "newest", "ticker", "sector", "base-desc"].includes(value)
+    ? value
+    : defaultSortForTab(tab);
+  const validResearchView = (value) => value === "list" ? "list" : "grid";
+
+  const initialUrl = new URL(window.location.href);
+  const initialTab = validResearchTab(initialUrl.searchParams.get("research_tab"));
   const state = {
-    tab: "reports",
-    query: "",
-    sector: "all",
-    status: "all",
-    sort: "newest",
-    view: "grid",
+    tab: initialTab,
+    query: initialUrl.searchParams.get("q") || "",
+    sector: initialUrl.searchParams.get("sector") || "all",
+    status: initialUrl.searchParams.get("status") || "all",
+    sort: validResearchSort(initialUrl.searchParams.get("sort"), initialTab),
+    view: validResearchView(initialUrl.searchParams.get("view")),
     ledgerTab: "open",
+    actionPage: parsePositiveInteger(initialUrl.searchParams.get("entry_page")),
+    actionPageSize: normalizePageSize(initialUrl.searchParams.get("entry_size"), ACTION_PAGE_SIZES, defaultActionPageSize()),
+    researchPage: parsePositiveInteger(initialUrl.searchParams.get("research_page")),
+    researchPageSize: normalizePageSize(initialUrl.searchParams.get("research_size"), researchPageSizes(initialTab), defaultResearchPageSize(initialTab)),
     watchlist: getStoredSet("xltvs-watchlist-v1"),
     compare: new Set()
   };
@@ -62,6 +87,7 @@ import {
     results: document.querySelector("[data-role='research-results']"),
     empty: document.querySelector("[data-role='empty-state']"),
     summary: document.querySelector("[data-role='results-summary']"),
+    researchPagination: document.querySelector("[data-role='research-pagination']"),
     search: document.querySelector("#research-search"),
     sort: document.querySelector("#research-sort"),
     sectorFilters: document.querySelector("[data-role='sector-filters']"),
@@ -80,6 +106,7 @@ import {
     prioritySummary: document.querySelector("[data-role='priority-summary']"),
     priorityGrid: document.querySelector("[data-role='priority-grid']"),
     actionTable: document.querySelector("[data-role='action-table']"),
+    actionPagination: document.querySelector("[data-role='action-pagination']"),
     exclusionList: document.querySelector("[data-role='exclusion-list']"),
     dailyInsight: document.querySelector("[data-role='daily-insight']"),
     dailyArchive: document.querySelector("[data-role='daily-archive-list']"),
@@ -90,6 +117,45 @@ import {
     ledgerIssues: document.querySelector("[data-role='position-ledger-issues']"),
     ledgerAsOf: document.querySelector("[data-role='ledger-asof']"),
     toast: document.querySelector("[data-role='toast']")
+  };
+
+  const applyNavigationStateFromUrl = () => {
+    const url = new URL(window.location.href);
+    const tab = validResearchTab(url.searchParams.get("research_tab"));
+    state.tab = tab;
+    state.query = url.searchParams.get("q") || "";
+    state.sector = url.searchParams.get("sector") || "all";
+    state.status = url.searchParams.get("status") || "all";
+    state.sort = validResearchSort(url.searchParams.get("sort"), tab);
+    state.view = validResearchView(url.searchParams.get("view"));
+    state.actionPage = parsePositiveInteger(url.searchParams.get("entry_page"));
+    state.actionPageSize = normalizePageSize(url.searchParams.get("entry_size"), ACTION_PAGE_SIZES, defaultActionPageSize());
+    state.researchPage = parsePositiveInteger(url.searchParams.get("research_page"));
+    state.researchPageSize = normalizePageSize(url.searchParams.get("research_size"), researchPageSizes(tab), defaultResearchPageSize(tab));
+  };
+
+  const setOptionalSearchParam = (params, name, value, defaultValue = null) => {
+    if (value === null || value === undefined || value === "" || value === defaultValue) params.delete(name);
+    else params.set(name, String(value));
+  };
+
+  const syncNavigationUrl = ({ push = false } = {}) => {
+    const url = new URL(window.location.href);
+    setOptionalSearchParam(url.searchParams, "entry_page", state.actionPage, 1);
+    setOptionalSearchParam(url.searchParams, "entry_size", state.actionPageSize, defaultActionPageSize());
+    setOptionalSearchParam(url.searchParams, "research_tab", state.tab, "reports");
+    setOptionalSearchParam(url.searchParams, "research_page", state.researchPage, 1);
+    setOptionalSearchParam(url.searchParams, "research_size", state.researchPageSize, defaultResearchPageSize(state.tab));
+    setOptionalSearchParam(url.searchParams, "q", state.query.trim());
+    setOptionalSearchParam(url.searchParams, "sector", state.sector, "all");
+    setOptionalSearchParam(url.searchParams, "status", state.status, "all");
+    setOptionalSearchParam(url.searchParams, "sort", state.sort, defaultSortForTab(state.tab));
+    setOptionalSearchParam(url.searchParams, "view", state.view, "grid");
+
+    const next = `${url.pathname}${url.search}${url.hash}`;
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (next === current) return;
+    window.history[push ? "pushState" : "replaceState"]({ xltvsDataNavigation: true }, "", next);
   };
 
   const escapeHtml = (value) => String(value ?? "")
@@ -129,6 +195,52 @@ import {
     if (!value) return "—";
     const [year, month, day] = value.split("-");
     return `${day}/${month}/${year}`;
+  };
+
+  const renderDataPagination = ({ root, scope, model, pageSizes, unitLabel, ariaLabel }) => {
+    if (!root) return;
+    if (model.totalPages <= 1) {
+      root.hidden = true;
+      root.innerHTML = "";
+      return;
+    }
+
+    const tokens = paginationTokens(model.page, model.totalPages);
+    const pageButton = (page, label = String(page), extra = "") => `<li><button class="pagination-button" type="button" data-action="set-page" data-scope="${scope}" data-page="${page}" aria-label="${escapeHtml(extra || `Trang ${page}`)}"${page === model.page ? ' aria-current="page"' : ""}>${escapeHtml(label)}</button></li>`;
+    const previous = model.page > 1
+      ? pageButton(model.page - 1, "‹", "Trang trước")
+      : '<li><button class="pagination-button" type="button" aria-label="Trang trước" disabled>‹</button></li>';
+    const next = model.page < model.totalPages
+      ? pageButton(model.page + 1, "›", "Trang sau")
+      : '<li><button class="pagination-button" type="button" aria-label="Trang sau" disabled>›</button></li>';
+    const pages = tokens.map((token) => token === "ellipsis"
+      ? '<li><span class="pagination-ellipsis" aria-hidden="true">…</span></li>'
+      : pageButton(token)).join("");
+
+    root.hidden = false;
+    root.innerHTML = `
+      <div class="pagination-meta">
+        <strong>Hiển thị ${model.start + 1}–${model.end} / ${model.totalItems} ${escapeHtml(unitLabel)}</strong>
+        <span>Trang ${model.page}/${model.totalPages} • chỉ render dữ liệu của trang hiện tại</span>
+      </div>
+      <label class="pagination-size">
+        <span>Số dòng</span>
+        <select data-role="pagination-size" data-scope="${scope}" aria-label="Số mục mỗi trang">
+          ${pageSizes.map((size) => `<option value="${size}"${size === model.pageSize ? " selected" : ""}>${size}</option>`).join("")}
+        </select>
+      </label>
+      <nav class="pagination-nav" aria-label="${escapeHtml(ariaLabel)}">
+        <ul class="pagination-list">${previous}${pages}${next}</ul>
+      </nav>`;
+  };
+
+  const scrollToDataSection = (scope) => {
+    const target = scope === "action"
+      ? refs.actionTable?.closest(".action-table-shell")
+      : refs.results?.closest(".research-shell");
+    if (!target) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   };
 
   const dailyEntries = Array.isArray(dailySource?.entries)
@@ -362,9 +474,16 @@ import {
       </article>`;
     }).join("");
 
+    const actionPage = paginateItems(priorityUniverse, state.actionPage, state.actionPageSize);
+    if (state.actionPage !== actionPage.page) {
+      state.actionPage = actionPage.page;
+      syncNavigationUrl();
+    }
+
     if (refs.actionTable) refs.actionTable.innerHTML = `<table class="action-table">
       <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Định giá cơ sở</th><th class="upside-header">Upside tới định giá cơ sở</th><th>Nguồn</th></tr></thead>
-      <tbody>${priorityUniverse.map((item, index) => {
+      <tbody>${actionPage.items.map((item, pageIndex) => {
+        const index = actionPage.start + pageIndex;
         const action = item.action;
         const distance = actionDistance(item);
         const report = latestByTicker.get(item.ticker);
@@ -385,6 +504,15 @@ import {
         </tr>`;
       }).join("")}</tbody>
     </table>`;
+
+    renderDataPagination({
+      root: refs.actionPagination,
+      scope: "action",
+      model: actionPage,
+      pageSizes: ACTION_PAGE_SIZES,
+      unitLabel: "mã",
+      ariaLabel: "Phân trang Vùng mua tham khảo"
+    });
 
     if (refs.exclusionList) refs.exclusionList.innerHTML = exclusions.map((item) => {
       const tag = item.action.eligibility === "veto" ? "HARD VETO" : item.action.eligibility === "invalidated" ? "SETUP VÔ HIỆU" : "CẦN LÀM MỚI";
@@ -644,18 +772,37 @@ import {
 
   const renderResearch = () => {
     let items;
-    if (state.tab === "reports") {
-      items = sortReports(reports.filter(reportMatches));
-      refs.results.innerHTML = items.map(reportCard).join("");
-    } else {
-      items = sortCoverage(coverage.filter(coverageMatches));
-      refs.results.innerHTML = items.map(coverageCard).join("");
+    if (state.tab === "reports") items = sortReports(reports.filter(reportMatches));
+    else items = sortCoverage(coverage.filter(coverageMatches));
+
+    const allowedSizes = researchPageSizes(state.tab);
+    state.researchPageSize = normalizePageSize(state.researchPageSize, allowedSizes, defaultResearchPageSize(state.tab));
+    const pageModel = paginateItems(items, state.researchPage, state.researchPageSize);
+    if (state.researchPage !== pageModel.page) {
+      state.researchPage = pageModel.page;
+      syncNavigationUrl();
     }
+
+    if (state.tab === "reports") refs.results.innerHTML = pageModel.items.map(reportCard).join("");
+    else refs.results.innerHTML = pageModel.items.map(coverageCard).join("");
+
     refs.results.classList.toggle("list-view", state.view === "list");
     refs.empty.hidden = items.length !== 0;
     refs.results.hidden = items.length === 0;
     const label = state.tab === "reports" ? "báo cáo" : state.tab === "watchlist" ? "mã trong watchlist" : "mã cổ phiếu";
-    refs.summary.textContent = `${items.length} ${label} phù hợp`;
+    refs.summary.textContent = items.length
+      ? `Hiển thị ${pageModel.start + 1}–${pageModel.end} / ${items.length} ${label} phù hợp • Trang ${pageModel.page}/${pageModel.totalPages}`
+      : `0 ${label} phù hợp`;
+
+    renderDataPagination({
+      root: refs.researchPagination,
+      scope: "research",
+      model: pageModel,
+      pageSizes: allowedSizes,
+      unitLabel: label,
+      ariaLabel: "Phân trang Research Terminal"
+    });
+
     document.querySelectorAll("[data-action='set-view']").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.view === state.view)));
   };
 
@@ -666,13 +813,13 @@ import {
     document.querySelectorAll("[data-role='compare-count']").forEach((el) => { el.textContent = selected.length; });
   };
 
-  const defaultSortForTab = (tab) => tab === "reports" ? "newest" : "priority";
-
   const setTab = (tab) => {
-    state.tab = tab;
-    state.sort = defaultSortForTab(tab);
+    state.tab = validResearchTab(tab);
+    state.sort = defaultSortForTab(state.tab);
+    state.researchPage = 1;
+    state.researchPageSize = defaultResearchPageSize(state.tab);
     if (refs.sort) refs.sort.value = state.sort;
-    document.querySelectorAll("[data-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === tab)));
+    document.querySelectorAll("[data-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === state.tab)));
     renderResearch();
   };
 
@@ -681,9 +828,11 @@ import {
     state.sector = "all";
     state.status = "all";
     state.sort = defaultSortForTab(state.tab);
+    state.researchPage = 1;
     refs.search.value = "";
     refs.sort.value = state.sort;
     renderFilters();
+    syncNavigationUrl({ push: true });
     renderResearch();
   };
 
@@ -820,6 +969,21 @@ import {
     const target = event.target.closest("[data-action]");
     if (!target) return;
     const action = target.dataset.action;
+    if (action === "set-page") {
+      const page = parsePositiveInteger(target.dataset.page);
+      const scope = target.dataset.scope;
+      if (scope === "action") {
+        state.actionPage = page;
+        syncNavigationUrl({ push: true });
+        renderActionRadar();
+      } else if (scope === "research") {
+        state.researchPage = page;
+        syncNavigationUrl({ push: true });
+        renderResearch();
+      }
+      scrollToDataSection(scope);
+      return;
+    }
     if (action === "open-report") openReport(target.dataset.id);
     if (action === "toggle-watch") toggleWatch(target.dataset.ticker);
     if (action === "toggle-compare") toggleCompare(target.dataset.id);
@@ -829,9 +993,9 @@ import {
     if (action === "open-command") openCommand();
     if (action === "close-dialog") target.closest("dialog")?.close();
     if (action === "reset-filters") resetFilters();
-    if (action === "set-view") { state.view = target.dataset.view; renderResearch(); }
-    if (action === "set-sector") { state.sector = target.dataset.sector; renderFilters(); renderResearch(); }
-    if (action === "set-status") { state.status = target.dataset.status; renderFilters(); renderResearch(); }
+    if (action === "set-view") { state.view = target.dataset.view; syncNavigationUrl(); renderResearch(); }
+    if (action === "set-sector") { state.sector = target.dataset.sector; state.researchPage = 1; renderFilters(); syncNavigationUrl({ push: true }); renderResearch(); }
+    if (action === "set-status") { state.status = target.dataset.status; state.researchPage = 1; renderFilters(); syncNavigationUrl({ push: true }); renderResearch(); }
     if (action === "set-ledger-tab") { state.ledgerTab = target.dataset.ledgerTab; renderPositionLedger(); }
     if (action === "share-report") shareReport(target.dataset.id);
     if (action === "show-daily-insight") {
@@ -842,7 +1006,9 @@ import {
     if (action === "focus-ticker") {
       setTab("coverage");
       state.query = target.dataset.ticker;
+      state.researchPage = 1;
       refs.search.value = state.query;
+      syncNavigationUrl({ push: true });
       renderResearch();
       document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" });
     }
@@ -852,14 +1018,16 @@ import {
       else {
         setTab("coverage");
         state.query = target.dataset.ticker;
+        state.researchPage = 1;
         refs.search.value = state.query;
+        syncNavigationUrl({ push: true });
         renderResearch();
         document.querySelector("#research")?.scrollIntoView({ behavior: "smooth" });
       }
     }
   });
 
-  document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => setTab(button.dataset.tab)));
+  document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => { setTab(button.dataset.tab); syncNavigationUrl({ push: true }); }));
   document.querySelector(".ledger-tabs")?.addEventListener("keydown", (event) => {
     const tabs = [...event.currentTarget.querySelectorAll("[data-ledger-tab]")];
     const current = tabs.indexOf(document.activeElement);
@@ -871,9 +1039,47 @@ import {
     tabs[next].click();
     tabs[next].focus();
   });
-  refs.search.addEventListener("input", () => { state.query = refs.search.value; renderResearch(); });
+  refs.search.value = state.query;
+  refs.search.addEventListener("input", () => {
+    state.query = refs.search.value;
+    state.researchPage = 1;
+    syncNavigationUrl();
+    renderResearch();
+  });
   refs.sort.value = state.sort;
-  refs.sort.addEventListener("change", () => { state.sort = refs.sort.value; renderResearch(); });
+  refs.sort.addEventListener("change", () => {
+    state.sort = refs.sort.value;
+    state.researchPage = 1;
+    syncNavigationUrl({ push: true });
+    renderResearch();
+  });
+  document.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-role='pagination-size']");
+    if (!select) return;
+    const scope = select.dataset.scope;
+    const size = Number.parseInt(select.value, 10);
+    if (scope === "action") {
+      state.actionPageSize = normalizePageSize(size, ACTION_PAGE_SIZES, defaultActionPageSize());
+      state.actionPage = 1;
+      syncNavigationUrl({ push: true });
+      renderActionRadar();
+    } else if (scope === "research") {
+      state.researchPageSize = normalizePageSize(size, researchPageSizes(state.tab), defaultResearchPageSize(state.tab));
+      state.researchPage = 1;
+      syncNavigationUrl({ push: true });
+      renderResearch();
+    }
+    scrollToDataSection(scope);
+  });
+  window.addEventListener("popstate", () => {
+    applyNavigationStateFromUrl();
+    refs.search.value = state.query;
+    refs.sort.value = state.sort;
+    document.querySelectorAll("[data-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.tab === state.tab)));
+    renderFilters();
+    renderActionRadar();
+    renderResearch();
+  });
   refs.commandInput.addEventListener("input", () => renderCommandResults(refs.commandInput.value));
   document.addEventListener("keydown", (event) => {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
