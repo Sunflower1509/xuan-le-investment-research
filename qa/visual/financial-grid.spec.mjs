@@ -59,7 +59,36 @@ test("financial grid smoke QA", async ({ page }, testInfo) => {
   );
   expect(visibleHeaderCount).toBe(mobile ? 5 : 7);
 
-  const firstRowHeight = await rows.first().evaluate((row) => row.getBoundingClientRect().height);
+  const rowDiagnostics = await rows.first().evaluate((row) => {
+    const style = (el) => {
+      const computed = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+      return {
+        tag: el.tagName,
+        className: el.className,
+        text: (el.textContent || "").trim().replace(/\\s+/g, " ").slice(0, 120),
+        height: rect.height,
+        width: rect.width,
+        display: computed.display,
+        paddingTop: computed.paddingTop,
+        paddingBottom: computed.paddingBottom,
+        lineHeight: computed.lineHeight,
+        whiteSpace: computed.whiteSpace,
+        overflow: computed.overflow,
+        textOverflow: computed.textOverflow
+      };
+    };
+    const status = row.querySelector(".table-status");
+    const reference = row.querySelector(".action-reference");
+    return {
+      row: style(row),
+      cells: [...row.cells].map(style),
+      reference: reference ? style(reference) : null,
+      status: status ? style(status) : null
+    };
+  });
+  console.log("ROW_DIAGNOSTICS", JSON.stringify(rowDiagnostics));
+  const firstRowHeight = rowDiagnostics.row.height;
   expect(firstRowHeight, "Collapsed financial rows should stay compact enough for fast scanning.").toBeLessThan(mobile ? 110 : 105);
 
   if (width <= 1279) {
