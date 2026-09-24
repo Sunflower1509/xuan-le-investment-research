@@ -49,3 +49,12 @@ test("mobile pagination switches to simple previous-current-next controls", () =
   assert.match(css, /\.pagination-nav-advanced \{\s*display: none !important;/);
   assert.match(css, /\.pagination-nav-simple \{[\s\S]*grid-template-columns: 44px minmax\(0, 1fr\) 44px;/);
 });
+
+
+test("compact mobile status is clamped while full recommendation remains in details", () => {
+  const app = read("src/scripts/app.js");
+  const css = read("assets/css/data-navigation.css");
+  assert.match(app, /class="action-detail-status"><span>Trạng thái \/ chiến thuật<\/span><strong>\$\{escapeHtml\(action\.recommendation\)\}/);
+  assert.match(css, /\.table-status \{[\s\S]*white-space: nowrap;[\s\S]*text-overflow: ellipsis;/);
+  assert.match(css, /\.action-detail-status,[\s\S]*\.action-detail-sources \{\s*grid-column: 1 \/ -1;/);
+});

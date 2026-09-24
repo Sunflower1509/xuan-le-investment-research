@@ -580,6 +580,7 @@ import {
         <tr class="action-detail-row" id="${detailId}" hidden>
           <td colspan="7">
             <div class="action-detail-grid">
+              <div class="action-detail-status"><span>Trạng thái / chiến thuật</span><strong>${escapeHtml(action.recommendation)}</strong></div>
               <div><span>Định giá cơ sở</span><strong>${number(base)} đồng/cp</strong></div>
               <div><span>Ngày khóa vùng</span><strong>${date(action.basisDate)}</strong></div>
               <div><span>Ngày giá EOD</span><strong>${date(item.priceDate)}</strong></div>
