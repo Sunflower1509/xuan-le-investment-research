@@ -73,7 +73,8 @@ test("Market Decision Brief visual hierarchy and semantic colors", async ({ page
   const details = page.locator("[data-role='daily-insight'] .daily-evidence");
   await details.locator("summary").click();
   await expect(details).toHaveAttribute("open", "");
-  await expect(details.locator(".daily-full-narrative")).toContainText("Luận giải đầy đủ của phiên");
+  await expect(details.locator(".daily-full-narrative small")).toHaveText("LUẬN GIẢI ĐẦY ĐỦ");
+  await expect(details.locator(".daily-full-narrative h5")).toHaveText("Diễn biến và hàm ý của phiên");
   await expect(details.locator(".daily-data-integrity")).toContainText("Khối ngoại & tự doanh");
   await expect(details.locator(".daily-sources")).toBeVisible();
 

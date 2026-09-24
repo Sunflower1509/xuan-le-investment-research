@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import "./audit-company-visuals-v3.mjs";
+import "./audit-company-visuals-core.mjs";

@@ -4,3 +4,21 @@ node_modules/
 workers/presence/.wrangler/
 workers/presence/.dev.vars
 workers/presence/.env
+
+# Generated web bundles (built in CI / locally; never commit)
+assets/css/site.min.css
+assets/js/site.min.js
+
+# Local QA / build noise
+qa/visual/playwright-report/
+qa/visual/test-results/
+coverage/
+dist/
+.cache/
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+*.swp
+*~

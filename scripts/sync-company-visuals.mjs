@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 import "./civs-fetch-fallback.mjs";
 import "./civs-registry-overlay.mjs";
-import "./sync-company-visuals-v3.mjs";
+import "./sync-company-visuals-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
@@ -116,7 +116,7 @@ while (Date.now() < deadline) {
 
 const finalMeta = readMeta();
 if (!(Number(finalMeta?.candidateCount) === 125 && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === 125)) {
-  throw new Error("CIVS v3 kết thúc nhưng không persist được candidate set 125 mã vào company-visuals.js.");
+  throw new Error("CIVS core kết thúc nhưng không persist được candidate set 125 mã vào company-visuals.js.");
 }
 
 normalizeVerifiedLegacyProvenance();

@@ -97,7 +97,7 @@ test("daily market headline starts with the session date followed by a hyphen", 
 });
 
 test("date prefix inside the daily headline inherits headline styling", () => {
-  const css = read("assets/css/market-decision-brief.css");
+  const css = read("src/styles/market-decision-brief.css");
   assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 time\s*\{/);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/);
 });
@@ -105,7 +105,7 @@ test("date prefix inside the daily headline inherits headline styling", () => {
 
 
 test("Market Decision Brief CSS preserves semantic color and responsive hierarchy", () => {
-  const css = read("assets/css/market-decision-brief.css");
+  const css = read("src/styles/market-decision-brief.css");
   assert.match(css, /--brief-positive:\s*#08785a/i);
   assert.match(css, /--brief-negative:\s*#b42318/i);
   assert.match(css, /--brief-warning:\s*#8a5a00/i);

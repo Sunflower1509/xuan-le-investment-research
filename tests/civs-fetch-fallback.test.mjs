@@ -10,10 +10,10 @@ const overlay = fs.readFileSync(path.join(root, "scripts/civs-registry-overlay.m
 const overrides = JSON.parse(fs.readFileSync(path.join(root, "src/data/company-visual-overrides.json"), "utf8"));
 const wrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
 
-test("CIVS discovery helpers load before the strict v3 engine", () => {
+test("CIVS discovery helpers load before the strict core engine", () => {
   const fetchAt = wrapper.indexOf("civs-fetch-fallback.mjs");
   const overlayAt = wrapper.indexOf("civs-registry-overlay.mjs");
-  const engineAt = wrapper.indexOf("sync-company-visuals-v3.mjs");
+  const engineAt = wrapper.indexOf("sync-company-visuals-core.mjs");
   assert.ok(fetchAt >= 0 && overlayAt > fetchAt && engineAt > overlayAt);
 });
 
