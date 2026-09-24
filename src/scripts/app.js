@@ -1056,6 +1056,18 @@ import {
     const target = event.target.closest("[data-action]");
     if (!target) return;
     const action = target.dataset.action;
+    if (action === "toggle-action-details") {
+      const detail = document.getElementById(target.getAttribute("aria-controls") || "");
+      if (!detail) return;
+      const expanded = target.getAttribute("aria-expanded") === "true";
+      const ticker = target.dataset.ticker || "mã cổ phiếu";
+      target.setAttribute("aria-expanded", String(!expanded));
+      target.setAttribute("aria-label", `${expanded ? "Mở" : "Đóng"} chi tiết ${ticker}`);
+      target.classList.toggle("is-open", !expanded);
+      detail.hidden = expanded;
+      queueActionTableChromeUpdate();
+      return;
+    }
     if (action === "set-page") {
       const page = parsePositiveInteger(target.dataset.page);
       const scope = target.dataset.scope;
@@ -1167,6 +1179,43 @@ import {
     renderActionRadar();
     renderResearch();
   });
+
+  refs.actionTable?.addEventListener("scroll", queueActionTableChromeUpdate, { passive: true });
+  window.addEventListener("scroll", queueActionTableChromeUpdate, { passive: true });
+
+  let responsiveResizeRaf = 0;
+  window.addEventListener("resize", () => {
+    if (responsiveResizeRaf) cancelAnimationFrame(responsiveResizeRaf);
+    responsiveResizeRaf = requestAnimationFrame(() => {
+      responsiveResizeRaf = 0;
+      const url = new URL(window.location.href);
+      let actionChanged = false;
+      let researchChanged = false;
+
+      if (!url.searchParams.has("entry_size")) {
+        const nextActionSize = defaultActionPageSize();
+        if (state.actionPageSize !== nextActionSize) {
+          state.actionPageSize = nextActionSize;
+          state.actionPage = 1;
+          actionChanged = true;
+        }
+      }
+
+      if (state.tab !== "reports" && !url.searchParams.has("research_size")) {
+        const nextResearchSize = defaultResearchPageSize(state.tab);
+        if (state.researchPageSize !== nextResearchSize) {
+          state.researchPageSize = nextResearchSize;
+          state.researchPage = 1;
+          researchChanged = true;
+        }
+      }
+
+      if (actionChanged) renderActionRadar();
+      if (researchChanged) renderResearch();
+      if (actionChanged || researchChanged) syncNavigationUrl();
+      queueActionTableChromeUpdate();
+    });
+  }, { passive: true });
   refs.commandInput.addEventListener("input", () => renderCommandResults(refs.commandInput.value));
   document.addEventListener("keydown", (event) => {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
