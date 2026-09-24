@@ -6,6 +6,7 @@ import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { classifyPrice, crossedLockedTrigger, sameLockedTrigger, snapshotTriggerState } from "../src/scripts/action-trigger.mjs";
 import { projectTradeLedger, validIsoDate } from "../src/scripts/trade-ledger.mjs";
+import { evaluateAutomaticExit } from "../src/scripts/trade-exit-policy.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -47,6 +48,19 @@ export const reconcileTradeLedger = (source, before, after) => {
   const openTickers = new Set(beforeProjection.positions.filter((position) => position.status !== "closed").map((position) => position.ticker));
   const previousSnapshots = before.meta?.automation?.lastEvaluatedQuotes || {};
   const beforeEventIds = new Set(before.events.map((event) => event.id));
+  const quoteByTicker = new Map(source.coverage.map((item) => [item.ticker, item]));
+  const expectedExits = beforeProjection.positions
+    .filter((position) => position.status !== "closed")
+    .map((position) => ({ position, decision: evaluateAutomaticExit(position, quoteByTicker.get(position.ticker)) }))
+    .filter((item) => item.decision)
+    .map(({ position, decision }) => ({
+      tradeId: position.tradeId,
+      ticker: position.ticker,
+      date: decision.date,
+      reason: decision.reason,
+      price: decision.price,
+      triggerPrice: decision.triggerPrice
+    }));
   const expected = [];
   const blocked = [];
 
@@ -89,6 +103,38 @@ export const reconcileTradeLedger = (source, before, after) => {
   const missing = expected.filter((entry) => !actualIds.has(entry.id));
   const unexpected = actual.filter((entry) => !expectedIds.has(entry.id));
 
+  const actualExits = after.events
+    .filter((event) => !beforeEventIds.has(event.id) && event.type === "closed" && event.mode === "automatic-eod")
+    .map((event) => ({
+      id: event.id,
+      tradeId: event.tradeId,
+      ticker: event.ticker,
+      date: event.date,
+      price: event.price,
+      reason: event.reason
+    }));
+  const missingExits = expectedExits.filter((expectedExit) => !actualExits.some((actualExit) =>
+    actualExit.tradeId === expectedExit.tradeId
+    && actualExit.date === expectedExit.date
+    && actualExit.reason === expectedExit.reason
+    && actualExit.price === expectedExit.price
+  ));
+  const unresolvedExitViolations = afterProjection.positions
+    .filter((position) => position.status !== "closed")
+    .map((position) => ({
+      position,
+      decision: evaluateAutomaticExit(position, quoteByTicker.get(position.ticker))
+    }))
+    .filter((item) => item.decision)
+    .map(({ position, decision }) => ({
+      tradeId: position.tradeId,
+      ticker: position.ticker,
+      date: decision.date,
+      reason: decision.reason,
+      price: decision.price,
+      triggerPrice: decision.triggerPrice
+    }));
+
   const snapshotMismatches = [];
   const afterSnapshots = after.meta?.automation?.lastEvaluatedQuotes || {};
   for (const item of source.coverage) {
@@ -107,8 +153,24 @@ export const reconcileTradeLedger = (source, before, after) => {
     }
   }
 
-  const ok = missing.length === 0 && unexpected.length === 0 && snapshotMismatches.length === 0;
-  return { ok, expected, actual, missing, unexpected, blocked, snapshotMismatches };
+  const ok = missing.length === 0
+    && unexpected.length === 0
+    && missingExits.length === 0
+    && unresolvedExitViolations.length === 0
+    && snapshotMismatches.length === 0;
+  return {
+    ok,
+    expected,
+    actual,
+    missing,
+    unexpected,
+    blocked,
+    expectedExits,
+    actualExits,
+    missingExits,
+    unresolvedExitViolations,
+    snapshotMismatches
+  };
 };
 
 const runCli = async () => {
