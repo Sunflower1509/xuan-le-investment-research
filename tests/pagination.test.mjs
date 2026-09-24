@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   clampPage,
+  dataPageSizeForViewport,
   normalizePageSize,
   paginateItems,
   paginationTokens
@@ -39,4 +40,19 @@ test("normalizePageSize accepts only approved sizes", () => {
 
 test("clampPage returns page one for an empty result set", () => {
   assert.equal(clampPage(4, 0), 1);
+});
+
+
+test("dataPageSizeForViewport uses 30/20/15 tiers at exact content breakpoints", () => {
+  assert.equal(dataPageSizeForViewport(1920), 30);
+  assert.equal(dataPageSizeForViewport(1280), 30);
+  assert.equal(dataPageSizeForViewport(1279), 20);
+  assert.equal(dataPageSizeForViewport(768), 20);
+  assert.equal(dataPageSizeForViewport(767), 15);
+  assert.equal(dataPageSizeForViewport(390), 15);
+});
+
+test("dataPageSizeForViewport falls back safely for invalid widths", () => {
+  assert.equal(dataPageSizeForViewport(undefined), 30);
+  assert.equal(dataPageSizeForViewport(0), 30);
 });
