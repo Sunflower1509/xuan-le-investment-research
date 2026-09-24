@@ -497,7 +497,7 @@ const runPool = async (entries, worker) => {
   return { results, failures };
 };
 
-const run = async () => {
+export const runCompanyVisualSync = async () => {
   ensureRenderer();
   const data = loadWindowData(dataPath, "COMPANY_VISUALS");
   const logos = loadWindowData(logoPath, "COMPANY_LOGOS");
@@ -553,4 +553,12 @@ const run = async () => {
   }, null, 2));
 };
 
-run().catch((error) => { console.error(error?.stack || String(error)); process.exitCode = 1; });
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
+if (invokedPath === fileURLToPath(import.meta.url)) {
+  try {
+    await runCompanyVisualSync();
+  } catch (error) {
+    console.error(error?.stack || String(error));
+    process.exitCode = 1;
+  }
+}

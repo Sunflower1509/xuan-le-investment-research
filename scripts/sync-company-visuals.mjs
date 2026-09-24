@@ -6,12 +6,10 @@ import { fileURLToPath } from "node:url";
 
 import "./civs-fetch-fallback.mjs";
 import "./civs-registry-overlay.mjs";
-import "./sync-company-visuals-core.mjs";
+import { runCompanyVisualSync } from "./sync-company-visuals-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
-const deadline = Date.now() + 85 * 60 * 1000;
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
 const readData = () => {
@@ -23,7 +21,6 @@ const readData = () => {
   } catch { return null; }
 };
 
-const readMeta = () => readData()?.meta || null;
 
 const writeData = (data) => {
   fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
@@ -107,17 +104,9 @@ const demoteAuditInvalidLocalOutputs = () => {
   return demoted;
 };
 
-while (Date.now() < deadline) {
-  const meta = readMeta();
-  const expectedCount = Number(meta?.coverageTarget || meta?.candidateCount || 0);
-  if (expectedCount > 0 && Number(meta?.candidateCount) === expectedCount && Number(meta?.verifiedCount) + Number(meta?.pendingCount) === expectedCount) {
-    console.log(`[CIVS WRAPPER] persistence confirmed: ${meta.verifiedCount}/${expectedCount} verified, ${meta.pendingCount} pending.`);
-    break;
-  }
-  await sleep(250);
-}
+await runCompanyVisualSync();
 
-const finalMeta = readMeta();
+const finalMeta = readData()?.meta || null;
 const finalExpectedCount = Number(finalMeta?.coverageTarget || finalMeta?.candidateCount || 0);
 if (!(finalExpectedCount > 0 && Number(finalMeta?.candidateCount) === finalExpectedCount && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === finalExpectedCount)) {
   throw new Error(`CIVS core kết thúc nhưng không persist được candidate set ${finalExpectedCount || "?"} mã vào company-visuals.js.`);
