@@ -115,39 +115,29 @@
   padding-right: 4px;
 }
 
-.daily-brief-dateline {
-  margin: 0;
+.daily-title-session {
+  margin: 9px 0 0;
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
   color: var(--gold);
   letter-spacing: .1em;
-  font-size: .55rem;
+  font-size: .56rem;
   font-weight: 900;
   line-height: 1.35;
 }
 
-.daily-brief-dateline time {
+.daily-title-session span {
+  color: var(--gold);
+}
+
+.daily-title-session time {
   color: var(--brief-ink);
   font-family: var(--font-editorial);
-  font-size: .79rem;
+  font-size: .78rem;
   font-weight: 800;
   letter-spacing: .015em;
   font-variant-numeric: tabular-nums;
-}
-
-.daily-brief-dateline span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.daily-brief-dateline span::before {
-  width: 18px;
-  height: 1px;
-  background: rgba(189,142,49,.72);
-  content: "";
 }
 
 .daily-decision-brief .daily-brief-narrative h3 {
@@ -543,12 +533,13 @@
     margin-top: 18px;
   }
 
-  .daily-brief-dateline {
-    gap: 7px;
+  .daily-title-session {
+    margin-top: 8px;
+    gap: 6px;
   }
 
-  .daily-brief-dateline time {
-    font-size: .75rem;
+  .daily-title-session time {
+    font-size: .74rem;
   }
 
   .daily-decision-brief .daily-brief-narrative h3 {
