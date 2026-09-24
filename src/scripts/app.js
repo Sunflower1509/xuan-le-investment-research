@@ -207,7 +207,8 @@ import {
     }
 
     const tokens = paginationTokens(model.page, model.totalPages);
-    const pageButton = (page, label = String(page), extra = "") => `<li><button class="pagination-button" type="button" data-action="set-page" data-scope="${scope}" data-page="${page}" aria-label="${escapeHtml(extra || `Trang ${page}`)}"${page === model.page ? ' aria-current="page"' : ""}>${escapeHtml(label)}</button></li>`;
+    const button = (page, label, extra = "", className = "") => `<button class="pagination-button${className ? ` ${className}` : ""}" type="button" data-action="set-page" data-scope="${scope}" data-page="${page}" aria-label="${escapeHtml(extra || `Trang ${page}`)}"${page === model.page ? ' aria-current="page"' : ""}>${escapeHtml(label)}</button>`;
+    const pageButton = (page, label = String(page), extra = "") => `<li>${button(page, label, extra)}</li>`;
     const previous = model.page > 1
       ? pageButton(model.page - 1, "‹", "Trang trước")
       : '<li><button class="pagination-button" type="button" aria-label="Trang trước" disabled>‹</button></li>';
@@ -217,6 +218,13 @@ import {
     const pages = tokens.map((token) => token === "ellipsis"
       ? '<li><span class="pagination-ellipsis" aria-hidden="true">…</span></li>'
       : pageButton(token)).join("");
+
+    const simplePrevious = model.page > 1
+      ? button(model.page - 1, "‹", "Trang trước", "pagination-step")
+      : '<button class="pagination-button pagination-step" type="button" aria-label="Trang trước" disabled>‹</button>';
+    const simpleNext = model.page < model.totalPages
+      ? button(model.page + 1, "›", "Trang sau", "pagination-step")
+      : '<button class="pagination-button pagination-step" type="button" aria-label="Trang sau" disabled>›</button>';
 
     root.hidden = false;
     root.innerHTML = `
@@ -230,8 +238,13 @@ import {
           ${pageSizes.map((size) => `<option value="${size}"${size === model.pageSize ? " selected" : ""}>${size}</option>`).join("")}
         </select>
       </label>
-      <nav class="pagination-nav" aria-label="${escapeHtml(ariaLabel)}">
+      <nav class="pagination-nav pagination-nav-advanced" aria-label="${escapeHtml(ariaLabel)}">
         <ul class="pagination-list">${previous}${pages}${next}</ul>
+      </nav>
+      <nav class="pagination-nav pagination-nav-simple" aria-label="${escapeHtml(`${ariaLabel} trên màn hình nhỏ`)}">
+        ${simplePrevious}
+        <strong aria-live="polite">Trang ${model.page} / ${model.totalPages}</strong>
+        ${simpleNext}
       </nav>`;
   };
 
