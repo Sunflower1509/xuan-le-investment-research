@@ -19,7 +19,7 @@ test("action radar keeps native table semantics and explicit column headers", ()
 
 test("mobile financial grid exposes five core columns and expandable secondary details", () => {
   const app = read("src/scripts/app.js");
-  const css = read("assets/css/data-navigation.css");
+  const css = read("src/styles/data-navigation.css");
   assert.match(app, /data-action="toggle-action-details"/);
   assert.match(app, /class="action-detail-row"/);
   assert.match(app, /aria-expanded="false"/);
@@ -31,7 +31,7 @@ test("mobile financial grid exposes five core columns and expandable secondary d
 test("sticky table context uses a fixed clone and horizontal overflow cue", () => {
   const html = read("index.html");
   const app = read("src/scripts/app.js");
-  const css = read("assets/css/data-navigation.css");
+  const css = read("src/styles/data-navigation.css");
   assert.match(html, /data-role="action-sticky-header"/);
   assert.match(html, /data-role="action-scroll-cue"/);
   assert.match(app, /const updateActionTableChrome/);
@@ -42,7 +42,7 @@ test("sticky table context uses a fixed clone and horizontal overflow cue", () =
 
 test("mobile pagination switches to simple previous-current-next controls", () => {
   const app = read("src/scripts/app.js");
-  const css = read("assets/css/data-navigation.css");
+  const css = read("src/styles/data-navigation.css");
   assert.match(app, /pagination-nav pagination-nav-simple/);
   assert.match(app, /Trang \$\{model\.page\} \/ \$\{model\.totalPages\}/);
   assert.match(css, /@media \(max-width: 767px\)/);
@@ -53,7 +53,7 @@ test("mobile pagination switches to simple previous-current-next controls", () =
 
 test("compact mobile status is clamped while full recommendation remains in details", () => {
   const app = read("src/scripts/app.js");
-  const css = read("assets/css/data-navigation.css");
+  const css = read("src/styles/data-navigation.css");
   assert.match(app, /class="action-detail-status"><span>Trạng thái \/ chiến thuật<\/span><strong>\$\{escapeHtml\(action\.recommendation\)\}/);
   assert.match(css, /\.table-status \{[\s\S]*white-space: nowrap;[\s\S]*text-overflow: ellipsis;/);
   assert.match(css, /\.action-detail-status,[\s\S]*\.action-detail-sources \{\s*grid-column: 1 \/ -1;/);
@@ -61,7 +61,7 @@ test("compact mobile status is clamped while full recommendation remains in deta
 
 
 test("mobile hidden secondary columns outrank nth-child table-cell overrides", () => {
-  const css = read("assets/css/data-navigation.css");
+  const css = read("src/styles/data-navigation.css");
   const hiddenRule = css.indexOf(".action-table td.action-col-valuation,");
   const genericCellRule = css.indexOf(".action-table td:nth-child(odd),");
   assert.ok(genericCellRule >= 0);

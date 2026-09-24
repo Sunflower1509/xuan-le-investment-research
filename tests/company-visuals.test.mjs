@@ -86,10 +86,10 @@ test("production bundle keeps company visuals non-invasive and limited to resear
 test("v3 sync and audit are resumable, 127-aware, provenance-aware and fail-safe", () => {
   const syncWrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
   const auditWrapper = fs.readFileSync(path.join(root, "scripts/audit-company-visuals.mjs"), "utf8");
-  const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-v3.mjs"), "utf8");
-  const audit = fs.readFileSync(path.join(root, "scripts/audit-company-visuals-v3.mjs"), "utf8");
-  assert.match(syncWrapper, /sync-company-visuals-v3\.mjs/);
-  assert.match(auditWrapper, /audit-company-visuals-v3\.mjs/);
+  const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-core.mjs"), "utf8");
+  const audit = fs.readFileSync(path.join(root, "scripts/audit-company-visuals-core.mjs"), "utf8");
+  assert.match(syncWrapper, /sync-company-visuals-core\.mjs/);
+  assert.match(auditWrapper, /audit-company-visuals-core\.mjs/);
   assert.match(sync, /hero-auto/);
   assert.match(sync, /resolvedFromOfficialPage/);
   assert.match(sync, /qualityBreakdown/);

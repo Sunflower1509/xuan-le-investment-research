@@ -4,9 +4,11 @@ on:
   pull_request:
     paths:
       - "index.html"
+      - "src/index.css"
+      - "src/index.js"
       - "src/scripts/**"
       - "src/styles/**"
-      - "assets/css/**"
+      - "scripts/build/**"
       - "qa/visual/**"
       - ".github/workflows/visual-smoke.yml"
   workflow_dispatch:

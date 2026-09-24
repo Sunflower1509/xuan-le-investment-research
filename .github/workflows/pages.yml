@@ -48,7 +48,7 @@ jobs:
           fi
           changed="$(git diff --name-only "$base" "$head" 2>/dev/null || true)"
           printf '%s\n' "$changed"
-          if printf '%s\n' "$changed" | grep -Eq '^(src/data/company-visuals\.js|src/data/company-visual-candidates\.json|scripts/(sync-company-visuals|sync-company-visuals-v3|civs-[^/]+)\.mjs|assets/images/company-visuals/)'; then
+          if printf '%s\n' "$changed" | grep -Eq '^(src/data/company-visuals\.js|src/data/company-visual-candidates\.json|scripts/(sync-company-visuals|sync-company-visuals-core|civs-[^/]+)\.mjs|assets/images/company-visuals/)'; then
             echo "needs_sync=true" >> "$GITHUB_OUTPUT"
           else
             echo "needs_sync=false" >> "$GITHUB_OUTPUT"
@@ -100,12 +100,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet -- index.html assets/css/site.min.css; then
+          if ! git diff --quiet -- index.html src/index.css src/styles; then
             echo "Refusing deployment because HTML/CSS changed during synchronization." >&2
-            git diff -- index.html assets/css/site.min.css >&2
+            git diff -- index.html src/index.css src/styles >&2
             exit 2
           fi
-          allowed='^(src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visuals\.js|src/data/trade-ledger\.json|assets/js/site\.min\.js|assets/images/reports/[a-z0-9]+\.webp|assets/images/logos/[a-z0-9]+\.svg|assets/images/company-visuals/[a-z0-9]+\.webp)$'
+          allowed='^(src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visuals\.js|src/data/trade-ledger\.json|assets/images/reports/[a-z0-9]+\.webp|assets/images/logos/[a-z0-9]+\.svg|assets/images/company-visuals/[a-z0-9]+\.webp)$'
           unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
             echo "Unexpected changed paths:" >&2
@@ -118,10 +118,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet -- src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports assets/images/logos assets/images/company-visuals; then
+          if ! git diff --quiet -- src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/images/reports assets/images/logos assets/images/company-visuals; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/js/site.min.js assets/images/reports assets/images/logos assets/images/company-visuals
+            git add src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/images/reports assets/images/logos assets/images/company-visuals
             git commit -m "Synchronize verified report covers, company identity visuals, logos and ledger [skip ci]"
             git push origin HEAD:main
           fi
