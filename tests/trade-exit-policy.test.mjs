@@ -1,9 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { evaluateAutomaticExit, nearestLockedTarget, TRADE_EXIT_POLICY } from "../src/scripts/trade-exit-policy.mjs";
 import { processEodLedger } from "../scripts/process-trade-ledger.mjs";
 import { projectTradeLedger } from "../src/scripts/trade-ledger.mjs";
 
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceUrl = "https://example.com/eod";
 
 const position = (overrides = {}) => ({
@@ -26,6 +30,20 @@ const quote = (close, date = "2026-09-24") => ({
   close,
   priceDate: date,
   priceSource: sourceUrl
+});
+
+test("production ledger persists the locked exit-policy contract", () => {
+  const ledger = JSON.parse(fs.readFileSync(path.join(root, "src/data/trade-ledger.json"), "utf8"));
+  assert.equal(ledger.meta.automation.version, 4);
+  assert.equal(ledger.meta.automation.exitPolicy.version, TRADE_EXIT_POLICY.version);
+  assert.equal(ledger.meta.automation.exitPolicy.basis, TRADE_EXIT_POLICY.basis);
+  assert.deepEqual(
+    Array.from(ledger.meta.automation.exitPolicy.precedence),
+    Array.from(TRADE_EXIT_POLICY.precedence)
+  );
+  assert.equal(ledger.meta.automation.exitPolicy.rules.stoploss, TRADE_EXIT_POLICY.boundaries.stoploss);
+  assert.equal(ledger.meta.automation.exitPolicy.rules.zoneFloor, TRADE_EXIT_POLICY.boundaries.zoneFloor);
+  assert.equal(ledger.meta.automation.exitPolicy.rules.target, TRADE_EXIT_POLICY.boundaries.target);
 });
 
 test("exit policy is EOD-close based and closes the remaining position", () => {
