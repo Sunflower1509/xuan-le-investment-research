@@ -456,6 +456,59 @@ import {
     document.querySelectorAll("[data-role='watchlist-count'],[data-role='watchlist-tab-count']").forEach((el) => { el.textContent = state.watchlist.size; });
   };
 
+  const actionTableHeader = () => `<thead><tr>
+    <th class="action-col-reference" scope="col">Hạng / mã / trạng thái</th>
+    <th class="action-col-price" scope="col">Giá đóng cửa</th>
+    <th class="action-col-zone" scope="col">Vùng mua đã khóa</th>
+    <th class="action-col-distance" scope="col">Khoảng cách</th>
+    <th class="action-col-valuation" scope="col">Định giá cơ sở</th>
+    <th class="action-col-upside upside-header" scope="col">Upside tới định giá cơ sở</th>
+    <th class="action-col-source" scope="col">Nguồn</th>
+  </tr></thead>`;
+
+  let actionChromeRaf = 0;
+  const updateActionTableChrome = () => {
+    actionChromeRaf = 0;
+    const wrap = refs.actionTable;
+    const stickyRoot = refs.actionStickyHeader;
+    const table = wrap?.querySelector(".action-table");
+    if (!wrap || !stickyRoot || !table) return;
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const tableRect = table.getBoundingClientRect();
+    const headRect = table.tHead?.getBoundingClientRect();
+    const stickyViewport = stickyRoot.querySelector(".action-sticky-scroll");
+    const rootHeaderHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0;
+    const stickyHeight = stickyRoot.querySelector("thead")?.getBoundingClientRect().height || 0;
+    const stickyActive = Boolean(headRect)
+      && headRect.bottom <= rootHeaderHeight
+      && tableRect.bottom > rootHeaderHeight + stickyHeight;
+
+    stickyRoot.hidden = !stickyActive;
+    if (stickyActive) {
+      stickyRoot.style.left = `${wrapRect.left}px`;
+      stickyRoot.style.width = `${wrapRect.width}px`;
+      if (stickyViewport) stickyViewport.scrollLeft = wrap.scrollLeft;
+    }
+
+    if (refs.actionScrollCue) {
+      const hasOverflow = wrap.scrollWidth > wrap.clientWidth + 2;
+      const canScrollRight = wrap.scrollLeft + wrap.clientWidth < wrap.scrollWidth - 2;
+      refs.actionScrollCue.hidden = !(hasOverflow && canScrollRight);
+    }
+  };
+
+  const queueActionTableChromeUpdate = () => {
+    if (actionChromeRaf) return;
+    actionChromeRaf = requestAnimationFrame(updateActionTableChrome);
+  };
+
+  const renderActionStickyHeader = () => {
+    if (!refs.actionStickyHeader) return;
+    refs.actionStickyHeader.innerHTML = `<div class="action-sticky-scroll"><table class="action-table action-table-sticky" aria-hidden="true">${actionTableHeader()}</table></div>`;
+    queueActionTableChromeUpdate();
+  };
+
   const renderActionRadar = () => {
     const exclusions = coverage.filter((item) => item.action?.eligibility && item.action.eligibility !== "active");
     const sourcedPrices = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
@@ -495,7 +548,8 @@ import {
     }
 
     if (refs.actionTable) refs.actionTable.innerHTML = `<table class="action-table">
-      <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Định giá cơ sở</th><th class="upside-header">Upside tới định giá cơ sở</th><th>Nguồn</th></tr></thead>
+      <caption class="sr-only">Vùng mua tham khảo, dữ liệu EOD phiên ${date(source.meta.updated)}, xếp theo khoảng cách tới vùng hành động.</caption>
+      ${actionTableHeader()}
       <tbody>${actionPage.items.map((item, pageIndex) => {
         const index = actionPage.start + pageIndex;
         const action = item.action;
@@ -506,18 +560,37 @@ import {
         const upsideTone = !Number.isFinite(upside) ? "neutral" : upside > 0 ? "positive" : upside < 0 ? "negative" : "neutral";
         const upsideLabel = !Number.isFinite(upside) ? "Chưa đủ dữ liệu" : upside > 0 ? "Dư địa so với giá đóng cửa" : upside < 0 ? "Giá đóng cửa cao hơn định giá cơ sở" : "Bằng định giá cơ sở";
         const distanceText = priorityDistanceText(item, decimal);
-        return `<tr>
-          <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
-          <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
-          <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
-          <td data-label="Vùng mua đã khóa"><strong>${actionTriggerText(action)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
-          <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
-          <td data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
-          <td class="upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
-          <td data-label="Nguồn"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
+        const detailId = `action-detail-${index + 1}`;
+        const sourceLinks = `<div class="action-source-links"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</div>`;
+        return `<tr class="action-data-row">
+          <td class="action-col-reference" data-label="Hạng / mã / trạng thái">
+            <div class="action-reference">
+              <span class="table-rank">${String(index + 1).padStart(2, "0")}</span>
+              <div class="action-reference-copy"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></div>
+              <button class="action-detail-toggle" type="button" data-action="toggle-action-details" data-ticker="${escapeHtml(item.ticker)}" aria-expanded="false" aria-controls="${detailId}" aria-label="Mở chi tiết ${escapeHtml(item.ticker)}"><span aria-hidden="true">⌄</span></button>
+            </div>
+          </td>
+          <td class="action-col-price" data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
+          <td class="action-col-zone" data-label="Vùng mua đã khóa"><strong>${actionTriggerText(action)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td class="action-col-distance" data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
+          <td class="action-col-valuation" data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
+          <td class="action-col-upside upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
+          <td class="action-col-source" data-label="Nguồn">${sourceLinks}</td>
+        </tr>
+        <tr class="action-detail-row" id="${detailId}" hidden>
+          <td colspan="7">
+            <div class="action-detail-grid">
+              <div><span>Định giá cơ sở</span><strong>${number(base)} đồng/cp</strong></div>
+              <div><span>Ngày khóa vùng</span><strong>${date(action.basisDate)}</strong></div>
+              <div><span>Ngày giá EOD</span><strong>${date(item.priceDate)}</strong></div>
+              <div class="action-detail-sources"><span>Nguồn kiểm chứng</span>${sourceLinks}</div>
+            </div>
+          </td>
         </tr>`;
       }).join("")}</tbody>
     </table>`;
+
+    renderActionStickyHeader();
 
     renderDataPagination({
       root: refs.actionPagination,
