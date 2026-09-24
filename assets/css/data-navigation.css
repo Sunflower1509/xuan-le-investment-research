@@ -495,9 +495,13 @@
   }
 
   .table-status {
+    max-width: 100%;
     margin-top: 4px !important;
     font-size: .5rem !important;
     line-height: 1.25 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .action-detail-toggle {
@@ -564,8 +568,14 @@
     line-height: 1.35;
   }
 
+  .action-detail-status,
   .action-detail-sources {
     grid-column: 1 / -1;
+  }
+
+  .action-detail-status strong {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .action-detail-sources .action-source-links {
