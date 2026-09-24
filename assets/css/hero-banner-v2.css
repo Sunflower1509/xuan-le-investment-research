@@ -1,7 +1,7 @@
 /* Hero banner final — Xuân Lê TVS — 2026-09-23
    Portrait uses the user's original photo pixels; only background extraction/cropping was applied. */
 .terminal-hero{position:relative;min-height:520px;background:linear-gradient(104deg,#fffefa 0%,#fbfaf5 45%,#f2f8f5 73%,#e9f5ef 100%);border-bottom:1px solid rgba(220,216,206,.82);overflow:hidden;isolation:isolate}
-.terminal-hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.145;background:url("../images/advisor-banner-3d-v2.webp") 76% 44%/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);pointer-events:none}
+.terminal-hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.105;background:url("../images/advisor-banner-3d-v2.webp") 76% 44%/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);pointer-events:none}
 .terminal-hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 80% 31%,rgba(255,255,255,.76),transparent 22rem),linear-gradient(115deg,transparent 0 60%,rgba(189,142,49,.085) 60.2% 60.35%,transparent 60.55% 100%)}
 .terminal-hero .hero-light{z-index:0;background:radial-gradient(circle at 9% 12%,rgba(189,142,49,.06),transparent 24rem),radial-gradient(circle at 86% 70%,rgba(8,120,90,.09),transparent 28rem)}
 .hero-v2-grid{z-index:1;min-height:520px;padding:52px 0 30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,355px);align-items:stretch;gap:16px;position:relative}
@@ -21,3 +21,25 @@
 @media(max-width:720px){.terminal-hero{min-height:auto}.hero-v2-grid{display:flex;flex-direction:column;padding:28px 0 26px}.hero-portrait{order:0;min-height:245px;width:min(315px,84vw);margin:20px auto -42px;align-self:center}.hero-v2-copy h1.hero-slogan{font-size:clamp(2rem,8vw,2.58rem);white-space:normal;text-wrap:balance;letter-spacing:-.026em}.hero-v2-copy .terminal-eyebrow{margin-bottom:16px}.hero-v2-actions{margin-top:22px}.hero-cta{width:100%;max-width:320px;min-height:48px;padding:0 18px}.hero-contact{margin-top:26px;display:grid;grid-template-columns:48px 1fr;gap:10px 12px}.hero-contact-copy{min-width:0}.hero-phone,.hero-zalo{grid-column:1/-1;width:fit-content;margin-left:60px}.hero-zalo{margin-top:-2px}.hero-pillars{grid-template-columns:1fr;margin-top:26px;gap:0;padding-top:0;border-top:0}.hero-pillar{padding:13px 0;border-right:0;border-bottom:1px solid rgba(8,28,49,.10)}.hero-pillar:last-child{border-bottom:0}.hero-pillar strong{font-size:.62rem}}
 @media(max-width:430px){.hero-v2-grid{padding-top:24px}.hero-v2-copy h1.hero-slogan{font-size:clamp(1.84rem,8.1vw,2.12rem)}.hero-portrait{min-height:218px;width:min(286px,86vw);margin-bottom:-32px}.hero-contact{grid-template-columns:46px 1fr}.hero-contact .advisor-avatar{width:46px;height:46px}.hero-phone,.hero-zalo{margin-left:58px}}
 @media(prefers-reduced-motion:reduce){.hero-cta{transition:none}}
+@media(min-width:861px){
+  .terminal-hero .hero-light::before{
+    content:"";
+    position:absolute;
+    inset:-8px -10px -8px 34%;
+    z-index:-1;
+    pointer-events:none;
+    background:url("../images/hero-market-room.webp") right center/cover no-repeat;
+    opacity:.34;
+    filter:saturate(.72) contrast(.88) brightness(1.05) blur(.35px);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.10) 18%,rgba(0,0,0,.46) 43%,rgba(0,0,0,.88) 72%,#000 100%);
+    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.10) 18%,rgba(0,0,0,.46) 43%,rgba(0,0,0,.88) 72%,#000 100%);
+  }
+  .terminal-hero .hero-light::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:radial-gradient(circle at 80% 31%,rgba(255,255,255,.56) 0 74px,rgba(255,255,255,.30) 118px,transparent 190px);
+  }
+}
