@@ -115,31 +115,6 @@
   padding-right: 4px;
 }
 
-.daily-title-session {
-  margin: 9px 0 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--gold);
-  letter-spacing: .1em;
-  font-size: .56rem;
-  font-weight: 900;
-  line-height: 1.35;
-}
-
-.daily-title-session span {
-  color: var(--gold);
-}
-
-.daily-title-session time {
-  color: var(--brief-ink);
-  font-family: var(--font-editorial);
-  font-size: .78rem;
-  font-weight: 800;
-  letter-spacing: .015em;
-  font-variant-numeric: tabular-nums;
-}
-
 .daily-decision-brief .daily-brief-narrative h3 {
   max-width: 100%;
   margin: 10px 0 0;
@@ -148,6 +123,13 @@
   font-size: clamp(1.72rem,2vw,2.28rem);
   line-height: 1.08;
   text-wrap: balance;
+}
+
+.daily-decision-brief .daily-brief-narrative h3 time {
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: inherit;
 }
 
 .daily-decision-brief .daily-thesis {
@@ -531,15 +513,6 @@
 
   .daily-brief-grid {
     margin-top: 18px;
-  }
-
-  .daily-title-session {
-    margin-top: 8px;
-    gap: 6px;
-  }
-
-  .daily-title-session time {
-    font-size: .74rem;
   }
 
   .daily-decision-brief .daily-brief-narrative h3 {
