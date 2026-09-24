@@ -338,7 +338,6 @@ import {
         <div class="daily-brief-topline">
           <div class="daily-insight-meta">
             <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
-            <time datetime="${escapeHtml(entry.date)}">Phiên ${date(entry.date)}</time>
           </div>
           <span class="daily-integrity-chip ${brief.integrity.tone}" title="${escapeHtml(brief.integrity.label)}">
             <span aria-hidden="true">${brief.integrity.tone === "warning" ? "!" : "✓"}</span>
@@ -348,7 +347,10 @@ import {
 
         <div class="daily-brief-grid">
           <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
-            <p class="daily-brief-eyebrow">MARKET DECISION BRIEF</p>
+            <div class="daily-brief-dateline" aria-label="Ngày nhận định">
+              <time datetime="${escapeHtml(entry.date)}">${date(entry.date)}</time>
+              <span>NHẬN ĐỊNH SAU PHIÊN</span>
+            </div>
             <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
             <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
             ${brief.evidence.length ? `
@@ -361,9 +363,9 @@ import {
               </div>` : ""}
           </section>
 
-          <aside class="daily-market-snapshot" aria-label="Market Snapshot">
+          <aside class="daily-market-snapshot" aria-label="Tóm tắt số liệu cuối phiên">
             <div class="daily-snapshot-heading">
-              <div><small>MARKET SNAPSHOT</small><strong>Số liệu khóa cuối phiên</strong></div>
+              <div><small>TÓM TẮT CUỐI PHIÊN</small><strong>Số liệu đã khóa</strong></div>
               <span>${entry.metrics.length} chỉ báo</span>
             </div>
             <div class="daily-snapshot-list">
@@ -391,14 +393,14 @@ import {
           <strong>${escapeHtml(entry.sentimentLabel)}</strong>
         </div>
         <div class="daily-decision-actions">
-          ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong Trading Playbook trước khi thay đổi tỷ trọng."]).map((item) => `
+          ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong kế hoạch tác nghiệp trước khi thay đổi tỷ trọng."]).map((item) => `
             <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
         </div>
       </section>
 
       <section class="daily-action-panel" aria-labelledby="daily-action-title-${escapeHtml(entry.id)}">
         <div class="daily-action-heading">
-          <div><small>TRADING PLAYBOOK</small><h4 id="daily-action-title-${escapeHtml(entry.id)}">Điều kiện → hành động</h4></div>
+          <div><small>KẾ HOẠCH TÁC NGHIỆP</small><h4 id="daily-action-title-${escapeHtml(entry.id)}">Điều kiện → hành động</h4></div>
           <span>${entry.playbook.length} kịch bản đã khóa</span>
         </div>
         <div class="daily-action-list">${entry.playbook.map((item, index) => {
@@ -421,24 +423,24 @@ import {
         <div class="daily-evidence-body">
           ${entry.brief?.thesis && entry.thesis !== entry.brief.thesis ? `
             <section class="daily-full-narrative">
-              <div><small>FULL MARKET READ</small><h5>Luận giải đầy đủ của phiên</h5></div>
+              <div><small>LUẬN GIẢI ĐẦY ĐỦ</small><h5>Diễn biến và hàm ý của phiên</h5></div>
               <p>${escapeHtml(entry.thesis)}</p>
             </section>` : ""}
           <div class="daily-evidence-grid">
             <section class="daily-evidence-panel">
-              <div class="daily-evidence-heading"><small>01 • MARKET BACKDROP</small><h5>Bối cảnh và dòng tiền</h5></div>
+              <div class="daily-evidence-heading"><small>01 • BỐI CẢNH THỊ TRƯỜNG</small><h5>Bối cảnh và dòng tiền</h5></div>
               <ul class="daily-backdrop-list">${entry.backdrop.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
               <p class="daily-focus"><svg><use href="#i-chart"></use></svg>${escapeHtml(entry.focus)}</p>
             </section>
             <section class="daily-evidence-panel">
-              <div class="daily-evidence-heading"><small>02 • KEY LEVELS</small><h5>Mốc kỹ thuật đã khóa</h5></div>
+              <div class="daily-evidence-heading"><small>02 • CÁC MỐC QUAN TRỌNG</small><h5>Mốc kỹ thuật đã khóa</h5></div>
               <div class="daily-levels">${entry.levels.map((item) => `
                 <article><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><p>${escapeHtml(item.note)}</p></article>`).join("")}</div>
             </section>
           </div>
           <div class="daily-method-row">
             <div class="daily-data-integrity">
-              <span>DATA INTEGRITY</span>
+              <span>ĐỘ TIN CẬY DỮ LIỆU</span>
               <strong class="${brief.integrity.tone}">${escapeHtml(brief.integrity.label)}</strong>
               <small>${escapeHtml(entry.dataStatus)}</small>
             </div>
@@ -451,7 +453,7 @@ import {
       <footer class="daily-quick-footer">
         <p class="daily-disclaimer"><svg><use href="#i-shield"></use></svg><span>${DAILY_DISCLAIMER}</span></p>
         <nav class="daily-next-actions" aria-label="Đi tiếp từ nhận định thị trường">
-          <a href="#action-radar">Xem Action Radar <svg><use href="#i-arrow"></use></svg></a>
+          <a href="#action-radar">Xem bảng ưu tiên <svg><use href="#i-arrow"></use></svg></a>
           <a href="#research">Mở thư viện báo cáo <svg><use href="#i-arrow"></use></svg></a>
         </nav>
       </footer>`;
