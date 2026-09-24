@@ -86,28 +86,27 @@ test("renderer separates narrative, snapshot, action and audit layers", () => {
   assert.match(app, /marketDirectionMeta\(metric\.direction, metric\.tone\)/);
 });
 
-test("daily market renderer puts the session date immediately before the headline and keeps visible labels Vietnamese", () => {
+test("daily market renderer puts PHIÊN + session date immediately after the headline", () => {
   const app = read("src/scripts/app.js");
-  const dateLine = app.indexOf('class="daily-brief-dateline"');
   const headline = app.indexOf('<h3 id="daily-brief-title-');
-  assert.ok(dateLine >= 0, "Missing prominent daily session date line");
-  assert.ok(headline > dateLine, "Session date line must render before the daily headline");
+  const sessionLine = app.indexOf('class="daily-title-session"');
+  assert.ok(headline >= 0, "Missing daily headline");
+  assert.ok(sessionLine > headline, "PHIÊN date must render after the daily headline");
+  assert.match(app, /<span>PHIÊN<\/span>/);
   assert.match(app, /<time datetime="\$\{escapeHtml\(entry\.date\)\}">\$\{date\(entry\.date\)\}<\/time>/);
-  assert.match(app, /NHẬN ĐỊNH SAU PHIÊN/);
-  assert.match(app, /TÓM TẮT CUỐI PHIÊN/);
-  assert.match(app, /KẾ HOẠCH TÁC NGHIỆP/);
-  assert.match(app, /ĐỘ TIN CẬY DỮ LIỆU/);
+  assert.equal(app.includes('class="daily-brief-dateline"'), false, "Old date-before-title line must be removed");
   for (const legacy of ["MARKET DECISION BRIEF", "MARKET SNAPSHOT", "TRADING PLAYBOOK", "FULL MARKET READ", "DATA INTEGRITY"]) {
     assert.equal(app.includes(legacy), false, `Legacy English label remains: ${legacy}`);
   }
 });
 
-test("daily market date line has dedicated responsive styling", () => {
+test("PHIÊN date after headline has dedicated responsive styling", () => {
   const css = read("assets/css/market-decision-brief.css");
-  assert.match(css, /\.daily-brief-dateline\s*\{/);
-  assert.match(css, /\.daily-brief-dateline time\s*\{/);
+  assert.match(css, /\.daily-title-session\s*\{/);
+  assert.match(css, /\.daily-title-session time\s*\{/);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/);
 });
+
 
 test("Market Decision Brief CSS preserves semantic color and responsive hierarchy", () => {
   const css = read("assets/css/market-decision-brief.css");
