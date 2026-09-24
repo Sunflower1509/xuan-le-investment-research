@@ -1,4 +1,5 @@
 import { activationRelation, finitePositive, parseActionTrigger, triggerSatisfied } from "./action-trigger.mjs";
+import { evaluateAutomaticExit } from "./trade-exit-policy.mjs";
 
 const EVENT_TYPES = new Set(["activated", "partial_exit", "closed"]);
 const ACTIVATION_MODES = new Set(["manual", "automatic-eod"]);
@@ -163,18 +164,24 @@ export const projectTradeLedger = (ledger, coverage = []) => {
     const status = position.remainingFraction === 0
       ? "closed"
       : position.exitedFraction > 0 ? "partial" : "open";
+    const autoExitDecision = status === "closed"
+      ? null
+      : evaluateAutomaticExit({ ...position, status }, quote);
     const monitoringState = status === "closed"
       ? "closed"
-      : currentPrice && position.stop && currentPrice <= position.stop
+      : autoExitDecision?.reason === "stoploss"
         ? "stop-alert"
-        : currentPrice && position.targets.length && currentPrice >= Math.min(...position.targets)
-          ? "target-alert"
-          : "normal";
+        : autoExitDecision?.reason === "zone_floor_break"
+          ? "zone-floor-alert"
+          : autoExitDecision?.reason === "target"
+            ? "target-alert"
+            : "normal";
 
     return {
       ...position,
       status,
       monitoringState,
+      autoExitDecision,
       currentPrice,
       currentPriceDate: quoteIsCurrent ? quote.priceDate : null,
       currentPriceSource: quoteIsCurrent ? quote.priceSource : null,
