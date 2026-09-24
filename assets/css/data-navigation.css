@@ -474,8 +474,10 @@
   .action-col-distance { width: 130px; }
   .action-col-upside { width: 150px; }
 
-  .action-table .action-col-valuation,
-  .action-table .action-col-source {
+  .action-table td.action-col-valuation,
+  .action-table td.action-col-source,
+  .action-table th.action-col-valuation,
+  .action-table th.action-col-source {
     display: none !important;
   }
 
