@@ -170,11 +170,15 @@ jobs:
         if: steps.market.outputs.status == 'verified'
         run: cp src/data/trade-ledger.json "${RUNNER_TEMP}/trade-ledger-before.json"
 
-      - name: Process EOD activation ledger
+      - name: Backtest EOD exit policy against open ledger
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/backtest-trade-exit-policy.mjs --report "${RUNNER_TEMP}/trade-exit-backtest.json"
+
+      - name: Process EOD entry and exit ledger
         if: steps.market.outputs.status == 'verified'
         run: node scripts/process-trade-ledger.mjs
 
-      - name: Reconcile expected versus actual activations
+      - name: Reconcile expected activations and exits
         if: steps.market.outputs.status == 'verified'
         run: |
           node scripts/reconcile-trade-ledger.mjs \
