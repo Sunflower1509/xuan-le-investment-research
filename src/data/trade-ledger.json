@@ -1905,6 +1905,206 @@
       "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPB/data_day?sdate=24-09-2026&edate=24-09-2026",
       "reportId": "VPB-20260818",
       "reportFile": "reports/VPB_2026-08-18.pdf"
+    },
+    {
+      "id": "auto-close-IDC-2026-09-11-2026-09-24-target",
+      "tradeId": "IDC-2026-09-11",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "IDC",
+      "date": "2026-09-24",
+      "price": 33600,
+      "reason": "target",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:IDC~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "target",
+        "triggerPrice": 33500
+      },
+      "note": "Giá đóng cửa EOD 33600 đạt/vượt target gần nhất 33500 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/IDC/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-PHR-2026-09-11-2026-09-24-zone_floor_break",
+      "tradeId": "PHR-2026-09-11",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "PHR",
+      "date": "2026-09-24",
+      "price": 32000,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHR~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 36665
+      },
+      "note": "Giá đóng cửa EOD 32000 nằm dưới cận dưới vùng mua 36665 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PHR/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-VDS-2026-09-11-2026-09-24-stoploss",
+      "tradeId": "VDS-2026-09-11",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "VDS",
+      "date": "2026-09-24",
+      "price": 10500,
+      "reason": "stoploss",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VDS~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "stoploss",
+        "triggerPrice": 10600
+      },
+      "note": "Giá đóng cửa EOD 10500 chạm/thủng stop 10600 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VDS/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-CEO-2026-09-08-2026-09-24-stoploss",
+      "tradeId": "CEO-2026-09-08",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "CEO",
+      "date": "2026-09-24",
+      "price": 11500,
+      "reason": "stoploss",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CEO~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "stoploss",
+        "triggerPrice": 11900
+      },
+      "note": "Giá đóng cửa EOD 11500 chạm/thủng stop 11900 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CEO/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-DIG-2026-09-08-2026-09-24-stoploss",
+      "tradeId": "DIG-2026-09-08",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "DIG",
+      "date": "2026-09-24",
+      "price": 9830,
+      "reason": "stoploss",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DIG~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "stoploss",
+        "triggerPrice": 10300
+      },
+      "note": "Giá đóng cửa EOD 9830 chạm/thủng stop 10300 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DIG/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-KBC-2026-09-08-2026-09-24-zone_floor_break",
+      "tradeId": "KBC-2026-09-08",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "KBC",
+      "date": "2026-09-24",
+      "price": 26000,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KBC~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 26600
+      },
+      "note": "Giá đóng cửa EOD 26000 nằm dưới cận dưới vùng mua 26600 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KBC/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-NVL-2026-09-08-2026-09-24-zone_floor_break",
+      "tradeId": "NVL-2026-09-08",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "NVL",
+      "date": "2026-09-24",
+      "price": 12200,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NVL~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 12750
+      },
+      "note": "Giá đóng cửa EOD 12200 nằm dưới cận dưới vùng mua 12750 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NVL/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-VCG-2026-09-07-2026-09-24-stoploss",
+      "tradeId": "VCG-2026-09-07",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "VCG",
+      "date": "2026-09-24",
+      "price": 14050,
+      "reason": "stoploss",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCG~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "stoploss",
+        "triggerPrice": 14700
+      },
+      "note": "Giá đóng cửa EOD 14050 chạm/thủng stop 14700 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VCG/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-HDC-2026-09-03-2026-09-24-zone_floor_break",
+      "tradeId": "HDC-2026-09-03",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "HDC",
+      "date": "2026-09-24",
+      "price": 11500,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HDC~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 11600
+      },
+      "note": "Giá đóng cửa EOD 11500 nằm dưới cận dưới vùng mua 11600 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HDC/data_day?sdate=24-09-2026&edate=24-09-2026"
+    },
+    {
+      "id": "auto-close-TCH-2026-09-03-2026-09-24-zone_floor_break",
+      "tradeId": "TCH-2026-09-03",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "TCH",
+      "date": "2026-09-24",
+      "price": 11250,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCH~date:2026-09-24&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 12142
+      },
+      "note": "Giá đóng cửa EOD 11250 nằm dưới cận dưới vùng mua 12142 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TCH/data_day?sdate=24-09-2026&edate=24-09-2026"
     }
   ]
 }
