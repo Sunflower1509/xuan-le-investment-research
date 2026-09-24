@@ -31,7 +31,7 @@ const webkitProject = (name, viewport, extra = {}) => ({
 
 export default defineConfig({
   testDir: ".",
-  testMatch: /financial-grid\.spec\.mjs/,
+  testMatch: /(?:financial-grid|market-brief)\.spec\.mjs/,
   timeout: 45_000,
   expect: { timeout: 8_000 },
   fullyParallel: false,
