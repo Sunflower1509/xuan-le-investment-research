@@ -1,0 +1,61 @@
+name: Visual smoke QA
+
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "src/scripts/**"
+      - "src/styles/**"
+      - "assets/css/**"
+      - "qa/visual/**"
+      - ".github/workflows/visual-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  financial-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      BASE_URL: https://sunflower1509.github.io/xuan-le-investment-research/
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Verify Google Chrome
+        run: google-chrome --version
+
+      - name: Install Playwright test runner
+        working-directory: qa/visual
+        run: npm install --no-audit --no-fund
+
+      - name: Install Chromium and WebKit runtime dependencies
+        working-directory: qa/visual
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run cross-browser financial-grid smoke QA
+        working-directory: qa/visual
+        run: npm test
+
+      - name: Upload visual QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-smoke-evidence
+          path: |
+            qa/visual/playwright-report
+            qa/visual/test-results
+          retention-days: 14
+          if-no-files-found: warn
