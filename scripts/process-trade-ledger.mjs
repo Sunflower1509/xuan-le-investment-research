@@ -14,6 +14,7 @@ import {
   sameLockedTrigger,
   snapshotTriggerState
 } from "../src/scripts/action-trigger.mjs";
+import { evaluateAutomaticExit, TRADE_EXIT_POLICY } from "../src/scripts/trade-exit-policy.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const researchPath = path.join(repositoryRoot, "src/data/research-data.js");
@@ -36,6 +37,45 @@ const snapshotFor = (item) => ({
   eligibility: typeof item.action?.eligibility === "string" ? item.action.eligibility : "unknown",
   ...(snapshotTriggerState(item.action).triggerType ? { triggerType: snapshotTriggerState(item.action).triggerType, triggerPrice: snapshotTriggerState(item.action).triggerPrice } : {})
 });
+
+const automaticCloseEvent = (position, decision, quote) => {
+  const reasonText = decision.reason === "stoploss"
+    ? `Giá đóng cửa EOD ${decision.price} chạm/thủng stop ${decision.triggerPrice} đã khóa.`
+    : decision.reason === "zone_floor_break"
+      ? `Giá đóng cửa EOD ${decision.price} nằm dưới cận dưới vùng mua ${decision.triggerPrice} đã khóa.`
+      : `Giá đóng cửa EOD ${decision.price} đạt/vượt target gần nhất ${decision.triggerPrice} đã khóa.`;
+
+  const event = {
+    id: `auto-close-${position.tradeId}-${decision.date}-${decision.reason}`,
+    tradeId: position.tradeId,
+    type: "closed",
+    mode: "automatic-eod",
+    ticker: position.ticker,
+    date: decision.date,
+    price: decision.price,
+    reason: decision.reason,
+    sourceUrl: decision.sourceUrl || quote?.priceSource,
+    exitPolicy: {
+      version: TRADE_EXIT_POLICY.version,
+      basis: TRADE_EXIT_POLICY.basis,
+      executionPrice: TRADE_EXIT_POLICY.executionPrice,
+      rule: decision.rule,
+      triggerPrice: decision.triggerPrice
+    },
+    note: `${reasonText} Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v${TRADE_EXIT_POLICY.version}; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.`
+  };
+  if (validSourceUrl(decision.sourceUrlSecondary || quote?.priceSourceSecondary)) {
+    event.sourceUrlSecondary = decision.sourceUrlSecondary || quote.priceSourceSecondary;
+  }
+  return event;
+};
+
+const incrementExitStats = (stats, reason) => {
+  stats.closed += 1;
+  if (reason === "target") stats.closedTarget += 1;
+  else if (reason === "stoploss") stats.closedStop += 1;
+  else if (reason === "zone_floor_break") stats.closedZoneFloor += 1;
+};
 
 const latestReportByTicker = (reports = []) => {
   const result = new Map();
@@ -124,13 +164,17 @@ export const processEodLedger = (source, ledger) => {
 
   const seenTickers = new Set();
   const reportsByTicker = latestReportByTicker(source.reports);
-  const projection = projectTradeLedger(next, source.coverage);
-  const openTickers = new Set(projection.positions.filter((position) => position.status !== "closed").map((position) => position.ticker));
+  const quoteByTicker = new Map(source.coverage.map((item) => [item.ticker, item]));
   const eventIds = new Set(next.events.map((event) => event.id));
   const stats = {
     evaluated: 0,
     initialized: 0,
     activated: 0,
+    activatedAndClosed: 0,
+    closed: 0,
+    closedTarget: 0,
+    closedStop: 0,
+    closedZoneFloor: 0,
     unchanged: 0,
     rebased: 0,
     blocked: 0,
@@ -138,6 +182,25 @@ export const processEodLedger = (source, ledger) => {
     skipped: 0
   };
   const warnings = [];
+  const closedThisRun = new Set();
+
+  // Exit gate runs before entry activation. This prevents stale open positions
+  // from blocking the ledger and gives hard risk exits deterministic precedence.
+  let projection = projectTradeLedger(next, source.coverage);
+  for (const position of projection.positions.filter((item) => item.status !== "closed")) {
+    const quote = quoteByTicker.get(position.ticker);
+    const decision = evaluateAutomaticExit(position, quote);
+    if (!decision) continue;
+    const event = automaticCloseEvent(position, decision, quote);
+    if (eventIds.has(event.id)) continue;
+    next.events.push(event);
+    eventIds.add(event.id);
+    closedThisRun.add(position.ticker);
+    incrementExitStats(stats, decision.reason);
+  }
+
+  projection = projectTradeLedger(next, source.coverage);
+  const openTickers = new Set(projection.positions.filter((position) => position.status !== "closed").map((position) => position.ticker));
 
   source.coverage.forEach((item) => {
     if (!item || !TICKER.test(item.ticker || "") || seenTickers.has(item.ticker)) {
@@ -185,15 +248,44 @@ export const processEodLedger = (source, ledger) => {
     const lockedActionUnchanged = sameLockedTrigger(previous, current);
     const canStart = item.priceDate >= next.meta.startedAt;
     const hasOpenPosition = openTickers.has(item.ticker);
-    const shouldActivate = priceCrossedTrigger && eligible && lockedActionUnchanged && canStart && !hasOpenPosition;
+    const closedEarlierThisEod = closedThisRun.has(item.ticker);
+    const shouldActivate = priceCrossedTrigger && eligible && lockedActionUnchanged && canStart && !hasOpenPosition && !closedEarlierThisEod;
 
     if (shouldActivate) {
       const event = automationEvent(item, previous, reportsByTicker.get(item.ticker));
       if (!eventIds.has(event.id)) {
         next.events.push(event);
         eventIds.add(event.id);
-        openTickers.add(item.ticker);
         stats.activated += 1;
+
+        // If a downward gap crosses the entire buy zone (or stop) on the same
+        // EOD that creates the audit activation, close immediately instead of
+        // carrying an invalid position into the open ledger.
+        const activationPosition = {
+          tradeId: event.tradeId,
+          ticker: event.ticker,
+          status: "open",
+          remainingFraction: 1,
+          activatedAt: event.date,
+          lastEventDate: event.date,
+          zoneLow: event.zoneLow,
+          zoneHigh: event.zoneHigh,
+          stop: event.stop,
+          targets: event.targets
+        };
+        const immediateExit = evaluateAutomaticExit(activationPosition, item);
+        if (immediateExit) {
+          const closeEvent = automaticCloseEvent(activationPosition, immediateExit, item);
+          if (!eventIds.has(closeEvent.id)) {
+            next.events.push(closeEvent);
+            eventIds.add(closeEvent.id);
+            closedThisRun.add(item.ticker);
+            incrementExitStats(stats, immediateExit.reason);
+            stats.activatedAndClosed += 1;
+          }
+        } else {
+          openTickers.add(item.ticker);
+        }
       } else {
         stats.unchanged += 1;
       }
@@ -205,7 +297,9 @@ export const processEodLedger = (source, ledger) => {
           ? current.triggerType ? "ngưỡng kích hoạt đã thay đổi" : "vùng mua đã thay đổi"
           : !canStart
             ? "trước ngày bắt đầu sổ"
-            : "đã có vị thế đang mở";
+            : closedEarlierThisEod
+              ? "đã tự động đóng vị thế trong cùng EOD"
+              : "đã có vị thế đang mở";
       warnings.push(`${item.ticker}: giá cắt qua ngưỡng kích hoạt nhưng không ghi nhận (${reason}).`);
     } else {
       stats.unchanged += 1;

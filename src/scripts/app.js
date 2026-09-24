@@ -701,6 +701,7 @@ import {
   const LEDGER_REASON_LABELS = {
     target: "ĐẠT TARGET",
     stoploss: "STOPLOSS",
+    zone_floor_break: "THỦNG CẬN DƯỚI VÙNG MUA",
     invalidation: "LUẬN ĐIỂM VÔ HIỆU",
     risk_reduction: "GIẢM RỦI RO",
     manual: "ĐÓNG CHỦ ĐỘNG"
@@ -749,7 +750,7 @@ import {
       <div><span>Vị thế đang theo dõi</span><strong>${openPositions.length}</strong><small>Gồm đang mở và chốt một phần</small></div>
       <div><span>Trong vùng • chưa kích hoạt</span><strong>${pendingCandidates.length}</strong><small>Không có chuyển trạng thái hợp lệ để hồi tố</small></div>
       <div><span>Lịch sử đã đóng</span><strong>${closedPositions.length}</strong><small>Không xóa giao dịch âm</small></div>
-      <div><span>Bộ xử lý tự động</span><strong class="ledger-auto-state ${automationReady ? "is-ready" : "is-off"}">${automationReady ? "ĐÃ BẬT" : "TẠM DỪNG"}</strong><small>Đã quét đến EOD ${date(automation.lastEvaluatedAt)}</small></div>`;
+      <div><span>Bộ xử lý tự động</span><strong class="ledger-auto-state ${automationReady ? "is-ready" : "is-off"}">${automationReady ? "ĐÃ BẬT" : "TẠM DỪNG"}</strong><small>Kích hoạt + đóng vị thế • EOD ${date(automation.lastEvaluatedAt)}</small></div>`;
 
     document.querySelectorAll("[data-ledger-tab]").forEach((button) => {
       const selected = button.dataset.ledgerTab === state.ledgerTab;
@@ -798,11 +799,13 @@ import {
         const statusDetail = isClosed
           ? `${date(position.closedAt)} • ${ledgerReason(position.closeReason)}`
           : position.monitoringState === "stop-alert"
-            ? "GIÁ EOD CHẠM/DƯỚI STOP • CHƯA GHI NHẬN CHỐT"
-            : position.monitoringState === "target-alert"
-              ? "GIÁ EOD CHẠM TARGET • CHƯA GHI NHẬN CHỐT"
-              : position.status === "partial" ? `Còn lại ${percentOfPosition(position.remainingFraction)}` : "Chưa phát sinh sự kiện chốt";
-        const statusAlert = position.monitoringState === "stop-alert" || position.monitoringState === "target-alert";
+            ? "GIÁ EOD CHẠM/DƯỚI STOP • HỆ THỐNG PHẢI ĐÓNG TỰ ĐỘNG"
+            : position.monitoringState === "zone-floor-alert"
+              ? "GIÁ EOD DƯỚI CẬN DƯỚI VÙNG MUA • HỆ THỐNG PHẢI ĐÓNG TỰ ĐỘNG"
+              : position.monitoringState === "target-alert"
+                ? "GIÁ EOD ĐẠT/VƯỢT TARGET • HỆ THỐNG PHẢI ĐÓNG TỰ ĐỘNG"
+                : position.status === "partial" ? `Còn lại ${percentOfPosition(position.remainingFraction)}` : "Chưa phát sinh sự kiện chốt";
+        const statusAlert = ["stop-alert", "zone-floor-alert", "target-alert"].includes(position.monitoringState);
         const performanceNote = isClosed
           ? "Đã hiện thực hóa"
           : position.status === "partial" ? "Phần đã chốt + phần còn mở" : "Chưa hiện thực hóa";

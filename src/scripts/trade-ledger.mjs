@@ -1,4 +1,5 @@
 import { activationRelation, finitePositive, parseActionTrigger, triggerSatisfied } from "./action-trigger.mjs";
+import { evaluateAutomaticExit, TRADE_EXIT_POLICY } from "./trade-exit-policy.mjs";
 
 const EVENT_TYPES = new Set(["activated", "partial_exit", "closed"]);
 const ACTIVATION_MODES = new Set(["manual", "automatic-eod"]);
@@ -129,6 +130,20 @@ export const projectTradeLedger = (ledger, coverage = []) => {
       return;
     }
 
+    if (event.mode === "automatic-eod") {
+      const expected = evaluateAutomaticExit(
+        { ...position, status: position.remainingFraction > 0 ? "open" : "closed" },
+        { close: event.price, priceDate: event.date, priceSource: event.sourceUrl, priceSourceSecondary: event.sourceUrlSecondary }
+      );
+      const policyValid = event.exitPolicy?.version === TRADE_EXIT_POLICY.version
+        && event.exitPolicy?.basis === TRADE_EXIT_POLICY.basis
+        && event.exitPolicy?.executionPrice === TRADE_EXIT_POLICY.executionPrice;
+      if (!expected || expected.reason !== event.reason || !policyValid) {
+        issue(issues, event, "automatic_exit_not_confirmed", "Sự kiện đóng tự động không khớp Trade Exit Policy hoặc metadata policy bị thiếu/sai.");
+        return;
+      }
+    }
+
     const exitFraction = event.type === "closed" ? position.remainingFraction : Number(event.portionPct) / 100;
     if (!finitePositive(exitFraction) || exitFraction > position.remainingFraction + Number.EPSILON) {
       issue(issues, event, "invalid_exit_fraction", "Tỷ trọng chốt phải lớn hơn 0 và không vượt phần vị thế còn lại.");
@@ -163,18 +178,24 @@ export const projectTradeLedger = (ledger, coverage = []) => {
     const status = position.remainingFraction === 0
       ? "closed"
       : position.exitedFraction > 0 ? "partial" : "open";
+    const autoExitDecision = status === "closed"
+      ? null
+      : evaluateAutomaticExit({ ...position, status }, quote);
     const monitoringState = status === "closed"
       ? "closed"
-      : currentPrice && position.stop && currentPrice <= position.stop
+      : autoExitDecision?.reason === "stoploss"
         ? "stop-alert"
-        : currentPrice && position.targets.length && currentPrice >= Math.min(...position.targets)
-          ? "target-alert"
-          : "normal";
+        : autoExitDecision?.reason === "zone_floor_break"
+          ? "zone-floor-alert"
+          : autoExitDecision?.reason === "target"
+            ? "target-alert"
+            : "normal";
 
     return {
       ...position,
       status,
       monitoringState,
+      autoExitDecision,
       currentPrice,
       currentPriceDate: quoteIsCurrent ? quote.priceDate : null,
       currentPriceSource: quoteIsCurrent ? quote.priceSource : null,
