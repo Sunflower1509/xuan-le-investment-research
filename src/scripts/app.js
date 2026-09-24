@@ -1,5 +1,5 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
-import { normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
+import { dataPageSizeForViewport, normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
 import {
@@ -50,10 +50,9 @@ import {
   const ACTION_PAGE_SIZES = [15, 20, 30, 50];
   const REPORT_PAGE_SIZES = [12, 24, 36];
   const COVERAGE_PAGE_SIZES = [15, 20, 30, 50];
-  const compactViewport = window.matchMedia("(max-width: 720px)").matches;
-  const defaultActionPageSize = () => compactViewport ? 20 : 30;
+  const defaultActionPageSize = () => dataPageSizeForViewport(window.innerWidth);
   const researchPageSizes = (tab) => tab === "reports" ? REPORT_PAGE_SIZES : COVERAGE_PAGE_SIZES;
-  const defaultResearchPageSize = (tab) => tab === "reports" ? 12 : compactViewport ? 20 : 30;
+  const defaultResearchPageSize = (tab) => tab === "reports" ? 12 : dataPageSizeForViewport(window.innerWidth);
   const defaultSortForTab = (tab) => tab === "reports" ? "newest" : "priority";
   const parsePositiveInteger = (value, fallback = 1) => {
     const parsed = Number.parseInt(value, 10);
@@ -106,6 +105,8 @@ import {
     prioritySummary: document.querySelector("[data-role='priority-summary']"),
     priorityGrid: document.querySelector("[data-role='priority-grid']"),
     actionTable: document.querySelector("[data-role='action-table']"),
+    actionStickyHeader: document.querySelector("[data-role='action-sticky-header']"),
+    actionScrollCue: document.querySelector("[data-role='action-scroll-cue']"),
     actionPagination: document.querySelector("[data-role='action-pagination']"),
     exclusionList: document.querySelector("[data-role='exclusion-list']"),
     dailyInsight: document.querySelector("[data-role='daily-insight']"),
