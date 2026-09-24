@@ -10,6 +10,200 @@
    */
   const entries = [
     {
+      "id": "market-view-20260924",
+      "date": "2026-09-24",
+      "publishedAt": "24/09/2026 • Sau phiên",
+      "edition": "Số 25",
+      "sentiment": "watch",
+      "sentimentLabel": "PHÒNG THỦ / GIẢM RỦI RO",
+      "dataStatus": "VNDIRECT + KBS + DNSE + Stockbiz + VnEconomy • dữ liệu cuối ngày 24.09.2026 • khối ngoại và tự doanh hậu phiên: CHƯA XÁC MINH ĐỦ HAI NGUỒN",
+      "title": "Thủng vùng nền quan trọng — ưu tiên bảo toàn vốn và sức mua",
+      "thesis": "Dữ liệu đến hết phiên 24/09/2026. Chỉ số VN đóng 1.775,09 điểm, giảm 26,56 điểm (-1,47%); VN30 giảm 1,16% còn 1.932,15 điểm và HNX giảm 1,33% còn 272,77 điểm. Độ rộng sàn TP.HCM theo bộ dữ liệu đã khóa là 76 mã tăng, 58 mã tham chiếu và 219 mã giảm, có 9 mã giảm sàn. Giá trị khớp lệnh đạt 13.411,20 tỷ đồng, thấp hơn bình quân 5/10/20 phiên lần lượt khoảng 9,1% / 5,0% / 5,7%. Chỉ số đóng dưới đường trung bình 20 phiên 1.815,11 và đường trung bình 200 phiên 1.794,80, chỉ còn đứng sát đường trung bình 50 phiên 1.774,20. Hợp đồng tương lai gần nhất đóng 1.937,5 điểm, cao hơn VN30 cơ sở 5,35 điểm; tín hiệu này chưa đủ đảo ngược sự suy yếu của thị trường cơ sở. Dữ liệu khối ngoại và tự doanh hậu phiên chưa được xác minh đủ hai nguồn độc lập nên không dùng để nâng kết luận. Điểm đồng thuận -5/7 và cổng loại trừ đang kích hoạt. TRẠNG THÁI TÁC NGHIỆP: PHÒNG THỦ / GIẢM RỦI RO; không mở mua diện rộng, không tăng đòn bẩy.",
+      "author": "Xuân Lê TVS",
+      "role": "Môi giới và tư vấn đầu tư",
+      "readingTime": "5 phút đọc",
+      "metrics": [
+        {
+          "label": "CHỈ SỐ VN",
+          "value": "1.775,09",
+          "change": "−26,56 • −1,47%",
+          "tone": "warning"
+        },
+        {
+          "label": "ĐỘ RỘNG SÀN TP.HCM",
+          "value": "76 tăng / 219 giảm",
+          "change": "58 tham chiếu • 9 mã giảm sàn",
+          "tone": "warning"
+        },
+        {
+          "label": "GIÁ TRỊ KHỚP LỆNH",
+          "value": "~13.411 tỷ",
+          "change": "−5,7% so với bình quân 20 phiên ~14.223 tỷ",
+          "tone": "warning"
+        },
+        {
+          "label": "VỊ THẾ KỸ THUẬT",
+          "value": "Dưới TB20 và TB200",
+          "change": "Đứng sát TB50 ~1.774,20",
+          "tone": "warning"
+        }
+      ],
+      "backdrop": [
+        "Bản chất phiên 24/09 là một phiên suy yếu rõ về cả điểm số lẫn độ rộng. Chỉ số VN mở cửa tại 1.801,07 điểm, cũng là vùng cao nhất ngày, sau đó giảm liên tục xuống 1.770,47 và chỉ hồi nhẹ trước khi đóng tại 1.775,09. Việc mở cửa ở vùng cao rồi đóng gần đáy cho thấy bên bán giữ ưu thế phần lớn thời gian giao dịch, còn lực cầu cuối phiên chỉ mang tính đỡ giá cục bộ.",
+        "Thanh khoản không bùng nổ theo chiều bán nhưng cũng không cho thấy lực cầu chủ động đủ mạnh. Giá trị khớp lệnh khoảng 13.411,20 tỷ đồng, thấp hơn bình quân 5 phiên khoảng 9,1%, thấp hơn bình quân 10 phiên khoảng 5,0% và thấp hơn bình quân 20 phiên khoảng 5,7%; khối lượng khớp cũng thấp hơn bình quân 20 phiên khoảng 3,3%. Điểm cần lưu ý là giá giảm mạnh trong khi thanh khoản dưới mức bình quân phản ánh cầu thận trọng, không phải tín hiệu đã tạo đáy.",
+        "Độ rộng là điểm yếu nổi bật nhất: 76 mã tăng so với 219 mã giảm, tức số mã giảm gần gấp ba số mã tăng. Trong bộ theo dõi, năng lượng giảm đồng loạt; bất động sản, chứng khoán và phần lớn ngân hàng cũng nghiêng về bên bán. Một số mã tăng như VTP, VGI, CTR, GVR hay FRT chỉ mang tính chọn lọc, chưa hình thành được một nhóm dẫn dắt đủ rộng để đảo chiều trạng thái chung.",
+        "Về kỹ thuật, chỉ số đã đóng dưới đường trung bình 20 phiên 1.815,11 và đường trung bình 200 phiên 1.794,80, chỉ còn đứng cao hơn đường trung bình 50 phiên 1.774,20 chưa đầy 1 điểm. Cấu trúc ngắn hạn chuyển sang YẾU rõ rệt; trung hạn cũng bị thử thách vì vùng 1.770–1.775 đang là phòng tuyến cuối gần nhất trước khi cấu trúc suy yếu sâu hơn.",
+        "Bản đồ dòng tiền cho thấy sự rút lui tương đối rộng khỏi các nhóm nhạy với chu kỳ. Năng lượng là nhóm yếu nhất trong bộ theo dõi với OIL, BSR, PVC, PLX, PVT, PVD và GAS đồng loạt giảm; bất động sản chịu áp lực ở VHM, VRE, DXG; nhóm chứng khoán có phần lớn mã giảm. Ngân hàng cũng không tạo được vai trò nâng đỡ khi đa số mã trong bộ theo dõi đi xuống.",
+        "Thị trường phái sinh có điểm đỡ khi hợp đồng tương lai gần nhất đóng 1.937,5 điểm, cao hơn VN30 cơ sở 5,35 điểm, nhưng đây mới chỉ là tín hiệu thận trọng bớt bi quan. Bối cảnh bên ngoài vẫn không thuận lợi khi lợi suất trái phiếu Kho bạc Mỹ tăng cao và giá dầu duy trì ở vùng cao. Dữ liệu khối ngoại và tự doanh 24/09 chưa được xác minh đủ hai nguồn hậu phiên nên không dùng để chấm điểm."
+      ],
+      "levels": [
+        {
+          "label": "Hỗ trợ gần / đường trung bình 50 phiên",
+          "value": "1.770–1.775",
+          "note": "Đường trung bình 50 phiên ở 1.774,20 và đáy phiên ở 1.770,47. Nếu chỉ số giữ được vùng này trong phiên kế tiếp, độ rộng thu hẹp mức tiêu cực và lực cầu cải thiện, có thể quan sát khả năng cân bằng; chưa tự động coi là điểm mua."
+        },
+        {
+          "label": "Hỗ trợ mạnh",
+          "value": "1.765–1.770",
+          "note": "Đây là vùng lân cận mốc đóng cửa 1.768,12 của nhịp cuối tháng 8 và sát đáy phiên hiện tại. Nếu đóng dưới 1.768 cùng số mã giảm tiếp tục áp đảo, phải chuyển sang giảm rủi ro mạnh hơn."
+        },
+        {
+          "label": "Kháng cự gần / đường trung bình 200 phiên",
+          "value": "1.792–1.800",
+          "note": "Đường trung bình 200 phiên ở 1.794,80. Chỉ khi đóng trở lại trên vùng này với độ rộng cải thiện và thanh khoản phục hồi mới có cơ sở gỡ bớt trạng thái phòng thủ."
+        },
+        {
+          "label": "Kháng cự mạnh / đường trung bình 20 phiên",
+          "value": "1.812–1.818",
+          "note": "Đường trung bình 20 phiên ở 1.815,11. Nếu hồi lên vùng này nhưng dòng tiền vẫn yếu, ưu tiên hạ phần hàng yếu thay vì mua thêm."
+        },
+        {
+          "label": "Mốc vô hiệu ngắn hạn",
+          "value": "<1.768",
+          "note": "Đóng dưới 1.768 làm mất vùng đỡ gần nhất và xác nhận cấu trúc ngắn hạn yếu hơn; kế hoạch khi đó là giảm tỷ trọng, không bắt đáy bằng đòn bẩy."
+        }
+      ],
+      "confluence": {
+        "score": -5,
+        "maxScore": 7,
+        "factors": [
+          {
+            "factor": "Giá / đường trung bình / cấu trúc",
+            "score": -1,
+            "note": "Đóng dưới đường trung bình 20 và 200 phiên, gần đáy ngày và chỉ còn sát đường trung bình 50 phiên."
+          },
+          {
+            "factor": "Thanh khoản",
+            "score": -1,
+            "note": "Giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 5,7%, chưa có lực cầu xác nhận khả năng tạo đáy."
+          },
+          {
+            "factor": "Độ rộng",
+            "score": -1,
+            "note": "76 mã tăng so với 219 mã giảm, 9 mã giảm sàn; áp lực bán lan rộng rõ rệt."
+          },
+          {
+            "factor": "Dòng tiền",
+            "score": -1,
+            "note": "Năng lượng, bất động sản, chứng khoán và phần lớn ngân hàng cùng suy yếu; dòng tiền tăng chỉ còn ở một số mã đơn lẻ."
+          },
+          {
+            "factor": "Khối ngoại",
+            "score": 0,
+            "note": "Nguồn hậu phiên 24/09 chưa được xác minh đủ hai nguồn độc lập; không dùng số trong phiên để chấm điểm."
+          },
+          {
+            "factor": "Chất lượng nhóm dẫn dắt",
+            "score": -1,
+            "note": "Chưa có nhóm dẫn dắt đủ rộng; sắc xanh chủ yếu phân tán ở một số cổ phiếu riêng lẻ."
+          },
+          {
+            "factor": "Vĩ mô / phái sinh",
+            "score": 0,
+            "note": "Phái sinh cao hơn VN30 cơ sở 5,35 điểm là điểm đỡ, nhưng bối cảnh lợi suất trái phiếu Mỹ và giá dầu cao làm cân bằng tín hiệu."
+          }
+        ],
+        "veto": [
+          "Độ rộng rất yếu: số mã giảm gần gấp ba số mã tăng trong bộ dữ liệu đã khóa",
+          "Thanh khoản chưa xác nhận lực cầu: giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 5,7%",
+          "Chỉ số đóng dưới cả đường trung bình 20 và 200 phiên, gần vùng thấp nhất ngày",
+          "Dòng tiền suy yếu đồng thời ở nhiều nhóm nhạy với chu kỳ; chưa xuất hiện nhóm dẫn dắt thay thế",
+          "Chưa có điểm mua mới đáp ứng tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1 trong khi các cổng loại trừ vẫn còn hiệu lực"
+        ]
+      },
+      "scenarios": [
+        {
+          "state": "positive",
+          "probability": 15,
+          "if": "Chỉ số VN giữ được 1.770–1.775, sau đó đóng trở lại trên 1.795–1.800 với số mã tăng cải thiện rõ và giá trị khớp lệnh ít nhất quay về quanh bình quân 20 phiên",
+          "then": "Chỉ xem xét mua thăm dò sau khi vùng 1.795–1.800 được lấy lại và kiểm định thành công; ưu tiên cổ phiếu dẫn dắt có nền cơ bản tốt, mức cắt lỗ 3–7% và tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1."
+        },
+        {
+          "state": "neutral",
+          "probability": 35,
+          "if": "Chỉ số VN dao động trong 1.768–1.800, chưa mất vùng đỡ gần nhưng cũng chưa lấy lại đường trung bình 200 phiên",
+          "then": "Duy trì PHÒNG THỦ / GIẢM RỦI RO; giữ tiền mặt cao, chỉ giữ cổ phiếu khỏe hơn thị trường và không mở vị thế mới diện rộng."
+        },
+        {
+          "state": "risk_off",
+          "probability": 50,
+          "if": "Chỉ số VN đóng dưới 1.768, độ rộng tiếp tục xấu và các nhóm ngân hàng, chứng khoán, bất động sản không xuất hiện lực đỡ",
+          "then": "Hạ thêm tỷ trọng cổ phiếu, dừng bắt đáy, xử lý vị thế vi phạm mức cắt lỗ 3–7% và không dùng đòn bẩy để bình quân giá xuống."
+        }
+      ],
+      "playbook": [
+        {
+          "state": "positive",
+          "if": "XÁC NHẬN TÍCH CỰC — giữ 1.770–1.775 rồi đóng trên 1.795–1.800, độ rộng cải thiện rõ và thanh khoản trở lại ít nhất quanh bình quân 20 phiên",
+          "then": "MUA THĂM DÒ SAU KHI KIỂM ĐỊNH LẠI. Chỉ chọn cổ phiếu có nền cơ bản tốt, cắt lỗ 3–7%, tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1 và chưa tăng đòn bẩy vội."
+        },
+        {
+          "state": "neutral",
+          "if": "CHƯA XÁC NHẬN — chỉ số giữ 1.768–1.800 nhưng chưa lấy lại đường trung bình 200 phiên hoặc độ rộng vẫn nghiêng mạnh về bên giảm",
+          "then": "GIỮ TIỀN / PHÒNG THỦ. Tỷ trọng cổ phiếu tối đa khoảng 20%, không mua đuổi, không bắt đáy diện rộng và không tăng đòn bẩy."
+        },
+        {
+          "state": "risk_off",
+          "if": "RỦI RO TĂNG — đóng dưới 1.768 và số mã giảm tiếp tục áp đảo; nghiêm trọng hơn nếu lực bán lan rộng ở các nhóm vốn hóa lớn",
+          "then": "HẠ TỶ TRỌNG. Dừng mở mới, xử lý các vị thế yếu hoặc chạm mức cắt lỗ 3–7%; không bình quân giá xuống."
+        }
+      ],
+      "focus": "PHÒNG THỦ / GIẢM RỦI RO • Điểm đồng thuận -5/7 • cổng loại trừ: độ rộng rất yếu + thanh khoản chưa xác nhận + mất đường trung bình 20 và 200 phiên + dòng tiền suy yếu diện rộng + chưa có giao dịch đạt tỷ lệ lợi nhuận/rủi ro 2:1 • đường trung bình 20 phiên 1.815,11 • đường trung bình 200 phiên 1.794,80 • đường trung bình 50 phiên 1.774,20 • giá trị khớp lệnh ~13.411 tỷ • phái sinh cao hơn cơ sở 5,35 điểm • cổ phiếu tối đa ~20% • không tăng đòn bẩy",
+      "inference": "Dữ liệu cuối ngày 24/09/2026 đã vượt cổng dữ liệu với 127/127 mã; toàn bộ 127 mã được KBS đúng ngày xác nhận giá đóng cửa trùng VNDIRECT khi CafeF chưa có dòng cuối ngày. VNDIRECT khóa chỉ số VN 1.775,09 (-1,47%), VN30 1.932,15 (-1,16%), HNX 272,77 (-1,33%) và độ rộng sàn TP.HCM 76 tăng/58 tham chiếu/219 giảm/9 sàn. Chuỗi 221 phiên cho đường trung bình 20 phiên 1.815,11, đường trung bình 50 phiên 1.774,20 và đường trung bình 200 phiên 1.794,80; giá trị khớp lệnh 13.411,20 tỷ đồng so với bình quân 5 phiên 14.754,72 tỷ, bình quân 10 phiên 14.118,79 tỷ và bình quân 20 phiên 14.222,76 tỷ. DNSE cho thấy hợp đồng tương lai gần nhất đóng 1.937,5 điểm, cao hơn VN30 cơ sở 5,35 điểm. Điểm đồng thuận = -5/7 với cấu phần -1,-1,-1,-1,0,-1,0. Cổng loại trừ có hiệu lực; kết luận: PHÒNG THỦ / GIẢM RỦI RO.",
+      "limitations": [
+        "Dữ liệu khối ngoại ngày 24/09 chưa được xác minh đủ hai nguồn hậu phiên tại thời điểm khóa bản nhận định. VNIndex.ai mới có số trong phiên và 24HMoney chưa cập nhật dữ liệu cuối ngày; vì vậy biến khối ngoại được chấm 0 điểm.",
+        "Dữ liệu tự doanh 24/09 chưa được các nguồn hậu phiên cập nhật; 24HMoney tại thời điểm kiểm tra vẫn dừng ở ngày 23/09. Không sử dụng số tự doanh cũ để suy diễn cho phiên hiện tại.",
+        "Các số liệu giao dịch toàn thị trường từ nguồn báo chí có thể bao gồm thỏa thuận; phần so sánh thanh khoản trong bản nhận định chỉ dùng giá trị khớp lệnh VNDIRECT để bảo đảm cùng phạm vi."
+      ],
+      "zaloPost": "Phiên 24/09 là một phiên cần ưu tiên kỷ luật hơn kỳ vọng bắt đáy. Chỉ số VN đóng 1.775,09 điểm, giảm 1,47%; độ rộng sàn TP.HCM chỉ có 76 mã tăng trong khi 219 mã giảm và 9 mã giảm sàn. Chỉ số đã mất cả đường trung bình 20 phiên lẫn đường trung bình 200 phiên, đồng thời chỉ còn đứng sát đường trung bình 50 phiên tại 1.774,20.\n\nĐiều đáng lưu ý là thanh khoản không bùng nổ theo chiều bán nhưng lực cầu cũng chưa đủ mạnh để xác nhận tạo đáy. Giá trị khớp lệnh khoảng 13,41 nghìn tỷ đồng, thấp hơn bình quân 20 phiên khoảng 5,7%. Năng lượng giảm đồng loạt, bất động sản và chứng khoán suy yếu, phần lớn ngân hàng cũng chưa tạo được vai trò nâng đỡ. Một số mã tăng như VTP, VGI, CTR, GVR hay FRT mới mang tính chọn lọc, chưa phải tín hiệu dòng tiền quay lại trên diện rộng.\n\nVùng cần quan sát ngay trong phiên tới là 1.770–1.775. Nếu chỉ số giữ được vùng này, độ rộng bớt xấu và sau đó đóng trở lại trên 1.795–1.800 với thanh khoản ít nhất quay về quanh bình quân 20 phiên, khi đó mới xem xét mua thăm dò sau khi kiểm định lại. Nếu chưa có các điều kiện này, tiếp tục phòng thủ.\n\nNgược lại, nếu đóng dưới 1.768, cần hạ thêm tỷ trọng và dừng mọi ý định bắt đáy. Tỷ trọng cổ phiếu mới nên giữ tối đa khoảng 20%, tiền mặt là chủ đạo và không tăng đòn bẩy. Với từng vị thế đang nắm giữ, tiếp tục tuân thủ mức cắt lỗ 3–7%; không bình quân giá xuống chỉ vì cổ phiếu đã giảm mạnh.\n\nThị trường yếu thì nhiệm vụ đầu tiên là giữ vốn và giữ quyền chủ động. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      "sources": [
+        {
+          "label": "VNDIRECT — chỉ số và độ rộng cuối phiên 24/09/2026",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-09-24&size=500"
+        },
+        {
+          "label": "VNDIRECT — chuỗi chỉ số VN tính các đường trung bình và nền thanh khoản",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-24&size=500"
+        },
+        {
+          "label": "Stockbiz — xác nhận điểm đóng cửa các chỉ số 24/09/2026",
+          "url": "https://web.stockbiz.vn/IndexDetail.aspx?Symbol=VN30"
+        },
+        {
+          "label": "VnEconomy — chỉ số VN chìm sâu dưới 1.800 điểm trong phiên 24/09",
+          "url": "https://vneconomy.vn/thi-truong-chung-khoan.htm"
+        },
+        {
+          "label": "24HMoney — dữ liệu tự doanh tại thời điểm kiểm tra vẫn dừng ở 23/09",
+          "url": "https://24hmoney.vn/indices/vn-index/giao-dich-tu-doanh"
+        },
+        {
+          "label": "DNSE — dữ liệu hợp đồng tương lai VN30 gần nhất",
+          "url": "https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=1790173200&to=1790259600"
+        }
+      ]
+    },
+    {
       "id": "market-view-20260923",
       "date": "2026-09-23",
       "publishedAt": "23/09/2026 • Sau phiên",
