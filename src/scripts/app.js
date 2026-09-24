@@ -1,5 +1,5 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
-import { normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
+import { dataPageSizeForViewport, normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
 import {
@@ -50,10 +50,9 @@ import {
   const ACTION_PAGE_SIZES = [15, 20, 30, 50];
   const REPORT_PAGE_SIZES = [12, 24, 36];
   const COVERAGE_PAGE_SIZES = [15, 20, 30, 50];
-  const compactViewport = window.matchMedia("(max-width: 720px)").matches;
-  const defaultActionPageSize = () => compactViewport ? 20 : 30;
+  const defaultActionPageSize = () => dataPageSizeForViewport(window.innerWidth);
   const researchPageSizes = (tab) => tab === "reports" ? REPORT_PAGE_SIZES : COVERAGE_PAGE_SIZES;
-  const defaultResearchPageSize = (tab) => tab === "reports" ? 12 : compactViewport ? 20 : 30;
+  const defaultResearchPageSize = (tab) => tab === "reports" ? 12 : dataPageSizeForViewport(window.innerWidth);
   const defaultSortForTab = (tab) => tab === "reports" ? "newest" : "priority";
   const parsePositiveInteger = (value, fallback = 1) => {
     const parsed = Number.parseInt(value, 10);
@@ -106,6 +105,8 @@ import {
     prioritySummary: document.querySelector("[data-role='priority-summary']"),
     priorityGrid: document.querySelector("[data-role='priority-grid']"),
     actionTable: document.querySelector("[data-role='action-table']"),
+    actionStickyHeader: document.querySelector("[data-role='action-sticky-header']"),
+    actionScrollCue: document.querySelector("[data-role='action-scroll-cue']"),
     actionPagination: document.querySelector("[data-role='action-pagination']"),
     exclusionList: document.querySelector("[data-role='exclusion-list']"),
     dailyInsight: document.querySelector("[data-role='daily-insight']"),
@@ -206,7 +207,8 @@ import {
     }
 
     const tokens = paginationTokens(model.page, model.totalPages);
-    const pageButton = (page, label = String(page), extra = "") => `<li><button class="pagination-button" type="button" data-action="set-page" data-scope="${scope}" data-page="${page}" aria-label="${escapeHtml(extra || `Trang ${page}`)}"${page === model.page ? ' aria-current="page"' : ""}>${escapeHtml(label)}</button></li>`;
+    const button = (page, label, extra = "", className = "") => `<button class="pagination-button${className ? ` ${className}` : ""}" type="button" data-action="set-page" data-scope="${scope}" data-page="${page}" aria-label="${escapeHtml(extra || `Trang ${page}`)}"${page === model.page ? ' aria-current="page"' : ""}>${escapeHtml(label)}</button>`;
+    const pageButton = (page, label = String(page), extra = "") => `<li>${button(page, label, extra)}</li>`;
     const previous = model.page > 1
       ? pageButton(model.page - 1, "‹", "Trang trước")
       : '<li><button class="pagination-button" type="button" aria-label="Trang trước" disabled>‹</button></li>';
@@ -216,6 +218,13 @@ import {
     const pages = tokens.map((token) => token === "ellipsis"
       ? '<li><span class="pagination-ellipsis" aria-hidden="true">…</span></li>'
       : pageButton(token)).join("");
+
+    const simplePrevious = model.page > 1
+      ? button(model.page - 1, "‹", "Trang trước", "pagination-step")
+      : '<button class="pagination-button pagination-step" type="button" aria-label="Trang trước" disabled>‹</button>';
+    const simpleNext = model.page < model.totalPages
+      ? button(model.page + 1, "›", "Trang sau", "pagination-step")
+      : '<button class="pagination-button pagination-step" type="button" aria-label="Trang sau" disabled>›</button>';
 
     root.hidden = false;
     root.innerHTML = `
@@ -229,8 +238,13 @@ import {
           ${pageSizes.map((size) => `<option value="${size}"${size === model.pageSize ? " selected" : ""}>${size}</option>`).join("")}
         </select>
       </label>
-      <nav class="pagination-nav" aria-label="${escapeHtml(ariaLabel)}">
+      <nav class="pagination-nav pagination-nav-advanced" aria-label="${escapeHtml(ariaLabel)}">
         <ul class="pagination-list">${previous}${pages}${next}</ul>
+      </nav>
+      <nav class="pagination-nav pagination-nav-simple" aria-label="${escapeHtml(`${ariaLabel} trên màn hình nhỏ`)}">
+        ${simplePrevious}
+        <strong aria-live="polite">Trang ${model.page} / ${model.totalPages}</strong>
+        ${simpleNext}
       </nav>`;
   };
 
@@ -442,6 +456,59 @@ import {
     document.querySelectorAll("[data-role='watchlist-count'],[data-role='watchlist-tab-count']").forEach((el) => { el.textContent = state.watchlist.size; });
   };
 
+  const actionTableHeader = () => `<thead><tr>
+    <th class="action-col-reference" scope="col">Hạng / mã / trạng thái</th>
+    <th class="action-col-price" scope="col">Giá đóng cửa</th>
+    <th class="action-col-zone" scope="col">Vùng mua đã khóa</th>
+    <th class="action-col-distance" scope="col">Khoảng cách</th>
+    <th class="action-col-valuation" scope="col">Định giá cơ sở</th>
+    <th class="action-col-upside upside-header" scope="col">Upside tới định giá cơ sở</th>
+    <th class="action-col-source" scope="col">Nguồn</th>
+  </tr></thead>`;
+
+  let actionChromeRaf = 0;
+  const updateActionTableChrome = () => {
+    actionChromeRaf = 0;
+    const wrap = refs.actionTable;
+    const stickyRoot = refs.actionStickyHeader;
+    const table = wrap?.querySelector(".action-table");
+    if (!wrap || !stickyRoot || !table) return;
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const tableRect = table.getBoundingClientRect();
+    const headRect = table.tHead?.getBoundingClientRect();
+    const stickyViewport = stickyRoot.querySelector(".action-sticky-scroll");
+    const rootHeaderHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0;
+    const stickyHeight = headRect?.height || stickyRoot.querySelector("thead")?.getBoundingClientRect().height || 0;
+    const stickyActive = Boolean(headRect)
+      && headRect.bottom <= rootHeaderHeight
+      && tableRect.bottom > rootHeaderHeight + stickyHeight;
+
+    stickyRoot.hidden = !stickyActive;
+    if (stickyActive) {
+      stickyRoot.style.left = `${wrapRect.left}px`;
+      stickyRoot.style.width = `${wrapRect.width}px`;
+      if (stickyViewport) stickyViewport.scrollLeft = wrap.scrollLeft;
+    }
+
+    if (refs.actionScrollCue) {
+      const hasOverflow = wrap.scrollWidth > wrap.clientWidth + 2;
+      const canScrollRight = wrap.scrollLeft + wrap.clientWidth < wrap.scrollWidth - 2;
+      refs.actionScrollCue.hidden = !(hasOverflow && canScrollRight);
+    }
+  };
+
+  const queueActionTableChromeUpdate = () => {
+    if (actionChromeRaf) return;
+    actionChromeRaf = requestAnimationFrame(updateActionTableChrome);
+  };
+
+  const renderActionStickyHeader = () => {
+    if (!refs.actionStickyHeader) return;
+    refs.actionStickyHeader.innerHTML = `<div class="action-sticky-scroll"><table class="action-table action-table-sticky" aria-hidden="true">${actionTableHeader()}</table></div>`;
+    queueActionTableChromeUpdate();
+  };
+
   const renderActionRadar = () => {
     const exclusions = coverage.filter((item) => item.action?.eligibility && item.action.eligibility !== "active");
     const sourcedPrices = coverage.filter((item) => Number.isFinite(item.close) && item.priceDate).length;
@@ -481,7 +548,8 @@ import {
     }
 
     if (refs.actionTable) refs.actionTable.innerHTML = `<table class="action-table">
-      <thead><tr><th>Hạng</th><th>Mã / trạng thái</th><th>Giá đóng cửa</th><th>Vùng mua đã khóa</th><th>Khoảng cách</th><th>Định giá cơ sở</th><th class="upside-header">Upside tới định giá cơ sở</th><th>Nguồn</th></tr></thead>
+      <caption class="sr-only">Vùng mua tham khảo, dữ liệu EOD phiên ${date(source.meta.updated)}, xếp theo khoảng cách tới vùng hành động.</caption>
+      ${actionTableHeader()}
       <tbody>${actionPage.items.map((item, pageIndex) => {
         const index = actionPage.start + pageIndex;
         const action = item.action;
@@ -492,18 +560,37 @@ import {
         const upsideTone = !Number.isFinite(upside) ? "neutral" : upside > 0 ? "positive" : upside < 0 ? "negative" : "neutral";
         const upsideLabel = !Number.isFinite(upside) ? "Chưa đủ dữ liệu" : upside > 0 ? "Dư địa so với giá đóng cửa" : upside < 0 ? "Giá đóng cửa cao hơn định giá cơ sở" : "Bằng định giá cơ sở";
         const distanceText = priorityDistanceText(item, decimal);
-        return `<tr>
-          <td data-label="Hạng"><span class="table-rank">${String(index + 1).padStart(2, "0")}</span></td>
-          <td data-label="Mã / trạng thái"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></td>
-          <td data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
-          <td data-label="Vùng mua đã khóa"><strong>${actionTriggerText(action)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
-          <td data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
-          <td data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
-          <td class="upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
-          <td data-label="Nguồn"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</td>
+        const detailId = `action-detail-${index + 1}`;
+        const sourceLinks = `<div class="action-source-links"><a href="${escapeHtml(item.priceSource)}" target="_blank" rel="noreferrer">Giá ↗</a>${item.priceSourceSecondary ? `<a href="${escapeHtml(item.priceSourceSecondary)}" target="_blank" rel="noreferrer">Đối chiếu ↗</a>` : ""}${report ? `<a href="${escapeHtml(report.file)}" target="_blank" rel="noreferrer">PDF ↗</a>` : `<span>PDF chưa tải</span>`}</div>`;
+        return `<tr class="action-data-row">
+          <td class="action-col-reference" data-label="Hạng / mã / trạng thái">
+            <div class="action-reference">
+              <span class="table-rank">${String(index + 1).padStart(2, "0")}</span>
+              <div class="action-reference-copy"><strong class="table-ticker">${escapeHtml(item.ticker)}</strong><span class="table-status">${escapeHtml(action.recommendation)}</span></div>
+              <button class="action-detail-toggle" type="button" data-action="toggle-action-details" data-ticker="${escapeHtml(item.ticker)}" aria-expanded="false" aria-controls="${detailId}" aria-label="Mở chi tiết ${escapeHtml(item.ticker)}"><span aria-hidden="true">⌄</span></button>
+            </div>
+          </td>
+          <td class="action-col-price" data-label="Giá đóng cửa"><strong>${number(item.close)}</strong><span>${date(item.priceDate)} • <i class="${marketTone(item.changePct)}">${signedPercent(item.changePct)}</i></span>${item.priceNote ? `<em>${escapeHtml(item.priceNote)}</em>` : ""}</td>
+          <td class="action-col-zone" data-label="Vùng mua đã khóa"><strong>${actionTriggerText(action)}</strong><span>Khóa ${date(action.basisDate)}</span></td>
+          <td class="action-col-distance" data-label="Khoảng cách"><strong class="distance-${escapeHtml(distance.relation)}">${escapeHtml(distanceText)}</strong><span>${escapeHtml(relationLabel(item))}</span></td>
+          <td class="action-col-valuation" data-label="Định giá cơ sở"><strong>${number(base)}</strong><span>đồng/cp</span></td>
+          <td class="action-col-upside upside-cell upside-${upsideTone}" data-label="Upside tới định giá cơ sở"><strong>${Number.isFinite(upside) ? signedPercent(upside) : "—"}</strong><span>${escapeHtml(upsideLabel)}</span></td>
+          <td class="action-col-source" data-label="Nguồn">${sourceLinks}</td>
+        </tr>
+        <tr class="action-detail-row" id="${detailId}" hidden>
+          <td colspan="7">
+            <div class="action-detail-grid">
+              <div><span>Định giá cơ sở</span><strong>${number(base)} đồng/cp</strong></div>
+              <div><span>Ngày khóa vùng</span><strong>${date(action.basisDate)}</strong></div>
+              <div><span>Ngày giá EOD</span><strong>${date(item.priceDate)}</strong></div>
+              <div class="action-detail-sources"><span>Nguồn kiểm chứng</span>${sourceLinks}</div>
+            </div>
+          </td>
         </tr>`;
       }).join("")}</tbody>
     </table>`;
+
+    renderActionStickyHeader();
 
     renderDataPagination({
       root: refs.actionPagination,
@@ -969,6 +1056,18 @@ import {
     const target = event.target.closest("[data-action]");
     if (!target) return;
     const action = target.dataset.action;
+    if (action === "toggle-action-details") {
+      const detail = document.getElementById(target.getAttribute("aria-controls") || "");
+      if (!detail) return;
+      const expanded = target.getAttribute("aria-expanded") === "true";
+      const ticker = target.dataset.ticker || "mã cổ phiếu";
+      target.setAttribute("aria-expanded", String(!expanded));
+      target.setAttribute("aria-label", `${expanded ? "Mở" : "Đóng"} chi tiết ${ticker}`);
+      target.classList.toggle("is-open", !expanded);
+      detail.hidden = expanded;
+      queueActionTableChromeUpdate();
+      return;
+    }
     if (action === "set-page") {
       const page = parsePositiveInteger(target.dataset.page);
       const scope = target.dataset.scope;
@@ -1080,6 +1179,43 @@ import {
     renderActionRadar();
     renderResearch();
   });
+
+  refs.actionTable?.addEventListener("scroll", queueActionTableChromeUpdate, { passive: true });
+  window.addEventListener("scroll", queueActionTableChromeUpdate, { passive: true });
+
+  let responsiveResizeRaf = 0;
+  window.addEventListener("resize", () => {
+    if (responsiveResizeRaf) cancelAnimationFrame(responsiveResizeRaf);
+    responsiveResizeRaf = requestAnimationFrame(() => {
+      responsiveResizeRaf = 0;
+      const url = new URL(window.location.href);
+      let actionChanged = false;
+      let researchChanged = false;
+
+      if (!url.searchParams.has("entry_size")) {
+        const nextActionSize = defaultActionPageSize();
+        if (state.actionPageSize !== nextActionSize) {
+          state.actionPageSize = nextActionSize;
+          state.actionPage = 1;
+          actionChanged = true;
+        }
+      }
+
+      if (state.tab !== "reports" && !url.searchParams.has("research_size")) {
+        const nextResearchSize = defaultResearchPageSize(state.tab);
+        if (state.researchPageSize !== nextResearchSize) {
+          state.researchPageSize = nextResearchSize;
+          state.researchPage = 1;
+          researchChanged = true;
+        }
+      }
+
+      if (actionChanged) renderActionRadar();
+      if (researchChanged) renderResearch();
+      if (actionChanged || researchChanged) syncNavigationUrl();
+      queueActionTableChromeUpdate();
+    });
+  }, { passive: true });
   refs.commandInput.addEventListener("input", () => renderCommandResults(refs.commandInput.value));
   document.addEventListener("keydown", (event) => {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {

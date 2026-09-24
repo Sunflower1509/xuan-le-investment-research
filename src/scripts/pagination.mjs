@@ -1,3 +1,17 @@
+export const dataPageSizeForViewport = (width, {
+  mobile = 15,
+  tablet = 20,
+  desktop = 30,
+  mobileMax = 767,
+  tabletMax = 1279
+} = {}) => {
+  const viewport = Number(width);
+  if (!Number.isFinite(viewport) || viewport <= 0) return desktop;
+  if (viewport <= mobileMax) return mobile;
+  if (viewport <= tabletMax) return tablet;
+  return desktop;
+};
+
 export const normalizePageSize = (value, allowedSizes, fallback) => {
   const options = Array.isArray(allowedSizes)
     ? allowedSizes.map(Number).filter((item) => Number.isInteger(item) && item > 0)
