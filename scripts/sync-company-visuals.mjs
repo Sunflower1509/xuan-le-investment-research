@@ -95,11 +95,13 @@ const demoteAuditInvalidLocalOutputs = () => {
   data.meta.verifiedCount = verified.length;
   data.meta.pendingCount = pending.length;
   data.meta.pendingTickers = pending.map((entry) => String(entry.ticker || "").toUpperCase()).sort();
-  data.meta.rolloutProgressPct = Number(((verified.length / 125) * 100).toFixed(1));
-  data.meta.complete = verified.length === 125;
+  const expectedCount = Number(data.meta?.coverageTarget || Object.keys(data.visuals || {}).length || 0);
+  if (!expectedCount) throw new Error("CIVS wrapper: không xác định được coverageTarget.");
+  data.meta.rolloutProgressPct = Number(((verified.length / expectedCount) * 100).toFixed(1));
+  data.meta.complete = verified.length === expectedCount;
   data.meta.verification = data.meta.complete
-    ? "CIVS 1.0 COMPLETE: 125/125 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
-    : `CIVS 1.0 RESUMABLE: ${verified.length}/125 visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
+    ? `CIVS 1.0 COMPLETE: ${expectedCount}/${expectedCount} visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited.`
+    : `CIVS 1.0 RESUMABLE: ${verified.length}/${expectedCount} visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
   writeData(data);
   console.log(`[CIVS WRAPPER] demoted audit-invalid local outputs to safe fallback: ${demoted.join(", ")}.`);
   return demoted;
@@ -107,16 +109,18 @@ const demoteAuditInvalidLocalOutputs = () => {
 
 while (Date.now() < deadline) {
   const meta = readMeta();
-  if (Number(meta?.candidateCount) === 125 && Number(meta?.verifiedCount) + Number(meta?.pendingCount) === 125) {
-    console.log(`[CIVS WRAPPER] persistence confirmed: ${meta.verifiedCount}/125 verified, ${meta.pendingCount} pending.`);
+  const expectedCount = Number(meta?.coverageTarget || meta?.candidateCount || 0);
+  if (expectedCount > 0 && Number(meta?.candidateCount) === expectedCount && Number(meta?.verifiedCount) + Number(meta?.pendingCount) === expectedCount) {
+    console.log(`[CIVS WRAPPER] persistence confirmed: ${meta.verifiedCount}/${expectedCount} verified, ${meta.pendingCount} pending.`);
     break;
   }
   await sleep(250);
 }
 
 const finalMeta = readMeta();
-if (!(Number(finalMeta?.candidateCount) === 125 && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === 125)) {
-  throw new Error("CIVS core kết thúc nhưng không persist được candidate set 125 mã vào company-visuals.js.");
+const finalExpectedCount = Number(finalMeta?.coverageTarget || finalMeta?.candidateCount || 0);
+if (!(finalExpectedCount > 0 && Number(finalMeta?.candidateCount) === finalExpectedCount && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === finalExpectedCount)) {
+  throw new Error(`CIVS core kết thúc nhưng không persist được candidate set ${finalExpectedCount || "?"} mã vào company-visuals.js.`);
 }
 
 normalizeVerifiedLegacyProvenance();

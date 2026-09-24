@@ -83,7 +83,7 @@ test("production bundle keeps company visuals non-invasive and limited to resear
   assert.doesNotMatch(module, /#report-dialog|report-visual-dialog/);
 });
 
-test("v3 sync and audit are resumable, 127-aware, provenance-aware and fail-safe", () => {
+test("core sync and audit are resumable, 127-aware, provenance-aware and fail-safe", () => {
   const syncWrapper = fs.readFileSync(path.join(root, "scripts/sync-company-visuals.mjs"), "utf8");
   const auditWrapper = fs.readFileSync(path.join(root, "scripts/audit-company-visuals.mjs"), "utf8");
   const sync = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-core.mjs"), "utf8");
@@ -93,7 +93,10 @@ test("v3 sync and audit are resumable, 127-aware, provenance-aware and fail-safe
   assert.match(sync, /hero-auto/);
   assert.match(sync, /resolvedFromOfficialPage/);
   assert.match(sync, /qualityBreakdown/);
-  assert.match(sync, /entries\.length !== (?:125|127)/);
+  assert.match(sync, /expectedCount/);
+  assert.match(sync, /coverageTarget/);
+  assert.doesNotMatch(sync, /Coverage Universe không phải 125 mã/);
+  assert.doesNotMatch(sync, /verifiedEntries\.length === 125/);
   assert.match(sync, /pendingCount/);
   assert.match(sync, /sanitizeFailedEntry/);
   assert.match(sync, /safe report-cover fallback/);
