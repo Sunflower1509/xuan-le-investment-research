@@ -23,7 +23,7 @@ test("mobile financial grid exposes five core columns and expandable secondary d
   assert.match(app, /data-action="toggle-action-details"/);
   assert.match(app, /class="action-detail-row"/);
   assert.match(app, /aria-expanded="false"/);
-  assert.match(css, /\.action-table \.action-col-valuation,[\s\S]*\.action-table \.action-col-source \{\s*display: none !important;/);
+  assert.match(css, /\.action-table td\.action-col-valuation,[\s\S]*\.action-table td\.action-col-source,[\s\S]*\.action-table th\.action-col-valuation,[\s\S]*\.action-table th\.action-col-source \{\s*display: none !important;/);
   assert.match(css, /\.action-detail-toggle \{[\s\S]*width: 44px;[\s\S]*height: 44px;/);
   assert.match(css, /\.action-table \{[\s\S]*display: table !important;/);
 });
@@ -57,4 +57,13 @@ test("compact mobile status is clamped while full recommendation remains in deta
   assert.match(app, /class="action-detail-status"><span>Trạng thái \/ chiến thuật<\/span><strong>\$\{escapeHtml\(action\.recommendation\)\}/);
   assert.match(css, /\.table-status \{[\s\S]*white-space: nowrap;[\s\S]*text-overflow: ellipsis;/);
   assert.match(css, /\.action-detail-status,[\s\S]*\.action-detail-sources \{\s*grid-column: 1 \/ -1;/);
+});
+
+
+test("mobile hidden secondary columns outrank nth-child table-cell overrides", () => {
+  const css = read("assets/css/data-navigation.css");
+  const hiddenRule = css.indexOf(".action-table td.action-col-valuation,");
+  const genericCellRule = css.indexOf(".action-table td:nth-child(odd),");
+  assert.ok(genericCellRule >= 0);
+  assert.ok(hiddenRule > genericCellRule, "Hidden mobile columns must be declared after the generic table-cell override");
 });
