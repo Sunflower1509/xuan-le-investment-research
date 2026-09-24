@@ -85,25 +85,36 @@ test("tự động kích hoạt một lần khi giá EOD cắt từ trên xuốn
   assert.equal(second.ledger.events.length, 1);
 });
 
-test("giá EOD cắt xuyên dưới cận dưới vẫn phải kích hoạt và được gắn below-zone", () => {
+test("giá EOD cắt xuyên dưới cận dưới vẫn ghi activation audit rồi đóng ngay vị thế", () => {
   const result = processEodLedger(source({ close: 89 }), ledger());
   assert.equal(result.stats.activated, 1);
-  assert.equal(result.ledger.events.length, 1);
+  assert.equal(result.stats.activatedAndClosed, 1);
+  assert.equal(result.stats.closedZoneFloor, 1);
+  assert.equal(result.ledger.events.length, 2);
   assert.equal(result.ledger.events[0].price, 89);
   assert.equal(result.ledger.events[0].activationRelation, "below-zone");
+  assert.equal(result.ledger.events[1].type, "closed");
+  assert.equal(result.ledger.events[1].reason, "zone_floor_break");
+  assert.equal(result.ledger.events[1].price, 89);
   const projection = projectTradeLedger(result.ledger, source({ close: 89 }).coverage);
   assert.equal(projection.issues.length, 0);
   assert.equal(projection.positions[0].activationRelation, "below-zone");
+  assert.equal(projection.positions[0].status, "closed");
 });
 
-test("giá EOD cắt xuyên cả stop vẫn ghi nhận tín hiệu nhưng đánh dấu stop-breached", () => {
+test("giá EOD cắt xuyên cả stop ghi activation audit rồi đóng ngay theo stoploss", () => {
   const result = processEodLedger(source({ close: 87 }), ledger());
   assert.equal(result.stats.activated, 1);
+  assert.equal(result.stats.activatedAndClosed, 1);
+  assert.equal(result.stats.closedStop, 1);
   assert.equal(result.ledger.events[0].activationRelation, "stop-breached");
+  assert.equal(result.ledger.events[1].type, "closed");
+  assert.equal(result.ledger.events[1].reason, "stoploss");
+  assert.equal(result.ledger.events[1].price, 87);
   const projection = projectTradeLedger(result.ledger, source({ close: 87 }).coverage);
   assert.equal(projection.issues.length, 0);
   assert.equal(projection.positions[0].activationRelation, "stop-breached");
-  assert.equal(projection.positions[0].monitoringState, "stop-alert");
+  assert.equal(projection.positions[0].status, "closed");
 });
 
 test("không tạo kích hoạt muộn khi giá hồi từ dưới vùng trở lại trong vùng", () => {
