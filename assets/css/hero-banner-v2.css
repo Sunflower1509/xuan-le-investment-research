@@ -1,7 +1,7 @@
 /* Hero banner final — Xuân Lê TVS — 2026-09-23
    Portrait uses the user's original photo pixels; only background extraction/cropping was applied. */
 .terminal-hero{position:relative;min-height:520px;background:linear-gradient(104deg,#fffefa 0%,#fbfaf5 45%,#f2f8f5 73%,#e9f5ef 100%);border-bottom:1px solid rgba(220,216,206,.82);overflow:hidden;isolation:isolate}
-.terminal-hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.105;background:url("../images/advisor-banner-3d-v2.webp") 76% 44%/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);pointer-events:none}
+.terminal-hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:.09;background:url("../images/advisor-banner-3d-v2.webp") 76% 44%/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);mask-image:linear-gradient(90deg,transparent 18%,rgba(0,0,0,.24) 42%,#000 67%);pointer-events:none}
 .terminal-hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 80% 31%,rgba(255,255,255,.76),transparent 22rem),linear-gradient(115deg,transparent 0 60%,rgba(189,142,49,.085) 60.2% 60.35%,transparent 60.55% 100%)}
 .terminal-hero .hero-light{z-index:0;background:radial-gradient(circle at 9% 12%,rgba(189,142,49,.06),transparent 24rem),radial-gradient(circle at 86% 70%,rgba(8,120,90,.09),transparent 28rem)}
 .hero-v2-grid{z-index:1;min-height:520px;padding:52px 0 30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,355px);align-items:stretch;gap:16px;position:relative}
@@ -25,14 +25,16 @@
   .terminal-hero .hero-light::before{
     content:"";
     position:absolute;
-    inset:-8px -10px -8px 34%;
+    inset:-6px -8px -6px 50%;
     z-index:-1;
     pointer-events:none;
-    background:url("../images/hero-market-room.webp") right center/cover no-repeat;
-    opacity:.34;
-    filter:saturate(.72) contrast(.88) brightness(1.05) blur(.35px);
-    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.10) 18%,rgba(0,0,0,.46) 43%,rgba(0,0,0,.88) 72%,#000 100%);
-    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.10) 18%,rgba(0,0,0,.46) 43%,rgba(0,0,0,.88) 72%,#000 100%);
+    background:url("../images/hero-market-room.webp") 76% center/cover no-repeat;
+    opacity:.29;
+    filter:saturate(.66) contrast(.84) brightness(1.08) blur(.55px);
+    transform:scale(1.012);
+    transform-origin:center right;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.08) 15%,rgba(0,0,0,.34) 36%,rgba(0,0,0,.74) 65%,#000 100%);
+    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.08) 15%,rgba(0,0,0,.34) 36%,rgba(0,0,0,.74) 65%,#000 100%);
   }
   .terminal-hero .hero-light::after{
     content:"";
@@ -40,6 +42,20 @@
     inset:0;
     z-index:0;
     pointer-events:none;
-    background:radial-gradient(circle at 80% 31%,rgba(255,255,255,.56) 0 74px,rgba(255,255,255,.30) 118px,transparent 190px);
+    background:
+      radial-gradient(circle at 80.5% 28.5%,rgba(255,255,255,.68) 0 72px,rgba(255,255,255,.38) 112px,rgba(247,251,249,.12) 158px,transparent 210px),
+      linear-gradient(90deg,rgba(255,254,250,0) 57%,rgba(244,250,247,.06) 68%,rgba(237,248,243,.14) 100%);
+  }
+}
+@media(min-width:861px) and (max-width:1199px){
+  .terminal-hero .hero-light::before{
+    inset:-4px -6px -4px 44%;
+    opacity:.22;
+    background-position:72% center;
+  }
+  .terminal-hero .hero-light::after{
+    background:
+      radial-gradient(circle at 78% 27%,rgba(255,255,255,.72) 0 64px,rgba(255,255,255,.38) 106px,transparent 182px),
+      linear-gradient(90deg,rgba(255,254,250,0) 54%,rgba(244,250,247,.08) 100%);
   }
 }
