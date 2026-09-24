@@ -479,7 +479,7 @@ import {
     const headRect = table.tHead?.getBoundingClientRect();
     const stickyViewport = stickyRoot.querySelector(".action-sticky-scroll");
     const rootHeaderHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0;
-    const stickyHeight = stickyRoot.querySelector("thead")?.getBoundingClientRect().height || 0;
+    const stickyHeight = headRect?.height || stickyRoot.querySelector("thead")?.getBoundingClientRect().height || 0;
     const stickyActive = Boolean(headRect)
       && headRect.bottom <= rootHeaderHeight
       && tableRect.bottom > rootHeaderHeight + stickyHeight;
