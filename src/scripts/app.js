@@ -347,11 +347,11 @@ import {
 
         <div class="daily-brief-grid">
           <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
-            <div class="daily-brief-dateline" aria-label="Ngày nhận định">
-              <time datetime="${escapeHtml(entry.date)}">${date(entry.date)}</time>
-              <span>NHẬN ĐỊNH SAU PHIÊN</span>
-            </div>
             <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+            <p class="daily-title-session" aria-label="Phiên nhận định">
+              <span>PHIÊN</span>
+              <time datetime="${escapeHtml(entry.date)}">${date(entry.date)}</time>
+            </p>
             <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
             ${brief.evidence.length ? `
               <div class="daily-key-readings" aria-label="Ba luận điểm chính">
