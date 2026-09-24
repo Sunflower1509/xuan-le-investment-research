@@ -49,8 +49,8 @@ test("target uses the nearest positive locked target", () => {
   assert.equal(gap.price, 121, "Reference exit price must be actual EOD close, not assumed target fill");
 });
 
-test("stop closes at or below the locked stop", () => {
-  assert.equal(evaluateAutomaticExit(position(), quote(91)), null);
+test("stop closes at or below the locked stop and outranks a simultaneous zone-floor breach", () => {
+  assert.equal(evaluateAutomaticExit(position(), quote(96)), null);
   assert.equal(evaluateAutomaticExit(position(), quote(90)).reason, "stoploss");
   assert.equal(evaluateAutomaticExit(position(), quote(86)).reason, "stoploss");
 });
