@@ -14,7 +14,7 @@
       "date": "2026-09-24",
       "publishedAt": "24/09/2026 • Sau phiên",
       "edition": "Số 25",
-      "sentiment": "watch",
+      "sentiment": "cautious",
       "sentimentLabel": "PHÒNG THỦ / GIẢM RỦI RO",
       "dataStatus": "VNDIRECT + KBS + DNSE + Stockbiz + VnEconomy • dữ liệu cuối ngày 24.09.2026 • khối ngoại và tự doanh hậu phiên: CHƯA XÁC MINH ĐỦ HAI NGUỒN",
       "title": "Thủng vùng nền quan trọng — ưu tiên bảo toàn vốn và sức mua",
