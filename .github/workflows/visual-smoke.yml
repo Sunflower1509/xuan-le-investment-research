@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      BASE_URL: https://sunflower1509.github.io/xuan-le-investment-research/
+      BASE_URL: http://127.0.0.1:4173/
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -45,7 +45,26 @@ jobs:
         working-directory: qa/visual
         run: npx playwright install --with-deps chromium webkit
 
-      - name: Run cross-browser financial-grid smoke QA
+      - name: Run unit and regression tests
+        run: node --test tests/*.test.mjs
+
+      - name: Build branch production assets
+        run: bash scripts/build/build-assets.sh
+
+      - name: Serve branch locally for visual QA
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/xltvs-visual-qa-http.log 2>&1 &
+          echo $! >/tmp/xltvs-visual-qa-http.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/xltvs-visual-qa-http.log
+          exit 1
+
+      - name: Run cross-browser visual smoke QA
         working-directory: qa/visual
         run: npm test
 

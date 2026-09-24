@@ -234,3 +234,79 @@ Khách đã tự nhìn thấy bảng điện và điểm số. Giá trị của 
 3. **Kết luận khớp với điểm số & veto** chưa? (Điểm thấp / có veto mà vẫn nghiêng mua = sai logic, phải sửa.)
 4. Bản đồ dòng tiền chỉ ghi nhóm **có bằng chứng**, không liệt kê cho đủ?
 5. Bài đăng Zalo **không chứa số nào lệch** so với phần phân tích, không hứa lãi, có dòng miễn trừ?
+
+
+---
+
+## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v1.0
+
+> Áp dụng cho dữ liệu được đưa lên website từ 24/09/2026. Đây là **format contract đã khóa**; không tự ý quay lại kiểu headline lớn + paragraph dài.
+
+### A. ĐƯỜNG ĐỌC BẮT BUỘC
+
+`REGIME → THESIS → EVIDENCE → MARKET SNAPSHOT → ACTION → AUDIT / SOURCES`
+
+Phải tách rõ:
+- **FACT** = số liệu đã xác minh.
+- **INTERPRETATION** = ý nghĩa.
+- **ACTION** = việc cần làm / điều kiện đổi view.
+
+### B. `brief` BẮT BUỘC CHO ENTRY MỚI
+
+Mỗi entry mới phải có:
+
+```js
+brief: {
+  thesis: "2–3 câu cô đọng, không nhồi toàn bộ số liệu",
+  evidence: [
+    { label: "Xu hướng", text: "...", tone: "positive|negative|warning|neutral" },
+    { label: "Độ rộng", text: "...", tone: "..." },
+    { label: "Thanh khoản", text: "...", tone: "..." }
+  ],
+  actions: [
+    "Hành động 1",
+    "Hành động 2",
+    "Hành động 3"
+  ],
+  dataIntegrity: {
+    tone: "positive|warning|negative|neutral",
+    label: "Audit đầy đủ",
+    shortLabel: "Nhãn ngắn cho top strip"
+  }
+}
+```
+
+### C. MÀU & DIRECTION
+
+- **Tăng / positive:** xanh + `▲` / dấu `+` / chữ "Tăng".
+- **Giảm / negative:** đỏ + `▼` / dấu `−` / chữ "Giảm".
+- **Warning / thiếu xác minh:** amber + `!`.
+- **Neutral / tham chiếu:** slate + `•`.
+
+**Cấm dùng màu là tín hiệu duy nhất.**
+
+Metric mới nên có thêm:
+```js
+direction: "up|down|flat|caution|neutral"
+```
+
+Nếu trong cùng một metric có cả số tăng và số giảm (ví dụ độ rộng), dùng `valueParts` / `changeParts` để tô đúng từng thành phần, không tô cả dòng một màu.
+
+### D. QUY TẮC COPY
+
+- Headline: tối đa khoảng 2 dòng ở desktop.
+- Thesis: 2–3 câu, ưu tiên kết luận trước.
+- Evidence: đúng 3 ý chính, mỗi ý 1 câu ngắn.
+- Không nhồi danh sách nguồn vào top header.
+- Full narrative, phương pháp, nguồn và sai khác dữ liệu phải nằm trong vùng Details/Audit.
+- Action Bar phải có trạng thái tác nghiệp + 3 hành động cụ thể.
+
+### E. SINGLE SOURCE OF TRUTH
+
+Chuẩn trình bày chi tiết nằm tại:
+`docs/market-decision-brief-standard.md`
+
+Code contract:
+`src/scripts/market-decision-brief.mjs`
+
+Nếu thay đổi chuẩn, phải nâng version và cập nhật đồng thời prompt + code + test.

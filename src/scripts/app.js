@@ -2,6 +2,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
 import { dataPageSizeForViewport, normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
+import { marketDirectionMeta } from "./market-decision-brief.mjs";
 import {
   buildPriorityUniverse,
   latestReportDates,
@@ -280,6 +281,36 @@ import {
     .replace(DAILY_DISCLAIMER, "")
     .trim();
 
+  const dailyToneClass = (value) => ["positive", "negative", "warning", "neutral"].includes(value) ? value : "neutral";
+
+  const dailyMetricPartsHtml = (parts, fallback, fallbackTone = "neutral") => {
+    const values = Array.isArray(parts) && parts.length
+      ? parts
+      : [{ text: fallback, tone: fallbackTone }];
+    return values.map((part) => `<span class="daily-market-text ${dailyToneClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
+  };
+
+  const dailyRegimeTone = (entry) => {
+    const text = normalize(`${entry?.sentimentLabel || ""} ${entry?.brief?.actions?.join(" ") || ""}`).replaceAll("đ", "d");
+    if (/phong thu|giam rui ro|ha ty trong|khong mo mua/.test(text)) return "negative";
+    if (/mua|tang dan|tich cuc/.test(text)) return "positive";
+    return entry?.sentiment === "positive" ? "positive" : entry?.sentiment === "cautious" ? "negative" : "warning";
+  };
+
+  const dailyBriefModel = (entry) => {
+    const brief = entry?.brief || {};
+    return {
+      thesis: brief.thesis || entry.thesis,
+      evidence: Array.isArray(brief.evidence) ? brief.evidence : [],
+      actions: Array.isArray(brief.actions) ? brief.actions : [],
+      integrity: {
+        tone: dailyToneClass(brief.dataIntegrity?.tone || "neutral"),
+        label: brief.dataIntegrity?.label || entry.dataStatus,
+        shortLabel: brief.dataIntegrity?.shortLabel || "Dữ liệu phiên đã khóa • xem chi tiết nguồn"
+      }
+    };
+  };
+
   const renderDailyInsight = (id = activeDailyId) => {
     if (!refs.dailyInsight || !refs.dailyArchive) return;
     const entry = dailyEntries.find((item) => item.id === id) || dailyEntries[0];
@@ -299,22 +330,71 @@ import {
       </button>`).join("");
 
     const inference = dailyInference(entry.inference);
+    const brief = dailyBriefModel(entry);
+    const regimeTone = dailyRegimeTone(entry);
 
     refs.dailyInsight.innerHTML = `
-      <header class="daily-insight-header">
-        <div class="daily-insight-meta">
-          <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
-          <span>${escapeHtml(entry.dataStatus)}</span>
-          <time datetime="${escapeHtml(entry.date)}">Phiên ${date(entry.date)}</time>
+      <header class="daily-insight-header daily-decision-brief">
+        <div class="daily-brief-topline">
+          <div class="daily-insight-meta">
+            <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
+            <time datetime="${escapeHtml(entry.date)}">Phiên ${date(entry.date)}</time>
+          </div>
+          <span class="daily-integrity-chip ${brief.integrity.tone}" title="${escapeHtml(brief.integrity.label)}">
+            <span aria-hidden="true">${brief.integrity.tone === "warning" ? "!" : "✓"}</span>
+            ${escapeHtml(brief.integrity.shortLabel)}
+          </span>
         </div>
-        <h3>${escapeHtml(entry.title)}</h3>
-        <p class="daily-thesis">${escapeHtml(entry.thesis)}</p>
+
+        <div class="daily-brief-grid">
+          <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
+            <p class="daily-brief-eyebrow">MARKET DECISION BRIEF</p>
+            <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+            <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
+            ${brief.evidence.length ? `
+              <div class="daily-key-readings" aria-label="Ba luận điểm chính">
+                ${brief.evidence.slice(0, 3).map((item) => `
+                  <article class="${dailyToneClass(item.tone)}">
+                    <span>${escapeHtml(item.label)}</span>
+                    <p>${escapeHtml(item.text)}</p>
+                  </article>`).join("")}
+              </div>` : ""}
+          </section>
+
+          <aside class="daily-market-snapshot" aria-label="Market Snapshot">
+            <div class="daily-snapshot-heading">
+              <div><small>MARKET SNAPSHOT</small><strong>Số liệu khóa cuối phiên</strong></div>
+              <span>${entry.metrics.length} chỉ báo</span>
+            </div>
+            <div class="daily-snapshot-list">
+              ${entry.metrics.map((metric) => {
+                const direction = marketDirectionMeta(metric.direction, metric.tone);
+                const tone = dailyToneClass(metric.tone || direction.tone);
+                return `
+                  <article class="daily-snapshot-row ${tone}">
+                    <div class="daily-snapshot-label">
+                      <span>${escapeHtml(metric.label)}</span>
+                      <i class="daily-direction ${dailyToneClass(direction.tone)}" aria-label="${escapeHtml(direction.label)}"><b aria-hidden="true">${escapeHtml(direction.symbol)}</b>${escapeHtml(direction.label)}</i>
+                    </div>
+                    <strong class="daily-snapshot-value">${dailyMetricPartsHtml(metric.valueParts, metric.value, tone)}</strong>
+                    <small>${dailyMetricPartsHtml(metric.changeParts, metric.change, direction.tone)}</small>
+                  </article>`;
+              }).join("")}
+            </div>
+          </aside>
+        </div>
       </header>
 
-      <div class="daily-metrics">${entry.metrics.map((metric) => `
-        <div class="daily-metric ${escapeHtml(metric.tone)}">
-          <span>${escapeHtml(metric.label)}</span><strong>${escapeHtml(metric.value)}</strong><small>${escapeHtml(metric.change)}</small>
-        </div>`).join("")}</div>
+      <section class="daily-decision-bar ${regimeTone}" aria-label="Hành động hiện tại">
+        <div class="daily-decision-state">
+          <small>TÁC NGHIỆP HIỆN TẠI</small>
+          <strong>${escapeHtml(entry.sentimentLabel)}</strong>
+        </div>
+        <div class="daily-decision-actions">
+          ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong Trading Playbook trước khi thay đổi tỷ trọng."]).map((item) => `
+            <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
+        </div>
+      </section>
 
       <section class="daily-action-panel" aria-labelledby="daily-action-title-${escapeHtml(entry.id)}">
         <div class="daily-action-heading">
@@ -339,6 +419,11 @@ import {
           <span class="daily-evidence-toggle" aria-hidden="true">+</span>
         </summary>
         <div class="daily-evidence-body">
+          ${entry.brief?.thesis && entry.thesis !== entry.brief.thesis ? `
+            <section class="daily-full-narrative">
+              <div><small>FULL MARKET READ</small><h5>Luận giải đầy đủ của phiên</h5></div>
+              <p>${escapeHtml(entry.thesis)}</p>
+            </section>` : ""}
           <div class="daily-evidence-grid">
             <section class="daily-evidence-panel">
               <div class="daily-evidence-heading"><small>01 • MARKET BACKDROP</small><h5>Bối cảnh và dòng tiền</h5></div>
@@ -352,6 +437,11 @@ import {
             </section>
           </div>
           <div class="daily-method-row">
+            <div class="daily-data-integrity">
+              <span>DATA INTEGRITY</span>
+              <strong class="${brief.integrity.tone}">${escapeHtml(brief.integrity.label)}</strong>
+              <small>${escapeHtml(entry.dataStatus)}</small>
+            </div>
             ${inference ? `<div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phương pháp và giới hạn dữ liệu</strong>${escapeHtml(inference)}</p></div>` : ""}
             <div class="daily-sources"><span>Nguồn kiểm chứng</span><div>${entry.sources.map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a>`).join("")}</div></div>
           </div>

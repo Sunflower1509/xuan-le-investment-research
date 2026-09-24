@@ -14,7 +14,7 @@
       "date": "2026-09-24",
       "publishedAt": "24/09/2026 • Sau phiên",
       "edition": "Số 25",
-      "sentiment": "watch",
+      "sentiment": "cautious",
       "sentimentLabel": "PHÒNG THỦ / GIẢM RỦI RO",
       "dataStatus": "VNDIRECT + KBS + DNSE + Stockbiz + VnEconomy • dữ liệu cuối ngày 24.09.2026 • khối ngoại và tự doanh hậu phiên: CHƯA XÁC MINH ĐỦ HAI NGUỒN",
       "title": "Thủng vùng nền quan trọng — ưu tiên bảo toàn vốn và sức mua",
@@ -22,30 +22,74 @@
       "author": "Xuân Lê TVS",
       "role": "Môi giới và tư vấn đầu tư",
       "readingTime": "5 phút đọc",
+      "brief": {
+        "thesis": "VN-Index mất MA20 và MA200 trong khi độ rộng nghiêng mạnh về phía giảm. Thanh khoản chưa bùng nổ theo chiều bán, vì vậy tín hiệu phù hợp với trạng thái phòng thủ và bảo toàn sức mua hơn là bán tháo bằng mọi giá.",
+        "evidence": [
+          {
+            "label": "Xu hướng",
+            "text": "Đóng dưới MA20 1.815,11 và MA200 1.794,80; chỉ còn đứng sát MA50 1.774,20.",
+            "tone": "negative"
+          },
+          {
+            "label": "Độ rộng",
+            "text": "76 mã tăng so với 219 mã giảm, kèm 9 mã giảm sàn; áp lực bán lan rộng rõ rệt.",
+            "tone": "negative"
+          },
+          {
+            "label": "Thanh khoản",
+            "text": "Giá trị khớp lệnh khoảng 13.411 tỷ, thấp hơn bình quân 20 phiên khoảng 5,7%; chưa có lực cầu xác nhận tạo đáy.",
+            "tone": "warning"
+          }
+        ],
+        "actions": [
+          "Không mở mua diện rộng.",
+          "Không tăng đòn bẩy.",
+          "Ưu tiên giữ tiền mặt và xử lý các vị thế vi phạm kỷ luật rủi ro."
+        ],
+        "dataIntegrity": {
+          "tone": "warning",
+          "label": "Khối ngoại & tự doanh: chưa đủ 2 nguồn hậu phiên",
+          "shortLabel": "EOD đã khóa • một phần dữ liệu đang chờ đối chiếu"
+        }
+      },
       "metrics": [
         {
           "label": "CHỈ SỐ VN",
           "value": "1.775,09",
           "change": "−26,56 • −1,47%",
-          "tone": "warning"
+          "tone": "negative",
+          "direction": "down"
         },
         {
           "label": "ĐỘ RỘNG SÀN TP.HCM",
           "value": "76 tăng / 219 giảm",
           "change": "58 tham chiếu • 9 mã giảm sàn",
-          "tone": "warning"
+          "tone": "negative",
+          "direction": "down",
+          "valueParts": [
+            { "text": "76 tăng", "tone": "positive" },
+            { "text": " / ", "tone": "neutral" },
+            { "text": "219 giảm", "tone": "negative" }
+          ],
+          "changeParts": [
+            { "text": "58 tham chiếu", "tone": "neutral" },
+            { "text": " • ", "tone": "neutral" },
+            { "text": "9 mã giảm sàn", "tone": "negative" }
+          ]
         },
         {
           "label": "GIÁ TRỊ KHỚP LỆNH",
           "value": "~13.411 tỷ",
           "change": "−5,7% so với bình quân 20 phiên ~14.223 tỷ",
-          "tone": "warning"
+          "tone": "warning",
+          "direction": "down"
         },
         {
           "label": "VỊ THẾ KỸ THUẬT",
           "value": "Dưới TB20 và TB200",
           "change": "Đứng sát TB50 ~1.774,20",
-          "tone": "warning"
+          "tone": "negative",
+          "direction": "down"
         }
       ],
       "backdrop": [
