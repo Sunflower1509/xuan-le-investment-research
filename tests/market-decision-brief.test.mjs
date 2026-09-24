@@ -86,26 +86,22 @@ test("renderer separates narrative, snapshot, action and audit layers", () => {
   assert.match(app, /marketDirectionMeta\(metric\.direction, metric\.tone\)/);
 });
 
-test("daily market renderer puts PHIÊN + session date immediately after the headline", () => {
+test("daily market headline starts with the session date followed by a hyphen", () => {
   const app = read("src/scripts/app.js");
-  const headline = app.indexOf('<h3 id="daily-brief-title-');
-  const sessionLine = app.indexOf('class="daily-title-session"');
-  assert.ok(headline >= 0, "Missing daily headline");
-  assert.ok(sessionLine > headline, "PHIÊN date must render after the daily headline");
-  assert.match(app, /<span>PHIÊN<\/span>/);
-  assert.match(app, /<time datetime="\$\{escapeHtml\(entry\.date\)\}">\$\{date\(entry\.date\)\}<\/time>/);
-  assert.equal(app.includes('class="daily-brief-dateline"'), false, "Old date-before-title line must be removed");
-  for (const legacy of ["MARKET DECISION BRIEF", "MARKET SNAPSHOT", "TRADING PLAYBOOK", "FULL MARKET READ", "DATA INTEGRITY"]) {
-    assert.equal(app.includes(legacy), false, `Legacy English label remains: ${legacy}`);
-  }
+  assert.match(
+    app,
+    /<h3 id="daily-brief-title-\$\{escapeHtml\(entry\.id\)\}"><time datetime="\$\{escapeHtml\(entry\.date\)\}">\$\{date\(entry\.date\)\}<\/time> - \$\{escapeHtml\(entry\.title\)\}<\/h3>/
+  );
+  assert.equal(app.includes('class="daily-title-session"'), false, "Separate PHIÊN/date line must not exist");
+  assert.equal(app.includes('class="daily-brief-dateline"'), false, "Date-before-title line must not exist");
 });
 
-test("PHIÊN date after headline has dedicated responsive styling", () => {
+test("date prefix inside the daily headline inherits headline styling", () => {
   const css = read("assets/css/market-decision-brief.css");
-  assert.match(css, /\.daily-title-session\s*\{/);
-  assert.match(css, /\.daily-title-session time\s*\{/);
+  assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 time\s*\{/);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/);
 });
+
 
 
 test("Market Decision Brief CSS preserves semantic color and responsive hierarchy", () => {
