@@ -15,7 +15,7 @@ export const updateCacheTokenHtml = (html, date) => {
   const matches = html.match(pattern) || [];
   if (matches.length !== 1) throw new Error(`Kỳ vọng đúng 1 JS site asset, thực tế ${matches.length}.`);
 
-  const token = `assets/js/site.min.js?v=${date.replaceAll("-", "")}-eod-auto`;
+  const token = "assets/js/site.min.js";
   const [year, month, day] = date.split("-");
   const dottedDate = `${day}.${month}.${year}`;
   const slashDate = `${day}/${month}/${year}`;
