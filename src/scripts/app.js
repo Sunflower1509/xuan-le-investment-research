@@ -2,7 +2,7 @@ import { projectTradeLedger } from "./trade-ledger.mjs";
 import { dataPageSizeForViewport, normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
 import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
-import { marketDirectionMeta } from "./market-decision-brief.mjs";
+import { marketSnapshotStateMeta } from "./market-decision-brief.mjs";
 import {
   buildPriorityUniverse,
   latestReportDates,
@@ -324,9 +324,9 @@ import {
     if (refs.dailyIssueCount) refs.dailyIssueCount.textContent = dailyEntries.length;
     refs.dailyArchive.innerHTML = dailyEntries.map((item, index) => `
       <button class="daily-archive-item${item.id === activeDailyId ? " active" : ""}" type="button" data-action="show-daily-insight" data-id="${escapeHtml(item.id)}" aria-pressed="${item.id === activeDailyId}">
-        <span><i>${index === 0 ? "MỚI NHẤT" : escapeHtml(item.edition)}</i><time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
+        <span class="daily-archive-meta">${index === 0 ? '<i>MỚI NHẤT</i>' : ""}<time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
         <strong>${escapeHtml(item.title)}</strong>
-        <small>${escapeHtml(item.sentimentLabel)} • BẢN NHANH</small>
+        <small>${escapeHtml(item.sentimentLabel)}</small>
       </button>`).join("");
 
     const inference = dailyInference(entry.inference);
@@ -338,6 +338,8 @@ import {
         <div class="daily-brief-topline">
           <div class="daily-insight-meta">
             <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
+            <time class="daily-session-date" datetime="${escapeHtml(entry.date)}">PHIÊN ${date(entry.date)}</time>
+            <span class="daily-session-lock">EOD</span>
           </div>
           <span class="daily-integrity-chip ${brief.integrity.tone}" title="${escapeHtml(brief.integrity.label)}">
             <span aria-hidden="true">${brief.integrity.tone === "warning" ? "!" : "✓"}</span>
@@ -347,52 +349,64 @@ import {
 
         <div class="daily-brief-grid">
           <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
-            <h3 id="daily-brief-title-${escapeHtml(entry.id)}"><time datetime="${escapeHtml(entry.date)}">${date(entry.date)}</time> - ${escapeHtml(entry.title)}</h3>
-            <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
+            <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+
+            <section class="daily-executive-thesis" aria-labelledby="daily-thesis-title-${escapeHtml(entry.id)}">
+              <h4 id="daily-thesis-title-${escapeHtml(entry.id)}">Luận điểm chính</h4>
+              <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
+            </section>
+
             ${brief.evidence.length ? `
-              <div class="daily-key-readings" aria-label="Ba luận điểm chính">
-                ${brief.evidence.slice(0, 3).map((item) => `
-                  <article class="${dailyToneClass(item.tone)}">
-                    <span>${escapeHtml(item.label)}</span>
-                    <p>${escapeHtml(item.text)}</p>
-                  </article>`).join("")}
-              </div>` : ""}
+              <section class="daily-evidence-strip" aria-labelledby="daily-evidence-title-${escapeHtml(entry.id)}">
+                <div class="daily-subsection-heading">
+                  <h4 id="daily-evidence-title-${escapeHtml(entry.id)}">Bằng chứng thị trường</h4>
+                  <span>FACT → INTERPRETATION</span>
+                </div>
+                <div class="daily-key-readings">
+                  ${brief.evidence.slice(0, 3).map((item) => `
+                    <article class="${dailyToneClass(item.tone)}">
+                      <span class="daily-reading-label">${escapeHtml(item.label)}</span>
+                      <strong class="daily-reading-signal">${escapeHtml(item.signal || item.text)}</strong>
+                      <p>${escapeHtml(item.detail || item.text)}</p>
+                    </article>`).join("")}
+                </div>
+              </section>` : ""}
+
+            <section class="daily-decision-bar ${regimeTone}" aria-label="Hành động hiện tại">
+              <div class="daily-decision-state">
+                <small>TRẠNG THÁI TÁC NGHIỆP</small>
+                <strong>${escapeHtml(entry.sentimentLabel)}</strong>
+              </div>
+              <div class="daily-decision-actions">
+                ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong kế hoạch tác nghiệp trước khi thay đổi tỷ trọng."]).map((item) => `
+                  <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
+              </div>
+            </section>
           </section>
 
-          <aside class="daily-market-snapshot" aria-label="Tóm tắt số liệu cuối phiên">
+          <aside class="daily-market-snapshot" aria-labelledby="daily-snapshot-title-${escapeHtml(entry.id)}">
             <div class="daily-snapshot-heading">
-              <div><small>TÓM TẮT CUỐI PHIÊN</small><strong>Số liệu đã khóa</strong></div>
+              <div><small>MARKET SNAPSHOT</small><h4 id="daily-snapshot-title-${escapeHtml(entry.id)}">Số liệu khóa cuối phiên</h4></div>
               <span>${entry.metrics.length} chỉ báo</span>
             </div>
             <div class="daily-snapshot-list">
               ${entry.metrics.map((metric) => {
-                const direction = marketDirectionMeta(metric.direction, metric.tone);
-                const tone = dailyToneClass(metric.tone || direction.tone);
+                const stateMeta = marketSnapshotStateMeta(metric.snapshotState, metric.direction, metric.tone);
+                const tone = dailyToneClass(metric.tone || stateMeta.tone);
                 return `
                   <article class="daily-snapshot-row ${tone}">
                     <div class="daily-snapshot-label">
                       <span>${escapeHtml(metric.label)}</span>
-                      <i class="daily-direction ${dailyToneClass(direction.tone)}" aria-label="${escapeHtml(direction.label)}"><b aria-hidden="true">${escapeHtml(direction.symbol)}</b>${escapeHtml(direction.label)}</i>
+                      <i class="daily-direction ${dailyToneClass(stateMeta.tone)}" aria-label="${escapeHtml(stateMeta.label)}"><b aria-hidden="true">${escapeHtml(stateMeta.symbol)}</b>${escapeHtml(stateMeta.label)}</i>
                     </div>
                     <strong class="daily-snapshot-value">${dailyMetricPartsHtml(metric.valueParts, metric.value, tone)}</strong>
-                    <small>${dailyMetricPartsHtml(metric.changeParts, metric.change, direction.tone)}</small>
+                    <small>${dailyMetricPartsHtml(metric.changeParts, metric.change, stateMeta.tone)}</small>
                   </article>`;
               }).join("")}
             </div>
           </aside>
         </div>
       </header>
-
-      <section class="daily-decision-bar ${regimeTone}" aria-label="Hành động hiện tại">
-        <div class="daily-decision-state">
-          <small>TÁC NGHIỆP HIỆN TẠI</small>
-          <strong>${escapeHtml(entry.sentimentLabel)}</strong>
-        </div>
-        <div class="daily-decision-actions">
-          ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong kế hoạch tác nghiệp trước khi thay đổi tỷ trọng."]).map((item) => `
-            <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
-        </div>
-      </section>
 
       <section class="daily-action-panel" aria-labelledby="daily-action-title-${escapeHtml(entry.id)}">
         <div class="daily-action-heading">
