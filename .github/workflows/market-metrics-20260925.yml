@@ -1,0 +1,55 @@
+name: Market metrics 2026-09-25
+
+on:
+  push:
+    paths:
+      - ".github/workflows/market-metrics-20260925.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Lock VNINDEX metrics and VN30F1M
+        run: |
+          node --input-type=module <<'NODE'
+          const date='2026-09-25';
+          const u='https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-25&size=500';
+          const r=await fetch(u,{headers:{accept:'application/json','user-agent':'XuanLeTVS-Metrics/1.4'}});
+          if(!r.ok) throw new Error('VNDIRECT HTTP '+r.status);
+          const p=await r.json();
+          const rows=(p.data||[]).filter(x=>String(x.code||'').toUpperCase().replace('-','')==='VNINDEX').sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+          const n=v=>Number.isFinite(Number(v))?Number(v):null;
+          const close=x=>n(x.close), val=x=>n(x.nmValue), vol=x=>n(x.nmVolume);
+          const avg=(arr,fn,len)=>{const a=arr.slice(-len).map(fn).filter(Number.isFinite);return a.length===len?a.reduce((x,y)=>x+y,0)/len:null};
+          const target=rows.find(x=>x.date===date);
+          if(!target) throw new Error('Missing VNINDEX target');
+          const through=rows.filter(x=>x.date<=date);
+          const before=rows.filter(x=>x.date<date);
+          console.log('THONG_SO',JSON.stringify({
+            target,
+            sessions:through.length,
+            ma20:avg(through,close,20),ma50:avg(through,close,50),ma200:avg(through,close,200),
+            giaTriKhop:val(target),khoiLuongKhop:vol(target),
+            tb5:avg(before,val,5),tb10:avg(before,val,10),tb20:avg(before,val,20),
+            klTb20:avg(before,vol,20)
+          }));
+          const from=Math.floor(Date.parse('2026-09-25T00:00:00+07:00')/1000);
+          const to=Math.floor(Date.parse('2026-09-26T00:00:00+07:00')/1000);
+          const durl=`https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${from}&to=${to}`;
+          const dr=await fetch(durl,{headers:{accept:'application/json','user-agent':'Mozilla/5.0 XuanLeTVS-Check/1.4'}});
+          if(!dr.ok) throw new Error('DNSE HTTP '+dr.status);
+          const dp=await dr.json();
+          if(!dp.c?.length) throw new Error('Khong co du lieu phai sinh');
+          console.log('PHAI_SINH',JSON.stringify({
+            soNen:dp.c.length,moCua:dp.o[0],caoNhat:Math.max(...dp.h),thapNhat:Math.min(...dp.l),
+            dongCua:dp.c[dp.c.length-1],khoiLuong:dp.v.reduce((a,b)=>a+Number(b||0),0),
+            thoiDiemCuoi:dp.t[dp.t.length-1]
+          }));
+          NODE
