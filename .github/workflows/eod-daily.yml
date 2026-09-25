@@ -392,3 +392,159 @@ jobs:
       - name: Already current - safe no-op
         if: steps.market.outputs.status == 'already-current'
         run: echo "Repository already carries the requested EOD date; no duplicate processing or deployment is needed."
+
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
+          const expected = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const data = sandbox.window.RESEARCH_DATA;
+          const date = process.env.EOD_DATE;
+          if (data?.meta?.updated !== date || data?.meta?.release !== date) throw new Error(`Research meta date mismatch: ${data?.meta?.updated}/${data?.meta?.release}`);
+          if (data?.marketSession?.date !== date) throw new Error(`marketSession date mismatch: ${data?.marketSession?.date}`);
+          if (!Array.isArray(data?.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) throw new Error('Coverage date mismatch');
+          NODE
+
+      - name: Commit verified EOD state without recursive CI
+        if: steps.market.outputs.status == 'verified'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/research-data.js src/data/trade-ledger.json index.html
+            git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Post-deploy byte verification
+        if: steps.market.outputs.status == 'verified'
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site"
+
+      - name: Market closed - safe no-op
+        if: steps.market.outputs.status == 'market-closed'
+        run: echo "No trading session for ${{ steps.market.outputs.date }} (${{ steps.market.outputs.reason }}); repository and live site remain unchanged."
+
+      - name: First scheduled pass not ready - wait for final pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
+
+      - name: Fail closed when final pass is still not ready
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '7 16 * * 1-5')
+        run: |
+          echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
+          exit 2
+
+      - name: Already current - safe no-op
+        if: steps.market.outputs.status == 'already-current'
+        run: echo "Repository already carries the requested EOD date; no duplicate processing or deployment is needed."
+
+          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
+          const expected = ['overview', 'daily-market', 'position-ledger', 'action-radar', 'research'];
+          if (order.join(',') !== expected.join(',')) throw new Error(`Section order changed: ${order.join(' -> ')}`);
+          const code = fs.readFileSync('src/data/research-data.js', 'utf8');
+          const sandbox = { window: {} };
+          vm.runInNewContext(code, sandbox);
+          const data = sandbox.window.RESEARCH_DATA;
+          const date = process.env.EOD_DATE;
+          if (data?.meta?.updated !== date || data?.meta?.release !== date) throw new Error(`Research meta date mismatch: ${data?.meta?.updated}/${data?.meta?.release}`);
+          if (data?.marketSession?.date !== date) throw new Error(`marketSession date mismatch: ${data?.marketSession?.date}`);
+          if (!Array.isArray(data?.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) throw new Error('Coverage date mismatch');
+          NODE
+
+      - name: Commit verified EOD state without recursive CI
+        if: steps.market.outputs.status == 'verified'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/research-data.js src/data/trade-ledger.json assets/js/site.min.js assets/css/site.min.css index.html
+            git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
+
+      - name: Upload website artifact
+        if: steps.market.outputs.status == 'verified'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Deploy to GitHub Pages
+        if: steps.market.outputs.status == 'verified'
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Post-deploy byte verification
+        if: steps.market.outputs.status == 'verified'
+        run: |
+          node scripts/verify-live-site.mjs \
+            --site-url "${{ steps.deployment.outputs.page_url }}" \
+            --artifact-root "${RUNNER_TEMP}/site"
+
+      - name: Market closed - safe no-op
+        if: steps.market.outputs.status == 'market-closed'
+        run: echo "No trading session for ${{ steps.market.outputs.date }} (${{ steps.market.outputs.reason }}); repository and live site remain unchanged."
+
+      - name: First scheduled pass not ready - wait for final pass
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
+
+      - name: Fail closed when final pass is still not ready
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '7 16 * * 1-5')
+        run: |
+          echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
+          exit 2
+
+      - name: Already current - safe no-op
+        if: steps.market.outputs.status == 'already-current'
+        run: echo "Repository already carries the requested EOD date; no duplicate processing or deployment is needed."
