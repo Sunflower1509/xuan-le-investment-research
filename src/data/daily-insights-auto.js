@@ -27,16 +27,22 @@
         "evidence": [
           {
             "label": "Xu hướng",
+            "signal": "▼ Dưới MA20 / MA200",
+            "detail": "MA20 1.815,11 • MA200 1.794,80 • đang sát MA50 1.774,20.",
             "text": "Đóng dưới MA20 1.815,11 và MA200 1.794,80; chỉ còn đứng sát MA50 1.774,20.",
             "tone": "negative"
           },
           {
             "label": "Độ rộng",
+            "signal": "▼ 219 giảm / ▲ 76 tăng",
+            "detail": "58 tham chiếu • 9 mã giảm sàn • áp lực bán lan rộng rõ rệt.",
             "text": "76 mã tăng so với 219 mã giảm, kèm 9 mã giảm sàn; áp lực bán lan rộng rõ rệt.",
             "tone": "negative"
           },
           {
             "label": "Thanh khoản",
+            "signal": "~13.411 tỷ",
+            "detail": "▼ thấp hơn TB20 khoảng 5,7% • chưa có lực cầu xác nhận tạo đáy.",
             "text": "Giá trị khớp lệnh khoảng 13.411 tỷ, thấp hơn bình quân 20 phiên khoảng 5,7%; chưa có lực cầu xác nhận tạo đáy.",
             "tone": "warning"
           }
@@ -58,7 +64,8 @@
           "value": "1.775,09",
           "change": "−26,56 • −1,47%",
           "tone": "negative",
-          "direction": "down"
+          "direction": "down",
+          "snapshotState": "price_down"
         },
         {
           "label": "ĐỘ RỘNG SÀN TP.HCM",
@@ -66,6 +73,7 @@
           "change": "58 tham chiếu • 9 mã giảm sàn",
           "tone": "negative",
           "direction": "down",
+          "snapshotState": "breadth_negative",
           "valueParts": [
             { "text": "76 tăng", "tone": "positive" },
             { "text": " / ", "tone": "neutral" },
@@ -82,14 +90,16 @@
           "value": "~13.411 tỷ",
           "change": "−5,7% so với bình quân 20 phiên ~14.223 tỷ",
           "tone": "warning",
-          "direction": "down"
+          "direction": "down",
+          "snapshotState": "liquidity_below_average"
         },
         {
           "label": "VỊ THẾ KỸ THUẬT",
           "value": "Dưới TB20 và TB200",
           "change": "Đứng sát TB50 ~1.774,20",
           "tone": "negative",
-          "direction": "down"
+          "direction": "down",
+          "snapshotState": "technical_negative"
         }
       ],
       "backdrop": [
