@@ -1,3 +1,4 @@
+# Retry EOD after cache-token fix: 2026-09-25
 # Manual recovery trigger: 2026-09-25
 name: EOD schedule watchdog
 
