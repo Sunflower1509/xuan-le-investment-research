@@ -1,142 +1,199 @@
-# Market Decision Brief Standard v1.0
+# Daily Market Research Brief — Typography & Information Hierarchy Hardening v2
 
-**Effective:** 24/09/2026  
-**Scope:** `Nhận định ngày` / Daily Market View  
-**Status:** LOCKED — mọi bản nhận định mới phải theo chuẩn này trừ khi chuẩn được nâng version.
+**Version:** 2.0.0  
+**Effective:** 25/09/2026  
+**Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
+**Status:** LOCKED
 
-## 1. Mục tiêu
+## 1. Reading architecture
 
-Biến nhận định thị trường thành một **decision brief** có thể quét nhanh nhưng vẫn giữ chiều sâu kiểm chứng.
-
-Đường đọc bắt buộc:
+Mọi bản nhận định mới phải đi theo đúng đường đọc:
 
 ```
-REGIME → THESIS → EVIDENCE → MARKET SNAPSHOT → ACTION → AUDIT / SOURCES
+REGIME / SESSION
+→ HEADLINE
+→ EXECUTIVE THESIS
+→ MARKET EVIDENCE
+→ ACTION
+→ MARKET SNAPSHOT
+→ TRADING PLAYBOOK
+→ AUDIT / SOURCES
 ```
 
-Ba lớp thông tin không được trộn:
+Ba lớp không được trộn:
 
 - **FACT:** số liệu đã xác minh.
-- **INTERPRETATION:** ý nghĩa của số liệu.
-- **ACTION:** việc cần làm / điều kiện đổi view.
+- **INTERPRETATION:** hàm ý của số liệu.
+- **ACTION:** việc cần làm hoặc điều kiện thay đổi trạng thái.
 
-## 2. Layout khóa
+## 2. Type-role contract
 
-### Desktop
-- Tỷ lệ nội dung chính: **65% narrative / 35% Market Snapshot**.
-- Headline tối đa khoảng 2 dòng, không dùng cỡ kiểu hero marketing.
-- Thesis 2–3 câu, tối đa khoảng 66ch.
-- 3 luận điểm chính hiển thị dưới thesis.
-- Action Bar full-width nằm ngay sau phần brief.
+| Role | Font | Size | Line-height | Measure |
+|---|---|---:|---:|---:|
+| Headline | Source Serif XL | 32–36px | 1.14 | 30ch |
+| Thesis | Manrope XL | 16px | 1.58 | 64ch |
+| Evidence signal | Manrope XL | 14px | 1.40 | n/a |
+| Evidence detail | Manrope XL | 13px | 1.48 | bounded by column |
+| Snapshot label | Manrope XL | 10.5–12px | 1.35 | n/a |
+| Snapshot metric | Manrope XL | 24px | 1.16 | tabular nums |
+| Metadata | Manrope XL | 11px | 1.40 | n/a |
 
-### Tablet
-- Narrative trước, Market Snapshot sau.
-- Snapshot có thể chuyển 2 cột nếu đủ rộng.
+Quy tắc:
+- Serif chỉ dùng cho headline editorial chính.
+- Sans-serif dùng cho thesis, evidence, numbers, labels, metadata và action.
+- Không đưa ngày phiên vào headline.
+- Ngày phải là metadata: `PHIÊN DD/MM/YYYY · EOD`.
+- Body text dài phải giữ line length khoảng 45–90 ký tự; thesis target khoảng 64ch.
 
-### Mobile
-- Trình tự: **Regime → Headline → Thesis → 3 evidence → Snapshot → Action → Trading Playbook → Details**.
-- Không giấu critical decision information trong tooltip.
-- Metadata dài / audit trail đưa vào Details.
+## 3. Spacing tokens
 
-## 3. Màu ngữ nghĩa khóa
-
-Màu chỉ là lớp tăng cường. Luôn đi kèm dấu, nhãn hoặc từ khóa để không phụ thuộc vào màu.
-
-| Ý nghĩa | Token | Màu chữ | Cue bắt buộc |
-|---|---|---:|---|
-| Tăng / tích cực | `positive` | `#08785A` | `▲`, dấu `+`, hoặc chữ "Tăng" |
-| Giảm / tiêu cực | `negative` | `#B42318` | `▼`, dấu `−`, hoặc chữ "Giảm" |
-| Cảnh báo / cần xác minh | `warning` | `#8A5A00` | `!` hoặc nhãn "Cảnh báo" |
-| Tham chiếu / trung tính | `neutral` | `#55636E` | dấu `•` hoặc chữ "Tham chiếu/Trung tính" |
-| Văn bản chính | `ink` | `#17324D` | — |
-
-Các màu trên nền trắng đều được chọn ở mức đủ đậm cho text thường; không dùng xanh/đỏ sáng kiểu bảng điện làm body text.
-
-### Quy ước thị trường Việt Nam
-- Giá / chỉ số **tăng**: xanh.
-- Giá / chỉ số **giảm**: đỏ.
-- Tham chiếu: neutral trong brief (không dùng vàng bảng điện cho mọi text tham chiếu vì giảm readability).
-- Trần/sàn chỉ dùng màu đặc thù khi dữ liệu đó thật sự xuất hiện; không mở rộng palette nếu không cần.
-
-## 4. Contract dữ liệu cho entry mới
-
-Từ chuẩn v1.0, entry mới nên có:
-
-```js
-brief: {
-  thesis: "2–3 câu, FACT đã được cô đọng thành interpretation.",
-  evidence: [
-    { label: "Xu hướng", text: "...", tone: "positive|negative|warning|neutral" },
-    { label: "Độ rộng", text: "...", tone: "..." },
-    { label: "Thanh khoản", text: "...", tone: "..." }
-  ],
-  actions: [
-    "Hành động 1.",
-    "Hành động 2.",
-    "Hành động 3."
-  ],
-  dataIntegrity: {
-    tone: "positive|warning|negative|neutral",
-    label: "Mô tả audit đầy đủ",
-    shortLabel: "Nhãn ngắn để đặt trên top strip"
-  }
-}
+```
+xs = 6px
+sm = 10px
+md = 16px
+lg = 24px
+xl = 32px
 ```
 
-Mỗi metric nên có:
+Không tự thêm spacing ngẫu nhiên cho từng phiên. Khoảng cách phải xuất phát từ token.
+
+## 4. Desktop layout
+
+- Archive rail: khoảng **220px**.
+- Main brief: `minmax(0,1fr) + 360px snapshot`.
+- Headline tối đa khoảng 2 dòng.
+- Decision Bar nằm **ngay sau evidence trong cột narrative** để tránh khoảng trắng chết khi Snapshot cao hơn.
+- Snapshot không được lấn át thesis bằng font hoặc màu quá mạnh.
+
+## 5. Executive Thesis
+
+Phải có heading semantic:
+
+`LUẬN ĐIỂM CHÍNH`
+
+Nội dung:
+- 2–3 câu.
+- Kết luận trước.
+- Không lặp lại toàn bộ raw data.
+- Không dài quá khoảng 64ch.
+
+## 6. Evidence Strip
+
+Mỗi evidence item bắt buộc theo:
+
+```
+LABEL → SIGNAL → INTERPRETATION
+```
+
+Khuyến nghị schema:
 
 ```js
 {
-  label: "VN-INDEX",
-  value: "1.775,09",
-  change: "−26,56 • −1,47%",
-  tone: "negative",
-  direction: "down"
+  label: "Xu hướng",
+  signal: "▼ Dưới MA20 / MA200",
+  detail: "MA20 1.815,11 • MA200 1.794,80 • sát MA50 1.774,20.",
+  text: "Fallback đầy đủ",
+  tone: "negative"
 }
 ```
 
-Khi một metric chứa cả tăng và giảm (ví dụ độ rộng), dùng `valueParts` / `changeParts` để tô màu từng phần, không tô cả dòng một màu.
+Không dùng cấu trúc `label → paragraph dài` ở vùng scan nhanh.
 
-## 5. Rule màu
+## 7. Semantic Snapshot States
 
-1. **Không dùng màu một mình.** Green/red luôn phải có `▲/▼`, `+/-`, hoặc chữ Tăng/Giảm.
-2. **Không tô cả paragraph.** Màu chỉ dành cho số liệu, direction indicator, trạng thái, và border accent.
-3. **Không dùng nền đỏ/xanh đậm cho khối lớn.** Chỉ dùng tint rất nhẹ để giữ chất institutional research.
-4. **Warning ≠ Negative.** Thiếu xác minh / cần thận trọng dùng amber; suy giảm thực tế dùng red.
-5. **Neutral không bị coi là xấu.** Dùng slate/gray để tránh ép diễn giải.
-6. **Tính nhất quán quan trọng hơn màu "đẹp".** Không tự thêm palette mới ở từng phiên.
+Không dùng cùng badge `▼ Giảm` cho mọi loại metric.
 
-## 6. Data integrity
+Các state đã khóa:
 
-Top strip chỉ hiển thị nhãn ngắn. Full source/audit nằm trong `Dữ liệu, phương pháp và nguồn kiểm chứng`.
+| State | Label | Tone |
+|---|---|---|
+| `price_up` | ▲ Tăng | positive |
+| `price_down` | ▼ Giảm | negative |
+| `breadth_positive` | ▲ Độ rộng tích cực | positive |
+| `breadth_negative` | ▼ Độ rộng tiêu cực | negative |
+| `liquidity_above_average` | ▲ Trên trung bình | positive |
+| `liquidity_below_average` | ▼ Dưới TB20 | warning |
+| `technical_positive` | ▲ Kỹ thuật tích cực | positive |
+| `technical_negative` | ▼ Kỹ thuật yếu | negative |
+| `neutral` | • Trung tính | neutral |
 
-Không đưa chuỗi dài tên nguồn lên header chính.
+Mỗi metric mới nên có:
 
-## 7. Acceptance criteria
+```js
+snapshotState: "price_down"
+```
 
-Một Daily Market View đạt chuẩn khi:
+Fallback vẫn dùng `direction` + `tone`, nhưng `snapshotState` là chuẩn ưu tiên từ v2.
 
-- Headline không chiếm vai trò visual lớn hơn Market Snapshot.
-- Thesis đọc được trong 2–3 câu.
-- 3 evidence points tách biệt.
-- Market Snapshot có số tabular và direction cue.
-- Tăng xanh / giảm đỏ / warning amber / neutral slate.
-- Action Bar nói rõ trạng thái + 3 hành động.
-- Full narrative, methodology, sources vẫn truy cập được trong Details.
-- Mobile không tạo paragraph dài full-width.
-- Không có thông tin quyết định chỉ tồn tại qua màu hoặc tooltip.
-- Entry mới có `brief` đủ các field bắt buộc.
+## 8. Color contract
 
-## 8. Nguồn nguyên tắc thiết kế
+Màu chỉ là progressive enhancement.
 
-Chuẩn này dựa trên:
-- WCAG 2.2 / W3C: không dùng màu là tín hiệu duy nhất.
-- Carbon Design System: differential indicator nên dùng green cho positive, red cho negative và kèm symbol/text.
-- USWDS: màu chỉ là progressive enhancement; phải giữ contrast.
-- Quy ước bảng giá chứng khoán Việt Nam: tăng xanh, giảm đỏ.
+| Meaning | Color | Non-color cue |
+|---|---:|---|
+| Positive | `#08785A` | ▲ / + / “Tăng” |
+| Negative | `#B42318` | ▼ / − / “Giảm” |
+| Warning | `#8A5A00` | ! / “Cảnh báo” |
+| Neutral | `#55636E` | • / “Trung tính” |
 
-Mọi thay đổi sau này phải nâng version và cập nhật đồng thời:
-1. file chuẩn này,
-2. `src/scripts/market-decision-brief.mjs`,
-3. `docs/prompt-nhan-dinh-vnindex-v3.md`,
-4. regression tests.
+Cấm:
+- tô cả paragraph đỏ/xanh;
+- dùng màu là tín hiệu duy nhất;
+- dùng badge “Giảm” cho liquidity chỉ vì giá trị thấp hơn bình quân;
+- dùng nền bão hòa mạnh cho khối lớn.
+
+## 9. Archive navigator
+
+- Selected: `MỚI NHẤT + ngày + title + trạng thái`.
+- Unselected: `ngày + title + trạng thái`.
+- Không lặp edition badge trên mọi item.
+- Title archive dùng UI sans-serif, tối đa 2 dòng.
+- Sidebar là navigator, không phải mini-card marketing.
+
+## 10. Responsive hierarchy
+
+### Tablet
+- Narrative trước, Snapshot sau.
+- Evidence vẫn giữ signal riêng.
+- Không ép 3 cột text quá nhỏ.
+
+### Mobile
+Thứ tự:
+`Regime/Session → Headline → Thesis → Evidence → Action → Snapshot → Playbook → Audit`.
+
+- Headline 28–33px.
+- Thesis 15px / 1.60.
+- Evidence về 2 cột, sau đó 1 cột ở viewport hẹp.
+- Không paragraph full-width quá dài.
+- Không document-level horizontal overflow.
+
+## 11. Acceptance criteria
+
+Một bản đạt v2 khi:
+
+- ngày không nằm trong headline;
+- headline desktop khoảng 2 dòng;
+- thesis có heading semantic và max-width 64ch;
+- evidence đúng `label → signal → interpretation`;
+- decision bar nằm ngay dưới evidence;
+- snapshot badge dùng semantic state đúng loại metric;
+- snapshot number dùng sans-serif + tabular nums;
+- archive không lặp edition badge trên mọi item;
+- mobile không overflow ngang;
+- audit/source vẫn truy cập đầy đủ;
+- v2 contract được kiểm bằng unit + Playwright QA.
+
+## 12. Research basis
+
+Chuẩn v2 dựa trên:
+- USWDS typography: body text khoảng 16px, line length 45–90 ký tự, target tốt khoảng 66 ký tự, long-form line-height ít nhất khoảng 1.5.
+- W3C WAI: dùng heading + spacing để nhóm nội dung và hỗ trợ scan; heading phải mang nghĩa thật.
+- GOV.UK layout: giới hạn chiều rộng text để tránh dòng quá dài, thường không quá khoảng 75 ký tự.
+- Market Decision Brief v1 color/accessibility rules vẫn giữ nguyên.
+
+Single source of truth:
+1. `docs/market-decision-brief-standard.md`
+2. `src/scripts/market-decision-brief.mjs`
+3. `src/styles/market-decision-brief.css`
+4. `docs/prompt-nhan-dinh-vnindex-v3.md`
+5. regression + visual QA.

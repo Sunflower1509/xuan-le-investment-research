@@ -238,7 +238,7 @@ Khách đã tự nhìn thấy bảng điện và điểm số. Giá trị của 
 
 ---
 
-## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v1.0
+## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.0
 
 > Áp dụng cho dữ liệu được đưa lên website từ 24/09/2026. Đây là **format contract đã khóa**; không tự ý quay lại kiểu headline lớn + paragraph dài.
 
@@ -276,7 +276,17 @@ brief: {
 }
 ```
 
-### C. MÀU & DIRECTION
+### C. TYPOGRAPHY / HIERARCHY v2
+
+- Không đưa ngày vào headline. Ngày phải nằm ở metadata: `PHIÊN DD/MM/YYYY · EOD`.
+- Headline desktop target 32–36px, khoảng 2 dòng.
+- Thesis 2–3 câu, khoảng 16px / line-height ~1.58, max-width 64ch.
+- Evidence phải có `label + signal + detail`, không chỉ một paragraph.
+- Decision Bar phải nằm ngay dưới evidence.
+- Snapshot metric dùng sans-serif + tabular numbers.
+- Archive item không lặp edition badge ở mọi bản.
+
+### C1. MÀU & DIRECTION
 
 - **Tăng / positive:** xanh + `▲` / dấu `+` / chữ "Tăng".
 - **Giảm / negative:** đỏ + `▼` / dấu `−` / chữ "Giảm".
@@ -285,9 +295,15 @@ brief: {
 
 **Cấm dùng màu là tín hiệu duy nhất.**
 
-Metric mới nên có thêm:
+Metric mới nên có:
 ```js
-direction: "up|down|flat|caution|neutral"
+direction: "up|down|flat|caution|neutral",
+snapshotState: "price_up|price_down|breadth_positive|breadth_negative|liquidity_above_average|liquidity_below_average|technical_positive|technical_negative|neutral"
+```
+
+Evidence mới nên có:
+```js
+{ label: "Xu hướng", signal: "▼ Dưới MA20 / MA200", detail: "...", text: "...", tone: "negative" }
 ```
 
 Nếu trong cùng một metric có cả số tăng và số giảm (ví dụ độ rộng), dùng `valueParts` / `changeParts` để tô đúng từng thành phần, không tô cả dòng một màu.
