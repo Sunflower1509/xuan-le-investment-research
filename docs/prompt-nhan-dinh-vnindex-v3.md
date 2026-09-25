@@ -238,7 +238,7 @@ Khách đã tự nhìn thấy bảng điện và điểm số. Giá trị của 
 
 ---
 
-## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.0
+## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.1
 
 > Áp dụng cho dữ liệu được đưa lên website từ 24/09/2026. Đây là **format contract đã khóa**; không tự ý quay lại kiểu headline lớn + paragraph dài.
 
@@ -278,7 +278,10 @@ brief: {
 
 ### C. TYPOGRAPHY / HIERARCHY v2
 
-- Không đưa ngày vào headline. Ngày phải nằm ở metadata: `PHIÊN DD/MM/YYYY · EOD`.
+- Hệ thống phải tự sinh ngày từ `entry.date` và hiển thị **ngay trước headline** theo dạng `DD/MM · Headline`.
+- Ngày hiển thị là phần tử `<time>` riêng, không ghép vào text của heading.
+- Không hard-code `24/09`, `25/09`... trong template; mỗi phiên mới lấy trực tiếp từ `entry.date`.
+- Top metadata chỉ giữ regime + `EOD`, không lặp lại ngày.
 - Headline desktop target 32–36px, khoảng 2 dòng.
 - Thesis 2–3 câu, khoảng 16px / line-height ~1.58, max-width 64ch.
 - Evidence phải có `label + signal + detail`, không chỉ một paragraph.
@@ -326,3 +329,10 @@ Code contract:
 `src/scripts/market-decision-brief.mjs`
 
 Nếu thay đổi chuẩn, phải nâng version và cập nhật đồng thời prompt + code + test.
+
+
+### HEADLINE DATE CONTRACT v2.1
+- Hệ thống tự lấy `entry.date` và render `DD/MM ·` ngay trước headline.
+- Date là `<time datetime="YYYY-MM-DD">`, heading chỉ chứa thesis title.
+- Không hard-code ngày.
+- Mobile được phép stack ngày trên một dòng nhỏ ngay trước headline.

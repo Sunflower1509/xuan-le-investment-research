@@ -13,7 +13,9 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
   const viewport = page.viewportSize();
   const insight = page.locator("[data-role='daily-insight']");
   const brief = insight.locator(".daily-decision-brief");
-  const headline = brief.locator(".daily-brief-narrative > h3");
+  const headline = brief.locator(".daily-brief-narrative > .daily-title-line > h3");
+  const titleDate = brief.locator(".daily-title-date");
+  const titleSeparator = brief.locator(".daily-title-separator");
   const thesis = brief.locator(".daily-thesis");
   const snapshot = brief.locator(".daily-market-snapshot");
   const evidence = brief.locator(".daily-key-readings article");
@@ -21,8 +23,10 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
   const decision = brief.locator(".daily-decision-bar");
 
   await expect(headline).toHaveText("Thủng vùng nền quan trọng — ưu tiên bảo toàn vốn và sức mua");
-  expect(await headline.innerText()).not.toContain("24/09/2026");
-  await expect(brief.locator(".daily-session-date")).toContainText("PHIÊN 24/09/2026");
+  await expect(titleDate).toHaveText("24/09");
+  await expect(titleDate).toHaveAttribute("datetime", "2026-09-24");
+  await expect(titleSeparator).toHaveText("·");
+  await expect(brief.locator(".daily-session-date")).toHaveCount(0);
   await expect(brief.locator(".daily-session-lock")).toHaveText("EOD");
 
   await expect(brief.locator(".daily-executive-thesis h4")).toHaveText("Luận điểm chính");
@@ -55,7 +59,9 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
   await expect(breadthParts.nth(2)).toHaveText("219 giảm");
 
   const computed = await page.evaluate(() => {
-    const headline = document.querySelector(".daily-brief-narrative > h3");
+    const headline = document.querySelector(".daily-brief-narrative > .daily-title-line > h3");
+    const titleDate = document.querySelector(".daily-title-date");
+    const titleLine = document.querySelector(".daily-title-line");
     const thesis = document.querySelector(".daily-thesis");
     const metric = document.querySelector(".daily-snapshot-value");
     const narrative = document.querySelector(".daily-brief-narrative");
@@ -66,6 +72,10 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
     const m = getComputedStyle(metric);
     return {
       headlinePx: Number.parseFloat(h.fontSize),
+      titleDatePx: Number.parseFloat(getComputedStyle(titleDate).fontSize),
+      titleDateTop: titleDate.getBoundingClientRect().top,
+      headlineTop: headline.getBoundingClientRect().top,
+      titleLineDisplay: getComputedStyle(titleLine).display,
       headlineLineHeight: Number.parseFloat(h.lineHeight),
       headlineHeight: headline.getBoundingClientRect().height,
       thesisPx: Number.parseFloat(t.fontSize),
@@ -87,6 +97,8 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
   expect(computed.metricNumeric).toContain("tabular-nums");
 
   if (viewport.width >= 1081) {
+    expect(computed.titleDatePx).toBeGreaterThanOrEqual(13.5);
+    expect(Math.abs(computed.titleDateTop - computed.headlineTop)).toBeLessThanOrEqual(18);
     expect(computed.headlinePx).toBeGreaterThanOrEqual(31.5);
     expect(computed.headlinePx).toBeLessThanOrEqual(36.5);
     const headlineLines = computed.headlineHeight / computed.headlineLineHeight;
@@ -109,7 +121,11 @@ test("Daily Market Research Brief v2 hierarchy, type roles and semantic snapshot
   await expect(details.locator(".daily-data-integrity")).toContainText("Khối ngoại & tự doanh");
   await expect(details.locator(".daily-sources")).toBeVisible();
 
-  const screenshot = testInfo.outputPath("daily-market-research-brief-v2.png");
+  if (viewport.width <= 760) {
+    expect(computed.titleDateTop).toBeLessThan(computed.headlineTop);
+  }
+
+  const screenshot = testInfo.outputPath("daily-market-research-brief-v2-1.png");
   await insight.screenshot({ path: screenshot, animations: "disabled" });
-  await testInfo.attach("daily-market-research-brief-v2", { path: screenshot, contentType: "image/png" });
+  await testInfo.attach("daily-market-research-brief-v2-1", { path: screenshot, contentType: "image/png" });
 });

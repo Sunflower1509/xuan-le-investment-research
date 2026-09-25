@@ -297,6 +297,13 @@ import {
     return entry?.sentiment === "positive" ? "positive" : entry?.sentiment === "cautious" ? "negative" : "warning";
   };
 
+  const dailyHeadlineDate = (value) => {
+    const formatted = date(value);
+    if (!formatted || formatted === "—") return "";
+    const parts = formatted.split("/");
+    return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : formatted;
+  };
+
   const dailyBriefModel = (entry) => {
     const brief = entry?.brief || {};
     return {
@@ -338,7 +345,6 @@ import {
         <div class="daily-brief-topline">
           <div class="daily-insight-meta">
             <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
-            <time class="daily-session-date" datetime="${escapeHtml(entry.date)}">PHIÊN ${date(entry.date)}</time>
             <span class="daily-session-lock">EOD</span>
           </div>
           <span class="daily-integrity-chip ${brief.integrity.tone}" title="${escapeHtml(brief.integrity.label)}">
@@ -349,7 +355,11 @@ import {
 
         <div class="daily-brief-grid">
           <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
-            <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+            <div class="daily-title-line">
+              <time class="daily-title-date" datetime="${escapeHtml(entry.date)}">${escapeHtml(dailyHeadlineDate(entry.date))}</time>
+              <span class="daily-title-separator" aria-hidden="true">·</span>
+              <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+            </div>
 
             <section class="daily-executive-thesis" aria-labelledby="daily-thesis-title-${escapeHtml(entry.id)}">
               <h4 id="daily-thesis-title-${escapeHtml(entry.id)}">Luận điểm chính</h4>

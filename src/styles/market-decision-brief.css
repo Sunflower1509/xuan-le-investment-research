@@ -221,6 +221,32 @@
   min-width: 0;
 }
 
+.daily-title-line {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 9px;
+}
+
+.daily-title-date {
+  color: var(--brief-neutral);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 820;
+  letter-spacing: .01em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.daily-title-separator {
+  color: #9aa5ad;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 760;
+}
+
 .daily-decision-brief .daily-brief-narrative h3 {
   max-width: 30ch;
   margin: 0;
@@ -730,6 +756,19 @@
 
   .daily-brief-grid {
     margin-top: 18px;
+  }
+
+  .daily-title-line {
+    grid-template-columns: 1fr;
+    row-gap: 5px;
+  }
+
+  .daily-title-date {
+    font-size: 13px;
+  }
+
+  .daily-title-separator {
+    display: none;
   }
 
   .daily-decision-brief .daily-brief-narrative h3 {
