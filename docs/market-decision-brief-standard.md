@@ -1,6 +1,6 @@
 # Daily Market Research Brief — Typography & Information Hierarchy Hardening v2
 
-**Version:** 2.0.0  
+**Version:** 2.1.0  
 **Effective:** 25/09/2026  
 **Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
 **Status:** LOCKED
@@ -41,8 +41,9 @@ Ba lớp không được trộn:
 Quy tắc:
 - Serif chỉ dùng cho headline editorial chính.
 - Sans-serif dùng cho thesis, evidence, numbers, labels, metadata và action.
-- Không đưa ngày phiên vào headline.
-- Ngày phải là metadata: `PHIÊN DD/MM/YYYY · EOD`.
+- Ngày phiên phải hiển thị **ngay trước headline** theo dạng `DD/MM ·`, nhưng vẫn là phần tử `<time>` riêng, không phải nội dung của heading.
+- Giá trị hiển thị phải được sinh tự động từ `entry.date`; tuyệt đối không hard-code ngày theo từng phiên.
+- Top metadata không lặp lại ngày; chỉ giữ regime và `EOD`.
 - Body text dài phải giữ line length khoảng 45–90 ký tự; thesis target khoảng 64ch.
 
 ## 3. Spacing tokens
@@ -56,6 +57,38 @@ xl = 32px
 ```
 
 Không tự thêm spacing ngẫu nhiên cho từng phiên. Khoảng cách phải xuất phát từ token.
+
+## 3A. Headline date contract
+
+Mọi bản nhận định mới phải tự động tạo dạng:
+
+```
+24/09 · Thủng vùng nền quan trọng — ưu tiên...
+```
+
+từ dữ liệu nguồn:
+
+```js
+entry.date = "2026-09-24"
+```
+
+Markup semantic:
+
+```html
+<div class="daily-title-line">
+  <time datetime="2026-09-24">24/09</time>
+  <span aria-hidden="true">·</span>
+  <h3>...</h3>
+</div>
+```
+
+Quy tắc:
+- Desktop/tablet: ngày đứng trước headline trên cùng reading line.
+- Mobile: ngày nằm trên một dòng nhỏ ngay trước headline.
+- `<time datetime>` giữ ngày ISO đầy đủ để machine-readable.
+- Không lặp `PHIÊN DD/MM/YYYY` ở top strip.
+- Archive vẫn hiển thị ngày đầy đủ theo contract riêng.
+- Template không được hard-code `24/09`, `25/09`...; mỗi entry mới lấy trực tiếp từ `entry.date`.
 
 ## 4. Desktop layout
 
