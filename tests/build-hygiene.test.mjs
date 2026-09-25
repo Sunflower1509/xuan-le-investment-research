@@ -45,3 +45,15 @@ test("CIVS wrappers point at stable core implementation names", () => {
   assert.match(read("scripts/sync-company-visuals.mjs"), /sync-company-visuals-core\.mjs/);
   assert.match(read("scripts/audit-company-visuals.mjs"), /audit-company-visuals-core\.mjs/);
 });
+
+
+test("EOD workflow never stages generated web bundles", () => {
+  const workflow = read(".github/workflows/eod-daily.yml");
+  const gitAddLine = workflow.split("\n").find((line) => line.includes("git add src/data/research-data.js")) || "";
+  assert.ok(gitAddLine, "missing EOD git add line");
+  assert.doesNotMatch(gitAddLine, /assets\/js\/site\.min\.js/);
+  assert.doesNotMatch(gitAddLine, /assets\/css\/site\.min\.css/);
+  assert.match(gitAddLine, /src\/data\/research-data\.js/);
+  assert.match(gitAddLine, /src\/data\/trade-ledger\.json/);
+  assert.match(gitAddLine, /index\.html/);
+});
