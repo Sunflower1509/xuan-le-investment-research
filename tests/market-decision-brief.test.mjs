@@ -38,7 +38,7 @@ const contrast = (a, b) => {
 };
 
 test("Market Decision Brief v2 locks type scale, measure and responsive hierarchy", () => {
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.0.0");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.1.0");
   assert.match(MARKET_DECISION_BRIEF_STANDARD.name, /Typography & Information Hierarchy Hardening v2/);
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.size, "16px");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.measure, "64ch");
@@ -91,15 +91,18 @@ test("latest published market view carries v2 evidence and snapshot-state schema
   );
 });
 
-test("renderer removes date from headline and creates semantic reading layers", () => {
+test("renderer auto-places a semantic DD/MM date before the headline", () => {
   const app = read("src/scripts/app.js");
-  assert.match(app, /class="daily-session-date"/);
-  assert.match(app, /PHIÊN \$\{date\(entry\.date\)\}/);
+  assert.match(app, /const dailyHeadlineDate = \(value\) =>/);
+  assert.match(app, /class="daily-title-line"/);
+  assert.match(app, /<time class="daily-title-date" datetime="\$\{escapeHtml\(entry\.date\)\}">\$\{escapeHtml\(dailyHeadlineDate\(entry\.date\)\)\}<\/time>/);
+  assert.match(app, /class="daily-title-separator" aria-hidden="true">·<\/span>/);
   assert.match(app, /<h3 id="daily-brief-title-\$\{escapeHtml\(entry\.id\)\}">\$\{escapeHtml\(entry\.title\)\}<\/h3>/);
+  assert.equal(app.includes('class="daily-session-date"'), false, "Top strip must not duplicate the session date");
   assert.equal(
     /<h3[^>]*><time/.test(app),
     false,
-    "Session date must remain metadata, not part of the research headline"
+    "Date must remain a separate time element, not part of the heading"
   );
   assert.match(app, /class="daily-executive-thesis"/);
   assert.match(app, />Luận điểm chính<\/h4>/);
@@ -137,16 +140,23 @@ test("v2 CSS locks readable type roles and bounded measures", () => {
   assert.match(css, /font-size:\s*clamp\(32px, 2\.15vw, 36px\)/);
   assert.match(css, /\.daily-snapshot-value[\s\S]*font-family:\s*var\(--font-ui\)/);
   assert.match(css, /font-variant-numeric:\s*tabular-nums/);
+  assert.match(css, /\.daily-title-line \{[\s\S]*grid-template-columns:\s*auto auto minmax\(0, 1fr\)/);
+  assert.match(css, /\.daily-title-date \{[\s\S]*font-size:\s*14px;[\s\S]*font-variant-numeric:\s*tabular-nums/);
   assert.match(css, /@media \(max-width: 760px\)/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.daily-title-line \{[\s\S]*grid-template-columns:\s*1fr/);
 });
 
 test("future VNINDEX prompt and standard reference v2 contract", () => {
   const prompt = read("docs/prompt-nhan-dinh-vnindex-v3.md");
   const standard = read("docs/market-decision-brief-standard.md");
-  assert.match(prompt, /MARKET DECISION BRIEF v2\.0/);
+  assert.match(prompt, /MARKET DECISION BRIEF v2\.1/);
+  assert.match(prompt, /entry\.date/);
+  assert.match(prompt, /DD\/MM/);
   assert.match(prompt, /snapshotState:/);
   assert.match(prompt, /signal: "▼ Dưới MA20 \/ MA200"/);
   assert.match(standard, /Typography & Information Hierarchy Hardening v2/);
   assert.match(standard, /LABEL → SIGNAL → INTERPRETATION/);
   assert.match(standard, /liquidity_below_average/);
+  assert.match(standard, /Headline date contract/);
+  assert.match(standard, /<time datetime="2026-09-24">24\/09<\/time>/);
 });
