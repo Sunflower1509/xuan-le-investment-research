@@ -10,6 +10,271 @@
    */
   const entries = [
     {
+      "id": "market-view-20260925",
+      "date": "2026-09-25",
+      "publishedAt": "25/09/2026 • Sau phiên",
+      "edition": "Số 26",
+      "sentiment": "cautious",
+      "sentimentLabel": "PHÒNG THỦ / CHỜ XÁC NHẬN",
+      "dataStatus": "VNDIRECT + KBS + DNSE + Dữ Liệu Kinh Tế + VNIndex.ai • dữ liệu cuối ngày 25.09.2026 • tự doanh hậu phiên: CHƯA XÁC MINH",
+      "title": "Hồi kỹ thuật nhưng chưa qua cổng xác nhận — tiếp tục ưu tiên phòng thủ",
+      "thesis": "Dữ liệu đến hết phiên 25/09/2026. VN-Index đóng 1.785,11 điểm, tăng 10,02 điểm (+0,56%); VN30 tăng 0,33% lên 1.938,50 điểm, trong khi HNX-Index giảm 0,21% còn 272,21 điểm. Độ rộng HOSE theo bộ dữ liệu đã khóa vẫn âm với 132 mã tăng, 49 mã tham chiếu và 176 mã giảm, có 3 mã giảm sàn. Giá trị khớp lệnh đạt khoảng 11.586,58 tỷ đồng, thấp hơn bình quân 5/10/20 phiên lần lượt khoảng 19,5% / 19,2% / 18,0%. Chỉ số đứng trên MA50 1.773,77 nhưng vẫn dưới MA200 1.795,14 và MA20 1.814,79; trong phiên đã chạm 1.796,29 nhưng không giữ được trên MA200. VN30F1M đóng 1.942,0 điểm, cao hơn VN30 cơ sở 3,5 điểm. Hai nguồn công khai cùng cho thấy khối ngoại vẫn bán ròng nhẹ trên HOSE, nhưng cường độ giảm rõ so với 24/09; dữ liệu tự doanh 25/09 chưa được xác minh hậu phiên nên không dùng để nâng kết luận. Điểm đồng thuận -2/7 và cổng loại trừ đang kích hoạt. TRẠNG THÁI TÁC NGHIỆP: PHÒNG THỦ / CHỜ XÁC NHẬN; không mua đuổi, không tăng đòn bẩy.",
+      "author": "Xuân Lê TVS",
+      "role": "Môi giới và tư vấn đầu tư",
+      "readingTime": "5 phút đọc",
+      "brief": {
+        "thesis": "Phiên 25/09 là nhịp hồi kỹ thuật sau cú giảm mạnh, nhưng chất lượng hồi chưa đủ tốt: độ rộng vẫn nghiêng về phía giảm, thanh khoản thấp hơn nền 20 phiên khoảng 18% và VN-Index chưa lấy lại MA200. Ưu tiên bảo toàn sức mua cho tới khi vùng 1.795–1.800 được vượt bằng độ rộng và thanh khoản tốt hơn.",
+        "evidence": [
+          {
+            "label": "Xu hướng",
+            "signal": "↗ Hồi nhưng dưới MA20 / MA200",
+            "detail": "MA50 1.773,77 • MA200 1.795,14 • MA20 1.814,79.",
+            "text": "Đóng trên MA50 nhưng vẫn dưới MA200 và MA20; đỉnh phiên 1.796,29 cho thấy vùng MA200 đang là cản trực tiếp.",
+            "tone": "warning"
+          },
+          {
+            "label": "Độ rộng",
+            "signal": "▼ 176 giảm / ▲ 132 tăng",
+            "detail": "49 tham chiếu • 3 mã giảm sàn • chỉ số xanh nhưng mặt bằng cổ phiếu chưa đồng thuận.",
+            "text": "132 mã tăng so với 176 mã giảm; độ rộng chưa xác nhận nhịp hồi của chỉ số.",
+            "tone": "negative"
+          },
+          {
+            "label": "Thanh khoản",
+            "signal": "~11.587 tỷ",
+            "detail": "▼ thấp hơn TB20 khoảng 18,0% • lực cầu chưa đủ để xác nhận đảo chiều.",
+            "text": "Giá trị khớp lệnh khoảng 11.587 tỷ, thấp hơn bình quân 20 phiên khoảng 18,0%; nhịp hồi thiếu xác nhận thanh khoản.",
+            "tone": "warning"
+          }
+        ],
+        "actions": [
+          "Không mua đuổi sau nhịp hồi.",
+          "Không tăng đòn bẩy khi VN-Index còn dưới 1.795–1.800.",
+          "Chỉ cân nhắc thăm dò nhỏ sau khi vượt cản và độ rộng, thanh khoản cùng cải thiện."
+        ],
+        "dataIntegrity": {
+          "tone": "warning",
+          "label": "EOD 127/127 đã khóa • khối ngoại hai nguồn cùng chiều • tự doanh 25/09 chưa xác minh hậu phiên",
+          "shortLabel": "EOD đã khóa • tự doanh đang chờ xác minh"
+        }
+      },
+      "metrics": [
+        {
+          "label": "CHỈ SỐ VN",
+          "value": "1.785,11",
+          "change": "+10,02 • +0,56%",
+          "tone": "positive",
+          "direction": "up",
+          "snapshotState": "price_up"
+        },
+        {
+          "label": "ĐỘ RỘNG SÀN TP.HCM",
+          "value": "132 tăng / 176 giảm",
+          "change": "49 tham chiếu • 3 mã giảm sàn",
+          "tone": "negative",
+          "direction": "down",
+          "snapshotState": "breadth_negative",
+          "valueParts": [
+            {
+              "text": "132 tăng",
+              "tone": "positive"
+            },
+            {
+              "text": " / ",
+              "tone": "neutral"
+            },
+            {
+              "text": "176 giảm",
+              "tone": "negative"
+            }
+          ],
+          "changeParts": [
+            {
+              "text": "49 tham chiếu",
+              "tone": "neutral"
+            },
+            {
+              "text": " • ",
+              "tone": "neutral"
+            },
+            {
+              "text": "3 mã giảm sàn",
+              "tone": "negative"
+            }
+          ]
+        },
+        {
+          "label": "GIÁ TRỊ KHỚP LỆNH",
+          "value": "~11.587 tỷ",
+          "change": "−18,0% so với bình quân 20 phiên ~14.130 tỷ",
+          "tone": "warning",
+          "direction": "down",
+          "snapshotState": "liquidity_below_average"
+        },
+        {
+          "label": "VỊ THẾ KỸ THUẬT",
+          "value": "Trên TB50, dưới TB20 / TB200",
+          "change": "TB50 1.773,77 • TB200 1.795,14",
+          "tone": "negative",
+          "direction": "down",
+          "snapshotState": "technical_negative"
+        }
+      ],
+      "backdrop": [
+        "Bản chất phiên 25/09 là hồi kỹ thuật sau cú giảm mạnh ngày 24/09, chưa phải một phiên xác nhận đảo chiều. VN-Index mở tại 1.773,36 điểm, thấp nhất 1.771,57, cao nhất 1.796,29 và đóng 1.785,11. Chỉ số phục hồi tốt khỏi vùng thấp nhưng không giữ được phía trên MA200 1.795,14, cho thấy lực cung vẫn xuất hiện ngay tại vùng cản đầu tiên.",
+        "Thanh khoản là điểm chưa đạt. Giá trị khớp lệnh 11.586,58 tỷ đồng thấp hơn bình quân 5 phiên khoảng 19,5%, bình quân 10 phiên khoảng 19,2% và bình quân 20 phiên khoảng 18,0%; khối lượng khớp cũng thấp hơn bình quân 20 phiên khoảng 11,4%. Giá tăng trong bối cảnh dòng tiền co lại phù hợp với một nhịp hồi thăm dò hơn là một phiên bùng nổ xác nhận.",
+        "Độ rộng tiếp tục tạo veto: HOSE có 132 mã tăng nhưng 176 mã giảm. VN-Index tăng 0,56% trong khi VN30 tăng 0,33%, nghĩa là nhịp hồi không hoàn toàn chỉ do VN30 kéo, nhưng mặt bằng cổ phiếu vẫn chưa đồng thuận. Vì vậy không thể kết luận thị trường đã khỏe lên chỉ dựa vào màu xanh của chỉ số.",
+        "Trong universe 127 mã của website, cảng biển và logistics là nhóm có bằng chứng tích cực rõ nhất: 3/4 mã tăng, trung vị khoảng +1,29%, nổi bật HAH +4,76%, GMD +1,44% và VSC +1,15%. Ngược lại, bất động sản cho thấy độ phân hóa rất mạnh: VHM tăng 5,66% nhưng 6/9 mã trong nhóm bất động sản giảm, trung vị nhóm khoảng -1,83%. Chứng khoán có 9/15 mã giảm; năng lượng có 7/12 mã giảm dù PVP, PVT và BSR tăng. Ngân hàng ở trạng thái giằng co với 6 tăng, 3 tham chiếu và 8 giảm.",
+        "Khối ngoại vẫn bán ròng nhưng áp lực đã hạ rõ so với 24/09. Chuỗi số liệu HOSE/HNX của Dữ Liệu Kinh Tế ghi bán ròng HOSE 123,19 tỷ đồng; VNIndex.ai ước tính khoảng 136,51 tỷ đồng. Hai nguồn chênh nhẹ về phương pháp nhưng cùng cho một kết luận: bán ròng còn tiếp diễn nhưng không còn ở cường độ gần 900 tỷ như phiên trước. Dữ liệu tự doanh 25/09 chưa có số hậu phiên đủ tin cậy tại thời điểm khóa bài nên không dùng số của 24/09 để suy diễn.",
+        "Phái sinh là điểm đỡ tâm lý: VN30F1M đóng 1.942,0 điểm, cao hơn VN30 cơ sở 1.938,5 điểm khoảng 3,5 điểm. Tuy nhiên basis dương không thể bù cho độ rộng âm và thanh khoản yếu. Kết luận tác nghiệp vẫn là PHÒNG THỦ / CHỜ XÁC NHẬN."
+      ],
+      "levels": [
+        {
+          "label": "Hỗ trợ gần / MA50",
+          "value": "1.771–1.775",
+          "note": "MA50 ở 1.773,77; đáy phiên 25/09 là 1.771,57 và đáy phiên 24/09 là 1.770,47. Giữ được vùng này giúp duy trì kịch bản cân bằng nhưng chưa tự động tạo điểm mua."
+        },
+        {
+          "label": "Hỗ trợ mạnh",
+          "value": "1.760–1.770",
+          "note": "Vùng dưới đáy hai phiên gần nhất và sát mốc 1.760 từng được các công ty chứng khoán dùng làm vùng theo dõi hồi kỹ thuật. Đóng dưới 1.770 làm rủi ro ngắn hạn tăng rõ."
+        },
+        {
+          "label": "Kháng cự gần / MA200",
+          "value": "1.795–1.800",
+          "note": "MA200 ở 1.795,14 và đỉnh phiên 25/09 là 1.796,29. Đây là cổng xác nhận đầu tiên; cần đóng trên vùng này cùng độ rộng cải thiện và thanh khoản phục hồi."
+        },
+        {
+          "label": "Kháng cự mạnh / MA20",
+          "value": "1.812–1.816",
+          "note": "MA20 ở 1.814,79. Nếu hồi lên vùng này mà thanh khoản vẫn thấp hoặc số mã giảm tiếp tục áp đảo, ưu tiên giảm phần hàng yếu thay vì mua thêm."
+        },
+        {
+          "label": "Mốc vô hiệu nhịp hồi",
+          "value": "<1.770",
+          "note": "Đóng dưới 1.770 làm mất vùng đỡ của hai phiên gần nhất và MA50; khi đó hủy view hồi kỹ thuật, chuyển sang giảm rủi ro."
+        }
+      ],
+      "confluence": {
+        "score": -2,
+        "maxScore": 7,
+        "factors": [
+          {
+            "factor": "Giá / đường trung bình / cấu trúc",
+            "score": 0,
+            "note": "Chỉ số hồi và đứng trên MA50, nhưng vẫn dưới MA200 và MA20; cấu trúc tốt hơn 24/09 nhưng chưa đảo chiều."
+          },
+          {
+            "factor": "Thanh khoản",
+            "score": -1,
+            "note": "Giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 18,0%; lực cầu chưa xác nhận nhịp hồi."
+          },
+          {
+            "factor": "Độ rộng",
+            "score": -1,
+            "note": "132 mã tăng so với 176 mã giảm; chỉ số xanh nhưng mặt bằng cổ phiếu chưa đồng thuận."
+          },
+          {
+            "factor": "Dòng tiền",
+            "score": -1,
+            "note": "Dòng tiền chỉ nổi bật ở một số nhóm hẹp như cảng biển/logistics; bất động sản, chứng khoán, năng lượng và ngân hàng vẫn phân hóa hoặc nghiêng yếu."
+          },
+          {
+            "factor": "Khối ngoại",
+            "score": 1,
+            "note": "Vẫn bán ròng nhẹ nhưng cường độ giảm mạnh so với 24/09; hai nguồn công khai cùng xác nhận hướng giảm bán."
+          },
+          {
+            "factor": "Chất lượng nhóm dẫn dắt",
+            "score": -1,
+            "note": "Một số mã lớn và nhóm hẹp tăng mạnh nhưng chưa có nhóm dẫn dắt đủ rộng; VHM tăng mạnh trong khi đa số mã bất động sản trong universe theo dõi vẫn giảm."
+          },
+          {
+            "factor": "Vĩ mô / phái sinh",
+            "score": 1,
+            "note": "VN30F1M cao hơn VN30 cơ sở 3,5 điểm, cho thấy kỳ vọng phái sinh bớt bi quan; chưa đủ để phủ định tín hiệu yếu của thị trường cơ sở."
+          }
+        ],
+        "veto": [
+          "Độ rộng yếu: VN-Index tăng nhưng HOSE vẫn có 176 mã giảm, nhiều hơn 132 mã tăng",
+          "Thanh khoản không xác nhận: giá trị khớp lệnh thấp hơn bình quân 20 phiên khoảng 18,0%",
+          "Dòng tiền chưa lan tỏa; một số mã trụ và nhóm hẹp tăng nhưng nhiều nhóm lớn vẫn phân hóa hoặc nghiêng giảm",
+          "Tỷ lệ lợi nhuận/rủi ro từ vùng đóng cửa tới kháng cự gần 1.795–1.800 so với mốc vô hiệu dưới 1.770 thấp hơn chuẩn 2:1"
+        ]
+      },
+      "scenarios": [
+        {
+          "state": "positive",
+          "probability": 20,
+          "if": "VN-Index giữ 1.771–1.775 rồi đóng trên 1.800, độ rộng chuyển dương và giá trị khớp lệnh ít nhất quay về quanh bình quân 20 phiên ~14.130 tỷ đồng",
+          "then": "Chỉ xem xét nâng từ phòng thủ sang thăm dò nhỏ ở cổ phiếu dẫn dắt có nền riêng tốt; không mua đuổi và chỉ nhận giao dịch có tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1."
+        },
+        {
+          "state": "neutral",
+          "probability": 55,
+          "if": "VN-Index dao động trong 1.770–1.800, giữ được MA50 nhưng chưa lấy lại MA200 hoặc thanh khoản tiếp tục thấp",
+          "then": "Duy trì PHÒNG THỦ / CHỜ XÁC NHẬN; giữ tiền mặt cao, chỉ giữ cổ phiếu khỏe hơn thị trường và không mở mua diện rộng."
+        },
+        {
+          "state": "risk_off",
+          "probability": 25,
+          "if": "VN-Index đóng dưới 1.770, độ rộng tiếp tục xấu và các nhóm ngân hàng, chứng khoán, bất động sản đồng loạt yếu đi",
+          "then": "Hạ thêm tỷ trọng cổ phiếu, dừng bắt đáy, xử lý vị thế vi phạm kỷ luật rủi ro và không dùng đòn bẩy để bình quân giá xuống."
+        }
+      ],
+      "playbook": [
+        {
+          "state": "positive",
+          "if": "XÁC NHẬN TÍCH CỰC — giữ vùng 1.771–1.775, đóng trên 1.800, độ rộng chuyển dương và thanh khoản trở lại ít nhất quanh bình quân 20 phiên",
+          "then": "TĂNG DẦN RẤT THẬN TRỌNG. Chỉ thăm dò nhỏ ở cổ phiếu có nền riêng khỏe, điểm mua độc lập và tỷ lệ lợi nhuận/rủi ro tối thiểu 2:1; chưa tăng đòn bẩy."
+        },
+        {
+          "state": "neutral",
+          "if": "GIỮ / CHỜ — VN-Index duy trì 1.770–1.800 nhưng chưa lấy lại MA200 hoặc thanh khoản/độ rộng vẫn yếu",
+          "then": "GIỮ TIỀN / PHÒNG THỦ. Không mua đuổi, không bắt đáy diện rộng; ưu tiên rà soát vị thế đang nắm và giữ sức mua cho tín hiệu rõ hơn."
+        },
+        {
+          "state": "risk_off",
+          "if": "GIẢM RỦI RO — VN-Index đóng dưới 1.770 hoặc độ rộng xấu thêm trong khi nhóm trụ mất lực đỡ",
+          "then": "HẠ TỶ TRỌNG. Dừng mở mới, xử lý các vị thế yếu hoặc vi phạm ngưỡng rủi ro; không bình quân giá xuống bằng đòn bẩy."
+        }
+      ],
+      "focus": "PHÒNG THỦ / CHỜ XÁC NHẬN • Điểm đồng thuận -2/7 • veto: độ rộng âm + thanh khoản thấp hơn TB20 ~18% + dòng tiền chưa lan tỏa + R:R tới cản gần <2:1 • MA50 1.773,77 • MA200 1.795,14 • MA20 1.814,79 • giá trị khớp lệnh ~11.587 tỷ • VN30F1M basis +3,5 điểm • khối ngoại bán ròng nhẹ, cường độ giảm • không tăng đòn bẩy",
+      "inference": "Dữ liệu cuối ngày 25/09/2026 đã vượt cổng dữ liệu với 127/127 mã; toàn bộ 127 mã được KBS đúng ngày xác nhận giá đóng cửa trùng VNDIRECT khi CafeF chưa có dòng EOD đúng ngày. VNDIRECT khóa VN-Index 1.785,11 (+0,56%), VN30 1.938,50 (+0,33%), HNX-Index 272,21 (-0,21%) và độ rộng HOSE 132 tăng/49 tham chiếu/176 giảm/3 sàn. Chuỗi 222 phiên cho MA20 1.814,79, MA50 1.773,77 và MA200 1.795,14; giá trị khớp lệnh 11.586,58 tỷ đồng so với bình quân 5 phiên 14.396,91 tỷ, bình quân 10 phiên 14.339,29 tỷ và bình quân 20 phiên 14.130,26 tỷ. DNSE cho thấy VN30F1M đóng 1.942,0 điểm, cao hơn VN30 cơ sở 3,5 điểm. Khối ngoại được hai nguồn công khai xác nhận vẫn bán ròng nhẹ trên HOSE, với mức lần lượt khoảng 123,19 tỷ và 136,51 tỷ do khác phương pháp tổng hợp; cường độ bán giảm mạnh so với 24/09. Tự doanh 25/09 chưa có số hậu phiên đủ tin cậy tại thời điểm khóa. Điểm đồng thuận = -2/7 với cấu phần 0,-1,-1,-1,+1,-1,+1. Cổng loại trừ có hiệu lực; kết luận: PHÒNG THỦ / CHỜ XÁC NHẬN.",
+      "limitations": [
+        "Dữ liệu tự doanh ngày 25/09 chưa được nguồn hậu phiên cập nhật đủ tại thời điểm khóa bài; không sử dụng số tự doanh 24/09 để suy diễn.",
+        "Hai nguồn công khai về khối ngoại cùng xác nhận bán ròng nhẹ trên HOSE nhưng khác nhau khoảng 13 tỷ đồng do phương pháp/độ trễ tổng hợp; bài dùng hướng dòng tiền và mức độ giảm bán, không ép hai số thành một.",
+        "Bản đồ ngành được tính trên universe 127 mã đang theo dõi của website, không đại diện cho toàn bộ số mã niêm yết; chỉ nêu các nhóm có bằng chứng đủ rõ trong universe này."
+      ],
+      "zaloPost": "Phiên 25/09 xanh điểm nhưng chưa phải lúc để vội nâng rủi ro. VN-Index đóng 1.785,11 điểm, tăng 0,56%, song HOSE vẫn có 176 mã giảm so với 132 mã tăng. Đây là điểm phải nhìn thẳng: chỉ số hồi, nhưng mặt bằng cổ phiếu chưa hồi tương xứng.\n\nThanh khoản cũng chưa xác nhận. Giá trị khớp lệnh khoảng 11,59 nghìn tỷ đồng, thấp hơn bình quân 20 phiên khoảng 18%. VN-Index đã đứng lại trên MA50 quanh 1.773,77 nhưng vẫn bị chặn tại MA200 quanh 1.795,14; trong phiên lên 1.796,29 rồi lùi xuống. Vì vậy tôi coi đây là nhịp hồi kỹ thuật, chưa phải tín hiệu đảo chiều.\n\nDòng tiền có điểm sáng ở cảng biển và logistics, trong khi bất động sản phân hóa rất mạnh: VHM tăng tốt nhưng đa số mã bất động sản trong bộ theo dõi vẫn giảm. Chứng khoán và năng lượng cũng chưa cho thấy sự đồng thuận đủ rộng. Khối ngoại vẫn bán ròng nhẹ nhưng áp lực giảm rõ so với phiên trước; phái sinh duy trì basis dương 3,5 điểm, giúp tâm lý bớt bi quan nhưng chưa đủ để bỏ trạng thái phòng thủ.\n\nKế hoạch phiên tới rất rõ: nếu VN-Index giữ 1.771–1.775 và đóng trên 1.800 với độ rộng chuyển dương, thanh khoản trở lại ít nhất quanh 14,1 nghìn tỷ đồng, khi đó mới xem xét thăm dò nhỏ ở cổ phiếu khỏe riêng. Nếu vẫn dao động dưới 1.800 với thanh khoản thấp, tiếp tục giữ tiền và không mua đuổi. Nếu đóng dưới 1.770, hạ rủi ro và dừng bắt đáy.\n\nGiữ vốn và giữ quyền chủ động quan trọng hơn cố đoán đáy. Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.",
+      "sources": [
+        {
+          "label": "VNDIRECT Finfo — chỉ số và độ rộng EOD 25/09/2026",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-09-25&size=500"
+        },
+        {
+          "label": "VNDIRECT Finfo — chuỗi VN-Index tính MA và nền thanh khoản",
+          "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-25&size=500"
+        },
+        {
+          "label": "DNSE — dữ liệu VN30F1M 25/09/2026",
+          "url": "https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=1790269200&to=1790355600"
+        },
+        {
+          "label": "Dữ Liệu Kinh Tế — mua/bán ròng khối ngoại HOSE",
+          "url": "https://dulieukinhte.com/du-lieu-dong/mua-ban-rong-khoi-ngoai-hose-36787"
+        },
+        {
+          "label": "VNIndex.ai — khối ngoại và cổ phiếu ảnh hưởng VN-Index 25/09/2026",
+          "url": "https://vnindex.ai/vnindex-hom-nay"
+        },
+        {
+          "label": "VietnamBiz — trang thị trường, tại thời điểm khóa chưa có dữ liệu tự doanh 25/09",
+          "url": "https://vietnambiz.vn/chung-khoan.htm"
+        }
+      ]
+    },
+    {
       "id": "market-view-20260924",
       "date": "2026-09-24",
       "publishedAt": "24/09/2026 • Sau phiên",
