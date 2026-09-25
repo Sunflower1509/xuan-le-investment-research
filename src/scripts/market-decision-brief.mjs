@@ -1,5 +1,5 @@
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
-  version: "2.0.0",
+  version: "2.1.0",
   effectiveDate: "2026-09-25",
   name: "Daily Market Research Brief — Typography & Information Hierarchy Hardening v2",
   layout: Object.freeze({
@@ -10,6 +10,7 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
   }),
   typography: Object.freeze({
     headline: Object.freeze({ min: "32px", preferred: "2.15vw", max: "36px", lineHeight: 1.14, family: "editorial" }),
+    headlineDate: Object.freeze({ format: "DD/MM", size: "14px", lineHeight: 1.35, family: "ui", position: "before-headline", source: "entry.date" }),
     thesis: Object.freeze({ size: "16px", lineHeight: 1.58, measure: "64ch", family: "ui" }),
     evidence: Object.freeze({ size: "14px", lineHeight: 1.48, family: "ui" }),
     meta: Object.freeze({ size: "11px", lineHeight: 1.4, family: "ui" }),
