@@ -166,8 +166,9 @@ test("cache-token updater chấp nhận URL site.min.js trần sau frontend clea
     + '<p data-role="coverage-eod-label">Action Radar • EOD 24.09.2026</p>\n'
     + '<strong data-role="coverage-lock-label">Giá khóa 24.09</strong>';
   const { updated, token } = updateCacheTokenHtml(html, "2026-09-25");
-  assert.equal(token, "assets/js/site.min.js?v=20260925-eod-auto");
-  assert.match(updated, /assets\/js\/site\.min\.js\?v=20260925-eod-auto/);
+  assert.equal(token, "assets/js/site.min.js");
+  assert.match(updated, /assets\/js\/site\.min\.js/);
+  assert.doesNotMatch(updated, /site\.min\.js\?v=/);
   assert.match(updated, /giá đóng cửa 25\/09\/2026/);
   assert.match(updated, /Action Radar • EOD 25\.09\.2026/);
   assert.match(updated, /Giá khóa 25\.09/);
@@ -179,7 +180,8 @@ test("cache-token updater thay token cũ nhưng fail-closed khi có nhiều site
     + '<p data-role="coverage-eod-label">Action Radar • EOD 24.09.2026</p>\n'
     + '<strong data-role="coverage-lock-label">Giá khóa 24.09</strong>';
   const { updated } = updateCacheTokenHtml(base, "2026-09-25");
-  assert.match(updated, /site\.min\.js\?v=20260925-eod-auto/);
+  assert.match(updated, /site\.min\.js/);
+  assert.doesNotMatch(updated, /site\.min\.js\?v=/);
   assert.throws(
     () => updateCacheTokenHtml(base + '\n<script src="assets/js/site.min.js"></script>', "2026-09-25"),
     /Kỳ vọng đúng 1 JS site asset/
