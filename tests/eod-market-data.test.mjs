@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision } from "../scripts/update-eod-market-data.mjs";
+import { updateCacheTokenHtml } from "../scripts/update-cache-token.mjs";
 
 const date = "2026-08-20";
 
@@ -156,4 +157,31 @@ test("không bỏ qua lần chạy cùng ngày khi coverage mới chưa được
   assert.equal(isCoverageCurrent([...current, { ticker: "BBB" }], date), false);
   assert.equal(isCoverageCurrent([{ ...current[0], priceSourceSecondary: null }], date), false);
   assert.equal(isCoverageCurrent([{ ...current[0], volume: null }], date), false);
+});
+
+
+test("cache-token updater chấp nhận URL site.min.js trần sau frontend cleanup", () => {
+  const html = '<meta name="description" content="Institutional Research Terminal: giá đóng cửa 24/09/2026.">\n'
+    + '<script defer src="assets/js/site.min.js"></script>\n'
+    + '<p data-role="coverage-eod-label">Action Radar • EOD 24.09.2026</p>\n'
+    + '<strong data-role="coverage-lock-label">Giá khóa 24.09</strong>';
+  const { updated, token } = updateCacheTokenHtml(html, "2026-09-25");
+  assert.equal(token, "assets/js/site.min.js?v=20260925-eod-auto");
+  assert.match(updated, /assets\/js\/site\.min\.js\?v=20260925-eod-auto/);
+  assert.match(updated, /giá đóng cửa 25\/09\/2026/);
+  assert.match(updated, /Action Radar • EOD 25\.09\.2026/);
+  assert.match(updated, /Giá khóa 25\.09/);
+});
+
+test("cache-token updater thay token cũ nhưng fail-closed khi có nhiều site asset", () => {
+  const base = '<meta name="description" content="Institutional Research Terminal: giá đóng cửa 24/09/2026.">\n'
+    + '<script defer src="assets/js/site.min.js?v=20260924-eod-auto"></script>\n'
+    + '<p data-role="coverage-eod-label">Action Radar • EOD 24.09.2026</p>\n'
+    + '<strong data-role="coverage-lock-label">Giá khóa 24.09</strong>';
+  const { updated } = updateCacheTokenHtml(base, "2026-09-25");
+  assert.match(updated, /site\.min\.js\?v=20260925-eod-auto/);
+  assert.throws(
+    () => updateCacheTokenHtml(base + '\n<script src="assets/js/site.min.js"></script>', "2026-09-25"),
+    /Kỳ vọng đúng 1 JS site asset/
+  );
 });
