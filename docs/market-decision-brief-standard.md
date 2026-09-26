@@ -1,9 +1,7 @@
-# Daily Market Research Brief — Typography & Information Hierarchy Hardening v2
+# Daily Market Research Brief v2.2 — Semantic Data Color & Layout Consolidation
 
-> **Next approved design:** v2.2 is frozen for implementation in `docs/daily-market-research-brief-v2.2-spec.md`. Production remains v2.1 until the full v2.2 implementation passes regression and cross-browser visual QA.
-
-**Version:** 2.1.0  
-**Effective:** 25/09/2026  
+**Version:** 2.2.0  
+**Effective:** 26/09/2026  
 **Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
 **Status:** LOCKED
 
@@ -32,18 +30,18 @@ Ba lớp không được trộn:
 
 | Role | Font | Size | Line-height | Measure |
 |---|---|---:|---:|---:|
-| Headline | Source Serif XL | 32–36px | 1.14 | 30ch |
+| Headline | Source Serif XL | 31–35px | 1.14 | 34ch |
 | Thesis | Manrope XL | 16px | 1.58 | 64ch |
 | Evidence signal | Manrope XL | 14px | 1.40 | n/a |
 | Evidence detail | Manrope XL | 13px | 1.48 | bounded by column |
 | Snapshot label | Manrope XL | 10.5–12px | 1.35 | n/a |
-| Snapshot metric | Manrope XL | 24px | 1.16 | tabular nums |
+| Snapshot metric | Manrope XL | 22px | 1.16 | tabular nums |
 | Metadata | Manrope XL | 11px | 1.40 | n/a |
 
 Quy tắc:
 - Serif chỉ dùng cho headline editorial chính.
 - Sans-serif dùng cho thesis, evidence, numbers, labels, metadata và action.
-- Ngày phiên phải hiển thị **ngay trước headline** theo dạng `DD/MM ·`, nhưng vẫn là phần tử `<time>` riêng, không phải nội dung của heading.
+- Ngày phiên phải hiển thị như **date kicker riêng ngay trên headline** theo dạng `DD/MM`; vẫn là phần tử `<time>` riêng, không phải nội dung của heading.
 - Giá trị hiển thị phải được sinh tự động từ `entry.date`; tuyệt đối không hard-code ngày theo từng phiên.
 - Top metadata không lặp lại ngày; chỉ giữ regime và `EOD`.
 - Body text dài phải giữ line length khoảng 45–90 ký tự; thesis target khoảng 64ch.
@@ -65,7 +63,8 @@ Không tự thêm spacing ngẫu nhiên cho từng phiên. Khoảng cách phải
 Mọi bản nhận định mới phải tự động tạo dạng:
 
 ```
-24/09 · Thủng vùng nền quan trọng — ưu tiên...
+24/09
+Thủng vùng nền quan trọng
 ```
 
 từ dữ liệu nguồn:
@@ -79,13 +78,12 @@ Markup semantic:
 ```html
 <div class="daily-title-line">
   <time datetime="2026-09-24">24/09</time>
-  <span aria-hidden="true">·</span>
   <h3>...</h3>
 </div>
 ```
 
 Quy tắc:
-- Desktop/tablet: ngày đứng trước headline trên cùng reading line.
+- Desktop/tablet: ngày nằm trên một dòng nhỏ ngay trước headline; không chiếm chiều ngang của headline.
 - Mobile: ngày nằm trên một dòng nhỏ ngay trước headline.
 - `<time datetime>` giữ ngày ISO đầy đủ để machine-readable.
 - Không lặp `PHIÊN DD/MM/YYYY` ở top strip.
@@ -95,7 +93,7 @@ Quy tắc:
 ## 4. Desktop layout
 
 - Archive rail: khoảng **220px**.
-- Main brief: `minmax(0,1fr) + 360px snapshot`.
+- Main brief: `minmax(0,1fr) + 340px snapshot`.
 - Headline tối đa khoảng 2 dòng.
 - Decision Bar nằm **ngay sau evidence trong cột narrative** để tránh khoảng trắng chết khi Snapshot cao hơn.
 - Snapshot không được lấn át thesis bằng font hoặc màu quá mạnh.
@@ -112,22 +110,32 @@ Nội dung:
 - Không lặp lại toàn bộ raw data.
 - Không dài quá khoảng 64ch.
 
-## 6. Evidence Strip
+## 6. Evidence Matrix v2.2
 
-Mỗi evidence item bắt buộc theo:
+Mỗi evidence item bắt buộc theo cấu trúc 2 cột:
 
 ```
-LABEL → SIGNAL → INTERPRETATION
+LABEL | PRIMARY FACT
+      | SECONDARY INTERPRETATION
 ```
 
 Khuyến nghị schema:
 
 ```js
 {
-  label: "Xu hướng",
-  signal: "▼ Dưới MA20 / MA200",
-  detail: "MA20 1.815,11 • MA200 1.794,80 • sát MA50 1.774,20.",
-  text: "Fallback đầy đủ",
+  label: "Độ rộng",
+  signal: "▼ 176 giảm / ▲ 132 tăng",
+  detail: "49 tham chiếu • 3 mã giảm sàn",
+  signalParts: [
+    { text: "▼ 176 giảm", tone: "negative" },
+    { text: " / ", tone: "neutral" },
+    { text: "▲ 132 tăng", tone: "positive" }
+  ],
+  detailParts: [
+    { text: "49 tham chiếu", tone: "neutral" },
+    { text: " • ", tone: "neutral" },
+    { text: "3 mã giảm sàn", tone: "negative" }
+  ],
   tone: "negative"
 }
 ```
@@ -177,6 +185,22 @@ Cấm:
 - dùng badge “Giảm” cho liquidity chỉ vì giá trị thấp hơn bình quân;
 - dùng nền bão hòa mạnh cho khối lớn.
 
+## 8A. Atomic semantic color contract
+
+Màu phải áp dụng ở **cấp từng giá trị**, không áp nguyên màu của row lên tất cả child values.
+
+Ví dụ:
+- `▲ 132 tăng` → positive/green.
+- `▼ 176 giảm` → negative/red.
+- `−18,0%` → negative/red.
+- `49 tham chiếu` → neutral/slate.
+- badge `Dưới TB20` → warning/amber.
+
+Data direction và assessment state là hai khái niệm khác nhau. Một row warning vẫn có thể chứa child value negative.
+
+Renderer dùng chung phải hỗ trợ:
+`valueParts`, `changeParts`, `signalParts`, `detailParts`.
+
 ## 9. Archive navigator
 
 - Selected: `MỚI NHẤT + ngày + title + trạng thái`.
@@ -209,10 +233,10 @@ Một bản đạt v2 khi:
 - ngày không nằm trong headline;
 - headline desktop khoảng 2 dòng;
 - thesis có heading semantic và max-width 64ch;
-- evidence đúng `label → signal → interpretation`;
+- evidence đúng `label | primary fact + secondary interpretation` và không còn label `FACT → INTERPRETATION`;
 - decision bar nằm ngay dưới evidence;
 - snapshot badge dùng semantic state đúng loại metric;
-- snapshot number dùng sans-serif + tabular nums;
+- snapshot number dùng sans-serif + tabular nums; metric desktop khoảng 22px;
 - archive không lặp edition badge trên mọi item;
 - mobile không overflow ngang;
 - audit/source vẫn truy cập đầy đủ;
