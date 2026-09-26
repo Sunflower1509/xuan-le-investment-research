@@ -23,12 +23,25 @@
       "role": "Môi giới và tư vấn đầu tư",
       "readingTime": "5 phút đọc",
       "brief": {
-        "thesis": "Phiên 25/09 là nhịp hồi kỹ thuật sau cú giảm mạnh, nhưng chất lượng hồi chưa đủ tốt: độ rộng vẫn nghiêng về phía giảm, thanh khoản thấp hơn nền 20 phiên khoảng 18% và VN-Index chưa lấy lại MA200. Ưu tiên bảo toàn sức mua cho tới khi vùng 1.795–1.800 được vượt bằng độ rộng và thanh khoản tốt hơn.",
+        "headline": "Hồi kỹ thuật nhưng chưa qua cổng xác nhận",
+        "thesis": "Phiên 25/09 mới là nhịp hồi kỹ thuật, chưa đủ điều kiện xác nhận đảo chiều. Độ rộng vẫn âm, thanh khoản thấp hơn TB20 khoảng 18% và VN-Index chưa lấy lại MA200.",
         "evidence": [
           {
             "label": "Xu hướng",
-            "signal": "↗ Hồi nhưng dưới MA20 / MA200",
-            "detail": "MA50 1.773,77 • MA200 1.795,14 • MA20 1.814,79.",
+            "signal": "↗ Hồi kỹ thuật • ▼ dưới MA20 / MA200",
+            "detail": "▲ trên MA50 1.773,77 • ▼ dưới MA200 1.795,14 • ▼ dưới MA20 1.814,79.",
+            "signalParts": [
+              { "text": "↗ Hồi kỹ thuật", "tone": "warning" },
+              { "text": " • ", "tone": "neutral" },
+              { "text": "▼ dưới MA20 / MA200", "tone": "negative" }
+            ],
+            "detailParts": [
+              { "text": "▲ trên MA50 1.773,77", "tone": "positive" },
+              { "text": " • ", "tone": "neutral" },
+              { "text": "▼ dưới MA200 1.795,14", "tone": "negative" },
+              { "text": " • ", "tone": "neutral" },
+              { "text": "▼ dưới MA20 1.814,79", "tone": "negative" }
+            ],
             "text": "Đóng trên MA50 nhưng vẫn dưới MA200 và MA20; đỉnh phiên 1.796,29 cho thấy vùng MA200 đang là cản trực tiếp.",
             "tone": "warning"
           },
@@ -36,13 +49,32 @@
             "label": "Độ rộng",
             "signal": "▼ 176 giảm / ▲ 132 tăng",
             "detail": "49 tham chiếu • 3 mã giảm sàn • chỉ số xanh nhưng mặt bằng cổ phiếu chưa đồng thuận.",
+            "signalParts": [
+              { "text": "▼ 176 giảm", "tone": "negative" },
+              { "text": " / ", "tone": "neutral" },
+              { "text": "▲ 132 tăng", "tone": "positive" }
+            ],
+            "detailParts": [
+              { "text": "49 tham chiếu", "tone": "neutral" },
+              { "text": " • ", "tone": "neutral" },
+              { "text": "3 mã giảm sàn", "tone": "negative" },
+              { "text": " • chỉ số xanh nhưng mặt bằng cổ phiếu chưa đồng thuận.", "tone": "neutral" }
+            ],
             "text": "132 mã tăng so với 176 mã giảm; độ rộng chưa xác nhận nhịp hồi của chỉ số.",
             "tone": "negative"
           },
           {
             "label": "Thanh khoản",
-            "signal": "~11.587 tỷ",
-            "detail": "▼ thấp hơn TB20 khoảng 18,0% • lực cầu chưa đủ để xác nhận đảo chiều.",
+            "signal": "~11.587 tỷ • ▼ −18,0% vs TB20",
+            "detail": "Lực cầu chưa đủ để xác nhận đảo chiều.",
+            "signalParts": [
+              { "text": "~11.587 tỷ", "tone": "neutral" },
+              { "text": " • ", "tone": "neutral" },
+              { "text": "▼ −18,0% vs TB20", "tone": "negative" }
+            ],
+            "detailParts": [
+              { "text": "Lực cầu chưa đủ để xác nhận đảo chiều.", "tone": "neutral" }
+            ],
             "text": "Giá trị khớp lệnh khoảng 11.587 tỷ, thấp hơn bình quân 20 phiên khoảng 18,0%; nhịp hồi thiếu xác nhận thanh khoản.",
             "tone": "warning"
           }
@@ -63,6 +95,11 @@
           "label": "CHỈ SỐ VN",
           "value": "1.785,11",
           "change": "+10,02 • +0,56%",
+          "changeParts": [
+            { "text": "+10,02", "tone": "positive" },
+            { "text": " • ", "tone": "neutral" },
+            { "text": "+0,56%", "tone": "positive" }
+          ],
           "tone": "positive",
           "direction": "up",
           "snapshotState": "price_up"
@@ -106,7 +143,14 @@
         {
           "label": "GIÁ TRỊ KHỚP LỆNH",
           "value": "~11.587 tỷ",
+          "valueParts": [
+            { "text": "~11.587 tỷ", "tone": "neutral" }
+          ],
           "change": "−18,0% so với bình quân 20 phiên ~14.130 tỷ",
+          "changeParts": [
+            { "text": "−18,0%", "tone": "negative" },
+            { "text": " so với bình quân 20 phiên ~14.130 tỷ", "tone": "neutral" }
+          ],
           "tone": "warning",
           "direction": "down",
           "snapshotState": "liquidity_below_average"
@@ -114,7 +158,17 @@
         {
           "label": "VỊ THẾ KỸ THUẬT",
           "value": "Trên TB50, dưới TB20 / TB200",
+          "valueParts": [
+            { "text": "Trên TB50", "tone": "positive" },
+            { "text": ", ", "tone": "neutral" },
+            { "text": "dưới TB20 / TB200", "tone": "negative" }
+          ],
           "change": "TB50 1.773,77 • TB200 1.795,14",
+          "changeParts": [
+            { "text": "TB50 1.773,77", "tone": "neutral" },
+            { "text": " • ", "tone": "neutral" },
+            { "text": "TB200 1.795,14", "tone": "neutral" }
+          ],
           "tone": "negative",
           "direction": "down",
           "snapshotState": "technical_negative"

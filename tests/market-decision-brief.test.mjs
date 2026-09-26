@@ -37,17 +37,20 @@ const contrast = (a, b) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-test("Market Decision Brief v2 locks type scale, measure and responsive hierarchy", () => {
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.1.0");
-  assert.match(MARKET_DECISION_BRIEF_STANDARD.name, /Typography & Information Hierarchy Hardening v2/);
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.size, "16px");
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.measure, "64ch");
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.metric.family, "ui");
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.measures.headline, "30ch");
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layout.shellArchive, "220px");
+test("Market Decision Brief runtime contract is v2.2", () => {
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.2.0");
+  assert.match(MARKET_DECISION_BRIEF_STANDARD.name, /Semantic Data Color & Layout Consolidation/);
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.headlineDate.position, "kicker-above-headline");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.metric.size, "22px");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layout.desktop, "analysis:minmax(0,1fr) + snapshot:340px");
+  assert.deepEqual(
+    [...MARKET_DECISION_BRIEF_STANDARD.semanticParts.supported],
+    ["valueParts", "changeParts", "signalParts", "detailParts"]
+  );
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.semanticParts.inheritance, "atomic-value-over-row-tone");
 });
 
-test("semantic market palette meets WCAG AA normal-text contrast on white", () => {
+test("semantic palette meets WCAG AA normal-text contrast on white", () => {
   const white = "#FFFFFF";
   for (const key of ["positive", "negative", "warning", "neutral", "ink"]) {
     const color = MARKET_DECISION_BRIEF_STANDARD.palette[key];
@@ -55,108 +58,111 @@ test("semantic market palette meets WCAG AA normal-text contrast on white", () =
   }
 });
 
-test("direction metadata never relies on color alone", () => {
-  const up = marketDirectionMeta("up");
-  const down = marketDirectionMeta("down");
-  assert.equal(up.symbol, "▲");
-  assert.equal(up.label, "Tăng");
-  assert.equal(down.symbol, "▼");
-  assert.equal(down.label, "Giảm");
+test("direction metadata keeps non-color cues", () => {
+  assert.deepEqual(
+    { symbol: marketDirectionMeta("up").symbol, label: marketDirectionMeta("up").label },
+    { symbol: "▲", label: "Tăng" }
+  );
+  assert.deepEqual(
+    { symbol: marketDirectionMeta("down").symbol, label: marketDirectionMeta("down").label },
+    { symbol: "▼", label: "Giảm" }
+  );
 });
 
-test("snapshot state metadata differentiates price breadth liquidity and technical state", () => {
-  assert.equal(marketSnapshotStateMeta("price_down").label, "Giảm");
+test("snapshot state differentiates price breadth liquidity and technical assessment", () => {
+  assert.equal(marketSnapshotStateMeta("price_up").tone, "positive");
   assert.equal(marketSnapshotStateMeta("breadth_negative").label, "Độ rộng tiêu cực");
-  assert.equal(marketSnapshotStateMeta("liquidity_below_average").label, "Dưới TB20");
   assert.equal(marketSnapshotStateMeta("liquidity_below_average").tone, "warning");
   assert.equal(marketSnapshotStateMeta("technical_negative").label, "Kỹ thuật yếu");
 });
 
-test("latest published market view carries v2 evidence and snapshot-state schema", () => {
+test("25 Sep entry carries v2.2 concise headline and atomic semantic parts", () => {
   const daily = loadDaily();
-  const entry = daily.entries.find((item) => item.date === "2026-09-24");
-  assert.ok(entry, "Missing 24/09/2026 market view");
+  const entry = daily.entries.find((item) => item.date === "2026-09-25");
+  assert.ok(entry, "Missing 25/09/2026 market view");
   const validation = validateMarketDecisionBrief(entry);
   assert.equal(validation.applies, true);
   assert.equal(validation.valid, true, `Missing: ${validation.missing.join(", ")}`);
+  assert.equal(entry.brief.headline, "Hồi kỹ thuật nhưng chưa qua cổng xác nhận");
   assert.equal(entry.brief.evidence.length, 3);
-  assert.equal(entry.brief.actions.length, 3);
   entry.brief.evidence.forEach((item) => {
-    assert.ok(item.signal, `${item.label} must have a scan-friendly signal`);
-    assert.ok(item.detail, `${item.label} must have a separate interpretation/detail`);
+    assert.ok(Array.isArray(item.signalParts) && item.signalParts.length > 0, `${item.label} missing signalParts`);
+    assert.ok(Array.isArray(item.detailParts) && item.detailParts.length > 0, `${item.label} missing detailParts`);
   });
-  assert.deepEqual(
-    Array.from(entry.metrics.map((metric) => metric.snapshotState)),
-    ["price_down", "breadth_negative", "liquidity_below_average", "technical_negative"]
-  );
+
+  const breadth = entry.brief.evidence.find((item) => item.label === "Độ rộng");
+  assert.equal(breadth.signalParts[0].text, "▼ 176 giảm");
+  assert.equal(breadth.signalParts[0].tone, "negative");
+  assert.equal(breadth.signalParts[2].text, "▲ 132 tăng");
+  assert.equal(breadth.signalParts[2].tone, "positive");
+  assert.equal(breadth.detailParts[0].tone, "neutral");
+  assert.equal(breadth.detailParts[2].tone, "negative");
+
+  const liquidityMetric = entry.metrics.find((item) => item.label === "GIÁ TRỊ KHỚP LỆNH");
+  assert.equal(liquidityMetric.snapshotState, "liquidity_below_average");
+  assert.equal(liquidityMetric.changeParts[0].text, "−18,0%");
+  assert.equal(liquidityMetric.changeParts[0].tone, "negative");
+  assert.equal(liquidityMetric.tone, "warning");
+
+  const technical = entry.metrics.find((item) => item.label === "VỊ THẾ KỸ THUẬT");
+  assert.equal(technical.valueParts[0].tone, "positive");
+  assert.equal(technical.valueParts[2].tone, "negative");
 });
 
-test("renderer auto-places a semantic DD/MM date before the headline", () => {
+test("renderer uses one semantic-parts function for evidence and snapshot", () => {
   const app = read("src/scripts/app.js");
-  assert.match(app, /const dailyHeadlineDate = \(value\) =>/);
-  assert.match(app, /class="daily-title-line"/);
-  assert.match(app, /<time class="daily-title-date" datetime="\$\{escapeHtml\(entry\.date\)\}">\$\{escapeHtml\(dailyHeadlineDate\(entry\.date\)\)\}<\/time>/);
-  assert.match(app, /class="daily-title-separator" aria-hidden="true">·<\/span>/);
-  assert.match(app, /<h3 id="daily-brief-title-\$\{escapeHtml\(entry\.id\)\}">\$\{escapeHtml\(entry\.title\)\}<\/h3>/);
-  assert.equal(app.includes('class="daily-session-date"'), false, "Top strip must not duplicate the session date");
-  assert.equal(
-    /<h3[^>]*><time/.test(app),
-    false,
-    "Date must remain a separate time element, not part of the heading"
-  );
-  assert.match(app, /class="daily-executive-thesis"/);
-  assert.match(app, />Luận điểm chính<\/h4>/);
-  assert.match(app, /class="daily-evidence-strip"/);
-  assert.match(app, />Bằng chứng thị trường<\/h4>/);
-  assert.match(app, /class="daily-reading-signal"/);
-  assert.match(app, /class="daily-decision-bar/);
-  assert.match(app, /marketSnapshotStateMeta\(metric\.snapshotState, metric\.direction, metric\.tone\)/);
+  assert.match(app, /const dailyToneCssClass = \(value\) =>/);
+  assert.match(app, /const dailySemanticPartsHtml = \(parts, fallback, fallbackTone = "neutral"\) =>/);
+  assert.equal(app.includes("dailyMetricPartsHtml"), false);
+  assert.match(app, /dailySemanticPartsHtml\(item\.signalParts, item\.signal \|\| item\.text, item\.tone\)/);
+  assert.match(app, /dailySemanticPartsHtml\(item\.detailParts, item\.detail \|\| item\.text, "neutral"\)/);
+  assert.match(app, /dailySemanticPartsHtml\(metric\.valueParts, metric\.value, tone\)/);
+  assert.match(app, /dailySemanticPartsHtml\(metric\.changeParts, metric\.change, stateMeta\.tone\)/);
 });
 
-test("decision bar is nested in the narrative before the snapshot closes", () => {
+test("headline date is a vertical kicker and action-like suffix is guarded", () => {
   const app = read("src/scripts/app.js");
-  const narrativeStart = app.indexOf('class="daily-brief-narrative"');
-  const decision = app.indexOf('class="daily-decision-bar', narrativeStart);
-  const narrativeEnd = app.indexOf("</section>", decision);
-  const snapshot = app.indexOf('class="daily-market-snapshot"', narrativeStart);
-  assert.ok(narrativeStart >= 0 && decision > narrativeStart);
-  assert.ok(decision < snapshot, "Decision bar should fill the narrative column before the snapshot");
-  assert.ok(narrativeEnd < snapshot);
-});
-
-test("archive renderer removes repeated edition decoration from non-latest items", () => {
-  const app = read("src/scripts/app.js");
-  assert.match(app, /index === 0 \? '<i>MỚI NHẤT<\/i>' : ""/);
-  assert.equal(app.includes('escapeHtml(item.edition)'), false);
-  assert.equal(app.includes('• BẢN NHANH'), false);
-});
-
-test("v2 CSS locks readable type roles and bounded measures", () => {
   const css = read("src/styles/market-decision-brief.css");
-  assert.match(css, /--brief-body:\s*16px/);
-  assert.match(css, /--brief-metric:\s*24px/);
-  assert.match(css, /grid-template-columns:\s*minmax\(0, 1fr\) 360px/);
-  assert.match(css, /max-width:\s*64ch/);
-  assert.match(css, /font-size:\s*clamp\(32px, 2\.15vw, 36px\)/);
-  assert.match(css, /\.daily-snapshot-value[\s\S]*font-family:\s*var\(--font-ui\)/);
-  assert.match(css, /font-variant-numeric:\s*tabular-nums/);
-  assert.match(css, /\.daily-title-line \{[\s\S]*grid-template-columns:\s*auto auto minmax\(0, 1fr\)/);
-  assert.match(css, /\.daily-title-date \{[\s\S]*font-size:\s*14px;[\s\S]*font-variant-numeric:\s*tabular-nums/);
-  assert.match(css, /@media \(max-width: 760px\)/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.daily-title-line \{[\s\S]*grid-template-columns:\s*1fr/);
+  assert.match(app, /const dailyHeadlineTitle = \(entry\) =>/);
+  assert.match(app, /const actionLike = \/phong thu\|giam rui ro\|cho xac nhan/);
+  assert.match(app, /<time class="daily-title-date" datetime="\$\{escapeHtml\(entry\.date\)\}">/);
+  assert.equal(app.includes("daily-title-separator"), false);
+  assert.match(css, /\.daily-title-line \{\s*display:\s*block;/);
+  assert.match(css, /\.daily-title-date \{[\s\S]*display:\s*block;/);
+  assert.equal(/grid-template-columns:\s*auto auto minmax\(0, 1fr\)/.test(css), false);
 });
 
-test("future VNINDEX prompt and standard reference v2 contract", () => {
+test("evidence matrix is two-column and parent row cannot recolor mixed signal values", () => {
+  const css = read("src/styles/market-decision-brief.css");
+  const app = read("src/scripts/app.js");
+  assert.match(css, /\.daily-key-readings article \{[\s\S]*grid-template-columns:\s*86px minmax\(0, 1fr\)/);
+  assert.match(css, /\.daily-reading-content \{/);
+  assert.equal(css.includes(".daily-key-readings article.negative .daily-reading-signal"), false);
+  assert.equal(css.includes(".daily-key-readings article.positive .daily-reading-signal"), false);
+  assert.equal(css.includes(".daily-key-readings article.warning .daily-reading-signal"), false);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-positive \{ color: var\(--brief-positive\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-negative \{ color: var\(--brief-negative\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-warning \{ color: var\(--brief-warning\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-neutral \{ color: var\(--brief-neutral\); \}/);
+  assert.equal(app.includes("FACT → INTERPRETATION"), false);
+});
+
+test("snapshot is compacted for v2.2 without losing tabular numbers", () => {
+  const css = read("src/styles/market-decision-brief.css");
+  assert.match(css, /\.daily-snapshot-row \{[\s\S]*padding:\s*9px 12px 10px;/);
+  assert.match(css, /\.daily-direction \{[\s\S]*min-height:\s*20px;/);
+  assert.match(css, /\.daily-snapshot-value \{[\s\S]*font-size:\s*22px;/);
+  assert.match(css, /\.daily-semantic-text \{[\s\S]*font-variant-numeric:\s*tabular-nums;/);
+});
+
+test("future-generation prompt and standard lock v2.2 atomic coloring", () => {
   const prompt = read("docs/prompt-nhan-dinh-vnindex-v3.md");
   const standard = read("docs/market-decision-brief-standard.md");
-  assert.match(prompt, /MARKET DECISION BRIEF v2\.1/);
-  assert.match(prompt, /entry\.date/);
-  assert.match(prompt, /DD\/MM/);
-  assert.match(prompt, /snapshotState:/);
-  assert.match(prompt, /signal: "▼ Dưới MA20 \/ MA200"/);
-  assert.match(standard, /Typography & Information Hierarchy Hardening v2/);
-  assert.match(standard, /LABEL → SIGNAL → INTERPRETATION/);
-  assert.match(standard, /liquidity_below_average/);
-  assert.match(standard, /Headline date contract/);
-  assert.match(standard, /<time datetime="2026-09-24">24\/09<\/time>/);
+  assert.match(prompt, /MARKET DECISION BRIEF v2\.2/);
+  assert.match(prompt, /signalParts/);
+  assert.match(prompt, /detailParts/);
+  assert.match(prompt, /Tone của row không được nhuộm sai màu child value/);
+  assert.match(standard, /Daily Market Research Brief v2\.2/);
+  assert.match(standard, /Atomic semantic color contract/);
+  assert.match(standard, /date kicker riêng ngay trên headline/);
 });
