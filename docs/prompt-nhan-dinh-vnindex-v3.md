@@ -238,7 +238,7 @@ Khách đã tự nhìn thấy bảng điện và điểm số. Giá trị của 
 
 ---
 
-## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.1
+## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.2
 
 > Áp dụng cho dữ liệu được đưa lên website từ 24/09/2026. Đây là **format contract đã khóa**; không tự ý quay lại kiểu headline lớn + paragraph dài.
 
@@ -257,7 +257,8 @@ Mỗi entry mới phải có:
 
 ```js
 brief: {
-  thesis: "2–3 câu cô đọng, không nhồi toàn bộ số liệu",
+  headline: "Mô tả trạng thái thị trường, KHÔNG lặp regime/action",
+  thesis: "1 câu kết luận + 1 câu hỗ trợ, không nhồi toàn bộ số liệu",
   evidence: [
     { label: "Xu hướng", text: "...", tone: "positive|negative|warning|neutral" },
     { label: "Độ rộng", text: "...", tone: "..." },
@@ -278,13 +279,13 @@ brief: {
 
 ### C. TYPOGRAPHY / HIERARCHY v2
 
-- Hệ thống phải tự sinh ngày từ `entry.date` và hiển thị **ngay trước headline** theo dạng `DD/MM · Headline`.
+- Hệ thống phải tự sinh ngày từ `entry.date` và hiển thị **date kicker `DD/MM` trên một dòng nhỏ ngay trước headline**.
 - Ngày hiển thị là phần tử `<time>` riêng, không ghép vào text của heading.
 - Không hard-code `24/09`, `25/09`... trong template; mỗi phiên mới lấy trực tiếp từ `entry.date`.
 - Top metadata chỉ giữ regime + `EOD`, không lặp lại ngày.
-- Headline desktop target 32–36px, khoảng 2 dòng.
+- Headline desktop target 31–35px, khoảng 1–2 dòng; headline chỉ mô tả trạng thái thị trường, không lặp `PHÒNG THỦ / CHỜ XÁC NHẬN` hay hành động tác nghiệp.
 - Thesis 2–3 câu, khoảng 16px / line-height ~1.58, max-width 64ch.
-- Evidence phải có `label + signal + detail`, không chỉ một paragraph.
+- Evidence phải có `label + signal + detail`; layout production là 2 cột `LABEL | PRIMARY FACT + SECONDARY INTERPRETATION`, không hiển thị helper label `FACT → INTERPRETATION`.
 - Decision Bar phải nằm ngay dưới evidence.
 - Snapshot metric dùng sans-serif + tabular numbers.
 - Archive item không lặp edition badge ở mọi bản.
@@ -304,12 +305,27 @@ direction: "up|down|flat|caution|neutral",
 snapshotState: "price_up|price_down|breadth_positive|breadth_negative|liquidity_above_average|liquidity_below_average|technical_positive|technical_negative|neutral"
 ```
 
-Evidence mới nên có:
+Evidence mới nên có semantic parts khi chứa nhiều hướng:
 ```js
-{ label: "Xu hướng", signal: "▼ Dưới MA20 / MA200", detail: "...", text: "...", tone: "negative" }
+{
+  label: "Độ rộng",
+  signal: "▼ 176 giảm / ▲ 132 tăng",
+  detail: "49 tham chiếu • 3 mã giảm sàn",
+  signalParts: [
+    { text: "▼ 176 giảm", tone: "negative" },
+    { text: " / ", tone: "neutral" },
+    { text: "▲ 132 tăng", tone: "positive" }
+  ],
+  detailParts: [
+    { text: "49 tham chiếu", tone: "neutral" },
+    { text: " • ", tone: "neutral" },
+    { text: "3 mã giảm sàn", tone: "negative" }
+  ],
+  tone: "negative"
+}
 ```
 
-Nếu trong cùng một metric có cả số tăng và số giảm (ví dụ độ rộng), dùng `valueParts` / `changeParts` để tô đúng từng thành phần, không tô cả dòng một màu.
+Dùng cùng một atomic renderer cho `valueParts`, `changeParts`, `signalParts`, `detailParts`. **Tone của row không được nhuộm sai màu child value.**
 
 ### D. QUY TẮC COPY
 
@@ -331,8 +347,8 @@ Code contract:
 Nếu thay đổi chuẩn, phải nâng version và cập nhật đồng thời prompt + code + test.
 
 
-### HEADLINE DATE CONTRACT v2.1
-- Hệ thống tự lấy `entry.date` và render `DD/MM ·` ngay trước headline.
+### HEADLINE DATE CONTRACT v2.2
+- Hệ thống tự lấy `entry.date` và render `DD/MM` thành date kicker ngay trên headline.
 - Date là `<time datetime="YYYY-MM-DD">`, heading chỉ chứa thesis title.
 - Không hard-code ngày.
-- Mobile được phép stack ngày trên một dòng nhỏ ngay trước headline.
+- Desktop/tablet/mobile đều đặt ngày trên một dòng nhỏ ngay trước headline để không lấy mất chiều ngang của headline.
