@@ -282,12 +282,13 @@ import {
     .trim();
 
   const dailyToneClass = (value) => ["positive", "negative", "warning", "neutral"].includes(value) ? value : "neutral";
+  const dailyToneCssClass = (value) => `daily-tone-${dailyToneClass(value)}`;
 
   const dailySemanticPartsHtml = (parts, fallback, fallbackTone = "neutral") => {
     const values = Array.isArray(parts) && parts.length
       ? parts
       : [{ text: fallback, tone: fallbackTone }];
-    return values.map((part) => `<span class="daily-semantic-text ${dailyToneClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
+    return values.map((part) => `<span class="daily-semantic-text ${dailyToneCssClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
   };
 
   const dailyRegimeTone = (entry) => {
@@ -358,7 +359,7 @@ import {
             <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
             <span class="daily-session-lock">EOD</span>
           </div>
-          <span class="daily-integrity-chip ${brief.integrity.tone}" title="${escapeHtml(brief.integrity.label)}">
+          <span class="daily-integrity-chip ${dailyToneCssClass(brief.integrity.tone)}" title="${escapeHtml(brief.integrity.label)}">
             <span aria-hidden="true">${brief.integrity.tone === "warning" ? "!" : "✓"}</span>
             ${escapeHtml(brief.integrity.shortLabel)}
           </span>
@@ -383,7 +384,7 @@ import {
                 </div>
                 <div class="daily-key-readings">
                   ${brief.evidence.slice(0, 3).map((item) => `
-                    <article class="${dailyToneClass(item.tone)}">
+                    <article class="${dailyToneCssClass(item.tone)}">
                       <span class="daily-reading-label">${escapeHtml(item.label)}</span>
                       <div class="daily-reading-content">
                         <strong class="daily-reading-signal">${dailySemanticPartsHtml(item.signalParts, item.signal || item.text, item.tone)}</strong>
@@ -393,7 +394,7 @@ import {
                 </div>
               </section>` : ""}
 
-            <section class="daily-decision-bar ${regimeTone}" aria-label="Hành động hiện tại">
+            <section class="daily-decision-bar ${dailyToneCssClass(regimeTone)}" aria-label="Hành động hiện tại">
               <div class="daily-decision-state">
                 <small>TRẠNG THÁI TÁC NGHIỆP</small>
                 <strong>${escapeHtml(entry.sentimentLabel)}</strong>
@@ -415,10 +416,10 @@ import {
                 const stateMeta = marketSnapshotStateMeta(metric.snapshotState, metric.direction, metric.tone);
                 const tone = dailyToneClass(metric.tone || stateMeta.tone);
                 return `
-                  <article class="daily-snapshot-row ${tone}">
+                  <article class="daily-snapshot-row ${dailyToneCssClass(tone)}">
                     <div class="daily-snapshot-label">
                       <span>${escapeHtml(metric.label)}</span>
-                      <i class="daily-direction ${dailyToneClass(stateMeta.tone)}" aria-label="${escapeHtml(stateMeta.label)}"><b aria-hidden="true">${escapeHtml(stateMeta.symbol)}</b>${escapeHtml(stateMeta.label)}</i>
+                      <i class="daily-direction ${dailyToneCssClass(stateMeta.tone)}" aria-label="${escapeHtml(stateMeta.label)}"><b aria-hidden="true">${escapeHtml(stateMeta.symbol)}</b>${escapeHtml(stateMeta.label)}</i>
                     </div>
                     <strong class="daily-snapshot-value">${dailySemanticPartsHtml(metric.valueParts, metric.value, tone)}</strong>
                     <small>${dailySemanticPartsHtml(metric.changeParts, metric.change, stateMeta.tone)}</small>
@@ -472,7 +473,7 @@ import {
           <div class="daily-method-row">
             <div class="daily-data-integrity">
               <span>ĐỘ TIN CẬY DỮ LIỆU</span>
-              <strong class="${brief.integrity.tone}">${escapeHtml(brief.integrity.label)}</strong>
+              <strong class="${dailyToneCssClass(brief.integrity.tone)}">${escapeHtml(brief.integrity.label)}</strong>
               <small>${escapeHtml(entry.dataStatus)}</small>
             </div>
             ${inference ? `<div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phương pháp và giới hạn dữ liệu</strong>${escapeHtml(inference)}</p></div>` : ""}
