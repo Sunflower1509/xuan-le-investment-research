@@ -283,11 +283,11 @@ import {
 
   const dailyToneClass = (value) => ["positive", "negative", "warning", "neutral"].includes(value) ? value : "neutral";
 
-  const dailyMetricPartsHtml = (parts, fallback, fallbackTone = "neutral") => {
+  const dailySemanticPartsHtml = (parts, fallback, fallbackTone = "neutral") => {
     const values = Array.isArray(parts) && parts.length
       ? parts
       : [{ text: fallback, tone: fallbackTone }];
-    return values.map((part) => `<span class="daily-market-text ${dailyToneClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
+    return values.map((part) => `<span class="daily-semantic-text ${dailyToneClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
   };
 
   const dailyRegimeTone = (entry) => {
@@ -302,6 +302,17 @@ import {
     if (!formatted || formatted === "—") return "";
     const parts = formatted.split("/");
     return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : formatted;
+  };
+
+  const dailyHeadlineTitle = (entry) => {
+    const explicit = String(entry?.brief?.headline || "").trim();
+    if (explicit) return explicit;
+    const title = String(entry?.title || "").trim();
+    const clauses = title.split(/\s+—\s+/);
+    if (clauses.length < 2) return title;
+    const tail = normalize(clauses.at(-1)).replaceAll("đ", "d");
+    const actionLike = /phong thu|giam rui ro|cho xac nhan|khong mua duoi|khong tang don bay|giu tien|bao toan suc mua|uu tien phong thu/.test(tail);
+    return actionLike ? clauses.slice(0, -1).join(" — ") : title;
   };
 
   const dailyBriefModel = (entry) => {
@@ -332,7 +343,7 @@ import {
     refs.dailyArchive.innerHTML = dailyEntries.map((item, index) => `
       <button class="daily-archive-item${item.id === activeDailyId ? " active" : ""}" type="button" data-action="show-daily-insight" data-id="${escapeHtml(item.id)}" aria-pressed="${item.id === activeDailyId}">
         <span class="daily-archive-meta">${index === 0 ? '<i>MỚI NHẤT</i>' : ""}<time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
-        <strong>${escapeHtml(item.title)}</strong>
+        <strong>${escapeHtml(dailyHeadlineTitle(item))}</strong>
         <small>${escapeHtml(item.sentimentLabel)}</small>
       </button>`).join("");
 
@@ -357,8 +368,7 @@ import {
           <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
             <div class="daily-title-line">
               <time class="daily-title-date" datetime="${escapeHtml(entry.date)}">${escapeHtml(dailyHeadlineDate(entry.date))}</time>
-              <span class="daily-title-separator" aria-hidden="true">·</span>
-              <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(entry.title)}</h3>
+              <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(dailyHeadlineTitle(entry))}</h3>
             </div>
 
             <section class="daily-executive-thesis" aria-labelledby="daily-thesis-title-${escapeHtml(entry.id)}">
@@ -370,14 +380,15 @@ import {
               <section class="daily-evidence-strip" aria-labelledby="daily-evidence-title-${escapeHtml(entry.id)}">
                 <div class="daily-subsection-heading">
                   <h4 id="daily-evidence-title-${escapeHtml(entry.id)}">Bằng chứng thị trường</h4>
-                  <span>FACT → INTERPRETATION</span>
                 </div>
                 <div class="daily-key-readings">
                   ${brief.evidence.slice(0, 3).map((item) => `
                     <article class="${dailyToneClass(item.tone)}">
                       <span class="daily-reading-label">${escapeHtml(item.label)}</span>
-                      <strong class="daily-reading-signal">${escapeHtml(item.signal || item.text)}</strong>
-                      <p>${escapeHtml(item.detail || item.text)}</p>
+                      <div class="daily-reading-content">
+                        <strong class="daily-reading-signal">${dailySemanticPartsHtml(item.signalParts, item.signal || item.text, item.tone)}</strong>
+                        <p>${dailySemanticPartsHtml(item.detailParts, item.detail || item.text, "neutral")}</p>
+                      </div>
                     </article>`).join("")}
                 </div>
               </section>` : ""}
@@ -409,8 +420,8 @@ import {
                       <span>${escapeHtml(metric.label)}</span>
                       <i class="daily-direction ${dailyToneClass(stateMeta.tone)}" aria-label="${escapeHtml(stateMeta.label)}"><b aria-hidden="true">${escapeHtml(stateMeta.symbol)}</b>${escapeHtml(stateMeta.label)}</i>
                     </div>
-                    <strong class="daily-snapshot-value">${dailyMetricPartsHtml(metric.valueParts, metric.value, tone)}</strong>
-                    <small>${dailyMetricPartsHtml(metric.changeParts, metric.change, stateMeta.tone)}</small>
+                    <strong class="daily-snapshot-value">${dailySemanticPartsHtml(metric.valueParts, metric.value, tone)}</strong>
+                    <small>${dailySemanticPartsHtml(metric.changeParts, metric.change, stateMeta.tone)}</small>
                   </article>`;
               }).join("")}
             </div>
