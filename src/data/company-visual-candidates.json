@@ -1,5 +1,5 @@
 {
-  "meta":{"schema":"civs-candidate-registry-v1","coverageTarget":125,"candidateCount":116,"updated":"2026-09-12","policy":"First-party official source pages only; hero-auto discovery validates image provenance."},
+  "meta":{"schema":"civs-candidate-registry-v1","coverageTarget":127,"candidateCount":116,"updated":"2026-09-12","policy":"First-party official source pages only; hero-auto discovery validates image provenance."},
   "candidates":[
     {"ticker":"ACB","sourceUrl":"https://acb.com.vn/","officialDomain":"acb.com.vn","sourceTier":"B","identityType":"corporate-banking","keywords":["ACB","ngân hàng","branch","chi nhánh","trụ sở"]},
     {"ticker":"BAF","sourceUrl":"https://baf.vn/gioi-thieu/","officialDomain":"baf.vn","sourceTier":"A","identityType":"feed-farm-food","keywords":["trang trại","farm","nhà máy","feed","food","chăn nuôi"]},

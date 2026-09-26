@@ -497,7 +497,7 @@ const runPool = async (entries, worker) => {
   return { results, failures };
 };
 
-const run = async () => {
+export const runCompanyVisualSync = async () => {
   ensureRenderer();
   const data = loadWindowData(dataPath, "COMPANY_VISUALS");
   const logos = loadWindowData(logoPath, "COMPANY_LOGOS");
@@ -505,41 +505,45 @@ const run = async () => {
   const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
   if (!data || data.meta?.schema !== SCHEMA || !data.visuals) throw new Error(`COMPANY_VISUALS sai schema ${SCHEMA}.`);
   if (registry?.meta?.schema !== CANDIDATE_SCHEMA) throw new Error(`Candidate registry sai schema ${CANDIDATE_SCHEMA}.`);
-  if ((research.coverage || []).length !== 125) throw new Error("Coverage Universe không phải 125 mã.");
+  const expectedCount = Array.isArray(research.coverage) ? research.coverage.length : 0;
+  if (!expectedCount) throw new Error("Coverage Universe trống; từ chối sync CIVS.");
+  if (Number(data.meta?.coverageTarget) !== expectedCount) {
+    throw new Error(`coverageTarget ${data.meta?.coverageTarget} không khớp Coverage Universe ${expectedCount} mã.`);
+  }
 
   mergeRegistry(data, registry, logos, research);
   const entries = Object.values(data.visuals).sort((a, b) => String(a.ticker).localeCompare(String(b.ticker)));
-  if (entries.length !== 125) throw new Error(`Sau merge phải có 125 visual candidate, hiện có ${entries.length}.`);
+  if (entries.length !== expectedCount) throw new Error(`Sau merge phải có ${expectedCount} visual candidate, hiện có ${entries.length}.`);
 
   const hashes = new Set();
   const { results, failures } = await runPool(entries, (entry) => processOne(entry, hashes));
   const verifiedEntries = entries.filter(isPublished);
   const pendingEntries = entries.filter((entry) => !isPublished(entry));
-  const complete = verifiedEntries.length === 125;
+  const complete = verifiedEntries.length === expectedCount;
 
   data.meta.standardVersion = "CIVS-1.0";
   data.meta.rollout = true;
   data.meta.complete = complete;
-  data.meta.coverageTarget = 125;
+  data.meta.coverageTarget = expectedCount;
   data.meta.candidateCount = entries.length;
   data.meta.count = verifiedEntries.length;
   data.meta.verifiedCount = verifiedEntries.length;
   data.meta.pendingCount = pendingEntries.length;
   data.meta.pendingTickers = pendingEntries.map((entry) => entry.ticker).sort();
-  data.meta.rolloutProgressPct = Number(((verifiedEntries.length / 125) * 100).toFixed(1));
+  data.meta.rolloutProgressPct = Number(((verifiedEntries.length / expectedCount) * 100).toFixed(1));
   data.meta.synced = new Date().toISOString().slice(0, 10);
   data.meta.target = `${TARGET_WIDTH}x${TARGET_HEIGHT}`;
   data.meta.quality = 84;
   data.meta.verification = complete
-    ? "CIVS 1.0 COMPLETE: 125/125 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
-    : `CIVS 1.0 RESUMABLE: ${verifiedEntries.length}/125 visuals verified; ${pendingEntries.length} remain on safe report-cover fallback until first-party verification passes.`;
+    ? `CIVS 1.0 COMPLETE: ${expectedCount}/${expectedCount} visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited.`
+    : `CIVS 1.0 RESUMABLE: ${verifiedEntries.length}/${expectedCount} visuals verified; ${pendingEntries.length} remain on safe report-cover fallback until first-party verification passes.`;
 
   fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
   console.log(JSON.stringify({
     ok: true,
     schema: SCHEMA,
     complete,
-    coverageTarget: 125,
+    coverageTarget: expectedCount,
     verifiedCount: verifiedEntries.length,
     pendingCount: pendingEntries.length,
     generated: results.filter((item) => !item.reused).length,
@@ -549,4 +553,12 @@ const run = async () => {
   }, null, 2));
 };
 
-run().catch((error) => { console.error(error?.stack || String(error)); process.exitCode = 1; });
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : "";
+if (invokedPath === fileURLToPath(import.meta.url)) {
+  try {
+    await runCompanyVisualSync();
+  } catch (error) {
+    console.error(error?.stack || String(error));
+    process.exitCode = 1;
+  }
+}
