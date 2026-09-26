@@ -111,6 +111,7 @@ test("25 Sep entry carries v2.2 concise headline and atomic semantic parts", () 
 
 test("renderer uses one semantic-parts function for evidence and snapshot", () => {
   const app = read("src/scripts/app.js");
+  assert.match(app, /const dailyToneCssClass = \(value\) =>/);
   assert.match(app, /const dailySemanticPartsHtml = \(parts, fallback, fallbackTone = "neutral"\) =>/);
   assert.equal(app.includes("dailyMetricPartsHtml"), false);
   assert.match(app, /dailySemanticPartsHtml\(item\.signalParts, item\.signal \|\| item\.text, item\.tone\)/);
@@ -139,10 +140,10 @@ test("evidence matrix is two-column and parent row cannot recolor mixed signal v
   assert.equal(css.includes(".daily-key-readings article.negative .daily-reading-signal"), false);
   assert.equal(css.includes(".daily-key-readings article.positive .daily-reading-signal"), false);
   assert.equal(css.includes(".daily-key-readings article.warning .daily-reading-signal"), false);
-  assert.match(css, /\.daily-semantic-text\.positive \{ color: var\(--brief-positive\); \}/);
-  assert.match(css, /\.daily-semantic-text\.negative \{ color: var\(--brief-negative\); \}/);
-  assert.match(css, /\.daily-semantic-text\.warning \{ color: var\(--brief-warning\); \}/);
-  assert.match(css, /\.daily-semantic-text\.neutral \{ color: var\(--brief-neutral\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-positive \{ color: var\(--brief-positive\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-negative \{ color: var\(--brief-negative\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-warning \{ color: var\(--brief-warning\); \}/);
+  assert.match(css, /\.daily-semantic-text\.daily-tone-neutral \{ color: var\(--brief-neutral\); \}/);
   assert.equal(app.includes("FACT → INTERPRETATION"), false);
 });
 
