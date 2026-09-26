@@ -1,5 +1,7 @@
 # Daily Market Research Brief — Typography & Information Hierarchy Hardening v2
 
+> **Next approved design:** v2.2 is frozen for implementation in `docs/daily-market-research-brief-v2.2-spec.md`. Production remains v2.1 until the full v2.2 implementation passes regression and cross-browser visual QA.
+
 **Version:** 2.1.0  
 **Effective:** 25/09/2026  
 **Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
