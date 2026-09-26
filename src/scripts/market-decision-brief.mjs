@@ -1,21 +1,21 @@
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
-  version: "2.1.0",
+  version: "2.2.0",
   effectiveDate: "2026-09-25",
-  name: "Daily Market Research Brief — Typography & Information Hierarchy Hardening v2",
+  name: "Daily Market Research Brief v2.2 — Semantic Data Color & Layout Consolidation",
   layout: Object.freeze({
     shellArchive: "220px",
-    desktop: "analysis:minmax(0,1fr) + snapshot:360px",
+    desktop: "analysis:minmax(0,1fr) + snapshot:340px",
     tablet: "single-column snapshot-after-analysis",
     mobile: "regime-session-headline-thesis-evidence-action-snapshot-playbook-audit"
   }),
   typography: Object.freeze({
     headline: Object.freeze({ min: "32px", preferred: "2.15vw", max: "36px", lineHeight: 1.14, family: "editorial" }),
-    headlineDate: Object.freeze({ format: "DD/MM", size: "14px", lineHeight: 1.35, family: "ui", position: "before-headline", source: "entry.date" }),
+    headlineDate: Object.freeze({ format: "DD/MM", size: "13px", lineHeight: 1.35, family: "ui", position: "kicker-above-headline", source: "entry.date" }),
     thesis: Object.freeze({ size: "16px", lineHeight: 1.58, measure: "64ch", family: "ui" }),
     evidence: Object.freeze({ size: "14px", lineHeight: 1.48, family: "ui" }),
     meta: Object.freeze({ size: "11px", lineHeight: 1.4, family: "ui" }),
     label: Object.freeze({ size: "12px", lineHeight: 1.35, family: "ui" }),
-    metric: Object.freeze({ size: "24px", lineHeight: 1.16, family: "ui", numeric: "tabular-nums" })
+    metric: Object.freeze({ size: "22px", lineHeight: 1.16, family: "ui", numeric: "tabular-nums" })
   }),
   spacing: Object.freeze({
     xs: "6px",
@@ -27,7 +27,12 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
   measures: Object.freeze({
     thesis: "64ch",
     narrative: "68ch",
-    headline: "30ch"
+    headline: "34ch"
+  }),
+  semanticParts: Object.freeze({
+    renderer: "shared",
+    supported: Object.freeze(["valueParts", "changeParts", "signalParts", "detailParts"]),
+    inheritance: "atomic-value-over-row-tone"
   }),
   directions: Object.freeze({
     up: Object.freeze({ label: "Tăng", symbol: "▲", tone: "positive" }),
