@@ -70,9 +70,17 @@ test("Reader is only a rate-limited page discovery transport", () => {
   assert.match(helper, /canonicalVariants/);
 });
 
+test("candidate-empty SPA shells fall through to reader discovery", () => {
+  assert.match(helper, /hasDiscoveryImageSignal/);
+  assert.match(helper, /validateDiscoveryHtml/);
+  assert.match(helper, /SPA shell\/candidate-empty/);
+  assert.match(helper, /candidateEmptySpaFallback:\s*true/);
+});
+
+
 test("source overrides are an in-memory verified overlay, never a registry rewrite", () => {
   assert.equal(overrides.meta.schema, "civs-source-overrides-v1");
-  assert.ok(Object.keys(overrides.overrides).length >= 5);
+  assert.ok(Object.keys(overrides.overrides).length >= 20);
   assert.match(overlay, /fs\.readFileSync\s*=\s*function patchedReadFileSync/);
   assert.match(overlay, /diskRegistryMutated:\s*false/);
   assert.doesNotMatch(overlay, /writeFileSync|writeFile\(/);
@@ -86,8 +94,33 @@ test("source overrides are an in-memory verified overlay, never a registry rewri
 test("BSR exact asset override remains first-party and economic-identity specific", () => {
   const bsr = overrides.overrides.BSR;
   assert.equal(bsr.officialDomain, "bsr.com.vn");
-  assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
-  assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
+  assert.match(bsr.sourceUrl, /^https:\/\/bsr\.com\.vn\/vi\/web\/bsr-eng\/about-dung-quat-refinery/);
+  assert.match(bsr.sourceImageUrl, /^https:\/\/bsr\.com\.vn\/BTEC\/images\/.+\.jpg$/);
   assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
-  assert.equal(bsr.qualityScore, 10);
+  assert.equal(bsr.sourceDiscovery.resolvedLabel, "Technological workshops of Dung Quat Refinery");
+  assert.ok(bsr.qualityScore >= 8);
+});
+
+test("pending source baseline targets first-party operating assets", () => {
+  const { BFC: bfc, D2D: d2d, OIL: oil, VJC: vjc } = overrides.overrides;
+  assert.equal(bfc.officialDomain, "binhdien.com");
+  assert.match(bfc.sourceUrl, /xanh-hoa-tu-nha-may-den-ruong-vuon/);
+  assert.ok(bfc.keywords.some((item) => /Nhà máy Phân bón Bình Điền Long An/i.test(item)));
+  assert.equal(d2d.officialDomain, "d2d.com.vn");
+  assert.match(d2d.sourceUrl, /khu-cong-nghiep-nhon-trach-2/);
+  assert.equal(oil.officialDomain, "pvoil.com.vn");
+  assert.match(oil.sourceUrl, /kho-xang-dau-pvoil-nghi-son-chinh-thuc-di-vao-hoat-dong/);
+  assert.equal(vjc.officialDomain, "vietjetair.com");
+  assert.match(vjc.sourceUrl, /\/vi\/pages\/doi-bay-sinh-dong-nhat-the-gioi-/);
+});
+
+test("VNM preserves official-page CDN provenance", () => {
+  const vnm = overrides.overrides.VNM;
+  assert.equal(vnm.officialDomain, "vinamilk.com.vn");
+  assert.equal(vnm.sourceUrl, "https://www.vinamilk.com.vn/");
+  assert.match(vnm.sourceImageUrl, /^https:\/\/d8um25gjecm9v\.cloudfront\.net\/cms\/Hero_2_/);
+  assert.ok(vnm.allowedImageHosts.includes("d8um25gjecm9v.cloudfront.net"));
+  assert.equal(vnm.embeddedImageHostVerified, true);
+  assert.equal(vnm.sourceDiscovery.resolvedFromOfficialPage, true);
+  assert.ok(vnm.qualityScore >= 8);
 });
