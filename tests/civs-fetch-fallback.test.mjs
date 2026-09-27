@@ -17,6 +17,12 @@ test("CIVS discovery helpers load before the strict core engine", () => {
   assert.ok(fetchAt >= 0 && overlayAt > fetchAt && engineAt > overlayAt);
 });
 
+test("CIVS core is awaited so wrapper post-sync demotion runs after generation completes", () => {
+  const core = fs.readFileSync(path.join(root, "scripts/sync-company-visuals-core.mjs"), "utf8");
+  assert.match(core, /await run\(\)\.catch/);
+  assert.match(wrapper, /demoteAuditInvalidLocalOutputs\(\)/);
+});
+
 test("sync wrapper keeps the process alive until the 127-candidate state is persisted", () => {
   assert.match(wrapper, /candidateCount/);
   assert.match(wrapper, /verifiedCount/);
