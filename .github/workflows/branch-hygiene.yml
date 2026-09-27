@@ -1,0 +1,137 @@
+name: Repository branch hygiene
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/branch-hygiene.yml"
+      - "tests/branch-hygiene.test.mjs"
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: repository-branch-hygiene
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Remove merged PR branches safely
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const fullName = `${owner}/${repo}`;
+
+            const repository = await github.rest.repos.get({ owner, repo });
+            const defaultBranch = repository.data.default_branch;
+
+            const openPulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100
+            });
+            const openHeads = new Set(
+              openPulls
+                .filter((pr) => pr.head?.repo?.full_name === fullName)
+                .map((pr) => pr.head.ref)
+            );
+
+            const closedPulls = context.eventName === "pull_request"
+              ? [context.payload.pull_request]
+              : await github.paginate(github.rest.pulls.list, {
+                  owner,
+                  repo,
+                  state: "closed",
+                  per_page: 100
+                });
+
+            const mergedPulls = closedPulls.filter((pr) =>
+              pr?.merged_at &&
+              pr.head?.repo?.full_name === fullName &&
+              pr.head?.ref &&
+              pr.head.ref !== defaultBranch &&
+              !openHeads.has(pr.head.ref)
+            );
+
+            let removed = 0;
+            let skippedAdvanced = 0;
+            let alreadyMissing = 0;
+
+            for (const pr of mergedPulls) {
+              const branch = pr.head.ref;
+              try {
+                const ref = await github.rest.git.getRef({
+                  owner,
+                  repo,
+                  ref: `heads/${branch}`
+                });
+                if (ref.data.object.sha !== pr.head.sha) {
+                  core.notice(`Skip ${branch}: branch advanced after PR #${pr.number} merged.`);
+                  skippedAdvanced += 1;
+                  continue;
+                }
+                await github.rest.git.deleteRef({
+                  owner,
+                  repo,
+                  ref: `heads/${branch}`
+                });
+                core.info(`Deleted merged PR branch: ${branch} (#${pr.number}).`);
+                removed += 1;
+              } catch (error) {
+                if (error.status === 404) {
+                  alreadyMissing += 1;
+                  continue;
+                }
+                throw error;
+              }
+            }
+
+            const explicitGarbage = ["noop-ignore", "noop-ignore-2", "noop-ignore-3"];
+            const garbageRefs = [];
+            for (const branch of explicitGarbage) {
+              if (openHeads.has(branch)) {
+                core.notice(`Skip explicit garbage candidate ${branch}: referenced by an open PR.`);
+                continue;
+              }
+              try {
+                const ref = await github.rest.git.getRef({ owner, repo, ref: `heads/${branch}` });
+                garbageRefs.push({ branch, sha: ref.data.object.sha });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+              }
+            }
+
+            const uniqueGarbageShas = new Set(garbageRefs.map((item) => item.sha));
+            if (garbageRefs.length === explicitGarbage.length && uniqueGarbageShas.size === 1) {
+              for (const item of garbageRefs) {
+                await github.rest.git.deleteRef({ owner, repo, ref: `heads/${item.branch}` });
+                core.info(`Deleted duplicate noop branch: ${item.branch}.`);
+                removed += 1;
+              }
+            } else if (garbageRefs.length) {
+              core.notice("Duplicate noop branches were not deleted because the exact safety invariant no longer holds.");
+            }
+
+            core.summary
+              .addHeading("Repository branch hygiene")
+              .addTable([
+                [{ data: "Metric", header: true }, { data: "Count", header: true }],
+                ["Deleted", String(removed)],
+                ["Skipped: advanced after merge", String(skippedAdvanced)],
+                ["Already missing", String(alreadyMissing)],
+                ["Open PR heads protected", String(openHeads.size)]
+              ])
+              .write();
