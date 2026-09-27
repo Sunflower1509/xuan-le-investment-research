@@ -85,6 +85,7 @@ Rollout theo batch nhỏ, không chạy theo số lượng bằng mọi giá:
 - Ưu tiên: mã có báo cáo mới, mã leader/được xem nhiều, sau đó phủ đều các nhóm ngành.
 - Mỗi batch phải PASS: source verification → normalize → test → audit → build → deploy → post-deploy verification.
 - `coverageTarget = 127`; `verifiedCount` tăng dần. Các mã chưa verified tiếp tục dùng report-cover fallback.
+- Candidate registry chuẩn gồm **118 mã bổ sung** cộng với **9 visual baseline đã xác minh**, tạo đúng **127 mã**; không cho phép runtime quay về universe 125.
 
 ## 9. Quy tắc thay ảnh
 
