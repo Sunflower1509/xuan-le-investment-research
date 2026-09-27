@@ -232,7 +232,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|index\.html)          if [[ -n "$unexpected" ]]; then
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|index\.html)$'
+          changed_paths="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
+          unexpected="$(printf '%s\n' "$changed_paths" | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
             echo "Unexpected changed paths:" >&2
             echo "$unexpected" >&2
             exit 2
