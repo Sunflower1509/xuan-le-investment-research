@@ -96,6 +96,10 @@ test("v3 sync and audit are resumable, 127-aware, provenance-aware and fail-safe
   assert.match(sync, /qualityBreakdown/);
   assert.match(sync, /const EXPECTED = 127/);
   assert.match(sync, /const REGISTRY_EXPECTED = 118/);
+  assert.match(sync, /const RUN_BUDGET_MS = 15 \* 60 \* 1000/);
+  assert.match(sync, /reason: "runtime-budget"/);
+  assert.match(sync, /preserve current verified\/pending state for next resumable run/);
+  assert.match(sync, /deferredCount/);
   assert.match(sync, /entries\.length !== EXPECTED/);
   assert.doesNotMatch(sync, /\b125\b/);
   assert.doesNotMatch(syncWrapper, /\b125\b/);
