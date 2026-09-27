@@ -270,7 +270,7 @@ jobs:
           if [[ -n "$(git status --porcelain --untracked-files=all -- "${sync_paths[@]}")" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add "${sync_paths[@]}"
+            git add src/data/research-data.js src/data/trade-ledger.json index.html
             git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
             has_eod_changes=true
           fi
