@@ -9,7 +9,8 @@ on:
       - "src/data/**"
       - "src/scripts/**"
       - "src/styles/**"
-      - "scripts/build/**"
+      - "scripts/**"
+      - "tests/**"
       - "qa/visual/**"
       - ".github/workflows/visual-smoke.yml"
   workflow_dispatch:

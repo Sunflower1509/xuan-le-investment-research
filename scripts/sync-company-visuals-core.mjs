@@ -29,6 +29,7 @@ const SCHEMA = "verified-core-asset-webp-v1";
 const CANDIDATE_SCHEMA = "civs-candidate-registry-v1";
 const EXPECTED = 127;
 const REGISTRY_EXPECTED = 118;
+const RUN_BUDGET_MS = 15 * 60 * 1000;
 const USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/132 Safari/537.36 Xuan-Le-TVS-CIVS-Verifier/3.0";
 const ACCEPT_IMAGES = "image/avif,image/webp,image/apng,image/jpeg,image/png,image/*,*/*;q=0.8";
 const NEGATIVE_IMAGE_RE = /(logo|favicon|icon|sprite|avatar|emoji|flag|captcha|qr[-_]?code|facebook|youtube|linkedin|zalo|tiktok|loader|loading|placeholder|payment|appstore|googleplay|rating|badge|award|certificate|seal|arrow|chevron|close|menu|search|phone|mail|location|partner|client)/i;
@@ -476,15 +477,21 @@ const sanitizeFailedEntry = (entry, error) => {
   delete entry.verifiedOn;
 };
 
-const runPool = async (entries, worker) => {
+const runPool = async (entries, worker, deadline) => {
   let index = 0;
   const results = [];
   const failures = [];
+  const deferred = [];
   const runners = Array.from({ length: Math.min(CONCURRENCY, entries.length) }, async () => {
     while (true) {
       const current = index++;
       if (current >= entries.length) break;
       const entry = entries[current];
+      if (Date.now() >= deadline) {
+        deferred.push({ ticker: entry.ticker, reason: "runtime-budget" });
+        console.warn(`[CIVS DEFERRED] ${entry.ticker}: runtime budget exhausted; preserve current verified/pending state for next resumable run.`);
+        continue;
+      }
       try {
         console.log(`[CIVS ${current + 1}/${entries.length}] ${entry.ticker}`);
         results.push(await worker(entry));
@@ -496,7 +503,7 @@ const runPool = async (entries, worker) => {
     }
   });
   await Promise.all(runners);
-  return { results, failures };
+  return { results, failures, deferred };
 };
 
 const run = async () => {
@@ -518,7 +525,8 @@ const run = async () => {
   if (entries.length !== EXPECTED) throw new Error(`Sau merge phải có ${EXPECTED} visual candidate, hiện có ${entries.length}.`);
 
   const hashes = new Set();
-  const { results, failures } = await runPool(entries, (entry) => processOne(entry, hashes));
+  const runDeadline = Date.now() + RUN_BUDGET_MS;
+  const { results, failures, deferred } = await runPool(entries, (entry) => processOne(entry, hashes), runDeadline);
   const verifiedEntries = entries.filter(isPublished);
   const pendingEntries = entries.filter((entry) => !isPublished(entry));
   const complete = verifiedEntries.length === EXPECTED;
@@ -550,6 +558,8 @@ const run = async () => {
     pendingCount: pendingEntries.length,
     generated: results.filter((item) => !item.reused).length,
     reused: results.filter((item) => item.reused).length,
+    deferredCount: deferred.length,
+    deferredTickers: deferred.map((item) => item.ticker),
     pendingTickers: data.meta.pendingTickers,
     failures: failures.map((item) => ({ ticker: item.ticker, error: item.error.slice(0, 220) }))
   }, null, 2));
