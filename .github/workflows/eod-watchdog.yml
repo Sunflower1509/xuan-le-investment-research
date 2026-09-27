@@ -15,6 +15,10 @@ permissions:
   contents: read
   actions: write
 
+concurrency:
+  group: eod-watchdog-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   watchdog:
     runs-on: ubuntu-latest
@@ -31,29 +35,53 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import vm from 'node:vm';
+          const now = new Date();
           const parts = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit'
-          }).formatToParts(new Date());
+          }).formatToParts(now);
           const map = Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
           const target = `${map.year}-${map.month}-${map.day}`;
+          const weekday = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Ho_Chi_Minh', weekday: 'short'
+          }).format(now);
+          const holidays2026 = new Set([
+            '2026-01-01', '2026-01-02',
+            '2026-02-16', '2026-02-17', '2026-02-18', '2026-02-19', '2026-02-20',
+            '2026-04-27', '2026-04-30', '2026-05-01',
+            '2026-08-31', '2026-09-01', '2026-09-02'
+          ]);
+          const marketOpen = !['Sat', 'Sun'].includes(weekday) && !holidays2026.has(target);
           const code = fs.readFileSync('src/data/research-data.js', 'utf8');
           const sandbox = { window: {} };
           vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
           const current = sandbox.window.RESEARCH_DATA?.meta?.updated || '';
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `target=${target}\ncurrent=${current}\nstale=${current === target ? 'false' : 'true'}\n`);
-          console.log(`EOD freshness: target=${target} current=${current || 'missing'}`);
+          const stale = marketOpen && current !== target;
+          fs.appendFileSync(
+            process.env.GITHUB_OUTPUT,
+            `target=${target}\ncurrent=${current}\nmarket_open=${marketOpen ? 'true' : 'false'}\nstale=${stale ? 'true' : 'false'}\n`
+          );
+          console.log(`EOD freshness: target=${target} weekday=${weekday} marketOpen=${marketOpen} current=${current || 'missing'}`);
           NODE
 
       - name: Dispatch verified EOD when stale
-        if: steps.freshness.outputs.stale == 'true'
+        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
+          active_runs="$(gh run list             --workflow eod-daily.yml             --branch main             --limit 20             --json status             --jq '[.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting" or .status == "requested")] | length')"
+          if (( active_runs > 0 )); then
+            echo "Verified EOD workflow already active; skip duplicate recovery dispatch."
+            exit 0
+          fi
           gh workflow run eod-daily.yml --ref main -f date="${{ steps.freshness.outputs.target }}"
           echo "Dispatched verified EOD recovery for ${{ steps.freshness.outputs.target }}"
 
+      - name: Market closed - watchdog no-op
+        if: steps.freshness.outputs.market_open == 'false'
+        run: echo "Market closed for ${{ steps.freshness.outputs.target }}; watchdog will not dispatch EOD recovery."
+
       - name: Already current
-        if: steps.freshness.outputs.stale == 'false'
+        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'false'
         run: echo "EOD already current for ${{ steps.freshness.outputs.target }}; no action required."
