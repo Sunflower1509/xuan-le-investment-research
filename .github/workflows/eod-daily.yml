@@ -225,10 +225,6 @@ jobs:
         if: steps.market.outputs.status == 'verified'
         run: node scripts/audit-company-logos.mjs
 
-      - name: Prepare lean production artifact
-        if: steps.market.outputs.status == 'verified'
-        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
-
       - name: Guard mutation scope and public structure
         if: steps.market.outputs.status == 'verified'
         env:
@@ -237,7 +233,8 @@ jobs:
         run: |
           set -euo pipefail
           allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|index\.html)$'
-          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          changed_paths="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
+          unexpected="$(printf '%s\n' "$changed_paths" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
             echo "Unexpected changed paths:" >&2
             echo "$unexpected" >&2
@@ -260,42 +257,120 @@ jobs:
           if (!Array.isArray(data?.coverage) || !data.coverage.length || data.coverage.some((item) => item.priceDate !== date)) throw new Error('Coverage date mismatch');
           NODE
 
-      - name: Commit verified EOD state without recursive CI
+      - name: Persist verified EOD state without recursive CI
+        id: persist_eod
         if: steps.market.outputs.status == 'verified'
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet; then
+          sync_paths=(src/data/research-data.js src/data/trade-ledger.json index.html)
+          sync_base="$(git rev-parse HEAD)"
+          has_eod_changes=false
+
+          if [[ -n "$(git status --porcelain --untracked-files=all -- "${sync_paths[@]}")" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add src/data/research-data.js src/data/trade-ledger.json index.html
             git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
-            git push origin HEAD:main
+            has_eod_changes=true
           fi
 
+          maintenance_only='^(\.github/workflows/|docs/|tests/|qa/|workers/|README\.md$|XSMB_SYSTEM_HANDOFF\.md$|\.gitattributes$|\.gitignore$)'
+
+          for attempt in 1 2 3; do
+            git fetch origin main --quiet
+            remote_sha="$(git rev-parse origin/main)"
+
+            if [[ "$remote_sha" != "$sync_base" ]]; then
+              remote_changed="$(git diff --name-only "$sync_base" "$remote_sha")"
+              unexpected_remote="$(printf '%s\n' "$remote_changed" | grep -Ev "$maintenance_only" || true)"
+              if [[ -n "$unexpected_remote" ]]; then
+                echo "Main advanced with runtime/public changes; defer this EOD run to a fresh retry." >&2
+                echo "$unexpected_remote" >&2
+                echo "stale=true" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+
+              if [[ "$has_eod_changes" == "true" ]]; then
+                git rebase origin/main
+              else
+                git reset --hard origin/main
+              fi
+              sync_base="$remote_sha"
+            fi
+
+            if [[ "$has_eod_changes" != "true" ]]; then
+              echo "stale=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            push_log="$(mktemp)"
+            if git push origin HEAD:main 2>"$push_log"; then
+              cat "$push_log" >&2
+              rm -f "$push_log"
+              echo "stale=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            cat "$push_log" >&2
+            if ! grep -Eqi 'rejected|fetch first|non-fast-forward' "$push_log"; then
+              rm -f "$push_log"
+              exit 1
+            fi
+            rm -f "$push_log"
+            echo "Main advanced during EOD persistence; retrying safely (attempt $attempt/3)." >&2
+          done
+
+          echo "Repeated non-fast-forward races prevented EOD persistence; skip stale deployment cleanly." >&2
+          echo "stale=true" >> "$GITHUB_OUTPUT"
+
+      - name: Guard against stale EOD deployment
+        id: eod_freshness
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          local_sha="$(git rev-parse HEAD)"
+          remote_sha="$(git rev-parse origin/main)"
+          if [[ "$local_sha" != "$remote_sha" ]]; then
+            echo "EOD run became stale before deployment: local=$local_sha remote=$remote_sha" >&2
+            echo "fresh=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "fresh=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare lean production artifact
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true' && steps.eod_freshness.outputs.fresh == 'true'
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
+
       - name: Configure GitHub Pages
-        if: steps.market.outputs.status == 'verified'
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true' && steps.eod_freshness.outputs.fresh == 'true'
         uses: actions/configure-pages@v6
         with:
           enablement: true
 
       - name: Upload website artifact
-        if: steps.market.outputs.status == 'verified'
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true' && steps.eod_freshness.outputs.fresh == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: ${{ runner.temp }}/site
 
       - name: Deploy to GitHub Pages
-        if: steps.market.outputs.status == 'verified'
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true' && steps.eod_freshness.outputs.fresh == 'true'
         id: deployment
         uses: actions/deploy-pages@v5
 
       - name: Post-deploy byte verification
-        if: steps.market.outputs.status == 'verified'
+        if: steps.market.outputs.status == 'verified' && steps.persist_eod.outputs.stale != 'true' && steps.eod_freshness.outputs.fresh == 'true'
         run: |
           node scripts/verify-live-site.mjs \
             --site-url "${{ steps.deployment.outputs.page_url }}" \
             --artifact-root "${RUNNER_TEMP}/site"
+
+      - name: Defer stale verified EOD run safely
+        if: steps.market.outputs.status == 'verified' && (steps.persist_eod.outputs.stale == 'true' || steps.eod_freshness.outputs.fresh == 'false')
+        run: echo "Verified EOD run is stale relative to main; no stale artifact will be deployed."
 
       - name: Market closed - safe no-op
         if: steps.market.outputs.status == 'market-closed'

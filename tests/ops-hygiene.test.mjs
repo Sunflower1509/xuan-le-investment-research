@@ -54,6 +54,19 @@ test("visual smoke QA covers data-only UI regressions and caches downloads", () 
   assert.match(workflow, /~\/\.cache\/ms-playwright/);
 });
 
+test("EOD persistence handles concurrent maintenance without stale deployment", () => {
+  const eod = read(".github/workflows/eod-daily.yml");
+  assert.match(eod, /id:\s*persist_eod/);
+  assert.match(eod, /git status --porcelain --untracked-files=all/);
+  assert.match(eod, /maintenance_only=/);
+  assert.match(eod, /git rebase origin\/main/);
+  assert.match(eod, /non-fast-forward/);
+  assert.match(eod, /stale=true/);
+  assert.match(eod, /id:\s*eod_freshness/);
+  assert.match(eod, /fresh=false/);
+  assert.match(eod, /steps\.persist_eod\.outputs\.stale != 'true' && steps\.eod_freshness\.outputs\.fresh == 'true'/);
+});
+
 test("EOD watchdog skips closed sessions and duplicate recovery dispatches", () => {
   const workflow = read(".github/workflows/eod-watchdog.yml");
   assert.match(workflow, /group:\s*eod-watchdog-\$\{\{ github\.ref \}\}/);
