@@ -44,7 +44,7 @@ jobs:
           path: |
             ~/.npm
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-visual-smoke-${{ hashFiles('qa/visual/package.json', 'scripts/build/build-assets.sh') }}
+          key: ${{ runner.os }}-visual-smoke-${{ hashFiles('qa/visual/package-lock.json', 'scripts/build/build-assets.sh') }}
           restore-keys: |
             ${{ runner.os }}-visual-smoke-
 
@@ -53,7 +53,7 @@ jobs:
 
       - name: Install Playwright test runner
         working-directory: qa/visual
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
 
       - name: Install Chromium and WebKit runtime dependencies
         working-directory: qa/visual
