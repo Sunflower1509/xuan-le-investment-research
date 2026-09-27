@@ -6,6 +6,14 @@ on:
       - main
     paths-ignore:
       - ".github/workflows/**"
+      - "docs/**"
+      - "tests/**"
+      - "qa/**"
+      - "workers/**"
+      - "README.md"
+      - "XSMB_SYSTEM_HANDOFF.md"
+      - ".gitattributes"
+      - ".gitignore"
   workflow_dispatch:
 
 permissions:
@@ -14,7 +22,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-v3
+  group: pages-production
   queue: max
   cancel-in-progress: false
 
