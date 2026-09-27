@@ -33,6 +33,19 @@ test("Pages deployment ignores non-runtime maintenance-only paths", () => {
   }
 });
 
+test("Pages persistence handles maintenance races without stale or rejected deploys", () => {
+  const pages = read(".github/workflows/pages.yml");
+  assert.match(pages, /id:\s*persist/);
+  assert.match(pages, /git status --porcelain --untracked-files=all/);
+  assert.match(pages, /maintenance_only=/);
+  assert.match(pages, /git rebase origin\/main/);
+  assert.match(pages, /non-fast-forward/);
+  assert.match(pages, /stale=true/);
+  assert.match(pages, /id:\s*freshness/);
+  assert.match(pages, /fresh=false/);
+  assert.match(pages, /steps\.persist\.outputs\.stale != 'true' && steps\.freshness\.outputs\.fresh == 'true'/);
+});
+
 test("visual smoke QA covers data-only UI regressions and caches downloads", () => {
   const workflow = read(".github/workflows/visual-smoke.yml");
   assert.ok(workflow.includes('- "src/data/**"'));
