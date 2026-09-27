@@ -27,6 +27,8 @@ const CURL_TIMEOUT_SECONDS = 55;
 const CONCURRENCY = 6;
 const SCHEMA = "verified-core-asset-webp-v1";
 const CANDIDATE_SCHEMA = "civs-candidate-registry-v1";
+const EXPECTED = 127;
+const REGISTRY_EXPECTED = 118;
 const USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/132 Safari/537.36 Xuan-Le-TVS-CIVS-Verifier/3.0";
 const ACCEPT_IMAGES = "image/avif,image/webp,image/apng,image/jpeg,image/png,image/*,*/*;q=0.8";
 const NEGATIVE_IMAGE_RE = /(logo|favicon|icon|sprite|avatar|emoji|flag|captcha|qr[-_]?code|facebook|youtube|linkedin|zalo|tiktok|loader|loading|placeholder|payment|appstore|googleplay|rating|badge|award|certificate|seal|arrow|chevron|close|menu|search|phone|mail|location|partner|client)/i;
@@ -505,41 +507,45 @@ const run = async () => {
   const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
   if (!data || data.meta?.schema !== SCHEMA || !data.visuals) throw new Error(`COMPANY_VISUALS sai schema ${SCHEMA}.`);
   if (registry?.meta?.schema !== CANDIDATE_SCHEMA) throw new Error(`Candidate registry sai schema ${CANDIDATE_SCHEMA}.`);
-  if ((research.coverage || []).length !== 125) throw new Error("Coverage Universe không phải 125 mã.");
+  if (Number(registry?.meta?.coverageTarget) !== EXPECTED) throw new Error(`Candidate registry coverageTarget phải ${EXPECTED}.`);
+  if (Number(registry?.meta?.candidateCount) !== REGISTRY_EXPECTED || !Array.isArray(registry?.candidates) || registry.candidates.length !== REGISTRY_EXPECTED) {
+    throw new Error(`Candidate registry phải có ${REGISTRY_EXPECTED} mã bổ sung cho Coverage Universe ${EXPECTED}.`);
+  }
+  if ((research.coverage || []).length !== EXPECTED) throw new Error(`Coverage Universe không phải ${EXPECTED} mã.`);
 
   mergeRegistry(data, registry, logos, research);
   const entries = Object.values(data.visuals).sort((a, b) => String(a.ticker).localeCompare(String(b.ticker)));
-  if (entries.length !== 125) throw new Error(`Sau merge phải có 125 visual candidate, hiện có ${entries.length}.`);
+  if (entries.length !== EXPECTED) throw new Error(`Sau merge phải có ${EXPECTED} visual candidate, hiện có ${entries.length}.`);
 
   const hashes = new Set();
   const { results, failures } = await runPool(entries, (entry) => processOne(entry, hashes));
   const verifiedEntries = entries.filter(isPublished);
   const pendingEntries = entries.filter((entry) => !isPublished(entry));
-  const complete = verifiedEntries.length === 125;
+  const complete = verifiedEntries.length === EXPECTED;
 
   data.meta.standardVersion = "CIVS-1.0";
   data.meta.rollout = true;
   data.meta.complete = complete;
-  data.meta.coverageTarget = 125;
+  data.meta.coverageTarget = EXPECTED;
   data.meta.candidateCount = entries.length;
   data.meta.count = verifiedEntries.length;
   data.meta.verifiedCount = verifiedEntries.length;
   data.meta.pendingCount = pendingEntries.length;
   data.meta.pendingTickers = pendingEntries.map((entry) => entry.ticker).sort();
-  data.meta.rolloutProgressPct = Number(((verifiedEntries.length / 125) * 100).toFixed(1));
+  data.meta.rolloutProgressPct = Number(((verifiedEntries.length / EXPECTED) * 100).toFixed(1));
   data.meta.synced = new Date().toISOString().slice(0, 10);
   data.meta.target = `${TARGET_WIDTH}x${TARGET_HEIGHT}`;
   data.meta.quality = 84;
   data.meta.verification = complete
-    ? "CIVS 1.0 COMPLETE: 125/125 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
-    : `CIVS 1.0 RESUMABLE: ${verifiedEntries.length}/125 visuals verified; ${pendingEntries.length} remain on safe report-cover fallback until first-party verification passes.`;
+    ? `CIVS 1.0 COMPLETE: ${EXPECTED}/${EXPECTED} visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited.`
+    : `CIVS 1.0 RESUMABLE: ${verifiedEntries.length}/${EXPECTED} visuals verified; ${pendingEntries.length} remain on safe report-cover fallback until first-party verification passes.`;
 
   fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
   console.log(JSON.stringify({
     ok: true,
     schema: SCHEMA,
     complete,
-    coverageTarget: 125,
+    coverageTarget: EXPECTED,
     verifiedCount: verifiedEntries.length,
     pendingCount: pendingEntries.length,
     generated: results.filter((item) => !item.reused).length,
