@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { projectTradeLedger } from "../src/scripts/trade-ledger.mjs";
 import { parseActionTrigger } from "../src/scripts/action-trigger.mjs";
 import { validateDailyPlaybookPolicy } from "../src/scripts/daily-market-policy.mjs";
+import { validateMarketDecisionBrief } from "../src/scripts/market-decision-brief.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -36,6 +37,19 @@ const loadWindowData = (relativePath, key) => {
   const context = { window: {} };
   vm.runInNewContext(readText(relativePath), context, { filename: relativePath });
   return context.window[key];
+};
+const loadDailyRuntimeData = () => {
+  const entryModule = readText("src/index.js");
+  const imports = [...entryModule.matchAll(/^import\s+["']\.\/data\/(daily-insights[^"']*\.js)["'];?$/gm)]
+    .map((match) => `src/data/${match[1]}`);
+  if (!imports.length || imports[0] !== "src/data/daily-insights.js") {
+    throw new Error("Không xác định được chuỗi DAILY_MARKET_INSIGHTS theo runtime import.");
+  }
+  const context = { window: {} };
+  imports.forEach((relativePath) => {
+    vm.runInNewContext(readText(relativePath), context, { filename: relativePath });
+  });
+  return context.window.DAILY_MARKET_INSIGHTS;
 };
 const assertUnique = (values, scope) => {
   const seen = new Set();
@@ -71,7 +85,7 @@ let daily;
 let ledger;
 try {
   research = loadWindowData("src/data/research-data.js", "RESEARCH_DATA");
-  daily = loadWindowData("src/data/daily-insights.js", "DAILY_MARKET_INSIGHTS");
+  daily = loadDailyRuntimeData();
   ledger = JSON.parse(readText("src/data/trade-ledger.json"));
 } catch (error) {
   fail("Dữ liệu", error.message);
@@ -170,11 +184,19 @@ if (!daily || typeof daily !== "object") {
   if (!entries.length) fail("Nhận định ngày", "danh sách nhận định đang trống");
   assertUnique(entries.map((entry) => entry.id), "Daily id");
   assertUnique(entries.map((entry) => entry.date), "Daily date");
+  const latestEntryDate = entries.map((entry) => entry.date).filter(isIsoDate).sort().at(-1) || null;
+  if (latestEntryDate && daily.updated !== latestEntryDate) {
+    fail("Nhận định ngày", `updated ${daily.updated || "trống"} không khớp bản mới nhất ${latestEntryDate}`);
+  }
   entries.forEach((entry) => {
     const scope = `Nhận định ${entry.date || entry.id || "không rõ"}`;
     if (!isIsoDate(entry.date) || !entry.title || !entry.thesis) fail(scope, "thiếu ngày, tiêu đề hoặc luận điểm chính");
     const playbookPolicy = validateDailyPlaybookPolicy(entry);
     if (!playbookPolicy.valid) fail(scope, playbookPolicy.message);
+    const briefValidation = validateMarketDecisionBrief(entry);
+    if (briefValidation.applies && !briefValidation.valid) {
+      fail(scope, `Market Brief thiếu trường bắt buộc: ${briefValidation.missing.join(", ")}`);
+    }
     if (!Array.isArray(entry.sources) || !entry.sources.length) fail(scope, "phải có ít nhất một nguồn");
     (entry.sources || []).forEach((source) => {
       if (isHttps(source?.url)) return;
@@ -235,6 +257,19 @@ if (html) {
   }
   if (coverageTabCount !== research?.coverage?.length) {
     fail("Tab count", `Coverage Universe hiển thị ${coverageTabCount || "trống"}, dữ liệu có ${research?.coverage?.length || 0}`);
+  }
+
+  if (isIsoDate(research?.meta?.updated)) {
+    const [year, month, day] = research.meta.updated.split("-");
+    const dotted = `${day}.${month}.${year}`;
+    const shortDotted = `${day}.${month}`;
+    const roleText = (role) => html.match(new RegExp(`<[^>]+data-role=["']${role}["'][^>]*>([^<]*)<\\/[^>]+>`, "i"))?.[1]?.trim() || "";
+    const eodLabel = roleText("coverage-eod-label");
+    const lockLabel = roleText("coverage-lock-label");
+    const ledgerAsOf = roleText("ledger-asof");
+    if (!eodLabel.includes(dotted)) fail("Đồng bộ first-paint", `coverage-eod-label chưa khóa đúng ${dotted}: ${eodLabel || "trống"}`);
+    if (!lockLabel.includes(shortDotted)) fail("Đồng bộ first-paint", `coverage-lock-label chưa khóa đúng ${shortDotted}: ${lockLabel || "trống"}`);
+    if (!ledgerAsOf.includes(dotted)) fail("Đồng bộ first-paint", `ledger-asof chưa khóa đúng ${dotted}: ${ledgerAsOf || "trống"}`);
   }
 
   const preloadTag = [...html.matchAll(/<link\b[^>]*>/gi)].map((match) => match[0])
