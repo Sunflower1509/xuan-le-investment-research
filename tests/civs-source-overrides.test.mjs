@@ -8,12 +8,6 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const data = JSON.parse(fs.readFileSync(path.join(root, "src/data/company-visual-overrides.json"), "utf8"));
 const o = data.overrides;
 
-test("VGI is pinned to the officially announced 2026 Viettel Global domain", () => {
-  assert.equal(o.VGI.officialDomain, "viettelglobal.com.vn");
-  assert.match(o.VGI.sourceUrl, /^https:\/\/beta\.viettelglobal\.com\.vn\//);
-  assert.doesNotMatch(o.VGI.sourceUrl, /viettelglobal\.vn/);
-  assert.ok(o.VGI.keywords.some((item) => /trạm phát sóng/i.test(item)));
-});
 
 test("SIP uses the official Phuoc Dong industrial-park infrastructure page", () => {
   assert.equal(o.SIP.officialDomain, "saigonvrg.com.vn");
@@ -35,4 +29,10 @@ test("HDG source is a named core hydropower operating asset", () => {
   assert.equal(o.HDG.officialDomain, "hado.com.vn");
   assert.match(o.HDG.sourceUrl, /thuy-dien-dak-mi-2/);
   assert.ok(o.HDG.keywords.some((item) => /147 MW/i.test(item)));
+});
+
+test("unresolved PR35 candidates stay out of the active override registry", () => {
+  for (const ticker of ["BFC", "CMG", "CTG", "HCM", "ICG", "VGI", "VNM"]) {
+    assert.equal(o[ticker], undefined, `${ticker} should remain on fail-safe fallback`);
+  }
 });
