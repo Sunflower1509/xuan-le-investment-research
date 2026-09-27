@@ -9,10 +9,6 @@ const dataPath = path.join(root, "src/data/company-visuals.js");
 const registryPath = path.join(root, "src/data/company-visual-candidates.json");
 const EXPECTED = 127;
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
-const SUPPLEMENTAL_CANDIDATES = [
-  { ticker: "QNS", sourceUrl: "https://qns.com.vn/", officialDomain: "qns.com.vn", sourceTier: "A", identityType: "food-sugar-soy-production", keywords: ["QNS", "Vinasoy", "đường An Khê", "nhà máy", "sữa đậu nành"] },
-  { ticker: "TNH", sourceUrl: "https://tnh.com.vn/", officialDomain: "tnh.com.vn", sourceTier: "A", identityType: "private-hospital-system", keywords: ["TNH", "bệnh viện", "hospital", "cơ sở y tế", "Thái Nguyên"] }
-];
 
 const code = fs.readFileSync(dataPath, "utf8");
 const sandbox = { window: {} };
@@ -22,8 +18,9 @@ if (!data?.meta || !data?.visuals) throw new Error("COMPANY_VISUALS unavailable.
 
 const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
 if (registry?.meta?.schema !== "civs-candidate-registry-v1") throw new Error("Candidate registry schema mismatch.");
-if (Number(registry?.meta?.candidateCount) !== 116 || !Array.isArray(registry?.candidates) || registry.candidates.length !== 116) {
-  throw new Error(`Expected 116 pending candidates, got ${registry?.candidates?.length ?? "?"}.`);
+if (Number(registry?.meta?.coverageTarget) !== EXPECTED) throw new Error(`Candidate registry coverageTarget must be ${EXPECTED}.`);
+if (Number(registry?.meta?.candidateCount) !== 118 || !Array.isArray(registry?.candidates) || registry.candidates.length !== 118) {
+  throw new Error(`Expected 118 pending candidates, got ${registry?.candidates?.length ?? "?"}.`);
 }
 
 // Preserve the exact, previously verified VHM official-page -> external-CDN provenance migration
@@ -76,7 +73,7 @@ for (const entry of Object.values(data.visuals)) {
   demoted.push(String(entry.ticker || "").toUpperCase());
 }
 
-for (const candidate of [...registry.candidates, ...SUPPLEMENTAL_CANDIDATES]) {
+for (const candidate of registry.candidates) {
   const ticker = String(candidate?.ticker || "").toUpperCase();
   if (!ticker) throw new Error("Candidate without ticker.");
   if (data.visuals[ticker]) continue;
@@ -116,8 +113,8 @@ data.meta.pendingTickers = pending.map((entry) => String(entry?.ticker || "").to
 data.meta.rolloutProgressPct = Number(((verified.length / EXPECTED) * 100).toFixed(1));
 data.meta.complete = verified.length === EXPECTED && pending.length === 0;
 data.meta.verification = data.meta.complete
-  ? "CIVS 1.0 COMPLETE: 125/127 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
-  : `CIVS 1.0 RESUMABLE: ${verified.length}/127 visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
+  ? `CIVS 1.0 COMPLETE: ${EXPECTED}/${EXPECTED} visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited.`
+  : `CIVS 1.0 RESUMABLE: ${verified.length}/${EXPECTED} visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
 
 fs.writeFileSync(dataPath, `window.COMPANY_VISUALS = ${JSON.stringify(data, null, 2)};\n`);
 console.log(JSON.stringify({
