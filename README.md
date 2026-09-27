@@ -10,7 +10,7 @@ Trang chính thức: <https://sunflower1509.github.io/xuan-le-investment-researc
 - `src/data/`: dữ liệu định giá và nhận định thị trường có thể bảo trì.
 - `src/scripts/`: mã giao diện và tương tác.
 - `src/styles/`: CSS nguồn.
-- `assets/css/` và `assets/js/`: bundle production đã minify; đây là hai tài nguyên mã duy nhất được `index.html` tải.
+- `assets/css/` và `assets/js/`: bundle production **được sinh trong CI/build và không track trong Git**; artifact deploy chỉ đưa các bundle đã minify lên website.
 - `assets/images/reports/`: ảnh bìa WebP của từng báo cáo.
 - `assets/images/logos/`: logo doanh nghiệp SVG local, ánh xạ 1:1 theo ticker trong `src/data/company-logos.js`.
 - `reports/`: PDF công bố trên website; giữ nguyên đường dẫn public.
@@ -39,5 +39,7 @@ Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/w
 
 ## Trạng thái đồng bộ gần nhất
 
-- Kiểm toán 08/09/2026: 122 báo cáo định giá = 122 mã Coverage Universe; 122 ảnh bìa báo cáo; 122 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên 07/09/2026.
-- Bố cục công khai được khóa theo thứ tự `overview → daily-market → position-ledger → action-radar → research`; thay đổi số lượng chỉ cập nhật hai bộ đếm báo cáo/coverage, không thay đổi layout hay CSS.
+- Kiểm toán 27/09/2026: **127 báo cáo định giá = 127 mã Coverage Universe**; 127 ảnh bìa báo cáo; 127 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên **25/09/2026**.
+- CIVS dùng một invariant duy nhất: **127 mã**, gồm 9 visual baseline đã xác minh + 118 candidate registry; runtime không còn chấp nhận universe 125.
+- Daily Market, Trade Ledger và các nhãn first-paint EOD được audit theo runtime thực tế trước deploy.
+- Bố cục công khai được khóa theo thứ tự `overview → daily-market → position-ledger → action-radar → research`; maintenance không được thay đổi layout/CSS nếu chưa có phê duyệt riêng.
