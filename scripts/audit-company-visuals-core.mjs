@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA = "verified-core-asset-webp-v1";
 const EXPECTED = 127;
+const REGISTRY_EXPECTED = 118;
 const WIDTH = 960;
 const HEIGHT = 540;
 const MIN_SCORE = 8;
@@ -105,7 +106,9 @@ const run = () => {
   assert(visuals?.meta?.rollout === true, "CIVS phải rollout=true.");
   assert(Number(visuals?.meta?.coverageTarget) === EXPECTED, `coverageTarget phải ${EXPECTED}.`);
   assert(registry?.meta?.schema === "civs-candidate-registry-v1", "Candidate registry sai schema.");
-  assert(Number(registry?.meta?.candidateCount) === 116, "Candidate registry phải có 116 mã bổ sung.");
+  assert(Number(registry?.meta?.coverageTarget) === EXPECTED, `Candidate registry coverageTarget phải ${EXPECTED}.`);
+  assert(Number(registry?.meta?.candidateCount) === REGISTRY_EXPECTED, `Candidate registry phải có ${REGISTRY_EXPECTED} mã bổ sung.`);
+  assert(Array.isArray(registry?.candidates) && registry.candidates.length === REGISTRY_EXPECTED, `Candidate registry thực tế phải có ${REGISTRY_EXPECTED} entries.`);
 
   const coverage = Array.isArray(research?.coverage) ? research.coverage : [];
   assert(coverage.length === EXPECTED, `Coverage Universe hiện ${coverage.length}, cần ${EXPECTED}.`);

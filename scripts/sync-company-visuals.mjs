@@ -10,7 +10,8 @@ import "./sync-company-visuals-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
-const deadline = Date.now() + 85 * 60 * 1000;
+const EXPECTED = 127;
+const deadline = Date.now() + 25 * 60 * 1000;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
@@ -95,11 +96,11 @@ const demoteAuditInvalidLocalOutputs = () => {
   data.meta.verifiedCount = verified.length;
   data.meta.pendingCount = pending.length;
   data.meta.pendingTickers = pending.map((entry) => String(entry.ticker || "").toUpperCase()).sort();
-  data.meta.rolloutProgressPct = Number(((verified.length / 125) * 100).toFixed(1));
-  data.meta.complete = verified.length === 125;
+  data.meta.rolloutProgressPct = Number(((verified.length / EXPECTED) * 100).toFixed(1));
+  data.meta.complete = verified.length === EXPECTED;
   data.meta.verification = data.meta.complete
-    ? "CIVS 1.0 COMPLETE: 125/125 visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited."
-    : `CIVS 1.0 RESUMABLE: ${verified.length}/125 visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
+    ? `CIVS 1.0 COMPLETE: ${EXPECTED}/${EXPECTED} visuals validated from first-party official pages/CDNs, Quality Gate >=8/10, normalized locally and SHA-256 audited.`
+    : `CIVS 1.0 RESUMABLE: ${verified.length}/${EXPECTED} visuals verified; ${pending.length} remain on safe report-cover fallback until first-party verification passes.`;
   writeData(data);
   console.log(`[CIVS WRAPPER] demoted audit-invalid local outputs to safe fallback: ${demoted.join(", ")}.`);
   return demoted;
@@ -107,16 +108,16 @@ const demoteAuditInvalidLocalOutputs = () => {
 
 while (Date.now() < deadline) {
   const meta = readMeta();
-  if (Number(meta?.candidateCount) === 125 && Number(meta?.verifiedCount) + Number(meta?.pendingCount) === 125) {
-    console.log(`[CIVS WRAPPER] persistence confirmed: ${meta.verifiedCount}/125 verified, ${meta.pendingCount} pending.`);
+  if (Number(meta?.candidateCount) === EXPECTED && Number(meta?.verifiedCount) + Number(meta?.pendingCount) === EXPECTED) {
+    console.log(`[CIVS WRAPPER] persistence confirmed: ${meta.verifiedCount}/${EXPECTED} verified, ${meta.pendingCount} pending.`);
     break;
   }
   await sleep(250);
 }
 
 const finalMeta = readMeta();
-if (!(Number(finalMeta?.candidateCount) === 125 && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === 125)) {
-  throw new Error("CIVS core kết thúc nhưng không persist được candidate set 125 mã vào company-visuals.js.");
+if (!(Number(finalMeta?.candidateCount) === EXPECTED && Number(finalMeta?.verifiedCount) + Number(finalMeta?.pendingCount) === EXPECTED)) {
+  throw new Error(`CIVS core kết thúc nhưng không persist được candidate set ${EXPECTED} mã vào company-visuals.js.`);
 }
 
 normalizeVerifiedLegacyProvenance();

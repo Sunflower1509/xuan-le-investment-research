@@ -17,13 +17,15 @@ test("CIVS discovery helpers load before the strict core engine", () => {
   assert.ok(fetchAt >= 0 && overlayAt > fetchAt && engineAt > overlayAt);
 });
 
-test("sync wrapper keeps the process alive until the 125-candidate state is persisted", () => {
+test("sync wrapper keeps the process alive until the 127-candidate state is persisted", () => {
   assert.match(wrapper, /candidateCount/);
   assert.match(wrapper, /verifiedCount/);
   assert.match(wrapper, /pendingCount/);
   assert.match(wrapper, /await sleep\(250\)/);
   assert.match(wrapper, /persistence confirmed/);
-  assert.match(wrapper, /không persist được candidate set 125 mã/);
+  assert.match(wrapper, /const EXPECTED = 127/);
+  assert.match(wrapper, /candidate set \$\{EXPECTED\} mã/);
+  assert.doesNotMatch(wrapper, /\b125\b/);
 });
 
 test("VHM legacy CDN provenance is normalized only for the exact verified official baseline", () => {
