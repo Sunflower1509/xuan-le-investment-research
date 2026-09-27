@@ -108,32 +108,88 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet -- index.html src/index.css src/styles; then
+          layout_changes="$(git status --porcelain --untracked-files=all -- index.html src/index.css src/styles)"
+          if [[ -n "$layout_changes" ]]; then
             echo "Refusing deployment because HTML/CSS changed during synchronization." >&2
-            git diff -- index.html src/index.css src/styles >&2
+            echo "$layout_changes" >&2
             exit 2
           fi
           allowed='^(src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visuals\.js|src/data/trade-ledger\.json|assets/images/reports/[a-z0-9]+\.webp|assets/images/logos/[a-z0-9]+\.svg|assets/images/company-visuals/[a-z0-9]+\.webp)$'
-          unexpected="$(git diff --name-only | grep -Ev "$allowed" || true)"
+          changed_paths="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
+          unexpected="$(printf '%s\n' "$changed_paths" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
             echo "Unexpected changed paths:" >&2
             echo "$unexpected" >&2
             exit 2
           fi
-      - name: Prepare lean production artifact
-        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
       - name: Persist synchronized covers, logos, company visuals and ledger safely
+        id: persist
         shell: bash
         run: |
           set -euo pipefail
-          if ! git diff --quiet -- src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/images/reports assets/images/logos assets/images/company-visuals; then
+          sync_paths=(src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/images/reports assets/images/logos assets/images/company-visuals)
+          sync_base="$(git rev-parse HEAD)"
+          has_sync_changes=false
+
+          if [[ -n "$(git status --porcelain --untracked-files=all -- "${sync_paths[@]}")" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/trade-ledger.json assets/images/reports assets/images/logos assets/images/company-visuals
+            git add "${sync_paths[@]}"
             git commit -m "Synchronize verified report covers, company identity visuals, logos and ledger [skip ci]"
-            git push origin HEAD:main
+            has_sync_changes=true
           fi
+
+          maintenance_only='^(\.github/workflows/|docs/|tests/|qa/|workers/|README\.md$|XSMB_SYSTEM_HANDOFF\.md$|\.gitattributes$|\.gitignore$)'
+
+          for attempt in 1 2 3; do
+            git fetch origin main --quiet
+            remote_sha="$(git rev-parse origin/main)"
+
+            if [[ "$remote_sha" != "$sync_base" ]]; then
+              remote_changed="$(git diff --name-only "$sync_base" "$remote_sha")"
+              unexpected_remote="$(printf '%s\n' "$remote_changed" | grep -Ev "$maintenance_only" || true)"
+              if [[ -n "$unexpected_remote" ]]; then
+                echo "Main advanced with runtime/public changes; hand off deployment to the newer Pages run." >&2
+                echo "$unexpected_remote" >&2
+                echo "stale=true" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+
+              if [[ "$has_sync_changes" == "true" ]]; then
+                git rebase origin/main
+              else
+                git reset --hard origin/main
+              fi
+              sync_base="$remote_sha"
+            fi
+
+            if [[ "$has_sync_changes" != "true" ]]; then
+              echo "stale=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            push_log="$(mktemp)"
+            if git push origin HEAD:main 2>"$push_log"; then
+              cat "$push_log" >&2
+              rm -f "$push_log"
+              echo "stale=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            cat "$push_log" >&2
+            if ! grep -Eqi 'rejected|fetch first|non-fast-forward' "$push_log"; then
+              rm -f "$push_log"
+              exit 1
+            fi
+            rm -f "$push_log"
+            echo "Main advanced during synchronized persistence; retrying safely (attempt $attempt/3)." >&2
+          done
+
+          echo "Repeated non-fast-forward races prevented persistence; skip this stale deployment cleanly." >&2
+          echo "stale=true" >> "$GITHUB_OUTPUT"
       - name: Guard against stale deployment
+        id: freshness
+        if: steps.persist.outputs.stale != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -141,21 +197,30 @@ jobs:
           local_sha="$(git rev-parse HEAD)"
           remote_sha="$(git rev-parse origin/main)"
           if [[ "$local_sha" != "$remote_sha" ]]; then
-            echo "Refusing stale Pages deployment: local=$local_sha remote=$remote_sha" >&2
-            exit 3
+            echo "Pages run became stale before deployment: local=$local_sha remote=$remote_sha" >&2
+            echo "fresh=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "fresh=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: Prepare lean production artifact
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
+        run: bash scripts/build/prepare-site.sh "${RUNNER_TEMP}/site"
       - name: Configure GitHub Pages
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         uses: actions/configure-pages@v6
         with:
           enablement: true
       - name: Upload website artifact
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: ${{ runner.temp }}/site
       - name: Deploy to GitHub Pages
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         id: deployment
         uses: actions/deploy-pages@v5
       - name: Post-deploy byte verification
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         run: |
           node scripts/verify-live-site.mjs \
             --site-url "${{ steps.deployment.outputs.page_url }}" \
