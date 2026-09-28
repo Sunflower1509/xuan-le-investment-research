@@ -31,6 +31,17 @@ const canonicalVariants = (value) => {
   if (toggled.href !== original.href) variants.push(toggled.href);
   return [...new Set(variants)];
 };
+const hasDiscoveryImageSignal = (html) => {
+  const text = String(html || "");
+  return /<img\b[^>]*(?:src|data-src|srcset|data-srcset)\s*=/i.test(text)
+    || /<source\b[^>]*(?:srcset|data-srcset)\s*=/i.test(text)
+    || /<meta\b[^>]*(?:og:image|twitter:image)/i.test(text)
+    || /(?:background(?:-image)?\s*:\s*)?url\(/i.test(text);
+};
+const validateDiscoveryHtml = (text) => {
+  if (text.length < MIN_PAGE_BYTES) throw new Error(`HTML quá ngắn (${text.length})`);
+  if (!hasDiscoveryImageSignal(text)) throw new Error("HTML không có image discovery signal (SPA shell/candidate-empty)");
+};
 
 const responseFromText = (text, sourceResponse, marker = "direct") => new Response(text, {
   status: 200,
@@ -46,7 +57,7 @@ const tryDirectHtml = async (url, options) => {
   const response = await nativeFetch(url, options);
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const text = await response.text();
-  if (text.length < MIN_PAGE_BYTES) throw new Error(`HTML quá ngắn (${text.length})`);
+  validateDiscoveryHtml(text);
   return responseFromText(text, response, url === String(url) ? "direct" : "canonical");
 };
 
@@ -106,7 +117,7 @@ const patchedFetch = async (input, options = {}) => {
       const response = await nativeFetch(candidate, options);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const text = await response.text();
-      if (text.length < MIN_PAGE_BYTES) throw new Error(`HTML quá ngắn (${text.length})`);
+      validateDiscoveryHtml(text);
       return responseFromText(text, response, candidate === url ? "direct" : "canonical-host");
     } catch (error) {
       errors.push(`${candidate}: ${error?.message || error}`);
@@ -125,10 +136,11 @@ const patchedFetch = async (input, options = {}) => {
 
 globalThis.fetch = patchedFetch;
 globalThis.__XLTVS_CIVS_FETCH_FALLBACK__ = Object.freeze({
-  version: "1.0.0",
+  version: "1.1.0",
   directCanonicalHostFallback: true,
   readerFallback: true,
   readerUsedForImages: false,
+  candidateEmptySpaFallback: true,
   minimumPageBytes: MIN_PAGE_BYTES,
   readerIntervalMs: READER_INTERVAL_MS
 });

@@ -70,9 +70,17 @@ test("Reader is only a rate-limited page discovery transport", () => {
   assert.match(helper, /canonicalVariants/);
 });
 
+test("candidate-empty SPA shells fall through to reader discovery", () => {
+  assert.match(helper, /hasDiscoveryImageSignal/);
+  assert.match(helper, /validateDiscoveryHtml/);
+  assert.match(helper, /SPA shell\/candidate-empty/);
+  assert.match(helper, /candidateEmptySpaFallback:\s*true/);
+});
+
+
 test("source overrides are an in-memory verified overlay, never a registry rewrite", () => {
   assert.equal(overrides.meta.schema, "civs-source-overrides-v1");
-  assert.ok(Object.keys(overrides.overrides).length >= 5);
+  assert.ok(Object.keys(overrides.overrides).length >= 15);
   assert.match(overlay, /fs\.readFileSync\s*=\s*function patchedReadFileSync/);
   assert.match(overlay, /diskRegistryMutated:\s*false/);
   assert.doesNotMatch(overlay, /writeFileSync|writeFile\(/);
@@ -83,11 +91,23 @@ test("source overrides are an in-memory verified overlay, never a registry rewri
   }
 });
 
-test("BSR exact asset override remains first-party and economic-identity specific", () => {
+test("BSR unresolved replacement is not activated over the current verified baseline", () => {
   const bsr = overrides.overrides.BSR;
   assert.equal(bsr.officialDomain, "bsr.com.vn");
   assert.match(bsr.sourceUrl, /about-dung-quat-refinery/);
   assert.match(bsr.sourceImageUrl, /^https:\/\/www\.bsr\.com\.vn\/documents\//);
   assert.equal(bsr.sourceDiscovery.resolvedFromOfficialPage, true);
   assert.equal(bsr.qualityScore, 10);
+});
+
+
+test("reconciled source baseline activates only live-verified first-party upgrades", () => {
+  for (const ticker of ["D2D", "HDG", "MBB", "PVB", "SHS", "SIP", "VDS"]) {
+    assert.ok(overrides.overrides[ticker], `missing reconciled override ${ticker}`);
+    assert.match(overrides.overrides[ticker].sourceUrl, /^https:\/\//);
+    assert.ok(overrides.overrides[ticker].officialDomain);
+  }
+  for (const ticker of ["BFC", "CMG", "CTG", "HCM", "ICG", "VGI", "VNM"]) {
+    assert.equal(overrides.overrides[ticker], undefined, `${ticker} must remain inactive until live verification succeeds`);
+  }
 });

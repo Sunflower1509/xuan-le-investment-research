@@ -1,8 +1,8 @@
 {
   "meta": {
     "schema": "civs-source-overrides-v1",
-    "updated": "2026-09-13",
-    "policy": "Only corrections or stronger first-party source pages/assets. Base registry remains immutable during runtime."
+    "updated": "2026-09-27",
+    "policy": "Only current-run verified first-party source upgrades are activated; unresolved candidates remain on the existing registry/report-cover fallback."
   },
   "overrides": {
     "BSR": {
@@ -56,6 +56,85 @@
     "VPL": {
       "sourceUrl": "https://vinpearl.com/vi/about-us",
       "officialDomain": "vinpearl.com"
+    },
+    "D2D": {
+      "sourceUrl": "https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2",
+      "officialDomain": "d2d.com.vn",
+      "keywords": [
+        "Khu Công nghiệp Nhơn Trạch 2",
+        "khu công nghiệp",
+        "hạ tầng",
+        "industrial",
+        "Nhơn Trạch"
+      ]
+    },
+    "HDG": {
+      "sourceUrl": "https://hado.com.vn/tap-doan-ha-do-khanh-thanh-nha-may-thuy-dien-dak-mi-2-cong-suat-147-mw-tai-quang-nam",
+      "officialDomain": "hado.com.vn",
+      "keywords": [
+        "Nhà máy Thủy điện Đăk Mi 2",
+        "thủy điện",
+        "147 MW",
+        "nhà máy",
+        "năng lượng"
+      ]
+    },
+    "MBB": {
+      "sourceUrl": "https://news.mbbank.com.vn/news/khai-truong-mb-bac-nghe-an-1779420942",
+      "officialDomain": "mbbank.com.vn",
+      "keywords": [
+        "MB Bắc Nghệ An",
+        "trụ sở mới",
+        "chi nhánh",
+        "cơ sở vật chất",
+        "MB"
+      ]
+    },
+    "PVB": {
+      "sourceUrl": "https://pvcoating.vn/tin-cong-ty/khoi-cong-hd-boc-ong-pc1-va-pc2-du-an-lo-b-o-mon.html",
+      "officialDomain": "pvcoating.vn",
+      "keywords": [
+        "sản phẩm ống bọc bê tông gia trọng",
+        "Nhà máy Bọc ống",
+        "dây chuyền sản xuất",
+        "bãi để ống thành phẩm",
+        "Lô B – Ô Môn"
+      ]
+    },
+    "SHS": {
+      "sourceUrl": "https://www.shs.com.vn/tin-tuc/nang-cap-web-giao-dich-sh-smart-giao-dich-de-hon-bat-nhip-thi-truong-nhanh-hon",
+      "officialDomain": "shs.com.vn",
+      "identityType": "securities-digital-platform",
+      "keywords": [
+        "SH Smart Web",
+        "giao dịch",
+        "đặt lệnh",
+        "SHS",
+        "nền tảng giao dịch"
+      ]
+    },
+    "SIP": {
+      "sourceUrl": "https://saigonvrg.com.vn/vi/kcn-phuoc-dong",
+      "officialDomain": "saigonvrg.com.vn",
+      "keywords": [
+        "tram-dien-kcn-phuoc-dong",
+        "nha-may-xu-ly-nuoc-thai-phuoc-dong",
+        "he-thong-duong-giao-thong",
+        "KCN Phước Đông",
+        "hạ tầng"
+      ]
+    },
+    "VDS": {
+      "sourceUrl": "https://hdsd.vdsc.com.vn/",
+      "officialDomain": "vdsc.com.vn",
+      "identityType": "securities-digital-platform",
+      "keywords": [
+        "iDragon",
+        "Ứng dụng giao dịch Chứng khoán",
+        "giao dịch",
+        "Rồng Việt",
+        "Webtrading"
+      ]
     }
   }
 }
