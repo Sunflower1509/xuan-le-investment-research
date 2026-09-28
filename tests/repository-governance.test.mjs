@@ -39,6 +39,12 @@ test("Phase 4C archive anchors remain exact, unique and namespaced", () => {
   }
 });
 
+test("workflow dependency scan ignores ref-like JavaScript inside run/script blocks", () => {
+  assert.match(auditScript, /blockIndent/);
+  assert.match(auditScript, /\(\?:run\|script\):\\s\*\[\|>\]/);
+  assert.match(auditScript, /indent > blockIndent/);
+});
+
 test("governance audit is scheduled, read-only and fail-closed on hard invariants", () => {
   assert.match(auditWorkflow, /schedule:/);
   assert.match(auditWorkflow, /cron: "41 2 \* \* 1"/);
