@@ -19,9 +19,8 @@ test("persistent workflow dependency branches are explicitly declared", () => {
   assert.equal(persistent.defaultBranch, "main");
   const xsmb = persistent.branches.find((item) => item.name === "xsmb-v2.1-python312-runtime");
   assert.ok(xsmb);
-  assert.deepEqual(xsmb.dependentWorkflows.sort(), [
-    ".github/workflows/xsmb-r3-full-suite-bootstrap.yml",
-    ".github/workflows/xsmb-runtime-gate-bootstrap.yml"
+  assert.deepEqual(xsmb.dependentWorkflows, [
+    ".github/workflows/xsmb-r3-full-suite-bootstrap.yml"
   ]);
 });
 
@@ -37,6 +36,11 @@ test("Phase 4C archive anchors remain exact, unique and namespaced", () => {
     assert.match(item.sha, /^[0-9a-f]{40}$/);
     assert.ok(item.sourceBranch);
   }
+});
+
+test("XSMB runtime-gate bootstrap is not falsely declared as a branch dependency", () => {
+  const runtimeGate = read(".github/workflows/xsmb-runtime-gate-bootstrap.yml");
+  assert.doesNotMatch(runtimeGate, /^\s*ref:\s*xsmb-v2\.1-python312-runtime\s*$/m);
 });
 
 test("workflow dependency scan ignores ref-like JavaScript inside run/script blocks", () => {
