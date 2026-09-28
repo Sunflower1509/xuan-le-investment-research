@@ -55,7 +55,18 @@ const literalWorkflowRefs = () => {
   for (const name of fs.readdirSync(dir).filter((x) => /\.ya?ml$/i.test(x))) {
     const rel = `.github/workflows/${name}`;
     const content = fs.readFileSync(path.join(root, rel), "utf8");
+    let blockIndent = null;
     for (const line of content.split(/\r?\n/)) {
+      const indent = line.match(/^\s*/)?.[0].length || 0;
+      if (blockIndent !== null) {
+        if (!line.trim() || indent > blockIndent) continue;
+        blockIndent = null;
+      }
+      const block = line.match(/^(\s*)(?:run|script):\s*[|>][-+]?\s*$/);
+      if (block) {
+        blockIndent = block[1].length;
+        continue;
+      }
       const match = line.match(/^\s*ref:\s*["']?([A-Za-z0-9._/-]+)["']?\s*(?:#.*)?$/);
       if (match) refs.push({ workflow: rel, ref: match[1] });
     }
