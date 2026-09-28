@@ -6,8 +6,7 @@
       "name": "xsmb-v2.1-python312-runtime",
       "reason": "Runtime dependency for XSMB bootstrap workflows; do not auto-delete while referenced.",
       "dependentWorkflows": [
-        ".github/workflows/xsmb-r3-full-suite-bootstrap.yml",
-        ".github/workflows/xsmb-runtime-gate-bootstrap.yml"
+        ".github/workflows/xsmb-r3-full-suite-bootstrap.yml"
       ]
     }
   ]
