@@ -1,0 +1,16 @@
+{
+  "schema": "repository-archive-anchors-v1",
+  "namespace": "archive/phase4c/20260928",
+  "anchors": [
+    {"tag":"archive/phase4c/20260928/audit-report-coverage-sync-20260819","sha":"5ade4a4f49d5b9817a9cc37a16a6c17dcd908b83","sourceBranch":"audit/report-coverage-sync-20260819","reason":"PR #14 closed; superseded report/coverage audit."},
+    {"tag":"archive/phase4c/20260928/audit-stock-logo-source-20260903","sha":"bda8e7e96aa5c2ac06f380a471145e581f64c609","sourceBranch":"audit/stock-logo-source-20260903","reason":"Stock-logo source provenance audit evidence."},
+    {"tag":"archive/phase4c/20260928/feat-company-visuals-full-125-20260912","sha":"5abeeb8b313761efc42f9c495f9a673c9c979274","sourceBranch":"feat/company-visuals-full-125-20260912","reason":"PR #29 CIVS 125 rollout evidence."},
+    {"tag":"archive/phase4c/20260928/feature-report-coverage-sync-20260819","sha":"39078bcab90558ad01d198944c64703ad6795e89","sourceBranch":"feature/report-coverage-sync-20260819","reason":"PR #15 historical report-sync evidence."},
+    {"tag":"archive/phase4c/20260928/fix-civs-127-hygiene-20260924","sha":"c3e721876004c91a8517f3193d1fe759c36b50ba","sourceBranch":"fix/civs-127-hygiene-20260924","reason":"PR #47 closed; superseded CIVS hygiene experiment."},
+    {"tag":"archive/phase4c/20260928/fix-civs-pending-source-batch-20260913","sha":"bdb2c7f7c936139158524caaa07f66cd8d7078ec","sourceBranch":"fix/civs-pending-source-batch-20260913","reason":"PR #33 closed; superseded by PR #61."},
+    {"tag":"archive/phase4c/20260928/hardening-full-sync-20260818-v2","sha":"2a1dd4a165c1172a4528a83da48ab9069ba8d73c","sourceBranch":"hardening/full-sync-20260818-v2","reason":"PR #6 historical EOD/full-sync snapshot."},
+    {"tag":"archive/phase4c/20260928/hardening-priority-engine-20260818","sha":"a554223b8c65505566a02b30e026fa6d3fc2f98b","sourceBranch":"hardening/priority-engine-20260818","reason":"PR #3 historical priority-engine design."},
+    {"tag":"archive/phase4c/20260928/improve-civs-pending-batch1-20260914","sha":"53f380c2a331fe50e66cb53fc6c33ab1aad861d0","sourceBranch":"improve/civs-pending-batch1-20260914","reason":"PR #35 closed; selectively reconciled by PR #61."},
+    {"tag":"archive/phase4c/20260928/ops-report-sync-20260911","sha":"e862023f9b093c11722e68f31b14d9b6e7875b1a","sourceBranch":"ops/report-sync-20260911","reason":"Historical report-sync staging evidence."}
+  ]
+}
