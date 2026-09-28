@@ -1,0 +1,62 @@
+name: Temporary market diagnostic 2026-09-28
+
+on:
+  push:
+    paths:
+      - ".github/workflows/tmp-market-diagnostic-20260928.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Compute verified market diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const getJson = async (url) => {
+            const r = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } });
+            if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
+            return r.json();
+          };
+          const date = "2026-09-28";
+          const histUrl = "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-28&size=500";
+          const hist = await getJson(histUrl);
+          const rows = (Array.isArray(hist?.data) ? hist.data : [])
+            .filter(x => x?.code === "VNINDEX" && x?.date <= date)
+            .sort((a,b) => String(a.date).localeCompare(String(b.date)));
+          if (rows.length < 200) throw new Error(`VNINDEX history insufficient: ${rows.length}`);
+          const closes = rows.map(x => Number(x.close));
+          const avg = (a) => a.reduce((s,x)=>s+x,0)/a.length;
+          const ma = n => avg(closes.slice(-n));
+          const last = rows.at(-1);
+          const values = rows.map(x => Number(x.nmValue ?? x.value ?? x.totalValue)).filter(Number.isFinite);
+          const liquidity = {};
+          for (const n of [5,10,20]) liquidity["avgValue"+n]=values.length>=n?avg(values.slice(-n)):null;
+          const start = Math.floor(Date.parse("2026-09-27T17:00:00Z")/1000);
+          const stop = Math.floor(Date.parse("2026-09-28T10:30:00Z")/1000);
+          const futUrl = `https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${start}&to=${stop}`;
+          let futClose=null, futCount=0, futShape=null;
+          try {
+            const fut=await getJson(futUrl);
+            futShape=Array.isArray(fut)?["array",fut.length]:Object.keys(fut||{});
+            if (Array.isArray(fut)) {
+              const vals=fut.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite);
+              futCount=vals.length; futClose=vals.at(-1) ?? null;
+            } else {
+              const vals = Array.isArray(fut?.c) ? fut.c.map(Number).filter(Number.isFinite)
+                : Array.isArray(fut?.data) ? fut.data.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite) : [];
+              futCount=vals.length; futClose=vals.at(-1) ?? null;
+            }
+          } catch(e) { console.log("DNSE_ERROR", String(e)); }
+          console.log("DIAGNOSTIC", JSON.stringify({
+            date, rowCount: rows.length, firstDate: rows[0]?.date, lastDate:last?.date,
+            close:last?.close, nmValue:last?.nmValue ?? null, volume:last?.nmVolume ?? null,
+            ma20:ma(20), ma50:ma(50), ma200:ma(200),
+            ...liquidity, futClose, futCount, futShape, histUrl, futUrl
+          }));
+          NODE
