@@ -97,7 +97,9 @@ jobs:
           const topLosers=[...movers].sort((a,b)=>a.pct-b.pct).slice(0,12);
           const vn30=(data.marketSession?.indices||[]).find(x=>x.code==='VN30');
 
-          console.log("VNINDEX_ROW_KEYS", JSON.stringify(Object.keys(last||{})));\n          console.log("VNINDEX_ROW_SAMPLE", JSON.stringify(last));\n          console.log("DIAGNOSTIC", JSON.stringify({
+          console.log("VNINDEX_ROW_KEYS", JSON.stringify(Object.keys(last||{})));
+          console.log("VNINDEX_ROW_SAMPLE", JSON.stringify(last));
+          console.log("DIAGNOSTIC", JSON.stringify({
             date,rowCount:rows.length,firstDate:rows[0]?.date,lastDate:last?.date,
             open:last?.open,high:last?.high,low:last?.low,close:last?.close,basicPrice:last?.basicPrice,
             change:last?.change,changePct:last?.pctChange,nmValue:last?.nmValue ?? null,volume:last?.nmVolume ?? null,
