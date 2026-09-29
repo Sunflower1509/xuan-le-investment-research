@@ -12,32 +12,64 @@ permissions:
 jobs:
   probe:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - name: Probe Firestorage client API
+      - name: Probe Firestorage with headless Chrome
         shell: bash
         env:
-          BASE: "https://firestorage.ai"
           SHARE_URL: "https://firestorage.ai/ja/f/zZYSb3iJ0DCz"
         run: |
           set -euo pipefail
-          curl -L --fail --silent --show-error "$SHARE_URL" -o /tmp/page.html
-          python3 - <<'PY' > /tmp/chunks.txt
+          google-chrome --version || chromium --version || true
+          python3 -m pip install --quiet selenium
+          python3 - <<'PY'
+          import os, time, json
           from pathlib import Path
-          import re
-          s=Path('/tmp/page.html').read_text(encoding='utf-8',errors='replace')
-          for x in re.findall(r'<script[^>]+src="([^"]+)"',s,re.I):
-              if x.startswith('/'):
-                  print(x)
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+
+          dld=Path('/tmp/downloads'); dld.mkdir(exist_ok=True)
+          o=Options()
+          o.add_argument('--headless=new')
+          o.add_argument('--no-sandbox')
+          o.add_argument('--disable-dev-shm-usage')
+          o.add_argument('--window-size=1440,1200')
+          o.set_capability('goog:loggingPrefs', {'performance':'ALL'})
+          o.add_experimental_option('prefs',{
+              'download.default_directory': str(dld),
+              'download.prompt_for_download': False,
+              'download.directory_upgrade': True,
+              'plugins.always_open_pdf_externally': True,
+          })
+          driver=webdriver.Chrome(options=o)
+          driver.set_page_load_timeout(60)
+          driver.get(os.environ['SHARE_URL'])
+          for _ in range(40):
+              time.sleep(0.5)
+              txt=driver.find_element(By.TAG_NAME,'body').text
+              if '確認しています' not in txt:
+                  break
+          print('URL',driver.current_url)
+          print('TITLE',driver.title)
+          print('BODY\n',driver.find_element(By.TAG_NAME,'body').text[:12000])
+          print('BUTTONS')
+          for el in driver.find_elements(By.CSS_SELECTOR,'button,a'):
+              t=(el.text or '').strip()
+              if t:
+                  print(el.tag_name, repr(t), el.get_attribute('href'))
+          print('NETWORK_CANDIDATES')
+          for item in driver.get_log('performance'):
+              try:
+                  msg=json.loads(item['message'])['message']
+              except Exception:
+                  continue
+              if msg.get('method')!='Network.responseReceived': continue
+              p=msg.get('params',{})
+              r=p.get('response',{})
+              u=r.get('url','')
+              mime=r.get('mimeType','')
+              if any(k in u.lower() for k in ('download','share','file','api')) or 'pdf' in mime.lower():
+                  print(r.get('status'), mime, u)
+          driver.quit()
           PY
-          echo "== script chunks =="
-          cat /tmp/chunks.txt
-          mkdir -p /tmp/js
-          n=0
-          while IFS= read -r p; do
-            n=$((n+1))
-            curl -L --fail --silent --show-error "$BASE$p" -o "/tmp/js/$n.js"
-          done < /tmp/chunks.txt
-          echo "== API/download strings =="
-          grep -RaoE '.{0,180}(api/|download|shareId|share_id|publicId|public_id|signed|presign|token).{0,260}' /tmp/js | head -n 220 || true
-          echo "== URL-like strings =="
-          grep -RaoE 'https?://[^"'"'<> ]+' /tmp/js | head -n 120 || true
