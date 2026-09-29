@@ -298,7 +298,6 @@ jobs:
           replace_exact("scripts/ensure-company-visual-candidates.mjs", [
               ("const EXPECTED = 127;", "const EXPECTED = 129;", 1),
               ("!== 118", "!== 120", 2),
-              ("length !== 118", "length !== 120", 1),
               ("Expected 118 pending candidates", "Expected 120 pending candidates", 1),
           ])
 
