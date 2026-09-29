@@ -413,11 +413,11 @@
         "VPB": {
           "date": "2026-09-28",
           "close": 22950,
-          "relation": "above",
-          "zoneLow": 20660,
-          "zoneHigh": 22136,
-          "zoneBasisDate": "2026-08-18",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-09-28",
+          "eligibility": "inactive"
         },
         "PVT": {
           "date": "2026-09-28",
@@ -539,11 +539,11 @@
         "NKG": {
           "date": "2026-09-28",
           "close": 9460,
-          "relation": "above",
-          "zoneLow": 4649,
-          "zoneHigh": 4982,
-          "zoneBasisDate": "2026-08-25",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-09-28",
+          "eligibility": "inactive"
         },
         "DBC": {
           "date": "2026-09-28",
@@ -1158,6 +1158,24 @@
           "zoneHigh": 8000,
           "zoneBasisDate": "2026-09-11",
           "eligibility": "active"
+        },
+        "DCL": {
+          "date": "2026-09-28",
+          "close": 46100,
+          "relation": "above",
+          "zoneLow": 17198,
+          "zoneHigh": 18426,
+          "zoneBasisDate": "2026-09-18",
+          "eligibility": "active"
+        },
+        "KSV": {
+          "date": "2026-09-28",
+          "close": 107500,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-09-22",
+          "eligibility": "inactive"
         }
       },
       "exitPolicy": {
