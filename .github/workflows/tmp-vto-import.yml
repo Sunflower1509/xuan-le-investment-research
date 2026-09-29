@@ -1,0 +1,342 @@
+name: Temporary VTO valuation import
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-vto-import.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and verify VTO valuation PDF
+        shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+          SHARE_ID: "_ihQH5D1tAZN"
+          EXPECTED_SHA: "f450a2de6f91ee1390b60fbb06a8d58a1451a5abe4c404e3e77b17885cfc2e55"
+          EXPECTED_SIZE: "491056"
+        run: |
+          set -euo pipefail
+          listing="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL "${FIRE_API}/shares/${SHARE_ID}/files?maxResults=1000")"
+          file_id="$(printf '%s' "$listing" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["files"][0]["fileId"])')"
+          [[ -n "$file_id" ]] || { echo "Missing Firestorage fileId" >&2; exit 2; }
+          payload="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL -X POST "${FIRE_API}/shares/${SHARE_ID}/files/$file_id/download")"
+          download_url="$(printf '%s' "$payload" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["downloadUrl"])')"
+          [[ "$download_url" == https://* ]] || { echo "Invalid download URL" >&2; exit 2; }
+          mkdir -p reports
+          curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$download_url" -o reports/VTO_2026-09-27.pdf
+          [[ "$(wc -c < reports/VTO_2026-09-27.pdf | tr -d ' ')" == "$EXPECTED_SIZE" ]] || { echo "VTO PDF size mismatch" >&2; exit 2; }
+          printf '%s  %s\n' "$EXPECTED_SHA" "reports/VTO_2026-09-27.pdf" | sha256sum -c -
+          [[ "$(head -c 5 reports/VTO_2026-09-27.pdf)" == "%PDF-" ]] || { echo "Invalid VTO PDF signature" >&2; exit 2; }
+
+      - name: Add VTO report and verified EOD coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import vm from "node:vm";
+          const { parseVndirect, parseKbsDaily } = await import("./scripts/update-eod-market-data.mjs");
+
+          const path = "src/data/research-data.js";
+          const code = fs.readFileSync(path, "utf8");
+          const context = { window: {} };
+          vm.runInNewContext(code, context, { filename: path });
+          const data = context.window.RESEARCH_DATA;
+          if (!data || !Array.isArray(data.reports) || !Array.isArray(data.coverage)) throw new Error("RESEARCH_DATA invalid");
+
+          const report = {
+            id: "VTO-20260927",
+            ticker: "VTO",
+            company: "Công ty Cổ phần Vận tải Xăng dầu VITACO",
+            sector: "Vận tải biển xăng dầu",
+            exchange: "HOSE",
+            date: "2026-09-27",
+            recommendation: "THEO DÕI / CHỜ",
+            status: "wait",
+            marketPrice: 10950,
+            marketPriceDate: "2026-09-25",
+            baseValue: 12002,
+            valueLabel: "Giá trị kỳ vọng",
+            rangeLow: 7825,
+            rangeHigh: 17219,
+            gapLabel: "Giá 10.950 đồng/cp thấp hơn giá trị kỳ vọng 12.002 đồng/cp khoảng 8,8%, nhưng chưa đạt biên an toàn 25%; tín hiệu định giá là THEO DÕI.",
+            method: "PP-13 lợi nhuận chuẩn hóa; PP-16 P/B và PP-01 DCF-FCFF kiểm chứng; PP-18 DCF ngược bắt buộc",
+            summary: "VTO có khoảng giá trị 7.825-17.219 đồng/cp và giá trị kỳ vọng 12.002 đồng/cp. Điểm mạnh là tiền ròng và dòng tiền kinh doanh, nhưng kế hoạch đầu tư tàu mới làm tăng độ bất định. Giao dịch 1-3 tuần giữ trạng thái CHỜ.",
+            action: {
+              zoneLow: 10550,
+              zoneHigh: 10650,
+              baseValue: 12002,
+              stop: 10250,
+              targets: [11500, 12000],
+              basisDate: "2026-09-27",
+              recommendation: "THEO DÕI / CHỜ",
+              eligibility: "active",
+              condition: "IF giá về 10.550-10.650 đồng/cp và xuất hiện phiên hồi phục/xác nhận dòng tiền với khối lượng >=228.990 cp/phiên THEN có thể xem xét điểm mua điều kiện; stop 10.250, target 11.500 rồi 12.000, R/R tại cận trên vùng mua khoảng 2,12. IF thủng 10.250 hoặc cấu trúc kỹ thuật suy yếu THEN hủy kịch bản. Với trung-dài hạn, IF giá <=7.825 THEN chỉ vào vùng tích lũy sau khi cập nhật kế hoạch tàu mới."
+            },
+            file: "reports/VTO_2026-09-27.pdf",
+            edition: "Bản định giá 27.09.2026",
+            visual: {
+              src: "assets/images/reports/vto.webp?v=20260927-cover1",
+              alt: "Trang bìa báo cáo định giá VTO ngày 27/09/2026",
+              caption: "Bìa báo cáo định giá VTO",
+              sourceLabel: "Xuân Lê TVS Equity Research",
+              sourceUrl: "reports/VTO_2026-09-27.pdf",
+              kind: "report-cover"
+            }
+          };
+
+          const existingReports = data.reports.filter((r) => String(r.ticker || "").toUpperCase() === "VTO");
+          if (existingReports.some((r) => String(r.date || "") > report.date)) {
+            throw new Error("Repository already contains a newer VTO valuation report");
+          }
+          data.reports = data.reports.filter((r) => String(r.ticker || "").toUpperCase() !== "VTO");
+          data.reports.push(report);
+          data.reports.sort((a, b) => b.date.localeCompare(a.date) || a.ticker.localeCompare(b.ticker));
+
+          const date = "2026-09-28";
+          const kbsDate = "28-09-2026";
+          const primaryUrl = "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VTO~date:2026-09-28&size=10";
+          const secondaryUrl = "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VTO/data_day?sdate=28-09-2026&edate=28-09-2026";
+
+          async function json(url) {
+            let last;
+            for (let attempt = 1; attempt <= 4; attempt++) {
+              try {
+                const response = await fetch(url, {
+                  headers: { accept: "application/json,*/*", "user-agent": "Mozilla/5.0 XuanLeTVS-VTO-Sync/1.0" },
+                  signal: AbortSignal.timeout(20000)
+                });
+                if (!response.ok) throw new Error("HTTP " + response.status);
+                return await response.json();
+              } catch (error) {
+                last = error;
+                if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+              }
+            }
+            throw last;
+          }
+
+          const [vPayload, kPayload] = await Promise.all([json(primaryUrl), json(secondaryUrl)]);
+          const v = parseVndirect(vPayload, "VTO", date);
+          const k = parseKbsDaily(kPayload, date);
+          if (v.close !== k.close) throw new Error("VTO close mismatch VNDIRECT=" + v.close + " KBS=" + k.close);
+
+          data.coverage = data.coverage.filter((c) => String(c.ticker || "").toUpperCase() !== "VTO");
+          data.coverage.push({
+            ticker: "VTO",
+            company: report.company,
+            sector: report.sector,
+            exchange: report.exchange,
+            reportId: report.id,
+            close: v.close,
+            priceDate: date,
+            changePct: v.changePct,
+            volume: v.volume,
+            priceSource: primaryUrl,
+            priceSourceSecondary: secondaryUrl,
+            action: structuredClone(report.action)
+          });
+          data.coverage.sort((a, b) => a.ticker.localeCompare(b.ticker));
+
+          const valuationReports = data.reports.filter((r) => r.reportType !== "trading");
+          if (valuationReports.length !== 130 || data.coverage.length !== 130) {
+            throw new Error("Expected 130 valuation reports/coverage, got " + valuationReports.length + "/" + data.coverage.length);
+          }
+          const valuationTickers = valuationReports.map((r) => r.ticker);
+          if (new Set(valuationTickers).size !== valuationTickers.length) throw new Error("Duplicate valuation ticker after VTO import");
+          if (valuationReports.filter((r) => r.ticker === "VTO").length !== 1) throw new Error("Latest-only VTO invariant failed");
+          if (!data.coverage.every((c) => c.priceDate === date && Number(c.close) > 0 && Number(c.volume) >= 0 && c.priceSource && c.priceSourceSecondary)) {
+            const bad = data.coverage.filter((c) => c.priceDate !== date || !(Number(c.close) > 0) || !(Number(c.volume) >= 0) || !c.priceSource || !c.priceSourceSecondary).map((c) => c.ticker);
+            throw new Error("Coverage not fully current: " + bad.join(","));
+          }
+
+          data.meta.updated = date;
+          data.meta.release = date;
+          data.meta.note =
+            "Giá EOD 130/130 mã được khóa tại phiên 28/09/2026. 129 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; VTO được bổ sung từ báo cáo định giá 27/09/2026 và khóa EOD 28/09/2026 bằng VNDIRECT Finfo làm nguồn chính, KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp " +
+            v.close.toLocaleString("vi-VN") +
+            " đồng/cp. Khối lượng và pctChange của VTO dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất.";
+
+          fs.writeFileSync(path, "window.RESEARCH_DATA = " + JSON.stringify(data, null, 2) + ";\n");
+          console.log(JSON.stringify({ ticker: "VTO", close: v.close, changePct: v.changePct, volume: v.volume, kbsClose: k.close, kbsVolume: k.volume }, null, 2));
+          NODE
+
+      - name: Expand CIVS universe invariants to 130 without publishing unverified visuals
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          def replace_exact(path, replacements):
+              p = Path(path)
+              s = p.read_text()
+              for old, new, expected in replacements:
+                  actual = s.count(old)
+                  if actual != expected:
+                      raise SystemExit(f"{path}: expected {expected} occurrences of {old!r}, got {actual}")
+                  s = s.replace(old, new)
+              p.write_text(s)
+
+          replace_exact("scripts/sync-company-visuals-core.mjs", [
+              ("const EXPECTED = 129;", "const EXPECTED = 130;", 1),
+              ("const REGISTRY_EXPECTED = 120;", "const REGISTRY_EXPECTED = 121;", 1),
+          ])
+          replace_exact("scripts/audit-company-visuals-core.mjs", [
+              ("const EXPECTED = 129;", "const EXPECTED = 130;", 1),
+              ("const REGISTRY_EXPECTED = 120;", "const REGISTRY_EXPECTED = 121;", 1),
+              ("COMPANY_LOGOS không đủ 129.", "COMPANY_LOGOS không đủ 130.", 1),
+              ("meta.candidateCount phải 127.", "meta.candidateCount phải 130.", 1),
+              ("127/127 complete phải có 127 unique hashes.", "130/130 complete phải có 130 unique hashes.", 1),
+          ])
+          replace_exact("scripts/ensure-company-visual-candidates.mjs", [
+              ("const EXPECTED = 129;", "const EXPECTED = 130;", 1),
+              ("!== 120", "!== 121", 2),
+              ("Expected 120 pending candidates", "Expected 121 pending candidates", 1),
+          ])
+
+          p = Path("tests/company-visuals.test.mjs")
+          s = p.read_text()
+          if "129" not in s or "120" not in s:
+              raise SystemExit("company-visuals.test.mjs current universe constants not found")
+          s = s.replace("129", "130").replace("120", "121")
+          p.write_text(s)
+
+          p = Path("docs/company-identity-visual-standard.md")
+          s = p.read_text()
+          if "129" not in s or "120" not in s:
+              raise SystemExit("CIVS standard current universe constants not found")
+          s = s.replace("129", "130").replace("120", "121")
+          p.write_text(s)
+
+          p = Path("src/data/company-visual-candidates.json")
+          registry = json.loads(p.read_text())
+          if registry.get("meta", {}).get("schema") != "civs-candidate-registry-v1":
+              raise SystemExit("Unexpected CIVS registry schema")
+          if registry["meta"].get("coverageTarget") != 129 or registry["meta"].get("candidateCount") != 120:
+              raise SystemExit(f"Unexpected pre-migration CIVS registry meta: {registry['meta']}")
+          existing = {str(x.get("ticker", "")).upper() for x in registry.get("candidates", [])}
+          if "VTO" in existing:
+              raise SystemExit("VTO unexpectedly already present in candidate registry")
+          registry["candidates"].append({
+              "ticker": "VTO",
+              "sourceUrl": "https://vitaco.petrolimex.com.vn/",
+              "officialDomain": "vitaco.petrolimex.com.vn",
+              "sourceTier": "A",
+              "identityType": "shipping-fleet",
+              "keywords": ["VITACO", "tàu", "vessel", "fleet", "vận tải xăng dầu"]
+          })
+          registry["candidates"].sort(key=lambda x: str(x.get("ticker", "")).upper())
+          registry["meta"]["coverageTarget"] = 130
+          registry["meta"]["candidateCount"] = 121
+          registry["meta"]["updated"] = "2026-09-29"
+          if len(registry["candidates"]) != 121 or len({x["ticker"] for x in registry["candidates"]}) != 121:
+              raise SystemExit("Candidate registry 121-entry invariant failed")
+          p.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + "\n")
+          PY
+
+      - name: Update count-only first-paint labels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("index.html")
+          s = p.read_text()
+          old1 = 'data-role="report-tab-count">129</span>'
+          old2 = 'data-role="coverage-tab-count">129</span>'
+          if s.count(old1) != 1 or s.count(old2) != 1:
+              raise SystemExit("Expected exactly one 129 report/coverage count")
+          s = s.replace(old1, 'data-role="report-tab-count">130</span>')
+          s = s.replace(old2, 'data-role="coverage-tab-count">130</span>')
+          p.write_text(s)
+          PY
+
+      - name: Generate synchronized cover, logo and safe visual scaffold
+        run: |
+          node scripts/sync-report-covers.mjs
+          node scripts/sync-company-logos.mjs
+          node scripts/ensure-company-visual-candidates.mjs
+
+      - name: Full integrity preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          if ! command -v identify >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends imagemagick >/dev/null
+          fi
+          node scripts/audit-company-visuals.mjs
+          layout_changes="$(git diff --name-only -- index.html src/index.css src/styles)"
+          unexpected_layout="$(printf '%s\n' "$layout_changes" | grep -Ev '^index\.html$' || true)"
+          if [[ -n "$unexpected_layout" ]]; then
+            echo "Unexpected HTML/CSS layout mutation:" >&2
+            echo "$unexpected_layout" >&2
+            exit 2
+          fi
+          git diff -- index.html | grep -E '^[+-].*(section|class=|id=|href=|src=)' && { echo "Structural HTML mutation detected" >&2; exit 2; } || true
+
+      - name: Commit VTO synchronization atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            reports \
+            src/data/research-data.js \
+            src/data/company-logos.js \
+            src/data/company-visuals.js \
+            src/data/company-visual-candidates.json \
+            assets/images/reports \
+            assets/images/logos \
+            scripts/sync-company-visuals-core.mjs \
+            scripts/audit-company-visuals-core.mjs \
+            scripts/ensure-company-visual-candidates.mjs \
+            tests/company-visuals.test.mjs \
+            docs/company-identity-visual-standard.md \
+            index.html
+
+          echo "== staged paths =="
+          git diff --cached --name-status
+          git diff --cached --quiet && { echo "No VTO import changes to commit" >&2; exit 3; }
+          git commit -m "Publish VTO 27 Sep 2026 valuation report"
+          git push origin HEAD:main
+
+      - name: Remove temporary import workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          git reset --hard origin/main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-vto-import.yml
+          git commit -m "Remove temporary VTO import workflow"
+          git push origin HEAD:main
