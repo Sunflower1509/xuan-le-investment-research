@@ -13,35 +13,31 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe Firestorage share
+      - name: Probe Firestorage client API
         shell: bash
         env:
+          BASE: "https://firestorage.ai"
           SHARE_URL: "https://firestorage.ai/ja/f/zZYSb3iJ0DCz"
         run: |
           set -euo pipefail
-          curl -L --fail --silent --show-error -D /tmp/headers.txt "$SHARE_URL" -o /tmp/body
-          echo "== headers =="
-          sed -n '1,80p' /tmp/headers.txt
-          echo "== file =="
-          file /tmp/body
-          wc -c /tmp/body
-          echo "== signature =="
-          head -c 16 /tmp/body | xxd
-          python3 - <<'PY'
+          curl -L --fail --silent --show-error "$SHARE_URL" -o /tmp/page.html
+          python3 - <<'PY' > /tmp/chunks.txt
           from pathlib import Path
           import re
-          p=Path('/tmp/body')
-          b=p.read_bytes()
-          print("DIRECT_PDF=" + ("true" if b.startswith(b"%PDF-") else "false"))
-          if not b.startswith(b"%PDF-"):
-              s=b.decode("utf-8","replace")
-              print("== hrefs ==")
-              for x in re.findall(r'href=["\']([^"\']+)["\']',s,re.I)[:120]:
+          s=Path('/tmp/page.html').read_text(encoding='utf-8',errors='replace')
+          for x in re.findall(r'<script[^>]+src="([^"]+)"',s,re.I):
+              if x.startswith('/'):
                   print(x)
-              print("== urls ==")
-              for x in re.findall(r'https?://[^"\'<>\s]+',s,re.I)[:120]:
-                  print(x)
-              print("== matching fragments ==")
-              for m in re.finditer(r'(?i).{0,180}(download|file_id|fileId|public_id|publicId|DCL_18|493987).{0,300}',s):
-                  print(m.group(0)[:600])
           PY
+          echo "== script chunks =="
+          cat /tmp/chunks.txt
+          mkdir -p /tmp/js
+          n=0
+          while IFS= read -r p; do
+            n=$((n+1))
+            curl -L --fail --silent --show-error "$BASE$p" -o "/tmp/js/$n.js"
+          done < /tmp/chunks.txt
+          echo "== API/download strings =="
+          grep -RaoE '.{0,180}(api/|download|shareId|share_id|publicId|public_id|signed|presign|token).{0,260}' /tmp/js | head -n 220 || true
+          echo "== URL-like strings =="
+          grep -RaoE 'https?://[^"'"'<> ]+' /tmp/js | head -n 120 || true
