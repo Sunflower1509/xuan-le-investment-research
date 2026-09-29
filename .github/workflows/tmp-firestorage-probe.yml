@@ -1,0 +1,40 @@
+name: Temporary Firestorage Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-firestorage-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe Firestorage share
+        shell: bash
+        env:
+          SHARE_URL: "https://firestorage.ai/ja/f/zZYSb3iJ0DCz"
+        run: |
+          set -euo pipefail
+          curl -L --fail --silent --show-error -D /tmp/headers.txt "$SHARE_URL" -o /tmp/body
+          echo "== headers =="
+          sed -n '1,80p' /tmp/headers.txt
+          echo "== file =="
+          file /tmp/body
+          wc -c /tmp/body
+          echo "== signature =="
+          head -c 16 /tmp/body | xxd
+          if head -c 5 /tmp/body | grep -q '%PDF-'; then
+            echo "DIRECT_PDF=true"
+          else
+            echo "DIRECT_PDF=false"
+            echo "== hrefs =="
+            grep -Eo 'href=["'"'][^"'"']+["'"']' /tmp/body | head -n 80 || true
+            echo "== urls =="
+            grep -Eo 'https?://[^"'"'<> ]+' /tmp/body | head -n 80 || true
+            echo "== download-ish lines =="
+            grep -Ein 'download|file_id|fileId|public_id|publicId|share|DCL_18|493987' /tmp/body | head -n 120 || true
+          fi
