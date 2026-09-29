@@ -196,8 +196,77 @@ jobs:
           fs.writeFileSync(path, `window.RESEARCH_DATA = ${JSON.stringify(data, null, 2)};\n`);
           NODE
 
-      - name: Re-verify full 129-code EOD universe
-        run: node scripts/update-eod-market-data.mjs --date 2026-09-28 --max-attempts 3 --wait-ms 5000
+      - name: Verify new DCL and KSV EOD data without rewriting locked 127-code history
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require("node:fs");
+          const vm = require("node:vm");
+          const { parseVndirect, parseKbsDaily } = await import("./scripts/update-eod-market-data.mjs");
+
+          const date = "2026-09-28";
+          const kbsDate = "28-09-2026";
+          const tickers = ["DCL","KSV"];
+
+          async function json(url) {
+            let last;
+            for (let attempt=1; attempt<=4; attempt++) {
+              try {
+                const r = await fetch(url, {
+                  headers: { accept:"application/json,*/*", "user-agent":"Mozilla/5.0 XuanLeTVS-Report-Sync/1.0" },
+                  signal: AbortSignal.timeout(20000)
+                });
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                return await r.json();
+              } catch (e) {
+                last=e;
+                if (attempt<4) await new Promise(r=>setTimeout(r, attempt*1000));
+              }
+            }
+            throw last;
+          }
+
+          const updates = {};
+          for (const ticker of tickers) {
+            const primaryUrl = `https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${ticker}~date:${date}&size=10`;
+            const secondaryUrl = `https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/${ticker}/data_day?sdate=${kbsDate}&edate=${kbsDate}`;
+            const [vPayload,kPayload] = await Promise.all([json(primaryUrl),json(secondaryUrl)]);
+            const v = parseVndirect(vPayload,ticker,date);
+            const k = parseKbsDaily(kPayload,date);
+            if (v.close !== k.close) {
+              throw new Error(`${ticker} close mismatch VNDIRECT=${v.close} KBS=${k.close}`);
+            }
+            updates[ticker] = {
+              close:v.close, changePct:v.changePct, volume:v.volume, priceDate:date,
+              priceSource:primaryUrl, priceSourceSecondary:secondaryUrl,
+              kbsClose:k.close, kbsVolume:k.volume
+            };
+            console.log(JSON.stringify({ticker,...updates[ticker]}));
+          }
+
+          const path = "src/data/research-data.js";
+          const code = fs.readFileSync(path,"utf8");
+          const sandbox = {window:{}};
+          vm.runInNewContext(code,sandbox,{filename:path});
+          const data=sandbox.window.RESEARCH_DATA;
+          for (const [ticker,q] of Object.entries(updates)) {
+            const c=data.coverage.find(x=>x.ticker===ticker);
+            if (!c) throw new Error("Missing coverage "+ticker);
+            for (const key of ["close","changePct","volume","priceDate","priceSource","priceSourceSecondary"]) c[key]=q[key];
+          }
+          if (!data.coverage.every(c=>c.priceDate===date && Number(c.close)>0 && Number(c.volume)>=0 && c.priceSource && c.priceSourceSecondary)) {
+            const bad=data.coverage.filter(c=>c.priceDate!==date || !(Number(c.close)>0) || !(Number(c.volume)>=0) || !c.priceSource || !c.priceSourceSecondary).map(c=>c.ticker);
+            throw new Error("Coverage not fully current after DCL/KSV append: "+bad.join(","));
+          }
+          data.meta.updated=date;
+          data.meta.release=date;
+          const dcl=updates.DCL, ksv=updates.KSV;
+          data.meta.note =
+            `Giá EOD 129/129 mã được khóa tại phiên 28/09/2026. 127 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; hai mã mới DCL và KSV được bổ sung bằng VNDIRECT Finfo làm nguồn chính và KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp (DCL ${dcl.close.toLocaleString("vi-VN")} đồng/cp; KSV ${ksv.close.toLocaleString("vi-VN")} đồng/cp). Khối lượng và pctChange dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất của từng mã.`;
+
+          fs.writeFileSync(path,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`);
+          NODE
 
       - name: Generate synchronized report covers and logos
         run: |
