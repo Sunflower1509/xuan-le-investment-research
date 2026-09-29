@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 129,
+    "count": 130,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -1402,6 +1402,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=VSC&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "ea67b28c77d4fef32c1457d9911b0fbd322db5ef8c770ca35dd91eba96b2adc2",
       "bytes": 1693
+    },
+    "VTO": {
+      "path": "assets/images/logos/vto.svg?v=20260916-logo3",
+      "alt": "Logo Vietnam Tanker Joint Stock Company (VTO)",
+      "exchange": "HOSE",
+      "isin": "VN000000VTO1",
+      "company": "Vietnam Tanker Joint Stock Company",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/viet-nam-tanker-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=VTO&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "5d1282112bf918b8deb4922ffe8eac88f805ded8b618476b3723961d9781184f",
+      "bytes": 901
     },
     "VTP": {
       "path": "assets/images/logos/vtp.svg?v=20260916-logo3",

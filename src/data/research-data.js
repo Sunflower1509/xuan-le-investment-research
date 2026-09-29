@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá EOD 129/129 mã được khóa tại phiên 28/09/2026. 127 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; hai mã mới DCL và KSV được bổ sung bằng VNDIRECT Finfo làm nguồn chính và KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp (DCL 46.100 đồng/cp; KSV 107.500 đồng/cp). Khối lượng và pctChange dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất của từng mã.",
+    "note": "Giá EOD 130/130 mã được khóa tại phiên 28/09/2026. 129 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; VTO được bổ sung từ báo cáo định giá 27/09/2026 và khóa EOD 28/09/2026 bằng VNDIRECT Finfo làm nguồn chính, KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp 11.050 đồng/cp. Khối lượng và pctChange của VTO dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -136,6 +136,49 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá VPB",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/VPB_2026-09-28.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VTO-20260927",
+      "ticker": "VTO",
+      "company": "Công ty Cổ phần Vận tải Xăng dầu VITACO",
+      "sector": "Vận tải biển xăng dầu",
+      "exchange": "HOSE",
+      "date": "2026-09-27",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 10950,
+      "marketPriceDate": "2026-09-25",
+      "baseValue": 12002,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 7825,
+      "rangeHigh": 17219,
+      "gapLabel": "Giá 10.950 đồng/cp thấp hơn giá trị kỳ vọng 12.002 đồng/cp khoảng 8,8%, nhưng chưa đạt biên an toàn 25%; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-13 lợi nhuận chuẩn hóa; PP-16 P/B và PP-01 DCF-FCFF kiểm chứng; PP-18 DCF ngược bắt buộc",
+      "summary": "VTO có khoảng giá trị 7.825-17.219 đồng/cp và giá trị kỳ vọng 12.002 đồng/cp. Điểm mạnh là tiền ròng và dòng tiền kinh doanh, nhưng kế hoạch đầu tư tàu mới làm tăng độ bất định. Giao dịch 1-3 tuần giữ trạng thái CHỜ.",
+      "action": {
+        "zoneLow": 10550,
+        "zoneHigh": 10650,
+        "baseValue": 12002,
+        "stop": 10250,
+        "targets": [
+          11500,
+          12000
+        ],
+        "basisDate": "2026-09-27",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "IF giá về 10.550-10.650 đồng/cp và xuất hiện phiên hồi phục/xác nhận dòng tiền với khối lượng >=228.990 cp/phiên THEN có thể xem xét điểm mua điều kiện; stop 10.250, target 11.500 rồi 12.000, R/R tại cận trên vùng mua khoảng 2,12. IF thủng 10.250 hoặc cấu trúc kỹ thuật suy yếu THEN hủy kịch bản. Với trung-dài hạn, IF giá <=7.825 THEN chỉ vào vùng tích lũy sau khi cập nhật kế hoạch tàu mới."
+      },
+      "file": "reports/VTO_2026-09-27.pdf",
+      "edition": "Bản định giá 27.09.2026",
+      "visual": {
+        "src": "assets/images/reports/vto.webp?v=20260927-cover1",
+        "alt": "Trang bìa báo cáo định giá VTO ngày 27/09/2026",
+        "caption": "Bìa báo cáo định giá VTO",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VTO_2026-09-27.pdf",
         "kind": "report-cover"
       }
     },
@@ -8414,6 +8457,33 @@ window.RESEARCH_DATA = {
         "recommendation": "CHỜ / THEO DÕI",
         "eligibility": "active",
         "condition": "Vùng 10.100–10.800 đồng/cp mới đáp ứng MOS 25–30%. Trading 1–3 tuần chỉ kích hoạt khi đóng cửa vượt 15.050–15.100 với khối lượng tối thiểu khoảng 11,4 triệu cp; entry 15.100–15.300, stop 14.300, target 18.500–19.250 đồng/cp."
+      }
+    },
+    {
+      "ticker": "VTO",
+      "company": "Công ty Cổ phần Vận tải Xăng dầu VITACO",
+      "sector": "Vận tải biển xăng dầu",
+      "exchange": "HOSE",
+      "reportId": "VTO-20260927",
+      "close": 11050,
+      "priceDate": "2026-09-28",
+      "changePct": 0.9132,
+      "volume": 579000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VTO~date:2026-09-28&size=10",
+      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VTO/data_day?sdate=28-09-2026&edate=28-09-2026",
+      "action": {
+        "zoneLow": 10550,
+        "zoneHigh": 10650,
+        "baseValue": 12002,
+        "stop": 10250,
+        "targets": [
+          11500,
+          12000
+        ],
+        "basisDate": "2026-09-27",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "active",
+        "condition": "IF giá về 10.550-10.650 đồng/cp và xuất hiện phiên hồi phục/xác nhận dòng tiền với khối lượng >=228.990 cp/phiên THEN có thể xem xét điểm mua điều kiện; stop 10.250, target 11.500 rồi 12.000, R/R tại cận trên vùng mua khoảng 2,12. IF thủng 10.250 hoặc cấu trúc kỹ thuật suy yếu THEN hủy kịch bản. Với trung-dài hạn, IF giá <=7.825 THEN chỉ vào vùng tích lũy sau khi cập nhật kế hoạch tàu mới."
       }
     },
     {

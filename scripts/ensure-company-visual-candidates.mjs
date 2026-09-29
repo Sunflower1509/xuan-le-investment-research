@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
 const registryPath = path.join(root, "src/data/company-visual-candidates.json");
-const EXPECTED = 129;
+const EXPECTED = 130;
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
 const code = fs.readFileSync(dataPath, "utf8");
@@ -19,8 +19,8 @@ if (!data?.meta || !data?.visuals) throw new Error("COMPANY_VISUALS unavailable.
 const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
 if (registry?.meta?.schema !== "civs-candidate-registry-v1") throw new Error("Candidate registry schema mismatch.");
 if (Number(registry?.meta?.coverageTarget) !== EXPECTED) throw new Error(`Candidate registry coverageTarget must be ${EXPECTED}.`);
-if (Number(registry?.meta?.candidateCount) !== 120 || !Array.isArray(registry?.candidates) || registry.candidates.length !== 120) {
-  throw new Error(`Expected 120 pending candidates, got ${registry?.candidates?.length ?? "?"}.`);
+if (Number(registry?.meta?.candidateCount) !== 121 || !Array.isArray(registry?.candidates) || registry.candidates.length !== 121) {
+  throw new Error(`Expected 121 pending candidates, got ${registry?.candidates?.length ?? "?"}.`);
 }
 
 // Preserve the exact, previously verified VHM official-page -> external-CDN provenance migration

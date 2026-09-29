@@ -1,8 +1,8 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 129,
-    "candidateCount": 120,
+    "coverageTarget": 130,
+    "candidateCount": 121,
     "updated": "2026-09-29",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
@@ -1602,6 +1602,20 @@
         "container",
         "Viconship",
         "Green Port"
+      ]
+    },
+    {
+      "ticker": "VTO",
+      "sourceUrl": "https://vitaco.petrolimex.com.vn/",
+      "officialDomain": "vitaco.petrolimex.com.vn",
+      "sourceTier": "A",
+      "identityType": "shipping-fleet",
+      "keywords": [
+        "VITACO",
+        "tàu",
+        "vessel",
+        "fleet",
+        "vận tải xăng dầu"
       ]
     },
     {

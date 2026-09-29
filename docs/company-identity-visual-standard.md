@@ -1,8 +1,8 @@
-# Company Identity Visual Standard — Coverage Universe 129
+# Company Identity Visual Standard — Coverage Universe 130
 
 Version: **CIVS 1.0**  
 Scope: **PHÂN LOẠI NHÓM NGÀNH / Research cards**  
-Target: **129/129 mã trong Coverage Universe**
+Target: **130/130 mã trong Coverage Universe**
 
 ## 1. Mục tiêu
 
@@ -77,15 +77,15 @@ Pipeline được phép resolve ảnh từ trang chính thức theo hai cơ ch�
 
 Mọi trường hợp discovery không khớp, host lạ, HTTP lỗi, ảnh quá nhỏ hoặc hash bất thường phải **fail-closed** và chặn deploy.
 
-## 8. Quy tắc rollout 129 mã
+## 8. Quy tắc rollout 130 mã
 
 Rollout theo batch nhỏ, không chạy theo số lượng bằng mọi giá:
 
 - Batch chuẩn: 8–15 mã/lần.
 - Ưu tiên: mã có báo cáo mới, mã leader/được xem nhiều, sau đó phủ đều các nhóm ngành.
 - Mỗi batch phải PASS: source verification → normalize → test → audit → build → deploy → post-deploy verification.
-- `coverageTarget = 129`; `verifiedCount` tăng dần. Các mã chưa verified tiếp tục dùng report-cover fallback.
-- Candidate registry chuẩn gồm **120 mã bổ sung** cộng với **9 visual baseline đã xác minh**, tạo đúng **129 mã**; không cho phép runtime quay về universe 125.
+- `coverageTarget = 130`; `verifiedCount` tăng dần. Các mã chưa verified tiếp tục dùng report-cover fallback.
+- Candidate registry chuẩn gồm **121 mã bổ sung** cộng với **9 visual baseline đã xác minh**, tạo đúng **130 mã**; không cho phép runtime quay về universe 125.
 
 ## 9. Quy tắc thay ảnh
 

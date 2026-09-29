@@ -3,19 +3,19 @@ window.COMPANY_VISUALS = {
     "schema": "verified-core-asset-webp-v1",
     "standardVersion": "CIVS-1.0",
     "rollout": true,
-    "coverageTarget": 129,
+    "coverageTarget": 130,
     "count": 95,
     "verifiedCount": 95,
-    "pendingCount": 34,
-    "rolloutProgressPct": 73.6,
+    "pendingCount": 35,
+    "rolloutProgressPct": 73.1,
     "updated": "2026-09-12",
     "policy": "CIVS 1.0 — official first-party source only; real core operations/assets preferred, verified headquarters/workplace or product/network identity only when economically appropriate; minimum quality gate 8/10; no generative, stock or third-party editorial imagery.",
     "display": "Research cards only; valuation dialogs keep the dated report cover. Unverified tickers retain report-cover fallback.",
     "synced": "2026-09-28",
     "target": "960x540",
     "quality": 84,
-    "verification": "CIVS 1.0 RESUMABLE: 95/129 visuals verified; 34 remain on safe report-cover fallback until first-party verification passes.",
-    "candidateCount": 129,
+    "verification": "CIVS 1.0 RESUMABLE: 95/130 visuals verified; 35 remain on safe report-cover fallback until first-party verification passes.",
+    "candidateCount": 130,
     "pendingTickers": [
       "BCM",
       "BFC",
@@ -50,6 +50,7 @@ window.COMPANY_VISUALS = {
       "VIB",
       "VNM",
       "VPL",
+      "VTO",
       "VTP"
     ],
     "complete": false
@@ -6457,6 +6458,32 @@ window.COMPANY_VISUALS = {
         "Sin Quyền",
         "đồng",
         "luyện kim"
+      ],
+      "sourceDiscovery": {
+        "type": "registry-pending",
+        "strategy": "candidate-registry-v1",
+        "resolvedFromOfficialPage": false
+      },
+      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+    },
+    "VTO": {
+      "ticker": "VTO",
+      "kind": "company-asset",
+      "verified": false,
+      "pending": true,
+      "subject": "VTO — hình ảnh doanh nghiệp chờ xác minh",
+      "sourceUrl": "https://vitaco.petrolimex.com.vn/",
+      "sourceLabel": "VTO — nguồn chính thức",
+      "officialDomain": "vitaco.petrolimex.com.vn",
+      "sourceTier": "A",
+      "identityType": "shipping-fleet",
+      "allowedImageHosts": [],
+      "keywords": [
+        "VITACO",
+        "tàu",
+        "vessel",
+        "fleet",
+        "vận tải xăng dầu"
       ],
       "sourceDiscovery": {
         "type": "registry-pending",
