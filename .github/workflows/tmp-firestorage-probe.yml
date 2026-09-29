@@ -27,14 +27,21 @@ jobs:
           wc -c /tmp/body
           echo "== signature =="
           head -c 16 /tmp/body | xxd
-          if head -c 5 /tmp/body | grep -q '%PDF-'; then
-            echo "DIRECT_PDF=true"
-          else
-            echo "DIRECT_PDF=false"
-            echo "== hrefs =="
-            grep -Eo 'href=["'"'][^"'"']+["'"']' /tmp/body | head -n 80 || true
-            echo "== urls =="
-            grep -Eo 'https?://[^"'"'<> ]+' /tmp/body | head -n 80 || true
-            echo "== download-ish lines =="
-            grep -Ein 'download|file_id|fileId|public_id|publicId|share|DCL_18|493987' /tmp/body | head -n 120 || true
-          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('/tmp/body')
+          b=p.read_bytes()
+          print("DIRECT_PDF=" + ("true" if b.startswith(b"%PDF-") else "false"))
+          if not b.startswith(b"%PDF-"):
+              s=b.decode("utf-8","replace")
+              print("== hrefs ==")
+              for x in re.findall(r'href=["\']([^"\']+)["\']',s,re.I)[:120]:
+                  print(x)
+              print("== urls ==")
+              for x in re.findall(r'https?://[^"\'<>\s]+',s,re.I)[:120]:
+                  print(x)
+              print("== matching fragments ==")
+              for m in re.finditer(r'(?i).{0,180}(download|file_id|fileId|public_id|publicId|DCL_18|493987).{0,300}',s):
+                  print(m.group(0)[:600])
+          PY
