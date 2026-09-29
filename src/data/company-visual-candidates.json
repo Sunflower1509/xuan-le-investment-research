@@ -1,9 +1,9 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 127,
-    "candidateCount": 118,
-    "updated": "2026-09-27",
+    "coverageTarget": 129,
+    "candidateCount": 120,
+    "updated": "2026-09-29",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
@@ -225,6 +225,20 @@
         "industrial",
         "dự án",
         "hạ tầng"
+      ]
+    },
+    {
+      "ticker": "DCL",
+      "sourceUrl": "https://pharimexco.com.vn/",
+      "officialDomain": "pharimexco.com.vn",
+      "sourceTier": "A",
+      "identityType": "pharmaceutical-manufacturing",
+      "keywords": [
+        "Dược phẩm Cửu Long",
+        "Pharimexco",
+        "nhà máy dược phẩm",
+        "viên nang",
+        "medical devices"
       ]
     },
     {
@@ -620,6 +634,20 @@
         "The Privia",
         "Clarita",
         "Khang Điền"
+      ]
+    },
+    {
+      "ticker": "KSV",
+      "sourceUrl": "https://vimico.vn/",
+      "officialDomain": "vimico.vn",
+      "sourceTier": "A",
+      "identityType": "mining-metallurgy",
+      "keywords": [
+        "VIMICO",
+        "khai khoáng",
+        "Sin Quyền",
+        "đồng",
+        "luyện kim"
       ]
     },
     {

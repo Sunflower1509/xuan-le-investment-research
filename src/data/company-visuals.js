@@ -3,19 +3,19 @@ window.COMPANY_VISUALS = {
     "schema": "verified-core-asset-webp-v1",
     "standardVersion": "CIVS-1.0",
     "rollout": true,
-    "coverageTarget": 127,
+    "coverageTarget": 129,
     "count": 95,
     "verifiedCount": 95,
-    "pendingCount": 32,
-    "rolloutProgressPct": 74.8,
+    "pendingCount": 34,
+    "rolloutProgressPct": 73.6,
     "updated": "2026-09-12",
     "policy": "CIVS 1.0 — official first-party source only; real core operations/assets preferred, verified headquarters/workplace or product/network identity only when economically appropriate; minimum quality gate 8/10; no generative, stock or third-party editorial imagery.",
     "display": "Research cards only; valuation dialogs keep the dated report cover. Unverified tickers retain report-cover fallback.",
     "synced": "2026-09-28",
     "target": "960x540",
     "quality": 84,
-    "verification": "CIVS 1.0 RESUMABLE: 95/127 visuals verified; 32 remain on safe report-cover fallback until first-party verification passes.",
-    "candidateCount": 127,
+    "verification": "CIVS 1.0 RESUMABLE: 95/129 visuals verified; 34 remain on safe report-cover fallback until first-party verification passes.",
+    "candidateCount": 129,
     "pendingTickers": [
       "BCM",
       "BFC",
@@ -26,12 +26,14 @@ window.COMPANY_VISUALS = {
       "CTG",
       "CTR",
       "D2D",
+      "DCL",
       "GEE",
       "GEL",
       "HCM",
       "HDB",
       "HHP",
       "ICG",
+      "KSV",
       "LPB",
       "NKG",
       "NTC",
@@ -6410,6 +6412,58 @@ window.COMPANY_VISUALS = {
       "verified": false,
       "pending": true,
       "lastFailure": "TNH: không có ảnh >=640x360 đạt Quality Gate. "
+    },
+    "DCL": {
+      "ticker": "DCL",
+      "kind": "company-asset",
+      "verified": false,
+      "pending": true,
+      "subject": "DCL — hình ảnh doanh nghiệp chờ xác minh",
+      "sourceUrl": "https://pharimexco.com.vn/",
+      "sourceLabel": "DCL — nguồn chính thức",
+      "officialDomain": "pharimexco.com.vn",
+      "sourceTier": "A",
+      "identityType": "pharmaceutical-manufacturing",
+      "allowedImageHosts": [],
+      "keywords": [
+        "Dược phẩm Cửu Long",
+        "Pharimexco",
+        "nhà máy dược phẩm",
+        "viên nang",
+        "medical devices"
+      ],
+      "sourceDiscovery": {
+        "type": "registry-pending",
+        "strategy": "candidate-registry-v1",
+        "resolvedFromOfficialPage": false
+      },
+      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+    },
+    "KSV": {
+      "ticker": "KSV",
+      "kind": "company-asset",
+      "verified": false,
+      "pending": true,
+      "subject": "KSV — hình ảnh doanh nghiệp chờ xác minh",
+      "sourceUrl": "https://vimico.vn/",
+      "sourceLabel": "KSV — nguồn chính thức",
+      "officialDomain": "vimico.vn",
+      "sourceTier": "A",
+      "identityType": "mining-metallurgy",
+      "allowedImageHosts": [],
+      "keywords": [
+        "VIMICO",
+        "khai khoáng",
+        "Sin Quyền",
+        "đồng",
+        "luyện kim"
+      ],
+      "sourceDiscovery": {
+        "type": "registry-pending",
+        "strategy": "candidate-registry-v1",
+        "resolvedFromOfficialPage": false
+      },
+      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
     }
   }
 };

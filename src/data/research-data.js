@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 127/127 mã được khóa tại phiên 28/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/127 mã; 127/127 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/127 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 122/127 mã; BVS: VNDIRECT 921.100 vs KBS 920.900 (chênh 200); CEO: VNDIRECT 9.240.000 vs KBS 9.239.900 (chênh 100); PVC: VNDIRECT 853.200 vs KBS 852.900 (chênh 300); PVS: VNDIRECT 4.513.900 vs KBS 4.510.100 (chênh 3.800); SHS: VNDIRECT 13.710.200 vs KBS 13.695.200 (chênh 15.000). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá EOD 129/129 mã được khóa tại phiên 28/09/2026. 127 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; hai mã mới DCL và KSV được bổ sung bằng VNDIRECT Finfo làm nguồn chính và KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp (DCL 46.100 đồng/cp; KSV 107.500 đồng/cp). Khối lượng và pctChange dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất của từng mã.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,169 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "NKG-20260928",
+      "ticker": "NKG",
+      "company": "Công ty Cổ phần Thép Nam Kim",
+      "sector": "Thép & sản phẩm thép",
+      "exchange": "HOSE",
+      "date": "2026-09-28",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 9700,
+      "marketPriceDate": "2026-09-25",
+      "baseValue": 9714,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 3514,
+      "rangeHigh": 18256,
+      "gapLabel": "Giá 9.700 đồng/cp gần như bằng giá trị kỳ vọng 9.714 đồng/cp; biên an toàn chỉ khoảng 0,1%, chưa phải vùng mua có MOS.",
+      "method": "Lợi nhuận chuẩn hóa chu kỳ (PP-13); DCF-FCFF và P/B tương đối dùng kiểm chứng",
+      "summary": "NKG có khoảng giá trị trước phát hành 3.514-18.256 đồng/cp và giá trị kỳ vọng 9.714 đồng/cp. Tín hiệu định giá THEO DÕI; giao dịch 1-3 tuần CHỜ do giá chưa có xác nhận MA20/MA50, dòng tiền và R/R tối thiểu 2.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 9714,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-28",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "inactive",
+        "condition": "CHỜ giao dịch 1-3 tuần. Chỉ mở lại bài toán mua khi giá lấy lại MA20/MA50, có khối lượng xác nhận và R/R tối thiểu 2; trung-dài hạn chỉ chuyển sang vùng tích lũy khi giá về gần ngưỡng M 3.514 đồng/cp hoặc định giá được nâng đáng kể sau khi dự án Phú Mỹ chứng minh hiệu quả."
+      },
+      "file": "reports/NKG_2026-09-28.pdf",
+      "edition": "Bản định giá 28.09.2026",
+      "visual": {
+        "src": "assets/images/reports/nkg.webp?v=20260928-cover1",
+        "alt": "Trang bìa báo cáo định giá NKG ngày 28/09/2026",
+        "caption": "Bìa báo cáo định giá NKG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/NKG_2026-09-28.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VPB-20260928",
+      "ticker": "VPB",
+      "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-09-28",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 23000,
+      "marketPriceDate": "2026-09-25",
+      "baseValue": 21141,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 17405,
+      "rangeHigh": 26008,
+      "gapLabel": "Giá 23.000 đồng/cp cao hơn giá trị kỳ vọng 21.141 đồng/cp khoảng 8,8%; chưa đạt ngưỡng mua có biên an toàn 15.856 đồng/cp.",
+      "method": "Thu nhập thặng dư (PP-06) + P/B-ROE (PP-07); P/B tương đối (PP-16) kiểm chứng",
+      "summary": "VPB có khoảng giá trị 17.405-26.008 đồng/cp và giá trị kỳ vọng 21.141 đồng/cp. Tại 23.000 đồng/cp ngày 25/09/2026, tín hiệu định giá là THEO DÕI và trạng thái giao dịch 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21141,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-28",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "inactive",
+        "condition": "Hiện CHƯA CÓ VÙNG MUA ngắn hạn hợp lệ. IF giá <=15.856 THEN mới đạt biên an toàn tối thiểu 25% cho tích lũy trung-dài hạn. IF 15.856 < giá <=21.141 THEN theo dõi/chờ. IF 21.141 < giá <=26.008 THEN không mua mới; IF giá >26.008 THEN tránh mua mới. Chỉ mở lại bài toán trading 1-3 tuần khi dữ liệu kỹ thuật cập nhật cho phép xác định stop 3-7%, target và R/R >=2."
+      },
+      "file": "reports/VPB_2026-09-28.pdf",
+      "edition": "Bản định giá 28.09.2026",
+      "visual": {
+        "src": "assets/images/reports/vpb.webp?v=20260928-cover1",
+        "alt": "Trang bìa báo cáo định giá VPB ngày 28/09/2026",
+        "caption": "Bìa báo cáo định giá VPB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VPB_2026-09-28.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "KSV-20260922",
+      "ticker": "KSV",
+      "company": "Tổng Công ty Khoáng sản TKV - CTCP",
+      "sector": "Khai khoáng & hàng hóa",
+      "exchange": "HNX",
+      "date": "2026-09-22",
+      "recommendation": "TRÁNH MUA MỚI",
+      "status": "reject",
+      "marketPrice": 110200,
+      "marketPriceDate": "2026-09-21",
+      "baseValue": 65071,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 37078,
+      "rangeHigh": 96344,
+      "gapLabel": "Giá 110.200 đồng/cp cao hơn cận trên vùng giá trị 96.344 đồng/cp khoảng 14% và cao hơn giá trị kỳ vọng 65.071 đồng/cp khoảng 69%; không có biên an toàn cho mua mới.",
+      "method": "Resource NAV / DCF hàng hóa + EV/EBITDA; P/B dùng kiểm chứng",
+      "summary": "KSV có vùng giá trị hợp lý 37.078-96.344 đồng/cp, giá trị kỳ vọng 65.071 đồng/cp và vùng mua MOS 25-30% khoảng 45.550-48.804 đồng/cp. Báo cáo giữ tín hiệu TRÁNH MUA MỚI tại giá tham chiếu 110.200 đồng/cp; độ tin cậy dữ liệu TRUNG BÌNH.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 65071,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-22",
+        "recommendation": "TRÁNH MUA MỚI",
+        "eligibility": "inactive",
+        "condition": "Không mở vị thế mới khi giá còn trên cận trên 96.344 đồng/cp. Vùng MOS 25-30% trong báo cáo là 45.550-48.804 đồng/cp; chỉ đánh giá lại khi giá/luận điểm thay đổi và dữ liệu trữ lượng 1P/2P, cash cost hoặc kết quả kinh doanh mới làm tăng độ tin cậy định giá."
+      },
+      "file": "reports/KSV_2026-09-22.pdf",
+      "edition": "Bản định giá 22.09.2026",
+      "visual": {
+        "src": "assets/images/reports/ksv.webp?v=20260922-cover1",
+        "alt": "Trang bìa báo cáo định giá KSV ngày 22/09/2026",
+        "caption": "Bìa báo cáo định giá KSV",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/KSV_2026-09-22.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "DCL-20260918",
+      "ticker": "DCL",
+      "company": "Công ty Cổ phần Dược phẩm Cửu Long",
+      "sector": "Dược phẩm",
+      "exchange": "HOSE",
+      "date": "2026-09-18",
+      "recommendation": "TRÁNH / LOẠI MUA MỚI",
+      "status": "reject",
+      "marketPrice": 42450,
+      "marketPriceDate": "2026-09-17",
+      "baseValue": 24568,
+      "valueLabel": "Expected-value anchor",
+      "rangeLow": 17300,
+      "rangeHigh": 37500,
+      "gapLabel": "Giá 42.450 đồng/cp cao hơn cận trên 37.500 đồng/cp khoảng 13,2%; chưa có biên an toàn cho mua mới.",
+      "method": "DCF theo FCFF; kiểm chứng P/E, P/B và EV/EBITDA",
+      "summary": "DCL có khoảng giá trị hợp lý 17.300-37.500 đồng/cp và expected-value anchor 24.568 đồng/cp. Tại 42.450 đồng/cp ngày 17/09/2026, báo cáo xác định TRÁNH / LOẠI mua mới.",
+      "action": {
+        "zoneLow": 17198,
+        "zoneHigh": 18426,
+        "baseValue": 24568,
+        "stop": 17000,
+        "targets": [
+          24600,
+          31248
+        ],
+        "basisDate": "2026-09-18",
+        "recommendation": "TRÁNH / LOẠI MUA MỚI",
+        "eligibility": "active",
+        "condition": "IF giá >37.500 THEN LOẠI mua mới, không đuổi giá. IF giá 24.600-37.500 THEN CHỜ. IF giá 17.198-18.426 và nền tảng cơ bản không xấu thêm, thanh khoản xác nhận THEN CÓ THỂ MUA; entry tham chiếu 18.000, stop 17.000 (~-5,6%), target 24.600 rồi 31.248. IF EBIT margin/FCFF thấp hơn bear case hoặc nợ tăng mạnh THEN hủy luận điểm, không bình quân giá xuống."
+      },
+      "file": "reports/DCL_2026-09-18.pdf",
+      "edition": "Bản định giá 18.09.2026",
+      "visual": {
+        "src": "assets/images/reports/dcl.webp?v=20260918-cover1",
+        "alt": "Trang bìa báo cáo định giá DCL ngày 18/09/2026",
+        "caption": "Bìa báo cáo định giá DCL",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DCL_2026-09-18.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "QNS-20260916",
       "ticker": "QNS",
@@ -2752,49 +2915,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 25.08.2026"
     },
     {
-      "id": "NKG-20260825",
-      "ticker": "NKG",
-      "company": "Công ty Cổ phần Thép Nam Kim",
-      "sector": "Công nghiệp",
-      "exchange": "HOSE",
-      "date": "2026-08-25",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 11200,
-      "marketPriceDate": "2026-08-24",
-      "baseValue": 9478,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 6642,
-      "rangeHigh": 12642,
-      "gapLabel": "Giá đóng cửa cao hơn giá trị kỳ vọng 18,2%; vùng mua MOS 25–30% là 4.649–4.982 đồng/cp",
-      "method": "Lợi nhuận chuẩn hóa qua chu kỳ; P/E, P/B và EV/EBITDA",
-      "summary": "NKG có vùng giá trị hợp lý 6.642–12.642 đồng/cp và giá trị kỳ vọng 9.478 đồng/cp. Giá đóng cửa 24/08/2026 là 11.200 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua MOS và báo cáo yêu cầu tiếp tục theo dõi dự án Phú Mỹ cùng dữ liệu sau điều chỉnh BCTC.",
-      "action": {
-        "zoneLow": 4649,
-        "zoneHigh": 4982,
-        "baseValue": 9478,
-        "stop": null,
-        "targets": [
-          6642,
-          9478
-        ],
-        "basisDate": "2026-08-25",
-        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 4.649–4.982 đồng/cp khi thesis không xấu đi; giải ngân từng phần. Stop 5% dưới giá vào lệnh thực tế và thoát nếu xuất hiện red flag kế toán mới; entry minh họa 4.816 tương ứng stop 4.575. T1 6.642; T2 9.478. Trên 12.642 khi normalized earnings chưa được nâng: LOẠI / TRÁNH mua mới."
-      },
-      "visual": {
-        "src": "assets/images/reports/nkg.webp?v=20260825-cover1",
-        "alt": "Trang bìa báo cáo định giá NKG ngày 25/08/2026",
-        "caption": "Bìa báo cáo định giá NKG",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/NKG_2026-08-25.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/NKG_2026-08-25.pdf",
-      "edition": "Bản định giá 25.08.2026"
-    },
-    {
       "id": "VGS-20260825",
       "ticker": "VGS",
       "company": "CTCP Ống Thép Việt Đức VG PIPE",
@@ -3776,49 +3896,6 @@ window.RESEARCH_DATA = {
         "kind": "report-cover"
       },
       "file": "reports/SHB_2026-08-18.pdf",
-      "edition": "Bản định giá 18.08.2026"
-    },
-    {
-      "id": "VPB-20260818",
-      "ticker": "VPB",
-      "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-18",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 24750,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 38241,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 29514,
-      "rangeHigh": 47514,
-      "gapLabel": "MOS bảo thủ 16,1% so với cận thấp; vùng mua MOS 25–30% là 20.660–22.136 đồng/cp",
-      "method": "P/B gắn ROE + Residual Income (RI)",
-      "summary": "Vùng giá trị hợp lý 29.514–47.514 đồng/cp theo quyền hiện tại, giá trị kỳ vọng 38.241 đồng/cp. Giá đóng cửa 17/08/2026 là 24.750 đồng/cp; MOS bảo thủ mới 16,1% nên trạng thái THEO DÕI / CHỜ.",
-      "action": {
-        "zoneLow": 20660,
-        "zoneHigh": 22136,
-        "baseValue": 38241,
-        "stop": null,
-        "targets": [
-          29514,
-          38241
-        ],
-        "basisDate": "2026-08-18",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "20.660–22.136 đồng/cp và thesis không xấu đi: có thể xem xét giải ngân theo kỷ luật vị thế. T1 29.514; T2 38.241. Stop 3–7% chỉ xác định theo lệnh thực tế. Trên 47.514: loại/tránh."
-      },
-      "visual": {
-        "src": "assets/images/reports/vpb.webp?v=20260818-cover1",
-        "alt": "Trang bìa báo cáo định giá VPB ngày 18/08/2026",
-        "caption": "Bìa báo cáo định giá VPB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VPB_2026-08-18.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/VPB_2026-08-18.pdf",
       "edition": "Bản định giá 18.08.2026"
     },
     {
@@ -5599,6 +5676,33 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "DCL",
+      "company": "Công ty Cổ phần Dược phẩm Cửu Long",
+      "sector": "Dược phẩm",
+      "exchange": "HOSE",
+      "reportId": "DCL-20260918",
+      "close": 46100,
+      "priceDate": "2026-09-28",
+      "changePct": -0.7535,
+      "volume": 1664300,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DCL~date:2026-09-28&size=10",
+      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DCL/data_day?sdate=28-09-2026&edate=28-09-2026",
+      "action": {
+        "zoneLow": 17198,
+        "zoneHigh": 18426,
+        "baseValue": 24568,
+        "stop": 17000,
+        "targets": [
+          24600,
+          31248
+        ],
+        "basisDate": "2026-09-18",
+        "recommendation": "TRÁNH / LOẠI MUA MỚI",
+        "eligibility": "active",
+        "condition": "IF giá >37.500 THEN LOẠI mua mới, không đuổi giá. IF giá 24.600-37.500 THEN CHỜ. IF giá 17.198-18.426 và nền tảng cơ bản không xấu thêm, thanh khoản xác nhận THEN CÓ THỂ MUA; entry tham chiếu 18.000, stop 17.000 (~-5,6%), target 24.600 rồi 31.248. IF EBIT margin/FCFF thấp hơn bear case hoặc nợ tăng mạnh THEN hủy luận điểm, không bình quân giá xuống."
+      }
+    },
+    {
       "ticker": "DCM",
       "company": "Công ty Cổ phần - Tổng Công ty Phân bón Dầu khí Cà Mau",
       "sector": "Nông nghiệp",
@@ -6465,6 +6569,30 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "KSV",
+      "company": "Tổng Công ty Khoáng sản TKV - CTCP",
+      "sector": "Khai khoáng & hàng hóa",
+      "exchange": "HNX",
+      "reportId": "KSV-20260922",
+      "close": 107500,
+      "priceDate": "2026-09-28",
+      "changePct": 1.2241,
+      "volume": 68132,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KSV~date:2026-09-28&size=10",
+      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KSV/data_day?sdate=28-09-2026&edate=28-09-2026",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 65071,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-22",
+        "recommendation": "TRÁNH MUA MỚI",
+        "eligibility": "inactive",
+        "condition": "Không mở vị thế mới khi giá còn trên cận trên 96.344 đồng/cp. Vùng MOS 25-30% trong báo cáo là 45.550-48.804 đồng/cp; chỉ đánh giá lại khi giá/luận điểm thay đổi và dữ liệu trữ lượng 1P/2P, cash cost hoặc kết quả kinh doanh mới làm tăng độ tin cậy định giá."
+      }
+    },
+    {
       "ticker": "LHG",
       "company": "CTCP Long Hậu",
       "exchange": "HOSE",
@@ -6669,9 +6797,9 @@ window.RESEARCH_DATA = {
     {
       "ticker": "NKG",
       "company": "Công ty Cổ phần Thép Nam Kim",
-      "sector": "Công nghiệp",
+      "sector": "Thép & sản phẩm thép",
       "exchange": "HOSE",
-      "reportId": "NKG-20260825",
+      "reportId": "NKG-20260928",
       "close": 9460,
       "priceDate": "2026-09-28",
       "changePct": -2.4742,
@@ -6679,18 +6807,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NKG~date:2026-09-28&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NKG/data_day?sdate=28-09-2026&edate=28-09-2026",
       "action": {
-        "zoneLow": 4649,
-        "zoneHigh": 4982,
-        "baseValue": 9478,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 9714,
         "stop": null,
-        "targets": [
-          6642,
-          9478
-        ],
-        "basisDate": "2026-08-25",
-        "recommendation": "CÓ THỂ GIẢI NGÂN KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 4.649–4.982 đồng/cp khi thesis không xấu đi; giải ngân từng phần. Stop 5% dưới giá vào lệnh thực tế và thoát nếu xuất hiện red flag kế toán mới; entry minh họa 4.816 tương ứng stop 4.575. T1 6.642; T2 9.478. Trên 12.642 khi normalized earnings chưa được nâng: LOẠI / TRÁNH mua mới."
+        "targets": [],
+        "basisDate": "2026-09-28",
+        "recommendation": "THEO DÕI / CHỜ",
+        "eligibility": "inactive",
+        "condition": "CHỜ giao dịch 1-3 tuần. Chỉ mở lại bài toán mua khi giá lấy lại MA20/MA50, có khối lượng xác nhận và R/R tối thiểu 2; trung-dài hạn chỉ chuyển sang vùng tích lũy khi giá về gần ngưỡng M 3.514 đồng/cp hoặc định giá được nâng đáng kể sau khi dự án Phú Mỹ chứng minh hiệu quả."
       }
     },
     {
@@ -8149,7 +8274,7 @@ window.RESEARCH_DATA = {
       "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "VPB-20260818",
+      "reportId": "VPB-20260928",
       "close": 22950,
       "priceDate": "2026-09-28",
       "changePct": -0.2174,
@@ -8157,18 +8282,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPB~date:2026-09-28&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPB/data_day?sdate=28-09-2026&edate=28-09-2026",
       "action": {
-        "zoneLow": 20660,
-        "zoneHigh": 22136,
-        "baseValue": 38241,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21141,
         "stop": null,
-        "targets": [
-          29514,
-          38241
-        ],
-        "basisDate": "2026-08-18",
+        "targets": [],
+        "basisDate": "2026-09-28",
         "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "20.660–22.136 đồng/cp và thesis không xấu đi: có thể xem xét giải ngân theo kỷ luật vị thế. T1 29.514; T2 38.241. Stop 3–7% chỉ xác định theo lệnh thực tế. Trên 47.514: loại/tránh."
+        "eligibility": "inactive",
+        "condition": "Hiện CHƯA CÓ VÙNG MUA ngắn hạn hợp lệ. IF giá <=15.856 THEN mới đạt biên an toàn tối thiểu 25% cho tích lũy trung-dài hạn. IF 15.856 < giá <=21.141 THEN theo dõi/chờ. IF 21.141 < giá <=26.008 THEN không mua mới; IF giá >26.008 THEN tránh mua mới. Chỉ mở lại bài toán trading 1-3 tuần khi dữ liệu kỹ thuật cập nhật cho phép xác định stop 3-7%, target và R/R >=2."
       }
     },
     {

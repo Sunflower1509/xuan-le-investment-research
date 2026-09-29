@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 127,
+    "count": 129,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -203,6 +203,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=DBC&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "8acf38105192be4f8e39c126df8e2eb593ea15edc13c02210584818bcb13eb04",
       "bytes": 2044
+    },
+    "DCL": {
+      "path": "assets/images/logos/dcl.svg?v=20260916-logo3",
+      "alt": "Logo Cuu Long Pharmaceutical JSC (DCL)",
+      "exchange": "HOSE",
+      "isin": "VN000000DCL1",
+      "company": "Cuu Long Pharmaceutical JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/cuu-long-pharmaceutical-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=DCL&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "4b62f049177c9f7241e6641c4919126b4c70168c0b63c6340c8239163836fef2",
+      "bytes": 1626
     },
     "DCM": {
       "path": "assets/images/logos/dcm.svg?v=20260916-logo3",
@@ -588,6 +599,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=KDH&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "57561aae27ac07d121e1f12d406e5b50373ce769fe87c5a0ab44d63eae5c2457",
       "bytes": 289
+    },
+    "KSV": {
+      "path": "assets/images/logos/ksv.svg?v=20260916-logo3",
+      "alt": "Logo Vinacomin - Minerals Holding Corporation (KSV)",
+      "exchange": "HNX",
+      "isin": "VN000000KSV1",
+      "company": "Vinacomin - Minerals Holding Corporation",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/vinacomin-minerals--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=KSV&hl=1&exchange=HNX&lang=en&search_type=stock&domain=production",
+      "sha256": "59ee92f905520483352252cbf559964a5c49706c6e3c96e3215531f058d28f18",
+      "bytes": 1043
     },
     "LHG": {
       "path": "assets/images/logos/lhg.svg?v=20260916-logo3",
