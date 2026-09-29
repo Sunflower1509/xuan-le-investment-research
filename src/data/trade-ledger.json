@@ -1176,6 +1176,15 @@
           "zoneHigh": null,
           "zoneBasisDate": "2026-09-22",
           "eligibility": "inactive"
+        },
+        "VTO": {
+          "date": "2026-09-28",
+          "close": 11050,
+          "relation": "above",
+          "zoneLow": 10550,
+          "zoneHigh": 10650,
+          "zoneBasisDate": "2026-09-27",
+          "eligibility": "active"
         }
       },
       "exitPolicy": {
