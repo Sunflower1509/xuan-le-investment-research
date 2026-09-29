@@ -268,6 +268,91 @@ jobs:
           fs.writeFileSync(path,`window.RESEARCH_DATA = ${JSON.stringify(data,null,2)};\n`);
           NODE
 
+      - name: Expand CIVS 1.0 universe invariants to 129 without publishing unverified visuals
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+
+          def replace_exact(path, replacements):
+              p=Path(path)
+              s=p.read_text()
+              for old,new,expected in replacements:
+                  actual=s.count(old)
+                  if actual != expected:
+                      raise SystemExit(f"{path}: expected {expected} occurrences of {old!r}, got {actual}")
+                  s=s.replace(old,new)
+              p.write_text(s)
+
+          replace_exact("scripts/sync-company-visuals-core.mjs", [
+              ("const EXPECTED = 127;", "const EXPECTED = 129;", 1),
+              ("const REGISTRY_EXPECTED = 118;", "const REGISTRY_EXPECTED = 120;", 1),
+          ])
+          replace_exact("scripts/audit-company-visuals-core.mjs", [
+              ("const EXPECTED = 127;", "const EXPECTED = 129;", 1),
+              ("const REGISTRY_EXPECTED = 118;", "const REGISTRY_EXPECTED = 120;", 1),
+              ("COMPANY_LOGOS không đủ 127.", "COMPANY_LOGOS không đủ 129.", 1),
+          ])
+          replace_exact("scripts/ensure-company-visual-candidates.mjs", [
+              ("const EXPECTED = 127;", "const EXPECTED = 129;", 1),
+              ("!== 118", "!== 120", 2),
+              ("length !== 118", "length !== 120", 1),
+              ("Expected 118 pending candidates", "Expected 120 pending candidates", 1),
+          ])
+
+          p=Path("tests/company-visuals.test.mjs")
+          s=p.read_text()
+          if s.count("127") < 8 or s.count("118") < 4:
+              raise SystemExit("company-visuals.test.mjs old CIVS constants not found as expected")
+          s=s.replace("127","129").replace("118","120")
+          p.write_text(s)
+
+          p=Path("docs/company-identity-visual-standard.md")
+          s=p.read_text()
+          if s.count("127") < 5 or s.count("118") < 1:
+              raise SystemExit("CIVS standard old coverage constants not found as expected")
+          s=s.replace("127","129").replace("118","120")
+          p.write_text(s)
+
+          p=Path("src/data/company-visual-candidates.json")
+          registry=json.loads(p.read_text())
+          if registry.get("meta",{}).get("schema")!="civs-candidate-registry-v1":
+              raise SystemExit("Unexpected CIVS registry schema")
+          if registry["meta"].get("coverageTarget") != 127 or registry["meta"].get("candidateCount") != 118:
+              raise SystemExit(f"Unexpected pre-migration CIVS registry meta: {registry['meta']}")
+          existing={str(x.get("ticker","")).upper() for x in registry.get("candidates",[])}
+          if "DCL" in existing or "KSV" in existing:
+              raise SystemExit("DCL/KSV unexpectedly already present in old candidate registry")
+
+          registry["candidates"].extend([
+              {
+                  "ticker":"DCL",
+                  "sourceUrl":"https://pharimexco.com.vn/",
+                  "officialDomain":"pharimexco.com.vn",
+                  "sourceTier":"A",
+                  "identityType":"pharmaceutical-manufacturing",
+                  "keywords":["Dược phẩm Cửu Long","Pharimexco","nhà máy dược phẩm","viên nang","medical devices"]
+              },
+              {
+                  "ticker":"KSV",
+                  "sourceUrl":"https://vimico.vn/",
+                  "officialDomain":"vimico.vn",
+                  "sourceTier":"A",
+                  "identityType":"mining-metallurgy",
+                  "keywords":["VIMICO","khai khoáng","Sin Quyền","đồng","luyện kim"]
+              }
+          ])
+          registry["candidates"].sort(key=lambda x: str(x.get("ticker","")).upper())
+          registry["meta"]["coverageTarget"]=129
+          registry["meta"]["candidateCount"]=120
+          registry["meta"]["updated"]="2026-09-29"
+          if len(registry["candidates"]) != 120 or len({x["ticker"] for x in registry["candidates"]}) != 120:
+              raise SystemExit("Candidate registry 120-entry invariant failed")
+          p.write_text(json.dumps(registry,ensure_ascii=False,indent=2)+"\n")
+          PY
+
       - name: Generate synchronized report covers and logos
         run: |
           node scripts/sync-report-covers.mjs
@@ -297,6 +382,11 @@ jobs:
           node scripts/audit-site.mjs
           node scripts/audit-report-covers.mjs
           node scripts/audit-company-logos.mjs
+          if ! command -v identify >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends imagemagick >/dev/null
+          fi
+          node scripts/audit-company-visuals.mjs
 
           cp "${RUNNER_TEMP}/index.html.original" index.html
           git checkout -- assets/js/site.min.js
@@ -308,7 +398,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add             reports             src/data/research-data.js             src/data/company-logos.js             src/data/company-visual-candidates.json             assets/images/reports             assets/images/logos
+          git add \
+            reports \
+            src/data/research-data.js \
+            src/data/company-logos.js \
+            src/data/company-visuals.js \
+            src/data/company-visual-candidates.json \
+            assets/images/reports \
+            assets/images/logos \
+            scripts/sync-company-visuals-core.mjs \
+            scripts/audit-company-visuals-core.mjs \
+            scripts/ensure-company-visual-candidates.mjs \
+            tests/company-visuals.test.mjs \
+            docs/company-identity-visual-standard.md
 
           echo "== staged paths =="
           git diff --cached --name-status
