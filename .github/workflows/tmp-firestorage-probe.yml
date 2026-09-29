@@ -200,9 +200,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs = require("node:fs");
-          const vm = require("node:vm");
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import vm from "node:vm";
           const { parseVndirect, parseKbsDaily } = await import("./scripts/update-eod-market-data.mjs");
 
           const date = "2026-09-28";
