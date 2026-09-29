@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá EOD 130/130 mã được khóa tại phiên 28/09/2026. 129 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; VTO được bổ sung từ báo cáo định giá 27/09/2026 và khóa EOD 28/09/2026 bằng VNDIRECT Finfo làm nguồn chính, KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp 11.050 đồng/cp. Khối lượng và pctChange của VTO dùng từ VNDIRECT theo quy ước nguồn chính. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất.",
+    "note": "Giá EOD 130/130 mã được khóa tại phiên 28/09/2026. 129 mã của universe hiện hữu giữ nguyên snapshot đã xác minh trước đó; VTO được bổ sung từ báo cáo định giá 27/09/2026 và khóa EOD 28/09/2026 bằng VNDIRECT Finfo làm nguồn chính, KBS date-specific làm nguồn đối chiếu độc lập, với giá đóng cửa trùng khớp 11.050 đồng/cp. Khối lượng và pctChange của VTO dùng từ VNDIRECT theo quy ước nguồn chính. PDF VTO được kiểm tra toàn vẹn theo SHA-256 trước khi publish. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo báo cáo định giá mới nhất.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
