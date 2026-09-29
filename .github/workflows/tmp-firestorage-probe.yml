@@ -388,7 +388,7 @@ jobs:
           node scripts/audit-company-visuals.mjs
 
           cp "${RUNNER_TEMP}/index.html.original" index.html
-          git checkout -- assets/js/site.min.js
+          if git ls-files --error-unmatch assets/js/site.min.js >/dev/null 2>&1; then git checkout -- assets/js/site.min.js; else rm -f assets/js/site.min.js; fi
 
       - name: Commit report synchronization atomically
         shell: bash
