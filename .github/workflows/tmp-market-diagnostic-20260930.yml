@@ -1,0 +1,138 @@
+name: Temporary market diagnostic 2026-09-30
+
+on:
+  push:
+    paths:
+      - ".github/workflows/tmp-market-diagnostic-20260930.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - name: Compute verified market diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import vm from 'node:vm';
+
+          const getJson = async (url) => {
+            const r = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } });
+            if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
+            return r.json();
+          };
+          const avg = a => a.reduce((s,x)=>s+x,0)/a.length;
+          const median = a => {
+            const x=[...a].sort((a,b)=>a-b);
+            if(!x.length) return null;
+            const m=Math.floor(x.length/2);
+            return x.length%2?x[m]:(x[m-1]+x[m])/2;
+          };
+          const emaSeries=(values,period)=>{
+            const k=2/(period+1);
+            let e=avg(values.slice(0,period));
+            const out=Array(period-1).fill(null).concat([e]);
+            for(let i=period;i<values.length;i++){ e=values[i]*k+e*(1-k); out.push(e); }
+            return out;
+          };
+          const rsiWilder=(values,period=14)=>{
+            if(values.length<=period) return null;
+            let gains=0,losses=0;
+            for(let i=1;i<=period;i++){const d=values[i]-values[i-1]; if(d>=0) gains+=d; else losses-=d;}
+            let ag=gains/period, al=losses/period;
+            for(let i=period+1;i<values.length;i++){const d=values[i]-values[i-1]; const g=d>0?d:0; const l=d<0?-d:0; ag=(ag*(period-1)+g)/period; al=(al*(period-1)+l)/period;}
+            if(al===0) return 100;
+            const rs=ag/al; return 100-(100/(1+rs));
+          };
+
+          const date = "2026-09-30";
+          const histUrl = "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-30&size=500";
+          const hist = await getJson(histUrl);
+          const rows = (Array.isArray(hist?.data) ? hist.data : [])
+            .filter(x => String(x?.code||'').toUpperCase() === "VNINDEX" && x?.date <= date)
+            .sort((a,b) => String(a.date).localeCompare(String(b.date)));
+          if (rows.length < 200) throw new Error(`VNINDEX history insufficient: ${rows.length}`);
+          const closes = rows.map(x => Number(x.close));
+          const ma = n => avg(closes.slice(-n));
+          const last = rows.at(-1);
+          const prev = rows.at(-2);
+          const values = rows.map(x => Number(x.nmValue ?? x.value ?? x.totalValue));
+          const liquidity = {};
+          for (const n of [5,10,20]) {
+            const prior=values.slice(-(n+1),-1).filter(Number.isFinite);
+            liquidity["avgValuePrev"+n]=prior.length===n?avg(prior):null;
+          }
+          const ema12=emaSeries(closes,12), ema26=emaSeries(closes,26);
+          const macd=closes.map((_,i)=>ema12[i]!=null&&ema26[i]!=null?ema12[i]-ema26[i]:null);
+          const macdClean=macd.filter(Number.isFinite);
+          const signalSeries=emaSeries(macdClean,9);
+          const macdLast=macdClean.at(-1) ?? null;
+          const signalLast=signalSeries.at(-1) ?? null;
+
+          const start = Math.floor(Date.parse("2026-09-29T17:00:00Z")/1000);
+          const stop = Math.floor(Date.parse("2026-09-30T09:30:00Z")/1000);
+          const futUrl = `https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${start}&to=${stop}`;
+          let futClose=null, futCount=0, futShape=null;
+          try {
+            const fut=await getJson(futUrl);
+            futShape=Array.isArray(fut)?["array",fut.length]:Object.keys(fut||{});
+            if (Array.isArray(fut)) {
+              const vals=fut.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite);
+              futCount=vals.length; futClose=vals.at(-1) ?? null;
+            } else {
+              const vals = Array.isArray(fut?.c) ? fut.c.map(Number).filter(Number.isFinite)
+                : Array.isArray(fut?.data) ? fut.data.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite) : [];
+              futCount=vals.length; futClose=vals.at(-1) ?? null;
+            }
+          } catch(e) { console.log("DNSE_ERROR", String(e)); }
+
+          const code=fs.readFileSync('src/data/research-data.js','utf8');
+          const sandbox={window:{}};
+          vm.runInNewContext(code,sandbox,{filename:'src/data/research-data.js'});
+          const data=sandbox.window.RESEARCH_DATA;
+          if(data?.meta?.updated!==date) throw new Error(`Research EOD not current: ${data?.meta?.updated}`);
+          const sectorByTicker=new Map();
+          for(const r of data.reports||[]) {
+            const t=String(r?.ticker||'').toUpperCase();
+            if(t && !sectorByTicker.has(t) && r?.sector) sectorByTicker.set(t,String(r.sector));
+          }
+          const groups=new Map();
+          for(const q of data.coverage||[]) {
+            const t=String(q?.ticker||'').toUpperCase();
+            const sector=sectorByTicker.get(t)||'CHƯA PHÂN LOẠI';
+            const pct=Number(q?.changePct);
+            if(!Number.isFinite(pct)) continue;
+            if(!groups.has(sector)) groups.set(sector,[]);
+            groups.get(sector).push({ticker:t,pct,close:q.close,volume:q.volume});
+          }
+          const sectorStats=[...groups].map(([sector,items])=>({
+            sector,n:items.length,adv:items.filter(x=>x.pct>0).length,flat:items.filter(x=>x.pct===0).length,
+            dec:items.filter(x=>x.pct<0).length,medianPct:median(items.map(x=>x.pct)),avgPct:avg(items.map(x=>x.pct)),
+            top:[...items].sort((a,b)=>b.pct-a.pct).slice(0,3),
+            bottom:[...items].sort((a,b)=>a.pct-b.pct).slice(0,3)
+          })).sort((a,b)=>b.n-a.n);
+          const movers=(data.coverage||[]).map(q=>({ticker:q.ticker,pct:Number(q.changePct),close:q.close,sector:sectorByTicker.get(String(q.ticker||'').toUpperCase())||null}))
+            .filter(x=>Number.isFinite(x.pct));
+          const topGainers=[...movers].sort((a,b)=>b.pct-a.pct).slice(0,15);
+          const topLosers=[...movers].sort((a,b)=>a.pct-b.pct).slice(0,15);
+          const vn30=(data.marketSession?.indices||[]).find(x=>x.code==='VN30');
+
+          console.log("VNINDEX_ROW_KEYS", JSON.stringify(Object.keys(last||{})));
+          console.log("VNINDEX_ROW_SAMPLE", JSON.stringify(last));
+          console.log("DIAGNOSTIC", JSON.stringify({
+            date,rowCount:rows.length,firstDate:rows[0]?.date,lastDate:last?.date,
+            open:last?.open,high:last?.high,low:last?.low,close:last?.close,basicPrice:last?.basicPrice,
+            change:last?.change,changePct:last?.pctChange,nmValue:last?.nmValue ?? null,volume:last?.nmVolume ?? null,
+            prevClose:prev?.close,ma20:ma(20),ma50:ma(50),ma200:ma(200),
+            rsi14:rsiWilder(closes,14),macd:macdLast,macdSignal:signalLast,
+            ...liquidity,
+            vn30Close:vn30?.close ?? null,futClose,futCount,futShape,basis:(futClose!=null&&vn30?.close!=null)?futClose-vn30.close:null,
+            breadth:data.marketSession?.breadth,sectorStats,topGainers,topLosers,histUrl,futUrl
+          }));
+          NODE
