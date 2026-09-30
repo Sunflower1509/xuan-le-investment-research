@@ -48,16 +48,7 @@ jobs:
             local expected_size="$4"
 
             local file_id
-            file_id="$(printf '%s' "$listing" | python3 - "$wanted_name" <<'PY'
-import json, sys
-wanted = sys.argv[1]
-data = json.load(sys.stdin)
-matches = [f for f in data.get("files", []) if f.get("fileName") == wanted or f.get("name") == wanted]
-if len(matches) != 1:
-    raise SystemExit(f"Expected exactly one Firestorage file named {wanted!r}, got {len(matches)}")
-print(matches[0].get("fileId") or matches[0].get("id") or "")
-PY
-)"
+            file_id="$(printf '%s' "$listing" | python3 -c 'import json,sys; wanted=sys.argv[1]; d=json.load(sys.stdin); m=[f for f in d.get("files",[]) if f.get("fileName")==wanted or f.get("name")==wanted]; len(m)==1 or (_ for _ in ()).throw(SystemExit(f"Expected exactly one file named {wanted!r}, got {len(m)}")); print(m[0].get("fileId") or m[0].get("id") or "")' "$wanted_name")"
             [[ -n "$file_id" ]] || { echo "Missing Firestorage fileId for $wanted_name" >&2; exit 2; }
 
             local payload download_url
@@ -69,8 +60,7 @@ PY
             curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$download_url" -o "$output"
 
             [[ "$(wc -c < "$output" | tr -d ' ')" == "$expected_size" ]] || { echo "Size mismatch for $wanted_name" >&2; exit 2; }
-            printf '%s  %s
-' "$expected_sha" "$output" | sha256sum -c -
+            echo "$expected_sha  $output" | sha256sum -c -
             [[ "$(head -c 5 "$output")" == "%PDF-" ]] || { echo "Invalid PDF signature for $wanted_name" >&2; exit 2; }
           }
 
@@ -220,11 +210,10 @@ PY
           }
 
           if (typeof data.meta?.note === "string") {
-            data.meta.note = data.meta.note
-              .replace(
-                "Báo cáo định giá MSN đã được thay bằng bản 30/09/2026; bản 03/08/2026 đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
-                "Báo cáo định giá MSN, BSR và PVP đã được thay bằng bản 30/09/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động của BSR/PVP được cập nhật đúng theo báo cáo mới; dữ liệu EOD 30/09/2026 được giữ nguyên."
-              );
+            data.meta.note = data.meta.note.replace(
+              "Báo cáo định giá MSN đã được thay bằng bản 30/09/2026; bản 03/08/2026 đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+              "Báo cáo định giá MSN, BSR và PVP đã được thay bằng bản 30/09/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động của BSR/PVP được cập nhật đúng theo báo cáo mới; dữ liệu EOD 30/09/2026 được giữ nguyên."
+            );
           }
 
           const valuationReports = data.reports.filter((r) => r.reportType !== "trading");
@@ -245,8 +234,7 @@ PY
             if (coverage.action?.basisDate !== report.date) throw new Error(ticker + " coverage action basisDate mismatch");
           }
 
-          fs.writeFileSync(path, "window.RESEARCH_DATA = " + JSON.stringify(data, null, 2) + ";
-");
+          fs.writeFileSync(path, "window.RESEARCH_DATA = " + JSON.stringify(data, null, 2) + ";" + String.fromCharCode(10));
           console.log(JSON.stringify({
             replacedReports: oldReports.map((r) => ({ ticker: r.ticker, id: r.id, date: r.date, file: r.file })),
             newReports: [bsr, pvp].map((r) => ({ ticker: r.ticker, id: r.id, date: r.date, file: r.file })),
@@ -289,43 +277,20 @@ PY
             exit 2
           fi
 
-          bsr_pdfs="$(find reports -maxdepth 1 -type f -iname 'BSR*.pdf' -printf '%f
-' | sort)"
-          [[ "$bsr_pdfs" == "BSR_2026-09-30.pdf" ]] || {
-            echo "BSR latest-only PDF invariant failed:" >&2
-            printf '%s
-' "$bsr_pdfs" >&2
-            exit 2
-          }
+          bsr_pdfs="$(find reports -maxdepth 1 -type f -iname 'BSR*.pdf' -print | sed 's#^reports/##' | sort)"
+          [[ "$bsr_pdfs" == "BSR_2026-09-30.pdf" ]] || { echo "BSR latest-only PDF invariant failed: $bsr_pdfs" >&2; exit 2; }
 
-          pvp_pdfs="$(find reports -maxdepth 1 -type f -iname 'PVP*.pdf' -printf '%f
-' | sort)"
-          [[ "$pvp_pdfs" == "PVP_2026-09-30.pdf" ]] || {
-            echo "PVP latest-only PDF invariant failed:" >&2
-            printf '%s
-' "$pvp_pdfs" >&2
-            exit 2
-          }
+          pvp_pdfs="$(find reports -maxdepth 1 -type f -iname 'PVP*.pdf' -print | sed 's#^reports/##' | sort)"
+          [[ "$pvp_pdfs" == "PVP_2026-09-30.pdf" ]] || { echo "PVP latest-only PDF invariant failed: $pvp_pdfs" >&2; exit 2; }
 
-          expected_paths="$(cat <<'EOF'
-assets/images/reports/bsr.webp
-assets/images/reports/pvp.webp
-reports/BSR_2026-09-30.pdf
-reports/BSR_Equity_Research_Valuation_2026.pdf
-reports/PVP_2026-08-26.pdf
-reports/PVP_2026-09-30.pdf
-src/data/research-data.js
-EOF
-)"
           actual_paths="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //' | grep -v '^\.github/workflows/tmp-bsr-pvp-import.yml$' | sort)"
-          unexpected="$(comm -13 <(printf '%s
-' "$expected_paths" | sort) <(printf '%s
-' "$actual_paths") || true)"
-          if [[ -n "$unexpected" ]]; then
-            echo "Unexpected changed paths after preflight:" >&2
-            echo "$unexpected" >&2
-            exit 2
-          fi
+          while IFS= read -r p; do
+            case "$p" in
+              assets/images/reports/bsr.webp|assets/images/reports/pvp.webp|reports/BSR_2026-09-30.pdf|reports/BSR_Equity_Research_Valuation_2026.pdf|reports/PVP_2026-08-26.pdf|reports/PVP_2026-09-30.pdf|src/data/research-data.js) ;;
+              "") ;;
+              *) echo "Unexpected changed path after preflight: $p" >&2; exit 2 ;;
+            esac
+          done <<< "$actual_paths"
 
       - name: Commit BSR and PVP synchronization atomically
         shell: bash
@@ -334,7 +299,7 @@ EOF
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add -A --             reports/BSR_2026-09-30.pdf             reports/BSR_Equity_Research_Valuation_2026.pdf             reports/PVP_2026-09-30.pdf             reports/PVP_2026-08-26.pdf             src/data/research-data.js             assets/images/reports/bsr.webp             assets/images/reports/pvp.webp
+          git add -A -- reports/BSR_2026-09-30.pdf reports/BSR_Equity_Research_Valuation_2026.pdf reports/PVP_2026-09-30.pdf reports/PVP_2026-08-26.pdf src/data/research-data.js assets/images/reports/bsr.webp assets/images/reports/pvp.webp
 
           echo "== staged paths =="
           git diff --cached --name-status
