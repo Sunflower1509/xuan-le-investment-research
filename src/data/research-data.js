@@ -60,6 +60,49 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "MSN-20260930",
+      "ticker": "MSN",
+      "company": "Công ty Cổ phần Tập đoàn Masan",
+      "sector": "Tập đoàn đa ngành / Tiêu dùng - Bán lẻ",
+      "exchange": "HOSE",
+      "date": "2026-09-30",
+      "recommendation": "CHỜ / CÓ MUA CÓ ĐIỀU KIỆN KHI PULLBACK",
+      "status": "wait",
+      "marketPrice": 69400,
+      "marketPriceDate": "2026-09-29",
+      "baseValue": 118489,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 70000,
+      "rangeHigh": 157315,
+      "gapLabel": "P0 69.400 đồng/cp thấp hơn GTKV 118.489 đồng/cp khoảng 41,4%, nhưng chỉ thấp hơn cận dưới SOTP 70.000 đồng/cp khoảng 0,86%; tín hiệu định giá cơ học XANH không đồng nghĩa mua ngay.",
+      "method": "PP-14 SOTP là phương pháp chính; DCF hợp nhất, tương đối, giao dịch, đòn bẩy và reverse DCF dùng để kiểm chứng",
+      "summary": "MSN có vùng SOTP 70.000-157.315 đồng/cp và GTKV 118.489 đồng/cp. Lợi nhuận, biên hoạt động và đòn bẩy đang cải thiện, nhưng bất định nợ ròng cấp holding, chiết khấu holding và giao dịch MSR khiến độ tin cậy dữ liệu ở mức TRUNG BÌNH. Trạng thái giao dịch 1-3 tuần là CHỜ; chỉ kích hoạt khi setup thỏa xác nhận kỹ thuật, stop 3-7% và R/R >=2.",
+      "action": {
+        "zoneLow": 66000,
+        "zoneHigh": 66500,
+        "baseValue": 118489,
+        "stop": 64000,
+        "targets": [
+          71700,
+          73300
+        ],
+        "basisDate": "2026-09-30",
+        "recommendation": "CHỜ / CÓ MUA CÓ ĐIỀU KIỆN KHI PULLBACK",
+        "eligibility": "active",
+        "condition": "IF giá điều chỉnh về 66.000-66.500 đồng/cp và xuất hiện nến đảo chiều kèm dòng tiền/khối lượng cải thiện THEN có thể kích hoạt; stop 64.000 (~3,8% tại 66.500), T1 71.700, T2 73.300, R/R T1 khoảng 2,08. IF breakout >71.700 nhưng target gần không đủ để R/R >=2 THEN tiếp tục CHỜ. IF đóng cửa <64.000 sau khi kích hoạt THEN cắt lỗ và không bình quân giá xuống."
+      },
+      "file": "reports/MSN_2026-09-30.pdf",
+      "edition": "Bản định giá 30.09.2026",
+      "visual": {
+        "src": "assets/images/reports/msn.webp?v=20260930-cover1",
+        "alt": "Trang bìa báo cáo định giá MSN ngày 30/09/2026",
+        "caption": "Bìa báo cáo định giá MSN",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MSN_2026-09-30.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "NKG-20260928",
       "ticker": "NKG",
       "company": "Công ty Cổ phần Thép Nam Kim",
@@ -4930,41 +4973,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản chính"
     },
     {
-      "id": "MSN-VALUATION-20260803",
-      "ticker": "MSN",
-      "company": "Công ty Cổ phần Tập đoàn Masan",
-      "sector": "Tiêu dùng",
-      "exchange": "HOSE",
-      "date": "2026-08-03",
-      "recommendation": "CHỜ - CHƯA MUA MỚI",
-      "status": "wait",
-      "marketPrice": 68200,
-      "marketPriceDate": "2026-08-03",
-      "baseValue": 95000,
-      "rangeLow": 82000,
-      "rangeHigh": 119000,
-      "gapLabel": "Giá trị điểm giữa cao hơn giá thị trường khoảng 39,3% tại ngày định giá",
-      "method": "SOTP là phương pháp chính; định giá tương đối và trung vị báo cáo độc lập dùng kiểm tra chéo",
-      "summary": "Giá trị điểm giữa trọng số 95.000 đồng/cp và SOTP cơ sở 99.500 đồng/cp cho thấy dư địa so với giá 68.200 đồng/cp. Tuy nhiên, biên an toàn tới cận dưới 82.000 đồng/cp chỉ khoảng 16,8%, thấp hơn ngưỡng 25–30%; do đó báo cáo giữ khuyến nghị CHỜ - CHƯA MUA MỚI.",
-      "action": {
-        "zoneLow": 57500,
-        "zoneHigh": 61500,
-        "stop": 56500,
-        "basisDate": "2026-08-03",
-        "condition": "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 đồng/cp chỉ áp dụng khi điều kiện trong báo cáo được duy trì."
-      },
-      "visual": {
-        "src": "assets/images/reports/msn.webp?v=20260803-cover1",
-        "alt": "Trang bìa báo cáo định giá MSN ngày 03/08/2026",
-        "caption": "Bìa báo cáo định giá MSN",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/MSN_Equity_Valuation_Report_03-08-2026.pdf",
-      "edition": "Báo cáo định giá"
-    },
-    {
       "id": "VCI-20260730",
       "ticker": "VCI",
       "company": "Công ty Cổ phần Chứng khoán Vietcap",
@@ -6762,10 +6770,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "MSN",
-      "company": "Tập đoàn Masan",
-      "sector": "Tiêu dùng",
+      "company": "Công ty Cổ phần Tập đoàn Masan",
+      "sector": "Tập đoàn đa ngành / Tiêu dùng - Bán lẻ",
       "exchange": "HOSE",
-      "reportId": "MSN-VALUATION-20260803",
+      "reportId": "MSN-20260930",
       "close": 69000,
       "priceDate": "2026-09-30",
       "changePct": -0.5764,
@@ -6773,14 +6781,18 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSN~date:2026-09-30&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSN/data_day?sdate=30-09-2026&edate=30-09-2026",
       "action": {
-        "zoneLow": 57500,
-        "zoneHigh": 61500,
-        "baseValue": 95000,
-        "stop": 56500,
-        "basisDate": "2026-08-03",
-        "recommendation": "CHỜ - CHƯA MUA MỚI",
+        "zoneLow": 66000,
+        "zoneHigh": 66500,
+        "baseValue": 118489,
+        "stop": 64000,
+        "targets": [
+          71700,
+          73300
+        ],
+        "basisDate": "2026-09-30",
+        "recommendation": "CHỜ / CÓ MUA CÓ ĐIỀU KIỆN KHI PULLBACK",
         "eligibility": "active",
-        "condition": "Ưu tiên giá vốn không quá 60.000 đồng/cp trong vùng 57.500–61.500; stop tham khảo 56.500. Mục tiêu 82.000–95.000 chỉ áp dụng khi điều kiện trong báo cáo được duy trì."
+        "condition": "IF giá điều chỉnh về 66.000-66.500 đồng/cp và xuất hiện nến đảo chiều kèm dòng tiền/khối lượng cải thiện THEN có thể kích hoạt; stop 64.000 (~3,8% tại 66.500), T1 71.700, T2 73.300, R/R T1 khoảng 2,08. IF breakout >71.700 nhưng target gần không đủ để R/R >=2 THEN tiếp tục CHỜ. IF đóng cửa <64.000 sau khi kích hoạt THEN cắt lỗ và không bình quân giá xuống."
       }
     },
     {
