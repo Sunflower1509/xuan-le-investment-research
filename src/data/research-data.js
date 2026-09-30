@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 30/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 126/130 mã; BVS: VNDIRECT 721.200 vs KBS 720.200 (chênh 1.000); CEO: VNDIRECT 3.873.700 vs KBS 3.871.100 (chênh 2.600); PVC: VNDIRECT 474.600 vs KBS 471.300 (chênh 3.300); PVS: VNDIRECT 3.539.500 vs KBS 3.539.000 (chênh 500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Báo cáo định giá MSN đã được thay bằng bản 30/09/2026; bản 03/08/2026 đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 30/09/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 126/130 mã; BVS: VNDIRECT 721.200 vs KBS 720.200 (chênh 1.000); CEO: VNDIRECT 3.873.700 vs KBS 3.871.100 (chênh 2.600); PVC: VNDIRECT 474.600 vs KBS 471.300 (chênh 3.300); PVS: VNDIRECT 3.539.500 vs KBS 3.539.000 (chênh 500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Báo cáo định giá MSN, BSR và PVP đã được thay bằng bản 30/09/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động của BSR/PVP được cập nhật đúng theo báo cáo mới; dữ liệu EOD 30/09/2026 được giữ nguyên.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -60,6 +60,48 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "BSR-20260930",
+      "ticker": "BSR",
+      "company": "CTCP - Tổng Công ty Lọc hóa dầu Việt Nam",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "date": "2026-09-30",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 31350,
+      "marketPriceDate": "2026-09-30",
+      "baseValue": 21255,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 14591,
+      "rangeHigh": 28802,
+      "gapLabel": "Theo báo cáo, P0 31.350 đồng/cp cao hơn cận trên 28.802 đồng/cp; biên an toàn so với GTKV 21.255 đồng/cp là -47,5%, nên tín hiệu định giá là TRÁNH.",
+      "method": "PP-13 lợi nhuận chuẩn hóa là mô hình chính; DCF-FCFF và EV/EBITDA khu vực kiểm chứng; PP-18 reverse DCF kiểm tra kỳ vọng thị trường",
+      "summary": "BSR là doanh nghiệp lọc hóa dầu có tính chu kỳ cao. Vùng giá trị tổng hợp 14.591-28.802 đồng/cp, GTKV 21.255 đồng/cp; giá tham chiếu trong báo cáo 31.350 đồng/cp vượt cận trên. Trạng thái giao dịch 1-3 tuần là LOẠI dù xu hướng kỹ thuật còn tích cực vì định giá đang ở trạng thái TRÁNH và phiên 30/09 chưa có xác nhận khối lượng >=1,5x trung bình 20 phiên.",
+      "action": {
+        "triggerType": "at-or-below",
+        "triggerPrice": 14591,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21255,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-30",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Trạng thái 1-3 tuần theo báo cáo là LOẠI: không thiết lập vùng mua, stoploss, target hay R/R cho lệnh mới. Mốc <=14.591 đồng/cp chỉ là ngưỡng định giá lại/tích lũy trung-dài hạn sau khi cập nhật dữ liệu mới, không phải tín hiệu mua tự động. Giá >28.802 đồng/cp: TRÁNH mua mới theo khung định giá."
+      },
+      "file": "reports/BSR_2026-09-30.pdf",
+      "edition": "Bản định giá 30.09.2026",
+      "visual": {
+        "src": "assets/images/reports/bsr.webp?v=20260930-cover1",
+        "alt": "Trang bìa báo cáo định giá BSR ngày 30/09/2026",
+        "caption": "Bìa báo cáo định giá BSR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BSR_2026-09-30.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "MSN-20260930",
       "ticker": "MSN",
       "company": "Công ty Cổ phần Tập đoàn Masan",
@@ -99,6 +141,49 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá MSN",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/MSN_2026-09-30.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "PVP-20260930",
+      "ticker": "PVP",
+      "company": "CTCP Vận tải Dầu khí Thái Bình Dương",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "date": "2026-09-30",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 21900,
+      "marketPriceDate": "2026-09-29",
+      "baseValue": 28552,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 22127,
+      "rangeHigh": 35249,
+      "gapLabel": "P0 21.900 đồng/cp thấp hơn GTKV 28.552 đồng/cp khoảng 23,3% và thấp hơn cận dưới 22.127 đồng/cp khoảng 1,0%, nhưng vẫn cao hơn ngưỡng mua M 21.414 đồng/cp; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-13 lợi nhuận chuẩn hóa là mô hình chính; DCF-FCFF và EV/EBITDA kiểm chứng; P/B và reverse DCF dùng để kiểm tra",
+      "summary": "PVP có 6T/2026 tăng trưởng mạnh, tiền ròng và chất lượng dòng tiền tốt, nhưng vận tải biển mang tính chu kỳ và chương trình đầu tư đội tàu làm tăng độ nhạy vốn. Vùng giá trị 22.127-35.249 đồng/cp, GTKV 28.552 đồng/cp. Trạng thái 1-3 tuần là CHỜ vì giá tham chiếu 21.900 đồng/cp sát đỉnh 52 tuần 22.300 và mua đuổi không đạt R/R >=2.",
+      "action": {
+        "zoneLow": 19200,
+        "zoneHigh": 19700,
+        "baseValue": 28552,
+        "stop": 18600,
+        "targets": [
+          22300,
+          25000
+        ],
+        "basisDate": "2026-09-30",
+        "recommendation": "CHỜ - CHỈ MUA KHI PULLBACK HỢP LỆ",
+        "eligibility": "active",
+        "condition": "IF giá điều chỉnh về 19.200-19.700 đồng/cp và xuất hiện xác nhận hồi phục trên dữ liệu EOD/AmiBroker THEN có thể kích hoạt; stop 18.600 (rủi ro tối đa khoảng 5,6%), T1 22.300, T2 tham chiếu 25.000, R/R T1 khoảng 2,36. IF breakout >22.300 nhưng chưa tạo nền mới với stop 3-7% và R/R >=2 THEN tiếp tục CHỜ. IF đóng cửa <18.600 sau khi kích hoạt THEN LOẠI/cắt lỗ theo kỷ luật."
+      },
+      "file": "reports/PVP_2026-09-30.pdf",
+      "edition": "Bản định giá 30.09.2026",
+      "visual": {
+        "src": "assets/images/reports/pvp.webp?v=20260930-cover1",
+        "alt": "Trang bìa báo cáo định giá PVP ngày 30/09/2026",
+        "caption": "Bìa báo cáo định giá PVP",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PVP_2026-09-30.pdf",
         "kind": "report-cover"
       }
     },
@@ -2616,50 +2701,6 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "id": "PVP-20260826",
-      "ticker": "PVP",
-      "company": "CTCP Vận tải Dầu khí Thái Bình Dương",
-      "sector": "Năng lượng",
-      "exchange": "HOSE",
-      "date": "2026-08-26",
-      "recommendation": "CHỜ - CHƯA ĐỦ MOS 25-30%",
-      "status": "wait",
-      "marketPrice": 18250,
-      "marketPriceDate": "2026-08-25",
-      "baseValue": 21469,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 17000,
-      "rangeHigh": 26500,
-      "gapLabel": "Giá 18.250 đồng/cp có upside nhưng MOS khoảng 15%, chưa đạt chuẩn 25-30%.",
-      "method": "Lợi nhuận chuẩn hóa chu kỳ + P/B + EV/EBITDA chuẩn hóa",
-      "summary": "PVP có nửa đầu 2026 mạnh và bảng cân đối net cash, nhưng vận tải biển là ngành chu kỳ nên không annualize EPS 6 tháng. Fair value 17.000-26.500 đồng/cp; tại 18.250 đồng/cp trạng thái CHỜ.",
-      "action": {
-        "zoneLow": 15000,
-        "zoneHigh": 16100,
-        "baseValue": 21469,
-        "stop": null,
-        "targets": [
-          21500,
-          24000,
-          26500
-        ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "IF giá 15.000-16.100 và CFO/net cash không xấu đi THEN giải ngân từng phần; stop 5-7% dưới giá khớp. T1 khoảng 21.500; T2 24.000-26.500. Kịch bản breakout chỉ xem xét khi vượt 18.600-18.800 có xác nhận thanh khoản."
-      },
-      "file": "reports/PVP_2026-08-26.pdf",
-      "edition": "Bản định giá 26.08.2026",
-      "visual": {
-        "src": "assets/images/reports/pvp.webp?v=20260826-cover1",
-        "alt": "Trang bìa báo cáo định giá PVP ngày 26/08/2026",
-        "caption": "Bìa báo cáo định giá PVP",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/PVP_2026-08-26.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
       "id": "SSB-20260826",
       "ticker": "SSB",
       "company": "Ngân hàng TMCP Đông Nam Á",
@@ -5172,33 +5213,6 @@ window.RESEARCH_DATA = {
       "edition": "Đã kiểm tra"
     },
     {
-      "id": "BSR-20260712",
-      "ticker": "BSR",
-      "company": "Tổng Công ty Lọc hóa dầu Việt Nam",
-      "sector": "Năng lượng",
-      "exchange": "HOSE",
-      "date": "2026-07-12",
-      "recommendation": "LOẠI",
-      "status": "reject",
-      "marketPrice": 25500,
-      "baseValue": 19000,
-      "rangeLow": 13600,
-      "rangeHigh": 24300,
-      "gapLabel": null,
-      "method": "DCF FCFF chu kỳ + kiểm chứng tương đối",
-      "summary": "Điểm giữa 19.000 đồng/cp; vùng giá trị hợp lý 13.600–24.300 đồng/cp; không mua mới.",
-      "visual": {
-        "src": "assets/images/reports/bsr.webp?v=20260712-cover1",
-        "alt": "Trang bìa báo cáo định giá BSR ngày 12/07/2026",
-        "caption": "Bìa báo cáo định giá BSR",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/BSR_Equity_Research_Valuation_2026.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/BSR_Equity_Research_Valuation_2026.pdf",
-      "edition": "Bản chính"
-    },
-    {
       "id": "PVS-20260711",
       "ticker": "PVS",
       "company": "Tổng CTCP Dịch vụ Kỹ thuật Dầu khí Việt Nam",
@@ -5461,7 +5475,7 @@ window.RESEARCH_DATA = {
       "company": "Lọc hóa dầu Bình Sơn",
       "sector": "Năng lượng",
       "exchange": "HOSE",
-      "reportId": "BSR-20260712",
+      "reportId": "BSR-20260930",
       "close": 31400,
       "priceDate": "2026-09-30",
       "changePct": -3.3846,
@@ -5469,12 +5483,17 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-09-30&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BSR/data_day?sdate=30-09-2026&edate=30-09-2026",
       "action": {
-        "zoneLow": 9500,
-        "zoneHigh": 10200,
-        "basisDate": "2026-07-12",
-        "recommendation": "LOẠI – KHÔNG MUA MỚI",
+        "triggerType": "at-or-below",
+        "triggerPrice": 14591,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21255,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-09-30",
+        "recommendation": "LOẠI / TRÁNH MUA MỚI",
         "eligibility": "veto",
-        "condition": "Hard veto theo báo cáo; không xếp vào danh sách ưu tiên dù giá giảm."
+        "condition": "Trạng thái 1-3 tuần theo báo cáo là LOẠI: không thiết lập vùng mua, stoploss, target hay R/R cho lệnh mới. Mốc <=14.591 đồng/cp chỉ là ngưỡng định giá lại/tích lũy trung-dài hạn sau khi cập nhật dữ liệu mới, không phải tín hiệu mua tự động. Giá >28.802 đồng/cp: TRÁNH mua mới theo khung định giá."
       }
     },
     {
@@ -7375,7 +7394,7 @@ window.RESEARCH_DATA = {
       "company": "CTCP Vận tải Dầu khí Thái Bình Dương",
       "sector": "Năng lượng",
       "exchange": "HOSE",
-      "reportId": "PVP-20260826",
+      "reportId": "PVP-20260930",
       "close": 20900,
       "priceDate": "2026-09-30",
       "changePct": -4.5662,
@@ -7383,19 +7402,18 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVP~date:2026-09-30&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVP/data_day?sdate=30-09-2026&edate=30-09-2026",
       "action": {
-        "zoneLow": 15000,
-        "zoneHigh": 16100,
-        "baseValue": 21469,
-        "stop": null,
+        "zoneLow": 19200,
+        "zoneHigh": 19700,
+        "baseValue": 28552,
+        "stop": 18600,
         "targets": [
-          21500,
-          24000,
-          26500
+          22300,
+          25000
         ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
+        "basisDate": "2026-09-30",
+        "recommendation": "CHỜ - CHỈ MUA KHI PULLBACK HỢP LỆ",
         "eligibility": "active",
-        "condition": "IF giá 15.000-16.100 và CFO/net cash không xấu đi THEN giải ngân từng phần; stop 5-7% dưới giá khớp. T1 khoảng 21.500; T2 24.000-26.500. Kịch bản breakout chỉ xem xét khi vượt 18.600-18.800 có xác nhận thanh khoản."
+        "condition": "IF giá điều chỉnh về 19.200-19.700 đồng/cp và xuất hiện xác nhận hồi phục trên dữ liệu EOD/AmiBroker THEN có thể kích hoạt; stop 18.600 (rủi ro tối đa khoảng 5,6%), T1 22.300, T2 tham chiếu 25.000, R/R T1 khoảng 2,36. IF breakout >22.300 nhưng chưa tạo nền mới với stop 3-7% và R/R >=2 THEN tiếp tục CHỜ. IF đóng cửa <18.600 sau khi kích hoạt THEN LOẠI/cắt lỗ theo kỷ luật."
       }
     },
     {
