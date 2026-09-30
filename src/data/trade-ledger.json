@@ -124,9 +124,9 @@
           "date": "2026-09-30",
           "close": 69000,
           "relation": "above",
-          "zoneLow": 57500,
-          "zoneHigh": 61500,
-          "zoneBasisDate": "2026-08-03",
+          "zoneLow": 66000,
+          "zoneHigh": 66500,
+          "zoneBasisDate": "2026-09-30",
           "eligibility": "active"
         },
         "BCM": {
