@@ -1,0 +1,115 @@
+name: Temporary MSN cover repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-msn-cover-repair.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Force MSN cover rebuild from current PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f reports/MSN_2026-09-30.pdf
+          test ! -f reports/MSN_Equity_Valuation_Report_03-08-2026.pdf
+
+          old_blob="$(git hash-object assets/images/reports/msn.webp)"
+          if [[ "$old_blob" != "52b812ff5f593e321111b5ce21919e51a53d5399" ]]; then
+            echo "MSN cover no longer matches the known stale August cover; refusing blind overwrite." >&2
+            echo "Current blob: $old_blob" >&2
+            exit 2
+          fi
+
+          rm assets/images/reports/msn.webp
+          node scripts/sync-report-covers.mjs
+
+          new_blob="$(git hash-object assets/images/reports/msn.webp)"
+          if [[ "$new_blob" == "$old_blob" ]]; then
+            echo "MSN cover rebuild did not change the stale August asset." >&2
+            exit 2
+          fi
+
+          grep -q '"file": "reports/MSN_2026-09-30.pdf"' src/data/research-data.js
+          grep -q '"src": "assets/images/reports/msn.webp?v=20260930-cover1"' src/data/research-data.js
+
+      - name: Independently verify cover bytes equal deterministic page-1 render
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! command -v pdftoppm >/dev/null 2>&1 || ! command -v cwebp >/dev/null 2>&1 || ! command -v identify >/dev/null 2>&1 || ! command -v convert >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends poppler-utils webp imagemagick >/dev/null
+          fi
+
+          tmp="$(mktemp -d)"
+          trap 'rm -rf "$tmp"' EXIT
+
+          pdftoppm \
+            -f 1 -l 1 -singlefile -png \
+            -scale-to-x 900 -scale-to-y -1 \
+            reports/MSN_2026-09-30.pdf "$tmp/page1"
+
+          src="$tmp/page1.png"
+          w="$(identify -format '%w' "$src")"
+          h="$(identify -format '%h' "$src")"
+          if (( h < 900 )); then
+            convert "$src" -background white -gravity center -extent "$(( w > 900 ? w : 900 ))x1165" "$tmp/page1-padded.png"
+            src="$tmp/page1-padded.png"
+          fi
+
+          cwebp -quiet -q 84 -m 6 -metadata none "$src" -o "$tmp/expected.webp"
+
+          expected_sha="$(sha256sum "$tmp/expected.webp" | awk '{print $1}')"
+          actual_sha="$(sha256sum assets/images/reports/msn.webp | awk '{print $1}')"
+          echo "expected_sha=$expected_sha"
+          echo "actual_sha=$actual_sha"
+          [[ "$expected_sha" == "$actual_sha" ]] || {
+            echo "MSN cover does not byte-match deterministic page-1 render." >&2
+            exit 2
+          }
+
+      - name: Commit repaired MSN cover
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/images/reports/msn.webp src/data/research-data.js
+          git diff --cached --quiet && { echo "No MSN cover repair changes to commit" >&2; exit 3; }
+          git commit -m "Regenerate MSN cover from 30 Sep 2026 report"
+          git push origin HEAD:main
+
+      - name: Remove temporary cover repair workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          git reset --hard origin/main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-msn-cover-repair.yml
+          git commit -m "Remove temporary MSN cover repair workflow"
+          git push origin HEAD:main
