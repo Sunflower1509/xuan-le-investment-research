@@ -1,0 +1,226 @@
+name: Temporary MSN valuation import
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-msn-import.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and verify MSN valuation PDF
+        shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+          SHARE_ID: "o8RBaS6b0ctn"
+          EXPECTED_SHA: "7d1223fd289e103ce408c049189fd0a42e3a3e3893124e63a864069091c85381"
+          EXPECTED_SIZE: "119133"
+        run: |
+          set -euo pipefail
+          listing="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL "${FIRE_API}/shares/${SHARE_ID}/files?maxResults=1000")"
+          file_id="$(printf '%s' "$listing" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["files"][0]["fileId"])')"
+          [[ -n "$file_id" ]] || { echo "Missing Firestorage fileId" >&2; exit 2; }
+          payload="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL -X POST "${FIRE_API}/shares/${SHARE_ID}/files/$file_id/download")"
+          download_url="$(printf '%s' "$payload" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["downloadUrl"])')"
+          [[ "$download_url" == https://* ]] || { echo "Invalid download URL" >&2; exit 2; }
+
+          mkdir -p reports
+          curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$download_url" -o reports/MSN_2026-09-30.pdf
+
+          [[ "$(wc -c < reports/MSN_2026-09-30.pdf | tr -d ' ')" == "$EXPECTED_SIZE" ]] || { echo "MSN PDF size mismatch" >&2; exit 2; }
+          printf '%s  %s\n' "$EXPECTED_SHA" "reports/MSN_2026-09-30.pdf" | sha256sum -c -
+          [[ "$(head -c 5 reports/MSN_2026-09-30.pdf)" == "%PDF-" ]] || { echo "Invalid MSN PDF signature" >&2; exit 2; }
+
+          rm -f reports/MSN_Equity_Valuation_Report_03-08-2026.pdf
+
+      - name: Replace MSN valuation registry without touching layout or EOD snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require("node:fs");
+          const vm = require("node:vm");
+
+          const path = "src/data/research-data.js";
+          const code = fs.readFileSync(path, "utf8");
+          const context = { window: {} };
+          vm.runInNewContext(code, context, { filename: path });
+          const data = context.window.RESEARCH_DATA;
+
+          if (!data || !Array.isArray(data.reports) || !Array.isArray(data.coverage)) {
+            throw new Error("RESEARCH_DATA invalid");
+          }
+
+          const oldReports = data.reports.filter((r) => String(r.ticker || "").toUpperCase() === "MSN");
+          if (oldReports.some((r) => String(r.date || "") > "2026-09-30")) {
+            throw new Error("Repository already contains a newer MSN valuation report");
+          }
+
+          const report = {
+            id: "MSN-20260930",
+            ticker: "MSN",
+            company: "Công ty Cổ phần Tập đoàn Masan",
+            sector: "Tập đoàn đa ngành / Tiêu dùng - Bán lẻ",
+            exchange: "HOSE",
+            date: "2026-09-30",
+            recommendation: "CHỜ / CÓ MUA CÓ ĐIỀU KIỆN KHI PULLBACK",
+            status: "wait",
+            marketPrice: 69400,
+            marketPriceDate: "2026-09-29",
+            baseValue: 118489,
+            valueLabel: "Giá trị kỳ vọng",
+            rangeLow: 70000,
+            rangeHigh: 157315,
+            gapLabel: "P0 69.400 đồng/cp thấp hơn GTKV 118.489 đồng/cp khoảng 41,4%, nhưng chỉ thấp hơn cận dưới SOTP 70.000 đồng/cp khoảng 0,86%; tín hiệu định giá cơ học XANH không đồng nghĩa mua ngay.",
+            method: "PP-14 SOTP là phương pháp chính; DCF hợp nhất, tương đối, giao dịch, đòn bẩy và reverse DCF dùng để kiểm chứng",
+            summary: "MSN có vùng SOTP 70.000-157.315 đồng/cp và GTKV 118.489 đồng/cp. Lợi nhuận, biên hoạt động và đòn bẩy đang cải thiện, nhưng bất định nợ ròng cấp holding, chiết khấu holding và giao dịch MSR khiến độ tin cậy dữ liệu ở mức TRUNG BÌNH. Trạng thái giao dịch 1-3 tuần là CHỜ; chỉ kích hoạt khi setup thỏa xác nhận kỹ thuật, stop 3-7% và R/R >=2.",
+            action: {
+              zoneLow: 66000,
+              zoneHigh: 66500,
+              baseValue: 118489,
+              stop: 64000,
+              targets: [71700, 73300],
+              basisDate: "2026-09-30",
+              recommendation: "CHỜ / CÓ MUA CÓ ĐIỀU KIỆN KHI PULLBACK",
+              eligibility: "active",
+              condition: "IF giá điều chỉnh về 66.000-66.500 đồng/cp và xuất hiện nến đảo chiều kèm dòng tiền/khối lượng cải thiện THEN có thể kích hoạt; stop 64.000 (~3,8% tại 66.500), T1 71.700, T2 73.300, R/R T1 khoảng 2,08. IF breakout >71.700 nhưng target gần không đủ để R/R >=2 THEN tiếp tục CHỜ. IF đóng cửa <64.000 sau khi kích hoạt THEN cắt lỗ và không bình quân giá xuống."
+            },
+            file: "reports/MSN_2026-09-30.pdf",
+            edition: "Bản định giá 30.09.2026",
+            visual: {
+              src: "assets/images/reports/msn.webp?v=20260930-cover1",
+              alt: "Trang bìa báo cáo định giá MSN ngày 30/09/2026",
+              caption: "Bìa báo cáo định giá MSN",
+              sourceLabel: "Xuân Lê TVS Equity Research",
+              sourceUrl: "reports/MSN_2026-09-30.pdf",
+              kind: "report-cover"
+            }
+          };
+
+          data.reports = data.reports.filter((r) => String(r.ticker || "").toUpperCase() !== "MSN");
+          data.reports.push(report);
+          data.reports.sort((a, b) => b.date.localeCompare(a.date) || a.ticker.localeCompare(b.ticker));
+
+          const coverage = data.coverage.find((c) => String(c.ticker || "").toUpperCase() === "MSN");
+          if (!coverage) throw new Error("MSN coverage missing");
+          if (coverage.priceDate !== "2026-09-30") throw new Error("MSN EOD snapshot is not locked at 2026-09-30; refusing report-only migration");
+
+          const eodSnapshot = {
+            close: coverage.close,
+            priceDate: coverage.priceDate,
+            changePct: coverage.changePct,
+            volume: coverage.volume,
+            priceSource: coverage.priceSource,
+            priceSourceSecondary: coverage.priceSourceSecondary
+          };
+
+          coverage.company = report.company;
+          coverage.sector = report.sector;
+          coverage.exchange = report.exchange;
+          coverage.reportId = report.id;
+          coverage.action = structuredClone(report.action);
+
+          for (const [key, value] of Object.entries(eodSnapshot)) {
+            if (coverage[key] !== value) throw new Error("EOD field mutated during report migration: " + key);
+          }
+
+          const valuationReports = data.reports.filter((r) => r.reportType !== "trading");
+          if (valuationReports.length !== 130 || data.coverage.length !== 130) {
+            throw new Error("Expected 130 valuation reports/coverage, got " + valuationReports.length + "/" + data.coverage.length);
+          }
+          const tickers = valuationReports.map((r) => r.ticker);
+          if (new Set(tickers).size !== tickers.length) throw new Error("Duplicate valuation ticker after MSN migration");
+          if (valuationReports.filter((r) => r.ticker === "MSN").length !== 1) throw new Error("Latest-only MSN invariant failed");
+          if (data.coverage.filter((c) => c.ticker === "MSN").length !== 1) throw new Error("Duplicate MSN coverage");
+
+          fs.writeFileSync(path, "window.RESEARCH_DATA = " + JSON.stringify(data, null, 2) + ";\n");
+          console.log(JSON.stringify({
+            replacedReports: oldReports.map((r) => ({ id: r.id, date: r.date, file: r.file })),
+            newReport: { id: report.id, date: report.date, file: report.file },
+            preservedEod: eodSnapshot
+          }, null, 2));
+          NODE
+
+      - name: Regenerate MSN report cover
+        run: node scripts/sync-report-covers.mjs
+
+      - name: Full integrity preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+
+          if ! command -v identify >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends imagemagick >/dev/null
+          fi
+          node scripts/audit-company-visuals.mjs
+
+          layout_changes="$(git status --porcelain --untracked-files=all -- index.html src/index.css src/styles)"
+          if [[ -n "$layout_changes" ]]; then
+            echo "Refusing import because HTML/CSS changed." >&2
+            echo "$layout_changes" >&2
+            exit 2
+          fi
+
+          msn_pdfs="$(find reports -maxdepth 1 -type f -iname 'MSN*.pdf' -printf '%f\n' | sort)"
+          [[ "$msn_pdfs" == "MSN_2026-09-30.pdf" ]] || {
+            echo "MSN latest-only PDF invariant failed:" >&2
+            printf '%s\n' "$msn_pdfs" >&2
+            exit 2
+          }
+
+      - name: Commit MSN synchronization atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            reports/MSN_2026-09-30.pdf \
+            reports/MSN_Equity_Valuation_Report_03-08-2026.pdf \
+            src/data/research-data.js \
+            assets/images/reports/msn.webp
+
+          echo "== staged paths =="
+          git diff --cached --name-status
+          git diff --cached --quiet && { echo "No MSN import changes to commit" >&2; exit 3; }
+
+          git commit -m "Publish MSN 30 Sep 2026 valuation report"
+          git push origin HEAD:main
+
+      - name: Remove temporary import workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          git reset --hard origin/main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-msn-import.yml
+          git commit -m "Remove temporary MSN import workflow"
+          git push origin HEAD:main
