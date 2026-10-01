@@ -213,11 +213,11 @@
         "HPG": {
           "date": "2026-10-01",
           "close": 20050,
-          "relation": "above",
-          "zoneLow": 17500,
-          "zoneHigh": 18750,
-          "zoneBasisDate": "2026-07-10",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-01",
+          "eligibility": "inactive"
         },
         "GEE": {
           "date": "2026-10-01",
@@ -418,7 +418,7 @@
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
-          "zoneBasisDate": "2026-09-28",
+          "zoneBasisDate": "2026-10-01",
           "eligibility": "inactive"
         },
         "PVT": {
