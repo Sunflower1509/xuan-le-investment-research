@@ -1,4 +1,4 @@
-name: Temporary market diagnostic 2026-09-30
+name: Temporary HPG VPB valuation import
 
 on:
   push:
@@ -6,133 +6,111 @@ on:
       - ".github/workflows/tmp-market-diagnostic-20260930.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  diagnostic:
+  import:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
-      - name: Compute verified market diagnostics
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Import verified valuation PDFs
         shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+          SHARE_ID: "p6ngxQo7oKky"
         run: |
           set -euo pipefail
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import vm from 'node:vm';
+          listing="$(curl -fsSL "${FIRE_API}/shares/${SHARE_ID}/files?maxResults=1000")"
+          for spec in             "HPG_2026-10-01.pdf|reports/HPG_2026-10-01.pdf|f7f70e7ffea6e7dcc976b6a2a3cf8a185d692ed28b5419e9f9e3b972c1876fb9|541632"             "VPB_2026-10-01.pdf|reports/VPB_2026-10-01.pdf|9ba545e780a4796b83a8bc3a962de1706e30e1c2223f41a15785f392375bbf02|415597"; do
+            IFS='|' read -r wanted output sha size <<< "$spec"
+            file_id="$(printf '%s' "$listing" | python3 -c 'import json,sys; w=sys.argv[1]; d=json.load(sys.stdin); m=[f for f in d["files"] if f.get("fileName")==w or f.get("name")==w]; assert len(m)==1; print(m[0].get("fileId") or m[0].get("id"))' "$wanted")"
+            payload="$(curl -fsSL -X POST "${FIRE_API}/shares/${SHARE_ID}/files/$file_id/download")"
+            url="$(printf '%s' "$payload" | python3 -c 'import json,sys; print(json.load(sys.stdin)["downloadUrl"])')"
+            curl -fsSL "$url" -o "$output"
+            test "$(wc -c < "$output" | tr -d ' ')" = "$size"
+            echo "$sha  $output" | sha256sum -c -
+          done
+          rm -f reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf reports/VPB_2026-09-28.pdf
 
-          const getJson = async (url) => {
-            const r = await fetch(url, { headers: { "user-agent": "Mozilla/5.0" } });
-            if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
-            return r.json();
+          node <<'NODE'
+          const fs=require("node:fs"), vm=require("node:vm");
+          const p="src/data/research-data.js";
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync(p,"utf8"),s);
+          const d=s.window.RESEARCH_DATA;
+          const old=d.reports.filter(r=>["HPG","VPB"].includes(r.ticker));
+          if(old.some(r=>r.date>"2026-10-01")) throw new Error("Newer report already exists");
+
+          const hpg={
+            id:"HPG-20261001",ticker:"HPG",company:"Tập đoàn Hòa Phát",sector:"Thép",exchange:"HOSE",
+            date:"2026-10-01",recommendation:"THEO DÕI / CHỜ",status:"wait",
+            marketPrice:20150,marketPriceDate:"2026-09-30",baseValue:28162,valueLabel:"Giá trị kỳ vọng",
+            rangeLow:17170,rangeHigh:39138,
+            gapLabel:"P0 20.150 đồng/cp thấp hơn GTKV 28.162 đồng/cp khoảng 28,4% nhưng vẫn cao hơn cận dưới 17.170 đồng/cp, nên tín hiệu định giá là THEO DÕI.",
+            method:"PP-13 lợi nhuận chuẩn hóa 40% + PP-16 P/B và EV/EBITDA chuẩn hóa 35% + PP-01 DCF-FCFF 25%; PP-18 DCF ngược kiểm chứng",
+            summary:"HPG là doanh nghiệp thép chu kỳ. Báo cáo 01/10/2026 cho vùng giá trị 17.170-39.138 đồng/cp và GTKV 28.162 đồng/cp. Dù P0 thấp hơn GTKV 28,4%, trạng thái 1-3 tuần vẫn là CHỜ vì giá dưới MA20/MA50, chưa có xác nhận khối lượng và vùng kiểm tra 21.300-21.400 chỉ cho R/R thử nghiệm khoảng 0,89.",
+            action:{zoneLow:null,zoneHigh:null,baseValue:28162,stop:null,targets:[],basisDate:"2026-10-01",recommendation:"CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",eligibility:"inactive",condition:"Khung 1-3 tuần: CHỜ. Vùng 21.300-21.400 đồng/cp chỉ là vùng kiểm tra, chưa phải vùng mua vì R/R thử nghiệm khoảng 0,89 < 2; stop thử nghiệm 20.500, T1 22.200, T2 23.570. IF giá <=17.170 THEN mới đạt ngưỡng M cho tích lũy dài hạn, ưu tiên quanh 16.300-17.170 nếu luận điểm không xấu đi. IF hình thành nền mới hoặc nhịp kiểm định hỗ trợ giúp R/R >=2 và xu hướng, khối lượng, sức mạnh tương đối được xác nhận THEN mới đánh giá lại trạng thái; không tự kích hoạt mua."},
+            file:"reports/HPG_2026-10-01.pdf",edition:"Bản định giá 01.10.2026",
+            visual:{src:"assets/images/reports/hpg.webp?v=20261001-cover1",alt:"Trang bìa báo cáo định giá HPG ngày 01/10/2026",caption:"Bìa báo cáo định giá HPG",sourceLabel:"Xuân Lê TVS Equity Research",sourceUrl:"reports/HPG_2026-10-01.pdf",kind:"report-cover"}
           };
-          const avg = a => a.reduce((s,x)=>s+x,0)/a.length;
-          const median = a => {
-            const x=[...a].sort((a,b)=>a-b);
-            if(!x.length) return null;
-            const m=Math.floor(x.length/2);
-            return x.length%2?x[m]:(x[m-1]+x[m])/2;
-          };
-          const emaSeries=(values,period)=>{
-            const k=2/(period+1);
-            let e=avg(values.slice(0,period));
-            const out=Array(period-1).fill(null).concat([e]);
-            for(let i=period;i<values.length;i++){ e=values[i]*k+e*(1-k); out.push(e); }
-            return out;
-          };
-          const rsiWilder=(values,period=14)=>{
-            if(values.length<=period) return null;
-            let gains=0,losses=0;
-            for(let i=1;i<=period;i++){const d=values[i]-values[i-1]; if(d>=0) gains+=d; else losses-=d;}
-            let ag=gains/period, al=losses/period;
-            for(let i=period+1;i<values.length;i++){const d=values[i]-values[i-1]; const g=d>0?d:0; const l=d<0?-d:0; ag=(ag*(period-1)+g)/period; al=(al*(period-1)+l)/period;}
-            if(al===0) return 100;
-            const rs=ag/al; return 100-(100/(1+rs));
+          const vpb={
+            id:"VPB-20261001",ticker:"VPB",company:"Ngân hàng TMCP Việt Nam Thịnh Vượng",sector:"Ngân hàng",exchange:"HOSE",
+            date:"2026-10-01",recommendation:"THEO DÕI / CHỜ",status:"wait",
+            marketPrice:23400,marketPriceDate:"2026-09-30",baseValue:23541,valueLabel:"Giá trị kỳ vọng",
+            rangeLow:20671,rangeHigh:26927,
+            gapLabel:"P0 23.400 đồng/cp thấp hơn GTKV 23.541 đồng/cp khoảng 0,60% nhưng cao hơn ngưỡng mua M 17.656 đồng/cp, nên tín hiệu định giá là THEO DÕI.",
+            method:"PP-06 thu nhập thặng dư 35% + PP-07 P/B-ROE 35% + PP-16 P/B/P/E tương đối 30%; PP-18 ROE/Re ngầm định kiểm chứng",
+            summary:"VPB có vùng giá trị 20.671-26.927 đồng/cp và GTKV 23.541 đồng/cp. P0 23.400 đồng/cp gần sát GTKV nên biên an toàn chỉ 0,60%. Trạng thái 1-3 tuần là CHỜ vì xác nhận khối lượng chưa đạt, MA50 đúng ngày chưa khóa và vùng quan sát 22.000-22.400 chỉ cho R/R khoảng 1,00.",
+            action:{zoneLow:null,zoneHigh:null,baseValue:23541,stop:null,targets:[],basisDate:"2026-10-01",recommendation:"CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",eligibility:"inactive",condition:"Khung 1-3 tuần: CHỜ. Vùng 22.000-22.400 đồng/cp chỉ là vùng quan sát, chưa phải vùng mua vì R/R tại cận trên khoảng 1,00 < 2; stop kỹ thuật thử nghiệm 21.200, T1 23.600 và không kích hoạt T2 vì GTKV 23.541 thấp hơn T1. IF giá <=17.656 THEN mới đạt vùng tích lũy theo định giá. IF 17.656 < giá <=23.541 THEN tiếp tục theo dõi; IF 23.541 < giá <=26.927 THEN không mua mới; IF giá >26.927 THEN tránh mua mới. Chỉ đánh giá lại trade 1-3 tuần khi dữ liệu kỹ thuật được khóa và R/R >=2."},
+            file:"reports/VPB_2026-10-01.pdf",edition:"Bản định giá 01.10.2026",
+            visual:{src:"assets/images/reports/vpb.webp?v=20261001-cover1",alt:"Trang bìa báo cáo định giá VPB ngày 01/10/2026",caption:"Bìa báo cáo định giá VPB",sourceLabel:"Xuân Lê TVS Equity Research",sourceUrl:"reports/VPB_2026-10-01.pdf",kind:"report-cover"}
           };
 
-          const date = "2026-09-30";
-          const histUrl = "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-11-01~date:lte:2026-09-30&size=500";
-          const hist = await getJson(histUrl);
-          const rows = (Array.isArray(hist?.data) ? hist.data : [])
-            .filter(x => String(x?.code||'').toUpperCase() === "VNINDEX" && x?.date <= date)
-            .sort((a,b) => String(a.date).localeCompare(String(b.date)));
-          if (rows.length < 200) throw new Error(`VNINDEX history insufficient: ${rows.length}`);
-          const closes = rows.map(x => Number(x.close));
-          const ma = n => avg(closes.slice(-n));
-          const last = rows.at(-1);
-          const prev = rows.at(-2);
-          const values = rows.map(x => Number(x.nmValue ?? x.value ?? x.totalValue));
-          const liquidity = {};
-          for (const n of [5,10,20]) {
-            const prior=values.slice(-(n+1),-1).filter(Number.isFinite);
-            liquidity["avgValuePrev"+n]=prior.length===n?avg(prior):null;
+          d.reports=d.reports.filter(r=>!["HPG","VPB"].includes(r.ticker)).concat([hpg,vpb]).sort((a,b)=>b.date.localeCompare(a.date)||a.ticker.localeCompare(b.ticker));
+          for(const r of [hpg,vpb]){
+            const c=d.coverage.find(x=>x.ticker===r.ticker);
+            if(!c || c.priceDate!=="2026-10-01") throw new Error(r.ticker+" EOD not locked at 2026-10-01");
+            const snap={close:c.close,priceDate:c.priceDate,changePct:c.changePct,volume:c.volume,priceSource:c.priceSource,priceSourceSecondary:c.priceSourceSecondary};
+            c.reportId=r.id; c.action=structuredClone(r.action);
+            for(const [k,v] of Object.entries(snap)) if(c[k]!==v) throw new Error(r.ticker+" EOD mutated: "+k);
           }
-          const ema12=emaSeries(closes,12), ema26=emaSeries(closes,26);
-          const macd=closes.map((_,i)=>ema12[i]!=null&&ema26[i]!=null?ema12[i]-ema26[i]:null);
-          const macdClean=macd.filter(Number.isFinite);
-          const signalSeries=emaSeries(macdClean,9);
-          const macdLast=macdClean.at(-1) ?? null;
-          const signalLast=signalSeries.at(-1) ?? null;
-
-          const start = Math.floor(Date.parse("2026-09-29T17:00:00Z")/1000);
-          const stop = Math.floor(Date.parse("2026-09-30T09:30:00Z")/1000);
-          const futUrl = `https://api.dnse.com.vn/chart-api/v2/ohlcs/derivative?symbol=VN30F1M&resolution=1&from=${start}&to=${stop}`;
-          let futClose=null, futCount=0, futShape=null;
-          try {
-            const fut=await getJson(futUrl);
-            futShape=Array.isArray(fut)?["array",fut.length]:Object.keys(fut||{});
-            if (Array.isArray(fut)) {
-              const vals=fut.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite);
-              futCount=vals.length; futClose=vals.at(-1) ?? null;
-            } else {
-              const vals = Array.isArray(fut?.c) ? fut.c.map(Number).filter(Number.isFinite)
-                : Array.isArray(fut?.data) ? fut.data.map(x=>Number(x?.close ?? x?.c)).filter(Number.isFinite) : [];
-              futCount=vals.length; futClose=vals.at(-1) ?? null;
-            }
-          } catch(e) { console.log("DNSE_ERROR", String(e)); }
-
-          const code=fs.readFileSync('src/data/research-data.js','utf8');
-          const sandbox={window:{}};
-          vm.runInNewContext(code,sandbox,{filename:'src/data/research-data.js'});
-          const data=sandbox.window.RESEARCH_DATA;
-          if(data?.meta?.updated!==date) throw new Error(`Research EOD not current: ${data?.meta?.updated}`);
-          const sectorByTicker=new Map();
-          for(const r of data.reports||[]) {
-            const t=String(r?.ticker||'').toUpperCase();
-            if(t && !sectorByTicker.has(t) && r?.sector) sectorByTicker.set(t,String(r.sector));
+          const vr=d.reports.filter(r=>r.reportType!=="trading");
+          if(vr.length!==130||d.coverage.length!==130||new Set(vr.map(r=>r.ticker)).size!==130||new Set(d.coverage.map(c=>c.ticker)).size!==130) throw new Error("Universe invariant failed");
+          if(typeof d.meta?.note==="string"&&!d.meta.note.includes("Báo cáo định giá HPG và VPB đã được thay bằng bản 01/10/2026")){
+            d.meta.note=d.meta.note.trim()+" Báo cáo định giá HPG và VPB đã được thay bằng bản 01/10/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Registry báo cáo, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 01/10/2026 được giữ nguyên.";
           }
-          const groups=new Map();
-          for(const q of data.coverage||[]) {
-            const t=String(q?.ticker||'').toUpperCase();
-            const sector=sectorByTicker.get(t)||'CHƯA PHÂN LOẠI';
-            const pct=Number(q?.changePct);
-            if(!Number.isFinite(pct)) continue;
-            if(!groups.has(sector)) groups.set(sector,[]);
-            groups.get(sector).push({ticker:t,pct,close:q.close,volume:q.volume});
-          }
-          const sectorStats=[...groups].map(([sector,items])=>({
-            sector,n:items.length,adv:items.filter(x=>x.pct>0).length,flat:items.filter(x=>x.pct===0).length,
-            dec:items.filter(x=>x.pct<0).length,medianPct:median(items.map(x=>x.pct)),avgPct:avg(items.map(x=>x.pct)),
-            top:[...items].sort((a,b)=>b.pct-a.pct).slice(0,3),
-            bottom:[...items].sort((a,b)=>a.pct-b.pct).slice(0,3)
-          })).sort((a,b)=>b.n-a.n);
-          const movers=(data.coverage||[]).map(q=>({ticker:q.ticker,pct:Number(q.changePct),close:q.close,sector:sectorByTicker.get(String(q.ticker||'').toUpperCase())||null}))
-            .filter(x=>Number.isFinite(x.pct));
-          const topGainers=[...movers].sort((a,b)=>b.pct-a.pct).slice(0,15);
-          const topLosers=[...movers].sort((a,b)=>a.pct-b.pct).slice(0,15);
-          const vn30=(data.marketSession?.indices||[]).find(x=>x.code==='VN30');
-
-          console.log("VNINDEX_ROW_KEYS", JSON.stringify(Object.keys(last||{})));
-          console.log("VNINDEX_ROW_SAMPLE", JSON.stringify(last));
-          console.log("DIAGNOSTIC", JSON.stringify({
-            date,rowCount:rows.length,firstDate:rows[0]?.date,lastDate:last?.date,
-            open:last?.open,high:last?.high,low:last?.low,close:last?.close,basicPrice:last?.basicPrice,
-            change:last?.change,changePct:last?.pctChange,nmValue:last?.nmValue ?? null,volume:last?.nmVolume ?? null,
-            prevClose:prev?.close,ma20:ma(20),ma50:ma(50),ma200:ma(200),
-            rsi14:rsiWilder(closes,14),macd:macdLast,macdSignal:signalLast,
-            ...liquidity,
-            vn30Close:vn30?.close ?? null,futClose,futCount,futShape,basis:(futClose!=null&&vn30?.close!=null)?futClose-vn30.close:null,
-            breadth:data.marketSession?.breadth,sectorStats,topGainers,topLosers,histUrl,futUrl
-          }));
+          fs.writeFileSync(p,"window.RESEARCH_DATA = "+JSON.stringify(d,null,2)+";\n");
           NODE
+
+          rm -f assets/images/reports/hpg.webp assets/images/reports/vpb.webp
+          node scripts/sync-report-covers.mjs
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          node scripts/audit-company-visuals.mjs
+
+          test "$(pdfinfo reports/HPG_2026-10-01.pdf | awk '/^Pages:/ {print $2}')" = "15"
+          test "$(pdfinfo reports/VPB_2026-10-01.pdf | awk '/^Pages:/ {print $2}')" = "14"
+
+          test "$(find reports -maxdepth 1 -type f -iname 'HPG*.pdf' -print | sed 's#^reports/##')" = "HPG_2026-10-01.pdf"
+          test "$(find reports -maxdepth 1 -type f -iname 'VPB*.pdf' -print | sed 's#^reports/##')" = "VPB_2026-10-01.pdf"
+
+          layout_changes="$(git status --porcelain --untracked-files=all -- index.html src/index.css src/styles src/scripts)"
+          test -z "$layout_changes"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- reports/HPG_2026-10-01.pdf reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf reports/VPB_2026-09-28.pdf reports/VPB_2026-10-01.pdf src/data/research-data.js assets/images/reports/hpg.webp assets/images/reports/vpb.webp
+          git commit -m "Publish HPG and VPB 01 Oct 2026 valuation reports"
+          git push origin HEAD:main
