@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 01/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/130 mã; CEO: VNDIRECT 3.841.300 vs KBS 3.841.100 (chênh 200); HUT: VNDIRECT 2.008.000 vs KBS 2.007.200 (chênh 800); SHS: VNDIRECT 9.850.000 vs KBS 9.839.500 (chênh 10.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 01/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/130 mã; CEO: VNDIRECT 3.841.300 vs KBS 3.841.100 (chênh 200); HUT: VNDIRECT 2.008.000 vs KBS 2.007.200 (chênh 800); SHS: VNDIRECT 9.850.000 vs KBS 9.839.500 (chênh 10.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá HPG và VPB đã được thay bằng bản 01/10/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Registry báo cáo, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 01/10/2026 được giữ nguyên.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,86 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "HPG-20261001",
+      "ticker": "HPG",
+      "company": "Tập đoàn Hòa Phát",
+      "sector": "Thép",
+      "exchange": "HOSE",
+      "date": "2026-10-01",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 20150,
+      "marketPriceDate": "2026-09-30",
+      "baseValue": 28162,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 17170,
+      "rangeHigh": 39138,
+      "gapLabel": "P0 20.150 đồng/cp thấp hơn GTKV 28.162 đồng/cp khoảng 28,4% nhưng vẫn cao hơn cận dưới 17.170 đồng/cp, nên tín hiệu định giá là THEO DÕI.",
+      "method": "PP-13 lợi nhuận chuẩn hóa 40% + PP-16 P/B và EV/EBITDA chuẩn hóa 35% + PP-01 DCF-FCFF 25%; PP-18 DCF ngược kiểm chứng",
+      "summary": "HPG là doanh nghiệp thép chu kỳ. Báo cáo 01/10/2026 cho vùng giá trị 17.170-39.138 đồng/cp và GTKV 28.162 đồng/cp. Dù P0 thấp hơn GTKV 28,4%, trạng thái 1-3 tuần vẫn là CHỜ vì giá dưới MA20/MA50, chưa có xác nhận khối lượng và vùng kiểm tra 21.300-21.400 chỉ cho R/R thử nghiệm khoảng 0,89.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 28162,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-01",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Khung 1-3 tuần: CHỜ. Vùng 21.300-21.400 đồng/cp chỉ là vùng kiểm tra, chưa phải vùng mua vì R/R thử nghiệm khoảng 0,89 < 2; stop thử nghiệm 20.500, T1 22.200, T2 23.570. IF giá <=17.170 THEN mới đạt ngưỡng M cho tích lũy dài hạn, ưu tiên quanh 16.300-17.170 nếu luận điểm không xấu đi. IF hình thành nền mới hoặc nhịp kiểm định hỗ trợ giúp R/R >=2 và xu hướng, khối lượng, sức mạnh tương đối được xác nhận THEN mới đánh giá lại trạng thái; không tự kích hoạt mua."
+      },
+      "file": "reports/HPG_2026-10-01.pdf",
+      "edition": "Bản định giá 01.10.2026",
+      "visual": {
+        "src": "assets/images/reports/hpg.webp?v=20261001-cover1",
+        "alt": "Trang bìa báo cáo định giá HPG ngày 01/10/2026",
+        "caption": "Bìa báo cáo định giá HPG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/HPG_2026-10-01.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VPB-20261001",
+      "ticker": "VPB",
+      "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-01",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 23400,
+      "marketPriceDate": "2026-09-30",
+      "baseValue": 23541,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 20671,
+      "rangeHigh": 26927,
+      "gapLabel": "P0 23.400 đồng/cp thấp hơn GTKV 23.541 đồng/cp khoảng 0,60% nhưng cao hơn ngưỡng mua M 17.656 đồng/cp, nên tín hiệu định giá là THEO DÕI.",
+      "method": "PP-06 thu nhập thặng dư 35% + PP-07 P/B-ROE 35% + PP-16 P/B/P/E tương đối 30%; PP-18 ROE/Re ngầm định kiểm chứng",
+      "summary": "VPB có vùng giá trị 20.671-26.927 đồng/cp và GTKV 23.541 đồng/cp. P0 23.400 đồng/cp gần sát GTKV nên biên an toàn chỉ 0,60%. Trạng thái 1-3 tuần là CHỜ vì xác nhận khối lượng chưa đạt, MA50 đúng ngày chưa khóa và vùng quan sát 22.000-22.400 chỉ cho R/R khoảng 1,00.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 23541,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-01",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Khung 1-3 tuần: CHỜ. Vùng 22.000-22.400 đồng/cp chỉ là vùng quan sát, chưa phải vùng mua vì R/R tại cận trên khoảng 1,00 < 2; stop kỹ thuật thử nghiệm 21.200, T1 23.600 và không kích hoạt T2 vì GTKV 23.541 thấp hơn T1. IF giá <=17.656 THEN mới đạt vùng tích lũy theo định giá. IF 17.656 < giá <=23.541 THEN tiếp tục theo dõi; IF 23.541 < giá <=26.927 THEN không mua mới; IF giá >26.927 THEN tránh mua mới. Chỉ đánh giá lại trade 1-3 tuần khi dữ liệu kỹ thuật được khóa và R/R >=2."
+      },
+      "file": "reports/VPB_2026-10-01.pdf",
+      "edition": "Bản định giá 01.10.2026",
+      "visual": {
+        "src": "assets/images/reports/vpb.webp?v=20261001-cover1",
+        "alt": "Trang bìa báo cáo định giá VPB ngày 01/10/2026",
+        "caption": "Bìa báo cáo định giá VPB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VPB_2026-10-01.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "BSR-20260930",
       "ticker": "BSR",
@@ -224,46 +304,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá NKG",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/NKG_2026-09-28.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "VPB-20260928",
-      "ticker": "VPB",
-      "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-09-28",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 23000,
-      "marketPriceDate": "2026-09-25",
-      "baseValue": 21141,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 17405,
-      "rangeHigh": 26008,
-      "gapLabel": "Giá 23.000 đồng/cp cao hơn giá trị kỳ vọng 21.141 đồng/cp khoảng 8,8%; chưa đạt ngưỡng mua có biên an toàn 15.856 đồng/cp.",
-      "method": "Thu nhập thặng dư (PP-06) + P/B-ROE (PP-07); P/B tương đối (PP-16) kiểm chứng",
-      "summary": "VPB có khoảng giá trị 17.405-26.008 đồng/cp và giá trị kỳ vọng 21.141 đồng/cp. Tại 23.000 đồng/cp ngày 25/09/2026, tín hiệu định giá là THEO DÕI và trạng thái giao dịch 1-3 tuần là CHỜ.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 21141,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-09-28",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "inactive",
-        "condition": "Hiện CHƯA CÓ VÙNG MUA ngắn hạn hợp lệ. IF giá <=15.856 THEN mới đạt biên an toàn tối thiểu 25% cho tích lũy trung-dài hạn. IF 15.856 < giá <=21.141 THEN theo dõi/chờ. IF 21.141 < giá <=26.008 THEN không mua mới; IF giá >26.008 THEN tránh mua mới. Chỉ mở lại bài toán trading 1-3 tuần khi dữ liệu kỹ thuật cập nhật cho phép xác định stop 3-7%, target và R/R >=2."
-      },
-      "file": "reports/VPB_2026-09-28.pdf",
-      "edition": "Bản định giá 28.09.2026",
-      "visual": {
-        "src": "assets/images/reports/vpb.webp?v=20260928-cover1",
-        "alt": "Trang bìa báo cáo định giá VPB ngày 28/09/2026",
-        "caption": "Bìa báo cáo định giá VPB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VPB_2026-09-28.pdf",
         "kind": "report-cover"
       }
     },
@@ -5240,33 +5280,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản chính"
     },
     {
-      "id": "HPG-20260710",
-      "ticker": "HPG",
-      "company": "Tập đoàn Hòa Phát",
-      "sector": "Công nghiệp",
-      "exchange": "HOSE",
-      "date": "2026-07-10",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 22950,
-      "baseValue": 29000,
-      "rangeLow": 25000,
-      "rangeHigh": 33000,
-      "gapLabel": null,
-      "method": "DCF FCFF chu kỳ + kiểm chứng tương đối",
-      "summary": "Điểm giữa 29.000 đồng/cp; vùng giá trị hợp lý 25.000–33.000 đồng/cp.",
-      "visual": {
-        "src": "assets/images/reports/hpg.webp?v=20260710-cover1",
-        "alt": "Trang bìa báo cáo định giá HPG ngày 10/07/2026",
-        "caption": "Bìa báo cáo định giá HPG",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/HPG_Valuation_Report_20260710_XuanLeTVS.pdf",
-      "edition": "Bản chính"
-    },
-    {
       "id": "TVS-20260709",
       "ticker": "TVS",
       "company": "Công ty Cổ phần Chứng khoán Thiên Việt",
@@ -6463,7 +6476,7 @@ window.RESEARCH_DATA = {
       "company": "Hòa Phát",
       "sector": "Công nghiệp",
       "exchange": "HOSE",
-      "reportId": "HPG-20260710",
+      "reportId": "HPG-20261001",
       "close": 20050,
       "priceDate": "2026-10-01",
       "changePct": -0.4963,
@@ -6471,12 +6484,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HPG~date:2026-10-01&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HPG/data_day?sdate=01-10-2026&edate=01-10-2026",
       "action": {
-        "zoneLow": 17500,
-        "zoneHigh": 18750,
-        "basisDate": "2026-07-10",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "Vùng MOS 25–30%; phải kiểm tra core PAT, nợ vay và dòng tiền trước khi giải ngân."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 28162,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-01",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Khung 1-3 tuần: CHỜ. Vùng 21.300-21.400 đồng/cp chỉ là vùng kiểm tra, chưa phải vùng mua vì R/R thử nghiệm khoảng 0,89 < 2; stop thử nghiệm 20.500, T1 22.200, T2 23.570. IF giá <=17.170 THEN mới đạt ngưỡng M cho tích lũy dài hạn, ưu tiên quanh 16.300-17.170 nếu luận điểm không xấu đi. IF hình thành nền mới hoặc nhịp kiểm định hỗ trợ giúp R/R >=2 và xu hướng, khối lượng, sức mạnh tương đối được xác nhận THEN mới đánh giá lại trạng thái; không tự kích hoạt mua."
       }
     },
     {
@@ -8347,7 +8363,7 @@ window.RESEARCH_DATA = {
       "company": "Ngân hàng TMCP Việt Nam Thịnh Vượng",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "VPB-20260928",
+      "reportId": "VPB-20261001",
       "close": 23300,
       "priceDate": "2026-10-01",
       "changePct": -0.4274,
@@ -8357,13 +8373,13 @@ window.RESEARCH_DATA = {
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 21141,
+        "baseValue": 23541,
         "stop": null,
         "targets": [],
-        "basisDate": "2026-09-28",
-        "recommendation": "THEO DÕI / CHỜ",
+        "basisDate": "2026-10-01",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA NGẮN HẠN HỢP LỆ",
         "eligibility": "inactive",
-        "condition": "Hiện CHƯA CÓ VÙNG MUA ngắn hạn hợp lệ. IF giá <=15.856 THEN mới đạt biên an toàn tối thiểu 25% cho tích lũy trung-dài hạn. IF 15.856 < giá <=21.141 THEN theo dõi/chờ. IF 21.141 < giá <=26.008 THEN không mua mới; IF giá >26.008 THEN tránh mua mới. Chỉ mở lại bài toán trading 1-3 tuần khi dữ liệu kỹ thuật cập nhật cho phép xác định stop 3-7%, target và R/R >=2."
+        "condition": "Khung 1-3 tuần: CHỜ. Vùng 22.000-22.400 đồng/cp chỉ là vùng quan sát, chưa phải vùng mua vì R/R tại cận trên khoảng 1,00 < 2; stop kỹ thuật thử nghiệm 21.200, T1 23.600 và không kích hoạt T2 vì GTKV 23.541 thấp hơn T1. IF giá <=17.656 THEN mới đạt vùng tích lũy theo định giá. IF 17.656 < giá <=23.541 THEN tiếp tục theo dõi; IF 23.541 < giá <=26.927 THEN không mua mới; IF giá >26.927 THEN tránh mua mới. Chỉ đánh giá lại trade 1-3 tuần khi dữ liệu kỹ thuật được khóa và R/R >=2."
       }
     },
     {
