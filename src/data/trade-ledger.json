@@ -24,11 +24,11 @@
         "SHS": {
           "date": "2026-10-01",
           "close": 13300,
-          "relation": "above",
-          "zoneLow": 7350,
-          "zoneHigh": 7875,
-          "zoneBasisDate": "2026-08-12",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-02",
+          "eligibility": "inactive"
         },
         "HCM": {
           "date": "2026-10-01",
@@ -269,11 +269,11 @@
         "PNJ": {
           "date": "2026-10-01",
           "close": 24750,
-          "relation": "below",
-          "zoneLow": 25187,
-          "zoneHigh": 26986,
-          "zoneBasisDate": "2026-08-19",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-02",
+          "eligibility": "veto"
         },
         "BFC": {
           "date": "2026-10-01",
@@ -296,11 +296,11 @@
         "DHC": {
           "date": "2026-10-01",
           "close": 39050,
-          "relation": "above",
-          "zoneLow": 34000,
-          "zoneHigh": 34600,
-          "zoneBasisDate": "2026-09-09",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-02",
+          "eligibility": "inactive"
         },
         "ICG": {
           "date": "2026-10-01",
@@ -658,11 +658,11 @@
         "SSB": {
           "date": "2026-10-01",
           "close": 17750,
-          "relation": "above",
-          "zoneLow": 10800,
-          "zoneHigh": 11600,
-          "zoneBasisDate": "2026-08-26",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-02",
+          "eligibility": "inactive"
         },
         "VGS": {
           "date": "2026-10-01",
@@ -886,7 +886,7 @@
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
-          "zoneBasisDate": "2026-08-31",
+          "zoneBasisDate": "2026-10-02",
           "eligibility": "inactive"
         },
         "CMG": {
