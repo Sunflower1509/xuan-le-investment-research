@@ -1930,10 +1930,10 @@
         }
       },
       "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPB~date:2026-09-24&size=10",
-      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa.",
+      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa. PDF nguồn lịch sử VPB-20260818 đã được loại khỏi kho public theo quy tắc latest-only; reportId và toàn bộ thông số kích hoạt lịch sử được giữ nguyên.",
       "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPB/data_day?sdate=24-09-2026&edate=24-09-2026",
       "reportId": "VPB-20260818",
-      "reportFile": "reports/VPB_2026-08-18.pdf"
+      "reportFile": null
     },
     {
       "id": "auto-close-IDC-2026-09-11-2026-09-24-target",
@@ -2300,10 +2300,10 @@
         }
       },
       "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-09-30&size=10",
-      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa.",
+      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa. PDF nguồn lịch sử PNJ-20260819 đã được loại khỏi kho public theo quy tắc latest-only; reportId và toàn bộ thông số kích hoạt lịch sử được giữ nguyên.",
       "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PNJ/data_day?sdate=30-09-2026&edate=30-09-2026",
       "reportId": "PNJ-20260819",
-      "reportFile": "reports/PNJ_2026-08-19.pdf"
+      "reportFile": null
     },
     {
       "id": "auto-close-PNJ-2026-09-30-2026-10-01-zone_floor_break",

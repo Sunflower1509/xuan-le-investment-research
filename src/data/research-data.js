@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 01/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/130 mã; CEO: VNDIRECT 3.841.300 vs KBS 3.841.100 (chênh 200); HUT: VNDIRECT 2.008.000 vs KBS 2.007.200 (chênh 800); SHS: VNDIRECT 9.850.000 vs KBS 9.839.500 (chênh 10.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá HPG và VPB đã được thay bằng bản 01/10/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Registry báo cáo, action plan và ảnh bìa đã đồng bộ theo báo cáo mới; dữ liệu EOD 01/10/2026 được giữ nguyên.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 01/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/130 mã; 130/130 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/130 mã; CEO: VNDIRECT 3.841.300 vs KBS 3.841.100 (chênh 200); HUT: VNDIRECT 2.008.000 vs KBS 2.007.200 (chênh 800); SHS: VNDIRECT 9.850.000 vs KBS 9.839.500 (chênh 10.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá HPG và VPB đã được thay bằng bản 01/10/2026; các bản cũ tương ứng đã được loại theo quy tắc latest-only. Registry báo cáo, action plan và ảnh bìa đã đồng bộ theo báo cáo mới; dữ liệu EOD 01/10/2026 được giữ nguyên. Báo cáo định giá SHS, BVH, PNJ, SSB và DHC đã được thay bằng bản 02/10/2026; các bản cũ tương ứng được loại theo quy tắc latest-only. Registry, action plan và ảnh bìa đồng bộ theo báo cáo mới; dữ liệu EOD 01/10/2026 được giữ nguyên.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,206 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "BVH-20261002",
+      "ticker": "BVH",
+      "company": "Tập đoàn Bảo Việt",
+      "sector": "Bảo hiểm",
+      "exchange": "HOSE",
+      "date": "2026-10-02",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 74500,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 55004,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 34962,
+      "rangeHigh": 79037,
+      "gapLabel": "P0 74.500 đồng/cp cao hơn GTKV 55.004 đồng/cp khoảng 35,4% nhưng chưa vượt cận trên 79.037 đồng/cp; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-06 thu nhập thặng dư 53,85% + PP-07 P/B hợp lý theo ROE 46,15%; PP-16 và PP-18 trọng số 0",
+      "summary": "BVH có vùng giá trị 34.962-79.037 đồng/cp và GTKV 55.004 đồng/cp. Kỹ thuật ngắn hạn mạnh nhưng định giá đang ở vùng THẬN TRỌNG; quy tắc ưu tiên chặn lệnh mua mới nên trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 55004,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - KHÔNG KÍCH HOẠT MUA MỚI",
+        "eligibility": "inactive",
+        "condition": "Không có vùng mua/stop/target/R/R hợp lệ ở mức giá hiện tại. Chỉ đánh giá lại khi tín hiệu định giá tối thiểu về THEO DÕI (P <= GTKV hoặc GTKV được nâng có căn cứ), đồng thời kỹ thuật vẫn xác nhận, stop nằm 3-7% dưới giá mua và R/R >=2."
+      },
+      "file": "reports/BVH_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/bvh.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá BVH ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá BVH",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BVH_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "DHC-20261002",
+      "ticker": "DHC",
+      "company": "Công ty Cổ phần Đông Hải Bến Tre",
+      "sector": "Giấy & bao bì",
+      "exchange": "HOSE",
+      "date": "2026-10-02",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 39050,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 44300,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 29300,
+      "rangeHigh": 67900,
+      "gapLabel": "P0 39.050 đồng/cp thấp hơn GTKV 44.300 đồng/cp khoảng 11,9% nhưng chưa đạt ngưỡng mua M 29.300 đồng/cp; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-13 lợi nhuận chuẩn hóa 60% + PP-01 DCF-FCFF chuẩn hóa 40%; PP-16 tham chiếu và PP-18 trọng số 0",
+      "summary": "DHC có vùng giá trị 29.300-67.900 đồng/cp và GTKV 44.300 đồng/cp. Dù sức mạnh tương đối khá, phiên 01/10 chưa có xác nhận khối lượng và R/R tại điểm vượt nền gần 40.000 đồng chưa đạt 2; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 44300,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Kháng cự gần 40.000-41.650 đồng, hỗ trợ 36.000-36.500 đồng. Chỉ đánh giá lại sau khi vượt 40.000-41.650 với khối lượng >= khoảng 1,5x TB20; khi đó stop phải nằm 3-7% dưới giá mua và dưới hỗ trợ gần nhất, đồng thời R/R phải >=2. Hiện R/R chưa đạt 2 nên chưa kích hoạt mua. Cần điều chỉnh dữ liệu kỹ thuật sau GDKHQ cổ tức 1.000 đồng/cp ngày 05/10/2026."
+      },
+      "file": "reports/DHC_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/dhc.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá DHC ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá DHC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DHC_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "PNJ-20261002",
+      "ticker": "PNJ",
+      "company": "Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận",
+      "sector": "Tiêu dùng",
+      "exchange": "HOSE",
+      "date": "2026-10-02",
+      "recommendation": "THẬN TRỌNG / LOẠI",
+      "status": "reject",
+      "marketPrice": 24750,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 47698,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 21333,
+      "rangeHigh": 81048,
+      "gapLabel": "P0 24.750 đồng/cp thấp hơn GTKV 47.698 đồng/cp khoảng 48,1%, nhưng cảnh báo mức CAO và độ tin cậy dữ liệu THẤP buộc tín hiệu cuối hạ xuống THẬN TRỌNG; giao dịch 1-3 tuần là LOẠI.",
+      "method": "PP-01 DCF-FCFF 60% + PP-16 P/E lịch sử 40%; PP-05 lợi nhuận kinh tế và PP-18 DCF ngược trọng số 0",
+      "summary": "PNJ có vùng giá trị 21.333-81.048 đồng/cp và GTKV 47.698 đồng/cp, nhưng báo cáo ghi nhận cú sốc dự phòng/nghĩa vụ thu đổi, phương án phát hành riêng lẻ lớn chưa khóa và kỹ thuật ngắn hạn suy yếu mạnh. Tín hiệu cuối là THẬN TRỌNG và trạng thái 1-3 tuần là LOẠI.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 47698,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không kích hoạt vùng mua, stoploss, target hay R/R cho lệnh mới. Chỉ sau khi ĐHĐCĐ bất thường/giả định dự phòng và phát hành được khóa, cổ phiếu hình thành nền mới, đóng cửa trở lại trên MA20 và MA50, MA20 dốc lên, khối lượng vượt nền >=1,5x TB20 và sức mạnh tương đối 20 phiên dương so với VN-Index mới chuyển sang bước xác định vùng mua - stop 3-7% - target - R/R >=2."
+      },
+      "file": "reports/PNJ_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/pnj.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá PNJ ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá PNJ",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PNJ_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "SHS-20261002",
+      "ticker": "SHS",
+      "company": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
+      "sector": "Chứng khoán",
+      "exchange": "HNX",
+      "date": "2026-10-02",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 13300,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 12977,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 9190,
+      "rangeHigh": 16860,
+      "gapLabel": "P0 13.300 đồng/cp cao hơn GTKV 12.977 đồng/cp khoảng 2,5% nhưng vẫn dưới cận trên 16.860 đồng/cp; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-14 theo từng mảng 36,84% + PP-06 thu nhập thặng dư 26,32% + PP-16 P/B/P/E 36,84%; PP-18 trọng số 0",
+      "summary": "SHS có vùng giá trị 9.190-16.860 đồng/cp và GTKV 12.977 đồng/cp. P0 13.300 đồng/cp cao hơn GTKV khoảng 2,5%, trong khi giá dưới MA20/MA50, khối lượng xác nhận chưa đạt và sức mạnh tương đối 20 phiên yếu hơn VN-Index; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 12977,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Hiện tại CHỜ. Cấu hình 12.900-13.050 đồng/cp chỉ được xem xét lại nếu giữ hỗ trợ 12.700, có phiên xác nhận khối lượng >= khoảng 11,2 triệu cp, sức mạnh tương đối cải thiện và tín hiệu định giá đồng thời được nâng tối thiểu về THEO DÕI. Khi đó stop tham chiếu 12.500, T1 14.200 và R/R tại cận trên vùng kiểm tra khoảng 2,09; chưa kích hoạt mua tự động."
+      },
+      "file": "reports/SHS_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/shs.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá SHS ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá SHS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SHS_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "SSB-20261002",
+      "ticker": "SSB",
+      "company": "Ngân hàng TMCP Đông Nam Á",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-02",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 17750,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 14031,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 10744,
+      "rangeHigh": 17979,
+      "gapLabel": "P0 17.750 đồng/cp cao hơn GTKV 14.031 đồng/cp khoảng 26,5% và chỉ thấp hơn cận trên 17.979 đồng/cp khoảng 1,3%; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-06 thu nhập thặng dư 33,33% + PP-07 P/B-ROE 38,10% + PP-16 P/B tương đối 28,57%; PP-18 trọng số 0",
+      "summary": "SSB có vùng giá trị 10.744-17.979 đồng/cp và GTKV 14.031 đồng/cp. Giá dưới MA20/MA50, khối lượng phiên 01/10 chỉ bằng khoảng 0,74 lần TB20 và nền giá chưa chặt; trạng thái 1-3 tuần là CHỜ, chưa có vùng mua hợp lệ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14031,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Không có vùng mua hợp lệ hiện tại. Giá đóng cửa >18.450 với khối lượng >= khoảng 5,46 triệu cp chỉ là xác nhận kỹ thuật sơ bộ, chưa mở vị thế nếu định giá chưa thay đổi. Nếu giá về 14.000-14.600 và tạo nền chặt trên MA20/MA50 thì chạy lại định giá + kỹ thuật. Nếu thủng 17.450 với khối lượng tăng thì không bắt đáy; tiếp tục CHỜ. Mọi lệnh mua tương lai phải có stop 3-7%, T1/T2 không vượt U và R/R >=2."
+      },
+      "file": "reports/SSB_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/ssb.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá SSB ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá SSB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/SSB_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "HPG-20261001",
       "ticker": "HPG",
@@ -603,49 +803,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá HHP",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/HHP_2026-09-10.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "DHC-20260909",
-      "ticker": "DHC",
-      "company": "Công ty Cổ phần Đông Hải Bến Tre",
-      "sector": "Giấy & bao bì",
-      "exchange": "HOSE",
-      "date": "2026-09-09",
-      "recommendation": "CHỜ",
-      "status": "wait",
-      "marketPrice": 36300,
-      "marketPriceDate": "2026-09-09",
-      "baseValue": 34162,
-      "valueLabel": "Expected anchor",
-      "rangeLow": 29106,
-      "rangeHigh": 40173,
-      "gapLabel": "Giá 36.300 đồng/cp nằm trong vùng giá trị nhưng cao hơn điểm neo kỳ vọng khoảng 34.162 đồng/cp; không đạt MOS 25-30%.",
-      "method": "Lợi nhuận chuẩn hóa chu kỳ 5-7 năm; P/B và EV/EBITDA chuẩn hóa dùng kiểm chứng",
-      "summary": "DHC có khoảng giá trị hợp lý 29.106-40.173 đồng/cp; expected anchor khoảng 34.162 đồng/cp. Snapshot 09/09/2026 là 36.300 đồng/cp nên trạng thái CHỜ, không mua đuổi.",
-      "action": {
-        "zoneLow": 34000,
-        "zoneHigh": 34600,
-        "baseValue": 34162,
-        "stop": 32400,
-        "targets": [
-          39500,
-          42000
-        ],
-        "basisDate": "2026-09-09",
-        "recommendation": "CHỜ",
-        "eligibility": "active",
-        "condition": "IF pullback 34.0-34.6 và giữ/reclaim hỗ trợ THEN có thể mở vị thế trading từng phần sau xác nhận, stop 32.4, target 39.5/42.0. IF đóng cửa >37.1 và thanh khoản xác nhận THEN có thể đánh breakout tỷ trọng kiểm soát, stop khoảng 35.0, target 42.0. IF thủng 32.4 THEN CUTLOSS, không bình quân giá xuống."
-      },
-      "file": "reports/DHC_2026-09-09.pdf",
-      "edition": "Bản định giá 09.09.2026",
-      "visual": {
-        "src": "assets/images/reports/dhc.webp?v=20260909-cover1",
-        "alt": "Trang bìa báo cáo định giá DHC ngày 09/09/2026",
-        "caption": "Bìa báo cáo định giá DHC",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/DHC_2026-09-09.pdf",
         "kind": "report-cover"
       }
     },
@@ -1366,44 +1523,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá FTS",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/FTS_2026-09-03.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "BVH-20260831",
-      "ticker": "BVH",
-      "company": "Tập đoàn Bảo Việt",
-      "sector": "Bảo hiểm",
-      "exchange": "HOSE",
-      "date": "2026-08-31",
-      "recommendation": "CHỜ / THEO DÕI",
-      "status": "wait",
-      "marketPrice": 64000,
-      "marketPriceDate": "2026-08-28",
-      "baseValue": 63206,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 43000,
-      "rangeHigh": 82000,
-      "gapLabel": "Giá trị kỳ vọng 63.206 đồng/cp gần như trùng thị giá; MOS hiện tại khoảng -1,3%.",
-      "method": "Residual Income + P/B gắn ROE",
-      "summary": "BVH có ROE cải thiện nhưng giá 64.000 đồng/cp đã phản ánh phần đáng kể của cải thiện; báo cáo kết luận CHỜ / THEO DÕI.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 63206,
-        "basisDate": "2026-08-31",
-        "recommendation": "CHỜ / THEO DÕI",
-        "eligibility": "inactive",
-        "condition": "Vùng mua có MOS 25-30% trong báo cáo là 44.200-47.400 đồng/cp. Báo cáo phát hành sau EOD 28/08 nên không kích hoạt tín hiệu hồi tố trên dữ liệu 28/08."
-      },
-      "file": "reports/BVH_2026-08-31.pdf",
-      "edition": "Bản định giá 31.08.2026",
-      "visual": {
-        "src": "assets/images/reports/bvh.webp?v=20260831-cover1",
-        "alt": "Trang bìa báo cáo định giá BVH ngày 31/08/2026",
-        "caption": "Bìa báo cáo định giá BVH",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/BVH_2026-08-31.pdf",
         "kind": "report-cover"
       }
     },
@@ -2741,49 +2860,6 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "id": "SSB-20260826",
-      "ticker": "SSB",
-      "company": "Ngân hàng TMCP Đông Nam Á",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-26",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 15850,
-      "marketPriceDate": "2026-08-25",
-      "baseValue": 15445,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 12500,
-      "rangeHigh": 17500,
-      "gapLabel": "Giá 15.850 đồng/cp nằm trong fair value và chưa đạt MOS 25-30%; catalyst MSCI không đủ để biện minh mua đuổi.",
-      "method": "P/B gắn ROE + Residual Income; không dùng FCFF/EV cho ngân hàng",
-      "summary": "SSB có catalyst MSCI nhưng mức định giá đã phản ánh khá nhiều kỳ vọng, trong khi 1H2026 mới hoàn thành khoảng 37% kế hoạch PBT và NPL/CASA cần cải thiện. Trạng thái THEO DÕI / CHỜ.",
-      "action": {
-        "zoneLow": 10800,
-        "zoneHigh": 11600,
-        "baseValue": 15445,
-        "stop": 10300,
-        "targets": [
-          15500,
-          17500
-        ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "IF giá 10.800-11.600 và NPL/CASA/CAR không xấu thêm THEN có thể mua từng phần. Stop tham chiếu khoảng 10.300 hoặc tối đa 5-7% dưới giá khớp. T1 15.500; T2 17.500. NPL >3%, CAR giảm mạnh hoặc PBT hụt kế hoạch là điều kiện veto."
-      },
-      "file": "reports/SSB_2026-08-26.pdf",
-      "edition": "Bản định giá 26.08.2026",
-      "visual": {
-        "src": "assets/images/reports/ssb.webp?v=20260826-cover1",
-        "alt": "Trang bìa báo cáo định giá SSB ngày 26/08/2026",
-        "caption": "Bìa báo cáo định giá SSB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/SSB_2026-08-26.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
       "id": "TCH-20260826",
       "ticker": "TCH",
       "company": "CTCP Đầu tư Dịch vụ Tài chính Hoàng Huy",
@@ -3631,48 +3707,6 @@ window.RESEARCH_DATA = {
         "kind": "report-cover"
       },
       "file": "reports/MSB_2026-08-19.pdf",
-      "edition": "Bản định giá 19.08.2026"
-    },
-    {
-      "id": "PNJ-20260819",
-      "ticker": "PNJ",
-      "company": "Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận",
-      "sector": "Tiêu dùng",
-      "exchange": "HOSE",
-      "date": "2026-08-19",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 34850,
-      "marketPriceDate": "2026-08-19",
-      "baseValue": 53642,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 35982,
-      "rangeHigh": 70976,
-      "gapLabel": "Chỉ thấp hơn cận Bear khoảng 3,1%; vùng mua MOS 25–30% là 25.187–26.986 đồng/cp",
-      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
-      "summary": "Sau sự kiện P-Lab, PNJ có vùng giá trị hợp lý 35.982–70.976 đồng/cp và giá trị kỳ vọng 53.642 đồng/cp. Snapshot 19/08/2026 lúc 10:57:37 là 34.850 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS so với cận Bear chưa đủ.",
-      "action": {
-        "zoneLow": 25187,
-        "zoneHigh": 26986,
-        "baseValue": 53642,
-        "stop": null,
-        "targets": [
-          35982
-        ],
-        "basisDate": "2026-08-19",
-        "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
-        "eligibility": "active",
-        "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
-      },
-      "visual": {
-        "src": "assets/images/reports/pnj.webp?v=20260819-cover1",
-        "alt": "Trang bìa báo cáo định giá PNJ ngày 19/08/2026",
-        "caption": "Bìa báo cáo định giá PNJ",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/PNJ_2026-08-19.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/PNJ_2026-08-19.pdf",
       "edition": "Bản định giá 19.08.2026"
     },
     {
@@ -4685,45 +4719,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 12.08.2026"
     },
     {
-      "id": "SHS-20260812",
-      "ticker": "SHS",
-      "company": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
-      "sector": "Chứng khoán",
-      "exchange": "HNX",
-      "date": "2026-08-12",
-      "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 15900,
-      "marketPriceDate": "2026-08-12",
-      "baseValue": 13750,
-      "valueLabel": "Điểm giữa",
-      "rangeLow": 10500,
-      "rangeHigh": 17000,
-      "gapLabel": "MOS -15,64% so với điểm giữa; MOS +6,47% so với cận trên theo công thức trong báo cáo",
-      "method": "Residual Income + P/B gắn ROE; P/B và P/E tương đối chỉ dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 10.500–17.000 đồng/cp và điểm giữa cơ học 13.750 đồng/cp, không phải một mức giá mục tiêu duy nhất. Tại giá 15.900 đồng/cp lúc 13:42 ngày 12/08/2026, MOS so với điểm giữa là -15,64%; báo cáo giữ khuyến nghị CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI. Vùng MOS nghiêm ngặt 25–30% là 7.350–7.875 đồng/cp và không phải dự báo giá.",
-      "action": {
-        "zoneLow": 7350,
-        "zoneHigh": 7875,
-        "baseValue": 13750,
-        "stop": null,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi."
-      },
-      "visual": {
-        "src": "assets/images/reports/shs.webp?v=20260812-cover1",
-        "alt": "Trang bìa báo cáo định giá SHS ngày 12/08/2026",
-        "caption": "Bìa báo cáo định giá SHS",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/SHS_Equity_Valuation_Report_Xuan_Le_TVS_2026-08-12.pdf",
-      "edition": "Bản định giá 12.08.2026"
-    },
-    {
       "id": "VHM-20260812",
       "ticker": "VHM",
       "company": "Công ty Cổ phần Vinhomes",
@@ -5519,15 +5514,17 @@ window.RESEARCH_DATA = {
       "volume": 620100,
       "priceDate": "2026-10-01",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVH~date:2026-10-01&size=10",
-      "reportId": "BVH-20260831",
+      "reportId": "BVH-20261002",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 63206,
-        "basisDate": "2026-08-31",
-        "recommendation": "CHỜ / THEO DÕI",
+        "baseValue": 55004,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - KHÔNG KÍCH HOẠT MUA MỚI",
         "eligibility": "inactive",
-        "condition": "Vùng mua có MOS 25-30% trong báo cáo là 44.200-47.400 đồng/cp. Báo cáo phát hành sau EOD 28/08 nên không kích hoạt tín hiệu hồi tố trên dữ liệu 28/08."
+        "condition": "Không có vùng mua/stop/target/R/R hợp lệ ở mức giá hiện tại. Chỉ đánh giá lại khi tín hiệu định giá tối thiểu về THEO DÕI (P <= GTKV hoặc GTKV được nâng có căn cứ), đồng thời kỹ thuật vẫn xác nhận, stop nằm 3-7% dưới giá mua và R/R >=2."
       },
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BVH/data_day?sdate=01-10-2026&edate=01-10-2026"
     },
@@ -5861,7 +5858,7 @@ window.RESEARCH_DATA = {
       "company": "Công ty Cổ phần Đông Hải Bến Tre",
       "sector": "Giấy & bao bì",
       "exchange": "HOSE",
-      "reportId": "DHC-20260909",
+      "reportId": "DHC-20261002",
       "close": 39050,
       "priceDate": "2026-10-01",
       "changePct": -1.5132,
@@ -5869,18 +5866,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-10-01&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DHC/data_day?sdate=01-10-2026&edate=01-10-2026",
       "action": {
-        "zoneLow": 34000,
-        "zoneHigh": 34600,
-        "baseValue": 34162,
-        "stop": 32400,
-        "targets": [
-          39500,
-          42000
-        ],
-        "basisDate": "2026-09-09",
-        "recommendation": "CHỜ",
-        "eligibility": "active",
-        "condition": "IF pullback 34.0-34.6 và giữ/reclaim hỗ trợ THEN có thể mở vị thế trading từng phần sau xác nhận, stop 32.4, target 39.5/42.0. IF đóng cửa >37.1 và thanh khoản xác nhận THEN có thể đánh breakout tỷ trọng kiểm soát, stop khoảng 35.0, target 42.0. IF thủng 32.4 THEN CUTLOSS, không bình quân giá xuống."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 44300,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Kháng cự gần 40.000-41.650 đồng, hỗ trợ 36.000-36.500 đồng. Chỉ đánh giá lại sau khi vượt 40.000-41.650 với khối lượng >= khoảng 1,5x TB20; khi đó stop phải nằm 3-7% dưới giá mua và dưới hỗ trợ gần nhất, đồng thời R/R phải >=2. Hiện R/R chưa đạt 2 nên chưa kích hoạt mua. Cần điều chỉnh dữ liệu kỹ thuật sau GDKHQ cổ tức 1.000 đồng/cp ngày 05/10/2026."
       }
     },
     {
@@ -7281,7 +7275,7 @@ window.RESEARCH_DATA = {
       "company": "Vàng bạc Đá quý Phú Nhuận",
       "sector": "Tiêu dùng",
       "exchange": "HOSE",
-      "reportId": "PNJ-20260819",
+      "reportId": "PNJ-20261002",
       "close": 24750,
       "priceDate": "2026-10-01",
       "changePct": -6.9549,
@@ -7289,17 +7283,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-10-01&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PNJ/data_day?sdate=01-10-2026&edate=01-10-2026",
       "action": {
-        "zoneLow": 25187,
-        "zoneHigh": 26986,
-        "baseValue": 53642,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 47698,
         "stop": null,
-        "targets": [
-          35982
-        ],
-        "basisDate": "2026-08-19",
-        "recommendation": "CHỜ XÁC NHẬN TRONG VÙNG MOS",
-        "eligibility": "active",
-        "condition": "25.187–26.986 đồng/cp là vùng MOS 25–30%, nhưng chỉ bắt đầu xem xét; giải ngân cần không xuất hiện nghĩa vụ pháp lý mới cấp PNJ mẹ, không có dự phòng mua lại bổ sung mang tính cấu trúc và vẫn cần xác nhận price/volume. Midpoint 26.087 có stop minh họa 5% ~24.783; mốc phần thưởng định giá đầu tiên là Bear 35.982. Trên 70.976: TRÁNH nếu fair value chưa thay đổi."
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không kích hoạt vùng mua, stoploss, target hay R/R cho lệnh mới. Chỉ sau khi ĐHĐCĐ bất thường/giả định dự phòng và phát hành được khóa, cổ phiếu hình thành nền mới, đóng cửa trở lại trên MA20 và MA50, MA20 dốc lên, khối lượng vượt nền >=1,5x TB20 và sức mạnh tương đối 20 phiên dương so với VN-Index mới chuyển sang bước xác định vùng mua - stop 3-7% - target - R/R >=2."
       }
     },
     {
@@ -7612,7 +7604,7 @@ window.RESEARCH_DATA = {
       "company": "Chứng khoán Sài Gòn - Hà Nội",
       "sector": "Chứng khoán",
       "exchange": "HNX",
-      "reportId": "SHS-20260812",
+      "reportId": "SHS-20261002",
       "close": 13300,
       "priceDate": "2026-10-01",
       "changePct": 2.3077,
@@ -7620,14 +7612,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHS~date:2026-10-01&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SHS/data_day?sdate=01-10-2026&edate=01-10-2026",
       "action": {
-        "zoneLow": 7350,
-        "zoneHigh": 7875,
-        "baseValue": 13750,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 12977,
         "stop": null,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - THEO DÕI / KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ khi giá không vượt 7.875 đồng/cp và ROE, chất lượng lợi nhuận, biên lợi nhuận cùng cấu trúc vốn không xấu đi mới đáp ứng chuẩn mua theo định giá. Trên 17.000 đồng/cp mà dự phóng ROE/EPS không tăng thì không mua đuổi."
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Hiện tại CHỜ. Cấu hình 12.900-13.050 đồng/cp chỉ được xem xét lại nếu giữ hỗ trợ 12.700, có phiên xác nhận khối lượng >= khoảng 11,2 triệu cp, sức mạnh tương đối cải thiện và tín hiệu định giá đồng thời được nâng tối thiểu về THEO DÕI. Khi đó stop tham chiếu 12.500, T1 14.200 và R/R tại cận trên vùng kiểm tra khoảng 2,09; chưa kích hoạt mua tự động."
       }
     },
     {
@@ -7685,7 +7678,7 @@ window.RESEARCH_DATA = {
       "company": "Ngân hàng TMCP Đông Nam Á",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "SSB-20260826",
+      "reportId": "SSB-20261002",
       "close": 17750,
       "priceDate": "2026-10-01",
       "changePct": -2.7397,
@@ -7693,18 +7686,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SSB~date:2026-10-01&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SSB/data_day?sdate=01-10-2026&edate=01-10-2026",
       "action": {
-        "zoneLow": 10800,
-        "zoneHigh": 11600,
-        "baseValue": 15445,
-        "stop": 10300,
-        "targets": [
-          15500,
-          17500
-        ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "IF giá 10.800-11.600 và NPL/CASA/CAR không xấu thêm THEN có thể mua từng phần. Stop tham chiếu khoảng 10.300 hoặc tối đa 5-7% dưới giá khớp. T1 15.500; T2 17.500. NPL >3%, CAR giảm mạnh hoặc PBT hụt kế hoạch là điều kiện veto."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14031,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "CHỜ - CHƯA CÓ VÙNG MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Không có vùng mua hợp lệ hiện tại. Giá đóng cửa >18.450 với khối lượng >= khoảng 5,46 triệu cp chỉ là xác nhận kỹ thuật sơ bộ, chưa mở vị thế nếu định giá chưa thay đổi. Nếu giá về 14.000-14.600 và tạo nền chặt trên MA20/MA50 thì chạy lại định giá + kỹ thuật. Nếu thủng 17.450 với khối lượng tăng thì không bắt đáy; tiếp tục CHỜ. Mọi lệnh mua tương lai phải có stop 3-7%, T1/T2 không vượt U và R/R >=2."
       }
     },
     {
