@@ -1,4 +1,4 @@
-# Manual recovery trigger: 2026-10-01
+# Manual recovery trigger: 2026-10-02
 name: EOD schedule watchdog
 
 on:
@@ -6,10 +6,8 @@ on:
     paths:
       - ".github/workflows/eod-watchdog.yml"
   schedule:
-    - cron: "47 16 * * 1-5"
-      timezone: "Asia/Ho_Chi_Minh"
-    - cron: "17 17 * * 1-5"
-      timezone: "Asia/Ho_Chi_Minh"
+    - cron: "47 9 * * 1-5" # 16:47 Asia/Ho_Chi_Minh (UTC+7)
+    - cron: "17 10 * * 1-5" # 17:17 Asia/Ho_Chi_Minh (UTC+7)
   workflow_dispatch:
 
 permissions:
