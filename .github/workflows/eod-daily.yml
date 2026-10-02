@@ -2,10 +2,8 @@ name: Verified EOD market lock and deploy
 
 on:
   schedule:
-    - cron: "27 15 * * 1-5"
-      timezone: "Asia/Ho_Chi_Minh"
-    - cron: "7 16 * * 1-5"
-      timezone: "Asia/Ho_Chi_Minh"
+    - cron: "27 8 * * 1-5" # 15:27 Asia/Ho_Chi_Minh (UTC+7)
+    - cron: "7 9 * * 1-5" # 16:07 Asia/Ho_Chi_Minh (UTC+7)
   workflow_dispatch:
     inputs:
       date:
