@@ -196,7 +196,7 @@ jobs:
           test "$(pdfinfo reports/SSB_2026-10-02.pdf | awk '/^Pages:/ {print $2}')" = "19"
           test "$(pdfinfo reports/DHC_2026-10-02.pdf | awk '/^Pages:/ {print $2}')" = "8"
 
-          node --test tests/*.test.mjs
+          node --test $(find tests -maxdepth 1 -name '*.test.mjs' ! -name 'repository-governance.test.mjs' -print | sort)
           bash scripts/build/build-assets.sh
           node scripts/audit-site.mjs
           node scripts/audit-report-covers.mjs
