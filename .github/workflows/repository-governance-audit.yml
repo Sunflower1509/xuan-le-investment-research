@@ -170,14 +170,15 @@ jobs:
           const ledger=JSON.parse(fs.readFileSync(ledgerPath,"utf8"));
           let adjusted=0;
           for(const event of ledger.events||[]){
-            if(event.ticker==="PNJ"&&event.reportId==="PNJ-20260819"&&event.reportFile==="reports/PNJ_2026-08-19.pdf"){
+            if(typeof event.reportFile==="string"&&event.reportFile&&!fs.existsSync(event.reportFile)){
+              const removed=event.reportFile;
               event.reportFile=null;
-              const extra=" PDF nguồn PNJ-20260819 đã được loại khỏi kho public theo quy tắc latest-only; reportId lịch sử và toàn bộ thông số kích hoạt được giữ nguyên.";
-              if(!String(event.note||"").includes("PDF nguồn PNJ-20260819 đã được loại")) event.note=String(event.note||"").trim()+extra;
+              const extra=" PDF nguồn lịch sử "+String(event.reportId||removed)+" đã được loại khỏi kho public theo quy tắc latest-only; reportId và toàn bộ thông số kích hoạt lịch sử được giữ nguyên.";
+              if(!String(event.note||"").includes("đã được loại khỏi kho public theo quy tắc latest-only")) event.note=String(event.note||"").trim()+extra;
               adjusted++;
             }
           }
-          if(adjusted!==1) throw new Error("Expected exactly one historical PNJ reportFile reference to neutralize, got "+adjusted);
+          if(adjusted<2) throw new Error("Expected at least the existing VPB stale link and superseded PNJ link to be neutralized, got "+adjusted);
           fs.writeFileSync(ledgerPath,JSON.stringify(ledger,null,2)+"\n");
           console.log(JSON.stringify({replaced:old.map(r=>({ticker:r.ticker,id:r.id,date:r.date,file:r.file})),newReports:reports.map(r=>({ticker:r.ticker,id:r.id,file:r.file})),historicalLedgerRefsAdjusted:adjusted},null,2));
           NODE
