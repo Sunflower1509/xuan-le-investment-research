@@ -1,4 +1,4 @@
-# Manual recovery trigger: 2026-10-02
+# Manual recovery trigger: 2026-10-02 retry-after-source-reconciliation
 name: EOD schedule watchdog
 
 on:
