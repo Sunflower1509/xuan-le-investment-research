@@ -1,11 +1,22 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 130,
+    "count": 131,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
   "logos": {
+    "ABB": {
+      "path": "assets/images/logos/abb.svg?v=20260916-logo3",
+      "alt": "Logo An Binh Commercial Joint Stock Bank (ABB)",
+      "exchange": "UPCOM",
+      "isin": "VN000000ABB0",
+      "company": "An Binh Commercial Joint Stock Bank",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/an-binh-commercial-joint-stock-bank--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=ABB&hl=1&exchange=UPCOM&lang=en&search_type=stock&domain=production",
+      "sha256": "96e6f8d1ef6e71fff2df3aff78f00b2c120099e3b3940f5eaad9c6a8650ed7fa",
+      "bytes": 1306
+    },
     "ACB": {
       "path": "assets/images/logos/acb.svg?v=20260916-logo3",
       "alt": "Logo Asia Commercial Joint Stock Bank (ACB)",
