@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 02/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 128/130 mã; không dùng fallback KBS. 2/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 60.400 khác VNDIRECT 60.300; nguồn thứ ba xác nhận VNDIRECT (https://24hmoney.vn/stock/msr); VGI: CafeF 80.300 khác VNDIRECT 80.400; nguồn thứ ba xác nhận VNDIRECT (https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 121/130 mã; BVS: VNDIRECT 606.000 vs CafeF 605.600 (chênh 400); CEO: VNDIRECT 4.994.000 vs CafeF 4.991.200 (chênh 2.800); DRI: VNDIRECT 1.973.700 vs CafeF 1.971.000 (chênh 2.700); IDC: VNDIRECT 1.151.000 vs CafeF 1.150.000 (chênh 1.000); MSR: VNDIRECT 3.226.300 vs CafeF 3.216.200 (chênh 10.100); OIL: VNDIRECT 1.161.600 vs CafeF 1.161.500 (chênh 100); PVS: VNDIRECT 2.519.100 vs CafeF 2.516.100 (chênh 3.000); SHS: VNDIRECT 6.198.900 vs CafeF 6.193.900 (chênh 5.000); VGI: VNDIRECT 159.600 vs CafeF 158.300 (chênh 1.300). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 02/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 128/130 mã; không dùng fallback KBS. 2/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 60.400 khác VNDIRECT 60.300; nguồn thứ ba xác nhận VNDIRECT (https://24hmoney.vn/stock/msr); VGI: CafeF 80.300 khác VNDIRECT 80.400; nguồn thứ ba xác nhận VNDIRECT (https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 121/130 mã; BVS: VNDIRECT 606.000 vs CafeF 605.600 (chênh 400); CEO: VNDIRECT 4.994.000 vs CafeF 4.991.200 (chênh 2.800); DRI: VNDIRECT 1.973.700 vs CafeF 1.971.000 (chênh 2.700); IDC: VNDIRECT 1.151.000 vs CafeF 1.150.000 (chênh 1.000); MSR: VNDIRECT 3.226.300 vs CafeF 3.216.200 (chênh 10.100); OIL: VNDIRECT 1.161.600 vs CafeF 1.161.500 (chênh 100); PVS: VNDIRECT 2.519.100 vs CafeF 2.516.100 (chênh 3.000); SHS: VNDIRECT 6.198.900 vs CafeF 6.193.900 (chênh 5.000); VGI: VNDIRECT 159.600 vs CafeF 158.300 (chênh 1.300). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá TVS, ABB, QNS, MSR, PET, NLG, VHM và VIC đã được cập nhật/thêm bằng bản 02-03/10/2026; các bản định giá cũ tương ứng được loại theo quy tắc latest-only. Registry, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 02/10/2026 của các mã hiện hữu được giữ nguyên và ABB được bổ sung coverage EOD 02/10/2026. Không thay đổi bố cục HTML/CSS.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,289 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "ABB-20261003",
+      "ticker": "ABB",
+      "company": "Ngân hàng TMCP An Bình",
+      "sector": "Ngân hàng",
+      "exchange": "UPCOM",
+      "date": "2026-10-03",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 17700,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 15821,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 12059,
+      "rangeHigh": 18663,
+      "gapLabel": "P0 17.700 đồng/cp cao hơn GTKV 15.821 đồng/cp khoảng 11,9% nhưng chưa vượt cận trên 18.663 đồng/cp; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-06 thu nhập thặng dư 36,84% + PP-07 P/B-ROE 31,58% + PP-16 định giá tương đối 31,58%; PP-18 trọng số 0",
+      "summary": "ABB có vùng giá trị 12.059-18.663 đồng/cp và GTKV 15.821 đồng/cp. Lợi nhuận 2025-H1/2026 phục hồi mạnh nhưng tăng vốn 2026 còn là biến số pha loãng; ngắn hạn CHỜ do định giá thận trọng, khối lượng chưa xác nhận và R/R vùng hỗ trợ gần nhất chỉ khoảng 1,43.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 15821,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - KHÔNG KÍCH HOẠT MUA MỚI",
+        "eligibility": "inactive",
+        "condition": "Vùng 17.000-17.200 đồng/cp chỉ là vùng theo dõi hỗ trợ, không phải lệnh mua. Stop tham chiếu 16.500 và mục tiêu 18.200 cho R/R khoảng 1,43 <2. Chỉ đánh giá CÓ MUA khi tín hiệu định giá trở về xanh/vàng, kỹ thuật xác nhận đầy đủ, stop 3-7% và R/R >=2."
+      },
+      "file": "reports/ABB_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/abb.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá ABB ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá ABB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/ABB_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "MSR-20261003",
+      "ticker": "MSR",
+      "company": "Công ty Cổ phần Masan High-Tech Materials",
+      "sector": "Công nghiệp",
+      "exchange": "UPCOM",
+      "date": "2026-10-03",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 60300,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 46197,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 31201,
+      "rangeHigh": 61498,
+      "gapLabel": "P0 60.300 đồng/cp cao hơn GTKV 46.197 đồng/cp khoảng 30,5% và ở gần cận trên 61.498 đồng/cp; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-11 NAV theo trữ lượng chính; PP-13 lợi nhuận chuẩn hóa và PP-17 giao dịch tiền lệ kiểm chứng; PP-16/PP-21 tham chiếu; PP-18 trọng số 0",
+      "summary": "MSR có GTKV 46.197 đồng/cp và vùng giá trị 31.201-61.498 đồng/cp. Bước ngoặt lợi nhuận được hỗ trợ bởi giá vonfram và giao dịch Elmet, nhưng giá hiện tại đã phản ánh phần lớn giá trị; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 46197,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "52.000-55.000 đồng/cp chỉ là vùng quan sát nếu hình thành hỗ trợ/nền mới và định giá không xấu đi. Stop tham chiếu 50.000 cách cận trên vùng khoảng 9,1% và R/R chỉ khoảng 1,64, đều chưa đạt quy tắc. Chỉ nâng lên CÓ MUA khi định giá về xanh/vàng, có nền + KL >=1,5x TB20, stop 3-7% và R/R >=2."
+      },
+      "file": "reports/MSR_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/msr.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá MSR ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá MSR",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/MSR_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "NLG-20261003",
+      "ticker": "NLG",
+      "company": "CTCP Đầu tư Nam Long",
+      "sector": "Bất động sản nhà ở",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "MUA ĐỊNH GIÁ / CHỜ GIAO DỊCH",
+      "status": "wait",
+      "marketPrice": 21900,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 32181,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 29427,
+      "rangeHigh": 36413,
+      "gapLabel": "P0 21.900 đồng/cp thấp hơn GTKV 32.181 đồng/cp khoảng 31,9% và thấp hơn ngưỡng mua M 24.135 đồng/cp; tín hiệu định giá là MUA nhưng giao dịch ngắn hạn vẫn CHỜ.",
+      "method": "PP-09 RNAV chính 53,85% + PP-16 P/B kiểm chứng 46,15%; PP-18 reverse-RNAV trọng số 0",
+      "summary": "NLG có vùng giá trị 29.427-36.413 đồng/cp, GTKV 32.181 đồng/cp và đủ biên an toàn định giá. Tuy nhiên giá dưới EMA20/EMA50, MACD giảm, dòng tiền và sức mạnh tương đối chưa xác nhận; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 32181,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - ĐỊNH GIÁ MUA NHƯNG KỸ THUẬT CHƯA XÁC NHẬN",
+        "eligibility": "inactive",
+        "condition": "Không mua chủ động tại 21.900 chỉ vì định giá rẻ. Chỉ đánh giá điểm mua khi giá lấy lại vùng EMA50 quanh 23.600, hình thành nền chặt/điểm vượt rõ ràng và khối lượng >=1,5x TB20; sau đó kiểm tra sức mạnh tương đối trên AmiBroker. Lệnh tương lai phải có stop 3-7% và R/R >=2."
+      },
+      "file": "reports/NLG_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/nlg.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá NLG ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá NLG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/NLG_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "PET-20261003",
+      "ticker": "PET",
+      "company": "Tổng Công ty Cổ phần Dịch vụ Tổng hợp Dầu khí",
+      "sector": "Phân phối công nghệ & dịch vụ đa ngành",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 49800,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 24571,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 18190,
+      "rangeHigh": 37614,
+      "gapLabel": "P0 49.800 đồng/cp cao hơn cận trên 37.614 đồng/cp khoảng 32,4% và cao hơn GTKV 24.571 đồng/cp hơn 100%; tín hiệu định giá là TRÁNH.",
+      "method": "PP-13 lợi nhuận chuẩn hóa 53,85% + PP-16 P/E nhóm so sánh 46,15%; PP-01/PP-17/PP-18 trọng số 0",
+      "summary": "PET có vùng giá trị 18.190-37.614 đồng/cp và GTKV 24.571 đồng/cp. Dòng tiền kinh doanh âm mạnh trong 2025-H1/2026 là rủi ro chất lượng lợi nhuận đáng chú ý; P0 vượt cận trên nên tín hiệu TRÁNH và trạng thái 1-3 tuần LOẠI.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 24571,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không áp dụng vùng mua, stoploss, target hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH. Chỉ định giá lại khi quyền mua hoàn tất hoặc dòng tiền kinh doanh/vốn lưu động cải thiện bền vững."
+      },
+      "file": "reports/PET_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/pet.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá PET ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá PET",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/PET_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "QNS-20261003",
+      "ticker": "QNS",
+      "company": "Công ty Cổ phần Đường Quảng Ngãi",
+      "sector": "Thực phẩm & đồ uống",
+      "exchange": "UPCOM",
+      "date": "2026-10-03",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 53100,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 56369,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 42155,
+      "rangeHigh": 70080,
+      "gapLabel": "P0 53.100 đồng/cp thấp hơn GTKV 56.369 đồng/cp khoảng 5,8% nhưng cao hơn ngưỡng mua M 42.155 đồng/cp; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-01 DCF-FCFF + PP-14 theo từng mảng; PP-03 DDM kiểm chứng, PP-16 tham chiếu và PP-18 trọng số 0",
+      "summary": "QNS có GTKV 56.369 đồng/cp và vùng giá trị 42.155-70.080 đồng/cp. Xu hướng và dòng tiền đang tích cực, nhưng mua tại P0 53.100 làm R/R không đạt chuẩn; trạng thái 1-3 tuần là CHỜ, chỉ xem xét nhịp kiểm định 49.800-50.400 có điều kiện.",
+      "action": {
+        "zoneLow": 49800,
+        "zoneHigh": 50400,
+        "baseValue": 56369,
+        "stop": 48000,
+        "targets": [
+          55400,
+          56300
+        ],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - VÙNG MUA ĐIỀU KIỆN CHƯA KÍCH HOẠT",
+        "eligibility": "inactive",
+        "condition": "Chỉ IF QNS quay lại 49.800-50.400, giữ hỗ trợ với thanh khoản thu hẹp và tín hiệu định giá vẫn MUA/THEO DÕI THEN mới đánh giá CÓ MUA; stop 48.000, T1 55.400, T2 56.300, R/R tại 50.400 khoảng 2,08. IF đóng cửa thủng 48.000 sau khi mua THEN cắt lỗ. IF tiếp tục tăng từ 53.100 không retest THEN tiếp tục CHỜ."
+      },
+      "file": "reports/QNS_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/qns.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá QNS ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá QNS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/QNS_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "TVS-20261003",
+      "ticker": "TVS",
+      "company": "Công ty Cổ phần Chứng khoán Thiên Việt",
+      "sector": "Chứng khoán",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 14300,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 14210,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 10798,
+      "rangeHigh": 18118,
+      "gapLabel": "P0 14.300 đồng/cp cao hơn GTKV 14.210 đồng/cp khoảng 0,6% và vẫn nằm trong dải 10.798-18.118 đồng/cp; tín hiệu định giá là THẬN TRỌNG.",
+      "method": "PP-07 P/B-ROE + PP-06 thu nhập thặng dư + PP-16 P/B so sánh; PP-18 trọng số 0",
+      "summary": "TVS có GTKV 14.210 đồng/cp và vùng giá trị 10.798-18.118 đồng/cp. P0 14.300 đồng/cp gần như ngang GTKV nhưng giá dưới MA20 và khối lượng phiên 02/10 chỉ khoảng 0,52 lần TB20; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14210,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Theo dõi hỗ trợ 14.000-14.200 đồng/cp hoặc kịch bản vượt 15.050 với khối lượng >=1,5x TB20. Báo cáo cho thấy R/R breakout hiện chỉ khoảng 0,65 tới 15.600 nên chưa CÓ MUA. Chỉ thiết lập lệnh khi stop 3-7% và R/R >=2; kiểm tra lại AmiBroker trước khi đặt lệnh."
+      },
+      "file": "reports/TVS_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/tvs.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá TVS ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá TVS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TVS_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VHM-20261003",
+      "ticker": "VHM",
+      "company": "Công ty Cổ phần Vinhomes",
+      "sector": "Bất động sản",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 67900,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 72536,
+      "valueLabel": "Giá trị hợp lý tổng hợp",
+      "rangeLow": 54143,
+      "rangeHigh": 90928,
+      "gapLabel": "P0 67.900 đồng/cp thấp hơn GTKV 72.536 đồng/cp khoảng 6,4% nhưng biên an toàn chưa đủ rộng; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-09 RNAV 63,6% + PP-16 P/B lịch sử 36,4%; PP-18 reverse DCF trọng số 0",
+      "summary": "VHM có GTKV tổng hợp 72.536 đồng/cp và dải hợp lý 54.143-90.928 đồng/cp. Giá dưới MA20/MA50 và R/R tới kháng cự gần nhất dưới 2; trạng thái giao dịch 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 72536,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
+        "eligibility": "inactive",
+        "condition": "67.500-68.200 chỉ là vùng quan sát chưa kích hoạt. Stop tham chiếu 65.900 và target 69.100/70.000 cho R/R chỉ khoảng 0,39/0,78. Chỉ IF vượt MA20 và MA50, MA20 dốc lên, KL >=1,5x TB20 và có vùng vào mới với stop 3-7%, R/R >=2 THEN mới đánh giá CÓ MUA. IF thủng 65.900 với cấu trúc xấu THEN không bắt đáy."
+      },
+      "file": "reports/VHM_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/vhm.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá VHM ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá VHM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VHM_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "BVH-20261002",
       "ticker": "BVH",
@@ -256,6 +539,46 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá SSB",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/SSB_2026-10-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VIC-20261002",
+      "ticker": "VIC",
+      "company": "Tập đoàn Vingroup - Công ty CP",
+      "sector": "Đa ngành",
+      "exchange": "HOSE",
+      "date": "2026-10-02",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 220000,
+      "marketPriceDate": "2026-10-01",
+      "baseValue": 82100,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 56600,
+      "rangeHigh": 115700,
+      "gapLabel": "P0 của phiên hoàn tất gần nhất trong báo cáo là 220.000 đồng/cp, cao hơn cận trên 115.700 đồng/cp khoảng 90,2%; tín hiệu định giá là TRÁNH.",
+      "method": "PP-14 định giá theo từng mảng/SOTP là chính; PP-15 tài sản và PP-21 quyền chọn vốn chủ kiểm chứng/tham chiếu; PP-18 trọng số 0",
+      "summary": "VIC có vùng giá trị 56.600-115.700 đồng/cp và GTKV 82.100 đồng/cp. P0 trong báo cáo vượt xa cận trên, đồng thời đòn bẩy, khả năng trả lãi và FCF âm là cụm rủi ro trọng yếu; trạng thái 1-3 tuần là LOẠI.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 82100,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không lập vùng mua, stoploss, mục tiêu hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH và cảnh báo tài chính ở mức CAO. Chỉ khi luận điểm/định giá được cập nhật và trạng thái chuyển sang CÓ MUA mới áp stop 3-7% và R/R >=2."
+      },
+      "file": "reports/VIC_2026-10-02.pdf",
+      "edition": "Bản định giá 02.10.2026",
+      "visual": {
+        "src": "assets/images/reports/vic.webp?v=20261002-cover1",
+        "alt": "Trang bìa báo cáo định giá VIC ngày 02/10/2026",
+        "caption": "Bìa báo cáo định giá VIC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VIC_2026-10-02.pdf",
         "kind": "report-cover"
       }
     },
@@ -630,49 +953,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá DCL",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/DCL_2026-09-18.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "QNS-20260916",
-      "ticker": "QNS",
-      "company": "Công ty Cổ phần Đường Quảng Ngãi",
-      "sector": "Thực phẩm & đồ uống",
-      "exchange": "UPCOM",
-      "date": "2026-09-16",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 49900,
-      "marketPriceDate": "2026-09-15",
-      "baseValue": 67496,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 49451,
-      "rangeHigh": 85615,
-      "gapLabel": "Giá 49.900 đồng/cp nằm sát cận dưới 49.451 đồng/cp; MOS so với giá trị kỳ vọng khoảng 26,1% nhưng gần như không có MOS so với cận dưới stress, chưa đạt điều kiện MUA cơ học.",
-      "method": "DCF theo FCFF; kiểm chứng P/E, EV/EBITDA và P/B",
-      "summary": "QNS có khoảng giá trị hợp lý 49.451-85.615 đồng/cp, giá trị kỳ vọng 67.496 đồng/cp. Giá 49.900 đồng/cp ngày 15/09/2026 sát cận dưới nhưng chưa thấp hơn cận dưới 25-30%; trạng thái THEO DÕI / CHỜ.",
-      "action": {
-        "zoneLow": 47000,
-        "zoneHigh": 48000,
-        "baseValue": 67496,
-        "stop": 44800,
-        "targets": [
-          52700,
-          56500
-        ],
-        "basisDate": "2026-09-16",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "IF lùi 47.000-48.000, không thủng 46.800 và xuất hiện phiên hồi có khối lượng cải thiện THEN có thể mua thăm dò, stop 44.800-45.000, target 52.700 rồi 56.500. IF đóng cửa >50.200 với KL >= khoảng 521.000 cp THEN chờ xác nhận/retest rồi mới tăng tỷ trọng. IF đóng cửa <46.800 với KL tăng THEN không mua / cắt vị thế ngắn hạn."
-      },
-      "file": "reports/QNS_2026-09-16.pdf",
-      "edition": "Bản định giá 16.09.2026",
-      "visual": {
-        "src": "assets/images/reports/qns.webp?v=20260916-cover1",
-        "alt": "Trang bìa báo cáo định giá QNS ngày 16/09/2026",
-        "caption": "Bìa báo cáo định giá QNS",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/QNS_2026-09-16.pdf",
         "kind": "report-cover"
       }
     },
@@ -1445,50 +1725,6 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "id": "VIC-20260904",
-      "ticker": "VIC",
-      "company": "Tập đoàn Vingroup - CTCP",
-      "sector": "Đa ngành",
-      "exchange": "HOSE",
-      "date": "2026-09-04",
-      "recommendation": "LOẠI / TRÁNH MUA MỚI",
-      "status": "reject",
-      "marketPrice": 255000,
-      "marketPriceDate": "2026-09-04",
-      "baseValue": 83128,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 68819,
-      "rangeHigh": 97998,
-      "gapLabel": "Snapshot intraday 10:35:01 là 255.000 đồng/cp, cao hơn khoảng 207% so với expected value 83.128 đồng/cp và cao hơn toàn bộ dải fair value; không có MOS.",
-      "method": "SOTP; từng mảng dùng mô hình phù hợp, sau đó trừ holding discount và nợ cấp tập đoàn",
-      "summary": "VIC có fair value Bear/Base/Bull 68.819/82.847/97.998 đồng/cp và expected value 83.128 đồng/cp. Snapshot báo cáo 04/09/2026 lúc 10:35:01 là 255.000 đồng/cp; trạng thái LOẠI / TRÁNH MUA MỚI theo định giá. Snapshot này không thay thế dữ liệu EOD của coverage.",
-      "action": {
-        "zoneLow": 48174,
-        "zoneHigh": 51615,
-        "baseValue": 83128,
-        "stop": 46900,
-        "targets": [
-          68819,
-          82847,
-          97998
-        ],
-        "basisDate": "2026-09-04",
-        "recommendation": "LOẠI / TRÁNH MUA MỚI",
-        "eligibility": "veto",
-        "condition": "IF giá còn trên 97.998 đồng/cp THEN LOẠI/TRÁNH mua mới. IF 68.819-97.998 hoặc 51.615-68.819 THEN CHỜ. Chỉ IF giá về 48.174-51.615 đồng/cp và funding/nợ cùng luận điểm SOTP không xấu đi THEN mới đánh giá mua từng phần; midpoint minh họa 49.894, stop khoảng 46.900 (~6%), T1/T2/T3 68.819/82.847/97.998. IF dưới 48.174 THEN phải tái thẩm định nguyên nhân giảm, không bắt đáy cơ học."
-      },
-      "file": "reports/VIC_2026-09-04.pdf",
-      "edition": "Bản định giá 04.09.2026",
-      "visual": {
-        "src": "assets/images/reports/vic.webp?v=20260904-cover1",
-        "alt": "Trang bìa báo cáo định giá VIC ngày 04/09/2026",
-        "caption": "Bìa báo cáo định giá VIC",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VIC_2026-09-04.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
       "id": "FTS-20260903",
       "ticker": "FTS",
       "company": "CTCP Chứng khoán FPT",
@@ -1715,44 +1951,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá MCH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/MCH_2026-08-28.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "PET-20260828",
-      "ticker": "PET",
-      "company": "Tổng Công ty Cổ phần Dịch vụ Tổng hợp Dầu khí",
-      "sector": "Phân phối công nghệ & dịch vụ đa ngành",
-      "exchange": "HOSE",
-      "date": "2026-08-28",
-      "recommendation": "LOẠI / TRÁNH MUA MỚI",
-      "status": "reject",
-      "marketPrice": 39300,
-      "marketPriceDate": "2026-08-28",
-      "baseValue": 22300,
-      "valueLabel": "Điểm neo kỳ vọng",
-      "rangeLow": 19000,
-      "rangeHigh": 27000,
-      "gapLabel": "Giá thị trường 39.300 đồng/cp cao hơn cận trên vùng giá trị hợp lý khoảng 45,6%; biên an toàn âm.",
-      "method": "DCF/FCFF; P/E, EV/EBITDA, P/B kiểm chứng",
-      "summary": "PET có tăng trưởng doanh thu nhưng mô hình phân phối có biên lợi nhuận thấp và nhu cầu vốn lưu động cao; giá hiện tại vượt xa vùng giá trị hợp lý. Trạng thái LOẠI / TRÁNH MUA MỚI.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 22300,
-        "basisDate": "2026-08-28",
-        "recommendation": "LOẠI / TRÁNH MUA MỚI",
-        "eligibility": "inactive",
-        "condition": "Không kích hoạt mua mới ở mức định giá hiện tại; chỉ đánh giá lại khi có báo cáo mới hoặc biên an toàn được tái lập."
-      },
-      "file": "reports/PET_2026-08-28.pdf",
-      "edition": "Bản định giá 28.08.2026",
-      "visual": {
-        "src": "assets/images/reports/pet.webp?v=20260828-cover1",
-        "alt": "Trang bìa báo cáo định giá PET ngày 28/08/2026",
-        "caption": "Bìa báo cáo định giá PET",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/PET_2026-08-28.pdf",
         "kind": "report-cover"
       }
     },
@@ -2554,49 +2752,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá KDH",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/KDH_2026-08-26.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "NLG-20260826",
-      "ticker": "NLG",
-      "company": "CTCP Đầu tư Nam Long",
-      "sector": "Bất động sản nhà ở",
-      "exchange": "HOSE",
-      "date": "2026-08-26",
-      "recommendation": "CHỜ / THEO DÕI",
-      "status": "wait",
-      "marketPrice": 24000,
-      "marketPriceDate": "2026-08-25",
-      "baseValue": 35200,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 28000,
-      "rangeHigh": 39000,
-      "gapLabel": "Giá 24.000 đồng/cp thấp hơn RNAV cơ sở nhưng chưa tạo MOS 25-30% so cận dưới 28.000 đồng/cp.",
-      "method": "RNAV/P-NAV; P/B và broker target dùng kiểm chứng",
-      "summary": "NLG có bảng cân đối tương đối tốt trong nhóm BĐS nhưng H1/2026 lợi nhuận thấp và CFO âm. Fair value 28.000-39.000 đồng/cp; trạng thái CHỜ/THEO DÕI.",
-      "action": {
-        "zoneLow": 22200,
-        "zoneHigh": 22800,
-        "baseValue": 35200,
-        "stop": 21400,
-        "targets": [
-          25500,
-          27000
-        ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ THĂM DÒ KHI PULLBACK",
-        "eligibility": "active",
-        "condition": "IF giá 22.200-22.800 và thesis không xấu đi THEN có thể thăm dò nhỏ; entry 22.500, stop 21.400, T1 25.500, T2 27.000. IF giá 19.600-21.000 THEN đạt vùng mua định giá, ưu tiên giải ngân chia phần. IF đóng cửa >24.650 với volume > khoảng 2,9 triệu cp THEN breakout kỹ thuật xác nhận nhưng không mua đuổi nếu stop vượt 7%. IF thủng 21.400 với lực bán tăng THEN cutloss."
-      },
-      "file": "reports/NLG_2026-08-26.pdf",
-      "edition": "Bản định giá 26.08.2026",
-      "visual": {
-        "src": "assets/images/reports/nlg.webp?v=20260826-cover1",
-        "alt": "Trang bìa báo cáo định giá NLG ngày 26/08/2026",
-        "caption": "Bìa báo cáo định giá NLG",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/NLG_2026-08-26.pdf",
         "kind": "report-cover"
       }
     },
@@ -4271,48 +4426,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 17.08.2026"
     },
     {
-      "id": "MSR-20260817",
-      "ticker": "MSR",
-      "company": "Công ty Cổ phần Masan High-Tech Materials",
-      "sector": "Công nghiệp",
-      "exchange": "UPCoM",
-      "date": "2026-08-17",
-      "recommendation": "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN",
-      "status": "wait",
-      "marketPrice": 42000,
-      "marketPriceDate": "2026-08-17",
-      "baseValue": 53933,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 31033,
-      "rangeHigh": 75963,
-      "gapLabel": "MOS 22,1% so với giá trị kỳ vọng tại giá 42.000 đồng/cp; chưa đạt chuẩn 25–30%",
-      "method": "NAV/DCF theo kịch bản hàng hóa; EV/EBITDA và EV/trữ lượng chỉ dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 31.033–75.963 đồng/cp, giá trị kỳ vọng 53.933 đồng/cp. Tại giá 42.000 đồng/cp ngày 17/08/2026, MOS so với giá trị kỳ vọng là 22,1%, chưa đạt chuẩn 25–30%; báo cáo giữ trạng thái THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN. Vùng mua tham khảo là 37.753–40.450 đồng/cp nếu không xuất hiện điểm đỏ mới trong luận điểm đầu tư.",
-      "action": {
-        "zoneLow": 37753,
-        "zoneHigh": 40450,
-        "baseValue": 53933,
-        "stop": 37146,
-        "targets": [
-          53933
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 37.753–40.450 đồng/cp khi không có điểm đỏ mới về trữ lượng, giá hàng hóa, đòn bẩy hoặc vận hành. Ví dụ trong báo cáo dùng giá vào 39.101 đồng/cp, stop 37.146 và mốc định giá 53.933 đồng/cp. Trên 53.933 đồng/cp không mua đuổi; dưới 37.753 đồng/cp phải kiểm tra lại nguyên nhân giảm trước khi hành động."
-      },
-      "visual": {
-        "src": "assets/images/reports/msr.webp?v=20260817-cover1",
-        "alt": "Trang bìa báo cáo định giá MSR ngày 17/08/2026",
-        "caption": "Bìa báo cáo định giá MSR",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/MSR_17-08-2026.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/MSR_17-08-2026.pdf",
-      "edition": "Bản định giá 17.08.2026"
-    },
-    {
       "id": "MWG-20260817",
       "ticker": "MWG",
       "company": "Công ty Cổ phần Đầu tư Thế Giới Di Động",
@@ -4716,45 +4829,6 @@ window.RESEARCH_DATA = {
         "kind": "report-cover"
       },
       "file": "reports/REE_Equity_Valuation_Report_2026-08-12.pdf",
-      "edition": "Bản định giá 12.08.2026"
-    },
-    {
-      "id": "VHM-20260812",
-      "ticker": "VHM",
-      "company": "Công ty Cổ phần Vinhomes",
-      "sector": "Bất động sản",
-      "exchange": "HOSE",
-      "date": "2026-08-12",
-      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 73900,
-      "marketPriceDate": "2026-08-12",
-      "baseValue": 68950,
-      "valueLabel": "Điểm giữa",
-      "rangeLow": 62900,
-      "rangeHigh": 75000,
-      "gapLabel": "Giá 73.900 đồng/cp cao hơn midpoint 7,18%; upside tới cận trên chỉ 1,47% tại thời điểm định giá",
-      "method": "RNAV/SOTP + P/NAV; P/B và P/E chỉ dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 62.900–75.000 đồng/cp, midpoint 68.950 đồng/cp. Giá tham chiếu 73.900 đồng/cp cao hơn midpoint 7,18% và chỉ còn khoảng 1,47% tới cận trên; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng mua đáp ứng MOS 25–30% là 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi.",
-      "action": {
-        "zoneLow": 44000,
-        "zoneHigh": 47200,
-        "baseValue": 68950,
-        "stop": 43322,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp."
-      },
-      "visual": {
-        "src": "assets/images/reports/vhm.webp?v=20260812-cover1",
-        "alt": "Trang bìa báo cáo định giá VHM ngày 12/08/2026",
-        "caption": "Bìa báo cáo định giá VHM",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf",
       "edition": "Bản định giá 12.08.2026"
     },
     {
@@ -5273,36 +5347,33 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/PVS_Valuation_Report_XuanLeTVS.pdf",
       "edition": "Bản chính"
-    },
-    {
-      "id": "TVS-20260709",
-      "ticker": "TVS",
-      "company": "Công ty Cổ phần Chứng khoán Thiên Việt",
-      "sector": "Chứng khoán",
-      "exchange": "HOSE",
-      "date": "2026-07-09",
-      "recommendation": "CHỜ",
-      "status": "wait",
-      "marketPrice": 16150,
-      "baseValue": 13568,
-      "rangeLow": 11300,
-      "rangeHigh": 16700,
-      "gapLabel": null,
-      "method": "P/B–ROE + Residual Income",
-      "summary": "Giá trị trọng số 13.568 đồng/cp; vùng giá trị hợp lý 11.300–16.700 đồng/cp.",
-      "visual": {
-        "src": "assets/images/reports/tvs.webp?v=20260709-cover1",
-        "alt": "Trang bìa báo cáo định giá TVS ngày 09/07/2026",
-        "caption": "Bìa báo cáo định giá TVS",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/Bao_cao_dinh_gia_TVS_09072026.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/Bao_cao_dinh_gia_TVS_09072026.pdf",
-      "edition": "Bản chính"
     }
   ],
   "coverage": [
+    {
+      "ticker": "ABB",
+      "company": "Ngân hàng TMCP An Bình",
+      "sector": "Ngân hàng",
+      "exchange": "UPCOM",
+      "reportId": "ABB-20261003",
+      "close": 17700,
+      "changePct": -0.5587,
+      "volume": 450100,
+      "priceDate": "2026-10-02",
+      "priceSource": "https://vn.investing.com/equities/an-binh-commercial-joint-stock-bank-historical-data",
+      "priceSourceSecondary": "https://web.stockbiz.vn/Stocks/ABB/LookupQuote.aspx?Date=02%2F10%2F2026",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 15821,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - KHÔNG KÍCH HOẠT MUA MỚI",
+        "eligibility": "inactive",
+        "condition": "Vùng 17.000-17.200 đồng/cp chỉ là vùng theo dõi hỗ trợ, không phải lệnh mua. Stop tham chiếu 16.500 và mục tiêu 18.200 cho R/R khoảng 1,43 <2. Chỉ đánh giá CÓ MUA khi tín hiệu định giá trở về xanh/vàng, kỹ thuật xác nhận đầy đủ, stop 3-7% và R/R >=2."
+      }
+    },
     {
       "ticker": "ACB",
       "company": "Ngân hàng Á Châu",
@@ -6826,10 +6897,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "MSR",
-      "company": "Masan High-Tech Materials",
+      "company": "Công ty Cổ phần Masan High-Tech Materials",
       "sector": "Công nghiệp",
-      "exchange": "UPCoM",
-      "reportId": "MSR-20260817",
+      "exchange": "UPCOM",
+      "reportId": "MSR-20261003",
       "close": 60300,
       "priceDate": "2026-10-02",
       "changePct": 5.6042,
@@ -6837,17 +6908,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSR~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://24hmoney.vn/stock/msr",
       "action": {
-        "zoneLow": 37753,
-        "zoneHigh": 40450,
-        "baseValue": 53933,
-        "stop": 37146,
-        "targets": [
-          53933
-        ],
-        "basisDate": "2026-08-17",
-        "recommendation": "THEO DÕI - CHƯA ĐỦ BIÊN AN TOÀN",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 37.753–40.450 đồng/cp khi không có điểm đỏ mới về trữ lượng, giá hàng hóa, đòn bẩy hoặc vận hành. Ví dụ trong báo cáo dùng giá vào 39.101 đồng/cp, stop 37.146 và mốc định giá 53.933 đồng/cp. Trên 53.933 đồng/cp không mua đuổi; dưới 37.753 đồng/cp phải kiểm tra lại nguyên nhân giảm trước khi hành động."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 46197,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "52.000-55.000 đồng/cp chỉ là vùng quan sát nếu hình thành hỗ trợ/nền mới và định giá không xấu đi. Stop tham chiếu 50.000 cách cận trên vùng khoảng 9,1% và R/R chỉ khoảng 1,64, đều chưa đạt quy tắc. Chỉ nâng lên CÓ MUA khi định giá về xanh/vàng, có nền + KL >=1,5x TB20, stop 3-7% và R/R >=2."
       }
     },
     {
@@ -6907,7 +6976,7 @@ window.RESEARCH_DATA = {
       "company": "CTCP Đầu tư Nam Long",
       "sector": "Bất động sản nhà ở",
       "exchange": "HOSE",
-      "reportId": "NLG-20260826",
+      "reportId": "NLG-20261003",
       "close": 21900,
       "priceDate": "2026-10-02",
       "changePct": 0.2288,
@@ -6915,18 +6984,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NLG~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=NLG",
       "action": {
-        "zoneLow": 22200,
-        "zoneHigh": 22800,
-        "baseValue": 35200,
-        "stop": 21400,
-        "targets": [
-          25500,
-          27000
-        ],
-        "basisDate": "2026-08-26",
-        "recommendation": "CÓ THỂ THĂM DÒ KHI PULLBACK",
-        "eligibility": "active",
-        "condition": "IF giá 22.200-22.800 và thesis không xấu đi THEN có thể thăm dò nhỏ; entry 22.500, stop 21.400, T1 25.500, T2 27.000. IF giá 19.600-21.000 THEN đạt vùng mua định giá, ưu tiên giải ngân chia phần. IF đóng cửa >24.650 với volume > khoảng 2,9 triệu cp THEN breakout kỹ thuật xác nhận nhưng không mua đuổi nếu stop vượt 7%. IF thủng 21.400 với lực bán tăng THEN cutloss."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 32181,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - ĐỊNH GIÁ MUA NHƯNG KỸ THUẬT CHƯA XÁC NHẬN",
+        "eligibility": "inactive",
+        "condition": "Không mua chủ động tại 21.900 chỉ vì định giá rẻ. Chỉ đánh giá điểm mua khi giá lấy lại vùng EMA50 quanh 23.600, hình thành nền chặt/điểm vượt rõ ràng và khối lượng >=1,5x TB20; sau đó kiểm tra sức mạnh tương đối trên AmiBroker. Lệnh tương lai phải có stop 3-7% và R/R >=2."
       }
     },
     {
@@ -7148,15 +7214,17 @@ window.RESEARCH_DATA = {
       "volume": 942200,
       "priceDate": "2026-10-02",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PET~date:2026-10-02&size=10",
-      "reportId": "PET-20260828",
+      "reportId": "PET-20261003",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 22300,
-        "basisDate": "2026-08-28",
-        "recommendation": "LOẠI / TRÁNH MUA MỚI",
-        "eligibility": "inactive",
-        "condition": "Không kích hoạt mua mới ở mức định giá hiện tại; chỉ đánh giá lại khi có báo cáo mới hoặc biên an toàn được tái lập."
+        "baseValue": 24571,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không áp dụng vùng mua, stoploss, target hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH. Chỉ định giá lại khi quyền mua hoàn tất hoặc dòng tiền kinh doanh/vốn lưu động cải thiện bền vững."
       },
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PET"
     },
@@ -7479,20 +7547,20 @@ window.RESEARCH_DATA = {
       "company": "Công ty Cổ phần Đường Quảng Ngãi",
       "sector": "Thực phẩm & đồ uống",
       "exchange": "UPCOM",
-      "reportId": "QNS-20260916",
+      "reportId": "QNS-20261003",
       "action": {
-        "zoneLow": 47000,
-        "zoneHigh": 48000,
-        "baseValue": 67496,
-        "stop": 44800,
+        "zoneLow": 49800,
+        "zoneHigh": 50400,
+        "baseValue": 56369,
+        "stop": 48000,
         "targets": [
-          52700,
-          56500
+          55400,
+          56300
         ],
-        "basisDate": "2026-09-16",
-        "recommendation": "THEO DÕI / CHỜ",
-        "eligibility": "active",
-        "condition": "IF lùi 47.000-48.000, không thủng 46.800 và xuất hiện phiên hồi có khối lượng cải thiện THEN có thể mua thăm dò, stop 44.800-45.000, target 52.700 rồi 56.500. IF đóng cửa >50.200 với KL >= khoảng 521.000 cp THEN chờ xác nhận/retest rồi mới tăng tỷ trọng. IF đóng cửa <46.800 với KL tăng THEN không mua / cắt vị thế ngắn hạn."
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - VÙNG MUA ĐIỀU KIỆN CHƯA KÍCH HOẠT",
+        "eligibility": "inactive",
+        "condition": "Chỉ IF QNS quay lại 49.800-50.400, giữ hỗ trợ với thanh khoản thu hẹp và tín hiệu định giá vẫn MUA/THEO DÕI THEN mới đánh giá CÓ MUA; stop 48.000, T1 55.400, T2 56.300, R/R tại 50.400 khoảng 2,08. IF đóng cửa thủng 48.000 sau khi mua THEN cắt lỗ. IF tiếp tục tăng từ 53.100 không retest THEN tiếp tục CHỜ."
       },
       "close": 53100,
       "changePct": 1.9194,
@@ -7945,10 +8013,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "TVS",
-      "company": "Chứng khoán Thiên Việt",
+      "company": "Công ty Cổ phần Chứng khoán Thiên Việt",
       "sector": "Chứng khoán",
       "exchange": "HOSE",
-      "reportId": "TVS-20260709",
+      "reportId": "TVS-20261003",
       "close": 14300,
       "priceDate": "2026-10-02",
       "changePct": -2.3891,
@@ -7956,12 +8024,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TVS~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TVS",
       "action": {
-        "zoneLow": 9500,
-        "zoneHigh": 10200,
-        "basisDate": "2026-07-09",
-        "recommendation": "CHỜ",
-        "eligibility": "active",
-        "condition": "Vùng MOS 25–30%; chưa có bằng chứng ROE phục hồi thì không mua mới."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14210,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ SETUP R/R HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Theo dõi hỗ trợ 14.000-14.200 đồng/cp hoặc kịch bản vượt 15.050 với khối lượng >=1,5x TB20. Báo cáo cho thấy R/R breakout hiện chỉ khoảng 0,65 tới 15.600 nên chưa CÓ MUA. Chỉ thiết lập lệnh khi stop 3-7% và R/R >=2; kiểm tra lại AmiBroker trước khi đặt lệnh."
       }
     },
     {
@@ -8174,10 +8245,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "VHM",
-      "company": "Vinhomes",
+      "company": "Công ty Cổ phần Vinhomes",
       "sector": "Bất động sản",
       "exchange": "HOSE",
-      "reportId": "VHM-20260812",
+      "reportId": "VHM-20261003",
       "close": 67900,
       "priceDate": "2026-10-02",
       "changePct": -0.731,
@@ -8185,14 +8256,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VHM~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VHM",
       "action": {
-        "zoneLow": 44000,
-        "zoneHigh": 47200,
-        "baseValue": 68950,
-        "stop": 43322,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 44.000–47.200 đồng/cp nếu thesis tài sản và nợ không xấu đi. Overlay trong báo cáo dùng entry midpoint 45.603, stop 43.322; target định giá 62.900, 68.950 và 75.000 đồng/cp."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 72536,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
+        "eligibility": "inactive",
+        "condition": "67.500-68.200 chỉ là vùng quan sát chưa kích hoạt. Stop tham chiếu 65.900 và target 69.100/70.000 cho R/R chỉ khoảng 0,39/0,78. Chỉ IF vượt MA20 và MA50, MA20 dốc lên, KL >=1,5x TB20 và có vùng vào mới với stop 3-7%, R/R >=2 THEN mới đánh giá CÓ MUA. IF thủng 65.900 với cấu trúc xấu THEN không bắt đáy."
       }
     },
     {
@@ -8224,10 +8296,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "VIC",
-      "company": "Vingroup",
+      "company": "Tập đoàn Vingroup - Công ty CP",
       "sector": "Đa ngành",
       "exchange": "HOSE",
-      "reportId": "VIC-20260904",
+      "reportId": "VIC-20261002",
       "close": 224000,
       "priceDate": "2026-10-02",
       "changePct": 1.8182,
@@ -8235,19 +8307,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIC~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VIC",
       "action": {
-        "zoneLow": 48174,
-        "zoneHigh": 51615,
-        "baseValue": 83128,
-        "stop": 46900,
-        "targets": [
-          68819,
-          82847,
-          97998
-        ],
-        "basisDate": "2026-09-04",
-        "recommendation": "LOẠI / TRÁNH MUA MỚI",
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 82100,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-02",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
         "eligibility": "veto",
-        "condition": "IF giá còn trên 97.998 đồng/cp THEN LOẠI/TRÁNH mua mới. IF 68.819-97.998 hoặc 51.615-68.819 THEN CHỜ. Chỉ IF giá về 48.174-51.615 đồng/cp và funding/nợ cùng luận điểm SOTP không xấu đi THEN mới đánh giá mua từng phần; midpoint minh họa 49.894, stop khoảng 46.900 (~6%), T1/T2/T3 68.819/82.847/97.998. IF dưới 48.174 THEN phải tái thẩm định nguyên nhân giảm, không bắt đáy cơ học."
+        "condition": "Không lập vùng mua, stoploss, mục tiêu hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH và cảnh báo tài chính ở mức CAO. Chỉ khi luận điểm/định giá được cập nhật và trạng thái chuyển sang CÓ MUA mới áp stop 3-7% và R/R >=2."
       }
     },
     {

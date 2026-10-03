@@ -1,12 +1,26 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 130,
-    "candidateCount": 121,
+    "coverageTarget": 131,
+    "candidateCount": 122,
     "updated": "2026-09-29",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
+    {
+      "ticker": "ABB",
+      "sourceUrl": "https://www.abbank.vn/",
+      "officialDomain": "abbank.vn",
+      "sourceTier": "B",
+      "identityType": "corporate-banking",
+      "keywords": [
+        "ABBank",
+        "ngân hàng",
+        "chi nhánh",
+        "trụ sở",
+        "bank"
+      ]
+    },
     {
       "ticker": "ACB",
       "sourceUrl": "https://acb.com.vn/",

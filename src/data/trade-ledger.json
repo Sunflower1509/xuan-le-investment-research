@@ -1859,10 +1859,10 @@
         }
       },
       "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NLG~date:2026-09-24&size=10",
-      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa.",
+      "note": "Tự động kích hoạt khi giá đóng cửa EOD cắt từ trên xuống vùng mua đã khóa. PDF nguồn lịch sử NLG-20260826 đã được loại khỏi kho public theo quy tắc latest-only; reportId và toàn bộ thông số kích hoạt lịch sử được giữ nguyên.",
       "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NLG/data_day?sdate=24-09-2026&edate=24-09-2026",
       "reportId": "NLG-20260826",
-      "reportFile": "reports/NLG_2026-08-26.pdf"
+      "reportFile": null
     },
     {
       "id": "auto-OCB-2026-09-24",
