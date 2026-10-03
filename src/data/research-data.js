@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 02/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 128/130 mã; không dùng fallback KBS. 2/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 60.400 khác VNDIRECT 60.300; nguồn thứ ba xác nhận VNDIRECT (https://24hmoney.vn/stock/msr); VGI: CafeF 80.300 khác VNDIRECT 80.400; nguồn thứ ba xác nhận VNDIRECT (https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 121/130 mã; BVS: VNDIRECT 606.000 vs CafeF 605.600 (chênh 400); CEO: VNDIRECT 4.994.000 vs CafeF 4.991.200 (chênh 2.800); DRI: VNDIRECT 1.973.700 vs CafeF 1.971.000 (chênh 2.700); IDC: VNDIRECT 1.151.000 vs CafeF 1.150.000 (chênh 1.000); MSR: VNDIRECT 3.226.300 vs CafeF 3.216.200 (chênh 10.100); OIL: VNDIRECT 1.161.600 vs CafeF 1.161.500 (chênh 100); PVS: VNDIRECT 2.519.100 vs CafeF 2.516.100 (chênh 3.000); SHS: VNDIRECT 6.198.900 vs CafeF 6.193.900 (chênh 5.000); VGI: VNDIRECT 159.600 vs CafeF 158.300 (chênh 1.300). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá TVS, ABB, QNS, MSR, PET, NLG, VHM và VIC đã được cập nhật/thêm bằng bản 02-03/10/2026; các bản định giá cũ tương ứng được loại theo quy tắc latest-only. Registry, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 02/10/2026 của các mã hiện hữu được giữ nguyên và ABB được bổ sung coverage EOD 02/10/2026. Không thay đổi bố cục, cấu trúc section, CSS hay script giao diện; chỉ đồng bộ hai bộ đếm hiển thị từ 130 lên 131 để khớp Coverage Universe.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 130/130 mã được khóa tại phiên 02/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 128/130 mã; không dùng fallback KBS. 2/130 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: MSR: CafeF 60.400 khác VNDIRECT 60.300; nguồn thứ ba xác nhận VNDIRECT (https://24hmoney.vn/stock/msr); VGI: CafeF 80.300 khác VNDIRECT 80.400; nguồn thứ ba xác nhận VNDIRECT (https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 121/130 mã; BVS: VNDIRECT 606.000 vs CafeF 605.600 (chênh 400); CEO: VNDIRECT 4.994.000 vs CafeF 4.991.200 (chênh 2.800); DRI: VNDIRECT 1.973.700 vs CafeF 1.971.000 (chênh 2.700); IDC: VNDIRECT 1.151.000 vs CafeF 1.150.000 (chênh 1.000); MSR: VNDIRECT 3.226.300 vs CafeF 3.216.200 (chênh 10.100); OIL: VNDIRECT 1.161.600 vs CafeF 1.161.500 (chênh 100); PVS: VNDIRECT 2.519.100 vs CafeF 2.516.100 (chênh 3.000); SHS: VNDIRECT 6.198.900 vs CafeF 6.193.900 (chênh 5.000); VGI: VNDIRECT 159.600 vs CafeF 158.300 (chênh 1.300). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Báo cáo định giá TVS, ABB, QNS, MSR, PET, NLG, VHM và VIC đã được cập nhật/thêm bằng bản 02-03/10/2026; các bản định giá cũ tương ứng được loại theo quy tắc latest-only. Registry, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 02/10/2026 của các mã hiện hữu được giữ nguyên và ABB được bổ sung coverage EOD 02/10/2026. Không thay đổi bố cục, cấu trúc section, CSS hay script giao diện; chỉ đồng bộ hai bộ đếm hiển thị từ 130 lên 131 để khớp Coverage Universe. Báo cáo định giá VCB và TCB đã được thay bằng bản 03/10/2026; bản định giá cũ tương ứng được loại theo quy tắc latest-only. Registry, action plan và ảnh bìa được đồng bộ theo báo cáo mới; dữ liệu EOD 02/10/2026 được giữ nguyên. Không thay đổi bố cục, cấu trúc section, HTML/CSS hay script giao diện.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -263,6 +263,49 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "id": "TCB-20261003",
+      "ticker": "TCB",
+      "company": "Ngân hàng TMCP Kỹ Thương Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 32250,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 35187,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 30253,
+      "rangeHigh": 42788,
+      "gapLabel": "P0 32.250 đồng/cp thấp hơn GTKV 35.187 đồng/cp khoảng 8,3% nhưng chưa đạt ngưỡng mua M 26.390 đồng/cp; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-06 Thu nhập thặng dư 28,57% + PP-14 theo từng mảng 25% + PP-07 P/B hợp lý theo ROE 25% + PP-16 P/B tương đối 21,43%; PP-18 trọng số 0",
+      "summary": "TCB có vùng giá trị 30.253-42.788 đồng/cp và GTKV 35.187 đồng/cp. Nền tảng tài chính tốt nhưng NIM còn cần theo dõi; giá dưới MA20/MA50 và khối lượng chỉ khoảng 0,94x TB20, nên trạng thái giao dịch 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": 31900,
+        "zoneHigh": 32100,
+        "baseValue": 35187,
+        "stop": 30845,
+        "targets": [
+          32408,
+          33450
+        ],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - VÙNG GIẢ ĐỊNH CHƯA KÍCH HOẠT",
+        "eligibility": "inactive",
+        "condition": "Vùng 31.900-32.100 đồng/cp chỉ dùng để kiểm tra R/R, chưa phải điểm mua. Tại 32.100, stop 30.845 cách khoảng 3,9% nhưng R/R tới mục tiêu gần 32.408 chỉ khoảng 0,25 <2 nên tiếp tục CHỜ. Chỉ nâng lên CÓ MUA khi tín hiệu định giá vẫn MUA/THEO DÕI, giá đứng trên MA20 và MA50, khối lượng xác nhận >=1,5x TB20, stop 3-7% và R/R tới kháng cự gần nhất >=2."
+      },
+      "file": "reports/TCB_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/tcb.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá TCB ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá TCB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TCB_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "TVS-20261003",
       "ticker": "TVS",
       "company": "Công ty Cổ phần Chứng khoán Thiên Việt",
@@ -299,6 +342,46 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá TVS",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/TVS_2026-10-03.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VCB-20261003",
+      "ticker": "VCB",
+      "company": "Ngân hàng TMCP Ngoại thương Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-03",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 57100,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 63834,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 46441,
+      "rangeHigh": 80503,
+      "gapLabel": "P0 57.100 đồng/cp thấp hơn GTKV 63.834 đồng/cp khoảng 10,5% nhưng chưa đạt ngưỡng mua M 46.441 đồng/cp; tín hiệu định giá là THEO DÕI.",
+      "method": "PP-06 Thu nhập thặng dư 33% + PP-07 P/B hợp lý theo ROE 39% + PP-16 P/B tương đối 28%; PP-18 trọng số 0",
+      "summary": "VCB có vùng giá trị 46.441-80.503 đồng/cp và GTKV 63.834 đồng/cp. Chất lượng tài sản duy trì tốt nhưng P0 mới có biên an toàn 10,5%; giá dưới MA20/MA50 và chưa có xác nhận khối lượng, vì vậy trạng thái giao dịch 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 63834,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Chỉ IF giá vượt và giữ trên khoảng 58.800 đồng/cp với khối lượng >=1,5x TB20, sức mạnh tương đối 20 phiên tốt hơn VN-Index và sau đó hình thành điểm mua có stop 3-7% với R/R >=2 THEN mới chuyển sang đánh giá CÓ MUA. Nếu không thỏa đồng thời các điều kiện này thì tiếp tục CHỜ; không đặt stop/target giả tạo khi chưa có điểm mua hợp lệ."
+      },
+      "file": "reports/VCB_2026-10-03.pdf",
+      "edition": "Bản định giá 03.10.2026",
+      "visual": {
+        "src": "assets/images/reports/vcb.webp?v=20261003-cover1",
+        "alt": "Trang bìa báo cáo định giá VCB ngày 03/10/2026",
+        "caption": "Bìa báo cáo định giá VCB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VCB_2026-10-03.pdf",
         "kind": "report-cover"
       }
     },
@@ -3865,49 +3948,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 19.08.2026"
     },
     {
-      "id": "TCB-20260819",
-      "ticker": "TCB",
-      "company": "Ngân hàng TMCP Kỹ thương Việt Nam",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-19",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 30800,
-      "marketPriceDate": "2026-08-19",
-      "baseValue": 37351,
-      "valueLabel": "Giá trị kỳ vọng bảo thủ",
-      "rangeLow": 31011,
-      "rangeHigh": 45539,
-      "gapLabel": "MOS 17,5% so với expected value bảo thủ; vùng mua nghiêm ngặt 21.707–23.258 đồng/cp trước phát hành",
-      "method": "P/B gắn ROE + Residual Income",
-      "summary": "TCB có vùng giá trị hợp lý trước phát hành 31.011–45.539 đồng/cp và expected value bảo thủ 37.351 đồng/cp. Snapshot 19/08/2026 lúc 11:30 là 30.800 đồng/cp; trạng thái THEO DÕI / CHỜ vì MOS 17,5% chưa đạt 25–30%.",
-      "action": {
-        "zoneLow": 21707,
-        "zoneHigh": 23258,
-        "baseValue": 37351,
-        "stop": null,
-        "targets": [
-          31011,
-          37351
-        ],
-        "basisDate": "2026-08-19",
-        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH."
-      },
-      "visual": {
-        "src": "assets/images/reports/tcb.webp?v=20260819-cover1",
-        "alt": "Trang bìa báo cáo định giá TCB ngày 19/08/2026",
-        "caption": "Bìa báo cáo định giá TCB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/TCB_2026-08-19.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/TCB_2026-08-19.pdf",
-      "edition": "Bản định giá 19.08.2026"
-    },
-    {
       "id": "VIB-20260819",
       "ticker": "VIB",
       "company": "Ngân hàng TMCP Quốc tế Việt Nam",
@@ -5185,33 +5225,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/VIX_Valuation_Report_2026-07-21.pdf",
       "edition": "Bản mới nhất"
-    },
-    {
-      "id": "VCB-20260714",
-      "ticker": "VCB",
-      "company": "Ngân hàng TMCP Ngoại thương Việt Nam",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-07-14",
-      "recommendation": "CHỜ",
-      "status": "wait",
-      "marketPrice": 58900,
-      "baseValue": 54200,
-      "rangeLow": 39500,
-      "rangeHigh": 68000,
-      "gapLabel": "−8,7% so với giá trị cơ sở tại ngày định giá",
-      "method": "P/B gắn ROE + Residual Income",
-      "summary": "Giá tại ngày định giá nằm trong vùng giá trị hợp lý nhưng chưa tạo biên an toàn hấp dẫn; không mua đuổi.",
-      "visual": {
-        "src": "assets/images/reports/vcb.webp?v=20260714-cover1",
-        "alt": "Trang bìa báo cáo định giá VCB ngày 14/07/2026",
-        "caption": "Bìa báo cáo định giá VCB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VCB_Bao_cao_dinh_gia_Xuan_Le_TVS.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/VCB_Bao_cao_dinh_gia_Xuan_Le_TVS.pdf",
-      "edition": "Bản chính"
     },
     {
       "id": "BVS-20260713",
@@ -7836,10 +7849,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "TCB",
-      "company": "Ngân hàng TMCP Kỹ thương Việt Nam",
+      "company": "Ngân hàng TMCP Kỹ Thương Việt Nam",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "TCB-20260819",
+      "reportId": "TCB-20261003",
       "close": 32250,
       "priceDate": "2026-10-02",
       "changePct": -2.2727,
@@ -7847,18 +7860,18 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCB~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCB",
       "action": {
-        "zoneLow": 21707,
-        "zoneHigh": 23258,
-        "baseValue": 37351,
-        "stop": null,
+        "zoneLow": 31900,
+        "zoneHigh": 32100,
+        "baseValue": 35187,
+        "stop": 30845,
         "targets": [
-          31011,
-          37351
+          32408,
+          33450
         ],
-        "basisDate": "2026-08-19",
-        "recommendation": "CÓ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 21.707–23.258 đồng/cp khi ROE/NPL không xấu hơn bear case; stop 5% dưới giá khớp; tại cận 23.258 stop minh họa 22.095. T1 31.011; T2 37.351. Trên 45.539 nếu ROE/Re không cải thiện: LOẠI/TRÁNH."
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - VÙNG GIẢ ĐỊNH CHƯA KÍCH HOẠT",
+        "eligibility": "inactive",
+        "condition": "Vùng 31.900-32.100 đồng/cp chỉ dùng để kiểm tra R/R, chưa phải điểm mua. Tại 32.100, stop 30.845 cách khoảng 3,9% nhưng R/R tới mục tiêu gần 32.408 chỉ khoảng 0,25 <2 nên tiếp tục CHỜ. Chỉ nâng lên CÓ MUA khi tín hiệu định giá vẫn MUA/THEO DÕI, giá đứng trên MA20 và MA50, khối lượng xác nhận >=1,5x TB20, stop 3-7% và R/R tới kháng cự gần nhất >=2."
       }
     },
     {
@@ -8037,10 +8050,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "VCB",
-      "company": "Vietcombank",
+      "company": "Ngân hàng TMCP Ngoại thương Việt Nam",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "VCB-20260714",
+      "reportId": "VCB-20261003",
       "close": 57100,
       "priceDate": "2026-10-02",
       "changePct": -0.8681,
@@ -8048,12 +8061,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCB~date:2026-10-02&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VCB",
       "action": {
-        "zoneLow": 38000,
-        "zoneHigh": 40700,
-        "basisDate": "2026-07-14",
-        "recommendation": "CHỜ",
-        "eligibility": "active",
-        "condition": "Đầu tư giá trị; giao dịch 1–3 tuần chỉ hành động khi cấu trúc giá xác nhận."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 63834,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-03",
+        "recommendation": "CHỜ - CHƯA CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Chỉ IF giá vượt và giữ trên khoảng 58.800 đồng/cp với khối lượng >=1,5x TB20, sức mạnh tương đối 20 phiên tốt hơn VN-Index và sau đó hình thành điểm mua có stop 3-7% với R/R >=2 THEN mới chuyển sang đánh giá CÓ MUA. Nếu không thỏa đồng thời các điều kiện này thì tiếp tục CHỜ; không đặt stop/target giả tạo khi chưa có điểm mua hợp lệ."
       }
     },
     {
