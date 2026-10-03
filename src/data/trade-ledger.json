@@ -150,11 +150,11 @@
         "VCB": {
           "date": "2026-10-02",
           "close": 57100,
-          "relation": "above",
-          "zoneLow": 38000,
-          "zoneHigh": 40700,
-          "zoneBasisDate": "2026-07-14",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-03",
+          "eligibility": "inactive"
         },
         "ACB": {
           "date": "2026-10-02",
@@ -461,10 +461,10 @@
           "date": "2026-10-02",
           "close": 32250,
           "relation": "above",
-          "zoneLow": 21707,
-          "zoneHigh": 23258,
-          "zoneBasisDate": "2026-08-19",
-          "eligibility": "active"
+          "zoneLow": 31900,
+          "zoneHigh": 32100,
+          "zoneBasisDate": "2026-10-03",
+          "eligibility": "inactive"
         },
         "VIB": {
           "date": "2026-10-02",
