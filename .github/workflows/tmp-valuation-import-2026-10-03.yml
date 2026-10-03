@@ -283,6 +283,31 @@ jobs:
             echo "Stale CIVS 130/121 constants remain" >&2
             exit 2
           fi
+          
+      - name: Synchronize visible universe counters without changing HTML structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path("index.html")
+          s=p.read_text()
+          old1='<button type="button" role="tab" aria-selected="true" data-tab="reports">Báo cáo PDF <span data-role="report-tab-count">130</span></button>'
+          new1='<button type="button" role="tab" aria-selected="true" data-tab="reports">Báo cáo PDF <span data-role="report-tab-count">131</span></button>'
+          old2='<button type="button" role="tab" aria-selected="false" data-tab="coverage">Coverage Universe <span data-role="coverage-tab-count">130</span></button>'
+          new2='<button type="button" role="tab" aria-selected="false" data-tab="coverage">Coverage Universe <span data-role="coverage-tab-count">131</span></button>'
+          if s.count(old1)!=1 or s.count(old2)!=1:
+              raise SystemExit("Static universe counter anchors drifted; refusing broad HTML edit")
+          p.write_text(s.replace(old1,new1).replace(old2,new2))
+          PY
+          python3 <<'PY'
+          import subprocess, pathlib
+          base=subprocess.check_output(["git","show","HEAD:index.html"],text=True)
+          expected=base.replace('data-role="report-tab-count">130<','data-role="report-tab-count">131<').replace('data-role="coverage-tab-count">130<','data-role="coverage-tab-count">131<')
+          current=pathlib.Path("index.html").read_text()
+          if current != expected:
+              raise SystemExit("index.html changed beyond the two visible numeric counters")
+          PY
 
       - name: Regenerate report covers and validate imported set
         shell: bash
@@ -310,7 +335,7 @@ jobs:
           node scripts/audit-site.mjs
           node scripts/audit-report-covers.mjs
 
-          layout_changes="$(git status --porcelain --untracked-files=all -- index.html src/index.css src/styles src/scripts)"
+          layout_changes="$(git status --porcelain --untracked-files=all -- src/index.css src/styles src/scripts)"
           test -z "$layout_changes"
 
           node <<'NODE'
@@ -344,14 +369,17 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A --             reports/TVS_2026-10-03.pdf reports/Bao_cao_dinh_gia_TVS_09072026.pdf             reports/ABB_2026-10-03.pdf             reports/QNS_2026-10-03.pdf reports/QNS_2026-09-16.pdf             reports/MSR_2026-10-03.pdf reports/MSR_17-08-2026.pdf             reports/PET_2026-10-03.pdf reports/PET_2026-08-28.pdf             reports/NLG_2026-10-03.pdf reports/NLG_2026-08-26.pdf             reports/VHM_2026-10-03.pdf reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf             reports/VIC_2026-10-02.pdf reports/VIC_2026-09-04.pdf             assets/images/reports/tvs.webp assets/images/reports/abb.webp assets/images/reports/qns.webp assets/images/reports/msr.webp             assets/images/reports/pet.webp assets/images/reports/nlg.webp assets/images/reports/vhm.webp assets/images/reports/vic.webp             src/data/research-data.js src/data/trade-ledger.json src/data/company-visual-candidates.json             scripts/ensure-company-visual-candidates.mjs scripts/sync-company-visuals-core.mjs scripts/audit-company-visuals-core.mjs             tests/company-visuals.test.mjs docs/company-identity-visual-standard.md
+          git add -A --             reports/TVS_2026-10-03.pdf reports/Bao_cao_dinh_gia_TVS_09072026.pdf             reports/ABB_2026-10-03.pdf             reports/QNS_2026-10-03.pdf reports/QNS_2026-09-16.pdf             reports/MSR_2026-10-03.pdf reports/MSR_17-08-2026.pdf             reports/PET_2026-10-03.pdf reports/PET_2026-08-28.pdf             reports/NLG_2026-10-03.pdf reports/NLG_2026-08-26.pdf             reports/VHM_2026-10-03.pdf reports/VHM_Equity_Valuation_Research_Xuan_Le_TVS_2026-08-12.pdf             reports/VIC_2026-10-02.pdf reports/VIC_2026-09-04.pdf             assets/images/reports/tvs.webp assets/images/reports/abb.webp assets/images/reports/qns.webp assets/images/reports/msr.webp             assets/images/reports/pet.webp assets/images/reports/nlg.webp assets/images/reports/vhm.webp assets/images/reports/vic.webp             src/data/research-data.js src/data/trade-ledger.json src/data/company-visual-candidates.json             scripts/ensure-company-visual-candidates.mjs scripts/sync-company-visuals-core.mjs scripts/audit-company-visuals-core.mjs             tests/company-visuals.test.mjs docs/company-identity-visual-standard.md index.html
 
           git diff --cached --quiet && { echo "No valuation changes to commit" >&2; exit 3; }
-          if git diff --cached --name-only | grep -Eq '^(index\.html|src/index\.css|src/styles/|src/scripts/)'; then
-            echo "Refusing to commit public layout/structure changes" >&2
+          if git diff --cached --name-only | grep -Eq '^(src/index\.css|src/styles/|src/scripts/)'; then
+            echo "Refusing to commit CSS/public script/layout changes" >&2
             git diff --cached --name-only
             exit 2
           fi
+          html_diff="$(git diff --cached --unified=0 -- index.html)"
+          printf '%s\n' "$html_diff"
+          test "$(printf '%s\n' "$html_diff" | grep -c '^[+-].*data-role=.*-tab-count' || true)" = "4"
           git diff --cached --name-status
           git commit -m "Publish eight valuation reports for 02-03 Oct 2026"
           git push origin HEAD:main
