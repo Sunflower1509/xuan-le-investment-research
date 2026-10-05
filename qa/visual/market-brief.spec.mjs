@@ -7,7 +7,7 @@ async function openMarketBrief(page) {
   await page.waitForTimeout(180);
 }
 
-test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hierarchy", async ({ page }, testInfo) => {
+test("Daily Market Research Brief v2.2.2 fill-first headline and full-width thesis", async ({ page }, testInfo) => {
   await openMarketBrief(page);
 
   const viewport = page.viewportSize();
@@ -103,12 +103,13 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
   expect(colorAudit.liquidityBadge).toBe(colorAudit.expected.warning);
 
   const bodyOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(bodyOverflow, "Daily Market Brief v2.2.1 must not cause document-level horizontal overflow.").toBeLessThanOrEqual(1);
+  expect(bodyOverflow, "Daily Market Brief v2.2.2 must not cause document-level horizontal overflow.").toBeLessThanOrEqual(1);
 
   const computed = await page.evaluate(() => {
     const headline = document.querySelector(".daily-title-line > h3");
     const titleDate = document.querySelector(".daily-title-date");
     const thesis = document.querySelector(".daily-thesis");
+    const executiveThesis = document.querySelector(".daily-executive-thesis");
     const metric = document.querySelector(".daily-snapshot-value");
     const evidence = document.querySelector(".daily-evidence-strip");
     const narrative = document.querySelector(".daily-brief-narrative");
@@ -117,6 +118,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
     const snapshot = document.querySelector(".daily-market-snapshot");
     const h = getComputedStyle(headline);
     const t = getComputedStyle(thesis);
+    const et = getComputedStyle(executiveThesis);
     const m = getComputedStyle(metric);
     return {
       headlinePx: Number.parseFloat(h.fontSize),
@@ -141,6 +143,11 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
       snapshotBottom: snapshot.getBoundingClientRect().bottom,
       thesisPx: Number.parseFloat(t.fontSize),
       thesisLineHeight: Number.parseFloat(t.lineHeight),
+      thesisMaxWidth: t.maxWidth,
+      thesisTextWrap: t.textWrap,
+      thesisWordSpacing: t.wordSpacing,
+      executiveThesisMaxWidth: et.maxWidth,
+      executiveThesisWidth: executiveThesis.getBoundingClientRect().width,
       metricPx: Number.parseFloat(m.fontSize),
       metricNumeric: m.fontVariantNumeric
     };
@@ -151,6 +158,10 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
   expect(computed.evidenceTop).toBeGreaterThan(computed.thesisTop);
   expect(computed.decisionTop).toBeGreaterThan(computed.evidenceTop);
   expect(computed.thesisLineHeight / computed.thesisPx).toBeGreaterThanOrEqual(1.5);
+  expect(computed.thesisMaxWidth).toBe("none");
+  expect(computed.executiveThesisMaxWidth).toBe("none");
+  expect(computed.thesisTextWrap).toBe("wrap");
+  expect(["normal", "0px"].includes(computed.thesisWordSpacing)).toBe(true);
   expect(computed.metricPx).toBeGreaterThanOrEqual(21.5);
   expect(computed.metricPx).toBeLessThanOrEqual(22.5);
   expect(computed.metricNumeric).toContain("tabular-nums");
@@ -167,6 +178,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
       expect(computed.headlinePx).toBeLessThanOrEqual(38.5);
     }
     expect(Math.abs(computed.headlineWidth - computed.narrativeWidth), "Desktop headline should use the full narrative column.").toBeLessThanOrEqual(1.5);
+    expect(Math.abs(computed.executiveThesisWidth - computed.narrativeWidth), "Desktop executive thesis should use the full narrative column before wrapping.").toBeLessThanOrEqual(1.5);
     expect(Math.abs(computed.decisionLeft - computed.gridLeft), "Decision bar should align to the left edge of the brief grid.").toBeLessThanOrEqual(1.5);
     expect(Math.abs(computed.decisionRight - computed.gridRight), "Decision bar should align to the right edge of the brief grid.").toBeLessThanOrEqual(1.5);
     expect(computed.decisionTop, "Decision bar should sit below the snapshot row.").toBeGreaterThanOrEqual(computed.snapshotBottom - 1);
@@ -179,7 +191,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
 
   await expect(page.locator("[data-role='daily-archive-list'] .daily-archive-item i")).toHaveCount(1);
 
-  const screenshot = testInfo.outputPath("daily-market-research-brief-v2-2-1.png");
+  const screenshot = testInfo.outputPath("daily-market-research-brief-v2-2-2.png");
   await insight.screenshot({ path: screenshot, animations: "disabled" });
-  await testInfo.attach("daily-market-research-brief-v2-2-1", { path: screenshot, contentType: "image/png" });
+  await testInfo.attach("daily-market-research-brief-v2-2-2", { path: screenshot, contentType: "image/png" });
 });
