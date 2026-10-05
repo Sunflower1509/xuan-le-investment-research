@@ -213,11 +213,16 @@
   margin-top: 20px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 22px;
+  grid-template-areas:
+    "narrative snapshot"
+    "decision decision";
+  column-gap: 22px;
+  row-gap: 14px;
   align-items: start;
 }
 
 .daily-brief-narrative {
+  grid-area: narrative;
   min-width: 0;
 }
 
@@ -239,7 +244,8 @@
 }
 
 .daily-decision-brief .daily-brief-narrative h3 {
-  max-width: 34ch;
+  width: 100%;
+  max-width: none;
   margin: 0;
   color: var(--brief-ink);
   font-family: var(--font-editorial);
@@ -362,9 +368,11 @@
   line-height: 1.46;
 }
 
-/* ----- Decision block lives under evidence, not below the taller snapshot ----- */
+/* ----- Decision block spans the full brief below narrative + snapshot ----- */
 .daily-decision-bar {
-  margin-top: 14px;
+  grid-area: decision;
+  width: 100%;
+  margin-top: 0;
   border: 1px solid var(--line);
   border-left: 3px solid var(--brief-neutral);
   border-radius: 9px;
@@ -452,6 +460,7 @@
 
 /* ----- Snapshot: semantic state, sans-serif data, stable numeric rhythm ----- */
 .daily-market-snapshot {
+  grid-area: snapshot;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -651,7 +660,7 @@
 
   .daily-brief-grid {
     grid-template-columns: minmax(0,1fr) 320px;
-    gap: 20px;
+    column-gap: 20px;
   }
 
   .daily-key-readings article {
@@ -667,11 +676,16 @@
 
   .daily-brief-grid {
     grid-template-columns: minmax(0,1fr);
-    gap: 20px;
+    grid-template-areas:
+      "narrative"
+      "decision"
+      "snapshot";
+    column-gap: 0;
+    row-gap: 20px;
   }
 
   .daily-decision-brief .daily-brief-narrative h3 {
-    max-width: 34ch;
+    max-width: none;
   }
 
   .daily-market-snapshot {
@@ -737,6 +751,7 @@
 
   .daily-brief-grid {
     margin-top: 18px;
+    row-gap: 18px;
   }
 
   .daily-title-line {
