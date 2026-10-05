@@ -218,8 +218,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node <<'NODE'
-          const fs=require("node:fs"),vm=require("node:vm");
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import vm from "node:vm";
           const p="src/data/research-data.js";
           const sandbox={window:{}};
           vm.runInNewContext(fs.readFileSync(p,"utf8"),sandbox,{filename:p});
