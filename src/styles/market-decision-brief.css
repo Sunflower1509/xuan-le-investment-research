@@ -254,7 +254,7 @@
   line-height: 1.12;
   letter-spacing: -.025em;
   word-spacing: normal;
-  text-wrap: balance;
+  text-wrap: wrap;
   text-align: start;
   text-align-last: auto;
   overflow-wrap: normal;
