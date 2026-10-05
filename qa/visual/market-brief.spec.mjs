@@ -7,7 +7,7 @@ async function openMarketBrief(page) {
   await page.waitForTimeout(180);
 }
 
-test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarchy", async ({ page }, testInfo) => {
+test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hierarchy", async ({ page }, testInfo) => {
   await openMarketBrief(page);
 
   const viewport = page.viewportSize();
@@ -103,7 +103,7 @@ test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarch
   expect(colorAudit.liquidityBadge).toBe(colorAudit.expected.warning);
 
   const bodyOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(bodyOverflow, "Daily Market Brief v2.2 must not cause document-level horizontal overflow.").toBeLessThanOrEqual(1);
+  expect(bodyOverflow, "Daily Market Brief v2.2.1 must not cause document-level horizontal overflow.").toBeLessThanOrEqual(1);
 
   const computed = await page.evaluate(() => {
     const headline = document.querySelector(".daily-title-line > h3");
@@ -111,6 +111,8 @@ test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarch
     const thesis = document.querySelector(".daily-thesis");
     const metric = document.querySelector(".daily-snapshot-value");
     const evidence = document.querySelector(".daily-evidence-strip");
+    const narrative = document.querySelector(".daily-brief-narrative");
+    const grid = document.querySelector(".daily-brief-grid");
     const decision = document.querySelector(".daily-decision-bar");
     const snapshot = document.querySelector(".daily-market-snapshot");
     const h = getComputedStyle(headline);
@@ -120,11 +122,17 @@ test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarch
       headlinePx: Number.parseFloat(h.fontSize),
       headlineLineHeight: Number.parseFloat(h.lineHeight),
       headlineHeight: headline.getBoundingClientRect().height,
+      headlineWidth: headline.getBoundingClientRect().width,
+      narrativeWidth: narrative.getBoundingClientRect().width,
       dateTop: titleDate.getBoundingClientRect().top,
       headlineTop: headline.getBoundingClientRect().top,
       thesisTop: thesis.getBoundingClientRect().top,
       evidenceTop: evidence.getBoundingClientRect().top,
       decisionTop: decision.getBoundingClientRect().top,
+      decisionLeft: decision.getBoundingClientRect().left,
+      decisionRight: decision.getBoundingClientRect().right,
+      gridLeft: grid.getBoundingClientRect().left,
+      gridRight: grid.getBoundingClientRect().right,
       snapshotTop: snapshot.getBoundingClientRect().top,
       snapshotBottom: snapshot.getBoundingClientRect().bottom,
       thesisPx: Number.parseFloat(t.fontSize),
@@ -146,7 +154,10 @@ test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarch
   if (viewport.width >= 1081) {
     const headlineLines = computed.headlineHeight / computed.headlineLineHeight;
     expect(headlineLines, "Desktop headline should stay within about two lines.").toBeLessThanOrEqual(2.2);
-    expect(computed.decisionTop).toBeLessThanOrEqual(computed.snapshotBottom + 40);
+    expect(Math.abs(computed.headlineWidth - computed.narrativeWidth), "Desktop headline should use the full narrative column.").toBeLessThanOrEqual(1.5);
+    expect(Math.abs(computed.decisionLeft - computed.gridLeft), "Decision bar should align to the left edge of the brief grid.").toBeLessThanOrEqual(1.5);
+    expect(Math.abs(computed.decisionRight - computed.gridRight), "Decision bar should align to the right edge of the brief grid.").toBeLessThanOrEqual(1.5);
+    expect(computed.decisionTop, "Decision bar should sit below the snapshot row.").toBeGreaterThanOrEqual(computed.snapshotBottom - 1);
   }
 
   if (viewport.width <= 760) {
@@ -155,7 +166,7 @@ test("Daily Market Research Brief v2.2 semantic colors and consolidated hierarch
 
   await expect(page.locator("[data-role='daily-archive-list'] .daily-archive-item i")).toHaveCount(1);
 
-  const screenshot = testInfo.outputPath("daily-market-research-brief-v2-2.png");
+  const screenshot = testInfo.outputPath("daily-market-research-brief-v2-2-1.png");
   await insight.screenshot({ path: screenshot, animations: "disabled" });
-  await testInfo.attach("daily-market-research-brief-v2-2", { path: screenshot, contentType: "image/png" });
+  await testInfo.attach("daily-market-research-brief-v2-2-1", { path: screenshot, contentType: "image/png" });
 });
