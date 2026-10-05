@@ -254,6 +254,8 @@
   line-height: 1.14;
   letter-spacing: -.025em;
   text-wrap: balance;
+  text-align: justify;
+  text-align-last: justify;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: none;
@@ -686,6 +688,8 @@
 
   .daily-decision-brief .daily-brief-narrative h3 {
     max-width: none;
+    text-align: start;
+    text-align-last: auto;
   }
 
   .daily-market-snapshot {
