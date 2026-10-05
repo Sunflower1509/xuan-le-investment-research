@@ -1,9 +1,9 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 131,
-    "candidateCount": 122,
-    "updated": "2026-09-29",
+    "coverageTarget": 133,
+    "candidateCount": 124,
+    "updated": "2026-10-05",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
@@ -391,6 +391,20 @@
       ]
     },
     {
+      "ticker": "G36",
+      "sourceUrl": "https://36corp.com/",
+      "officialDomain": "36corp.com",
+      "sourceTier": "A",
+      "identityType": "construction-infrastructure",
+      "keywords": [
+        "Tổng Công ty 36",
+        "36corp",
+        "xây dựng",
+        "hạ tầng",
+        "công trình"
+      ]
+    },
+    {
       "ticker": "GEE",
       "sourceUrl": "https://gelex-electric.com/",
       "officialDomain": "gelex-electric.com",
@@ -648,6 +662,20 @@
         "The Privia",
         "Clarita",
         "Khang Điền"
+      ]
+    },
+    {
+      "ticker": "KOS",
+      "sourceUrl": "https://kosy.vn/gioi-thieu/",
+      "officialDomain": "kosy.vn",
+      "sourceTier": "A",
+      "identityType": "energy-real-estate-assets",
+      "keywords": [
+        "Kosy",
+        "bất động sản",
+        "dự án",
+        "thủy điện",
+        "năng lượng"
       ]
     },
     {

@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 131,
+    "count": 133,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -380,6 +380,17 @@ window.COMPANY_LOGOS = {
       "sha256": "774f7d86bd89a0a7415363ad7566283f4671b0964f0b2cb7748223a538b84922",
       "bytes": 1188
     },
+    "G36": {
+      "path": "assets/images/logos/g36.svg?v=20260916-logo3",
+      "alt": "Logo 36 Corp. (G36)",
+      "exchange": "UPCOM",
+      "isin": "VN000000G367",
+      "company": "36 Corp.",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/36--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=G36&hl=1&exchange=UPCOM&lang=en&search_type=stock&domain=production",
+      "sha256": "2127e11a03a1bca7fd1b7e854768dc326801708d6a39bea07bea9386f6cb8d13",
+      "bytes": 1361
+    },
     "GAS": {
       "path": "assets/images/logos/gas.svg?v=20260916-logo3",
       "alt": "Logo Petrovietnam Gas JSC (GAS)",
@@ -610,6 +621,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=KDH&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "57561aae27ac07d121e1f12d406e5b50373ce769fe87c5a0ab44d63eae5c2457",
       "bytes": 289
+    },
+    "KOS": {
+      "path": "assets/images/logos/kos.svg?v=20260916-logo3",
+      "alt": "Logo Kosy JSC (KOS)",
+      "exchange": "HOSE",
+      "isin": "VN000000KOS6",
+      "company": "Kosy JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/ctcp-kosy--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=KOS&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "fa59eb853b83da03e9cbd2ef3d95ea6171631903f1faa8a4e9b801d4b2a30ac2",
+      "bytes": 1385
     },
     "KSV": {
       "path": "assets/images/logos/ksv.svg?v=20260916-logo3",

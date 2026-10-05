@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 131/131 mã được khóa tại phiên 05/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/131 mã; 131/131 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/131 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/131 mã; CEO: VNDIRECT 4.872.500 vs KBS 4.864.900 (chênh 7.600); HUT: VNDIRECT 1.660.600 vs KBS 1.654.600 (chênh 6.000); SHS: VNDIRECT 8.584.300 vs KBS 8.584.000 (chênh 300); TNG: VNDIRECT 1.024.400 vs KBS 1.023.800 (chênh 600). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 131/131 mã nền cũ được khóa tại phiên 05/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/131 mã; 131/131 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. 0/131 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 127/131 mã; CEO: VNDIRECT 4.872.500 vs KBS 4.864.900 (chênh 7.600); HUT: VNDIRECT 1.660.600 vs KBS 1.654.600 (chênh 6.000); SHS: VNDIRECT 8.584.300 vs KBS 8.584.000 (chênh 300); TNG: VNDIRECT 1.024.400 vs KBS 1.023.800 (chênh 600). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. Bổ sung G36 và KOS: hai mã mới được khóa EOD 05/10/2026 riêng bằng VNDIRECT Finfo và KBS date-specific, yêu cầu giá đóng cửa trùng khớp; sau bổ sung, Coverage Universe 133/133 mã đều có priceDate 05/10/2026. Báo cáo định giá BID (04/10/2026), STB, G36 và KOS (05/10/2026) đã được đồng bộ; BID/STB bản cũ được loại theo latest-only, G36/KOS được bổ sung mới vào Coverage Universe. Coverage tăng 131 lên 133 và được khóa lại EOD 05/10/2026 bằng Data Gate hiện hành. Không thay đổi bố cục, cấu trúc section, CSS hay script giao diện; chỉ đồng bộ hai bộ đếm hiển thị từ 131 lên 133 để phản ánh đúng universe.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,169 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "G36-20261005",
+      "ticker": "G36",
+      "company": "Tổng Công ty 36 - CTCP",
+      "sector": "Xây dựng - hạ tầng",
+      "exchange": "UPCOM",
+      "date": "2026-10-05",
+      "recommendation": "THEO DÕI / LOẠI",
+      "status": "reject",
+      "marketPrice": 7700,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 7975,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 2326,
+      "rangeHigh": 11166,
+      "gapLabel": "P0 7.700 đồng/cp thấp hơn nhẹ GTKV 7.975 đồng/cp nhưng biên an toàn chỉ khoảng 3,5%; dữ liệu độ tin cậy thấp và thanh khoản yếu.",
+      "method": "PP-15 tài sản 38,9% + PP-21 vốn chủ như quyền chọn 27,8% + PP-16 P/B tương đối 33,3%; PP-18 trọng số 0",
+      "summary": "G36 có vùng giá trị 2.326-11.166 đồng/cp và GTKV 7.975 đồng/cp. Đòn bẩy cao, CFO biến động và thanh khoản rất thấp khiến dù định giá cơ học là THEO DÕI, trạng thái giao dịch 1-3 tuần vẫn là LOẠI.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 7975,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - THANH KHOẢN/TECHNICAL KHÔNG ĐẠT",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R khi trạng thái còn LOẠI. Chỉ đánh giá lại nếu cổ phiếu lấy lại MA20/MA50, MA20 dốc lên và có phiên xác nhận khối lượng ít nhất 1,5x TB20; trước mọi quyết định phải kiểm tra lại trên Amibroker."
+      },
+      "file": "reports/G36_2026-10-05.pdf",
+      "edition": "Bản định giá 05.10.2026",
+      "visual": {
+        "src": "assets/images/reports/g36.webp?v=20261005-cover1",
+        "alt": "Trang bìa báo cáo định giá G36 ngày 05/10/2026",
+        "caption": "Bìa báo cáo định giá G36",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/G36_2026-10-05.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "KOS-20261005",
+      "ticker": "KOS",
+      "company": "Công ty Cổ phần Kosy",
+      "sector": "Bất động sản",
+      "exchange": "HOSE",
+      "date": "2026-10-05",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 14700,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 6499,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 3896,
+      "rangeHigh": 9156,
+      "gapLabel": "P0 14.700 đồng/cp cao hơn U 9.156 đồng/cp khoảng 60,5%; biên an toàn so GTKV âm 126,2%, tín hiệu TRÁNH.",
+      "method": "PP-14 theo từng mảng 53,85% + PP-16 P/B 46,15%; PP-21 và PP-18 trọng số 0",
+      "summary": "KOS có vùng giá trị 3.896-9.156 đồng/cp và GTKV 6.499 đồng/cp. Đòn bẩy cao, chuỗi giảm sàn, bán giải chấp liên quan và thanh khoản rất thấp kích hoạt trạng thái LOẠI; không thiết lập vùng mua mới.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 6499,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R. Giá >9.156 đồng/cp: TRÁNH mua mới. Chỉ mở lại hồ sơ khi giá <=3.896 đồng/cp sau khi định giá lại dự án và không còn dấu hiệu cảnh báo mức CAO; mọi quyết định giao dịch cần kiểm tra lại trên Amibroker."
+      },
+      "file": "reports/KOS_2026-10-05.pdf",
+      "edition": "Bản định giá 05.10.2026",
+      "visual": {
+        "src": "assets/images/reports/kos.webp?v=20261005-cover1",
+        "alt": "Trang bìa báo cáo định giá KOS ngày 05/10/2026",
+        "caption": "Bìa báo cáo định giá KOS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/KOS_2026-10-05.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "STB-20261005",
+      "ticker": "STB",
+      "company": "Ngân hàng TMCP Sài Gòn Tài Lộc",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-05",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 68400,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 41575,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 26931,
+      "rangeHigh": 56285,
+      "gapLabel": "P0 68.400 đồng/cp cao hơn cận trên U 56.285 đồng/cp khoảng 21,5% và cao hơn GTKV 41.575 đồng/cp khoảng 64,5%; tín hiệu TRÁNH.",
+      "method": "PP-06 Thu nhập thặng dư 45% + PP-07 P/B-ROE 40% + PP-16 peers 15%; PP-18 trọng số 0",
+      "summary": "STB có vùng giá trị 26.931-56.285 đồng/cp và GTKV 41.575 đồng/cp. NPL 7,54%, LLR khoảng 57% và định giá P/B cao so với peers làm rủi ro lớn; giá hiện vượt U nên trạng thái giao dịch 1-3 tuần là LOẠI.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 41575,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Khi giá còn trên U 56.285 đồng/cp: LOẠI, không mở vị thế chỉ vì quá bán. Nếu giá giảm về <=U nhưng vẫn >GTKV thì CHỜ. Chỉ khi giá <=GTKV, bộ kỹ thuật xác nhận đầy đủ, stop 3-7% và R/R >=2 mới được đánh giá lại CÓ MUA; vùng mua hiện tại không kích hoạt."
+      },
+      "file": "reports/STB_2026-10-05.pdf",
+      "edition": "Bản định giá 05.10.2026",
+      "visual": {
+        "src": "assets/images/reports/stb.webp?v=20261005-cover1",
+        "alt": "Trang bìa báo cáo định giá STB ngày 05/10/2026",
+        "caption": "Bìa báo cáo định giá STB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/STB_2026-10-05.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "BID-20261004",
+      "ticker": "BID",
+      "company": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-10-04",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 34800,
+      "marketPriceDate": "2026-10-02",
+      "baseValue": 34650,
+      "valueLabel": "Giá trị kỳ vọng",
+      "rangeLow": 27550,
+      "rangeHigh": 42380,
+      "gapLabel": "P0 34.800 đồng/cp cao hơn nhẹ GTKV 34.650 đồng/cp; tín hiệu định giá THẬN TRỌNG và trạng thái 1-3 tuần CHỜ.",
+      "method": "PP-06 Thu nhập thặng dư 55% + PP-07 P/B hợp lý theo ROE 25% + PP-16 P/B tương đối 20%; PP-18 trọng số 0",
+      "summary": "BID có vùng giá trị 27.550-42.380 đồng/cp và GTKV 34.650 đồng/cp. NPL 6T2026 tăng và LLR giảm làm tăng rủi ro chất lượng tài sản. Setup kỹ thuật giả định 36.300-36.800 đồng/cp chưa đạt R/R tối thiểu 2, nên trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": 36300,
+        "zoneHigh": 36800,
+        "baseValue": 34650,
+        "stop": 34800,
+        "targets": [
+          39500,
+          42380
+        ],
+        "basisDate": "2026-10-04",
+        "recommendation": "CHỜ - SETUP CHƯA ĐẠT R/R",
+        "eligibility": "inactive",
+        "condition": "Vùng 36.300-36.800 đồng/cp chỉ được xem xét khi giá lấy lại 36.200-36.800, MA20 quay lên, khối lượng xác nhận >=1,5x TB20 và RS so VN-Index cải thiện. Với entry 36.800, stop 34.800 và mục tiêu gần 39.500, R/R khoảng 1,35 <2 nên hiện chưa đủ điều kiện CÓ MUA. Chỉ nâng trạng thái khi đồng thời thỏa xác nhận kỹ thuật, stop 3-7% và R/R >=2."
+      },
+      "file": "reports/BID_2026-10-04.pdf",
+      "edition": "Bản định giá 04.10.2026",
+      "visual": {
+        "src": "assets/images/reports/bid.webp?v=20261004-cover1",
+        "alt": "Trang bìa báo cáo định giá BID ngày 04/10/2026",
+        "caption": "Bìa báo cáo định giá BID",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/BID_2026-10-04.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "ABB-20261003",
       "ticker": "ABB",
@@ -3610,46 +3773,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 21.08.2026"
     },
     {
-      "id": "STB-20260821",
-      "ticker": "STB",
-      "company": "Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-21",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 74200,
-      "marketPriceDate": "2026-08-20",
-      "baseValue": 48404,
-      "valueLabel": "Giá trị cơ sở",
-      "rangeLow": 24796,
-      "rangeHigh": 79771,
-      "gapLabel": "Giá đóng cửa cao hơn giá trị cơ sở 53,3%; vùng mua valuation gate là 17.357–18.597 đồng/cp",
-      "method": "P/B gắn ROE; Thu nhập thặng dư, DDM và P/E kiểm chứng",
-      "summary": "STB có vùng giá trị hợp lý 24.796–79.771 đồng/cp và giá trị cơ sở 48.404 đồng/cp. Giá đóng cửa 20/08/2026 là 74.200 đồng/cp, nằm sát phần trên của vùng định giá; trạng thái THEO DÕI / CHỜ và không có lệnh mua mới tại P0.",
-      "action": {
-        "zoneLow": 17357,
-        "zoneHigh": 18597,
-        "baseValue": 48404,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-08-21",
-        "recommendation": "CÓ THỂ KÍCH HOẠT MUA THEO VALUATION GATE",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 17.357–18.597 đồng/cp khi NPL/CAR không xấu thêm và catalyst không đảo chiều. PDF không khóa stop/target cho fresh trade nên website không tự bổ sung; stop 3–7% chỉ được xác lập theo giá vào và cấu trúc kỹ thuật thực tế. Trên 79.771: TRÁNH / không mua đuổi."
-      },
-      "visual": {
-        "src": "assets/images/reports/stb.webp?v=20260821-cover1",
-        "alt": "Trang bìa báo cáo định giá STB ngày 21/08/2026",
-        "caption": "Bìa báo cáo định giá STB",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/STB_2026-08-21.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/STB_2026-08-21.pdf",
-      "edition": "Bản định giá 21.08.2026"
-    },
-    {
       "id": "BMP-20260820",
       "ticker": "BMP",
       "company": "Công ty Cổ phần Nhựa Bình Minh",
@@ -4756,44 +4879,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 13.08.2026"
     },
     {
-      "id": "BID-20260812",
-      "ticker": "BID",
-      "company": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
-      "sector": "Ngân hàng",
-      "exchange": "HOSE",
-      "date": "2026-08-12",
-      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 39100,
-      "marketPriceDate": "2026-08-11",
-      "baseValue": 46300,
-      "rangeLow": 34900,
-      "rangeHigh": 57400,
-      "gapLabel": "MOS +15,5% so với giá trị cơ sở nhưng -12,1% so với cận dưới tại giá đóng cửa 11/08/2026",
-      "method": "P/B gắn ROE + Residual Income; relative P/B dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý trước bonus 34.900–57.400 đồng/cp, giá trị cơ sở 46.300 đồng/cp. Tại 39.100 đồng/cp, MOS so với cơ sở là 15,5% nhưng âm 12,1% so với cận dưới; trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng valuation hấp dẫn theo base là 32.400–34.700 đồng/cp; green-zone MOS nghiêm ngặt trước bonus là 24.400–26.200 đồng/cp.",
-      "action": {
-        "zoneLow": 24400,
-        "zoneHigh": 26200,
-        "baseValue": 46300,
-        "stop": null,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x."
-      },
-      "visual": {
-        "src": "assets/images/reports/bid.webp?v=20260812-cover1",
-        "alt": "Trang bìa báo cáo định giá BID ngày 12/08/2026",
-        "caption": "Bìa báo cáo định giá BID",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/BID_Equity_Valuation_Research_2026-08-12.pdf",
-      "edition": "Bản định giá 12.08.2026"
-    },
-    {
       "id": "HCM-20260812",
       "ticker": "HCM",
       "company": "Công ty Cổ phần Chứng khoán Thành phố Hồ Chí Minh",
@@ -5487,10 +5572,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "BID",
-      "company": "BIDV",
+      "company": "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "BID-20260812",
+      "reportId": "BID-20261004",
       "close": 34600,
       "priceDate": "2026-10-05",
       "changePct": -0.5747,
@@ -5498,14 +5583,18 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BID~date:2026-10-05&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BID/data_day?sdate=05-10-2026&edate=05-10-2026",
       "action": {
-        "zoneLow": 24400,
-        "zoneHigh": 26200,
-        "baseValue": 46300,
-        "stop": null,
-        "basisDate": "2026-08-12",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét green-zone trước bonus 24.400–26.200 đồng/cp khi fundamentals không xấu thêm; vùng strict sau bonus là 22.800–24.500. Ví dụ tại entry 26.200: stop 24.890, target cận dưới 34.900, R/R khoảng 6,6x."
+        "zoneLow": 36300,
+        "zoneHigh": 36800,
+        "baseValue": 34650,
+        "stop": 34800,
+        "targets": [
+          39500,
+          42380
+        ],
+        "basisDate": "2026-10-04",
+        "recommendation": "CHỜ - SETUP CHƯA ĐẠT R/R",
+        "eligibility": "inactive",
+        "condition": "Vùng 36.300-36.800 đồng/cp chỉ được xem xét khi giá lấy lại 36.200-36.800, MA20 quay lên, khối lượng xác nhận >=1,5x TB20 và RS so VN-Index cải thiện. Với entry 36.800, stop 34.800 và mục tiêu gần 39.500, R/R khoảng 1,35 <2 nên hiện chưa đủ điều kiện CÓ MUA. Chỉ nâng trạng thái khi đồng thời thỏa xác nhận kỹ thuật, stop 3-7% và R/R >=2."
       }
     },
     {
@@ -6216,6 +6305,30 @@ window.RESEARCH_DATA = {
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/FTS/data_day?sdate=05-10-2026&edate=05-10-2026"
     },
     {
+      "ticker": "G36",
+      "company": "Tổng Công ty 36 - CTCP",
+      "sector": "Xây dựng - hạ tầng",
+      "exchange": "UPCOM",
+      "reportId": "G36-20261005",
+      "close": 8800,
+      "priceDate": "2026-10-05",
+      "changePct": 14.2857,
+      "volume": 100402,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:G36~date:2026-10-05&size=10",
+      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=05-10-2026&edate=05-10-2026",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 7975,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - THANH KHOẢN/TECHNICAL KHÔNG ĐẠT",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R khi trạng thái còn LOẠI. Chỉ đánh giá lại nếu cổ phiếu lấy lại MA20/MA50, MA20 dốc lên và có phiên xác nhận khối lượng ít nhất 1,5x TB20; trước mọi quyết định phải kiểm tra lại trên Amibroker."
+      }
+    },
+    {
       "ticker": "GAS",
       "company": "PV GAS",
       "sector": "Năng lượng",
@@ -6730,6 +6843,30 @@ window.RESEARCH_DATA = {
         "recommendation": "CÓ MUA THĂM DÒ CÓ KỶ LUẬT",
         "eligibility": "active",
         "condition": "IF giá 17.800-18.400 và không đóng cửa thủng 17.100 THEN có thể thăm dò nhỏ. Entry tham chiếu 18.200, stop 16.900-17.000 (~6,6-7,1%); T1 20.500-21.000, sau đó theo dõi 22.000-23.000 nếu vượt 21.000 với thanh khoản tốt. IF đóng cửa <17.000 THEN cutloss. Không bình quân giá xuống."
+      }
+    },
+    {
+      "ticker": "KOS",
+      "company": "Công ty Cổ phần Kosy",
+      "sector": "Bất động sản",
+      "exchange": "HOSE",
+      "reportId": "KOS-20261005",
+      "close": 13700,
+      "priceDate": "2026-10-05",
+      "changePct": -6.8027,
+      "volume": 41500,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KOS~date:2026-10-05&size=10",
+      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KOS/data_day?sdate=05-10-2026&edate=05-10-2026",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 6499,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R. Giá >9.156 đồng/cp: TRÁNH mua mới. Chỉ mở lại hồ sơ khi giá <=3.896 đồng/cp sau khi định giá lại dự án và không còn dấu hiệu cảnh báo mức CAO; mọi quyết định giao dịch cần kiểm tra lại trên Amibroker."
       }
     },
     {
@@ -7803,10 +7940,10 @@ window.RESEARCH_DATA = {
     },
     {
       "ticker": "STB",
-      "company": "Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín",
+      "company": "Ngân hàng TMCP Sài Gòn Tài Lộc",
       "sector": "Ngân hàng",
       "exchange": "HOSE",
-      "reportId": "STB-20260821",
+      "reportId": "STB-20261005",
       "close": 68000,
       "priceDate": "2026-10-05",
       "changePct": -0.5848,
@@ -7814,15 +7951,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:STB~date:2026-10-05&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/STB/data_day?sdate=05-10-2026&edate=05-10-2026",
       "action": {
-        "zoneLow": 17357,
-        "zoneHigh": 18597,
-        "baseValue": 48404,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 41575,
         "stop": null,
         "targets": [],
-        "basisDate": "2026-08-21",
-        "recommendation": "CÓ THỂ KÍCH HOẠT MUA THEO VALUATION GATE",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 17.357–18.597 đồng/cp khi NPL/CAR không xấu thêm và catalyst không đảo chiều. PDF không khóa stop/target cho fresh trade nên website không tự bổ sung; stop 3–7% chỉ được xác lập theo giá vào và cấu trúc kỹ thuật thực tế. Trên 79.771: TRÁNH / không mua đuổi."
+        "basisDate": "2026-10-05",
+        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Khi giá còn trên U 56.285 đồng/cp: LOẠI, không mở vị thế chỉ vì quá bán. Nếu giá giảm về <=U nhưng vẫn >GTKV thì CHỜ. Chỉ khi giá <=GTKV, bộ kỹ thuật xác nhận đầy đủ, stop 3-7% và R/R >=2 mới được đánh giá lại CÓ MUA; vùng mua hiện tại không kích hoạt."
       }
     },
     {
