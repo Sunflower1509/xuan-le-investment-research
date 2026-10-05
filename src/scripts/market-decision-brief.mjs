@@ -30,6 +30,30 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
     narrative: "68ch",
     headline: "full narrative width"
   }),
+  layoutGuards: Object.freeze({
+    locked: true,
+    changePolicy: "version-bump + standard + prompt + unit-test + visual-test",
+    headline: Object.freeze({
+      width: "100%",
+      maxWidth: "none",
+      wrap: "wrap",
+      align: "start",
+      alignLast: "auto",
+      wordSpacing: "normal",
+      forbid: Object.freeze(["text-wrap:balance", "text-align:justify", "text-align-last:justify", "max-width:34ch"])
+    }),
+    thesis: Object.freeze({
+      measure: "full narrative width",
+      maxWidth: "none",
+      wrap: "wrap",
+      wordSpacing: "normal",
+      forbid: Object.freeze(["max-width:64ch", "max-width:66ch", "max-width:68ch", "text-wrap:pretty", "text-wrap:balance"])
+    }),
+    decisionBar: Object.freeze({
+      desktop: "full-width row spanning narrative + snapshot",
+      responsiveOrder: "narrative-action-snapshot"
+    })
+  }),
   semanticParts: Object.freeze({
     renderer: "shared",
     supported: Object.freeze(["valueParts", "changeParts", "signalParts", "detailParts"]),
