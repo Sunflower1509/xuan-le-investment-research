@@ -126,6 +126,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
       narrativeWidth: narrative.getBoundingClientRect().width,
       headlineTextAlign: h.textAlign,
       headlineTextAlignLast: h.textAlignLast,
+      headlineWordSpacing: h.wordSpacing,
       dateTop: titleDate.getBoundingClientRect().top,
       headlineTop: headline.getBoundingClientRect().top,
       thesisTop: thesis.getBoundingClientRect().top,
@@ -156,8 +157,13 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
   if (viewport.width >= 1081) {
     const headlineLines = computed.headlineHeight / computed.headlineLineHeight;
     expect(headlineLines, "Desktop headline should stay within about two lines.").toBeLessThanOrEqual(2.2);
-    expect(computed.headlineTextAlign, "Desktop headline should distribute words to both edges.").toBe("justify");
-    expect(computed.headlineTextAlignLast, "Desktop headline last line should also reach both edges.").toBe("justify");
+    expect(computed.headlineTextAlign, "Desktop headline must keep natural start alignment.").not.toBe("justify");
+    expect(computed.headlineTextAlignLast, "Desktop headline last line must not be justified.").not.toBe("justify");
+    expect(["normal", "0px"].includes(computed.headlineWordSpacing), "Desktop headline should keep normal word spacing.").toBe(true);
+    if (viewport.width >= 1181) {
+      expect(computed.headlinePx, "Desktop headline should use a larger natural scale instead of stretching word gaps.").toBeGreaterThanOrEqual(33.5);
+      expect(computed.headlinePx).toBeLessThanOrEqual(38.5);
+    }
     expect(Math.abs(computed.headlineWidth - computed.narrativeWidth), "Desktop headline should use the full narrative column.").toBeLessThanOrEqual(1.5);
     expect(Math.abs(computed.decisionLeft - computed.gridLeft), "Decision bar should align to the left edge of the brief grid.").toBeLessThanOrEqual(1.5);
     expect(Math.abs(computed.decisionRight - computed.gridRight), "Decision bar should align to the right edge of the brief grid.").toBeLessThanOrEqual(1.5);
