@@ -1,0 +1,350 @@
+name: Temporary BID STB G36 KOS valuation import 2026-10-05
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-valuation-import-bid-stb-g36-kos-2026-10-05.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tmp-valuation-import-bid-stb-g36-kos-2026-10-05
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and verify valuation PDFs
+        shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+          SHARE_ID: "tD40XeaYQlB4"
+        run: |
+          set -euo pipefail
+          listing="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL "${FIRE_API}/shares/${SHARE_ID}/files?maxResults=1000")"
+
+          download_one() {
+            local wanted="$1" output="$2" expected_sha="$3" expected_size="$4" expected_pages="$5"
+            local file_id payload url
+            file_id="$(printf '%s' "$listing" | python3 -c 'import json,sys; w=sys.argv[1]; d=json.load(sys.stdin); m=[f for f in d.get("files",[]) if f.get("fileName")==w or f.get("name")==w]; assert len(m)==1, (w,len(m)); print(m[0].get("fileId") or m[0].get("id"))' "$wanted")"
+            payload="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL -X POST "${FIRE_API}/shares/${SHARE_ID}/files/$file_id/download")"
+            url="$(printf '%s' "$payload" | python3 -c 'import json,sys; print(json.load(sys.stdin)["downloadUrl"])')"
+            curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$url" -o "$output"
+            test "$(wc -c < "$output" | tr -d ' ')" = "$expected_size"
+            echo "$expected_sha  $output" | sha256sum -c -
+            test "$(head -c 5 "$output")" = "%PDF-"
+            command -v pdfinfo >/dev/null 2>&1 || { sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends poppler-utils >/dev/null; }
+            test "$(pdfinfo "$output" | awk '/^Pages:/ {print $2}')" = "$expected_pages"
+          }
+
+          download_one "BID_2026-10-04 (1).pdf" "reports/BID_2026-10-04.pdf" "1838e4076c95294c6c87f3c25b080307687e4337f4abd9a92a88dd1acf911a8f" "206381" "16"
+          download_one "STB_2026-10-05.pdf" "reports/STB_2026-10-05.pdf" "78fbd75e4159b2427c9d61a321e1e9b69dcee904d586fd7c7484112cae363c48" "525969" "23"
+          download_one "G36_2026-10-05.pdf" "reports/G36_2026-10-05.pdf" "84a83ea7c48c893ad7893e2f6cb3d8e24c12a5972cdfdf6da6441fa539e086cd" "246743" "17"
+          download_one "KOS_2026-10-05.pdf" "reports/KOS_2026-10-05.pdf" "f67dc1e97752720bb81c9094fec52a63c6a63b7b0bb76969c8e5183574929cdd" "409240" "13"
+
+          rm -f reports/BID_Equity_Valuation_Research_2026-08-12.pdf reports/STB_2026-08-21.pdf
+
+      - name: Update valuation registry and add new coverage members
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const dataPath="src/data/research-data.js";
+          const s={window:{}};
+          vm.runInNewContext(fs.readFileSync(dataPath,"utf8"),s,{filename:dataPath});
+          const data=s.window.RESEARCH_DATA;
+          if(data?.meta?.updated!=="2026-10-05") throw new Error("Expected existing EOD lock 2026-10-05, got "+data?.meta?.updated);
+
+          const targetSet=new Set(["BID","STB","G36","KOS"]);
+          const existing=(data.reports||[]).filter(r=>r.reportType!=="trading"&&targetSet.has(String(r.ticker||"").toUpperCase()));
+          const oldByTicker=Object.fromEntries(existing.map(r=>[r.ticker,r]));
+          if(!oldByTicker.BID||!oldByTicker.STB) throw new Error("Expected current BID and STB reports before latest-only replacement");
+          if(oldByTicker.G36||oldByTicker.KOS) throw new Error("G36/KOS unexpectedly already have valuation reports; refusing duplicate import");
+          if(String(oldByTicker.BID.date)>="2026-10-04") throw new Error("BID newer/equal report already exists");
+          if(String(oldByTicker.STB.date)>="2026-10-05") throw new Error("STB newer/equal report already exists");
+
+          const mkVisual=(ticker,date,file)=>({
+            src:"assets/images/reports/"+ticker.toLowerCase()+".webp?v="+date.replaceAll("-","")+"-cover1",
+            alt:"Trang bìa báo cáo định giá "+ticker+" ngày "+date.split("-").reverse().join("/"),
+            caption:"Bìa báo cáo định giá "+ticker,
+            sourceLabel:"Xuân Lê TVS Equity Research",
+            sourceUrl:file,
+            kind:"report-cover"
+          });
+
+          const reports=[
+            {
+              id:"BID-20261004",ticker:"BID",company:"Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",sector:"Ngân hàng",exchange:"HOSE",
+              date:"2026-10-04",recommendation:"THẬN TRỌNG / CHỜ",status:"wait",
+              marketPrice:34800,marketPriceDate:"2026-10-02",baseValue:34650,valueLabel:"Giá trị kỳ vọng",rangeLow:27550,rangeHigh:42380,
+              gapLabel:"P0 34.800 đồng/cp cao hơn nhẹ GTKV 34.650 đồng/cp; tín hiệu định giá THẬN TRỌNG và trạng thái 1-3 tuần CHỜ.",
+              method:"PP-06 Thu nhập thặng dư 55% + PP-07 P/B hợp lý theo ROE 25% + PP-16 P/B tương đối 20%; PP-18 trọng số 0",
+              summary:"BID có vùng giá trị 27.550-42.380 đồng/cp và GTKV 34.650 đồng/cp. NPL 6T2026 tăng và LLR giảm làm tăng rủi ro chất lượng tài sản. Setup kỹ thuật giả định 36.300-36.800 đồng/cp chưa đạt R/R tối thiểu 2, nên trạng thái 1-3 tuần là CHỜ.",
+              action:{zoneLow:36300,zoneHigh:36800,baseValue:34650,stop:34800,targets:[39500,42380],basisDate:"2026-10-04",recommendation:"CHỜ - SETUP CHƯA ĐẠT R/R",eligibility:"inactive",condition:"Vùng 36.300-36.800 đồng/cp chỉ được xem xét khi giá lấy lại 36.200-36.800, MA20 quay lên, khối lượng xác nhận >=1,5x TB20 và RS so VN-Index cải thiện. Với entry 36.800, stop 34.800 và mục tiêu gần 39.500, R/R khoảng 1,35 <2 nên hiện chưa đủ điều kiện CÓ MUA. Chỉ nâng trạng thái khi đồng thời thỏa xác nhận kỹ thuật, stop 3-7% và R/R >=2."},
+              file:"reports/BID_2026-10-04.pdf",edition:"Bản định giá 04.10.2026"
+            },
+            {
+              id:"STB-20261005",ticker:"STB",company:"Ngân hàng TMCP Sài Gòn Tài Lộc",sector:"Ngân hàng",exchange:"HOSE",
+              date:"2026-10-05",recommendation:"TRÁNH / LOẠI",status:"reject",
+              marketPrice:68400,marketPriceDate:"2026-10-02",baseValue:41575,valueLabel:"Giá trị kỳ vọng",rangeLow:26931,rangeHigh:56285,
+              gapLabel:"P0 68.400 đồng/cp cao hơn cận trên U 56.285 đồng/cp khoảng 21,5% và cao hơn GTKV 41.575 đồng/cp khoảng 64,5%; tín hiệu TRÁNH.",
+              method:"PP-06 Thu nhập thặng dư 45% + PP-07 P/B-ROE 40% + PP-16 peers 15%; PP-18 trọng số 0",
+              summary:"STB có vùng giá trị 26.931-56.285 đồng/cp và GTKV 41.575 đồng/cp. NPL 7,54%, LLR khoảng 57% và định giá P/B cao so với peers làm rủi ro lớn; giá hiện vượt U nên trạng thái giao dịch 1-3 tuần là LOẠI.",
+              action:{zoneLow:null,zoneHigh:null,baseValue:41575,stop:null,targets:[],basisDate:"2026-10-05",recommendation:"LOẠI - KHÔNG MUA MỚI",eligibility:"veto",condition:"Khi giá còn trên U 56.285 đồng/cp: LOẠI, không mở vị thế chỉ vì quá bán. Nếu giá giảm về <=U nhưng vẫn >GTKV thì CHỜ. Chỉ khi giá <=GTKV, bộ kỹ thuật xác nhận đầy đủ, stop 3-7% và R/R >=2 mới được đánh giá lại CÓ MUA; vùng mua hiện tại không kích hoạt."},
+              file:"reports/STB_2026-10-05.pdf",edition:"Bản định giá 05.10.2026"
+            },
+            {
+              id:"G36-20261005",ticker:"G36",company:"Tổng Công ty 36 - CTCP",sector:"Xây dựng - hạ tầng",exchange:"UPCOM",
+              date:"2026-10-05",recommendation:"THEO DÕI / LOẠI",status:"reject",
+              marketPrice:7700,marketPriceDate:"2026-10-02",baseValue:7975,valueLabel:"Giá trị kỳ vọng",rangeLow:2326,rangeHigh:11166,
+              gapLabel:"P0 7.700 đồng/cp thấp hơn nhẹ GTKV 7.975 đồng/cp nhưng biên an toàn chỉ khoảng 3,5%; dữ liệu độ tin cậy thấp và thanh khoản yếu.",
+              method:"PP-15 tài sản 38,9% + PP-21 vốn chủ như quyền chọn 27,8% + PP-16 P/B tương đối 33,3%; PP-18 trọng số 0",
+              summary:"G36 có vùng giá trị 2.326-11.166 đồng/cp và GTKV 7.975 đồng/cp. Đòn bẩy cao, CFO biến động và thanh khoản rất thấp khiến dù định giá cơ học là THEO DÕI, trạng thái giao dịch 1-3 tuần vẫn là LOẠI.",
+              action:{zoneLow:null,zoneHigh:null,baseValue:7975,stop:null,targets:[],basisDate:"2026-10-05",recommendation:"LOẠI - THANH KHOẢN/TECHNICAL KHÔNG ĐẠT",eligibility:"veto",condition:"Không thiết lập vùng mua, stoploss, mục tiêu hay R/R khi trạng thái còn LOẠI. Chỉ đánh giá lại nếu cổ phiếu lấy lại MA20/MA50, MA20 dốc lên và có phiên xác nhận khối lượng ít nhất 1,5x TB20; trước mọi quyết định phải kiểm tra lại trên Amibroker."},
+              file:"reports/G36_2026-10-05.pdf",edition:"Bản định giá 05.10.2026"
+            },
+            {
+              id:"KOS-20261005",ticker:"KOS",company:"Công ty Cổ phần Kosy",sector:"Bất động sản",exchange:"HOSE",
+              date:"2026-10-05",recommendation:"TRÁNH / LOẠI",status:"reject",
+              marketPrice:14700,marketPriceDate:"2026-10-02",baseValue:6499,valueLabel:"Giá trị kỳ vọng",rangeLow:3896,rangeHigh:9156,
+              gapLabel:"P0 14.700 đồng/cp cao hơn U 9.156 đồng/cp khoảng 60,5%; biên an toàn so GTKV âm 126,2%, tín hiệu TRÁNH.",
+              method:"PP-14 theo từng mảng 53,85% + PP-16 P/B 46,15%; PP-21 và PP-18 trọng số 0",
+              summary:"KOS có vùng giá trị 3.896-9.156 đồng/cp và GTKV 6.499 đồng/cp. Đòn bẩy cao, chuỗi giảm sàn, bán giải chấp liên quan và thanh khoản rất thấp kích hoạt trạng thái LOẠI; không thiết lập vùng mua mới.",
+              action:{zoneLow:null,zoneHigh:null,baseValue:6499,stop:null,targets:[],basisDate:"2026-10-05",recommendation:"LOẠI - KHÔNG MUA MỚI",eligibility:"veto",condition:"Không thiết lập vùng mua, stoploss, mục tiêu hay R/R. Giá >9.156 đồng/cp: TRÁNH mua mới. Chỉ mở lại hồ sơ khi giá <=3.896 đồng/cp sau khi định giá lại dự án và không còn dấu hiệu cảnh báo mức CAO; mọi quyết định giao dịch cần kiểm tra lại trên Amibroker."},
+              file:"reports/KOS_2026-10-05.pdf",edition:"Bản định giá 05.10.2026"
+            }
+          ];
+          for(const r of reports) r.visual=mkVisual(r.ticker,r.date,r.file);
+
+          data.reports=(data.reports||[]).filter(r=>!(r.reportType!=="trading"&&targetSet.has(String(r.ticker||"").toUpperCase()))).concat(reports);
+          data.reports.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(a.ticker||"").localeCompare(String(b.ticker||""))||String(a.reportType||"valuation").localeCompare(String(b.reportType||"valuation")));
+
+          const existingCoverage=new Map((data.coverage||[]).map(c=>[c.ticker,c]));
+          for(const r of reports){
+            let c=existingCoverage.get(r.ticker);
+            if(!c){
+              c={ticker:r.ticker,company:r.company,sector:r.sector,exchange:r.exchange,reportId:r.id,close:r.marketPrice,priceDate:r.marketPriceDate,changePct:0,volume:0,priceSource:"https://api-finfo.vndirect.com.vn/",priceSourceSecondary:"https://kbbuddywts.kbsec.com.vn/",action:structuredClone(r.action)};
+              data.coverage.push(c);
+              existingCoverage.set(r.ticker,c);
+            } else {
+              c.company=r.company;c.sector=r.sector;c.exchange=r.exchange;c.reportId=r.id;c.action=structuredClone(r.action);
+            }
+          }
+          data.coverage.sort((a,b)=>String(a.ticker).localeCompare(String(b.ticker)));
+
+          const vals=data.reports.filter(r=>r.reportType!=="trading");
+          if(vals.length!==133||data.coverage.length!==133) throw new Error("Universe count must become 133");
+          if(new Set(vals.map(r=>r.ticker)).size!==133||new Set(data.coverage.map(c=>c.ticker)).size!==133) throw new Error("Duplicate ticker invariant failed");
+          for(const r of reports){
+            const rows=vals.filter(x=>x.ticker===r.ticker);
+            const c=data.coverage.find(x=>x.ticker===r.ticker);
+            if(rows.length!==1) throw new Error(r.ticker+": latest-only invariant failed");
+            if(c.reportId!==r.id||c.action?.basisDate!==r.date||c.action?.eligibility!==r.action.eligibility) throw new Error(r.ticker+": report/coverage action sync failed");
+          }
+
+          fs.writeFileSync(dataPath,"window.RESEARCH_DATA = "+JSON.stringify(data,null,2)+";\n");
+          console.log(JSON.stringify({replaced:Object.values(oldByTicker).map(r=>({ticker:r.ticker,id:r.id,date:r.date,file:r.file})),current:reports.map(r=>({ticker:r.ticker,id:r.id,date:r.date,file:r.file})),coverage:data.coverage.length},null,2));
+          NODE
+
+      - name: Expand company identity universe to 133
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs");
+          const path="src/data/company-visual-candidates.json";
+          const d=JSON.parse(fs.readFileSync(path,"utf8"));
+          const add=[
+            {ticker:"G36",sourceUrl:"https://36corp.com/",officialDomain:"36corp.com",sourceTier:"A",identityType:"construction-infrastructure",keywords:["Tổng Công ty 36","36corp","xây dựng","hạ tầng","công trình"]},
+            {ticker:"KOS",sourceUrl:"https://kosy.vn/gioi-thieu/",officialDomain:"kosy.vn",sourceTier:"A",identityType:"energy-real-estate-assets",keywords:["Kosy","bất động sản","dự án","thủy điện","năng lượng"]}
+          ];
+          const by=new Map(d.candidates.map(x=>[String(x.ticker).toUpperCase(),x]));
+          for(const x of add){
+            if(by.has(x.ticker)) throw new Error(x.ticker+": candidate unexpectedly exists");
+            d.candidates.push(x);
+          }
+          d.candidates.sort((a,b)=>String(a.ticker).localeCompare(String(b.ticker)));
+          d.meta.coverageTarget=133;
+          d.meta.candidateCount=124;
+          d.meta.updated="2026-10-05";
+          if(d.candidates.length!==124||new Set(d.candidates.map(x=>x.ticker)).size!==124) throw new Error("Candidate registry must be 124 unique entries");
+          fs.writeFileSync(path,JSON.stringify(d,null,2)+"\n");
+          NODE
+
+          python3 <<'PY'
+          from pathlib import Path
+          files=[
+            Path("scripts/ensure-company-visual-candidates.mjs"),
+            Path("scripts/sync-company-visuals-core.mjs"),
+            Path("scripts/audit-company-visuals-core.mjs"),
+            Path("tests/company-visuals.test.mjs"),
+            Path("docs/company-identity-visual-standard.md"),
+          ]
+          for p in files:
+              s=p.read_text()
+              s=s.replace("131","133").replace("122","124")
+              p.write_text(s)
+          PY
+
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path("index.html")
+          s=p.read_text()
+          old1='data-role="report-tab-count">131<'
+          old2='data-role="coverage-tab-count">131<'
+          if s.count(old1)!=1 or s.count(old2)!=1:
+              raise SystemExit("Static universe counter anchors drifted; refusing broad HTML edit")
+          p.write_text(s.replace(old1,'data-role="report-tab-count">133<').replace(old2,'data-role="coverage-tab-count">133<'))
+          PY
+
+      - name: Lock EOD 05-10 for the expanded 133-name coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/update-eod-market-data.mjs --date 2026-10-05 --max-attempts 3 --wait-ms 15000 --status-file "${RUNNER_TEMP}/eod-status.json"
+          cat "${RUNNER_TEMP}/eod-status.json"
+          python3 - <<'PY'
+          import json, os
+          p=os.path.join(os.environ["RUNNER_TEMP"],"eod-status.json")
+          d=json.load(open(p))
+          if d.get("status")!="verified":
+              raise SystemExit(f"EOD expanded-universe verification not verified: {d}")
+          if d.get("coverageCount")!=133 or d.get("verifiedCount")!=133:
+              raise SystemExit(f"Expected 133/133 verified EOD, got {d}")
+          PY
+
+      - name: Append valuation sync audit note
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const p="src/data/research-data.js";
+          const s={window:{}}; vm.runInNewContext(fs.readFileSync(p,"utf8"),s);
+          const d=s.window.RESEARCH_DATA;
+          const note=" Báo cáo định giá BID (04/10/2026), STB, G36 và KOS (05/10/2026) đã được đồng bộ; BID/STB bản cũ được loại theo latest-only, G36/KOS được bổ sung mới vào Coverage Universe. Coverage tăng 131 lên 133 và được khóa lại EOD 05/10/2026 bằng Data Gate hiện hành. Không thay đổi bố cục, cấu trúc section, CSS hay script giao diện; chỉ đồng bộ hai bộ đếm hiển thị từ 131 lên 133 để phản ánh đúng universe.";
+          d.meta.note=String(d.meta.note||"").trim()+note;
+          fs.writeFileSync(p,"window.RESEARCH_DATA = "+JSON.stringify(d,null,2)+";\n");
+          NODE
+
+      - name: Synchronize covers, logos and CIVS scaffold
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f assets/images/reports/bid.webp assets/images/reports/stb.webp assets/images/reports/g36.webp assets/images/reports/kos.webp
+          node scripts/sync-report-covers.mjs
+          node scripts/sync-company-logos.mjs
+          node scripts/ensure-company-visual-candidates.mjs
+          node scripts/audit-company-logos.mjs
+          node scripts/audit-company-visuals.mjs
+
+      - name: Validate full repository invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e reports/BID_Equity_Valuation_Research_2026-08-12.pdf
+          test ! -e reports/STB_2026-08-21.pdf
+          test -e reports/BID_2026-10-04.pdf
+          test -e reports/STB_2026-10-05.pdf
+          test -e reports/G36_2026-10-05.pdf
+          test -e reports/KOS_2026-10-05.pdf
+
+          node --test $(find tests -maxdepth 1 -name '*.test.mjs' ! -name 'repository-governance.test.mjs' -print | sort)
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          node scripts/audit-company-visuals.mjs
+
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const s={window:{}};vm.runInNewContext(fs.readFileSync("src/data/research-data.js","utf8"),s);
+          const d=s.window.RESEARCH_DATA;
+          const vals=d.reports.filter(r=>r.reportType!=="trading");
+          const targets={BID:"reports/BID_2026-10-04.pdf",STB:"reports/STB_2026-10-05.pdf",G36:"reports/G36_2026-10-05.pdf",KOS:"reports/KOS_2026-10-05.pdf"};
+          if(vals.length!==133||d.coverage.length!==133) throw new Error("Research/Coverage must be 133/133");
+          if(new Set(vals.map(r=>r.ticker)).size!==133||new Set(d.coverage.map(c=>c.ticker)).size!==133) throw new Error("Unique universe must be 133/133");
+          if(d.meta.updated!=="2026-10-05"||d.meta.release!=="2026-10-05") throw new Error("EOD meta date drift");
+          if(d.coverage.some(c=>c.priceDate!=="2026-10-05")) throw new Error("Coverage EOD date not fully 05/10");
+          for(const [t,file] of Object.entries(targets)){
+            const rows=vals.filter(r=>r.ticker===t); const c=d.coverage.find(x=>x.ticker===t);
+            if(rows.length!==1||rows[0].file!==file) throw new Error(t+": latest-only report mismatch");
+            if(!fs.existsSync(file)) throw new Error(t+": PDF missing");
+            if(!c||c.reportId!==rows[0].id||c.action?.basisDate!==rows[0].date) throw new Error(t+": coverage sync mismatch");
+          }
+          const ledger=JSON.parse(fs.readFileSync("src/data/trade-ledger.json","utf8"));
+          for(const e of ledger.events||[]){
+            if(typeof e.reportFile==="string"&&e.reportFile&&!fs.existsSync(e.reportFile)) throw new Error("Broken historical reportFile: "+e.reportFile);
+          }
+          const html=fs.readFileSync("index.html","utf8");
+          if((html.match(/data-role="report-tab-count">133</g)||[]).length!==1) throw new Error("Report counter !=133");
+          if((html.match(/data-role="coverage-tab-count">133</g)||[]).length!==1) throw new Error("Coverage counter !=133");
+          const sections=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=["overview","daily-market","position-ledger","action-radar","research"];
+          if(sections.join(",")!==expected.join(",")) throw new Error("Public section structure changed: "+sections.join(" -> "));
+          console.log(JSON.stringify({valuations:vals.length,coverage:d.coverage.length,latestOnly:true,allEod:"2026-10-05",brokenLedgerRefs:0,sections},null,2));
+          NODE
+
+          python3 <<'PY'
+          import subprocess, pathlib
+          base=subprocess.check_output(["git","show","HEAD:index.html"],text=True)
+          expected=base.replace('data-role="report-tab-count">131<','data-role="report-tab-count">133<').replace('data-role="coverage-tab-count">131<','data-role="coverage-tab-count">133<')
+          current=pathlib.Path("index.html").read_text()
+          if current != expected:
+              raise SystemExit("index.html changed beyond the two visible numeric counters")
+          PY
+
+          layout_changes="$(git status --porcelain --untracked-files=all -- src/index.css src/styles src/scripts)"
+          test -z "$layout_changes"
+
+      - name: Commit valuation update atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A --             reports/BID_2026-10-04.pdf reports/BID_Equity_Valuation_Research_2026-08-12.pdf             reports/STB_2026-10-05.pdf reports/STB_2026-08-21.pdf             reports/G36_2026-10-05.pdf reports/KOS_2026-10-05.pdf             assets/images/reports/bid.webp assets/images/reports/stb.webp assets/images/reports/g36.webp assets/images/reports/kos.webp             assets/images/logos/g36.svg assets/images/logos/kos.svg             src/data/research-data.js src/data/company-logos.js src/data/company-visuals.js src/data/company-visual-candidates.json             scripts/ensure-company-visual-candidates.mjs scripts/sync-company-visuals-core.mjs scripts/audit-company-visuals-core.mjs             tests/company-visuals.test.mjs docs/company-identity-visual-standard.md index.html
+
+          git diff --cached --quiet && { echo "No valuation changes to commit" >&2; exit 3; }
+          if git diff --cached --name-only | grep -Eq '^(src/index\.css|src/styles/|src/scripts/)'; then
+            echo "Refusing to commit CSS/public script/layout changes" >&2
+            git diff --cached --name-only
+            exit 2
+          fi
+          html_diff="$(git diff --cached --unified=0 -- index.html)"
+          printf '%s\n' "$html_diff"
+          test "$(printf '%s\n' "$html_diff" | grep -c '^[+-].*data-role=.*-tab-count' || true)" = "4"
+
+          git diff --cached --name-status
+          git commit -m "Publish BID STB G36 KOS valuation reports for 04-05 Oct 2026"
+          git push origin HEAD:main
+
+      - name: Remove temporary workflow after successful import
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          git reset --hard origin/main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-valuation-import-bid-stb-g36-kos-2026-10-05.yml
+          git commit -m "Remove temporary BID STB G36 KOS valuation import workflow [skip ci]"
+          git push origin HEAD:main
