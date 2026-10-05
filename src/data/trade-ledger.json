@@ -51,11 +51,11 @@
         "BID": {
           "date": "2026-10-05",
           "close": 34600,
-          "relation": "above",
-          "zoneLow": 24400,
-          "zoneHigh": 26200,
-          "zoneBasisDate": "2026-08-12",
-          "eligibility": "active"
+          "relation": "below",
+          "zoneLow": 36300,
+          "zoneHigh": 36800,
+          "zoneBasisDate": "2026-10-04",
+          "eligibility": "inactive"
         },
         "GMD": {
           "date": "2026-10-05",
@@ -595,11 +595,11 @@
         "STB": {
           "date": "2026-10-05",
           "close": 68000,
-          "relation": "above",
-          "zoneLow": 17357,
-          "zoneHigh": 18597,
-          "zoneBasisDate": "2026-08-21",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-05",
+          "eligibility": "veto"
         },
         "OIL": {
           "date": "2026-10-05",
@@ -1196,6 +1196,24 @@
           "zoneHigh": null,
           "zoneBasisDate": "2026-10-03",
           "eligibility": "inactive"
+        },
+        "G36": {
+          "date": "2026-10-05",
+          "close": 8800,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-05",
+          "eligibility": "veto"
+        },
+        "KOS": {
+          "date": "2026-10-05",
+          "close": 13700,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-05",
+          "eligibility": "veto"
         }
       },
       "exitPolicy": {
