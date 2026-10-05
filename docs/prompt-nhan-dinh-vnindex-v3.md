@@ -338,6 +338,8 @@ Dùng cùng một atomic renderer cho `valueParts`, `changeParts`, `signalParts`
 
 ### E. SINGLE SOURCE OF TRUTH
 
+**Controller lock bắt buộc:** cấu hình trình bày đã được khóa tại `MARKET_DECISION_BRIEF_STANDARD.layoutGuards` trong `src/scripts/market-decision-brief.mjs`. Mọi lần sinh/cập nhật nhận định sau phải tôn trọng nguyên trạng các guard này; không tự ý đưa lại `balance`, `pretty`, `justify` hoặc giới hạn `34ch/64ch/66ch/68ch` cho headline và Executive Thesis. Muốn thay đổi phải nâng version và cập nhật đồng thời Standard + Prompt + Unit Test + Visual Test.
+
 Chuẩn trình bày chi tiết nằm tại:
 `docs/market-decision-brief-standard.md`
 
