@@ -1,7 +1,7 @@
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
-  version: "2.2.1",
+  version: "2.2.2",
   effectiveDate: "2026-10-05",
-  name: "Daily Market Research Brief v2.2.1 — Full-width Headline & Decision Alignment",
+  name: "Daily Market Research Brief v2.2.2 — Fill-first Headline & Full-width Thesis",
   layout: Object.freeze({
     shellArchive: "220px",
     desktop: "analysis:minmax(0,1fr) + snapshot:340px; decision:full-width row",
@@ -9,9 +9,9 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
     mobile: "regime-session-headline-thesis-evidence-action-snapshot-playbook-audit"
   }),
   typography: Object.freeze({
-    headline: Object.freeze({ min: "32px", preferred: "2.15vw", max: "36px", lineHeight: 1.14, family: "editorial" }),
+    headline: Object.freeze({ min: "34px", preferred: "2.4vw", max: "38px", lineHeight: 1.12, family: "editorial", wrap: "wrap" }),
     headlineDate: Object.freeze({ format: "DD/MM", size: "13px", lineHeight: 1.35, family: "ui", position: "kicker-above-headline", source: "entry.date" }),
-    thesis: Object.freeze({ size: "16px", lineHeight: 1.58, measure: "64ch", family: "ui" }),
+    thesis: Object.freeze({ size: "16px", lineHeight: 1.58, measure: "full narrative width", family: "ui", wrap: "wrap" }),
     evidence: Object.freeze({ size: "14px", lineHeight: 1.48, family: "ui" }),
     meta: Object.freeze({ size: "11px", lineHeight: 1.4, family: "ui" }),
     label: Object.freeze({ size: "12px", lineHeight: 1.35, family: "ui" }),
@@ -25,7 +25,7 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
     xl: "32px"
   }),
   measures: Object.freeze({
-    thesis: "64ch",
+    thesis: "full narrative width",
     narrative: "68ch",
     headline: "full narrative width"
   }),
