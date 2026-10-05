@@ -214,21 +214,89 @@ jobs:
           p.write_text(s.replace(old1,'data-role="report-tab-count">133<').replace(old2,'data-role="coverage-tab-count">133<'))
           PY
 
-      - name: Lock EOD 05-10 for the expanded 133-name coverage
+      - name: Lock EOD 05-10 for G36 and KOS without reopening the verified 131-name batch
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/update-eod-market-data.mjs --date 2026-10-05 --max-attempts 3 --wait-ms 15000 --status-file "${RUNNER_TEMP}/eod-status.json"
-          cat "${RUNNER_TEMP}/eod-status.json"
-          python3 - <<'PY'
-          import json, os
-          p=os.path.join(os.environ["RUNNER_TEMP"],"eod-status.json")
-          d=json.load(open(p))
-          if d.get("status")!="verified":
-              raise SystemExit(f"EOD expanded-universe verification not verified: {d}")
-          if d.get("coverageCount")!=133 or d.get("verifiedCount")!=133:
-              raise SystemExit(f"Expected 133/133 verified EOD, got {d}")
-          PY
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const p="src/data/research-data.js";
+          const sandbox={window:{}};
+          vm.runInNewContext(fs.readFileSync(p,"utf8"),sandbox,{filename:p});
+          const d=sandbox.window.RESEARCH_DATA;
+          if(d?.meta?.updated!=="2026-10-05") throw new Error("Existing EOD base must already be locked to 2026-10-05");
+          if(!Array.isArray(d.coverage)||d.coverage.length!==133) throw new Error("Expanded coverage must be 133 before targeted EOD lock");
+          const targets=["G36","KOS"];
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const finite=v=>Number.isFinite(Number(v))?Number(v):null;
+          const norm=v=>{const n=finite(v);if(!(n>0)) return null;return n<1000?Math.round(n*1000):Math.round(n)};
+          async function fetchJson(url){
+            let last;
+            for(let a=1;a<=5;a++){
+              try{
+                const r=await fetch(url,{headers:{accept:"application/json","user-agent":"XuanLeTVS-Targeted-EOD/1.0"},signal:AbortSignal.timeout(20000)});
+                if(!r.ok) throw new Error("HTTP "+r.status);
+                return await r.json();
+              }catch(e){last=e;if(a<5) await sleep(a*1000);}
+            }
+            throw last;
+          }
+          function validOhlc(q,label){
+            for(const k of ["open","high","low","close"]) if(!(q[k]>0)) throw new Error(label+" incomplete "+k);
+            if(q.high<Math.max(q.open,q.close)||q.low>Math.min(q.open,q.close)||q.low>q.high) throw new Error(label+" inconsistent OHLC");
+          }
+          function parseVndirect(payload,ticker,date){
+            const rows=Array.isArray(payload?.data)?payload.data:[];
+            const row=rows.find(x=>String(x.code||"").toUpperCase()===ticker&&String(x.date)===date);
+            if(!row) throw new Error(ticker+" VNDIRECT missing row");
+            const q={open:norm(row.open),high:norm(row.high),low:norm(row.low),close:norm(row.close)};
+            validOhlc(q,ticker+" VNDIRECT");
+            const volume=finite(row.nmVolume??row.totalVolume??row.volume);
+            let pct=finite(row.pctChange??row.changePct);
+            const ref=finite(row.basicPrice??row.referencePrice??row.reference??row.refPrice);
+            const rawClose=finite(row.close);
+            const calc=rawClose!==null&&ref?(rawClose/ref-1)*100:null;
+            if(pct===null) pct=calc;
+            if(!(volume>=0)||pct===null) throw new Error(ticker+" VNDIRECT incomplete volume/pct");
+            if(calc!==null&&Math.abs(pct-calc)>0.001) throw new Error(ticker+" VNDIRECT pct mismatch");
+            return {...q,volume:Math.round(volume),changePct:Math.round(pct*10000)/10000};
+          }
+          function parseKbs(payload,ticker,date){
+            const rows=Array.isArray(payload?.data_day)?payload.data_day:[];
+            const row=rows.find(item=>{
+              const raw=item?.t??item?.time;if(raw==null)return false;
+              const text=String(raw);
+              if(text===date||text.startsWith(date+"T")||text.startsWith(date+" ")) return true;
+              const num=/^\d+$/.test(text)?Number(text):null;
+              const parsed=num!==null?new Date(num<1e12?num*1000:num):new Date(text);
+              return !Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===date;
+            });
+            if(!row) throw new Error(ticker+" KBS missing row");
+            const q={open:norm(row.o??row.open),high:norm(row.h??row.high),low:norm(row.l??row.low),close:norm(row.c??row.close)};
+            validOhlc(q,ticker+" KBS");
+            const volume=finite(row.v??row.volume);
+            if(!(volume>=0)) throw new Error(ticker+" KBS incomplete volume");
+            return {...q,volume:Math.round(volume)};
+          }
+          const date="2026-10-05",kbsDate="05-10-2026";
+          const locked=[];
+          for(const ticker of targets){
+            const vurl=`https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:${ticker}~date:${date}&size=10`;
+            const kurl=`https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/${ticker}/data_day?sdate=${kbsDate}&edate=${kbsDate}`;
+            const [vp,kp]=await Promise.all([fetchJson(vurl),fetchJson(kurl)]);
+            const v=parseVndirect(vp,ticker,date),k=parseKbs(kp,ticker,date);
+            if(v.close!==k.close) throw new Error(`${ticker} close mismatch VNDIRECT=${v.close} KBS=${k.close}`);
+            const c=d.coverage.find(x=>x.ticker===ticker);
+            if(!c) throw new Error(ticker+" coverage missing");
+            c.close=v.close;c.changePct=v.changePct;c.volume=v.volume;c.priceDate=date;c.priceSource=vurl;c.priceSourceSecondary=kurl;
+            locked.push({ticker,close:v.close,changePct:v.changePct,volume:v.volume,kbsVolume:k.volume,sourcePrimary:vurl,sourceSecondary:kurl});
+          }
+          if(d.coverage.some(c=>c.priceDate!=="2026-10-05")) throw new Error("Not all 133 coverage rows are locked to 2026-10-05");
+          d.meta.note=String(d.meta.note||"").replace("131/131 mã được khóa","131/131 mã nền cũ được khóa")
+            +" Bổ sung G36 và KOS: hai mã mới được khóa EOD 05/10/2026 riêng bằng VNDIRECT Finfo và KBS date-specific, yêu cầu giá đóng cửa trùng khớp; sau bổ sung, Coverage Universe 133/133 mã đều có priceDate 05/10/2026.";
+          fs.writeFileSync(p,"window.RESEARCH_DATA = "+JSON.stringify(d,null,2)+";\n");
+          console.log("TARGETED_EOD_LOCK",JSON.stringify(locked,null,2));
+          NODE
 
       - name: Append valuation sync audit note
         shell: bash
