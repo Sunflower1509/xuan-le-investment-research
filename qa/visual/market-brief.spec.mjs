@@ -127,6 +127,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
       headlineTextAlign: h.textAlign,
       headlineTextAlignLast: h.textAlignLast,
       headlineWordSpacing: h.wordSpacing,
+      headlineTextWrap: h.textWrap,
       dateTop: titleDate.getBoundingClientRect().top,
       headlineTop: headline.getBoundingClientRect().top,
       thesisTop: thesis.getBoundingClientRect().top,
@@ -160,6 +161,7 @@ test("Daily Market Research Brief v2.2.1 full-width alignment and semantic hiera
     expect(computed.headlineTextAlign, "Desktop headline must keep natural start alignment.").not.toBe("justify");
     expect(computed.headlineTextAlignLast, "Desktop headline last line must not be justified.").not.toBe("justify");
     expect(["normal", "0px"].includes(computed.headlineWordSpacing), "Desktop headline should keep normal word spacing.").toBe(true);
+    expect(computed.headlineTextWrap, "Desktop headline should fill the current line before wrapping.").toBe("wrap");
     if (viewport.width >= 1181) {
       expect(computed.headlinePx, "Desktop headline should use a larger natural scale instead of stretching word gaps.").toBeGreaterThanOrEqual(33.5);
       expect(computed.headlinePx).toBeLessThanOrEqual(38.5);
