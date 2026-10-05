@@ -130,7 +130,8 @@ test("headline date is a vertical kicker and action-like suffix is guarded", () 
   assert.equal(app.includes("daily-title-separator"), false);
   assert.match(css, /\.daily-title-line \{\s*display:\s*block;/);
   assert.match(css, /\.daily-title-date \{[\s\S]*display:\s*block;/);
-  assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 \{[\s\S]*width:\s*100%;[\s\S]*max-width:\s*none;/);
+  assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 \{[\s\S]*width:\s*100%;[\s\S]*max-width:\s*none;[\s\S]*text-align:\s*justify;[\s\S]*text-align-last:\s*justify;/);
+  assert.match(css, /@media \(max-width:\s*1020px\)[\s\S]*\.daily-decision-brief \.daily-brief-narrative h3 \{[\s\S]*text-align:\s*start;[\s\S]*text-align-last:\s*auto;/);
   assert.equal(/max-width:\s*34ch/.test(css), false);
   assert.equal(/grid-template-columns:\s*auto auto minmax\(0, 1fr\)/.test(css), false);
 });
