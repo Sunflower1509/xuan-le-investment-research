@@ -393,8 +393,9 @@ import {
                     </article>`).join("")}
                 </div>
               </section>` : ""}
+          </section>
 
-            <section class="daily-decision-bar ${dailyToneCssClass(regimeTone)}" aria-label="Hành động hiện tại">
+          <section class="daily-decision-bar ${dailyToneCssClass(regimeTone)}" aria-label="Hành động hiện tại">
               <div class="daily-decision-state">
                 <small>TRẠNG THÁI TÁC NGHIỆP</small>
                 <strong>${escapeHtml(entry.sentimentLabel)}</strong>
@@ -403,7 +404,6 @@ import {
                 ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong kế hoạch tác nghiệp trước khi thay đổi tỷ trọng."]).map((item) => `
                   <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
               </div>
-            </section>
           </section>
 
           <aside class="daily-market-snapshot" aria-labelledby="daily-snapshot-title-${escapeHtml(entry.id)}">
