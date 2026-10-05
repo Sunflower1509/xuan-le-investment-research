@@ -1,3 +1,4 @@
+// Layout v2.2.2: fill-first wrapping for headline and executive thesis; natural word spacing.
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
   version: "2.2.2",
   effectiveDate: "2026-10-05",
