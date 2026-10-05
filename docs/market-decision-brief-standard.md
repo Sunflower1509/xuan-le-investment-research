@@ -1,7 +1,7 @@
-# Daily Market Research Brief v2.2 — Semantic Data Color & Layout Consolidation
+# Daily Market Research Brief v2.2.1 — Full-width Headline & Decision Alignment
 
-**Version:** 2.2.0  
-**Effective:** 26/09/2026  
+**Version:** 2.2.1  
+**Effective:** 05/10/2026  
 **Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
 **Status:** LOCKED
 
@@ -30,7 +30,7 @@ Ba lớp không được trộn:
 
 | Role | Font | Size | Line-height | Measure |
 |---|---|---:|---:|---:|
-| Headline | Source Serif XL | 31–35px | 1.14 | 34ch |
+| Headline | Source Serif XL | 31–35px | 1.14 | toàn bộ cột narrative |
 | Thesis | Manrope XL | 16px | 1.58 | 64ch |
 | Evidence signal | Manrope XL | 14px | 1.40 | n/a |
 | Evidence detail | Manrope XL | 13px | 1.48 | bounded by column |
@@ -94,8 +94,8 @@ Quy tắc:
 
 - Archive rail: khoảng **220px**.
 - Main brief: `minmax(0,1fr) + 340px snapshot`.
-- Headline tối đa khoảng 2 dòng.
-- Decision Bar nằm **ngay sau evidence trong cột narrative** để tránh khoảng trắng chết khi Snapshot cao hơn.
+- Headline dùng **toàn bộ chiều rộng cột narrative**, không khóa `34ch`; desktop tối đa khoảng 2 dòng.
+- Decision Bar là **một grid item độc lập, span toàn bộ hai cột** ngay dưới hàng `narrative + snapshot`. Ba ô hành động phải dàn đều hết chiều ngang brief, không để vùng trắng chết bên phải.
 - Snapshot không được lấn át thesis bằng font hoặc màu quá mạnh.
 
 ## 5. Executive Thesis
@@ -212,7 +212,7 @@ Renderer dùng chung phải hỗ trợ:
 ## 10. Responsive hierarchy
 
 ### Tablet
-- Narrative trước, Snapshot sau.
+- Thứ tự hiển thị: Narrative → Action → Snapshot.
 - Evidence vẫn giữ signal riêng.
 - Không ép 3 cột text quá nhỏ.
 
@@ -234,7 +234,7 @@ Một bản đạt v2 khi:
 - headline desktop khoảng 2 dòng;
 - thesis có heading semantic và max-width 64ch;
 - evidence đúng `label | primary fact + secondary interpretation` và không còn label `FACT → INTERPRETATION`;
-- decision bar nằm ngay dưới evidence;
+- decision bar span toàn bộ chiều rộng brief ở desktop; tablet/mobile giữ thứ tự Narrative → Action → Snapshot;
 - snapshot badge dùng semantic state đúng loại metric;
 - snapshot number dùng sans-serif + tabular nums; metric desktop khoảng 22px;
 - archive không lặp edition badge trên mọi item;
