@@ -92,6 +92,17 @@ Quy tắc:
 
 ## 4. Desktop layout
 
+### Controller lock v2.2.2
+
+Cấu hình đã được khóa tại `MARKET_DECISION_BRIEF_STANDARD.layoutGuards` trong `src/scripts/market-decision-brief.mjs`.
+
+Quy tắc bất biến:
+- Headline: `width:100%`, `max-width:none`, `text-wrap:wrap`, `text-align:start`, `text-align-last:auto`, `word-spacing:normal`.
+- Executive Thesis: toàn bộ chiều rộng narrative, `max-width:none`, `text-wrap:wrap`, `word-spacing:normal`.
+- Cấm tái đưa `balance`, `pretty`, `justify` hoặc giới hạn `34ch/64ch/66ch/68ch` vào hai vùng trên.
+- Decision Bar desktop phải span toàn bộ hàng; responsive giữ thứ tự Narrative → Action → Snapshot.
+- Muốn thay đổi các quy tắc này bắt buộc nâng version và đồng bộ Standard + Prompt + Unit Test + Visual Test.
+
 - Archive rail: khoảng **220px**.
 - Main brief: `minmax(0,1fr) + 340px snapshot`.
 - Headline dùng **toàn bộ chiều rộng cột narrative**, không khóa `34ch`, dùng `text-wrap: wrap` để lấp đầy dòng hiện tại trước khi xuống dòng; desktop tối đa khoảng 2 dòng.
