@@ -1,6 +1,6 @@
-# Daily Market Research Brief v2.2.1 — Full-width Headline & Decision Alignment
+# Daily Market Research Brief v2.2.2 — Fill-first Headline & Full-width Thesis
 
-**Version:** 2.2.1  
+**Version:** 2.2.2  
 **Effective:** 05/10/2026  
 **Scope:** `NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY`  
 **Status:** LOCKED
@@ -30,8 +30,8 @@ Ba lớp không được trộn:
 
 | Role | Font | Size | Line-height | Measure |
 |---|---|---:|---:|---:|
-| Headline | Source Serif XL | 31–35px | 1.14 | toàn bộ cột narrative |
-| Thesis | Manrope XL | 16px | 1.58 | 64ch |
+| Headline | Source Serif XL | 34–38px desktop | 1.12 | toàn bộ cột narrative |
+| Thesis | Manrope XL | 16px | 1.58 | toàn bộ cột narrative |
 | Evidence signal | Manrope XL | 14px | 1.40 | n/a |
 | Evidence detail | Manrope XL | 13px | 1.48 | bounded by column |
 | Snapshot label | Manrope XL | 10.5–12px | 1.35 | n/a |
@@ -44,7 +44,7 @@ Quy tắc:
 - Ngày phiên phải hiển thị như **date kicker riêng ngay trên headline** theo dạng `DD/MM`; vẫn là phần tử `<time>` riêng, không phải nội dung của heading.
 - Giá trị hiển thị phải được sinh tự động từ `entry.date`; tuyệt đối không hard-code ngày theo từng phiên.
 - Top metadata không lặp lại ngày; chỉ giữ regime và `EOD`.
-- Body text dài phải giữ line length khoảng 45–90 ký tự; thesis target khoảng 64ch.
+- Body copy dài vẫn phải ưu tiên khả năng đọc; riêng Executive Thesis trong Market Brief dùng toàn bộ cột narrative và chỉ xuống dòng khi hết không gian thực tế của dòng.
 
 ## 3. Spacing tokens
 
@@ -94,7 +94,7 @@ Quy tắc:
 
 - Archive rail: khoảng **220px**.
 - Main brief: `minmax(0,1fr) + 340px snapshot`.
-- Headline dùng **toàn bộ chiều rộng cột narrative**, không khóa `34ch`; desktop tối đa khoảng 2 dòng.
+- Headline dùng **toàn bộ chiều rộng cột narrative**, không khóa `34ch`, dùng `text-wrap: wrap` để lấp đầy dòng hiện tại trước khi xuống dòng; desktop tối đa khoảng 2 dòng.
 - Decision Bar là **một grid item độc lập, span toàn bộ hai cột** ngay dưới hàng `narrative + snapshot`. Ba ô hành động phải dàn đều hết chiều ngang brief, không để vùng trắng chết bên phải.
 - Snapshot không được lấn át thesis bằng font hoặc màu quá mạnh.
 
@@ -108,6 +108,8 @@ Nội dung:
 - 2–3 câu.
 - Kết luận trước.
 - Không lặp lại toàn bộ raw data.
+- Trên desktop, khối Executive Thesis không khóa `64ch/66ch/68ch`; dùng toàn bộ cột narrative.
+- Paragraph dùng `text-wrap: wrap`, `word-spacing: normal`; không dùng `pretty` hoặc `balance` nếu chúng khiến dòng xuống sớm khi vẫn còn không gian hiển thị.
 - Không dài quá khoảng 64ch.
 
 ## 6. Evidence Matrix v2.2
