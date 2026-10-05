@@ -238,7 +238,7 @@ Khách đã tự nhìn thấy bảng điện và điểm số. Giá trị của 
 
 ---
 
-## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.2
+## XI. WEB PRESENTATION CONTRACT — MARKET DECISION BRIEF v2.2.1
 
 > Áp dụng cho dữ liệu được đưa lên website từ 24/09/2026. Đây là **format contract đã khóa**; không tự ý quay lại kiểu headline lớn + paragraph dài.
 
@@ -283,10 +283,10 @@ brief: {
 - Ngày hiển thị là phần tử `<time>` riêng, không ghép vào text của heading.
 - Không hard-code `24/09`, `25/09`... trong template; mỗi phiên mới lấy trực tiếp từ `entry.date`.
 - Top metadata chỉ giữ regime + `EOD`, không lặp lại ngày.
-- Headline desktop target 31–35px, khoảng 1–2 dòng; headline chỉ mô tả trạng thái thị trường, không lặp `PHÒNG THỦ / CHỜ XÁC NHẬN` hay hành động tác nghiệp.
+- Headline desktop target 31–35px, khoảng 1–2 dòng; dùng toàn bộ chiều rộng cột narrative, **không khóa 34ch**; headline chỉ mô tả trạng thái thị trường, không lặp `PHÒNG THỦ / CHỜ XÁC NHẬN` hay hành động tác nghiệp.
 - Thesis 2–3 câu, khoảng 16px / line-height ~1.58, max-width 64ch.
 - Evidence phải có `label + signal + detail`; layout production là 2 cột `LABEL | PRIMARY FACT + SECONDARY INTERPRETATION`, không hiển thị helper label `FACT → INTERPRETATION`.
-- Decision Bar phải nằm ngay dưới evidence.
+- Decision Bar phải là grid item độc lập, **span toàn bộ chiều rộng brief ở desktop**; tablet/mobile giữ thứ tự Narrative → Action → Snapshot.
 - Snapshot metric dùng sans-serif + tabular numbers.
 - Archive item không lặp edition badge ở mọi bản.
 
@@ -347,7 +347,7 @@ Code contract:
 Nếu thay đổi chuẩn, phải nâng version và cập nhật đồng thời prompt + code + test.
 
 
-### HEADLINE DATE CONTRACT v2.2
+### HEADLINE DATE CONTRACT v2.2.1
 - Hệ thống tự lấy `entry.date` và render `DD/MM` thành date kicker ngay trên headline.
 - Date là `<time datetime="YYYY-MM-DD">`, heading chỉ chứa thesis title.
 - Không hard-code ngày.
