@@ -144,9 +144,11 @@ test("executive thesis fills the narrative column and wraps only at the availabl
   const css = read("src/styles/market-decision-brief.css");
   assert.match(css, /\.daily-executive-thesis \{[\s\S]*max-width:\s*none;/);
   assert.match(css, /\.daily-decision-brief \.daily-thesis \{[\s\S]*max-width:\s*none;[\s\S]*word-spacing:\s*normal;[\s\S]*text-wrap:\s*wrap;/);
-  assert.equal(/\.daily-executive-thesis \{[\s\S]*max-width:\s*68ch;/.test(css), false);
-  assert.equal(/\.daily-decision-brief \.daily-thesis \{[\s\S]*max-width:\s*66ch;/.test(css), false);
-  assert.equal(/\.daily-decision-brief \.daily-thesis \{[\s\S]*text-wrap:\s*pretty;/.test(css), false);
+  const executiveRule = css.match(/\.daily-executive-thesis \{([^}]*)\}/)?.[1] || "";
+  const thesisRule = css.match(/\.daily-decision-brief \.daily-thesis \{([^}]*)\}/)?.[1] || "";
+  assert.equal(/max-width:\s*68ch/.test(executiveRule), false);
+  assert.equal(/max-width:\s*66ch/.test(thesisRule), false);
+  assert.equal(/text-wrap:\s*pretty/.test(thesisRule), false);
 });
 
 test("decision bar spans the full brief while responsive order stays narrative-action-snapshot", () => {
