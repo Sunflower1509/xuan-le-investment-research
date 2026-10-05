@@ -46,6 +46,15 @@ test("Market Decision Brief runtime contract is v2.2.2", () => {
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.measures.headline, "full narrative width");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.measures.thesis, "full narrative width");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.wrap, "wrap");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.locked, true);
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.headline.wrap, "wrap");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.headline.maxWidth, "none");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.headline.wordSpacing, "normal");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.thesis.measure, "full narrative width");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.thesis.maxWidth, "none");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.thesis.wrap, "wrap");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.decisionBar.desktop, "full-width row spanning narrative + snapshot");
+  assert.match(MARKET_DECISION_BRIEF_STANDARD.layoutGuards.changePolicy, /version-bump/);
   assert.deepEqual(
     [...MARKET_DECISION_BRIEF_STANDARD.semanticParts.supported],
     ["valueParts", "changeParts", "signalParts", "detailParts"]
