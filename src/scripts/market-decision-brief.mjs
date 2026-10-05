@@ -1,11 +1,11 @@
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
-  version: "2.2.0",
-  effectiveDate: "2026-09-25",
-  name: "Daily Market Research Brief v2.2 — Semantic Data Color & Layout Consolidation",
+  version: "2.2.1",
+  effectiveDate: "2026-10-05",
+  name: "Daily Market Research Brief v2.2.1 — Full-width Headline & Decision Alignment",
   layout: Object.freeze({
     shellArchive: "220px",
-    desktop: "analysis:minmax(0,1fr) + snapshot:340px",
-    tablet: "single-column snapshot-after-analysis",
+    desktop: "analysis:minmax(0,1fr) + snapshot:340px; decision:full-width row",
+    tablet: "single-column narrative-action-snapshot",
     mobile: "regime-session-headline-thesis-evidence-action-snapshot-playbook-audit"
   }),
   typography: Object.freeze({
@@ -27,7 +27,7 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
   measures: Object.freeze({
     thesis: "64ch",
     narrative: "68ch",
-    headline: "34ch"
+    headline: "full narrative width"
   }),
   semanticParts: Object.freeze({
     renderer: "shared",
