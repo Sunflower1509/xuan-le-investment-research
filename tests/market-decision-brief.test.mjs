@@ -37,13 +37,15 @@ const contrast = (a, b) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-test("Market Decision Brief runtime contract is v2.2.1", () => {
-  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.2.1");
-  assert.match(MARKET_DECISION_BRIEF_STANDARD.name, /Full-width Headline & Decision Alignment/);
+test("Market Decision Brief runtime contract is v2.2.2", () => {
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.version, "2.2.2");
+  assert.match(MARKET_DECISION_BRIEF_STANDARD.name, /Fill-first Headline & Full-width Thesis/);
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.headlineDate.position, "kicker-above-headline");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.metric.size, "22px");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.layout.desktop, "analysis:minmax(0,1fr) + snapshot:340px; decision:full-width row");
   assert.equal(MARKET_DECISION_BRIEF_STANDARD.measures.headline, "full narrative width");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.measures.thesis, "full narrative width");
+  assert.equal(MARKET_DECISION_BRIEF_STANDARD.typography.thesis.wrap, "wrap");
   assert.deepEqual(
     [...MARKET_DECISION_BRIEF_STANDARD.semanticParts.supported],
     ["valueParts", "changeParts", "signalParts", "detailParts"]
@@ -138,6 +140,15 @@ test("headline date is a vertical kicker and action-like suffix is guarded", () 
   assert.equal(/grid-template-columns:\s*auto auto minmax\(0, 1fr\)/.test(css), false);
 });
 
+test("executive thesis fills the narrative column and wraps only at the available width", () => {
+  const css = read("src/styles/market-decision-brief.css");
+  assert.match(css, /\.daily-executive-thesis \{[\s\S]*max-width:\s*none;/);
+  assert.match(css, /\.daily-decision-brief \.daily-thesis \{[\s\S]*max-width:\s*none;[\s\S]*word-spacing:\s*normal;[\s\S]*text-wrap:\s*wrap;/);
+  assert.equal(/\.daily-executive-thesis \{[\s\S]*max-width:\s*68ch;/.test(css), false);
+  assert.equal(/\.daily-decision-brief \.daily-thesis \{[\s\S]*max-width:\s*66ch;/.test(css), false);
+  assert.equal(/\.daily-decision-brief \.daily-thesis \{[\s\S]*text-wrap:\s*pretty;/.test(css), false);
+});
+
 test("decision bar spans the full brief while responsive order stays narrative-action-snapshot", () => {
   const app = read("src/scripts/app.js");
   const css = read("src/styles/market-decision-brief.css");
@@ -171,15 +182,17 @@ test("snapshot is compacted for v2.2 without losing tabular numbers", () => {
   assert.match(css, /\.daily-semantic-text \{[\s\S]*font-variant-numeric:\s*tabular-nums;/);
 });
 
-test("future-generation prompt and standard lock v2.2.1 atomic coloring", () => {
+test("future-generation prompt and standard lock v2.2.2 atomic coloring", () => {
   const prompt = read("docs/prompt-nhan-dinh-vnindex-v3.md");
   const standard = read("docs/market-decision-brief-standard.md");
-  assert.match(prompt, /MARKET DECISION BRIEF v2\.2\.1/);
+  assert.match(prompt, /MARKET DECISION BRIEF v2\.2\.2/);
+  assert.match(prompt, /không khóa 64ch\/66ch\/68ch/);
   assert.match(prompt, /span toàn bộ chiều rộng brief ở desktop/);
   assert.match(prompt, /signalParts/);
   assert.match(prompt, /detailParts/);
   assert.match(prompt, /Tone của row không được nhuộm sai màu child value/);
-  assert.match(standard, /Daily Market Research Brief v2\.2\.1/);
+  assert.match(standard, /Daily Market Research Brief v2\.2\.2/);
+  assert.match(standard, /64ch\/66ch\/68ch/);
   assert.match(standard, /span toàn bộ hai cột/);
   assert.match(standard, /Atomic semantic color contract/);
   assert.match(standard, /date kicker riêng ngay trên headline/);
