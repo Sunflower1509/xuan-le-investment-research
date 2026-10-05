@@ -130,7 +130,8 @@ test("headline date is a vertical kicker and action-like suffix is guarded", () 
   assert.equal(app.includes("daily-title-separator"), false);
   assert.match(css, /\.daily-title-line \{\s*display:\s*block;/);
   assert.match(css, /\.daily-title-date \{[\s\S]*display:\s*block;/);
-  assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 \{[\s\S]*width:\s*100%;[\s\S]*max-width:\s*none;[\s\S]*font-size:\s*clamp\(34px, 2\.4vw, 38px\);[\s\S]*word-spacing:\s*normal;[\s\S]*text-align:\s*start;[\s\S]*text-align-last:\s*auto;/);
+  assert.match(css, /\.daily-decision-brief \.daily-brief-narrative h3 \{[\s\S]*width:\s*100%;[\s\S]*max-width:\s*none;[\s\S]*font-size:\s*clamp\(34px, 2\.4vw, 38px\);[\s\S]*word-spacing:\s*normal;[\s\S]*text-wrap:\s*wrap;[\s\S]*text-align:\s*start;[\s\S]*text-align-last:\s*auto;/);
+  assert.equal(/text-wrap:\s*balance/.test(css), false);
   assert.equal(/text-align:\s*justify/.test(css), false);
   assert.equal(/text-align-last:\s*justify/.test(css), false);
   assert.equal(/max-width:\s*34ch/.test(css), false);
