@@ -213,6 +213,33 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx",
       reason: "CafeF 02/10 trả 80.300; Stockbiz hậu phiên lúc 15:00 ngày 02/10 ghi VGI đóng cửa 80.400 (-1,35%), trùng VNDIRECT 80.400. Chỉ áp dụng cho đúng ngày/ticker/giá này."
     })
+  }),
+  "2026-10-06": Object.freeze({
+    DDV: Object.freeze({
+      close: 15700,
+      source: "https://web.stockbiz.vn/Stocks/DDV/HistoricalQuotes.aspx",
+      reason: "CafeF 06/10 trả 15.500; Stockbiz hậu phiên ngày 06/10 ghi DDV đóng cửa 15.700, trùng VNDIRECT 15.700. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    DRI: Object.freeze({
+      close: 16400,
+      source: "https://web.stockbiz.vn/Stocks/DRI/HistoricalQuotes.aspx",
+      reason: "CafeF 06/10 trả 16.300; Stockbiz hậu phiên ngày 06/10 ghi DRI 16.400, trùng VNDIRECT 16.400. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    OIL: Object.freeze({
+      close: 13100,
+      source: "https://web.stockbiz.vn/Stocks/OIL/HistoricalQuotes.aspx",
+      reason: "CafeF 06/10 trả 13.000; Stockbiz hậu phiên ngày 06/10 ghi OIL 13.100, trùng VNDIRECT 13.100. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    PHP: Object.freeze({
+      close: 49500,
+      source: "https://web.stockbiz.vn/Stocks/PHP/HistoricalQuotes.aspx",
+      reason: "CafeF 06/10 trả 49.400; Stockbiz hậu phiên ngày 06/10 ghi PHP 49.500, trùng VNDIRECT 49.500. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    VGI: Object.freeze({
+      close: 78400,
+      source: "https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx",
+      reason: "CafeF 06/10 trả 78.300; Stockbiz hậu phiên ngày 06/10 ghi VGI 78.400, trùng VNDIRECT 78.400. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    })
   })
 });
 
