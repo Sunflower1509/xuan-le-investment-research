@@ -1,4 +1,4 @@
-# Manual recovery trigger: 2026-10-05
+# Manual recovery trigger: 2026-10-06
 name: EOD schedule watchdog
 
 on:
