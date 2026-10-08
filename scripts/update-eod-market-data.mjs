@@ -240,6 +240,33 @@ const SECONDARY_CLOSE_OVERRIDES = Object.freeze({
       source: "https://web.stockbiz.vn/Stocks/VGI/HistoricalQuotes.aspx",
       reason: "CafeF 06/10 trả 78.300; Stockbiz hậu phiên ngày 06/10 ghi VGI 78.400, trùng VNDIRECT 78.400. Chỉ áp dụng cho đúng ngày/ticker/giá này."
     })
+  }),
+  "2026-10-08": Object.freeze({
+    DRI: Object.freeze({
+      close: 16700,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=08-10-2026&edate=08-10-2026",
+      reason: "CafeF 08/10 trả 16.600; KBS exact-date xác nhận OHLC 16.0/16.8/15.9/16.7, khối lượng 2.751.100, đóng cửa 16.700, trùng VNDIRECT. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    G36: Object.freeze({
+      close: 9500,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=08-10-2026&edate=08-10-2026",
+      reason: "CafeF 08/10 trả 9.400; KBS exact-date xác nhận OHLC 10.0/10.0/9.2/9.5, khối lượng 224.100, đóng cửa 9.500, trùng VNDIRECT. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    MSR: Object.freeze({
+      close: 68200,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=08-10-2026&edate=08-10-2026",
+      reason: "CafeF 08/10 trả 68.100; KBS exact-date xác nhận OHLC 65.0/68.7/65.0/68.2, khối lượng 2.462.100, đóng cửa 68.200, trùng VNDIRECT. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    PHP: Object.freeze({
+      close: 49900,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PHP/data_day?sdate=08-10-2026&edate=08-10-2026",
+      reason: "CafeF 08/10 trả 49.600; KBS exact-date xác nhận OHLC 50.5/51.5/49.4/49.9, khối lượng 308.900, đóng cửa 49.900, trùng VNDIRECT. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    }),
+    QNS: Object.freeze({
+      close: 52200,
+      source: "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/QNS/data_day?sdate=08-10-2026&edate=08-10-2026",
+      reason: "CafeF 08/10 trả 52.500; KBS exact-date xác nhận OHLC 52.5/52.9/51.5/52.2, khối lượng 417.500, đóng cửa 52.200, trùng VNDIRECT. Chỉ áp dụng cho đúng ngày/ticker/giá này."
+    })
   })
 });
 
