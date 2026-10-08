@@ -52,8 +52,10 @@ jobs:
           else
             RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date +%F)"
             if [[ "${GITHUB_EVENT_NAME:-}" == "schedule" ]]; then
-              local_hour="$(TZ=Asia/Ho_Chi_Minh date +%H)"
-              if (( 10#$local_hour < 12 )); then
+              # GitHub schedule events may run many hours late. Before 15:15 VN time,
+              # a delayed run must never target the still-open/current trading day.
+              local_hm="$(TZ=Asia/Ho_Chi_Minh date +%H%M)"
+              if (( 10#$local_hm < 1515 )); then
                 RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date -d 'yesterday' +%F)"
               fi
               while (( $(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u) >= 6 )); do
