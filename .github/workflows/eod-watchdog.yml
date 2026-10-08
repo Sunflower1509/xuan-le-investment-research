@@ -1,4 +1,4 @@
-# Manual recovery trigger: 2026-10-07
+# Manual recovery trigger: 2026-10-08
 name: EOD schedule watchdog
 
 on:
@@ -36,7 +36,8 @@ jobs:
           import vm from 'node:vm';
           const now = new Date();
           const parts = new Intl.DateTimeFormat('en-US', {
-            timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit'
+            timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
           }).formatToParts(now);
           const map = Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
           const target = `${map.year}-${map.month}-${map.day}`;
@@ -50,20 +51,22 @@ jobs:
             '2026-08-31', '2026-09-01', '2026-09-02'
           ]);
           const marketOpen = !['Sat', 'Sun'].includes(weekday) && !holidays2026.has(target);
+          const localMinutes = Number(map.hour) * 60 + Number(map.minute);
+          const afterClose = localMinutes >= (15 * 60 + 15);
           const code = fs.readFileSync('src/data/research-data.js', 'utf8');
           const sandbox = { window: {} };
           vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
           const current = sandbox.window.RESEARCH_DATA?.meta?.updated || '';
-          const stale = marketOpen && current !== target;
+          const stale = marketOpen && afterClose && current !== target;
           fs.appendFileSync(
             process.env.GITHUB_OUTPUT,
-            `target=${target}\ncurrent=${current}\nmarket_open=${marketOpen ? 'true' : 'false'}\nstale=${stale ? 'true' : 'false'}\n`
+            `target=${target}\ncurrent=${current}\nmarket_open=${marketOpen ? 'true' : 'false'}\nafter_close=${afterClose ? 'true' : 'false'}\nstale=${stale ? 'true' : 'false'}\n`
           );
-          console.log(`EOD freshness: target=${target} weekday=${weekday} marketOpen=${marketOpen} current=${current || 'missing'}`);
+          console.log(`EOD freshness: target=${target} weekday=${weekday} marketOpen=${marketOpen} afterClose=${afterClose} current=${current || 'missing'}`);
           NODE
 
       - name: Dispatch verified EOD when stale
-        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'true'
+        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.after_close == 'true' && steps.freshness.outputs.stale == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
