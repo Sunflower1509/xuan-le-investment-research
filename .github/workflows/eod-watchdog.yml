@@ -40,29 +40,41 @@ jobs:
             hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
           }).formatToParts(now);
           const map = Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
-          const target = `${map.year}-${map.month}-${map.day}`;
-          const weekday = new Intl.DateTimeFormat('en-US', {
-            timeZone: 'Asia/Ho_Chi_Minh', weekday: 'short'
-          }).format(now);
+          const localToday = `${map.year}-${map.month}-${map.day}`;
+          // Actions schedules may be delayed past midnight in Vietnam.
+          // Always check the most recent *completed* trading session.
           const holidays2026 = new Set([
             '2026-01-01', '2026-01-02',
             '2026-02-16', '2026-02-17', '2026-02-18', '2026-02-19', '2026-02-20',
             '2026-04-27', '2026-04-30', '2026-05-01',
             '2026-08-31', '2026-09-01', '2026-09-02'
           ]);
-          const marketOpen = !['Sat', 'Sun'].includes(weekday) && !holidays2026.has(target);
+          const previousDay = (date) => {
+            const d = new Date(`${date}T12:00:00Z`);
+            d.setUTCDate(d.getUTCDate() - 1);
+            return d.toISOString().slice(0, 10);
+          };
+          const isTradingDay = (date) => {
+            const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+            return weekday !== 0 && weekday !== 6 && !holidays2026.has(date);
+          };
           const localMinutes = Number(map.hour) * 60 + Number(map.minute);
-          const afterClose = localMinutes >= (15 * 60 + 15);
+          let target = localToday;
+          if (localMinutes < (15 * 60 + 15)) target = previousDay(target);
+          while (!isTradingDay(target)) target = previousDay(target);
+          const marketOpen = isTradingDay(target);
+          const afterClose = target < localToday || localMinutes >= (15 * 60 + 15);
           const code = fs.readFileSync('src/data/research-data.js', 'utf8');
           const sandbox = { window: {} };
           vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
           const current = sandbox.window.RESEARCH_DATA?.meta?.updated || '';
-          const stale = marketOpen && afterClose && current !== target;
+          // Never re-dispatch an earlier session over a newer verified lock.
+          const stale = marketOpen && afterClose && (!current || current < target);
           fs.appendFileSync(
             process.env.GITHUB_OUTPUT,
             `target=${target}\ncurrent=${current}\nmarket_open=${marketOpen ? 'true' : 'false'}\nafter_close=${afterClose ? 'true' : 'false'}\nstale=${stale ? 'true' : 'false'}\n`
           );
-          console.log(`EOD freshness: target=${target} weekday=${weekday} marketOpen=${marketOpen} afterClose=${afterClose} current=${current || 'missing'}`);
+          console.log(`EOD freshness: localToday=${localToday} target=${target} marketOpen=${marketOpen} afterClose=${afterClose} current=${current || 'missing'}`);
           NODE
 
       - name: Dispatch verified EOD when stale
