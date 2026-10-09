@@ -1,0 +1,79 @@
+name: Read-only market EOD evidence audit
+on:
+  push:
+    paths:
+      - ".github/workflows/market-evidence-audit.yml"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Target trading session YYYY-MM-DD"
+        required: false
+        default: "2026-10-09"
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Read VNDIRECT full consistent index history and compute audit
+        env:
+          TARGET_DATE: ${{ github.event.inputs.date || '2026-10-09' }}
+        run: |
+          node --input-type=module <<'NODE'
+          const date = process.env.TARGET_DATE;
+          if (!/^20\\d{2}-\\d{2}-\\d{2}$/.test(date)) throw new Error('Bad date');
+          const q = 'code:VNINDEX~date:gte:2025-10-01~date:lte:' + date;
+          const url = 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=' + q + '&size=500';
+          let payload;
+          for (let trial=0; trial<5;trial++){
+            try {
+              const response = await fetch(url, {headers: {'User-Agent':'XuanLeMarketEvidenceAudit/1.0','Accept':'application/json'},signal:AbortSignal.timeout(25000)});
+              if (!response.ok) throw new Error('HTTP '+response.status);
+              payload=await response.json();break;
+            }catch(err){if(trial===4)throw err;await new Promise(r=>setTimeout(r,2500*(trial+1)));}
+          }
+          const raw=Array.isArray(payload?.data)?payload.data:[];
+          const rows=raw.filter(z=>String(z.code).toUpperCase()==='VNINDEX'&&String(z.date).slice(0,10)<=date)
+            .map(z=>({date:String(z.date).slice(0,10),open:Number(z.open),high:Number(z.high),low:Number(z.low),close:Number(z.close),pctChange:Number(z.pctChange),nmValue:Number(z.nmValue),nmVolume:Number(z.nmVolume)}))
+            .sort((a,b)=>a.date.localeCompare(b.date));
+          if(rows.length<210||rows.at(-1)?.date!==date)throw new Error('Incomplete EOD history '+rows.length+' last='+rows.at(-1)?.date);
+          const dates=new Set(rows.map(x=>x.date));
+          if(dates.size!==rows.length)throw new Error('Duplicate dates in source');
+          if(rows.some(x=>!Number.isFinite(x.close)||x.close<=0||!Number.isFinite(x.nmValue)||x.nmValue<=0))throw new Error('Invalid price/turnover');
+          const mean=x=>x.reduce((a,b)=>a+b,0)/x.length;
+          const ma=n=>mean(rows.slice(-n).map(x=>x.close));
+          const ma20FiveAgo=mean(rows.slice(-25,-5).map(x=>x.close));
+          const turnoverToBillion=amount=>amount/1e9;
+          const today=rows.at(-1);
+          const liquidity20=mean(rows.slice(-21,-1).map(x=>x.nmValue));
+          const activeDistributions=[];
+          const recent=rows.slice(-26);
+          for(let j=1;j<recent.length;j++){
+            const current=recent[j],prev=recent[j-1];
+            const changePct=(current.close/prev.close-1)*100;
+            if(changePct<=-0.2&&current.nmValue>prev.nmValue){
+              const after=recent.slice(j+1);
+              if(!after.some(x=>x.close>=current.close*1.05))activeDistributions.push({date:current.date,pct:changePct,turnoverBillion:turnoverToBillion(current.nmValue)});
+            }
+          }
+          const output={
+            source:url,sourceInstitution:'VNDIRECT Finfo',count:rows.length,first:rows[0].date,last:today.date,
+            session:today,prior:rows.at(-2),last5:rows.slice(-5),
+            ma20:ma(20),ma50:ma(50),ma200:ma(200),ma20FiveAgo,
+            liquidityTodayBillion:turnoverToBillion(today.nmValue),
+            liquidityPriorBillion:turnoverToBillion(rows.at(-2).nmValue),
+            liquidityMean20Billion:turnoverToBillion(liquidity20),
+            liquidityRatio:today.nmValue/liquidity20,
+            closePositionInRange:(today.close-today.low)/(today.high-today.low),
+            activeDistributions,activeDistributionCount:activeDistributions.length,
+            prior20Low:Math.min(...rows.slice(-21,-1).map(x=>x.low)),
+            prior20High:Math.max(...rows.slice(-21,-1).map(x=>x.high)),
+            formula:"MA(n)=arithmetic mean last n closes; turnoverMean20=mean prev20 nmValue; distribution=drop>=0.2pct and nmValue>prev and never recovered >=5pct"
+          };
+          console.log('VERIFIED_MARKET_EVIDENCE_JSON '+JSON.stringify(output));
+          NODE
