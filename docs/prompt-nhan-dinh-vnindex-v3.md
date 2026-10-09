@@ -380,3 +380,9 @@ Khách đã tự nhìn bảng điện. Giá trị của bài nằm ở chỗ **g
 - Quy chuẩn bố cục hiện hành vẫn là `docs/market-decision-brief-standard.md` v2.2.2 và cấu hình `MARKET_DECISION_BRIEF_STANDARD.layoutGuards` trong `src/scripts/market-decision-brief.mjs`.
 - KHÔNG sửa HTML, CSS, thứ tự khu vực, giới hạn dòng hay cấu hình dàn chữ. Nếu phải thay đổi trình bày: dừng và xin phê duyệt, sau đó mới cập nhật đồng bộ quy chuẩn, mã nguồn và kiểm thử.
 - Đây chỉ là cập nhật tài liệu điều khiển nhận định, không phải thao tác xuất bản dữ liệu hoặc bản nhận định ngày 09/10/2026.
+- MARKET DECISION BRIEF v2.2.2: đây là quy chuẩn hiển thị hiện hành; không tự thay đổi khi cập nhật nhận định.
+- Headline và Executive Thesis trải đủ chiều ngang cột nội dung, không khóa 64ch/66ch/68ch.
+- Thanh quyết định (Decision Bar) phải span toàn bộ chiều rộng brief ở desktop.
+- Dùng signalParts và detailParts để phân biệt tín hiệu tăng/giảm trong cùng một hàng dữ liệu.
+- Tone của row không được nhuộm sai màu child value.
+
