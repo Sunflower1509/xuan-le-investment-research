@@ -26,7 +26,7 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           const date = process.env.TARGET_DATE;
-          if (!/^20\\d{2}-\\d{2}-\\d{2}$/.test(date)) throw new Error('Bad date');
+          if (!/^20\d{2}-\d{2}-\d{2}$/.test(date)) throw new Error('Bad date');
           const q = 'code:VNINDEX~date:gte:2025-10-01~date:lte:' + date;
           const url = 'https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=' + q + '&size=500';
           let payload;
