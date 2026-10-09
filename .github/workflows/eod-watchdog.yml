@@ -1,4 +1,4 @@
-# Manual recovery trigger: 2026-10-09 verified EOD data gate after session close
+# Manual recovery trigger: 2026-10-09 EOD validated 133 prices; retry after layout-contract doc test fix
 name: EOD schedule watchdog
 
 on:
