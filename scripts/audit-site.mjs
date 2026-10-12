@@ -8,6 +8,8 @@ import { projectTradeLedger } from "../src/scripts/trade-ledger.mjs";
 import { parseActionTrigger } from "../src/scripts/action-trigger.mjs";
 import { validateDailyPlaybookPolicy } from "../src/scripts/daily-market-policy.mjs";
 import { validateMarketDecisionBrief } from "../src/scripts/market-decision-brief.mjs";
+import { REFERENCE_PORTFOLIO } from "../src/data/reference-portfolio.mjs";
+import { buildReferencePortfolio } from "../src/scripts/reference-portfolio-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -89,6 +91,32 @@ try {
   ledger = JSON.parse(readText("src/data/trade-ledger.json"));
 } catch (error) {
   fail("Dữ liệu", error.message);
+}
+
+// Public reference portfolio must remain separate from valuation actions and the trade ledger.
+if (research && typeof research === "object") {
+  try {
+    const rows = buildReferencePortfolio(REFERENCE_PORTFOLIO, research);
+    const expected = ["BSR", "VPB", "HDB", "DGW", "GMD", "GVR"];
+    if (rows.map((row) => row.ticker).join(",") !== expected.join(",")) {
+      fail("Reference portfolio", "danh mục phải đúng sáu mã được duyệt, không bao gồm NVB");
+    }
+    for (const row of rows) {
+      if (!Number.isFinite(row.midpoint) || !Number.isFinite(row.stopReference)) {
+        fail("Reference portfolio", `không tính được giá TB hoặc ngưỡng −5% của ${row.ticker}`);
+      }
+      if (!row.close || !Number.isFinite(row.differencePct)) {
+        fail("Reference portfolio", `thiếu EOD đã xác minh: ${row.ticker}`);
+      }
+    }
+    if (rows.find((row) => row.ticker === "BSR")?.reportVeto !== true) {
+      // Never silently remove the current valuation veto when showcasing AmiBroker zones.
+      // Future changes to the valuation assessment need an explicit audit policy update.
+      fail("Reference portfolio", "cảnh báo định giá BSR không được tự gỡ bỏ");
+    }
+  } catch (error) {
+    fail("Reference portfolio", error.message);
+  }
 }
 
 const referencedPdfs = new Set();
@@ -240,7 +268,7 @@ if (html) {
   });
 
   const sectionOrder = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
-  const expectedOrder = ["overview", "daily-market", "position-ledger", "action-radar", "research"];
+  const expectedOrder = ["overview", "daily-market", "reference-portfolio", "position-ledger", "action-radar", "research"];
   if (sectionOrder.join(",") !== expectedOrder.join(",")) {
     fail("Bố cục", `thứ tự section đã đổi: ${sectionOrder.join(" → ")}`);
   }
