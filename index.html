@@ -156,6 +156,50 @@
       </div>
     </section>
 
+    <!-- Public reference portfolio: independent from report valuation actions and Trade Ledger. -->
+    <section class="reference-portfolio-section" id="reference-portfolio" aria-labelledby="reference-portfolio-title">
+      <div class="terminal-container">
+        <header class="rp-heading">
+          <div>
+            <p class="terminal-eyebrow">DANH MỤC NGHIÊN CỨU • XUÂN LÊ TVS</p>
+            <h2 id="reference-portfolio-title">DANH MỤC THAM KHẢO ĐẦU TƯ</h2>
+            <p class="rp-intro">Sáu cổ phiếu theo dõi cho khung 1–3 tuần. Vùng kỹ thuật do người quản lý xác lập trên AmiBroker; giá EOD cập nhật từ dữ liệu đã kiểm chứng của Research Terminal.</p>
+          </div>
+          <div class="rp-proof"><span aria-hidden="true"></span> VÙNG AMIBROKER • GIÁ EOD KIỂM CHỨNG</div>
+        </header>
+        <div class="rp-shell" data-role="reference-portfolio-root">
+          <div class="rp-shell-head">
+            <strong>DANH MỤC CỔ PHIẾU THEO DÕI</strong>
+            <span data-role="reference-portfolio-asof">Đang đối chiếu dữ liệu EOD…</span>
+          </div>
+          <div class="rp-summary" data-role="reference-portfolio-summary" aria-label="Tổng hợp danh mục"></div>
+          <div class="rp-toolbar">
+            <span class="rp-asof">Đơn vị: đồng/cổ phiếu • Giá TB = (cận dưới + cận trên) / 2</span>
+            <label class="rp-filter-label" for="reference-portfolio-filter">
+              <span>Lọc trạng thái</span>
+              <select id="reference-portfolio-filter" class="rp-filter" data-role="reference-portfolio-filter">
+                <option value="all">Tất cả sáu mã</option>
+                <option value="inside">Trong vùng</option>
+                <option value="above">Trên vùng</option>
+                <option value="below">Dưới vùng</option>
+                <option value="attention">Có cảnh báo</option>
+              </select>
+            </label>
+          </div>
+          <div class="rp-desktop" data-role="reference-portfolio-desktop" aria-label="Bảng danh mục tham khảo đầu tư" tabindex="0">
+            <p class="panel-loading">Đang kiểm tra bảng giá EOD…</p>
+          </div>
+          <div class="rp-detail-panel" data-role="reference-portfolio-detail" id="reference-portfolio-detail" aria-live="polite"></div>
+          <div class="rp-mobile" data-role="reference-portfolio-mobile" aria-label="Danh mục theo thẻ trên điện thoại"></div>
+          <div class="rp-fineprint">
+            <p><strong>Chênh lệch so với giá TB vùng mua</strong> là phép so sánh giá EOD, không phải lợi nhuận tài khoản hay xác nhận khớp lệnh. Vùng do người quản lý lựa chọn, không tự thay đổi khi giá biến động.</p>
+            <p><strong>Ngưỡng cảnh báo −5%</strong> tính từ giá trung bình vùng mua, chỉ có giá trị theo dõi lý thuyết. Cắt lỗ thực tế phải dựa trên giá khớp, thanh khoản và rủi ro trượt giá. Việc nằm trong vùng không đồng nghĩa tín hiệu mua.</p>
+            <p data-role="reference-portfolio-note">Đang xác minh ngày công bố và dữ liệu giá.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="position-ledger-section" id="position-ledger" aria-labelledby="position-ledger-title">
       <div class="terminal-container">
         <div class="ledger-heading">
