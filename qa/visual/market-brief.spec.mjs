@@ -27,7 +27,7 @@ test("Daily Market Research Brief v2.2.2 fill-first headline and full-width thes
     const entries = window.DAILY_MARKET_INSIGHTS?.entries || [];
     return [...entries].map((item) => item.date).sort().at(-1);
   });
-  expect(latestDate).toMatch(/^\\d{4}-\\d{2}-\\d{2}$/);
+  expect(latestDate).toMatch(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
   await expect(titleDate).toHaveAttribute("datetime", latestDate);
   await expect(titleDate).toHaveText(latestDate.slice(8, 10) + "/" + latestDate.slice(5, 7));
   expect((await headline.innerText()).trim().length).toBeGreaterThan(12);
