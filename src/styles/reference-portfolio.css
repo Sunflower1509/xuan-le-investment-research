@@ -75,6 +75,8 @@
  .rp-summary-card{display:block;padding:11px}
  .rp-summary-card strong{display:block;margin-top:4px;font-size:1.18rem}
  .rp-toolbar{padding:5px 12px 13px;flex-wrap:wrap}
+ .rp-filter-label{width:100%;max-width:100%;white-space:normal;flex-wrap:wrap}
+ .rp-filter{flex:1;min-width:0;max-width:100%}
  .rp-desktop{display:none}
  .rp-mobile{display:grid;gap:11px;padding:12px;border-top:1px solid var(--line)}
  .rp-mobile-card{border:1px solid #ccd8d1;border-radius:12px;overflow:hidden;background:#fff}
