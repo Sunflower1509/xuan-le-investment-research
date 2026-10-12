@@ -10,6 +10,7 @@ import "./data/daily-insights-20260914.js";
 import "./data/daily-insights-auto.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
+import "./scripts/reference-portfolio.mjs";
 import "./scripts/company-logo-avatars.js";
 import "./scripts/company-visual-cards.js";
 import "./scripts/report-deeplinks.js";

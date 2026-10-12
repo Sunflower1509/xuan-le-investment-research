@@ -96,5 +96,5 @@ test("obsolete one-time Pages trigger marker is removed", () => {
 test("maintenance does not change the public section architecture", () => {
   const html = read("index.html");
   const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
-  assert.deepEqual(order, ["overview", "daily-market", "position-ledger", "action-radar", "research"]);
+  assert.deepEqual(order, ["overview", "daily-market", "reference-portfolio", "position-ledger", "action-radar", "research"]);
 });
