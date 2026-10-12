@@ -42,4 +42,13 @@ Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/w
 - Kiểm toán 27/09/2026: **127 báo cáo định giá = 127 mã Coverage Universe**; 127 ảnh bìa báo cáo; 127 logo doanh nghiệp; dữ liệu EOD toàn coverage khóa tại phiên **25/09/2026**.
 - CIVS dùng một invariant duy nhất: **127 mã**, gồm 9 visual baseline đã xác minh + 118 candidate registry; runtime không còn chấp nhận universe 125.
 - Daily Market, Trade Ledger và các nhãn first-paint EOD được audit theo runtime thực tế trước deploy.
-- Bố cục công khai được khóa theo thứ tự `overview → daily-market → position-ledger → action-radar → research`; maintenance không được thay đổi layout/CSS nếu chưa có phê duyệt riêng.
+- Bố cục công khai (đã được chủ website phê duyệt bổ sung 12/10/2026) khóa theo thứ tự `overview → daily-market → reference-portfolio → position-ledger → action-radar → research`. Bảo toàn tất cả section cũ; mọi thay đổi bố cục sau này phải được phê duyệt riêng.
+## Danh mục tham khảo kỹ thuật 1–3 tuần (12/10/2026)
+
+- `src/data/reference-portfolio.mjs` lưu **sáu vùng AmiBroker do người quản lý phê duyệt**: BSR 29.500–30.000; VPB 23.000–24.000; HDB 22.000–22.800; DGW 46.000–47.500; GMD 53.000–54.500; GVR 32.000–33.000 (đồng/cp). Không có NVB.
+- `src/scripts/reference-portfolio-core.mjs` tính giá trung bình = (cận dưới + cận trên) / 2, phần trăm chênh lệch so với EOD và ngưỡng cảnh báo -5% **lý thuyết**. Không phải giao dịch thực, không tự động ghi Trade Ledger.
+- `src/scripts/reference-portfolio.mjs`, `src/styles/reference-portfolio.css` hiển thị bảng kẻ ô trên desktop và thẻ trên mobile; toàn bộ CSS được giới hạn phạm vi.
+- Chỉ đọc `window.RESEARCH_DATA.coverage` đã khóa theo phiên; **không tạo bộ giá thứ hai**. Workflow `.github/workflows/eod-daily.yml` hiện có sẽ tự phát hành EOD khi kiểm chứng thành công.
+- Cảnh báo cũ của BSR (`eligibility: veto`) luôn được tôn trọng và được trình bày rõ. Vùng AmiBroker không ghi đè vùng theo định giá, hành động từ báo cáo hoặc Nhật ký tín hiệu.
+- Giá trước ngày vùng được công bố chỉ dùng minh họa chênh lệch theo phép tính, **không diễn giải thành hiệu suất kể từ khuyến nghị**.
+- Kiểm thử bằng `node --test tests/reference-portfolio.test.mjs`; kiểm toán tổng thể bằng `node scripts/audit-site.mjs`.
