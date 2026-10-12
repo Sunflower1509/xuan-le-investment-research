@@ -577,7 +577,10 @@ const run = async () => {
     throw new Error("Coverage có ticker trùng hoặc sai định dạng.");
   }
   if (targetDate < before.meta.updated) throw new Error(`Không cho phép cập nhật lùi ngày ${targetDate} < ${before.meta.updated}.`);
-  if (targetDate === before.meta.updated && isCoverageCurrent(before.coverage, targetDate)) {
+  // Refresh an already-locked date only when explicitly requested by verified EOD workflow.
+  // This prevents an early successful ATC snapshot from permanently blocking late vendor corrections.
+  const recheckCurrent = process.argv.includes("--recheck-current");
+  if (!recheckCurrent && targetDate === before.meta.updated && isCoverageCurrent(before.coverage, targetDate)) {
     const payload = { status: "already-current", date: targetDate, coverageCount: tickers.length };
     await writeStatus(statusFile, payload);
     await writeOutput("status", payload.status);
