@@ -44,8 +44,7 @@ test("Midpoints and 5% reference warning thresholds must not round prematurely",
   }
 });
 
-test("Latest locked EOD yields exact reproducible comparisons, not trade returns", () => {
-  assert.equal(research.meta.updated, "2026-10-09");
+test("Historic 09/10 snapshot yields reproducible comparisons without pinning future EOD", () => {
   const expectation = {
     BSR: [31050, "above", 4.369747899159663],
     VPB: [23800, "inside", 1.2765957446808525],
@@ -55,21 +54,45 @@ test("Latest locked EOD yields exact reproducible comparisons, not trade returns
     GVR: [32850, "inside", 1.076923076923086]
   };
   for (const [ticker, [close, relation, difference]] of Object.entries(expectation)) {
-    const row = byTicker.get(ticker);
+    const zone = REFERENCE_PORTFOLIO.entries.find((entry) => entry.ticker === ticker);
+    const row = buildReferencePortfolioRow(zone, {
+      close, changePct: 0, priceDate: "2026-10-09",
+      priceSource: "https://example.com/historical-fixture",
+      action: { eligibility: ticker === "BSR" ? "veto" : "active" }
+    }, "2026-10-09");
     assert.equal(row.close, close);
-    assert.equal(row.priceDate, "2026-10-09");
     assert.equal(row.zoneRelation, relation);
     closeTo(row.differencePct, difference);
   }
 });
 
-test("BSR old valuation veto remains visible; portfolio zone never changes report action", () => {
-  const bsr = research.coverage.find((c) => c.ticker === "BSR");
-  assert.equal(bsr.action.eligibility, "veto");
-  assert.equal(byTicker.get("BSR").reportVeto, true);
-  assert.equal(byTicker.get("BSR").researchState, "report-veto");
-  assert.equal(bsr.action.zoneLow, null);
-  assert.equal(bsr.action.triggerPrice, 14591);
+test("Every EOD uses repository's current locked as-of date, not an old static quote", () => {
+  assert.equal(rows.length, REFERENCE_PORTFOLIO.entries.length);
+  for (const row of rows) {
+    const quote = research.coverage.find((x) => x.ticker === row.ticker);
+    assert.ok(quote);
+    if (row.close !== null) {
+      assert.equal(row.close, quote.close);
+      assert.equal(row.priceDate, research.meta.updated);
+      closeTo(row.differencePct, (quote.close / row.midpoint - 1) * 100);
+    } else {
+      assert.equal(row.differencePct, null);
+      assert.equal(row.zoneRelation, "unavailable");
+    }
+  }
+});
+
+test("An active valuation veto is kept distinct from an AmiBroker technical zone", () => {
+  const entry = REFERENCE_PORTFOLIO.entries.find((x) => x.ticker === "BSR");
+  const row = buildReferencePortfolioRow(entry, {
+    close: 31050, changePct: -2, priceDate: "2026-10-09",
+    priceSource: "https://example.com/historical-fixture",
+    action: { eligibility: "veto" }
+  }, "2026-10-09");
+  assert.equal(row.reportVeto, true);
+  assert.equal(row.researchState, "report-veto");
+  assert.equal(row.zoneRelation, "above");
+  assert.equal(entry.zoneLow, 29500);
 });
 
 test("Missing, stale or unverified EOD must never fabricate percent changes", () => {
