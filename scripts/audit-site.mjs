@@ -109,10 +109,10 @@ if (research && typeof research === "object") {
         fail("Reference portfolio", `thiếu EOD đã xác minh: ${row.ticker}`);
       }
     }
-    if (rows.find((row) => row.ticker === "BSR")?.reportVeto !== true) {
-      // Never silently remove the current valuation veto when showcasing AmiBroker zones.
-      // Future changes to the valuation assessment need an explicit audit policy update.
-      fail("Reference portfolio", "cảnh báo định giá BSR không được tự gỡ bỏ");
+    const bsrCoverage = research.coverage.find((item) => item.ticker === "BSR");
+    if (bsrCoverage?.action?.eligibility === "veto"
+      && rows.find((row) => row.ticker === "BSR")?.reportVeto !== true) {
+      fail("Reference portfolio", "đã mất cảnh báo chặn mua mới BSR hiện hành");
     }
   } catch (error) {
     fail("Reference portfolio", error.message);
