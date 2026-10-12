@@ -75,6 +75,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   const desktop = document.querySelector("[data-role='reference-portfolio-desktop']");
   const mobile = document.querySelector("[data-role='reference-portfolio-mobile']");
   const summary = document.querySelector("[data-role='reference-portfolio-summary']");
+  const detail = document.querySelector("[data-role='reference-portfolio-detail']");
   const asOf = document.querySelector("[data-role='reference-portfolio-asof']");
   const warning = document.querySelector("[data-role='reference-portfolio-note']");
   if (!desktop || !mobile || !summary || !asOf || !warning) return;
@@ -99,7 +100,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
       <td class="rp-number ${tone(row.differencePct)}">${percent(row.differencePct)}</td>
       <td><span class="rp-status ${status.css}">${escapeHtml(status.label)}</span><span class="rp-relation">${relationLabel(row.zoneRelation)}</span></td>
       <td class="rp-date">${dateVi(row.priceDate)}</td>
-      <td><details class="rp-details"><summary>Chi tiết</summary>${detailHtml(row, report)}</details></td>
+      <td><button type="button" class="rp-open-details" data-rp-ticker="${escapeHtml(row.ticker)}" aria-controls="reference-portfolio-detail">Chi tiết ↗</button></td>
     </tr>`;
   };
   const mobileCard = (row) => {
@@ -136,6 +137,22 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
     mobile.innerHTML = visible.length ? visible.map(mobileCard).join("")
       : '<p class="rp-no-results">Không có mã phù hợp bộ lọc.</p>';
   };
-  select?.addEventListener("change", render);
+  desktop.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-rp-ticker]");
+    if (!button) return;
+    const row = rows.find((item) => item.ticker === button.dataset.rpTicker);
+    if (!row || !detail) return;
+    const report = byId.get(byTicker.get(row.ticker)?.reportId);
+    detail.innerHTML = `<div class="rp-detail-panel-title"><strong>HỒ SƠ ${escapeHtml(row.ticker)} • VÙNG KỸ THUẬT AMIBROKER</strong>
+      <button type="button" class="rp-close-details">Đóng ×</button></div>${detailHtml(row, report)}`;
+    detail.querySelector(".rp-close-details")?.addEventListener("click", () => {
+      detail.innerHTML = "";
+      button.focus();
+    }, { once: true });
+  });
+  select?.addEventListener("change", () => {
+    if (detail) detail.innerHTML = "";
+    render();
+  });
   render();
 })();
