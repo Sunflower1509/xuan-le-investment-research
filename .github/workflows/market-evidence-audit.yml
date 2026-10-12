@@ -51,12 +51,15 @@ jobs:
           const turnoverToBillion=amount=>amount/1e9;
           const today=rows.at(-1);
           const liquidity20=mean(rows.slice(-21,-1).map(x=>x.nmValue));
+          // V3.3.1: index ETF rebalance session 18/09/2026 is excluded from distribution count.
+          // Reference: ACBS FTSE GEIS rebalancing note (25/08/2026); index effective 21/09.
+          const excludedEventSessions = new Set(['2026-09-18']);
           const activeDistributions=[];
           const recent=rows.slice(-26);
           for(let j=1;j<recent.length;j++){
             const current=recent[j],prev=recent[j-1];
             const changePct=(current.close/prev.close-1)*100;
-            if(changePct<=-0.2&&current.nmValue>prev.nmValue){
+            if(changePct<=-0.2&&current.nmValue>prev.nmValue&&!excludedEventSessions.has(current.date)){
               const after=recent.slice(j+1);
               if(!after.some(x=>x.close>=current.close*1.05))activeDistributions.push({date:current.date,pct:changePct,turnoverBillion:turnoverToBillion(current.nmValue)});
             }
@@ -70,7 +73,7 @@ jobs:
             liquidityMean20Billion:turnoverToBillion(liquidity20),
             liquidityRatio:today.nmValue/liquidity20,
             closePositionInRange:(today.close-today.low)/(today.high-today.low),
-            activeDistributions,activeDistributionCount:activeDistributions.length,
+            activeDistributions,activeDistributionCount:activeDistributions.length,excludedEventSessions:[...excludedEventSessions],
             prior20Low:Math.min(...rows.slice(-21,-1).map(x=>x.low)),
             prior20High:Math.max(...rows.slice(-21,-1).map(x=>x.high)),
             formula:"MA(n)=arithmetic mean last n closes; turnoverMean20=mean prev20 nmValue; distribution=drop>=0.2pct and nmValue>prev and never recovered >=5pct"
@@ -80,5 +83,8 @@ jobs:
           const samples = ['2026-10-09', '2026-10-12'].map(day => rows.find(r=>r.date===day));
           if(samples.some(r=>!r)) throw new Error('Missing exact-date quoted sample rows');
           console.log('EXACT_SOURCE_SAMPLE_ROWS '+JSON.stringify(samples));
+          const literal = raw.find(x=>String(x.date).slice(0,10)===date && String(x.code).toUpperCase()==='VNINDEX');
+          if(!literal) throw new Error('Raw original index entry missing');
+          console.log('RAW_VENDOR_INDEX_QUOTE '+JSON.stringify(literal));
           console.log('VERIFIED_MARKET_EVIDENCE_JSON '+JSON.stringify(output));
           NODE
