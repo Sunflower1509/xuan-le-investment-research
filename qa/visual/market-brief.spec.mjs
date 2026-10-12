@@ -46,8 +46,13 @@ test("Daily Market Research Brief v2.2.2 fill-first headline and full-width thes
   const breadthDetailParts = breadth.locator(".daily-reading-content p .daily-semantic-text");
   expect(await breadthDetailParts.count()).toBeGreaterThanOrEqual(2);
 
-  const liquidityEvidence = evidence.filter({ hasText: "Thanh khoản" });
-  expect((await liquidityEvidence.locator(".daily-reading-signal").innerText()).length).toBeGreaterThan(2);
+  // Reading labels can change as the analyst updates the EOD market narrative.
+  // Verify that each of the three evidence cards has a visible signal instead.
+  for (let i = 0; i < 3; i++) {
+    const signal = evidence.nth(i).locator(".daily-reading-signal");
+    await expect(signal).toBeVisible();
+    expect((await signal.innerText()).trim().length).toBeGreaterThan(1);
+  }
 
   await expect(snapshotRows).toHaveCount(4);
   for (let i = 0; i < 4; i++) {
