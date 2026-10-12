@@ -54,7 +54,7 @@ if (companyLogoNames.length !== expectedUniverseCount) {
 }
 
 const sectionOrder = (html) => [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
-const expectedOrder = ["overview", "daily-market", "position-ledger", "action-radar", "research"];
+const expectedOrder = ["overview", "daily-market", "reference-portfolio", "position-ledger", "action-radar", "research"];
 const localIndex = local.get("index.html").bytes.toString("utf8");
 if (sectionOrder(localIndex).join(",") !== expectedOrder.join(",")) throw new Error("Artifact local có thứ tự section không hợp lệ.");
 
