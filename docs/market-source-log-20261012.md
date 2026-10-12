@@ -55,7 +55,7 @@ Hai hàng neo nguyên văn của phản hồi bảng lịch sử (trong log GitH
 | MA50 | trung bình 50 close đến 12/10 = 1.780,1432, hiển thị 1.780,14 | TỰ TÍNH |
 | MA200 | trung bình 200 close đến 12/10 = 1.797,6356, hiển thị 1.797,64 | TỰ TÍNH |
 | MA20 năm phiên trước | trung bình 20 close chốt trước 5 phiên = 1.793,7805, hiển thị 1.793,78 | TỰ TÍNH |
-| TB20 khớp lệnh | trung bình nmValue 20 phiên 11/09–09/10 (loại 12/10) = 13.198,069166 tỷ, hiển thị 13.198,07 | TỰ TÍNH |
+| TB20 khớp lệnh | trung bình nmValue 20 phiên 14/09–09/10 (loại 12/10) = 13.198,069166 tỷ, hiển thị 13.198,07 | TỰ TÍNH |
 | Bội số | 10.645,086259 / 13.198,069166 = 0,806564 lần, hiển thị 0,807 lần | TỰ TÍNH |
 | So phiên liền trước | 10.645,086259 / 14.694,486447 − 1 = −27,5573%, hiển thị −27,56% | TỰ TÍNH |
 | Vị trí giá đóng trong nến | (1720,98 − 1716,85) ÷ (1736,64 − 1716,85) = 0,20869, thuộc 1/3 dưới | TỰ TÍNH |
