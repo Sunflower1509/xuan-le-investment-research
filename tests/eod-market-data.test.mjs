@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict } from "../scripts/update-eod-market-data.mjs";
 import { updateCacheTokenHtml } from "../scripts/update-cache-token.mjs";
 
 const date = "2026-08-20";
@@ -186,4 +186,33 @@ test("cache-token updater thay token cũ nhưng fail-closed khi có nhiều site
     () => updateCacheTokenHtml(base + '\n<script src="assets/js/site.min.js"></script>', "2026-09-25"),
     /Kỳ vọng đúng 1 JS site asset/
   );
+});
+
+test("mismatch CafeF chỉ chấp nhận nguồn thứ ba KBS exact-date khớp VNDIRECT", () => {
+  const date = "2026-10-13";
+  const kbsSource = "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ABB/data_day?sdate=13-10-2026&edate=13-10-2026";
+  const exactDate = parseKbsDaily({ data_day: [
+    { t: date + "T00:00:00", o: 17.5, h: 18.2, l: 17.3, c: 17.6, v: 100000 },
+    { t: "2026-10-12T00:00:00", o: 18.1, h: 18.4, l: 17.6, c: 18.2, v: 90000 }
+  ] }, date);
+  const verified = reconcileCafeFConflict({
+    primaryClose: 17600, cafeFClose: 17500, kbsQuote: exactDate, kbsSource
+  });
+  assert.equal(verified.ok, true);
+  assert.equal(verified.mode, "third-source-override");
+  assert.equal(verified.cafeFClose, 17500);
+  assert.equal(verified.source, kbsSource);
+  const unresolved = reconcileCafeFConflict({
+    primaryClose: 17600, cafeFClose: 17500,
+    kbsQuote: { ...exactDate, close: 17500 }, kbsSource
+  });
+  assert.equal(unresolved.ok, false);
+  const changedDate = reconcileCafeFConflict({
+    primaryClose: 17600, cafeFClose: 17500, kbsQuote: null, kbsSource
+  });
+  assert.equal(changedDate.ok, false);
+  assert.equal(reconcileCafeFConflict({
+    primaryClose: 17600, cafeFClose: 17500, kbsQuote: exactDate,
+    kbsSource: "https://unverified.example.com/quote"
+  }).ok, false);
 });
