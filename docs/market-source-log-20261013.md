@@ -109,7 +109,7 @@ Không có dữ liệu khớp lệnh nhóm so với TB20 và khối ngoại ròn
 ```
 === BỔ SUNG SỔ DỮ LIỆU VNINDEX — 13/10/2026 ===
 PHẦN A — CHỈ DÒNG MỚI
-13/10/2026;1719,42;1726,35;1710,95;-0,09;10882,858978;89;198;69;;1860,99;;;Không;1 NGUỒN:GT HOSE/độ rộng;CHƯA XÁC MINH:KN ròng/VN30F1M
+13/10/2026;1719,42;1726,35;1710,95;-0,09;10882,858978;89;198;69;;1860,99;;;Không;1 NGUỒN:GT HOSE/độ rộng, CHƯA XÁC MINH:KN ròng/VN30F1M
 PHẦN B — TRẠNG THÁI MANG SANG
 Trạng thái chốt: KHÔNG — dòng 1, có chặn cứng
 Chế độ: ĐẦY ĐỦ
