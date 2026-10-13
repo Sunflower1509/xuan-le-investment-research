@@ -22,7 +22,7 @@ jobs:
           node-version: 22
       - name: Read VNDIRECT full consistent index history and compute audit
         env:
-          TARGET_DATE: ${{ github.event.inputs.date || '2026-10-12' }}
+          TARGET_DATE: ${{ github.event.inputs.date || '2026-10-13' }}
         run: |
           node --input-type=module <<'NODE'
           const date = process.env.TARGET_DATE;
@@ -73,14 +73,20 @@ jobs:
             liquidityMean20Billion:turnoverToBillion(liquidity20),
             liquidityRatio:today.nmValue/liquidity20,
             closePositionInRange:(today.close-today.low)/(today.high-today.low),
-            activeDistributions,activeDistributionCount:activeDistributions.length,excludedEventSessions:[...excludedEventSessions],
+            activeDistributions,
+            activeDistributionCount:activeDistributions.length,
+            // V3.3.1: independently confirmed ETF index rebalance on 2026-09-18.
+            // The ETF event is excluded from distribution counting.
+            validDistributions:activeDistributions.filter(x=>x.date!=='2026-09-18'),
+            validDistributionCount:activeDistributions.filter(x=>x.date!=='2026-09-18').length,
+            excludedEventDates:['2026-09-18'],excludedEventSessions:[...excludedEventSessions],
             prior20Low:Math.min(...rows.slice(-21,-1).map(x=>x.low)),
             prior20High:Math.max(...rows.slice(-21,-1).map(x=>x.high)),
             formula:"MA(n)=arithmetic mean last n closes; turnoverMean20=mean prev20 nmValue; distribution=drop>=0.2pct and nmValue>prev and never recovered >=5pct"
           };
           // Fully expose the source rows used in all calculations for independent review.
           console.log('SOURCE_HISTORY_ROWS_JSON '+JSON.stringify(rows));
-          const samples = ['2026-10-09', '2026-10-12'].map(day => rows.find(r=>r.date===day));
+          const samples = ['2026-10-12', '2026-10-13'].map(day => rows.find(r=>r.date===day));
           if(samples.some(r=>!r)) throw new Error('Missing exact-date quoted sample rows');
           console.log('EXACT_SOURCE_SAMPLE_ROWS '+JSON.stringify(samples));
           const literal = raw.find(x=>String(x.date).slice(0,10)===date && String(x.code).toUpperCase()==='VNINDEX');
