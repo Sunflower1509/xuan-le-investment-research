@@ -126,3 +126,32 @@ Không có đính chính dòng cũ vì không được cung cấp Sổ.
 ```
 
 **Tự kiểm V3.3.1:** ngày EOD, thứ tự cổng, nhãn nguồn, 257 dòng & 2 dòng gốc, sự kiện ETF, chấm điểm, chặn cứng, ba bước trạng thái, mốc vô hiệu mới, tính R:R đều đã xử lý. **Giới hạn:** chuỗi khối ngoại/tự doanh/basis và Sổ không có, nên không đánh ĐẠT cho việc xác minh các trường đó; không suy chúng thành tín hiệu thị trường.
+
+## G. Bảng tự kiểm v3.3.1 — 20 tiêu chí
+
+| # | Mục | Kết quả | Ghi chú |
+|---|---|---|---|
+| 1 | Phiên, mốc cắt, giờ | ĐẠT | 13/10 có giao dịch, sau ATC, EOD 133/133 |
+| 2 | Không dùng dữ liệu phiên tương lai | ĐẠT | Chỉ ngày 13/10 hoặc trước đó; phân biệt bản tin sáng |
+| 3 | Không trích từ trí nhớ hoặc snippet | ĐẠT | API và các trang đã mở, có đoạn trích ngắn |
+| 4 | Đường dẫn đã mở và có thật | ĐẠT | VNDIRECT, VNIndex.ai, Rồng Việt, HNX và các trang tìm nguồn |
+| 5 | Số lõi, nguồn, phạm vi | ĐẠT CÓ GIỚI HẠN | Giá và % 2 đơn vị; thanh khoản, độ rộng gắn 1 NGUỒN |
+| 6 | Nhật ký tìm nguồn số thiếu/1 NGUỒN | ĐẠT CÓ GIỚI HẠN | Ba nguồn cho KN, tự doanh và basis; thêm đối chiếu chỉ số VNMID/VNSML bên dưới |
+| 7 | Chuỗi tự tính một gốc | ĐẠT | 257 dòng, 01/10/2025–13/10/2026; raw quote kiểm tra hai ngày |
+| 8 | Số sử dụng truy xuất nguồn | ĐẠT | Số hiển thị có trong nhật ký EOD/chuỗi/bản đồ ngành |
+| 9 | Không sửa/chép dòng Sổ cũ | ĐẠT | Người dùng chưa cung cấp Sổ, chỉ ghi một dòng bổ sung |
+| 10 | Ngày theo người dùng | ĐẠT | 13/10/2026 |
+| 11 | Chế độ đúng | ĐẠT | ĐẦY ĐỦ đủ MA20, MA50, dốc MA20, TB20, phân phối |
+| 12 | Nền xu hướng có số | ĐẠT | XẤU, MA20/50/200 và dốc MA20 |
+| 13 | Chấm 7 yếu tố đúng | ĐẠT | −3/7; ngày đi ngang <0,2%; top 5 không lấy tỷ lệ do Δindex <2 |
+| 14 | Chặn mềm/cứng, điều kiện chưa kiểm | ĐẠT CÓ GIỚI HẠN | Chặn phân phối xác minh; Sổ và KN ghi KHÔNG KIỂM ĐƯỢC |
+| 15 | Ba bước quy đổi | ĐẠT | KHÔNG thô → KHÔNG trần XẤU → bỏ chống đảo chiều vì thiếu Sổ |
+| 16 | Vùng mua theo dòng trạng thái | ĐẠT | Dòng 1 KHÔNG, không ghi vùng mua |
+| 17 | Mốc giá có xuất xứ, R:R | ĐẠT | 1.710,95 đáy 13/10 chỉ áp dụng từ hôm sau; R:R 6,10 tham chiếu |
+| 18 | Bản đồ nhóm chỉ ghi có số | ĐẠT CÓ GIỚI HẠN | Chỉ sức giá 133 mã, không gán giả tiền vào/ra |
+| 19 | Bài Zalo/web cùng số/trạng thái | ĐẠT | 386 từ, trạng thái KHÔNG, miễn trừ, không đổi khung |
+| 20 | Sổ chỉ có bổ sung, không chép cũ | ĐẠT CÓ GIỚI HẠN | Một dòng Phần A và Phần B mới, thiếu Sổ gốc của người dùng |
+
+**Đối chiếu bổ sung cho VNMID/VNSML:** nguồn Rồng Việt chốt 13/10 là 1 NGUỒN. Đã thử https://taichinh.com/chung-khoan (có số VNMidcap trong phiên, không phải giá chốt) và https://smoney.com.vn/chi-so/vnmidcap (phiên hiển thị 09/10, sai ngày). VNSML đã thử https://www.investing.com/indices/vn-small-cap-historical-data (bảng giá trễ, không xác nhận EOD 13/10) và https://taichinh.com/chung-khoan (không có VNSML EOD 13/10). Vì vậy không nâng nhãn 1 NGUỒN.
+
+**Giới hạn không che giấu:** khối ngoại giao dịch khớp lệnh thực, tự doanh cuối phiên, mốc đang hiệu lực từ Sổ gốc và basis chưa xác minh đầy đủ. Các thiếu này không phải tín hiệu thị trường xấu; trạng thái KHÔNG do dữ liệu giá và số phiên phân phối đã xác minh độc lập với các thiếu trên.
