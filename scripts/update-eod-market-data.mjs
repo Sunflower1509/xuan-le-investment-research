@@ -431,6 +431,21 @@ export const secondaryCloseDecision = ({ ticker, date, primaryClose, cafeFClose 
   return { ok: false, mode: "mismatch", cafeFClose, primaryClose };
 };
 
+// A conflicting CafeF EOD row can be reconciled only by a third provider's
+// exact-date, OHLC-validated quote. An unresolved conflict MUST remain a failed gate.
+export const reconcileCafeFConflict = ({ primaryClose, cafeFClose, kbsQuote, kbsSource }) => {
+  if (!kbsQuote || kbsQuote.close !== primaryClose || !/^https:\/\/kbbuddywts\.kbsec\.com\.vn\//.test(kbsSource || "")) {
+    return { ok: false, mode: "unresolved-third-source-conflict", primaryClose, cafeFClose, kbsClose: kbsQuote?.close ?? null };
+  }
+  return {
+    ok: true,
+    mode: "third-source-override",
+    source: kbsSource,
+    reason: "CafeF khác VNDIRECT; KBS OHLC exact-date xác nhận giá VNDIRECT. Không sử dụng giá CafeF sai khác.",
+    cafeFClose
+  };
+};
+
 const loadResearch = async () => {
   const code = await fs.readFile(DATA_PATH, "utf8");
   const sandbox = { window: {} };
@@ -476,7 +491,20 @@ const verifyDate = async (coverage, date) => {
         cafeFClose = secondary.close;
         closeDecision = secondaryCloseDecision({ ticker, date, primaryClose: primary.close, cafeFClose });
         if (!closeDecision.ok) {
-          throw new Error("secondary close mismatch VNDIRECT=" + primary.close + " CafeF=" + secondary.close);
+          const kbsQuote = parseKbsDaily(await fetchJson(kbsSource), date);
+          const resolved = reconcileCafeFConflict({
+            primaryClose: primary.close,
+            cafeFClose,
+            kbsQuote,
+            kbsSource
+          });
+          if (!resolved.ok) {
+            throw new Error("unresolved exact-date close mismatch VNDIRECT=" + primary.close
+              + " CafeF=" + cafeFClose + " KBS=" + kbsQuote.close);
+          }
+          secondary = kbsQuote;
+          secondaryProvider = "KBS";
+          closeDecision = resolved;
         }
       } catch (cafeFError) {
         const message = String(cafeFError?.message || cafeFError);
