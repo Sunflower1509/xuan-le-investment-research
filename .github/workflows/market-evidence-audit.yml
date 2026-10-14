@@ -92,5 +92,18 @@ jobs:
           const literal = raw.find(x=>String(x.date).slice(0,10)===date && String(x.code).toUpperCase()==='VNINDEX');
           if(!literal) throw new Error('Raw original index entry missing');
           console.log('RAW_VENDOR_INDEX_QUOTE '+JSON.stringify(literal));
+
+          // One-off non-mutating validation of ICG vendor records; no inferred price.
+          const diagUrls={
+            vndirect:'https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ICG~date:2026-10-14&size=10',
+            kbs:'https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ICG/data_day?sdate=14-10-2026&edate=14-10-2026'
+          };
+          for (const [provider,endpoint] of Object.entries(diagUrls)) {
+            try{
+              const res=await fetch(endpoint,{headers:{'User-Agent':'XuanLeTVS-ExactDateEvidence/1.0'},signal:AbortSignal.timeout(20000)});
+              const json=await res.json();
+              console.log('ICG_14_10_VENDOR_DIAG '+JSON.stringify({provider,httpStatus:res.status,response:json}));
+            }catch(error){console.log('ICG_14_10_VENDOR_DIAG '+JSON.stringify({provider,error:String(error.message)}));}
+          }
           console.log('VERIFIED_MARKET_EVIDENCE_JSON '+JSON.stringify(output));
           NODE
