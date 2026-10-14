@@ -420,6 +420,28 @@ export const parseKbsDaily = (payload, date) => {
   return { ...quote, volume: Math.round(volume) };
 };
 
+// Exact-date no-trade confirmation: never infer a zero-volume day from a missing candle alone.
+export const parseCophieu68NoTrade = (html, date) => {
+  if (typeof html !== "string" || !html.length) throw new Error("Cophieu68 empty page");
+  const m = String(date).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) throw new Error("Cophieu68 invalid date");
+  const target = m[3] + "/" + m[2] + "/" + m[1];
+  const tr = [...html.matchAll(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi)].find(([row]) => {
+    const first = row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/i);
+    return first && stripHtml(first[1]) === target;
+  })?.[0];
+  if (!tr) throw new Error("Cophieu68 missing exact-date row");
+  const cells = [...tr.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map(x => stripHtml(x[1]));
+  if (cells.length < 6 || cells[0] !== target) throw new Error("Cophieu68 incomplete exact-date row");
+  const price = x => normalizedPrice(Number(String(x).replace(/,/g, "")));
+  const volume = Number(String(cells[2]).replace(/,/g, ""));
+  const close = price(cells[1]), open = price(cells[3]), high = price(cells[4]), low = price(cells[5]);
+  if (!close || open !== close || high !== close || low !== close || volume !== 0) {
+    throw new Error("Cophieu68 row is not a zero-volume unchanged-price day");
+  }
+  return { close, open, high, low, volume };
+};
+
 export const secondaryCloseDecision = ({ ticker, date, primaryClose, cafeFClose }) => {
   if (primaryClose === cafeFClose) {
     return { ok: true, mode: "cafef-direct", source: `https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=${ticker}` };
@@ -509,18 +531,40 @@ const verifyDate = async (coverage, date) => {
       } catch (cafeFError) {
         const message = String(cafeFError?.message || cafeFError);
         if (!/CafeF missing row/i.test(message)) throw cafeFError;
-        const kbsPayload = await fetchJson(kbsSource);
-        secondary = parseKbsDaily(kbsPayload, date);
-        secondaryProvider = "KBS";
-        if (secondary.close !== primary.close) {
-          throw new Error("secondary close mismatch VNDIRECT=" + primary.close + " KBS=" + secondary.close);
+        try {
+          const kbsPayload = await fetchJson(kbsSource);
+          secondary = parseKbsDaily(kbsPayload, date);
+          secondaryProvider = "KBS";
+          if (secondary.close !== primary.close) {
+            throw new Error("secondary close mismatch VNDIRECT=" + primary.close + " KBS=" + secondary.close);
+          }
+          closeDecision = {
+            ok: true,
+            mode: "kbs-fallback",
+            source: kbsSource,
+            reason: "CafeF chưa có dòng EOD đúng ngày; KBS date-specific OHLC hợp lệ xác nhận giá đóng cửa trùng VNDIRECT."
+          };
+        } catch (kbsError) {
+          if (!/KBS missing row/i.test(String(kbsError?.message))
+            || primary.volume !== 0 || Math.abs(primary.changePct) > 0.0001
+            || primary.open !== primary.close || primary.high !== primary.close || primary.low !== primary.close) {
+            throw kbsError;
+          }
+          const noTradeSource = "https://cophieu68.vn/quote/history.php?id=" + ticker;
+          const independent = parseCophieu68NoTrade(await fetchText(noTradeSource), date);
+          if (independent.close !== primary.close || independent.volume !== primary.volume) {
+            throw new Error("Unresolved zero-trade close/volume mismatch VNDIRECT=" + primary.close
+              + " Cophieu68=" + independent.close);
+          }
+          secondary = independent;
+          secondaryProvider = "Cophieu68";
+          closeDecision = {
+            ok: true,
+            mode: "zero-volume-independent",
+            source: noTradeSource,
+            reason: "VNDIRECT và Cophieu68 cùng ghi đúng ngày: giá không đổi, khối lượng khớp lệnh 0; KBS không có candle khi không giao dịch."
+          };
         }
-        closeDecision = {
-          ok: true,
-          mode: "kbs-fallback",
-          source: kbsSource,
-          reason: "CafeF chưa có dòng EOD đúng ngày; KBS date-specific OHLC hợp lệ xác nhận giá đóng cửa trùng VNDIRECT."
-        };
       }
       return {
         ok: true,
@@ -649,6 +693,7 @@ const run = async () => {
   const volumeMismatches = [];
   const closeOverrides = [];
   const kbsFallbacks = [];
+  const zeroVolumeConfirmed = [];
   for (const item of after.coverage) {
     const quote = quoteMap.get(String(item.ticker).toUpperCase());
     item.close = quote.close;
@@ -675,6 +720,9 @@ const run = async () => {
         reason: quote.closeVerificationReason
       });
     }
+    if (quote.closeVerificationMode === "zero-volume-independent") {
+      zeroVolumeConfirmed.push({ ticker: quote.ticker, close: quote.close, volume: quote.volume, source: quote.priceSourceSecondary });
+    }
     if (quote.closeVerificationMode === "kbs-fallback") {
       kbsFallbacks.push({
         ticker: quote.ticker,
@@ -688,7 +736,7 @@ const run = async () => {
   after.meta.updated = targetDate;
   after.meta.release = targetDate;
   const matchedVolumes = tickers.length - volumeMismatches.length;
-  const directCloseMatches = tickers.length - closeOverrides.length - kbsFallbacks.length;
+  const directCloseMatches = tickers.length - closeOverrides.length - kbsFallbacks.length - zeroVolumeConfirmed.length;
   const mismatchText = volumeMismatches.length
     ? volumeMismatches.map((entry) => entry.ticker + ": VNDIRECT " + entry.vndirect.toLocaleString("vi-VN") + " vs " + entry.provider + " " + entry.secondary.toLocaleString("vi-VN") + " (chênh " + Math.abs(entry.diff).toLocaleString("vi-VN") + ")").join("; ")
     : "không có chênh lệch";
@@ -698,7 +746,10 @@ const run = async () => {
   const fallbackText = kbsFallbacks.length
     ? kbsFallbacks.length + "/" + tickers.length + " mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT"
     : "không dùng fallback KBS";
-  after.meta.note = "Giá đóng cửa, biến động và khối lượng khớp lệnh của " + tickers.length + "/" + tickers.length + " mã được khóa tại phiên " + targetDate.split("-").reverse().join("/") + ". VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF " + directCloseMatches + "/" + tickers.length + " mã; " + fallbackText + ". " + closeOverrides.length + "/" + tickers.length + " ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: " + overrideText + ". Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu " + matchedVolumes + "/" + tickers.length + " mã; " + mismatchText + ". Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.";
+  const noTradeText = zeroVolumeConfirmed.length
+    ? zeroVolumeConfirmed.length + " mã không có khớp lệnh, được Cophieu68 date-specific xác nhận giá không đổi và khối lượng 0 (" + zeroVolumeConfirmed.map(x => x.ticker).join(", ") + ")"
+    : "không phát sinh ngoại lệ ngày không có giao dịch";
+  after.meta.note = "Giá đóng cửa, biến động và khối lượng khớp lệnh của " + tickers.length + "/" + tickers.length + " mã được khóa tại phiên " + targetDate.split("-").reverse().join("/") + ". VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF " + directCloseMatches + "/" + tickers.length + " mã; " + fallbackText + ". " + noTradeText + ". " + closeOverrides.length + "/" + tickers.length + " ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: " + overrideText + ". Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu " + matchedVolumes + "/" + tickers.length + " mã; " + mismatchText + ". Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.";
 
   if (immutableProjection(before) !== immutableProjection(after)) {
     throw new Error("Phát hiện thay đổi ngoài whitelist market fields/meta; hủy cập nhật.");
@@ -713,6 +764,7 @@ const run = async () => {
     closeDirectMatched: directCloseMatches,
     kbsFallbackCount: kbsFallbacks.length,
     kbsFallbacks,
+    zeroVolumeConfirmed,
     closeOverrides,
     volumeMatched: matchedVolumes,
     volumeMismatches
