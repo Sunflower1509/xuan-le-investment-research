@@ -105,5 +105,11 @@ jobs:
               console.log('ICG_14_10_VENDOR_DIAG '+JSON.stringify({provider,httpStatus:res.status,response:json}));
             }catch(error){console.log('ICG_14_10_VENDOR_DIAG '+JSON.stringify({provider,error:String(error.message)}));}
           }
+
+          try{
+            const rawHtml=await (await fetch('https://cophieu68.vn/quote/history.php?id=ICG',{headers:{'User-Agent':'Mozilla/5.0 XuanLeDataAudit'},signal:AbortSignal.timeout(20000)})).text();
+            const at=rawHtml.indexOf('14/10/2026');
+            console.log('ICG_NO_TRADE_PROVIDER_SAMPLE '+JSON.stringify({match:at>=0,context:at>=0?rawHtml.slice(at-500,at+1800):rawHtml.slice(0,400)}));
+          }catch(err){console.log('ICG_NO_TRADE_PROVIDER_SAMPLE '+JSON.stringify({error:String(err.message)}));}
           console.log('VERIFIED_MARKET_EVIDENCE_JSON '+JSON.stringify(output));
           NODE
