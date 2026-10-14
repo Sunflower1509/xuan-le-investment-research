@@ -9,7 +9,453 @@
    * rulebook in docs/prompt-nhan-dinh-vnindex-v3.md and the data-verification gate.
    */
   const entries = [
+                    {
+        "id": "market-view-20261014",
+        "date": "2026-10-14",
+        "publishedAt": "14/10/2026 • Sau phiên",
+        "edition": "Số 39",
+        "sentiment": "cautious",
+        "sentimentLabel": "KHÔNG",
+        "dataStatus": "Giá 133/133 mã EOD 14/10 kiểm tra hai nguồn VNDIRECT–KBS/Cophieu68; VN-Index đóng cửa VNDIRECT và VNIndex.ai khớp; giá trị khớp HOSE/độ rộng 1 NGUỒN; ngoại, tự doanh, basis chưa xác minh",
+        "title": "Thủng đáy 20 phiên — còn 9 phiên phân phối, giữ phòng thủ",
+        "thesis": "VN-Index 14/10/2026 đóng 1.704,87 điểm, giảm 14,55 (−0,85%), dưới đáy 20 phiên trước 1.710,95. Đường MA20 1.765,80, MA50 1.779,02 và MA200 1.797,85 đều cao hơn giá; MA20 dốc xuống. Giá trị khớp lệnh HOSE 10.479,47 tỷ đồng (0,817× trung bình 20 phiên), độ rộng VNDIRECT 119 mã tăng/158 mã giảm. Còn 9 phiên phân phối còn hiệu lực/25 phiên; CHẶN CỨNG vẫn hoạt động dù 14/10 không tạo phiên phân phối mới. Chốt KHÔNG mở mua mới; số khối ngoại/tự doanh/basis thiếu kiểm chứng không được suy đoán.",
+        "author": "Xuân Lê TVS",
+        "role": "Môi giới và tư vấn đầu tư",
+        "readingTime": "6 phút đọc",
+        "rulebookVersion": "v3.3.1",
+        "brief": {
+            "headline": "Thủng đáy 20 phiên — còn 9 phiên phân phối, giữ phòng thủ",
+            "thesis": "Giá VN-Index đóng dưới đáy 20 phiên trước, MA20/50/200 tiếp tục nằm phía trên. Khớp lệnh yếu hơn trung bình 20 phiên và không tạo phân phối mới, nhưng 9 phiên phân phối còn hiệu lực đã đủ CHẶN CỨNG. Chứng khoán có sức giá hồi trong tập 133 mã, bất động sản yếu; chưa chứng minh có dòng tiền mới. KHÔNG mở vị thế mới.",
+            "evidence": [
                 {
+                    "label": "Xu hướng kỹ thuật",
+                    "signal": "▼ Dưới đáy 20 phiên và MA20 / MA50",
+                    "detail": "MA200 1.797,85 • 9 phiên phân phối/25.",
+                    "signalParts": [
+                        {
+                            "text": "▼ Dưới đáy 20 phiên và MA20 / MA50",
+                            "tone": "negative"
+                        }
+                    ],
+                    "detailParts": [
+                        {
+                            "text": "MA200 1.797,85",
+                            "tone": "negative"
+                        },
+                        {
+                            "text": " • ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": "9 phiên phân phối/25",
+                            "tone": "negative"
+                        }
+                    ],
+                    "text": "Giá 1.704,87 < đáy 20 phiên trước 1.710,95, < MA20 1.765,80, < MA50 1.779,02 và < MA200 1.797,85. MA20 giảm so với 1.786,53 năm phiên trước; nền xu hướng XẤU.",
+                    "tone": "negative"
+                },
+                {
+                    "label": "Thanh khoản khớp lệnh",
+                    "signal": "10.479,47 tỷ • 0,817× TB20",
+                    "detail": "Giảm 3,71% so với 13/10; 1 NGUỒN đúng phạm vi.",
+                    "signalParts": [
+                        {
+                            "text": "10.479,47 tỷ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": " • ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": "0,817× TB20",
+                            "tone": "warning"
+                        }
+                    ],
+                    "detailParts": [
+                        {
+                            "text": "Giảm 3,71%",
+                            "tone": "warning"
+                        },
+                        {
+                            "text": " so với 13/10 • ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": "1 NGUỒN",
+                            "tone": "warning"
+                        }
+                    ],
+                    "text": "Khớp lệnh HOSE VNDIRECT nmValue, không gồm thỏa thuận. Bình quân 20 phiên liền trước 12.827,03 tỷ. Phiên giảm nhưng thanh khoản thấp hơn phiên trước, không cộng phiên phân phối mới.",
+                    "tone": "warning"
+                },
+                {
+                    "label": "Độ rộng và phân hóa",
+                    "signal": "119 tăng / 158 giảm",
+                    "detail": "Tỷ lệ 0,753 • bất động sản 7/10 mã giảm.",
+                    "signalParts": [
+                        {
+                            "text": "119 tăng",
+                            "tone": "positive"
+                        },
+                        {
+                            "text": " / ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": "158 giảm",
+                            "tone": "negative"
+                        }
+                    ],
+                    "detailParts": [
+                        {
+                            "text": "Tỷ lệ 0,753",
+                            "tone": "warning"
+                        },
+                        {
+                            "text": " • ",
+                            "tone": "neutral"
+                        },
+                        {
+                            "text": "bất động sản 7/10 mã giảm",
+                            "tone": "negative"
+                        }
+                    ],
+                    "text": "Độ rộng HOSE tính theo VNDIRECT, universe khác VNIndex.ai 404 mã. Trong 133 mã website, chứng khoán 9/15 mã tăng nhưng bất động sản 7/10 mã giảm; chỉ gọi là sức giá, không khẳng định tiền vào/ra ngành.",
+                    "tone": "negative"
+                }
+            ],
+            "actions": [
+                "KHÔNG mở vị thế mới. CHẶN CỨNG 9 phiên phân phối/25 phiên và nền XẤU; tỷ trọng cổ phiếu định hướng ≤20%, giảm/không dùng đòn bẩy.",
+                "NẾU phiên tiếp theo đóng dưới 1.699,23 (đáy 14/10, mốc công bố mới), THÌ hạ rủi ro mã yếu và không bình quân giá xuống.",
+                "NẾU lấy lại 1.765,80, 1.779,02 rồi 1.797,85 cùng khớp lệnh/độ rộng xác nhận và số phân phối ≤5, THÌ tính lại trạng thái; không tự động mua."
+            ],
+            "dataIntegrity": {
+                "tone": "warning",
+                "label": "Giá 133/133 mã EOD đã đối chiếu • VN-Index giá/% khớp 2 nguồn • HOSE GT khớp và độ rộng 1 NGUỒN • 258 dòng VNDIRECT • ngoại, tự doanh, basis & Sổ cũ chưa kiểm chứng",
+                "shortLabel": "133/133 giá EOD • CHẶN CỨNG 9/25 • số HOSE khớp 1 NGUỒN"
+            }
+        },
+        "metrics": [
+            {
+                "label": "CHỈ SỐ VN",
+                "value": "1.704,87",
+                "change": "−14,55 • −0,85%",
+                "changeParts": [
+                    {
+                        "text": "−14,55",
+                        "tone": "negative"
+                    },
+                    {
+                        "text": " • ",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": "−0,85%",
+                        "tone": "negative"
+                    }
+                ],
+                "tone": "negative",
+                "direction": "down",
+                "snapshotState": "price_down"
+            },
+            {
+                "label": "ĐỘ RỘNG SÀN TP.HCM",
+                "value": "119 tăng / 158 giảm",
+                "change": "60 tham chiếu • 5 mã sàn",
+                "valueParts": [
+                    {
+                        "text": "119 tăng",
+                        "tone": "positive"
+                    },
+                    {
+                        "text": " / ",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": "158 giảm",
+                        "tone": "negative"
+                    }
+                ],
+                "changeParts": [
+                    {
+                        "text": "60 tham chiếu",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": " • ",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": "5 mã sàn",
+                        "tone": "negative"
+                    }
+                ],
+                "tone": "negative",
+                "direction": "down",
+                "snapshotState": "breadth_negative"
+            },
+            {
+                "label": "GIÁ TRỊ KHỚP LỆNH",
+                "value": "10.479,47 tỷ",
+                "change": "0,817× TB20 • giảm 3,71% so 13/10",
+                "valueParts": [
+                    {
+                        "text": "10.479,47 tỷ",
+                        "tone": "neutral"
+                    }
+                ],
+                "changeParts": [
+                    {
+                        "text": "0,817× TB20",
+                        "tone": "warning"
+                    },
+                    {
+                        "text": " • ",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": "giảm 3,71%",
+                        "tone": "warning"
+                    },
+                    {
+                        "text": " so với 13/10",
+                        "tone": "neutral"
+                    }
+                ],
+                "tone": "warning",
+                "direction": "down",
+                "snapshotState": "liquidity_below_average"
+            },
+            {
+                "label": "VỊ THẾ KỸ THUẬT",
+                "value": "Dưới MA20 / MA50 / MA200",
+                "change": "9 phiên phân phối • KHÔNG mua mới",
+                "valueParts": [
+                    {
+                        "text": "Dưới MA20 / MA50 / MA200",
+                        "tone": "negative"
+                    }
+                ],
+                "changeParts": [
+                    {
+                        "text": "9 phiên phân phối",
+                        "tone": "negative"
+                    },
+                    {
+                        "text": " • ",
+                        "tone": "neutral"
+                    },
+                    {
+                        "text": "KHÔNG mua mới",
+                        "tone": "negative"
+                    }
+                ],
+                "tone": "negative",
+                "direction": "down",
+                "snapshotState": "technical_negative"
+            }
+        ],
+        "backdrop": [
+            "Tổng quan cuối phiên 14/10/2026: VN-Index 1.704,87 điểm (−14,55; −0,85%), mở 1.720,91, cao 1.722,65, thấp 1.699,23. VNDIRECT và VNIndex.ai cùng xác nhận giá đóng và biên phiên. Đóng ở vị trí 0,241 của biên ngày (1/3 dưới), nhưng thanh khoản chỉ 0,817× TB20 nên KHÔNG kích hoạt chặn cứng xả cuối phiên riêng.",
+            "Giá đóng thấp hơn đáy 20 phiên LIỀN TRƯỚC là 1.710,95. VN-Index nằm dưới MA20 1.765,80, MA50 1.779,02 và MA200 1.797,85; MA20 giảm từ 1.786,53 năm phiên trước. Nền xu hướng XẤU theo V3.3.1; không tự coi đáy mới 1.699,23 là đáy đã xác nhận đảo chiều.",
+            "HOSE khớp lệnh 10.479,47 tỷ, thấp hơn phiên 13/10 khoảng 3,71% và bằng 0,817× mức trung bình 20 phiên 12.827,03 tỷ. Chuỗi VNDIRECT 258 phiên đồng nhất từ 01/10/2025 đến 14/10/2026; không ghép tổng giao dịch 13,53 nghìn tỷ có thỏa thuận của VNIndex.ai. Dù giá giảm hơn 0,2%, thanh khoản so phiên trước giảm nên KHÔNG có phiên phân phối mới. Số phân phối còn hiệu lực vẫn là 9/25, vượt ngưỡng chặn cứng.",
+            "Độ rộng theo VNDIRECT 119 mã tăng, 158 giảm, 60 đứng, 5 sàn; tỷ lệ 0,753, không chạm ngưỡng trừ điểm 0,67. VNIndex.ai tính trên 404 mã, có 128 tăng, 162 giảm, 114 đứng; không trộn hai tập. VNIndex.ai ghi top 5 đè điểm gồm VIC −5,76, VHM −5,76, VPL −0,96, GVR −0,78, LPB −0,74; tổng −14,00 điểm, tương đương 96,2% mức giảm 14,55 điểm, cho thấy sức ép tập trung vào trụ, không chứng minh bán dàn trải.",
+            "Bản đồ sức giá từ DANH MỤC 133 mã: ngân hàng 7 tăng/6 giảm/5 đứng; chứng khoán 9 tăng/3 giảm/3 đứng, FTS +3,75%, TVS +3,17%, SHS +2,56%; bất động sản 1 tăng/7 giảm/2 đứng, VHM −5,28%, NVL −3,59%, KOS −6,92%; công nghiệp 5 tăng/3 giảm, VGS +7,74%, HSG +4,48%. Đây không phải toàn HOSE và không chứng minh tiền ròng ngành do thiếu dữ liệu thanh khoản, khối ngoại theo nhóm.",
+            "Khối ngoại khớp lệnh HOSE ròng và chuỗi năm phiên chưa khóa chính thức. VNIndex.ai có ước tính ròng không nhất quán giữa các mục, không dùng làm chặn cứng. Tự doanh và basis VN30F1M chưa được xác minh cùng phạm vi; các yếu tố này chấm 0, chặn tương ứng KHÔNG KIỂM ĐƯỢC. Không có Sổ tự lưu do người dùng dán vào: không tự lấy mốc vô hiệu cũ hay chặn cứng mang sang để chứng minh đã gỡ."
+        ],
+        "levels": [
+            {
+                "label": "Hỗ trợ gần / mốc vô hiệu mới",
+                "value": "1.699,23",
+                "note": "Đáy 14/10/2026; mốc công bố mới áp dụng kiểm tra từ phiên sau. Mốc 1.700 chỉ là tham chiếu tâm lý."
+            },
+            {
+                "label": "Đáy phiên trước / hỗ trợ đã thủng",
+                "value": "1.710,95",
+                "note": "Đáy 13/10/2026, cũng là đáy 20 phiên trước; chỉ số 14/10 đóng dưới 1.710,95."
+            },
+            {
+                "label": "Kháng cự gần MA20",
+                "value": "1.765,80",
+                "note": "Bình quân giá đóng cửa 20 phiên từ VNDIRECT, dốc xuống; không coi như vùng mua khi còn chặn cứng."
+            },
+            {
+                "label": "Kháng cự MA50",
+                "value": "1.779,02",
+                "note": "Bình quân 50 phiên cùng nguồn; giá còn dưới MA50."
+            },
+            {
+                "label": "Kháng cự mạnh MA200",
+                "value": "1.797,85",
+                "note": "Bình quân 200 phiên nguồn VNDIRECT. Không hứa mục tiêu lợi nhuận."
+            },
+            {
+                "label": "Xác nhận tích cực",
+                "value": ">1.779,02 rồi >1.797,85",
+                "note": "Chỉ xét lại khi đóng vượt các đường trung bình cùng xác nhận độ rộng, khớp lệnh và phân phối ≤5."
+            },
+            {
+                "label": "Xác nhận rủi ro",
+                "value": "Đóng <1.699,23 từ phiên sau",
+                "note": "Mốc đáy ngày 14/10, không tự thay mốc đang hiệu lực từ Sổ gốc khi không có Sổ."
+            }
+        ],
+        "confluence": {
+            "score": -2,
+            "maxScore": 7,
+            "factors": [
+                {
+                    "factor": "Giá / MA",
+                    "score": -1,
+                    "note": "Close 1.704,87 < MA20 1.765,80, MA50 1.779,02, MA200 1.797,85; đã dưới đáy 20 phiên trước 1.710,95."
+                },
+                {
+                    "factor": "Thanh khoản",
+                    "score": 0,
+                    "note": "Phiên giảm −0,85%, khớp lệnh 10.479,47 tỷ = 0,817× TB20, chưa đạt ≥1,2× để trừ điểm."
+                },
+                {
+                    "factor": "Độ rộng",
+                    "score": 0,
+                    "note": "119 tăng / 158 giảm = 0,753, lớn hơn ngưỡng −1 là ≤0,67 và nhỏ hơn ngưỡng +1 là ≥1,5."
+                },
+                {
+                    "factor": "Chất lượng dòng tiền",
+                    "score": 0,
+                    "note": "Top 5 kéo giảm −14,00 điểm tương đương 96,2% mức giảm chỉ số, là tập trung trụ; không đủ điều kiện bán dàn trải để trừ điểm, không gán +1 cho phiên giảm."
+                },
+                {
+                    "factor": "Khối ngoại",
+                    "score": 0,
+                    "note": "Thiếu ròng khớp lệnh HOSE cuối phiên và chuỗi 5 phiên đồng phạm vi; VNIndex.ai chỉ ước tính, không bật chặn."
+                },
+                {
+                    "factor": "Phiên phân phối",
+                    "score": -1,
+                    "note": "Còn 9 phiên phân phối hợp lệ trên 25 phiên, cao hơn ngưỡng ≥5 để trừ điểm và ≥6 chặn cứng; 14/10 không tạo thêm."
+                },
+                {
+                    "factor": "Phái sinh / vĩ mô",
+                    "score": 0,
+                    "note": "Basis đúng hợp đồng EOD không xác minh; không có tin vĩ mô bất lợi đủ nguồn cùng mốc để trừ điểm."
+                }
+            ],
+            "veto": [
+                "CHẶN CỨNG: 9 phiên phân phối hợp lệ/25 phiên ≥6 theo V3.3.1; phải chuyển phòng thủ dù điểm đồng thuận chỉ −2/7.",
+                "Chặn xả cuối phiên riêng KHÔNG kích hoạt: vị trí đóng 0,241 trong 1/3 dưới, nhưng khớp lệnh chỉ 0,817× TB20 (<1×).",
+                "Chặn xanh điểm/đỏ mã KHÔNG kích hoạt vì VN-Index giảm điểm. Chặn khối ngoại và mốc vô hiệu đang hiệu lực trong Sổ cũ KHÔNG KIỂM ĐƯỢC, không gọi là đã gỡ.",
+                "Đường đi: trạng thái thô KHÔNG (dòng 1) → trần nền XẤU KHÔNG → không có Sổ để áp chống đảo chiều → chốt KHÔNG dòng 1."
+            ]
+        },
+        "scenarios": [
+            {
+                "state": "positive",
+                "likelihood": "THẤP",
+                "if": "TỐT — VN-Index đóng trên MA20 1.765,80, rồi MA50 1.779,02, MA200 1.797,85; độ rộng và GT khớp lệnh đồng thuận, phân phối giảm còn ≤5, dữ liệu ngoại chính thức đã kiểm được",
+                "then": "Tính lại xu hướng, điểm và toàn bộ cổng; không tự động mua chỉ vì vượt giá."
+            },
+            {
+                "state": "neutral",
+                "likelihood": "CAO",
+                "if": "CƠ SỞ — còn giữ trên 1.699,23 nhưng dưới MA20 1.765,80, số phiên phân phối còn cao",
+                "then": "Tiếp tục KHÔNG mở mua mới, chỉ quản trị hàng đang khỏe, giảm đòn bẩy và không tăng tỷ trọng."
+            },
+            {
+                "state": "risk_off",
+                "likelihood": "TRUNG BÌNH",
+                "if": "XẤU — VN-Index đóng dưới đáy 14/10 tại 1.699,23 từ phiên sau",
+                "then": "Hạ phần cổ phiếu yếu, không bình quân giá xuống, không tự suy diễn mốc hỗ trợ xa."
+            }
+        ],
+        "playbook": [
+            {
+                "state": "positive",
+                "if": "TỐT • THẤP — vượt MA20 1.765,80, MA50 1.779,02 và MA200 1.797,85; phân phối ≤5, thanh khoản/độ rộng xác nhận",
+                "then": "ĐÁNH GIÁ LẠI cổng, không mua tự động khi còn điều kiện chưa xác minh."
+            },
+            {
+                "state": "neutral",
+                "if": "CƠ SỞ • CAO — đóng trên 1.699,23 nhưng còn dưới 1.765,80",
+                "then": "GIỮ PHÒNG THỦ, KHÔNG mua mới; quản trị điểm dừng lỗ của từng mã."
+            },
+            {
+                "state": "risk_off",
+                "if": "XẤU • TRUNG BÌNH — đóng dưới 1.699,23 từ phiên kế tiếp",
+                "then": "GIẢM các mã yếu; không dùng đòn bẩy bắt đáy và không bình quân giá xuống."
+            }
+        ],
+        "actionTable": {
+            "dataCutoff": "Hết phiên 14/10/2026; VNDIRECT 15:04, VNIndex.ai 15:00, giá 133/133 mã hậu ATC; chế độ ĐẦY ĐỦ",
+            "finalState": "KHÔNG",
+            "score": "−2/7: giá −1; phân phối −1; thanh khoản, độ rộng, chất lượng dòng tiền, ngoại và phái sinh/vĩ mô đều 0. Thô KHÔNG dòng 1 → trần XẤU KHÔNG → thiếu Sổ bỏ chống đảo chiều → chốt KHÔNG dòng 1",
+            "veto": "CHẶN CỨNG 9 phiên phân phối / 25 phiên. Chặn ngoại và mốc trong Sổ cũ KHÔNG KIỂM ĐƯỢC",
+            "marketState": "YẾU (nền XẤU, MA20 dốc xuống)",
+            "shortTrend": "Yếu, dưới MA20 1.765,80 và MA50 1.779,02, vừa thủng đáy 20 phiên trước 1.710,95",
+            "mediumTrend": "Yếu, dưới MA200 1.797,85",
+            "liquidity": "10.479,47 tỷ HOSE khớp lệnh; 0,817× TB20 12.827,03 tỷ; giảm 3,71% so 13/10 (1 NGUỒN)",
+            "breadth": "119 tăng / 158 giảm / 60 đứng / 5 mã sàn; tỷ lệ 0,753 theo universe VNDIRECT (1 NGUỒN)",
+            "flow": "Top 5 mã đè −14,00 điểm tập trung VIC, VHM, VPL, GVR, LPB; sức giá chứng khoán tốt hơn bất động sản trong tập 133 mã, chưa xác minh dòng tiền ngành",
+            "foreign": "Chưa xác minh ròng HOSE khớp lệnh chính thức 14/10 và chuỗi 5 phiên; số ước tính khác nhau giữa các mục VNIndex.ai",
+            "distributions": "9 phiên hợp lệ/25; phiên 14/10 không thêm do giá trị khớp lệnh thấp hơn ngày trước",
+            "proprietary": "Chưa xác minh tổng tự doanh khớp lệnh 14/10",
+            "tradingAbility": "Phòng thủ — KHÔNG mở vị thế mới (dòng 1)",
+            "moneyIn": "Chưa có nhóm xác nhận tiền vào bền vững; chỉ quan sát sức giá nhóm chứng khoán 9/15 mã tăng, công nghiệp 5/8 tăng",
+            "moneyOut": "Chưa xác nhận vốn rút theo nhóm; sức giá bất động sản yếu 7/10 giảm, tiêu dùng 3/3 giảm",
+            "support": "1.699,23 đáy 14/10 (mốc mới hiệu lực phiên sau); 1.710,95 đáy ngày 13/10 đã bị đóng dưới; mốc 1.700 chỉ tham chiếu tâm lý",
+            "resistance": "1.765,80 MA20; 1.779,02 MA50; 1.797,85 MA200",
+            "invalidation": "Không có Sổ gốc để kiểm mốc cũ; mốc mới công bố ngày 14/10 là 1.699,23, áp dụng từ phiên sau",
+            "buyZone": "Không áp dụng — trạng thái KHÔNG (dòng 1)",
+            "reduceZone": "Hạ rủi ro phần yếu nếu phiên kế tiếp đóng dưới 1.699,23 hoặc cổ phiếu thủng stoploss có căn cứ",
+            "rr": "(1.765,80 − 1.704,87)/(1.704,87 − 1.699,23) ≈ 10,80 là R:R hình học chỉ số tham khảo, không bật tín hiệu mua",
+            "margin": "Giảm hoặc không sử dụng",
+            "allocation": "≤20% cổ phiếu / ≥80% tiền mặt — tỷ trọng định hướng theo trạng thái KHÔNG dòng 1",
+            "bias": "Phòng thủ",
+            "mainAction": "KHÔNG mua mới; rà điểm dừng lỗ, giảm mã yếu và tránh bắt đáy khi chặn phân phối chưa gỡ."
+        },
+        "finalConclusion": [
+            "KHÔNG mở vị thế mới: VN-Index đóng dưới đáy 20 phiên, nền XẤU, chặn cứng 9 phiên phân phối/25 phiên còn hiệu lực.",
+            "Thanh khoản HOSE khớp lệnh chỉ 0,817× TB20, không có phiên phân phối mới nhưng chưa có bằng chứng dòng tiền hồi phục bền vững; top trụ VIC và VHM đè chỉ số.",
+            "NẾU phiên sau đóng dưới 1.699,23 thì hạ rủi ro; chỉ xét lại trạng thái khi lấy lại MA20 1.765,80, MA50 1.779,02, MA200 1.797,85 và số phân phối về ≤5."
+        ],
+        "focus": "KHÔNG dòng 1 • nền XẤU • −2/7 • 9 phân phối/25 • 1.699,23 mốc vô hiệu mới • MA20 1.765,80 / MA50 1.779,02 / MA200 1.797,85 • khớp 0,817× TB20",
+        "inference": "Nhật ký dữ liệu nội bộ docs/market-source-log-20261014.md; giá 133/133 mã EOD 14/10 từ VNDIRECT–KBS, riêng ICG no-trade VNDIRECT–Cophieu68 0 khớp. VN-Index 1.704,87 đối chiếu VNIndex.ai chính xác, lịch sử 258 phiên VNDIRECT 01/10/2025–14/10/2026. Thanh khoản khớp và độ rộng HOSE 1 NGUỒN do khác phạm vi các trang tổng; thiếu Sổ gốc, ngoại, tự doanh và basis không đánh giá cổng tương ứng. Giữ nguyên layout khóa v2.2.2.",
+        "limitations": [
+            "Giá và % VN-Index hai nguồn; GT khớp HOSE và độ rộng chỉ 1 NGUỒN đồng phạm vi. VNIndex.ai có tổng GD gồm thỏa thuận và universe 404 mã khác VNDIRECT.",
+            "Khối ngoại ròng khớp lệnh HOSE, chuỗi 5 phiên, tự doanh EOD và basis đúng hợp đồng chưa đối chiếu; không đưa số ước tính làm căn cứ chặn cứng.",
+            "Không có Sổ tự lưu từ người dùng nên không kiểm được mốc/chặn cứng kế thừa; mốc mới 1.699,23 công bố hôm nay áp dụng từ phiên sau.",
+            "Bản đồ 133 mã chỉ là sức giá, chưa có GT khớp lệnh và ngoại ròng theo ngành so với TB20, không thể suy tiền vào/ra thực.",
+            "R:R 10,80 là phép đo tham khảo không thể đảo trạng thái KHÔNG do chặn cứng."
+        ],
+        "zaloPost": "Tôi tiếp tục giữ trạng thái KHÔNG mở vị thế mới sau phiên 14/10. VN-Index đóng 1.704,87 điểm, giảm 14,55 điểm. Có một chi tiết cần chú ý: chỉ số đã đóng dưới đáy 20 phiên trước đó, trong khi các đường trung bình MA20, MA50 và MA200 vẫn nằm phía trên. Đây chưa phải cấu trúc đủ khỏe để vội bắt đáy.\n\nGiá trị khớp lệnh trên sàn TP.HCM là 10.479,47 tỷ đồng, bằng 0,817 lần bình quân 20 phiên và giảm 3,71% so với ngày 13/10. Vì thanh khoản thấp hơn phiên trước, hôm nay không tạo thêm phiên phân phối mới. Tuy nhiên, 25 phiên gần nhất vẫn còn 9 phiên phân phối hợp lệ. Chặn cứng này chưa được gỡ, dù một vài cổ phiếu có nhịp hồi.\n\nĐộ rộng theo VNDIRECT là 119 mã tăng và 158 mã giảm. Điểm giảm tập trung nhiều vào VIC, VHM và một số cổ phiếu trụ; vì vậy không nên hiểu rằng mọi nhóm đều bị bán như nhau. Trong danh mục 133 mã theo dõi, chứng khoán có 9 mã tăng trên 15 mã, với FTS, TVS và SHS nổi bật về giá. Ngược lại, bất động sản có 7 mã giảm trên 10 mã, trong đó VHM và NVL yếu. Đây chỉ là quan sát sức giá, chưa đủ chứng cứ để khẳng định dòng tiền lớn đã trở lại ngành nào.\n\nỞ phiên tới, NẾU VN-Index giữ trên đáy 1.699,23 nhưng vẫn dưới vùng MA20 1.765,80, THÌ tôi tiếp tục quản trị hàng sẵn có, không mở mua mới. NẾU đóng cửa dưới 1.699,23, THÌ giảm vị thế yếu, tuyệt đối không bình quân giá xuống. NẾU lấy lại 1.765,80, tiếp theo 1.779,02 và 1.797,85 với thanh khoản, độ rộng xác nhận, đồng thời số phiên phân phối giảm về mức cho phép, THÌ mới đánh giá lại khả năng mở vị thế.\n\nViệc quan trọng là rà điểm dừng lỗ từng mã, giảm đòn bẩy và giữ tiền để chờ tín hiệu rõ hơn. Trong trạng thái phòng thủ, tỷ trọng cổ phiếu định hướng không quá 20%. Một nhịp hồi đơn lẻ không đủ thay thế kỷ luật quản trị rủi ro.\n\nNội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm quyết định.",
+        "sources": [
+            {
+                "label": "VNDIRECT Finfo — VNINDEX và độ rộng EOD 14/10/2026",
+                "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-10-14&size=500"
+            },
+            {
+                "label": "VNDIRECT Finfo — nguồn lịch sử 258 phiên, giá trị khớp lệnh, MA và phân phối",
+                "url": "https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q=code:VNINDEX~date:gte:2025-10-01~date:lte:2026-10-14&size=500"
+            },
+            {
+                "label": "VNIndex.ai — giá, biên và đóng góp điểm cuối phiên 14/10",
+                "url": "https://vnindex.ai/vnindex-hom-nay"
+            },
+            {
+                "label": "Cophieu68 — ICG 14/10 không có khớp lệnh, giá 10.400 đồng",
+                "url": "https://cophieu68.vn/quote/history.php?id=ICG"
+            },
+            {
+                "label": "GitHub Actions — khóa giá 133/133 và triển khai EOD",
+                "url": "https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/38534278663"
+            },
+            {
+                "label": "GitHub Actions — kiểm định 258 dòng lịch sử VNDIRECT",
+                "url": "https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/38532674509"
+            }
+        ]
+    },
+    {
         "id": "market-view-20261013",
         "date": "2026-10-13",
         "publishedAt": "13/10/2026 • Sau phiên",
