@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict, parseCophieu68NoTrade } from "../scripts/update-eod-market-data.mjs";
 import { updateCacheTokenHtml } from "../scripts/update-cache-token.mjs";
 
 const date = "2026-08-20";
@@ -215,4 +215,14 @@ test("mismatch CafeF chỉ chấp nhận nguồn thứ ba KBS exact-date khớp 
     primaryClose: 17600, cafeFClose: 17500, kbsQuote: exactDate,
     kbsSource: "https://unverified.example.com/quote"
   }).ok, false);
+});
+
+test("Cophieu68 no-trade confirmation validates precise date, price and zero volume", () => {
+  const date="2026-10-14";
+  const row='<tr class="tr2"><td>14/10/2026</td><td align="right"><div><strong>10.40</strong></div></td><td align="right">0</td><td>10.40</td><td>10.40</td><td>10.40</td></tr>';
+  const html='<table>'+row+'</table>';
+  assert.deepEqual(parseCophieu68NoTrade(html,date),{close:10400,open:10400,high:10400,low:10400,volume:0});
+  assert.throws(()=>parseCophieu68NoTrade(html,"2026-10-13"),/missing exact-date row/);
+  assert.throws(()=>parseCophieu68NoTrade(html.replace('>0</td>', '>100</td>'),date),/not a zero-volume/);
+  assert.throws(()=>parseCophieu68NoTrade(html.replace('<strong>10.40', '<strong>10.50'),date),/not a zero-volume/);
 });
