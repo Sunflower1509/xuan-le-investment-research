@@ -8,7 +8,7 @@ on:
       date:
         description: "Target trading session YYYY-MM-DD"
         required: false
-        default: "2026-10-14"
+        default: "2026-10-15"
 permissions:
   contents: read
 jobs:
@@ -22,7 +22,7 @@ jobs:
           node-version: 22
       - name: Read VNDIRECT full consistent index history and compute audit
         env:
-          TARGET_DATE: ${{ github.event.inputs.date || '2026-10-14' }}
+          TARGET_DATE: ${{ github.event.inputs.date || '2026-10-15' }}
         run: |
           node --input-type=module <<'NODE'
           const date = process.env.TARGET_DATE;
@@ -86,7 +86,7 @@ jobs:
           };
           // Fully expose the source rows used in all calculations for independent review.
           console.log('SOURCE_HISTORY_ROWS_JSON '+JSON.stringify(rows));
-          const samples = ['2026-10-13', '2026-10-14'].map(day => rows.find(r=>r.date===day));
+          const samples = ['2026-10-14', '2026-10-15'].map(day => rows.find(r=>r.date===day));
           if(samples.some(r=>!r)) throw new Error('Missing exact-date quoted sample rows');
           console.log('EXACT_SOURCE_SAMPLE_ROWS '+JSON.stringify(samples));
           const literal = raw.find(x=>String(x.date).slice(0,10)===date && String(x.code).toUpperCase()==='VNINDEX');
