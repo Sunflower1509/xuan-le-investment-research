@@ -53,7 +53,10 @@ jobs:
           const liquidity20=mean(rows.slice(-21,-1).map(x=>x.nmValue));
           // V3.3.1: index ETF rebalance session 18/09/2026 is excluded from distribution count.
           // Reference: ACBS FTSE GEIS rebalancing note (25/08/2026); index effective 21/09.
-          const excludedEventSessions = new Set(['2026-09-18']);
+          const excludedEventSessions = new Set(['2026-09-18','2026-10-15']);
+          // 2026-10-15 VN30F2610 expiry: HNX third Thursday of October; exclude from distribution
+          // https://eoffice.hnx.vn/vi-vn/huong-dan/chi-tiet-thu-tuc-36-65.html
+          // https://www.dsc.com.vn/kien-thuc/dao-han-phai-sinh-la-gi
           const activeDistributions=[];
           const recent=rows.slice(-26);
           for(let j=1;j<recent.length;j++){
@@ -79,7 +82,7 @@ jobs:
             // The ETF event is excluded from distribution counting.
             validDistributions:activeDistributions.filter(x=>x.date!=='2026-09-18'),
             validDistributionCount:activeDistributions.filter(x=>x.date!=='2026-09-18').length,
-            excludedEventDates:['2026-09-18'],excludedEventSessions:[...excludedEventSessions],
+            excludedEventDates:[...excludedEventSessions],excludedEventSessions:[...excludedEventSessions],
             prior20Low:Math.min(...rows.slice(-21,-1).map(x=>x.low)),
             prior20High:Math.max(...rows.slice(-21,-1).map(x=>x.high)),
             formula:"MA(n)=arithmetic mean last n closes; turnoverMean20=mean prev20 nmValue; distribution=drop>=0.2pct and nmValue>prev and never recovered >=5pct"
