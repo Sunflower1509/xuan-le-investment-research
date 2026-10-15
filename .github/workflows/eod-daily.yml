@@ -1,10 +1,6 @@
 name: Verified EOD market lock and deploy
 
 on:
-  # Temporary verified EOD one-shot 2026-10-15; restore after safe verification.
-  push:
-    paths:
-      - ".github/workflows/eod-daily.yml"
   schedule:
     - cron: "27 8 * * 1-5" # 15:27 Asia/Ho_Chi_Minh (UTC+7)
     - cron: "7 9 * * 1-5" # 16:07 Asia/Ho_Chi_Minh (UTC+7)
