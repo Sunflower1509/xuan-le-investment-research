@@ -10,11 +10,11 @@
       "enabled": true,
       "trigger": "eod-close-crossed-locked-buy-ceiling",
       "baselineDate": "2026-08-12",
-      "lastEvaluatedAt": "2026-10-14",
+      "lastEvaluatedAt": "2026-10-15",
       "lastEvaluatedQuotes": {
         "TCX": {
-          "date": "2026-10-14",
-          "close": 27250,
+          "date": "2026-10-15",
+          "close": 27650,
           "relation": "above",
           "zoneLow": 12500,
           "zoneHigh": 13400,
@@ -22,8 +22,8 @@
           "eligibility": "veto"
         },
         "SHS": {
-          "date": "2026-10-14",
-          "close": 12000,
+          "date": "2026-10-15",
+          "close": 12200,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -31,8 +31,8 @@
           "eligibility": "inactive"
         },
         "HCM": {
-          "date": "2026-10-14",
-          "close": 23100,
+          "date": "2026-10-15",
+          "close": 24000,
           "relation": "above",
           "zoneLow": 9250,
           "zoneHigh": 9900,
@@ -40,7 +40,7 @@
           "eligibility": "veto"
         },
         "REE": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 45000,
           "relation": "above",
           "zoneLow": 38000,
@@ -49,8 +49,8 @@
           "eligibility": "active"
         },
         "BID": {
-          "date": "2026-10-14",
-          "close": 33100,
+          "date": "2026-10-15",
+          "close": 33200,
           "relation": "below",
           "zoneLow": 36300,
           "zoneHigh": 36800,
@@ -58,7 +58,7 @@
           "eligibility": "inactive"
         },
         "GMD": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 53000,
           "relation": "above",
           "zoneLow": 36200,
@@ -67,8 +67,8 @@
           "eligibility": "active"
         },
         "VSC": {
-          "date": "2026-10-14",
-          "close": 12800,
+          "date": "2026-10-15",
+          "close": 12900,
           "relation": "above",
           "zoneLow": 10100,
           "zoneHigh": 10800,
@@ -76,8 +76,8 @@
           "eligibility": "active"
         },
         "VHM": {
-          "date": "2026-10-14",
-          "close": 61000,
+          "date": "2026-10-15",
+          "close": 58900,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -85,8 +85,8 @@
           "eligibility": "inactive"
         },
         "SSI": {
-          "date": "2026-10-14",
-          "close": 18900,
+          "date": "2026-10-15",
+          "close": 19250,
           "relation": "above",
           "zoneLow": 14400,
           "zoneHigh": 15400,
@@ -94,8 +94,8 @@
           "eligibility": "active"
         },
         "VCI": {
-          "date": "2026-10-14",
-          "close": 18600,
+          "date": "2026-10-15",
+          "close": 18850,
           "relation": "above",
           "zoneLow": 13600,
           "zoneHigh": 14600,
@@ -103,8 +103,8 @@
           "eligibility": "active"
         },
         "VPX": {
-          "date": "2026-10-14",
-          "close": 22800,
+          "date": "2026-10-15",
+          "close": 23000,
           "relation": "above",
           "zoneLow": 17900,
           "zoneHigh": 19200,
@@ -112,8 +112,8 @@
           "eligibility": "active"
         },
         "HII": {
-          "date": "2026-10-14",
-          "close": 9090,
+          "date": "2026-10-15",
+          "close": 8890,
           "relation": "above",
           "zoneLow": 5800,
           "zoneHigh": 6200,
@@ -121,8 +121,8 @@
           "eligibility": "active"
         },
         "MSN": {
-          "date": "2026-10-14",
-          "close": 71700,
+          "date": "2026-10-15",
+          "close": 70400,
           "relation": "above",
           "zoneLow": 66000,
           "zoneHigh": 66500,
@@ -130,8 +130,8 @@
           "eligibility": "active"
         },
         "BCM": {
-          "date": "2026-10-14",
-          "close": 37900,
+          "date": "2026-10-15",
+          "close": 38250,
           "relation": "above",
           "zoneLow": 31300,
           "zoneHigh": 33600,
@@ -139,8 +139,8 @@
           "eligibility": "active"
         },
         "VIX": {
-          "date": "2026-10-14",
-          "close": 11500,
+          "date": "2026-10-15",
+          "close": 11750,
           "relation": "above",
           "zoneLow": 7500,
           "zoneHigh": 8000,
@@ -148,8 +148,8 @@
           "eligibility": "active"
         },
         "VCB": {
-          "date": "2026-10-14",
-          "close": 56300,
+          "date": "2026-10-15",
+          "close": 56500,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -157,8 +157,8 @@
           "eligibility": "inactive"
         },
         "ACB": {
-          "date": "2026-10-14",
-          "close": 20450,
+          "date": "2026-10-15",
+          "close": 20600,
           "relation": "above",
           "zoneLow": 18000,
           "zoneHigh": 19300,
@@ -166,8 +166,8 @@
           "eligibility": "active"
         },
         "CTG": {
-          "date": "2026-10-14",
-          "close": 29550,
+          "date": "2026-10-15",
+          "close": 29800,
           "relation": "above",
           "zoneLow": 23600,
           "zoneHigh": 25300,
@@ -175,8 +175,8 @@
           "eligibility": "active"
         },
         "TVS": {
-          "date": "2026-10-14",
-          "close": 13000,
+          "date": "2026-10-15",
+          "close": 13100,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -184,8 +184,8 @@
           "eligibility": "inactive"
         },
         "VND": {
-          "date": "2026-10-14",
-          "close": 13000,
+          "date": "2026-10-15",
+          "close": 13250,
           "relation": "above",
           "zoneLow": 10300,
           "zoneHigh": 11000,
@@ -193,8 +193,8 @@
           "eligibility": "active"
         },
         "BVS": {
-          "date": "2026-10-14",
-          "close": 25500,
+          "date": "2026-10-15",
+          "close": 26500,
           "relation": "above",
           "zoneLow": 19900,
           "zoneHigh": 21300,
@@ -202,8 +202,8 @@
           "eligibility": "active"
         },
         "FPT": {
-          "date": "2026-10-14",
-          "close": 57100,
+          "date": "2026-10-15",
+          "close": 58000,
           "relation": "above",
           "zoneLow": 44500,
           "zoneHigh": 47700,
@@ -211,8 +211,8 @@
           "eligibility": "active"
         },
         "HPG": {
-          "date": "2026-10-14",
-          "close": 20800,
+          "date": "2026-10-15",
+          "close": 20750,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -220,8 +220,8 @@
           "eligibility": "inactive"
         },
         "GEE": {
-          "date": "2026-10-14",
-          "close": 65300,
+          "date": "2026-10-15",
+          "close": 65500,
           "relation": "above",
           "zoneLow": 27000,
           "zoneHigh": 28900,
@@ -229,7 +229,7 @@
           "eligibility": "veto"
         },
         "DDV": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 17100,
           "relation": "above",
           "zoneLow": 15100,
@@ -238,8 +238,8 @@
           "eligibility": "active"
         },
         "GAS": {
-          "date": "2026-10-14",
-          "close": 78600,
+          "date": "2026-10-15",
+          "close": 76200,
           "relation": "above",
           "zoneLow": 58800,
           "zoneHigh": 63000,
@@ -247,8 +247,8 @@
           "eligibility": "active"
         },
         "PVS": {
-          "date": "2026-10-14",
-          "close": 33000,
+          "date": "2026-10-15",
+          "close": 31600,
           "relation": "above",
           "zoneLow": 26300,
           "zoneHigh": 28100,
@@ -256,8 +256,8 @@
           "eligibility": "active"
         },
         "BSR": {
-          "date": "2026-10-14",
-          "close": 30100,
+          "date": "2026-10-15",
+          "close": 28200,
           "relation": "above",
           "zoneLow": null,
           "zoneHigh": null,
@@ -267,8 +267,8 @@
           "triggerPrice": 14591
         },
         "PNJ": {
-          "date": "2026-10-14",
-          "close": 18650,
+          "date": "2026-10-15",
+          "close": 18200,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -276,8 +276,8 @@
           "eligibility": "veto"
         },
         "BFC": {
-          "date": "2026-10-14",
-          "close": 63000,
+          "date": "2026-10-15",
+          "close": 61600,
           "relation": "above",
           "zoneLow": 22878,
           "zoneHigh": 24512,
@@ -285,8 +285,8 @@
           "eligibility": "veto"
         },
         "PVD": {
-          "date": "2026-10-14",
-          "close": 18000,
+          "date": "2026-10-15",
+          "close": 17700,
           "relation": "above",
           "zoneLow": 12000,
           "zoneHigh": 12800,
@@ -294,8 +294,8 @@
           "eligibility": "active"
         },
         "DHC": {
-          "date": "2026-10-14",
-          "close": 37200,
+          "date": "2026-10-15",
+          "close": 36900,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -303,8 +303,8 @@
           "eligibility": "inactive"
         },
         "ICG": {
-          "date": "2026-10-14",
-          "close": 10400,
+          "date": "2026-10-15",
+          "close": 10300,
           "relation": "above",
           "zoneLow": 7500,
           "zoneHigh": 8000,
@@ -312,8 +312,8 @@
           "eligibility": "active"
         },
         "MWG": {
-          "date": "2026-10-14",
-          "close": 73500,
+          "date": "2026-10-15",
+          "close": 72800,
           "relation": "above",
           "zoneLow": 53516,
           "zoneHigh": 57338,
@@ -321,8 +321,8 @@
           "eligibility": "active"
         },
         "LPB": {
-          "date": "2026-10-14",
-          "close": 38100,
+          "date": "2026-10-15",
+          "close": 37200,
           "relation": "above",
           "zoneLow": 24595,
           "zoneHigh": 26352,
@@ -330,8 +330,8 @@
           "eligibility": "veto"
         },
         "MSR": {
-          "date": "2026-10-14",
-          "close": 64400,
+          "date": "2026-10-15",
+          "close": 65900,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -339,8 +339,8 @@
           "eligibility": "inactive"
         },
         "VIC": {
-          "date": "2026-10-14",
-          "close": 218400,
+          "date": "2026-10-15",
+          "close": 218000,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -348,8 +348,8 @@
           "eligibility": "veto"
         },
         "VCK": {
-          "date": "2026-10-14",
-          "close": 26950,
+          "date": "2026-10-15",
+          "close": 27900,
           "relation": "above",
           "zoneLow": 14102,
           "zoneHigh": 15110,
@@ -357,8 +357,8 @@
           "eligibility": "veto"
         },
         "PHR": {
-          "date": "2026-10-14",
-          "close": 32200,
+          "date": "2026-10-15",
+          "close": 31800,
           "relation": "below",
           "zoneLow": 36665,
           "zoneHigh": 39284,
@@ -366,8 +366,8 @@
           "eligibility": "active"
         },
         "DGW": {
-          "date": "2026-10-14",
-          "close": 45500,
+          "date": "2026-10-15",
+          "close": 45050,
           "relation": "above",
           "zoneLow": 29339,
           "zoneHigh": 31434,
@@ -375,8 +375,8 @@
           "eligibility": "active"
         },
         "SHB": {
-          "date": "2026-10-14",
-          "close": 10300,
+          "date": "2026-10-15",
+          "close": 10400,
           "relation": "inside",
           "zoneLow": null,
           "zoneHigh": 11600,
@@ -386,8 +386,8 @@
           "triggerPrice": 11600
         },
         "DCM": {
-          "date": "2026-10-14",
-          "close": 34100,
+          "date": "2026-10-15",
+          "close": 33900,
           "relation": "above",
           "zoneLow": 17300,
           "zoneHigh": 18500,
@@ -395,8 +395,8 @@
           "eligibility": "active"
         },
         "PLX": {
-          "date": "2026-10-14",
-          "close": 36250,
+          "date": "2026-10-15",
+          "close": 35550,
           "relation": "above",
           "zoneLow": 19710,
           "zoneHigh": 21118,
@@ -404,8 +404,8 @@
           "eligibility": "veto"
         },
         "HDB": {
-          "date": "2026-10-14",
-          "close": 23200,
+          "date": "2026-10-15",
+          "close": 22800,
           "relation": "above",
           "zoneLow": 21151,
           "zoneHigh": 22662,
@@ -413,8 +413,8 @@
           "eligibility": "active"
         },
         "VPB": {
-          "date": "2026-10-14",
-          "close": 24350,
+          "date": "2026-10-15",
+          "close": 24450,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -422,8 +422,8 @@
           "eligibility": "inactive"
         },
         "PVT": {
-          "date": "2026-10-14",
-          "close": 24700,
+          "date": "2026-10-15",
+          "close": 23650,
           "relation": "above",
           "zoneLow": 15440,
           "zoneHigh": 16543,
@@ -431,8 +431,8 @@
           "eligibility": "active"
         },
         "MBB": {
-          "date": "2026-10-14",
-          "close": 19350,
+          "date": "2026-10-15",
+          "close": 19900,
           "relation": "above",
           "zoneLow": 14671,
           "zoneHigh": 15719,
@@ -440,8 +440,8 @@
           "eligibility": "active"
         },
         "BSI": {
-          "date": "2026-10-14",
-          "close": 23750,
+          "date": "2026-10-15",
+          "close": 25400,
           "relation": "above",
           "zoneLow": 19610,
           "zoneHigh": 21010,
@@ -449,7 +449,7 @@
           "eligibility": "active"
         },
         "MSB": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 14650,
           "relation": "above",
           "zoneLow": 11857,
@@ -458,8 +458,8 @@
           "eligibility": "active"
         },
         "TCB": {
-          "date": "2026-10-14",
-          "close": 33000,
+          "date": "2026-10-15",
+          "close": 32900,
           "relation": "above",
           "zoneLow": 31900,
           "zoneHigh": 32100,
@@ -467,8 +467,8 @@
           "eligibility": "inactive"
         },
         "VIB": {
-          "date": "2026-10-14",
-          "close": 13950,
+          "date": "2026-10-15",
+          "close": 13800,
           "relation": "above",
           "zoneLow": 10820,
           "zoneHigh": 11593,
@@ -476,8 +476,8 @@
           "eligibility": "active"
         },
         "VNM": {
-          "date": "2026-10-14",
-          "close": 57900,
+          "date": "2026-10-15",
+          "close": 57200,
           "relation": "above",
           "zoneLow": 47600,
           "zoneHigh": 51000,
@@ -485,8 +485,8 @@
           "eligibility": "active"
         },
         "DPR": {
-          "date": "2026-10-14",
-          "close": 37400,
+          "date": "2026-10-15",
+          "close": 36800,
           "relation": "above",
           "zoneLow": 25600,
           "zoneHigh": 27400,
@@ -494,8 +494,8 @@
           "eligibility": "active"
         },
         "HAH": {
-          "date": "2026-10-14",
-          "close": 48350,
+          "date": "2026-10-15",
+          "close": 48200,
           "relation": "above",
           "zoneLow": 23896,
           "zoneHigh": 25603,
@@ -503,8 +503,8 @@
           "eligibility": "active"
         },
         "BMP": {
-          "date": "2026-10-14",
-          "close": 140600,
+          "date": "2026-10-15",
+          "close": 140700,
           "relation": "above",
           "zoneLow": 67889,
           "zoneHigh": 72738,
@@ -512,7 +512,7 @@
           "eligibility": "veto"
         },
         "SAB": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 43000,
           "relation": "above",
           "zoneLow": 32326,
@@ -521,8 +521,8 @@
           "eligibility": "active"
         },
         "CTD": {
-          "date": "2026-10-14",
-          "close": 63600,
+          "date": "2026-10-15",
+          "close": 63000,
           "relation": "above",
           "zoneLow": 39900,
           "zoneHigh": 42700,
@@ -530,8 +530,8 @@
           "eligibility": "active"
         },
         "DRI": {
-          "date": "2026-10-14",
-          "close": 16000,
+          "date": "2026-10-15",
+          "close": 15800,
           "relation": "above",
           "zoneLow": 7550,
           "zoneHigh": 8090,
@@ -539,7 +539,7 @@
           "eligibility": "active"
         },
         "NKG": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 10500,
           "relation": "unavailable",
           "zoneLow": null,
@@ -548,8 +548,8 @@
           "eligibility": "inactive"
         },
         "DBC": {
-          "date": "2026-10-14",
-          "close": 15350,
+          "date": "2026-10-15",
+          "close": 15650,
           "relation": "inside",
           "zoneLow": 15200,
           "zoneHigh": 16300,
@@ -557,8 +557,8 @@
           "eligibility": "active"
         },
         "HSG": {
-          "date": "2026-10-14",
-          "close": 10500,
+          "date": "2026-10-15",
+          "close": 10450,
           "relation": "above",
           "zoneLow": 9450,
           "zoneHigh": 10125,
@@ -566,8 +566,8 @@
           "eligibility": "active"
         },
         "TPB": {
-          "date": "2026-10-14",
-          "close": 11700,
+          "date": "2026-10-15",
+          "close": 11750,
           "relation": "inside",
           "zoneLow": 11430,
           "zoneHigh": 12246,
@@ -575,8 +575,8 @@
           "eligibility": "active"
         },
         "ORS": {
-          "date": "2026-10-14",
-          "close": 13250,
+          "date": "2026-10-15",
+          "close": 13450,
           "relation": "above",
           "zoneLow": 4082,
           "zoneHigh": 4374,
@@ -584,8 +584,8 @@
           "eligibility": "veto"
         },
         "POW": {
-          "date": "2026-10-14",
-          "close": 12450,
+          "date": "2026-10-15",
+          "close": 12200,
           "relation": "above",
           "zoneLow": 6019,
           "zoneHigh": 6449,
@@ -593,8 +593,8 @@
           "eligibility": "active"
         },
         "STB": {
-          "date": "2026-10-14",
-          "close": 64600,
+          "date": "2026-10-15",
+          "close": 62800,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -602,8 +602,8 @@
           "eligibility": "veto"
         },
         "OIL": {
-          "date": "2026-10-14",
-          "close": 13300,
+          "date": "2026-10-15",
+          "close": 12900,
           "relation": "above",
           "zoneLow": 9800,
           "zoneHigh": 10700,
@@ -611,8 +611,8 @@
           "eligibility": "active"
         },
         "PHP": {
-          "date": "2026-10-14",
-          "close": 47800,
+          "date": "2026-10-15",
+          "close": 47900,
           "relation": "above",
           "zoneLow": 37700,
           "zoneHigh": 40400,
@@ -620,8 +620,8 @@
           "eligibility": "active"
         },
         "PLC": {
-          "date": "2026-10-14",
-          "close": 18900,
+          "date": "2026-10-15",
+          "close": 19000,
           "relation": "above",
           "zoneLow": 15300,
           "zoneHigh": 16400,
@@ -629,8 +629,8 @@
           "eligibility": "active"
         },
         "PVB": {
-          "date": "2026-10-14",
-          "close": 20800,
+          "date": "2026-10-15",
+          "close": 20500,
           "relation": "above",
           "zoneLow": 16100,
           "zoneHigh": 17300,
@@ -638,8 +638,8 @@
           "eligibility": "active"
         },
         "PVC": {
-          "date": "2026-10-14",
-          "close": 11600,
+          "date": "2026-10-15",
+          "close": 11400,
           "relation": "above",
           "zoneLow": 7350,
           "zoneHigh": 7900,
@@ -647,8 +647,8 @@
           "eligibility": "veto"
         },
         "PVP": {
-          "date": "2026-10-14",
-          "close": 23150,
+          "date": "2026-10-15",
+          "close": 22000,
           "relation": "above",
           "zoneLow": 19200,
           "zoneHigh": 19700,
@@ -656,8 +656,8 @@
           "eligibility": "active"
         },
         "SSB": {
-          "date": "2026-10-14",
-          "close": 15650,
+          "date": "2026-10-15",
+          "close": 15900,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -665,8 +665,8 @@
           "eligibility": "inactive"
         },
         "VGS": {
-          "date": "2026-10-14",
-          "close": 16700,
+          "date": "2026-10-15",
+          "close": 16800,
           "relation": "above",
           "zoneLow": 11503,
           "zoneHigh": 12325,
@@ -674,8 +674,8 @@
           "eligibility": "active"
         },
         "VJC": {
-          "date": "2026-10-14",
-          "close": 128100,
+          "date": "2026-10-15",
+          "close": 127300,
           "relation": "above",
           "zoneLow": 77000,
           "zoneHigh": 82000,
@@ -683,8 +683,8 @@
           "eligibility": "active"
         },
         "VPL": {
-          "date": "2026-10-14",
-          "close": 76000,
+          "date": "2026-10-15",
+          "close": 77000,
           "relation": "above",
           "zoneLow": 39000,
           "zoneHigh": 42000,
@@ -692,8 +692,8 @@
           "eligibility": "veto"
         },
         "VRE": {
-          "date": "2026-10-14",
-          "close": 22400,
+          "date": "2026-10-15",
+          "close": 22600,
           "relation": "above",
           "zoneLow": 20000,
           "zoneHigh": 21500,
@@ -701,8 +701,8 @@
           "eligibility": "active"
         },
         "CEO": {
-          "date": "2026-10-14",
-          "close": 10700,
+          "date": "2026-10-15",
+          "close": 11000,
           "relation": "below",
           "zoneLow": 12500,
           "zoneHigh": 12800,
@@ -710,8 +710,8 @@
           "eligibility": "active"
         },
         "DIG": {
-          "date": "2026-10-14",
-          "close": 9500,
+          "date": "2026-10-15",
+          "close": 9600,
           "relation": "below",
           "zoneLow": 10750,
           "zoneHigh": 11000,
@@ -719,17 +719,17 @@
           "eligibility": "active"
         },
         "GVR": {
-          "date": "2026-10-14",
-          "close": 31400,
-          "relation": "inside",
+          "date": "2026-10-15",
+          "close": 30900,
+          "relation": "below",
           "zoneLow": 31000,
           "zoneHigh": 31500,
           "zoneBasisDate": "2026-08-26",
           "eligibility": "active"
         },
         "HDC": {
-          "date": "2026-10-14",
-          "close": 10250,
+          "date": "2026-10-15",
+          "close": 10350,
           "relation": "below",
           "zoneLow": 11600,
           "zoneHigh": 11900,
@@ -737,7 +737,7 @@
           "eligibility": "active"
         },
         "IDC": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 33700,
           "relation": "above",
           "zoneLow": 29500,
@@ -746,7 +746,7 @@
           "eligibility": "active"
         },
         "KBC": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 25750,
           "relation": "below",
           "zoneLow": 26600,
@@ -755,8 +755,8 @@
           "eligibility": "active"
         },
         "KDH": {
-          "date": "2026-10-14",
-          "close": 13500,
+          "date": "2026-10-15",
+          "close": 13650,
           "relation": "below",
           "zoneLow": 17800,
           "zoneHigh": 18400,
@@ -764,8 +764,8 @@
           "eligibility": "active"
         },
         "NLG": {
-          "date": "2026-10-14",
-          "close": 21200,
+          "date": "2026-10-15",
+          "close": 21400,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -773,8 +773,8 @@
           "eligibility": "inactive"
         },
         "NVL": {
-          "date": "2026-10-14",
-          "close": 10750,
+          "date": "2026-10-15",
+          "close": 10700,
           "relation": "below",
           "zoneLow": 12750,
           "zoneHigh": 12950,
@@ -782,8 +782,8 @@
           "eligibility": "active"
         },
         "VCG": {
-          "date": "2026-10-14",
-          "close": 14200,
+          "date": "2026-10-15",
+          "close": 15000,
           "relation": "below",
           "zoneLow": 15400,
           "zoneHigh": 15700,
@@ -791,8 +791,8 @@
           "eligibility": "active"
         },
         "D2D": {
-          "date": "2026-10-14",
-          "close": 21800,
+          "date": "2026-10-15",
+          "close": 21700,
           "relation": "above",
           "zoneLow": 15744,
           "zoneHigh": 16869,
@@ -800,17 +800,17 @@
           "eligibility": "active"
         },
         "DXG": {
-          "date": "2026-10-14",
-          "close": 10000,
-          "relation": "inside",
+          "date": "2026-10-15",
+          "close": 10250,
+          "relation": "above",
           "zoneLow": 9400,
           "zoneHigh": 10100,
           "zoneBasisDate": "2026-08-26",
           "eligibility": "active"
         },
         "EIB": {
-          "date": "2026-10-14",
-          "close": 16300,
+          "date": "2026-10-15",
+          "close": 16450,
           "relation": "above",
           "zoneLow": 6791,
           "zoneHigh": 7276,
@@ -818,8 +818,8 @@
           "eligibility": "active"
         },
         "GEL": {
-          "date": "2026-10-14",
-          "close": 26950,
+          "date": "2026-10-15",
+          "close": 27300,
           "relation": "above",
           "zoneLow": 21450,
           "zoneHigh": 22982,
@@ -827,17 +827,17 @@
           "eligibility": "active"
         },
         "GEX": {
-          "date": "2026-10-14",
-          "close": 21900,
-          "relation": "inside",
+          "date": "2026-10-15",
+          "close": 22400,
+          "relation": "above",
           "zoneLow": 20649,
           "zoneHigh": 22124,
           "zoneBasisDate": "2026-08-26",
           "eligibility": "active"
         },
         "HHS": {
-          "date": "2026-10-14",
-          "close": 8690,
+          "date": "2026-10-15",
+          "close": 8950,
           "relation": "inside",
           "zoneLow": 8350,
           "zoneHigh": 8950,
@@ -845,8 +845,8 @@
           "eligibility": "active"
         },
         "NTC": {
-          "date": "2026-10-14",
-          "close": 130600,
+          "date": "2026-10-15",
+          "close": 132700,
           "relation": "above",
           "zoneLow": 74754,
           "zoneHigh": 80093,
@@ -854,8 +854,8 @@
           "eligibility": "active"
         },
         "PDR": {
-          "date": "2026-10-14",
-          "close": 11100,
+          "date": "2026-10-15",
+          "close": 11300,
           "relation": "inside",
           "zoneLow": 10778,
           "zoneHigh": 11547,
@@ -863,8 +863,8 @@
           "eligibility": "active"
         },
         "TCH": {
-          "date": "2026-10-14",
-          "close": 10900,
+          "date": "2026-10-15",
+          "close": 11100,
           "relation": "below",
           "zoneLow": 12142,
           "zoneHigh": 13010,
@@ -872,8 +872,8 @@
           "eligibility": "active"
         },
         "VGC": {
-          "date": "2026-10-14",
-          "close": 43750,
+          "date": "2026-10-15",
+          "close": 43400,
           "relation": "above",
           "zoneLow": 34073,
           "zoneHigh": 36507,
@@ -881,8 +881,8 @@
           "eligibility": "active"
         },
         "BVH": {
-          "date": "2026-10-14",
-          "close": 76000,
+          "date": "2026-10-15",
+          "close": 71400,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -890,8 +890,8 @@
           "eligibility": "inactive"
         },
         "CMG": {
-          "date": "2026-10-14",
-          "close": 19150,
+          "date": "2026-10-15",
+          "close": 19250,
           "relation": "above",
           "zoneLow": 16100,
           "zoneHigh": 17300,
@@ -899,8 +899,8 @@
           "eligibility": "active"
         },
         "DPG": {
-          "date": "2026-10-14",
-          "close": 27050,
+          "date": "2026-10-15",
+          "close": 27650,
           "relation": "inside",
           "zoneLow": 27000,
           "zoneHigh": 28000,
@@ -908,8 +908,8 @@
           "eligibility": "active"
         },
         "FTS": {
-          "date": "2026-10-14",
-          "close": 18000,
+          "date": "2026-10-15",
+          "close": 18700,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -917,8 +917,8 @@
           "eligibility": "inactive"
         },
         "HDG": {
-          "date": "2026-10-14",
-          "close": 14700,
+          "date": "2026-10-15",
+          "close": 14800,
           "relation": "below",
           "zoneLow": 15100,
           "zoneHigh": 16200,
@@ -926,8 +926,8 @@
           "eligibility": "active"
         },
         "LHG": {
-          "date": "2026-10-14",
-          "close": 26100,
+          "date": "2026-10-15",
+          "close": 26150,
           "relation": "inside",
           "zoneLow": 25300,
           "zoneHigh": 27100,
@@ -935,8 +935,8 @@
           "eligibility": "active"
         },
         "MCH": {
-          "date": "2026-10-14",
-          "close": 140900,
+          "date": "2026-10-15",
+          "close": 139800,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -944,8 +944,8 @@
           "eligibility": "inactive"
         },
         "PET": {
-          "date": "2026-10-14",
-          "close": 49850,
+          "date": "2026-10-15",
+          "close": 51000,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -953,8 +953,8 @@
           "eligibility": "veto"
         },
         "SBT": {
-          "date": "2026-10-14",
-          "close": 22600,
+          "date": "2026-10-15",
+          "close": 22650,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -962,8 +962,8 @@
           "eligibility": "inactive"
         },
         "SJS": {
-          "date": "2026-10-14",
-          "close": 50200,
+          "date": "2026-10-15",
+          "close": 53700,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -971,8 +971,8 @@
           "eligibility": "inactive"
         },
         "SZC": {
-          "date": "2026-10-14",
-          "close": 17350,
+          "date": "2026-10-15",
+          "close": 17450,
           "relation": "above",
           "zoneLow": 13800,
           "zoneHigh": 14700,
@@ -980,8 +980,8 @@
           "eligibility": "active"
         },
         "VPI": {
-          "date": "2026-10-14",
-          "close": 50600,
+          "date": "2026-10-15",
+          "close": 49400,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -989,8 +989,8 @@
           "eligibility": "inactive"
         },
         "BAF": {
-          "date": "2026-10-14",
-          "close": 31150,
+          "date": "2026-10-15",
+          "close": 31000,
           "relation": "above",
           "zoneLow": 12600,
           "zoneHigh": 13500,
@@ -998,7 +998,7 @@
           "eligibility": "active"
         },
         "HUT": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 12200,
           "relation": "above",
           "zoneLow": 6736,
@@ -1007,8 +1007,8 @@
           "eligibility": "active"
         },
         "OCB": {
-          "date": "2026-10-14",
-          "close": 9990,
+          "date": "2026-10-15",
+          "close": 10000,
           "relation": "below",
           "zoneLow": 10250,
           "zoneHigh": 10400,
@@ -1016,8 +1016,8 @@
           "eligibility": "active"
         },
         "PAN": {
-          "date": "2026-10-14",
-          "close": 18200,
+          "date": "2026-10-15",
+          "close": 18050,
           "relation": "below",
           "zoneLow": 20000,
           "zoneHigh": 20200,
@@ -1025,8 +1025,8 @@
           "eligibility": "active"
         },
         "TNG": {
-          "date": "2026-10-14",
-          "close": 18400,
+          "date": "2026-10-15",
+          "close": 18100,
           "relation": "above",
           "zoneLow": 12250,
           "zoneHigh": 13125,
@@ -1034,8 +1034,8 @@
           "eligibility": "active"
         },
         "YEG": {
-          "date": "2026-10-14",
-          "close": 7760,
+          "date": "2026-10-15",
+          "close": 7820,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -1043,8 +1043,8 @@
           "eligibility": "inactive"
         },
         "CSV": {
-          "date": "2026-10-14",
-          "close": 23400,
+          "date": "2026-10-15",
+          "close": 23600,
           "relation": "above",
           "zoneLow": 20000,
           "zoneHigh": 20500,
@@ -1052,8 +1052,8 @@
           "eligibility": "active"
         },
         "FRT": {
-          "date": "2026-10-14",
-          "close": 140600,
+          "date": "2026-10-15",
+          "close": 141000,
           "relation": "above",
           "zoneLow": 118000,
           "zoneHigh": 125000,
@@ -1061,8 +1061,8 @@
           "eligibility": "active"
         },
         "PC1": {
-          "date": "2026-10-14",
-          "close": 18250,
+          "date": "2026-10-15",
+          "close": 18600,
           "relation": "above",
           "zoneLow": 15900,
           "zoneHigh": 17100,
@@ -1070,8 +1070,8 @@
           "eligibility": "active"
         },
         "TCM": {
-          "date": "2026-10-14",
-          "close": 14700,
+          "date": "2026-10-15",
+          "close": 14850,
           "relation": "above",
           "zoneLow": 11778,
           "zoneHigh": 12620,
@@ -1079,8 +1079,8 @@
           "eligibility": "active"
         },
         "VDS": {
-          "date": "2026-10-14",
-          "close": 9640,
+          "date": "2026-10-15",
+          "close": 9900,
           "relation": "below",
           "zoneLow": 11200,
           "zoneHigh": 11400,
@@ -1088,8 +1088,8 @@
           "eligibility": "active"
         },
         "CTR": {
-          "date": "2026-10-14",
-          "close": 68300,
+          "date": "2026-10-15",
+          "close": 68100,
           "relation": "below",
           "zoneLow": null,
           "zoneHigh": null,
@@ -1099,8 +1099,8 @@
           "triggerPrice": 78000
         },
         "VGI": {
-          "date": "2026-10-14",
-          "close": 76100,
+          "date": "2026-10-15",
+          "close": 76300,
           "relation": "above",
           "zoneLow": 54000,
           "zoneHigh": 58000,
@@ -1108,8 +1108,8 @@
           "eligibility": "active"
         },
         "VTP": {
-          "date": "2026-10-14",
-          "close": 45250,
+          "date": "2026-10-15",
+          "close": 46500,
           "relation": "above",
           "zoneLow": 24400,
           "zoneHigh": 26100,
@@ -1117,7 +1117,7 @@
           "eligibility": "active"
         },
         "DXP": {
-          "date": "2026-10-14",
+          "date": "2026-10-15",
           "close": 14500,
           "relation": "above",
           "zoneLow": 10500,
@@ -1126,8 +1126,8 @@
           "eligibility": "active"
         },
         "HHP": {
-          "date": "2026-10-14",
-          "close": 18150,
+          "date": "2026-10-15",
+          "close": 17200,
           "relation": "above",
           "zoneLow": 6047,
           "zoneHigh": 6479,
@@ -1135,8 +1135,8 @@
           "eligibility": "active"
         },
         "SIP": {
-          "date": "2026-10-14",
-          "close": 47950,
+          "date": "2026-10-15",
+          "close": 48100,
           "relation": "above",
           "zoneLow": 40764,
           "zoneHigh": 43676,
@@ -1144,8 +1144,8 @@
           "eligibility": "active"
         },
         "QNS": {
-          "date": "2026-10-14",
-          "close": 50300,
+          "date": "2026-10-15",
+          "close": 49900,
           "relation": "inside",
           "zoneLow": 49800,
           "zoneHigh": 50400,
@@ -1153,8 +1153,8 @@
           "eligibility": "inactive"
         },
         "TNH": {
-          "date": "2026-10-14",
-          "close": 6430,
+          "date": "2026-10-15",
+          "close": 6610,
           "relation": "below",
           "zoneLow": 7850,
           "zoneHigh": 8000,
@@ -1162,8 +1162,8 @@
           "eligibility": "active"
         },
         "DCL": {
-          "date": "2026-10-14",
-          "close": 46500,
+          "date": "2026-10-15",
+          "close": 46800,
           "relation": "above",
           "zoneLow": 17198,
           "zoneHigh": 18426,
@@ -1171,8 +1171,8 @@
           "eligibility": "active"
         },
         "KSV": {
-          "date": "2026-10-14",
-          "close": 115100,
+          "date": "2026-10-15",
+          "close": 113000,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -1180,8 +1180,8 @@
           "eligibility": "inactive"
         },
         "VTO": {
-          "date": "2026-10-14",
-          "close": 11350,
+          "date": "2026-10-15",
+          "close": 11100,
           "relation": "above",
           "zoneLow": 10550,
           "zoneHigh": 10650,
@@ -1189,8 +1189,8 @@
           "eligibility": "active"
         },
         "ABB": {
-          "date": "2026-10-14",
-          "close": 17600,
+          "date": "2026-10-15",
+          "close": 17500,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -1198,8 +1198,8 @@
           "eligibility": "inactive"
         },
         "G36": {
-          "date": "2026-10-14",
-          "close": 9100,
+          "date": "2026-10-15",
+          "close": 9000,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -1207,8 +1207,8 @@
           "eligibility": "veto"
         },
         "KOS": {
-          "date": "2026-10-14",
-          "close": 8340,
+          "date": "2026-10-15",
+          "close": 7760,
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
@@ -2582,6 +2582,26 @@
       "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HDB/data_day?sdate=09-10-2026&edate=09-10-2026",
       "reportId": "HDB-20260818",
       "reportFile": "reports/HDB_2026-08-18.pdf"
+    },
+    {
+      "id": "auto-close-GVR-2026-09-04-2026-10-15-zone_floor_break",
+      "tradeId": "GVR-2026-09-04",
+      "type": "closed",
+      "mode": "automatic-eod",
+      "ticker": "GVR",
+      "date": "2026-10-15",
+      "price": 30900,
+      "reason": "zone_floor_break",
+      "sourceUrl": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GVR~date:2026-10-15&size=10",
+      "exitPolicy": {
+        "version": 1,
+        "basis": "eod-close",
+        "executionPrice": "same-eod-close",
+        "rule": "zoneFloor",
+        "triggerPrice": 31000
+      },
+      "note": "Giá đóng cửa EOD 30900 nằm dưới cận dưới vùng mua 31000 đã khóa. Đóng toàn bộ phần vị thế còn lại theo Trade Exit Policy v1; giá chốt tham chiếu là giá đóng cửa EOD, không giả định khớp đúng tại ngưỡng.",
+      "sourceUrlSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GVR/data_day?sdate=15-10-2026&edate=15-10-2026"
     }
   ]
 }
