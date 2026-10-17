@@ -113,5 +113,5 @@ Không sửa Sổ lịch sử không được cung cấp.
 | 16 | Không ghi vùng mua khi KHÔNG | ĐẠT |
 | 17 | Mốc, R:R, không dời mốc trái luật | ĐẠT có giới hạn Sổ |
 | 18 | Nhóm ngành có bằng chứng GT và ngoại cùng phạm vi | KHÔNG ĐẠT: chỉ xuất ngành theo sức giá, không gọi vốn ròng |
-| 19 | Nội dung web đồng bộ và bảo toàn giao diện | CHỜ xác minh deploy/kiểm tra sau xuất bản |
+| 19 | Nội dung web đồng bộ và bảo toàn giao diện | ĐẠT THEO KIỂM THỬ CI: GitHub Pages [38999400781](https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/38999400781) thành công; đối chiếu byte sau triển khai thành công; 169/169 kiểm thử; HTML/CSS không thay đổi. KIỂM TRA TRỰC QUAN ĐỘC LẬP: chưa thực hiện |
 | 20 | Sổ mới chỉ 1 dòng | ĐẠT |
