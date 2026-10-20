@@ -104,5 +104,5 @@ Không chỉnh các dòng Sổ gốc không được cung cấp.
 | 16 | Không sinh vùng mua mới trong trạng thái KHÔNG | ĐẠT |
 | 17 | Mốc lấy từ giá thực, không dời stop; R:R chưa áp dụng | ĐẠT |
 | 18 | Nhóm ngành không mạo nhận tiền ròng | ĐẠT khi ghi sức GIÁ, không ghi tiền ròng |
-| 19 | Bản tin khớp website, bố cục và deploy | CHƯA KIỂM — cập nhật sau triển khai |
+| 19 | Bản tin khớp website, bố cục và deploy | ĐẠT kiểm thử tự động: [Pages 39392073225](https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/39392073225) thành công; 169/169 kiểm thử, kiểm tra 133 báo cáo / 133 mã / 46 nhận định, đối chiếu byte sau triển khai đạt; 6 khu vực giữ nguyên và không sửa HTML/CSS. Chưa kiểm thử trực quan trên nhiều thiết bị. |
 | 20 | Sổ mới chỉ một dòng, không chép lịch sử | ĐẠT |
