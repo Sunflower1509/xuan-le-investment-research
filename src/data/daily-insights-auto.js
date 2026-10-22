@@ -237,7 +237,7 @@
           ],
           "tone": "warning",
           "direction": "down",
-          "snapshotState": "liquidity_below_average"
+          "snapshotState": "liquidity_above_average"
         },
         {
           "label": "VỊ THẾ KỸ THUẬT",
