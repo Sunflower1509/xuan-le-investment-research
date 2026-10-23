@@ -118,5 +118,5 @@ Không sửa bất cứ dòng Sổ người dùng nào khi chưa có Sổ gốc.
 | 16 | Không phát vùng mua mới khi KHÔNG | ĐẠT |
 | 17 | Mốc có xuất xứ; không thay stop; R:R không dựng | ĐẠT |
 | 18 | Ngành chỉ ghi sức giá khi thiếu vốn ròng | ĐẠT |
-| 19 | Xuất bản, bố cục và kiểm tra triển khai | CHỜ xác minh Pages và đối chiếu tệp |
+| 19 | Xuất bản, bố cục và kiểm tra triển khai | ĐẠT TỰ ĐỘNG: [GitHub Pages 39924723992](https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/39924723992) thành công; 169/169 kiểm thử, 133 báo cáo/133 mã/49 nhận định/49 sự kiện vị thế; 6 khu vực nguyên thứ tự; kiểm tra phạm vi thay đổi, logo, ảnh và byte sau xuất bản đều đạt. GIỚI HẠN: chưa kiểm thử giao diện trực quan độc lập trên đa thiết bị. |
 | 20 | Sổ bổ sung chỉ dòng mới, không chép lịch sử | ĐẠT |
