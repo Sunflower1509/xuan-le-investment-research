@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 133/133 mã được khóa tại phiên 23/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/133 mã; 133/133 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. không phát sinh ngoại lệ ngày không có giao dịch. 0/133 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 130/133 mã; CEO: VNDIRECT 6.458.300 vs KBS 6.458.200 (chênh 100); PVS: VNDIRECT 1.851.100 vs KBS 1.843.300 (chênh 7.800); SHS: VNDIRECT 13.124.400 vs KBS 13.123.200 (chênh 1.200). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 133/133 mã được khóa tại phiên 23/10/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 128/133 mã; không dùng fallback KBS. không phát sinh ngoại lệ ngày không có giao dịch. 5/133 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: ABB: CafeF 17.600 khác VNDIRECT 17.700; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ABB/data_day?sdate=23-10-2026&edate=23-10-2026); DDV: CafeF 17.800 khác VNDIRECT 17.700; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DDV/data_day?sdate=23-10-2026&edate=23-10-2026); G36: CafeF 9.000 khác VNDIRECT 9.100; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=23-10-2026&edate=23-10-2026); MSR: CafeF 63.700 khác VNDIRECT 63.600; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=23-10-2026&edate=23-10-2026); OIL: CafeF 13.200 khác VNDIRECT 13.100; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=23-10-2026&edate=23-10-2026). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 110/133 mã; ABB: VNDIRECT 376.475 vs KBS 375.300 (chênh 1.175); BVS: VNDIRECT 513.823 vs CafeF 513.300 (chênh 523); CEO: VNDIRECT 6.464.148 vs CafeF 6.458.200 (chênh 5.948); DDV: VNDIRECT 980.552 vs KBS 979.400 (chênh 1.152); DRI: VNDIRECT 399.051 vs CafeF 397.800 (chênh 1.251); DXP: VNDIRECT 243.495 vs CafeF 243.300 (chênh 195); G36: VNDIRECT 212.750 vs KBS 212.700 (chênh 50); HUT: VNDIRECT 2.768.407 vs CafeF 2.768.100 (chênh 307); ICG: VNDIRECT 303 vs CafeF 300 (chênh 3); IDC: VNDIRECT 1.344.478 vs CafeF 1.341.700 (chênh 2.778); KSV: VNDIRECT 48.527 vs CafeF 47.900 (chênh 627); MSR: VNDIRECT 1.213.278 vs KBS 1.209.500 (chênh 3.778); OIL: VNDIRECT 1.556.143 vs KBS 1.553.900 (chênh 2.243); PHP: VNDIRECT 253.092 vs CafeF 252.000 (chênh 1.092); PLC: VNDIRECT 621.484 vs CafeF 620.500 (chênh 984); PVB: VNDIRECT 199.245 vs CafeF 199.000 (chênh 245); PVC: VNDIRECT 920.804 vs CafeF 920.100 (chênh 704); PVS: VNDIRECT 1.853.335 vs CafeF 1.843.300 (chênh 10.035); QNS: VNDIRECT 86.824 vs CafeF 86.700 (chênh 124); SHS: VNDIRECT 13.127.358 vs CafeF 13.123.200 (chênh 4.158); TNG: VNDIRECT 792.923 vs CafeF 792.300 (chênh 623); VGI: VNDIRECT 130.538 vs CafeF 129.500 (chênh 1.038); VGS: VNDIRECT 422.179 vs CafeF 421.700 (chênh 479). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -5456,7 +5456,7 @@ window.RESEARCH_DATA = {
       "reportId": "ABB-20261003",
       "close": 17700,
       "changePct": 0.5682,
-      "volume": 375300,
+      "volume": 376475,
       "priceDate": "2026-10-23",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ABB~date:2026-10-23&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ABB/data_day?sdate=23-10-2026&edate=23-10-2026",
@@ -5483,7 +5483,7 @@ window.RESEARCH_DATA = {
       "changePct": 3.9024,
       "volume": 40992200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ACB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ACB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=ACB",
       "action": {
         "zoneLow": 18000,
         "zoneHigh": 19300,
@@ -5511,7 +5511,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 3392600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BAF~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BAF/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BAF",
       "action": {
         "zoneLow": 12600,
         "zoneHigh": 13500,
@@ -5534,7 +5534,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.0833,
       "volume": 1298500,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BCM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BCM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BCM",
       "action": {
         "zoneLow": 31300,
         "zoneHigh": 33600,
@@ -5557,7 +5557,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.1986,
       "volume": 102800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BFC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BFC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BFC",
       "action": {
         "zoneLow": 22878,
         "zoneHigh": 24512,
@@ -5581,7 +5581,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.3314,
       "volume": 3553400,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BID~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BID/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BID",
       "action": {
         "zoneLow": 36300,
         "zoneHigh": 36800,
@@ -5608,7 +5608,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.3621,
       "volume": 27800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BMP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BMP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BMP",
       "action": {
         "zoneLow": 67889,
         "zoneHigh": 72738,
@@ -5635,7 +5635,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 282700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSI~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BSI/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BSI",
       "action": {
         "zoneLow": 19610,
         "zoneHigh": 21010,
@@ -5662,7 +5662,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.5137,
       "volume": 7071600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BSR/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BSR",
       "action": {
         "triggerType": "at-or-below",
         "triggerPrice": 14591,
@@ -5699,7 +5699,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không có vùng mua/stop/target/R/R hợp lệ ở mức giá hiện tại. Chỉ đánh giá lại khi tín hiệu định giá tối thiểu về THEO DÕI (P <= GTKV hoặc GTKV được nâng có căn cứ), đồng thời kỹ thuật vẫn xác nhận, stop nằm 3-7% dưới giá mua và R/R >=2."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BVH/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BVH"
     },
     {
       "ticker": "BVS",
@@ -5710,9 +5710,9 @@ window.RESEARCH_DATA = {
       "close": 27300,
       "priceDate": "2026-10-23",
       "changePct": 1.1111,
-      "volume": 513300,
+      "volume": 513823,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/BVS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BVS",
       "action": {
         "zoneLow": 19900,
         "zoneHigh": 21300,
@@ -5731,9 +5731,9 @@ window.RESEARCH_DATA = {
       "close": 11500,
       "priceDate": "2026-10-23",
       "changePct": 0,
-      "volume": 6458300,
+      "volume": 6464148,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CEO~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CEO/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CEO",
       "action": {
         "zoneLow": 12500,
         "zoneHigh": 12800,
@@ -5769,7 +5769,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 16.100-17.300 và luận điểm không xấu đi THEN mới xem xét vùng mua theo MOS 25-30%."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CMG/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CMG"
     },
     {
       "ticker": "CSV",
@@ -5782,7 +5782,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.0964,
       "volume": 713300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CSV~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CSV/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CSV",
       "action": {
         "zoneLow": 20000,
         "zoneHigh": 20500,
@@ -5809,7 +5809,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.2901,
       "volume": 593300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTD~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CTD/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CTD",
       "action": {
         "zoneLow": 39900,
         "zoneHigh": 42700,
@@ -5837,7 +5837,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.3093,
       "volume": 8481600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CTG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CTG",
       "action": {
         "zoneLow": 23600,
         "zoneHigh": 25300,
@@ -5860,7 +5860,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 103000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CTR~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/CTR/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CTR",
       "action": {
         "triggerType": "at-or-above",
         "triggerPrice": 78000,
@@ -5898,7 +5898,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 15.744-16.869 và thesis không xấu đi THEN mới xem xét vùng mua định giá nghiêm ngặt; thanh khoản thấp phải được coi là rủi ro thực thi."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/D2D/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=D2D"
     },
     {
       "ticker": "DBC",
@@ -5911,7 +5911,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.4922,
       "volume": 3530700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DBC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DBC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DBC",
       "action": {
         "zoneLow": 15200,
         "zoneHigh": 16300,
@@ -5939,7 +5939,7 @@ window.RESEARCH_DATA = {
       "changePct": -3.1313,
       "volume": 531300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DCL~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DCL/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DCL",
       "action": {
         "zoneLow": 17198,
         "zoneHigh": 18426,
@@ -5966,7 +5966,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.7092,
       "volume": 2943700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DCM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DCM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DCM",
       "action": {
         "zoneLow": 17300,
         "zoneHigh": 18500,
@@ -5991,7 +5991,7 @@ window.RESEARCH_DATA = {
       "close": 17700,
       "priceDate": "2026-10-23",
       "changePct": 0,
-      "volume": 979400,
+      "volume": 980552,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-10-23&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DDV/data_day?sdate=23-10-2026&edate=23-10-2026",
       "action": {
@@ -6014,7 +6014,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.0941,
       "volume": 1254900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DGW~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DGW/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DGW",
       "action": {
         "zoneLow": 29339,
         "zoneHigh": 31434,
@@ -6037,7 +6037,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.3871,
       "volume": 431400,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DHC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DHC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DHC",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -6061,7 +6061,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 5241700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DIG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DIG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DIG",
       "action": {
         "zoneLow": 10750,
         "zoneHigh": 11000,
@@ -6099,7 +6099,7 @@ window.RESEARCH_DATA = {
         "target": 33000,
         "condition": "IF giá về 27.000-28.000 THEN mới xem xét; stoploss tham chiếu 26.100. Target 1 là 33.000 và Target 2 là 38.000 đồng/cp; không mua đuổi."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DPG/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DPG"
     },
     {
       "ticker": "DPR",
@@ -6112,7 +6112,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.043,
       "volume": 213200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DPR~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DPR/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DPR",
       "action": {
         "zoneLow": 25600,
         "zoneHigh": 27400,
@@ -6138,9 +6138,9 @@ window.RESEARCH_DATA = {
       "close": 15400,
       "priceDate": "2026-10-23",
       "changePct": 1.3158,
-      "volume": 397900,
+      "volume": 399051,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DRI~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DRI/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DRI",
       "action": {
         "zoneLow": 7550,
         "zoneHigh": 8090,
@@ -6176,7 +6176,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 9.400-10.100 và luận điểm không xấu đi THEN xem xét vùng mua MOS; không mua đuổi quanh 12k chỉ vì giá thấp hơn expected value."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DXG/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DXG"
     },
     {
       "ticker": "DXP",
@@ -6187,9 +6187,9 @@ window.RESEARCH_DATA = {
       "close": 15000,
       "priceDate": "2026-10-23",
       "changePct": -1.9608,
-      "volume": 243300,
+      "volume": 243495,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DXP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/DXP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DXP",
       "action": {
         "zoneLow": 10500,
         "zoneHigh": 11000,
@@ -6225,7 +6225,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 6.791-7.276 mà chất lượng tài sản và luận điểm không xấu đi THEN đây mới là vùng mua theo kỷ luật MOS 25-30% so với cận dưới; không coi vùng này là dự báo giá bắt buộc phải quay về."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/EIB/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=EIB"
     },
     {
       "ticker": "FPT",
@@ -6238,7 +6238,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.6969,
       "volume": 7090600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FPT~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/FPT/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=FPT",
       "action": {
         "zoneLow": 44500,
         "zoneHigh": 47700,
@@ -6266,7 +6266,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.9901,
       "volume": 469500,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:FRT~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/FRT/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=FRT",
       "action": {
         "zoneLow": 118000,
         "zoneHigh": 125000,
@@ -6302,7 +6302,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không kích hoạt tín hiệu hồi tố trên EOD 28/08 vì báo cáo phát hành ngày 03/09/2026. Chờ dữ liệu EOD mới sau ngày báo cáo và biên an toàn phù hợp."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/FTS/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=FTS"
     },
     {
       "ticker": "G36",
@@ -6313,7 +6313,7 @@ window.RESEARCH_DATA = {
       "close": 9100,
       "priceDate": "2026-10-23",
       "changePct": -2.1505,
-      "volume": 212700,
+      "volume": 212750,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:G36~date:2026-10-23&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=23-10-2026&edate=23-10-2026",
       "action": {
@@ -6339,7 +6339,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.2561,
       "volume": 775000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GAS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GAS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GAS",
       "action": {
         "zoneLow": 58800,
         "zoneHigh": 63000,
@@ -6360,7 +6360,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.6849,
       "volume": 2528900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GEE~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GEE/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GEE",
       "action": {
         "zoneLow": 27000,
         "zoneHigh": 28900,
@@ -6390,7 +6390,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 21.450-22.982 và thesis không đổi THEN xem xét vùng mua giá trị. IF breakout trên 30.600 với thanh khoản xác nhận THEN chỉ đánh giá setup breakout; IF thủng 28.300 với khối lượng tăng THEN loại setup ngắn hạn."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GEL/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GEL"
     },
     {
       "ticker": "GEX",
@@ -6412,7 +6412,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 20.649-22.124 và thesis không xấu đi THEN xem xét vùng mua an toàn theo MOS 25-30% so với cận dưới. Vùng 24.625-26.384 theo expected value ít nghiêm ngặt hơn và không được dùng thay quy tắc cận dưới."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GEX/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GEX"
     },
     {
       "ticker": "GMD",
@@ -6425,7 +6425,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.6957,
       "volume": 1895100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GMD~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GMD/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GMD",
       "action": {
         "zoneLow": 36200,
         "zoneHigh": 38800,
@@ -6448,7 +6448,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.4702,
       "volume": 1585300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GVR~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/GVR/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GVR",
       "action": {
         "zoneLow": 31000,
         "zoneHigh": 31500,
@@ -6475,7 +6475,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.7859,
       "volume": 524600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HAH~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HAH/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HAH",
       "action": {
         "zoneLow": 23896,
         "zoneHigh": 25603,
@@ -6501,7 +6501,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.4149,
       "volume": 3626600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HCM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HCM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HCM",
       "action": {
         "zoneLow": 9250,
         "zoneHigh": 9900,
@@ -6524,7 +6524,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.8949,
       "volume": 12103900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HDB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HDB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HDB",
       "action": {
         "zoneLow": 21151,
         "zoneHigh": 22662,
@@ -6551,7 +6551,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.2876,
       "volume": 3209700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HDC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HDC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HDC",
       "action": {
         "zoneLow": 11600,
         "zoneHigh": 11900,
@@ -6587,7 +6587,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 15.100-16.200 và giữ hỗ trợ, hoặc có breakout với thanh khoản xác nhận, THEN mới xem xét kích hoạt giao dịch 1-3 tuần."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HDG/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HDG"
     },
     {
       "ticker": "HHP",
@@ -6600,7 +6600,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.578,
       "volume": 550600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HHP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HHP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HHP",
       "action": {
         "zoneLow": 6047,
         "zoneHigh": 6479,
@@ -6637,7 +6637,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá sau quyền về 8.350-8.950 và thesis không xấu đi THEN xem xét vùng mua nghiêm ngặt; không mua đuổi chỉ vì giá thấp hơn expected value."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HHS/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HHS"
     },
     {
       "ticker": "HII",
@@ -6650,7 +6650,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.9709,
       "volume": 274600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HII~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HII/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HII",
       "action": {
         "zoneLow": 5800,
         "zoneHigh": 6200,
@@ -6673,7 +6673,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.4118,
       "volume": 12949000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HPG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HPG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HPG",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -6697,7 +6697,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.9132,
       "volume": 3652600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HSG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HSG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HSG",
       "action": {
         "zoneLow": 9450,
         "zoneHigh": 10125,
@@ -6722,9 +6722,9 @@ window.RESEARCH_DATA = {
       "close": 12500,
       "priceDate": "2026-10-23",
       "changePct": 0,
-      "volume": 2768100,
+      "volume": 2768407,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HUT~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/HUT/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HUT",
       "action": {
         "zoneLow": 6736,
         "zoneHigh": 7217,
@@ -6745,9 +6745,9 @@ window.RESEARCH_DATA = {
       "close": 11900,
       "priceDate": "2026-10-23",
       "changePct": -0.8333,
-      "volume": 300,
+      "volume": 303,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ICG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ICG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=ICG",
       "action": {
         "zoneLow": 7500,
         "zoneHigh": 8000,
@@ -6772,9 +6772,9 @@ window.RESEARCH_DATA = {
       "close": 36000,
       "priceDate": "2026-10-23",
       "changePct": 0.5587,
-      "volume": 1341700,
+      "volume": 1344478,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:IDC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/IDC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=IDC",
       "action": {
         "zoneLow": 29500,
         "zoneHigh": 30500,
@@ -6801,7 +6801,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.369,
       "volume": 771900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KBC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KBC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=KBC",
       "action": {
         "zoneLow": 26600,
         "zoneHigh": 27000,
@@ -6828,7 +6828,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.3423,
       "volume": 7885300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KDH~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KDH/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=KDH",
       "action": {
         "zoneLow": 17800,
         "zoneHigh": 18400,
@@ -6856,7 +6856,7 @@ window.RESEARCH_DATA = {
       "changePct": -6.8266,
       "volume": 162900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KOS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KOS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=KOS",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -6878,9 +6878,9 @@ window.RESEARCH_DATA = {
       "close": 113000,
       "priceDate": "2026-10-23",
       "changePct": -0.4405,
-      "volume": 47900,
+      "volume": 48527,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KSV~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/KSV/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=KSV",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -6913,7 +6913,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá nằm trong 25.300-27.100 và thesis không xấu đi THEN có thể xem xét giải ngân; với giao dịch 1-3 tuần phải tuân thủ stoploss 3-7% và không bình quân giá xuống."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/LHG/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=LHG"
     },
     {
       "ticker": "LPB",
@@ -6926,7 +6926,7 @@ window.RESEARCH_DATA = {
       "changePct": 3.5897,
       "volume": 3460900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:LPB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/LPB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=LPB",
       "action": {
         "zoneLow": 24595,
         "zoneHigh": 26352,
@@ -6953,7 +6953,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.5025,
       "volume": 10901100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MBB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MBB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MBB",
       "action": {
         "zoneLow": 14671,
         "zoneHigh": 15719,
@@ -6989,7 +6989,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không kích hoạt mua mới ở giá hiện tại; chỉ đánh giá lại khi giá hoặc định giá thay đổi đủ để tái lập biên an toàn."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MCH/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MCH"
     },
     {
       "ticker": "MSB",
@@ -7002,7 +7002,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.6494,
       "volume": 8022500,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MSB",
       "action": {
         "zoneLow": 11857,
         "zoneHigh": 12704,
@@ -7029,7 +7029,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.406,
       "volume": 4701100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSN~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSN/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MSN",
       "action": {
         "zoneLow": 66000,
         "zoneHigh": 66500,
@@ -7054,7 +7054,7 @@ window.RESEARCH_DATA = {
       "close": 63600,
       "priceDate": "2026-10-23",
       "changePct": 2.4155,
-      "volume": 1209500,
+      "volume": 1213278,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSR~date:2026-10-23&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MSR/data_day?sdate=23-10-2026&edate=23-10-2026",
       "action": {
@@ -7080,7 +7080,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.2656,
       "volume": 2127300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MWG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/MWG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MWG",
       "action": {
         "zoneLow": 53516,
         "zoneHigh": 57338,
@@ -7108,7 +7108,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 5842600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NKG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NKG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=NKG",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7132,7 +7132,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.6479,
       "volume": 2445300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NLG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NLG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=NLG",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7165,7 +7165,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 74.754-80.093 và thesis không xấu đi THEN xem xét vùng mua nghiêm ngặt theo cận dưới fair value. Vùng 107.301-114.965 chỉ là tham chiếu theo expected value và không thay thế quy tắc cận dưới."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NTC/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=NTC"
     },
     {
       "ticker": "NVL",
@@ -7178,7 +7178,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.9346,
       "volume": 12102900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NVL~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/NVL/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=NVL",
       "action": {
         "zoneLow": 12750,
         "zoneHigh": 12950,
@@ -7205,7 +7205,7 @@ window.RESEARCH_DATA = {
       "changePct": 4.3478,
       "volume": 6482500,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:OCB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OCB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=OCB",
       "action": {
         "zoneLow": 10250,
         "zoneHigh": 10400,
@@ -7231,7 +7231,7 @@ window.RESEARCH_DATA = {
       "close": 13100,
       "priceDate": "2026-10-23",
       "changePct": -0.7576,
-      "volume": 1553900,
+      "volume": 1556143,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:OIL~date:2026-10-23&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/OIL/data_day?sdate=23-10-2026&edate=23-10-2026",
       "action": {
@@ -7260,7 +7260,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.5641,
       "volume": 11301600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ORS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/ORS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=ORS",
       "action": {
         "zoneLow": 4082,
         "zoneHigh": 4374,
@@ -7288,7 +7288,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.0929,
       "volume": 1117000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PAN~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PAN/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PAN",
       "action": {
         "zoneLow": 20000,
         "zoneHigh": 20200,
@@ -7316,7 +7316,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 881300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PC1~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PC1/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PC1",
       "action": {
         "zoneLow": 15900,
         "zoneHigh": 17100,
@@ -7352,7 +7352,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 10.778-11.547 và luận điểm đầu tư không xấu đi THEN xem xét vùng mua đạt MOS 25-30%; không mua chỉ vì giá thấp hơn expected value."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PDR/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PDR"
     },
     {
       "ticker": "PET",
@@ -7376,7 +7376,7 @@ window.RESEARCH_DATA = {
         "eligibility": "veto",
         "condition": "Không áp dụng vùng mua, stoploss, target hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH. Chỉ định giá lại khi quyền mua hoàn tất hoặc dòng tiền kinh doanh/vốn lưu động cải thiện bền vững."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PET/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PET"
     },
     {
       "ticker": "PHP",
@@ -7387,9 +7387,9 @@ window.RESEARCH_DATA = {
       "close": 46900,
       "priceDate": "2026-10-23",
       "changePct": -0.6356,
-      "volume": 252000,
+      "volume": 253092,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PHP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PHP",
       "action": {
         "zoneLow": 37700,
         "zoneHigh": 40400,
@@ -7416,7 +7416,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 258400,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHR~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PHR/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PHR",
       "action": {
         "zoneLow": 36665,
         "zoneHigh": 39284,
@@ -7441,9 +7441,9 @@ window.RESEARCH_DATA = {
       "close": 21300,
       "priceDate": "2026-10-23",
       "changePct": -0.4673,
-      "volume": 620500,
+      "volume": 621484,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PLC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PLC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PLC",
       "action": {
         "zoneLow": 15300,
         "zoneHigh": 16400,
@@ -7471,7 +7471,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.1158,
       "volume": 2879000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PLX~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PLX/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PLX",
       "action": {
         "zoneLow": 19710,
         "zoneHigh": 21118,
@@ -7499,7 +7499,7 @@ window.RESEARCH_DATA = {
       "changePct": -6.1828,
       "volume": 24210400,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PNJ~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PNJ/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PNJ",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7523,7 +7523,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 4148700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:POW~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/POW/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=POW",
       "action": {
         "zoneLow": 6019,
         "zoneHigh": 6449,
@@ -7547,9 +7547,9 @@ window.RESEARCH_DATA = {
       "close": 21200,
       "priceDate": "2026-10-23",
       "changePct": 1.9231,
-      "volume": 199000,
+      "volume": 199245,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVB",
       "action": {
         "zoneLow": 16100,
         "zoneHigh": 17300,
@@ -7574,9 +7574,9 @@ window.RESEARCH_DATA = {
       "close": 11800,
       "priceDate": "2026-10-23",
       "changePct": -0.8403,
-      "volume": 920100,
+      "volume": 920804,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVC",
       "action": {
         "zoneLow": 7350,
         "zoneHigh": 7900,
@@ -7603,7 +7603,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.0582,
       "volume": 4687800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVD~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVD/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVD",
       "action": {
         "zoneLow": 12000,
         "zoneHigh": 12800,
@@ -7626,7 +7626,7 @@ window.RESEARCH_DATA = {
       "changePct": -2.3041,
       "volume": 1019900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVP",
       "action": {
         "zoneLow": 19200,
         "zoneHigh": 19700,
@@ -7651,9 +7651,9 @@ window.RESEARCH_DATA = {
       "close": 32300,
       "priceDate": "2026-10-23",
       "changePct": -0.6154,
-      "volume": 1851100,
+      "volume": 1853335,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVS",
       "action": {
         "zoneLow": 26300,
         "zoneHigh": 28100,
@@ -7676,7 +7676,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.4237,
       "volume": 5382800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVT~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/PVT/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVT",
       "action": {
         "zoneLow": 15440,
         "zoneHigh": 16543,
@@ -7714,10 +7714,10 @@ window.RESEARCH_DATA = {
       },
       "close": 50100,
       "changePct": 0.4008,
-      "volume": 86700,
+      "volume": 86824,
       "priceDate": "2026-10-23",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:QNS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/QNS/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=QNS"
     },
     {
       "ticker": "REE",
@@ -7730,7 +7730,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.2174,
       "volume": 113800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:REE~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/REE/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=REE",
       "action": {
         "zoneLow": 38000,
         "zoneHigh": 40700,
@@ -7753,7 +7753,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.4608,
       "volume": 216900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SAB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SAB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SAB",
       "action": {
         "zoneLow": 32326,
         "zoneHigh": 34635,
@@ -7786,7 +7786,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không mua đuổi; chỉ xem xét lại khi giá giảm đủ sâu hoặc CFO/FCF, đòn bẩy và điều khoản chuyển đổi cải thiện so với mô hình hiện tại."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SBT/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SBT"
     },
     {
       "ticker": "SHB",
@@ -7799,7 +7799,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.9259,
       "volume": 41362700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SHB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SHB",
       "action": {
         "zoneLow": null,
         "zoneHigh": 11600,
@@ -7826,9 +7826,9 @@ window.RESEARCH_DATA = {
       "close": 12800,
       "priceDate": "2026-10-23",
       "changePct": -0.7752,
-      "volume": 13124400,
+      "volume": 13127358,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SHS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SHS",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7852,7 +7852,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.2,
       "volume": 41300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SIP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SIP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SIP",
       "action": {
         "zoneLow": 40764,
         "zoneHigh": 43676,
@@ -7889,7 +7889,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không mua mới tại giá hiện tại. Trước và sau ngày quyền phải quy đổi về cùng cơ sở; không so giá danh nghĩa trực tiếp."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SJS/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SJS"
     },
     {
       "ticker": "SSB",
@@ -7902,7 +7902,7 @@ window.RESEARCH_DATA = {
       "changePct": 3.7383,
       "volume": 3011000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SSB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SSB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SSB",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7926,7 +7926,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.9926,
       "volume": 20683200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SSI~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SSI/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SSI",
       "action": {
         "zoneLow": 14400,
         "zoneHigh": 15400,
@@ -7949,7 +7949,7 @@ window.RESEARCH_DATA = {
       "changePct": 6.8643,
       "volume": 8234300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:STB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/STB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=STB",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -7982,7 +7982,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về vùng 13.800-14.700 và luận điểm không xấu đi THEN mới xem xét vùng mua theo MOS 25-30%; không mua đuổi chỉ vì P/B thấp."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/SZC/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SZC"
     },
     {
       "ticker": "TCB",
@@ -7995,7 +7995,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.1464,
       "volume": 16305300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TCB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCB",
       "action": {
         "zoneLow": 31900,
         "zoneHigh": 32100,
@@ -8031,7 +8031,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá trước thưởng về 12.142-13.010 và thesis không xấu đi THEN xem xét vùng mua đạt MOS 25-30% theo cận dưới; không mua đuổi tại P0."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TCH/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCH"
     },
     {
       "ticker": "TCM",
@@ -8044,7 +8044,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.3215,
       "volume": 1038100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TCM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCM",
       "action": {
         "zoneLow": 11778,
         "zoneHigh": 12620,
@@ -8071,7 +8071,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.5075,
       "volume": 3355100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TCX~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TCX/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TCX",
       "action": {
         "zoneLow": 12500,
         "zoneHigh": 13400,
@@ -8092,9 +8092,9 @@ window.RESEARCH_DATA = {
       "close": 19000,
       "priceDate": "2026-10-23",
       "changePct": -1.0417,
-      "volume": 792300,
+      "volume": 792923,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TNG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TNG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TNG",
       "action": {
         "zoneLow": 12250,
         "zoneHigh": 13125,
@@ -8135,7 +8135,7 @@ window.RESEARCH_DATA = {
       "volume": 117200,
       "priceDate": "2026-10-23",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TNH~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TNH/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TNH"
     },
     {
       "ticker": "TPB",
@@ -8148,7 +8148,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.9608,
       "volume": 30091200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TPB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TPB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TPB",
       "action": {
         "zoneLow": 11430,
         "zoneHigh": 12246,
@@ -8172,7 +8172,7 @@ window.RESEARCH_DATA = {
       "changePct": 2.3077,
       "volume": 36800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TVS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/TVS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TVS",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -8196,7 +8196,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.8881,
       "volume": 3278900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VCB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VCB",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -8220,7 +8220,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.3226,
       "volume": 2331200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VCG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VCG",
       "action": {
         "zoneLow": 15400,
         "zoneHigh": 15700,
@@ -8247,7 +8247,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.5128,
       "volume": 7536000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCI~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VCI/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VCI",
       "action": {
         "zoneLow": 13600,
         "zoneHigh": 14600,
@@ -8270,7 +8270,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.8865,
       "volume": 1243300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VCK~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VCK/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VCK",
       "action": {
         "zoneLow": 14102,
         "zoneHigh": 15110,
@@ -8297,7 +8297,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.9615,
       "volume": 411600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VDS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VDS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VDS",
       "action": {
         "zoneLow": 11200,
         "zoneHigh": 11400,
@@ -8338,7 +8338,7 @@ window.RESEARCH_DATA = {
         "eligibility": "active",
         "condition": "IF giá về 34.073-36.507 đồng/cp và thesis KCN/VLXD không xấu đi THEN có thể mua valuation từng phần, stop 5-7% dưới giá vốn, mục tiêu từ 48.676 rồi 57.458. Với swing 1-3 tuần: chỉ IF đóng cửa >=42.000 và thanh khoản >= khoảng 520 nghìn cp THEN xem xét breakout nhỏ, stop 39.600, T1 46.000; follow-through có thể hướng 48.700 và 52.000. IF đóng cửa <39.500 với khối lượng tăng THEN LOẠI setup ngắn hạn."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VGC/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGC"
     },
     {
       "ticker": "VGI",
@@ -8349,9 +8349,9 @@ window.RESEARCH_DATA = {
       "close": 77700,
       "priceDate": "2026-10-23",
       "changePct": -1.0191,
-      "volume": 129500,
+      "volume": 130538,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGI~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VGI/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGI",
       "action": {
         "zoneLow": 54000,
         "zoneHigh": 58000,
@@ -8377,9 +8377,9 @@ window.RESEARCH_DATA = {
       "close": 18600,
       "priceDate": "2026-10-23",
       "changePct": -1.5873,
-      "volume": 421700,
+      "volume": 422179,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGS~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VGS/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGS",
       "action": {
         "zoneLow": 11503,
         "zoneHigh": 12325,
@@ -8407,7 +8407,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.4688,
       "volume": 6426600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VHM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VHM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VHM",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -8431,7 +8431,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.0676,
       "volume": 5024500,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VIB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VIB",
       "action": {
         "zoneLow": 10820,
         "zoneHigh": 11593,
@@ -8458,7 +8458,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.5457,
       "volume": 2020600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VIC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VIC",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -8482,7 +8482,7 @@ window.RESEARCH_DATA = {
       "changePct": 1.1952,
       "volume": 39893300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VIX~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VIX/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VIX",
       "action": {
         "zoneLow": 7500,
         "zoneHigh": 8000,
@@ -8503,7 +8503,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.8554,
       "volume": 884100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VJC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VJC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VJC",
       "action": {
         "zoneLow": 77000,
         "zoneHigh": 82000,
@@ -8530,7 +8530,7 @@ window.RESEARCH_DATA = {
       "changePct": 0,
       "volume": 7915900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VND~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VND/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VND",
       "action": {
         "zoneLow": 10300,
         "zoneHigh": 11000,
@@ -8553,7 +8553,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.8606,
       "volume": 1793700,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VNM~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VNM/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VNM",
       "action": {
         "zoneLow": 47600,
         "zoneHigh": 51000,
@@ -8580,7 +8580,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.6263,
       "volume": 11352800,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPB~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPB/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VPB",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
@@ -8613,7 +8613,7 @@ window.RESEARCH_DATA = {
         "eligibility": "inactive",
         "condition": "Không kích hoạt mua mới ở giá hiện tại; chỉ đánh giá lại khi xuất hiện báo cáo mới hoặc định giá co về vùng có biên an toàn."
       },
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPI/data_day?sdate=23-10-2026&edate=23-10-2026"
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VPI"
     },
     {
       "ticker": "VPL",
@@ -8626,7 +8626,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.5848,
       "volume": 1821600,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPL~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPL/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VPL",
       "action": {
         "zoneLow": 39000,
         "zoneHigh": 42000,
@@ -8654,7 +8654,7 @@ window.RESEARCH_DATA = {
       "changePct": 0.8421,
       "volume": 584100,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VPX~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VPX/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VPX",
       "action": {
         "zoneLow": 17900,
         "zoneHigh": 19200,
@@ -8677,7 +8677,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.1858,
       "volume": 3600900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VRE~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VRE/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VRE",
       "action": {
         "zoneLow": 20000,
         "zoneHigh": 21500,
@@ -8704,7 +8704,7 @@ window.RESEARCH_DATA = {
       "changePct": 3.7801,
       "volume": 27072200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VSC~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VSC/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VSC",
       "action": {
         "zoneLow": 10100,
         "zoneHigh": 10800,
@@ -8727,7 +8727,7 @@ window.RESEARCH_DATA = {
       "changePct": -1.3761,
       "volume": 555900,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VTO~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VTO/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VTO",
       "action": {
         "zoneLow": 10550,
         "zoneHigh": 10650,
@@ -8754,7 +8754,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.523,
       "volume": 353200,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VTP~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/VTP/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VTP",
       "action": {
         "zoneLow": 24400,
         "zoneHigh": 26100,
@@ -8781,7 +8781,7 @@ window.RESEARCH_DATA = {
       "changePct": -0.9816,
       "volume": 1018300,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:YEG~date:2026-10-23&size=10",
-      "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/YEG/data_day?sdate=23-10-2026&edate=23-10-2026",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=YEG",
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
