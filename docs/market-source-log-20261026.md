@@ -121,5 +121,5 @@ Không điều chỉnh dòng cũ từ Sổ người dùng chưa cung cấp.
 | 16 | Không phát vùng mua mới khi KHÔNG | ĐẠT |
 | 17 | Mốc xuất xứ, không hạ stop, R:R không áp dụng | ĐẠT |
 | 18 | Ngành chỉ gọi sức giá, không gọi vốn ròng | ĐẠT |
-| 19 | Kiểm tra deploy/đồng bộ nội dung và giữ layout | CHỜ kiểm thử bản nhận định sau xuất bản |
+| 19 | Kiểm tra deploy/đồng bộ nội dung và giữ layout | ĐẠT TỰ ĐỘNG: [GitHub Pages 40290670342](https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40290670342) thành công; **169/169** kiểm thử, **133 báo cáo/133 mã/50 nhận định/50 sự kiện vị thế**; 6 khu vực nguyên thứ tự, kiểm tra giới hạn phạm vi thay đổi, logo/ảnh và đối chiếu byte sau xuất bản đều đạt. **CHƯA KIỂM THỬ** trực quan độc lập trên nhiều thiết bị thực. |
 | 20 | Sổ chỉ bổ sung dòng 26/10, không sao Sổ cũ | ĐẠT |
