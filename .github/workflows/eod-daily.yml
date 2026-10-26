@@ -1,4 +1,4 @@
-# Verified EOD recovery audit request for 2026-10-23 after ATC close; validation gates and layout unchanged
+# Verified EOD recovery audit request for 2026-10-26 only after sources pass the full date-specific cross-check; layout and data gates unchanged
 name: Verified EOD market lock and deploy
 
 on:
