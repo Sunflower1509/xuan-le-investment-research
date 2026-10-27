@@ -113,5 +113,5 @@ Không điều chỉnh hoặc chép dòng Sổ gốc chưa được cung cấp.
 | 16 | Không ghi vùng mua mới trong KHÔNG | ĐẠT |
 | 17 | Mốc xuất xứ, xử lý đáy lệch, R:R không dựng | ĐẠT |
 | 18 | Ngành chỉ nói sức giá, không tự nhận vốn ròng | ĐẠT |
-| 19 | Nội dung web, bố cục và kiểm tra sau triển khai | **CHỜ kiểm chứng chạy Pages mới** |
+| 19 | Nội dung web, bố cục và kiểm tra sau triển khai | **ĐẠT KIỂM THỬ TỰ ĐỘNG:** [GitHub Pages 40473822279](https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40473822279) thành công, **169/169 phép thử**, **133 báo cáo / 133 mã / 51 nhận định / 50 sự kiện vị thế**. Bảo toàn 6 khu vực, giám sát phạm vi thay đổi, logo/ảnh và đối chiếu byte sau xuất bản đều thành công. **Chưa kiểm thử trực quan độc lập trên đa thiết bị thực tế**. |
 | 20 | Sổ bổ sung chỉ một dòng mới | ĐẠT |
