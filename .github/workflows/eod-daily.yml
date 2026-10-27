@@ -1,4 +1,4 @@
-# Verified EOD recovery audit request for 2026-10-26 only after sources pass the full date-specific cross-check; layout and data gates unchanged
+# Verified EOD recovery audit request for 2026-10-27; all existing date-specific EOD verification gates preserved
 name: Verified EOD market lock and deploy
 
 on:
