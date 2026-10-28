@@ -65,14 +65,14 @@ test("Boundary precision: minus 4.98% stays, exactly minus 5% leaves", () => {
   const equals = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-28", { VPB: 22325 }), blankState());
   assert.deepEqual(equals.added.map((event) => event.ticker), ["VPB"]);
   assert.equal(equals.added[0].severity, "stop-5");
-  assert.equal(equals.added[0].differencePct, -5);
+  assert.ok(Math.abs(equals.added[0].differencePct + 5) < 0.0000001);
 });
 
 test("Seven percent or worse is critical but produces one archive event, not two", () => {
   const boundary = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-28", { VPB: 21855 }), blankState());
   assert.equal(boundary.added.length, 1);
   assert.equal(boundary.added[0].severity, "critical-7");
-  assert.equal(boundary.added[0].differencePct, -7);
+  assert.ok(Math.abs(boundary.added[0].differencePct + 7) < 0.0000001);
 });
 
 test("Prior trading sessions do not retroactively remove securities before effective date", () => {
