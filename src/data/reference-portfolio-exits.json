@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "events": [
+    {
+      "id": "risk-stop-DGW-2026-10-28",
+      "kind": "eod-midpoint-stop",
+      "ticker": "DGW",
+      "date": "2026-10-28",
+      "zoneApprovedOn": "2026-10-12",
+      "policyVersion": "eod-midpoint-stop-v1",
+      "zoneLow": 46000,
+      "zoneHigh": 47500,
+      "midpoint": 46750,
+      "stopPercent": 5,
+      "criticalPercent": 7,
+      "stopReference": 44412.5,
+      "close": 42350,
+      "changePct": -6.9231,
+      "differencePct": -9.411764705882353,
+      "severity": "critical-7",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DGW~date:2026-10-28&size=10"
+    }
+  ]
+}

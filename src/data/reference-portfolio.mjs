@@ -6,6 +6,9 @@ export const REFERENCE_PORTFOLIO = Object.freeze({
   approvedBy: "Xuân Lê TVS",
   horizon: "1–3 tuần",
   stopPercent: 5,
+  criticalPercent: 7,
+  stopPolicyEffectiveFrom: "2026-10-28",
+  stopPolicyVersion: "eod-midpoint-stop-v1",
   adjustmentBasis: "Vùng kỹ thuật do người quản lý cung cấp theo đồ thị AmiBroker; cần rà soát khi phát sinh quyền cổ đông.",
   entries: Object.freeze([
     Object.freeze({ ticker: "BSR", zoneLow: 29500, zoneHigh: 30000 }),

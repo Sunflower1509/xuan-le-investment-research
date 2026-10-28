@@ -26,6 +26,8 @@
 .rp-table td:last-child,.rp-table thead th:last-child{border-right:0}
 .rp-table tbody tr:nth-child(even){background:#f8f9f6}
 .rp-table tbody tr:hover{background:#eff6f2}
+.rp-table tbody tr.rp-archived-row{background:#fff4f2}
+.rp-table tbody tr.rp-archived-row:hover{background:#fae9e9}
 .rp-table .rp-code{font-size:.89rem;color:var(--navy);font-weight:850;white-space:nowrap;text-align:left}
 .rp-table .rp-number{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:760}
 .rp-table .rp-zone{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:740}
@@ -80,6 +82,7 @@
  .rp-desktop{display:none}
  .rp-mobile{display:grid;gap:11px;padding:12px;border-top:1px solid var(--line)}
  .rp-mobile-card{border:1px solid #ccd8d1;border-radius:12px;overflow:hidden;background:#fff}
+ .rp-mobile-card.rp-archived-card{border-color:#e7b8bc;background:#fff9f8}
  .rp-mobile-head{background:#f5f8f5;display:flex;justify-content:space-between;align-items:center;gap:9px;padding:13px 14px;border-bottom:1px solid #d7e0da}
  .rp-mobile-head>strong{font-size:1.18rem;color:#081c31}
  .rp-mobile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}

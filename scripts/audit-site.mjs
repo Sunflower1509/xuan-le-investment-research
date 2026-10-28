@@ -9,7 +9,7 @@ import { parseActionTrigger } from "../src/scripts/action-trigger.mjs";
 import { validateDailyPlaybookPolicy } from "../src/scripts/daily-market-policy.mjs";
 import { validateMarketDecisionBrief } from "../src/scripts/market-decision-brief.mjs";
 import { REFERENCE_PORTFOLIO } from "../src/data/reference-portfolio.mjs";
-import { buildReferencePortfolio } from "../src/scripts/reference-portfolio-core.mjs";
+import { planReferencePortfolioExits } from "../src/scripts/reference-portfolio-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -96,7 +96,9 @@ try {
 // Public reference portfolio must remain separate from valuation actions and the trade ledger.
 if (research && typeof research === "object") {
   try {
-    const rows = buildReferencePortfolio(REFERENCE_PORTFOLIO, research);
+    const exclusionState = JSON.parse(readText("src/data/reference-portfolio-exits.json"));
+    const { rows, added } = planReferencePortfolioExits(REFERENCE_PORTFOLIO, research, exclusionState);
+    if (added.length) fail("Reference portfolio", `có ${added.length} mã chạm ngưỡng −5% nhưng chưa ghi lịch sử loại: ${added.map((item) => item.ticker).join(", ")}`);
     const expected = ["BSR", "VPB", "HDB", "DGW", "GMD", "GVR"];
     if (rows.map((row) => row.ticker).join(",") !== expected.join(",")) {
       fail("Reference portfolio", "danh mục phải đúng sáu mã được duyệt, không bao gồm NVB");
@@ -108,6 +110,13 @@ if (research && typeof research === "object") {
       if (!row.close || !Number.isFinite(row.differencePct)) {
         fail("Reference portfolio", `thiếu EOD đã xác minh: ${row.ticker}`);
       }
+    }
+    const archived = rows.filter((row) => row.exclusion);
+    const active = rows.filter((row) => !row.exclusion);
+    if (archived.length + active.length !== REFERENCE_PORTFOLIO.entries.length) fail("Reference portfolio", "danh sách đang theo dõi và đã loại không khớp cấu hình gốc");
+    for (const row of archived) {
+      if (row.exclusion.date > research.meta.updated) fail("Reference portfolio", `ngày loại ${row.ticker} vượt ngày dữ liệu EOD`);
+      if (row.exclusion.close > row.exclusion.stopReference) fail("Reference portfolio", `mốc loại của ${row.ticker} không đạt ngưỡng stop`);
     }
     const bsrCoverage = research.coverage.find((item) => item.ticker === "BSR");
     if (bsrCoverage?.action?.eligibility === "veto"

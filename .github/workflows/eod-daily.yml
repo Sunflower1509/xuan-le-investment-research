@@ -182,6 +182,10 @@ jobs:
         if: steps.market.outputs.status == 'verified'
         run: node scripts/process-trade-ledger.mjs
 
+      - name: Persist reference watchlist EOD exclusions
+        if: steps.market.outputs.status == 'verified'
+        run: node scripts/process-reference-portfolio-exits.mjs
+
       - name: Reconcile expected activations and exits
         if: steps.market.outputs.status == 'verified'
         run: |
@@ -236,7 +240,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|index\.html)$'
+          allowed='^(src/data/research-data\.js|src/data/trade-ledger\.json|src/data/reference-portfolio-exits\.json|index\.html)$'
           changed_paths="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed_paths" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
@@ -267,14 +271,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sync_paths=(src/data/research-data.js src/data/trade-ledger.json index.html)
+          sync_paths=(src/data/research-data.js src/data/trade-ledger.json src/data/reference-portfolio-exits.json index.html)
           sync_base="$(git rev-parse HEAD)"
           has_eod_changes=false
 
           if [[ -n "$(git status --porcelain --untracked-files=all -- "${sync_paths[@]}")" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/data/research-data.js src/data/trade-ledger.json index.html
+            git add src/data/research-data.js src/data/trade-ledger.json src/data/reference-portfolio-exits.json index.html
             git commit -m "Lock verified EOD ${{ steps.market.outputs.date }} and reconcile ledger [skip ci]"
             has_eod_changes=true
           fi
