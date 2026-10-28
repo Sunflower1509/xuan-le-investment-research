@@ -105,7 +105,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   const stockRow = (row) => {
     const status = statusInfo(row);
     const report = byId.get(byTicker.get(row.ticker)?.reportId);
-    return `<tr>
+    return `<tr${row.exclusion ? ' class="rp-archived-row"' : ""}>
       <th scope="row" class="rp-code">${escapeHtml(row.ticker)}</th>
       <td class="rp-number">${money(row.close)}</td>
       <td class="rp-number ${tone(row.changePct)}">${percent(row.changePct)}</td>
@@ -120,7 +120,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   const mobileCard = (row) => {
     const status = statusInfo(row);
     const report = byId.get(byTicker.get(row.ticker)?.reportId);
-    return `<article class="rp-mobile-card">
+    return `<article class="rp-mobile-card${row.exclusion ? " rp-archived-card" : ""}">
       <div class="rp-mobile-head"><strong>${escapeHtml(row.ticker)}</strong><span class="rp-status ${status.css}">${escapeHtml(status.label)}</span></div>
       <div class="rp-mobile-grid">
         <div><span>Giá EOD</span><strong>${money(row.close)}</strong><small class="${tone(row.changePct)}">${percent(row.changePct)} phiên</small></div>
@@ -128,7 +128,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
         <div><span>Giá TB khuyến nghị</span><strong>${money(row.midpoint)}</strong><small>Đồng/cp</small></div>
         <div><span>So với giá TB</span><strong class="${tone(row.differencePct)}">${percent(row.differencePct)}</strong><small>${relationLabel(row.zoneRelation)}</small></div>
       </div>
-      <div class="rp-mobile-bottom"><span>Giá EOD: ${dateVi(row.priceDate)}</span><details class="rp-details"><summary>Xem hồ sơ</summary>${detailHtml(row, report)}</details></div>
+      <div class="rp-mobile-bottom"><span>${row.exclusion ? "Ngày loại EOD" : "Giá EOD"}: ${dateVi(row.priceDate)}</span><details class="rp-details"><summary>Xem hồ sơ</summary>${detailHtml(row, report)}</details></div>
     </article>`;
   };
 
@@ -145,7 +145,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
         ? "Giá EOD đang hiển thị thuộc phiên trước ngày công bố vùng mua. Phần trăm là chênh lệch tham chiếu, không phải lợi nhuận kể từ khuyến nghị."
         : "Các mã giảm từ 5% so với giá TB được tự động đưa ra khỏi danh mục hiện hành sau EOD xác minh; xem mục Đã loại để truy vết. Chênh lệch giá không phải hiệu suất giao dịch.";
     desktop.innerHTML = visible.length
-      ? `<table class="rp-table"><caption class="sr-only">Danh mục kỹ thuật sáu cổ phiếu, giá EOD và vùng mua xác lập bằng AmiBroker</caption>
+      ? `<table class="rp-table"><caption class="sr-only">${filter === "excluded" ? "Lịch sử mã tự động loại theo nguyên tắc giảm từ 5%" : "Danh mục kỹ thuật đang theo dõi, giá EOD và vùng mua AmiBroker"}</caption>
       <thead><tr><th scope="col">MÃ</th><th scope="col" class="rp-number">${filter === "excluded" ? "GIÁ EOD KHI LOẠI" : "GIÁ EOD"}</th><th scope="col" class="rp-number">+/− PHIÊN</th>
       <th scope="col">VÙNG MUA KỸ THUẬT</th><th scope="col" class="rp-number">GIÁ TB</th>
       <th scope="col" class="rp-number">SO VỚI GIÁ TB</th><th scope="col">TRẠNG THÁI</th>
