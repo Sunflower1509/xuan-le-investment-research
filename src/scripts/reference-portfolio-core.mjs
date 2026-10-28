@@ -105,7 +105,7 @@ export const validateReferencePortfolioExitState = (config, state) => {
       || Math.abs(event.stopReference - event.midpoint * (1 - event.stopPercent / 100)) > 1e-7
       || Math.abs(event.differencePct - ((event.close / event.midpoint) - 1) * 100) > 1e-7
       || event.close > event.stopReference
-      || event.severity !== (event.differencePct <= -event.criticalPercent ? "critical-7" : "stop-5")
+      || event.severity !== (event.close * 100 <= event.midpoint * (100 - event.criticalPercent) ? "critical-7" : "stop-5")
     ) return false;
     tickers.add(event.ticker);
     ids.add(event.id);
@@ -142,7 +142,7 @@ export const planReferencePortfolioExits = (config, source, state) => {
       close: row.close,
       changePct: row.changePct,
       differencePct: row.differencePct,
-      severity: row.differencePct <= -config.criticalPercent ? "critical-7" : "stop-5",
+      severity: row.close * 100 <= row.midpoint * (100 - config.criticalPercent) ? "critical-7" : "stop-5",
       priceSource: row.priceSource
     });
   }
