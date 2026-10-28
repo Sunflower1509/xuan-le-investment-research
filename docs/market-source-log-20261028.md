@@ -43,7 +43,7 @@
 
 ## B. Chuỗi nguồn (a) và tính bằng công cụ
 
-- Đã đọc **268 phiên**, từ **01/10/2025** đến **28/10/2026** từ **một nguồn duy nhất VNDIRECT Finfo**. Chuỗi liền mạch không ghép nguồn, không điền ngày thiếu. Giá 28/10 khớp hai nguồn độc lập. Hai dòng kiểm ngẫu nhiên: `2026-10-26 close=1763.55` và `2026-10-27 close=1761.87`; dòng 28/10 `2026-10-28 close=1766.65`. Hai dòng khác ở JSON `EXACT_SOURCE_SAMPLE_ROWS` 14–15/10.
+- Đã đọc **268 phiên**, từ **01/10/2025** đến **28/10/2026** từ **một nguồn duy nhất VNDIRECT Finfo**. Chuỗi liền mạch không ghép nguồn, không điền ngày thiếu. Giá 28/10 khớp hai nguồn độc lập. Hai dòng trích trực tiếp từ bảng raw (rút gọn trường): `"date":"2026-10-26","open":1773.75,"high":1781.45,"low":1759.84,"close":1763.55` và `"date":"2026-10-27","open":1763.46,"high":1772.62,"low":1758.6,"close":1761.87`; dòng khóa `"date":"2026-10-28","open":1762.64,"high":1767.48,"low":1753.95,"close":1766.65`. Hai dòng khác ở JSON `EXACT_SOURCE_SAMPLE_ROWS` 14–15/10.
 - Phương thức: mã Node.js trong workflow chỉ đọc nêu trên, dùng `SOURCE_HISTORY_ROWS_JSON` 268 hàng thực. Các phép tính ghi nguyên từ kết quả máy.
 
 | Chỉ báo | Công thức / kết quả | Nhãn |
@@ -70,11 +70,11 @@
 
 - Giá: bản `src/data/research-data.js` ngày 28/10, 133/133 mã đã đối chiếu chính xác giá đóng qua VNDIRECT–KBS. CafeF chưa có dòng đúng phiên khi khóa; 129/133 khối lượng trùng, bốn mã BVS, CEO, PVS, SHS khác khối lượng nhỏ/riêng nguồn; dùng khối lượng nguồn chính, không coi khối lượng khác là giá khác.
 - Phân kỳ: VN-Index +0,27% và VN30 +0,10%, nhưng chưa đủ dữ kiện VNMID/VNSML đã khóa cùng phạm vi; không suy tiền lan tỏa.
-- Bản đồ: **ngân hàng giữ nhịp** theo VNIndex.ai ngành +1,0% và các mã VCB, HDB kéo điểm; **chưa có nhóm tiền VÀO thật được xác minh đồng thời giá/khớp/ngoại**; chưa có cơ sở ghi nhóm tiền RA ròng nguyên ngành. Nhận định không dùng riêng DGW/PET để kết luận về toàn ngành.
+- Sự kiện 15/10: HNX công bố quy tắc Thứ Năm thứ ba của tháng đáo hạn (https://cbtd.hnx.vn/vi-vn/huong-dan/chi-tiet-thu-tuc-36-65.html), danh sách tháng 10/2026 trùng 15/10 (https://www.dsc.com.vn/kien-thuc/dao-han-phai-sinh-la-gi); không gắn cờ cho 28/10 chỉ từ lịch kỳ cũ.\n- Bản đồ: **ngân hàng giữ nhịp** theo VNIndex.ai ngành +1,0% và các mã VCB, HDB kéo điểm; **chưa có nhóm tiền VÀO thật được xác minh đồng thời giá/khớp/ngoại**; chưa có cơ sở ghi nhóm tiền RA ròng nguyên ngành. Nhận định không dùng riêng DGW/PET để kết luận về toàn ngành.
 - Mốc có xuất xứ: hỗ trợ 1.753,95 (đáy phiên 28), MA20 1.736,18, đáy 20 phiên trước 1.677,19; kháng cự 1.767,48 (đỉnh phiên), MA50 1.772,30, MA200 1.796,16. Không đặt mốc vô hiệu từ Sổ giả.
 - Ba kịch bản định tính và hành động NẾU–THÌ nằm trong bản công bố. Không tự ghi vùng mua vì **trạng thái KHÔNG dòng 1**.
 - Bài Zalo trong bản ghi nội dung có độ dài **344 chữ**, giữ cùng số, trạng thái và miễn trừ.
-- Mọi nội dung mới chỉ nằm trong **một entry ngày 28/10** ở `src/data/daily-insights-auto.js`, không thay đổi bản cũ, CSS hoặc thứ tự mục. **Giá EOD** cập nhật bởi workflow riêng, có xác minh sau triển khai.
+- Mọi nội dung mới chỉ nằm trong **một entry ngày 28/10** ở `src/data/daily-insights-auto.js`, không thay đổi bản cũ, CSS hoặc thứ tự mục. **Giá EOD** cập nhật bởi workflow riêng. Bản bài đăng đã được triển khai và kiểm xác nhận tại https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40656317232: 169 test đạt, 0 trượt, 133 ảnh bìa và 133 logo, SHA-256 CSS giữ nguyên. Các lịch EOD/watchdog có sẵn vẫn giữ nguyên.
 
 ## D. Bảng tự kiểm 20 mục
 
@@ -98,7 +98,7 @@
 | 16 | Vùng mua theo dòng cuối | ĐẠT | Không đăng vùng mua |
 | 17 | Mốc, R:R, kịch bản | ĐẠT CÓ GIỚI HẠN | Có gốc mốc; R:R không áp dụng; vô hiệu Sổ không kiểm được |
 | 18 | Bản đồ tiền ngành có chứng cứ | ĐẠT | Chỉ ghi ngân hàng giữ nhịp, không khẳng định tiền vào thật |
-| 19 | Zalo/web đúng số, đúng bố cục | ĐẠT CÓ ĐIỀU KIỆN | Nội dung trong khung cũ; xác minh Pages sau triển khai trong workflow |
+| 19 | Zalo/web đúng số, đúng bố cục | ĐẠT | GitHub Pages run 40656317232 thành công; 169/169 test, 133 ảnh và 133 logo, byte sau triển khai khớp |
 | 20 | Sổ mới, Phần B, không chép cũ | ĐẠT CÓ GIỚI HẠN | Chỉ bổ sung 28/10; không có Sổ người dùng |
 
 ## E. Phần bổ sung Sổ dữ liệu (không đăng web)
