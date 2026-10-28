@@ -55,7 +55,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
       <div class="rp-detail-grid">
         <div><span>Giá TB vùng mua</span><strong>${money(row.midpoint)} đ/cp</strong></div>
         <div><span>Ngưỡng tham chiếu −5%</span><strong>${money(row.stopReference)} đ/cp</strong></div>
-        <div><span>Ngày xác lập vùng</span><strong>${dateVi(REFERENCE_PORTFOLIO.approvedOn)}</strong></div>
+        <div><span>Ngày xác lập vùng</span><strong>${dateVi(row.exclusion?.zoneApprovedOn || REFERENCE_PORTFOLIO.approvedOn)}</strong></div>
         <div><span>${row.exclusion ? "Giá tại phiên bị loại" : "Giá đóng cửa / phiên"}</span><strong>${money(row.close)} đ • ${dateVi(row.priceDate)}</strong></div>
       </div>
       <div class="rp-detail-notes">${notes(row)}</div>
@@ -96,7 +96,11 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
     differencePct: row.exclusion.differencePct,
     priceDate: row.exclusion.date,
     priceSource: row.exclusion.priceSource,
-    zoneRelation: "below",
+    zoneLow: row.exclusion.zoneLow,
+    zoneHigh: row.exclusion.zoneHigh,
+    midpoint: row.exclusion.midpoint,
+    stopReference: row.exclusion.stopReference,
+    zoneRelation: row.exclusion.close < row.exclusion.zoneLow ? "below" : row.exclusion.close > row.exclusion.zoneHigh ? "above" : "inside",
     stopBreached: true
   }));
   const rowPasses = (row, filter) => filter === "all"
