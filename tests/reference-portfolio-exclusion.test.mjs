@@ -35,8 +35,9 @@ test("Policy is strict EOD close at or below minus five percent, with seven perc
   assert.ok(validateReferencePortfolioExitState(REFERENCE_PORTFOLIO, blankState()));
 });
 
-test("Current 28/10 research data archives DGW once, others remain active", () => {
-  const { nextState, added, rows } = planReferencePortfolioExits(REFERENCE_PORTFOLIO, storedEod, blankState());
+test("Historical fixed 28/10 DGW breach yields one archival event, preserving reference prices", () => {
+  const historicFixture = makeSource("2026-10-28", { DGW: 42350 });
+  const { nextState, added, rows } = planReferencePortfolioExits(REFERENCE_PORTFOLIO, historicFixture, blankState());
   assert.deepEqual(added.map((event) => event.ticker), ["DGW"]);
   assert.equal(added[0].date, "2026-10-28");
   assert.equal(added[0].close, 42350);
@@ -49,14 +50,25 @@ test("Current 28/10 research data archives DGW once, others remain active", () =
   assert.deepEqual(nextState.events, added);
 });
 
-test("Persisted 28/10 DGW event is valid, matches verified EOD and is idempotent", () => {
+test("Persisted 28/10 DGW evidence remains valid and never duplicates on changing EOD", () => {
   assert.equal(validateReferencePortfolioExitState(REFERENCE_PORTFOLIO, storedState), true);
-  const prior = JSON.stringify(storedState);
+  assert.ok(storedState.events.some((event) => event.ticker === "DGW" && event.date === "2026-10-28"));
+  const before = JSON.stringify(storedState);
   const result = planReferencePortfolioExits(REFERENCE_PORTFOLIO, storedEod, storedState);
-  assert.equal(result.added.length, 0);
-  assert.equal(result.nextState, storedState);
-  assert.equal(JSON.stringify(storedState), prior);
+  assert.equal(JSON.stringify(storedState), before, "Plan must not mutate existing evidence.");
+  assert.ok(result.nextState.events.some((event) => event.id === "risk-stop-DGW-2026-10-28"));
   assert.equal(result.rows.find((row) => row.ticker === "DGW").exclusion.date, "2026-10-28");
+  for (const event of storedState.events) {
+    assert.equal(result.nextState.events.filter((item) => item.ticker === event.ticker).length, 1);
+    assert.deepEqual(result.nextState.events.find((item) => item.ticker === event.ticker), event);
+  }
+  const currentBreachSet = buildReferencePortfolio(REFERENCE_PORTFOLIO, storedEod)
+    .filter((row) => row.stopBreached && row.close !== null).map((row) => row.ticker).sort();
+  const archivedSet = result.rows.filter((row) => row.exclusion).map((row) => row.ticker).sort();
+  for (const ticker of currentBreachSet) assert.ok(archivedSet.includes(ticker), ticker + " must not evade stop.");
+  const repeat = planReferencePortfolioExits(REFERENCE_PORTFOLIO, storedEod, result.nextState);
+  assert.equal(repeat.added.length, 0, "Applying an EOD twice must not add duplicate exits.");
+  assert.equal(repeat.nextState, result.nextState);
 });
 
 test("Boundary precision: minus 4.98% stays, exactly minus 5% leaves", () => {
@@ -82,7 +94,9 @@ test("Prior trading sessions do not retroactively remove securities before effec
 });
 
 test("An already archived ticker never rejoins on a price rebound", () => {
-  const rebound = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-29", { DGW: 52000 }), storedState);
+  const dgwHistory = { schemaVersion: 1, events: storedState.events.filter((event) => event.ticker === "DGW") };
+  assert.equal(validateReferencePortfolioExitState(REFERENCE_PORTFOLIO, dgwHistory), true);
+  const rebound = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-29", { DGW: 52000 }), dgwHistory);
   assert.equal(rebound.added.length, 0);
   assert.equal(rebound.rows.find((row) => row.ticker === "DGW").exclusion.id, "risk-stop-DGW-2026-10-28");
   assert.equal(rebound.rows.filter((row) => !row.exclusion).length, 5);
@@ -108,10 +122,11 @@ test("Invalid, duplicate or edited exclusion evidence fails closed", () => {
 });
 
 test("Additional EOD breaches append without overwriting historic DGW event", () => {
-  const next = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-29", { VPB: 21800 }), storedState);
+  const dgwHistory = { schemaVersion: 1, events: storedState.events.filter((event) => event.ticker === "DGW") };
+  const next = planReferencePortfolioExits(REFERENCE_PORTFOLIO, makeSource("2026-10-29", { VPB: 21800 }), dgwHistory);
   assert.deepEqual(next.added.map((event) => event.ticker), ["VPB"]);
   assert.equal(next.nextState.events.length, 2);
-  assert.deepEqual(next.nextState.events[0], storedState.events[0]);
+  assert.deepEqual(next.nextState.events[0], dgwHistory.events[0]);
   assert.equal(next.rows.filter((row) => !row.exclusion).length, 4);
 });
 
@@ -126,5 +141,8 @@ test("Source and public runtime retain the archive processor and its read-only s
   assert.match(eodWorkflow, /node scripts\/process-reference-portfolio-exits\.mjs/);
   assert.match(pagesWorkflow, /node scripts\/process-reference-portfolio-exits\.mjs/);
   assert.doesNotMatch(processor, /trade-ledger\.json/);
-  assert.equal(buildReferencePortfolio(REFERENCE_PORTFOLIO, storedEod, storedState).filter((r) => !r.exclusion).length, 5);
+  const rows = buildReferencePortfolio(REFERENCE_PORTFOLIO, storedEod, storedState);
+  assert.equal(rows.length, REFERENCE_PORTFOLIO.entries.length);
+  assert.equal(rows.filter((row) => row.exclusion).length, storedState.events.length);
+  assert.equal(rows.filter((row) => !row.exclusion).length + storedState.events.length, 6);
 });
