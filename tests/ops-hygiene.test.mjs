@@ -98,3 +98,12 @@ test("maintenance does not change the public section architecture", () => {
   const order = [...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map((match) => match[2]);
   assert.deepEqual(order, ["overview", "daily-market", "reference-portfolio", "position-ledger", "action-radar", "research"]);
 });
+
+test("Automatic EOD push respects last completed trading session before 15:15", () => {
+  const workflow = read(".github/workflows/eod-daily.yml");
+  assert.ok(workflow.includes('if [[ "${GITHUB_EVENT_NAME:-}" != "workflow_dispatch" ]]; then'),
+    "Date resolution must cover push and schedule, not only schedule.");
+  assert.ok(workflow.includes('if (( 10#$local_hm < 1515 )); then'));
+  assert.ok(workflow.includes("date -d 'yesterday' +%F"));
+  assert.ok(workflow.includes('while (( $(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u) >= 6 )); do'));
+});
