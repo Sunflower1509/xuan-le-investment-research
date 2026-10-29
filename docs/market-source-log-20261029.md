@@ -98,7 +98,7 @@ Gốc **(a)**: `https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=date&q
 | 16 | Không lập vùng mua mới khi KHÔNG | ĐẠT | Theo VI |
 | 17 | Mốc có nguồn, R:R minh bạch | ĐẠT CÓ GIỚI HẠN | Sổ gốc không có nên R:R không áp dụng |
 | 18 | Không bịa nhóm tiền thật | ĐẠT | Chỉ nói sức giá nhóm |
-| 19 | Đồng nhất bài web/Zalo, giữ bố cục | CẦN XÁC NHẬN SAU TRIỂN KHAI | Ghi kết quả deploy cụ thể khi có |
+| 19 | Đồng nhất bài web/Zalo, giữ bố cục | ĐẠT | GitHub Pages run 40941053084, 181/181 kiểm thử; kiểm byte sau deploy khớp, 133 ảnh bìa và 133 logo, thứ tự section không đổi |
 | 20 | Một dòng Sổ mới, không chép Sổ cũ | ĐẠT | Phần E |
 
 ## E. Sổ dữ liệu tự lưu — **chỉ bổ sung mới** (không đăng website)
@@ -125,3 +125,13 @@ Không có đính chính; thiếu Sổ gốc.
 ```
 
 **Lưu ý:** ô “Cao” chưa kiểm chứng thống nhất do VNDIRECT–Investing–VNIndex.ai khác nhau. Mức thấp 1747,34 đã có hai nguồn. Không dùng ô “Cao” để suy chặn xả cuối.
+
+## F. Đối chiếu EOD và sửa lỗi tự động hóa (đã hoàn thành)
+
+- **Nguyên nhân hỏng 29/10:** 4/180 phép thử trong `tests/reference-portfolio-exclusion.test.mjs` giữ cứng giả định `28/10 chỉ DGW bị loại` và `còn 5 mã theo dõi`. Khi hệ thống đọc giá 29/10, BSR chạm ngưỡng −5% từ trung điểm vùng kỹ thuật nên phép thử sai theo dữ liệu mới; điều này làm **4 lần chạy EOD ngày 29/10 thất bại ở bước test**. Không phải lỗi sai quy tắc giá, nhưng sai vì kiểm thử buộc trạng thái thị trường tĩnh.
+- **Khắc phục:** bài thử lịch sử 28/10 dùng mẫu dữ liệu cố định; bài thử EOD hiện hành yêu cầu mọi mã vượt ngưỡng được lưu loại và sự kiện cũ không đổi, chạy lần hai không tạo trùng. Thêm kiểm thử tác vụ `push` sau nửa đêm phải nhắm phiên đã kết thúc trước đó; giữ nguyên lịch và toàn bộ cổng đối chiếu. Không thay đổi HTML/CSS hay thuật toán loại −5%.
+- **Kết quả EOD:** workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40940059501 **SUCCESS**, **133/133 giá** chính xác phiên 29/10, 129/133 đóng trùng CafeF trực tiếp; 4 ngoại lệ MSR, OIL, QNS, VGI được nguồn KBS thứ ba xác nhận trùng VNDIRECT, không dùng giá CafeF sai khác. Sổ vị thế tự xử lý và xác nhận đối soát; danh mục tham khảo thêm **BSR 29/10/2026** (trung điểm 29.750, giá khóa 27.650, chênh −7,0588%; ngưỡng −5% là 28.262,5). Sự kiện DGW 28/10 không bị sửa hoặc hồi tố.
+- **Nhật ký phân tích VNINDEX:** kiểm toán chỉ đọc 269 phiên https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40940109153 **SUCCESS**.
+- **Bản nhận định ngày 29/10:** đã đăng bằng một entry mới, giữ 52 entry trước, tổng 53 nhận định; phần nhập nội dung duy nhất `src/data/daily-insights-auto.js`, mã giao diện và CSS không đổi.
+- **Kiểm tra triển khai:** workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/40941053084 **SUCCESS**; **181 test đạt/181, 0 fail**; `Site audit passed: 133 báo cáo, 133 mã, 53 nhận định, 59 sự kiện vị thế`. Kiểm tra SHA-256 trực tiếp sau triển khai **index.html**, **assets/js/site.min.js**, **assets/css/site.min.css** đều trùng artifact bản khóa mới; **133 bìa**, **133 logo** đối chiếu. Bộ guard bố cục, CSS và danh sách các tệp được phép thay đổi đều hoàn thành.
+- **Hạn chế còn lại:** Bài nhận định thị trường không có tác vụ tự xuất bản độc lập đã xác minh; các luồng giá EOD và watchdog tự động hoạt động, nhưng nguồn tin, dữ liệu ngoại khớp, basis, OHLC chưa thống nhất không được coi là đã xác minh chỉ vì website deploy thành công.
