@@ -19,6 +19,25 @@
       "differencePct": -9.411764705882353,
       "severity": "critical-7",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DGW~date:2026-10-28&size=10"
+    },
+    {
+      "id": "risk-stop-BSR-2026-10-29",
+      "kind": "eod-midpoint-stop",
+      "ticker": "BSR",
+      "date": "2026-10-29",
+      "zoneApprovedOn": "2026-10-12",
+      "policyVersion": "eod-midpoint-stop-v1",
+      "zoneLow": 29500,
+      "zoneHigh": 30000,
+      "midpoint": 29750,
+      "stopPercent": 5,
+      "criticalPercent": 7,
+      "stopReference": 28262.5,
+      "close": 27650,
+      "changePct": -3.8261,
+      "differencePct": -7.058823529411762,
+      "severity": "critical-7",
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BSR~date:2026-10-29&size=10"
     }
   ]
 }
