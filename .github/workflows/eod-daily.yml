@@ -1,4 +1,4 @@
-# Verified EOD recovery audit request for 2026-10-28 after official ATC; all existing date-specific verification gates preserved
+# Verified EOD recovery audit request for 2026-10-29; preserve gate, ledger, layout and audit on overnight automatic push
 name: Verified EOD market lock and deploy
 
 on:
@@ -55,9 +55,9 @@ jobs:
             RESOLVED_DATE="$TARGET_DATE"
           else
             RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date +%F)"
-            if [[ "${GITHUB_EVENT_NAME:-}" == "schedule" ]]; then
-              # GitHub schedule events may run many hours late. Before 15:15 VN time,
-              # a delayed run must never target the still-open/current trading day.
+            if [[ "${GITHUB_EVENT_NAME:-}" != "workflow_dispatch" ]]; then
+              # Scheduled runs and maintenance push events can arrive after midnight or before ATC.
+              # Before 15:15 VN time, always verify the last completed trading session instead of today.
               local_hm="$(TZ=Asia/Ho_Chi_Minh date +%H%M)"
               if (( 10#$local_hm < 1515 )); then
                 RESOLVED_DATE="$(TZ=Asia/Ho_Chi_Minh date -d 'yesterday' +%F)"
