@@ -104,7 +104,7 @@ Chỉ dùng script ở https://github.com/Sunflower1509/xuan-le-investment-resea
 | 16 | Không ghi vùng mua sai trạng thái | ĐẠT | Không lập vùng mua |
 | 17 | Mốc/R:R/kịch bản có nguồn | ĐẠT CÓ GIỚI HẠN | Chưa có mốc vô hiệu từ Sổ; R:R không áp dụng |
 | 18 | Dòng tiền ngành bằng chứng thực | ĐẠT | Chỉ nói sức giá, không bịa dòng vốn |
-| 19 | Web/Zalo cùng số và layout | CHỜ KIỂM THỬ SAU DEPLOY | Chỉ đạt hoàn toàn khi GitHub Pages kiểm byte thành công |
+| 19 | Web/Zalo cùng số và layout | ĐẠT | GitHub Pages run 41308913903: 181/181 kiểm thử, 54 nhận định, xác minh byte HTML/JS/CSS và 133 ảnh bìa + 133 logo; guard bố cục thành công |
 | 20 | Sổ phần mới và chặn mang sang | ĐẠT | Chỉ một dòng mới và Phần B, không sao Sổ cũ |
 
 ## E. Sổ tự lưu — bổ sung phiên mới, **không đăng website**
@@ -132,3 +132,13 @@ Không có đính chính do thiếu Sổ gốc người dùng.
 ```
 
 **Không đồng nhất thiếu dữ liệu với tín hiệu xấu.** Trạng thái KHÔNG có căn cứ độc lập, xác minh được: 7 phiên phân phối và nền XẤU. Cổng số lõi gắn 1 NGUỒN không được phép lên CÓ.
+
+## F. Kiểm tra đồng bộ và kết quả xuất bản thực tế
+
+- **Giá EOD 30/10 đã tự khóa trước yêu cầu:** hai lần chạy thành công trong ngày 30/10, lần sau https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41083847733: 133/133 mã được kiểm ngày, 130 mã giá khớp CafeF, ngoại lệ MSR/PHP/VGI có nguồn thứ ba KBS xác nhận. 181/181 kiểm thử đạt; bước sau triển khai xác minh byte; sổ vị thế có 60 sự kiện. Không chạy lại EOD ngày 30 không cần thiết.
+- **Hai lượt watchdog** 30/10 (runs 41088346801 và 41092313355) thành công; dữ liệu `src/data/research-data.js` meta.updated là `2026-10-30`. Không thấy lỗi đồng bộ phải chỉnh mã nguồn trong lần thực hiện này.
+- **Chỉ số và lịch sử VN-Index:** kiểm toán read-only 270 phiên, run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41308526934, SUCCESS; tính toán từ VNDIRECT, không đổi cấu trúc hoặc luật sổ.
+- **Bài nhận định:** thêm đúng một entry `market-view-20261030` đầu `src/data/daily-insights-auto.js`, trước `market-view-20261029`, không xóa bài cũ; nội dung biểu diễn trong bộ khung hiện có và bài Zalo đi kèm có 394 từ.
+- **Kết quả GitHub Pages:** run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41308913903 **SUCCESS**. **181/181 kiểm thử đạt, 0 trượt**, kiểm toán `Site audit passed: 133 báo cáo, 133 mã, 54 nhận định, 60 sự kiện vị thế`. Guard phạm vi chỉnh sửa và bố cục hoàn tất. Xác minh SHA-256 tệp HTML/JS/CSS với website trực tiếp đạt ở lần thử đầu; 133 ảnh bìa và 133 logo đạt. Mã băm CSS vẫn là `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` giống bản EOD trước bài mới.
+- **Phạm vi thay đổi:** Chỉ bổ sung hồ sơ kiểm toán, cập nhật 2 chuỗi ngày của workflow kiểm toán đọc, thêm entry mới vào nguồn nhận định. HTML/CSS, bố cục, tên mục, vị trí hiển thị, thuật toán stop −5% và lịch EOD/watchdog không bị sửa.
+- **Còn tồn tại:** Quy trình xuất bản nhận định từng ngày chưa có lịch tự động độc lập được xác minh; EOD và watchdog chạy thành công nhưng không tự sinh ra bài v3.3.1. Đây là giới hạn vận hành đã ghi nhận, không được ghi thành “tự động hóa nhận định hoàn chỉnh”. Mức thanh khoản khớp giữa các nhà cung cấp chưa hoàn toàn đồng phạm vi: giữ nhãn 1 NGUỒN thay vì ép bằng nhau.
