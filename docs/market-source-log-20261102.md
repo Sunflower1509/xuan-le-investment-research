@@ -98,7 +98,7 @@ Kiểm toán độc lập `41411967721` đọc đủ **271 phiên** từ **01/10
 | 16 | Quy tắc không mở vùng mua | ĐẠT | KHÔNG ⇒ không vùng mua |
 | 17 | Mốc, R:R và 3 kịch bản | ĐẠT CÓ GIỚI HẠN | Mốc vô hiệu Sổ không có; R:R không áp dụng |
 | 18 | Bản đồ ngành theo chứng cứ | ĐẠT | Sức giá ngân hàng, không suy dòng vốn ròng |
-| 19 | Bài Zalo trùng với web, không đổi bố cục | CHỜ KẾT QUẢ TRIỂN KHAI | Xác minh sau xuất bản |
+| 19 | Bài Zalo trùng với web, không đổi bố cục | ĐẠT | Run 41413178551 SUCCESS, 181/181 test, 55 bài, kiểm byte sau deploy, CSS không đổi |
 | 20 | Sổ chỉ nối dòng mới/Phần B | ĐẠT | Phần E |
 
 ## E. Phần bổ sung Sổ tự lưu (chỉ cung cấp để người dùng cập nhật Sổ, không đăng lên web)
@@ -125,3 +125,13 @@ Không tự sửa dòng cũ khi chưa có Sổ gốc người dùng.
 ```
 
 **Ghi chú chất lượng:** Không coi mất dữ liệu là thị trường xấu; tình trạng KHÔNG ngày 02/11 được quyết định bởi số liệu định lượng đã đủ: chặn 7 phân phối và nền XẤU. Nhãn `1 NGUỒN` không đủ điều kiện cho trạng thái CÓ.
+ 
+## F. Kết quả vận hành và xuất bản đã kiểm chứng
+
+- EOD 02/11 được khóa bằng workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41411957031 **SUCCESS**, 133/133 giá đóng cùng ngày, giá so VNDIRECT–KBS đồng nhất. CafeF chưa có dòng EOD đúng phiên. PVS, SHS khác khối lượng nhưng không lệch giá. 181/181 kiểm thử, không lỗi. Giá đóng 02/11 được ghi vào `src/data/research-data.js`.
+- Danh mục tham khảo ghi thêm 3 sự kiện loại 02/11: VPB, GMD và GVR theo ngưỡng giảm từ trung điểm vùng mua. Lịch sử DGW 28/10, BSR 29/10 không đổi; không phát sinh lệnh bán thực trên tài khoản bên ngoài.
+- Kiểm toán chỉ đọc 271 phiên https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41411967721 **SUCCESS**, các phép tính MA, TB20, phân phối dùng một chuỗi VNDIRECT.
+- Bài ngày 02/11 mang mã `market-view-20261102` được thêm một entry đầu `src/data/daily-insights-auto.js` (trước ngày 30/10). Bài Zalo đính trong trường `zaloPost` dài 343 chữ, thống nhất các mốc và trạng thái KHÔNG với web.
+- GitHub Pages: https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41413178551 **SUCCESS**. 181/181 bài kiểm thử đạt, 0 trượt; kiểm toán site: **133 báo cáo, 133 mã, 55 nhận định, 64 sự kiện vị thế**. Guard bố cục và phạm vi thay đổi đạt. Byte SHA-256 của HTML, JavaScript và CSS đối chiếu trên website đạt ngay lần 1. **133 bìa báo cáo, 133 logo** xác minh thành công. Hash CSS tiếp tục `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` — không sửa kiểu dáng.
+- Lịch EOD và watchdog giữ nguyên. **Luồng tự tạo bài nhận định hằng ngày chưa có lịch độc lập được xác minh**; lần này bài do yêu cầu chủ động xuất bản, không coi là tác vụ lập nhận định tự động.
+- Ngoại KHỚP, basis, tự doanh, Sổ người dùng chưa đối chiếu đủ nên vẫn ghi rõ thiếu; không bịa số hay tuyên bố đã gỡ chặn.
