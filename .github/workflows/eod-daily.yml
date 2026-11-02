@@ -1,4 +1,4 @@
-# Verified EOD recovery audit request for 2026-10-29; preserve gate, ledger, layout and audit on overnight automatic push
+# Verified EOD recovery audit request for 2026-11-02 after close; preserve existing data verification, stop-loss and page layout gates
 name: Verified EOD market lock and deploy
 
 on:
