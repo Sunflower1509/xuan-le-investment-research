@@ -69,11 +69,11 @@
         "VSC": {
           "date": "2026-10-30",
           "close": 13200,
-          "relation": "above",
-          "zoneLow": 10100,
-          "zoneHigh": 10800,
-          "zoneBasisDate": "2026-08-07",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-27",
+          "eligibility": "inactive"
         },
         "VHM": {
           "date": "2026-10-30",
@@ -204,11 +204,11 @@
         "FPT": {
           "date": "2026-10-30",
           "close": 52700,
-          "relation": "above",
-          "zoneLow": 44500,
-          "zoneHigh": 47700,
-          "zoneBasisDate": "2026-08-17",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-02",
+          "eligibility": "inactive"
         },
         "HPG": {
           "date": "2026-10-30",
@@ -901,11 +901,11 @@
         "DPG": {
           "date": "2026-10-30",
           "close": 28850,
-          "relation": "above",
-          "zoneLow": 27000,
-          "zoneHigh": 28000,
-          "zoneBasisDate": "2026-08-28",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-27",
+          "eligibility": "inactive"
         },
         "FTS": {
           "date": "2026-10-30",
@@ -973,11 +973,11 @@
         "SZC": {
           "date": "2026-10-30",
           "close": 19300,
-          "relation": "above",
-          "zoneLow": 13800,
-          "zoneHigh": 14700,
-          "zoneBasisDate": "2026-08-28",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-10-27",
+          "eligibility": "inactive"
         },
         "VPI": {
           "date": "2026-10-30",
