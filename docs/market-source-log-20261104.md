@@ -100,7 +100,7 @@ Nguồn chuỗi **(a)**: VNDIRECT `vnmarket_prices`, đủ **273 dòng** từ **
 | 16 | Không mua trong trạng thái KHÔNG | ĐẠT | Không có vùng mua mới |
 | 17 | Mốc có nguồn, R:R | ĐẠT CÓ GIỚI HẠN | R:R không áp dụng vì Sổ gốc không có |
 | 18 | Nói đúng ngành, không bịa tiền ròng | ĐẠT | Chỉ sức giá và sự tham gia theo giá/khớp/ngoại trong rổ cụ thể, không suy toàn ngành |
-| 19 | Web/Zalo trùng số, đúng bố cục | CHỜ KIỂM TRA SAU TRIỂN KHAI | Chỉ nâng ĐẠT sau Pages byte verification |
+| 19 | Web/Zalo trùng số, đúng bố cục | ĐẠT | Pages 41931323603 hoàn thành: 181/181 kiểm thử, 57 nhận định, 133 ảnh+logo và đối chiếu byte HTML/JS/CSS thành công |
 | 20 | Sổ chỉ một dòng mới và trạng thái mang sang | ĐẠT | Phần E |
 
 ## E. Sổ tự lưu chỉ bổ sung mới (không đăng website hoặc Zalo)
@@ -126,3 +126,13 @@ Không có đính chính đối với Sổ gốc chưa được cung cấp.
 ```
 
 **Quyết định không bị đánh tráo:** Điểm +2/7 mô tả phiên bật có sức rộng hơn trước, nhưng nền XẤU và 6 phân phối là hai điều kiện định lượng đã kiểm khiến trạng thái cuối KHÔNG. Không biến dữ liệu thiếu thành chặn cứng, không tự sáng tạo điểm mua.
+
+## F. Báo cáo chạy thực tế, đồng bộ và giới hạn vận hành
+
+- **Giá EOD đã hoàn tất trước yêu cầu:** dữ liệu `src/data/research-data.js` có meta.updated và meta.release **2026-11-04**, 133/133 giá đóng được khóa. Nguồn chính VNDIRECT, 131/133 giá trùng CafeF, 2 ngoại lệ MSR/OIL đã có KBS xác nhận. Cửa kiểm thử 181/181, 0 fail và đối chiếu byte website thành công trong workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41867307696. Trang đã có phiên đúng nên không ghi đè giá.
+- **Một lần chạy trùng bị lỗi do bên thứ ba:** EOD https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41873447290 đã báo **FAIL** ở cổng dữ liệu, `verified=131/133`, hai lỗi `MSR KBS missing row` và `OIL KBS missing row`. Đây là sự cố trả dòng từ nguồn KBS tại thời điểm tái kiểm tra, không phải việc mất giá đã xác minh từ lần chạy trước. Không bỏ qua, sửa giả hay nới cổng giá để biến FAIL thành PASS. Watchdog tiếp theo (runs 41878690261, 41882549417) đều **SUCCESS**, ghi **EOD already current for 2026-11-04**; tình trạng đồng bộ đang đúng phiên. Lưu ngoại lệ để quan sát nếu nguồn KBS tiếp tục chập chờn trong các kỳ sau.
+- **Kiểm toán chỉ đọc:** workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41930602779 **SUCCESS**, đọc 273 dòng lịch sử VNINDEX, không dùng giá 05/11. Thay đổi workflow kiểm toán đúng 2 chuỗi ngày mục tiêu; giữ toàn bộ thuật toán.
+- **Nhận định:** bổ sung một entry ngày 04/11, mã `market-view-20261104`, bản số 54, tại đầu `src/data/daily-insights-auto.js`. Giữ nguyên 56 entry trước; bài Zalo trong trường `zaloPost` dài 354 chữ, cùng ngày/trạng thái/mốc với web.
+- **GitHub Pages:** https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41931323603 **SUCCESS**. **181/181 kiểm thử, 0 fail**; `Site audit passed: 133 báo cáo, 133 mã, 57 nhận định, 66 sự kiện vị thế`. Guard cấu trúc và phạm vi thay đổi thành công, SHA-256 HTML/JS/CSS so với trang đang chạy đạt trong lần thử đầu. **133 bìa báo cáo, 133 logo** đối chiếu. CSS SHA256 `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` **không thay đổi**.
+- **Bố cục:** không chỉnh CSS, HTML, thứ tự khu vực, cỡ chữ, tràn dòng, khoảng cách hay khóa tên phần. Không thay quy tắc loại mã theo ngưỡng 5–7% hoặc thay lịch chạy EOD và watchdog.
+- **Tự tạo bản nhận định theo lịch:** không có bằng chứng đã chạy tác vụ độc lập sinh bài v3.3.1 hằng ngày. Bài này được xuất bản theo yêu cầu, không báo sai là tự sinh. Dữ liệu khớp/bộ lọc phạm vi khác các đơn vị, ngoại khớp liên tiếp và basis chưa đủ khóa được ghi rõ, không thay bằng tổng GD hoặc nội suy.
