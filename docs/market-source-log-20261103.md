@@ -99,7 +99,7 @@ Nguồn (a): VNDIRECT `vnmarket_prices`, log **https://github.com/Sunflower1509/
 | 16 | Không đăng vùng mua khi KHÔNG | ĐẠT | Không có vùng mua |
 | 17 | Nguồn mốc và R:R | ĐẠT CÓ GIỚI HẠN | Mốc đáy bất đồng; R:R không áp dụng |
 | 18 | Không suy dòng tiền ngành | ĐẠT | Chỉ sức giá ngành HOSE |
-| 19 | Bài web/Zalo, giữ layout | CHỜ XÁC MINH SAU DEPLOY | Sẽ bổ sung sau khi Pages byte audit |
+| 19 | Bài web/Zalo, giữ layout | ĐẠT | Pages 41826290155: 181/181 test, byte HTML/JS/CSS đúng, 133 bìa và 133 logo, tổng 56 nhận định; guard cấu trúc thành công |
 | 20 | Chỉ bổ sung dòng Sổ mới | ĐẠT | Phần E, không chép lịch sử |
 
 ## E. Sổ dữ liệu tự lưu — phần bổ sung, **không đưa lên web/Zalo**
@@ -126,3 +126,14 @@ Không sửa các dòng cũ do không có Sổ gốc người dùng.
 ```
 
 **Tính đúng nguyên tắc:** Không đưa sự kiện 04/11 vào bài ngày 03; không suy chỉ số giảm đồng nghĩa phần lớn cổ phiếu giảm; không coi số liệu thiếu là tiêu cực. Chặn cứng 7 phân phối là căn cứ độc lập đã kiểm được.
+
+## F. Kết quả cập nhật và triển khai thực tế
+
+- **Giá EOD đã được hệ thống tự khóa ngày 03/11**, trước khi thực hiện lượt nghiên cứu này: `src/data/research-data.js` `meta.updated=2026-11-03`, 133/133 cổ phiếu đã kiểm phiên, trong đó 131 đóng khớp trực tiếp CafeF, PHP và QNS được đối chiếu KBS khi CafeF lệch; giá sử dụng VNDIRECT đã có xác nhận. Không cần ghi đè thủ công giá, không chạy lại tác vụ EOD. Nguồn: https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41679414567.
+- **Luồng EOD & watchdog:** hai lượt EOD 41673644543, 41679414567 thành công; hai lượt watchdog 41683611288, 41688297970 hoàn thành, không báo lỗi. Kiểm thử toàn bộ 181/181 đạt, 0 thất bại, 133 báo cáo, 133 mã, 55 bài nhận định trước khi thêm bản 03/11.
+- **Kiểm toán riêng 03/11:** run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41825427138 **SUCCESS**, đọc 272 phiên một nguồn VNDIRECT và kiểm MA, TB20, chặn, phân phối theo v3.3.1. Thay đổi duy nhất trong workflow kiểm toán là 2 giá trị ngày mục tiêu từ 02/11 sang 03/11; không sửa script, logic EOD hay cấu trúc web.
+- **Nhận định:** bổ sung entry `market-view-20261103` tại đầu `src/data/daily-insights-auto.js`, số 53; giữ nguyên tất cả bài cũ và trường dữ liệu; bài Zalo cùng số nằm trong `zaloPost`, dài **351 chữ** (không tính tiêu đề ngoài bài).
+- **Deploy:** run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/41826290155 **SUCCESS**. **181/181 kiểm thử đạt, 0 lỗi.** `Site audit passed: 133 báo cáo, 133 mã, 56 nhận định, 65 sự kiện vị thế`. Guard public layout and mutation scope hoàn tất. Post-deploy byte verification thành công ngay lần thử đầu: `index.html`, `assets/js/site.min.js`, `assets/css/site.min.css`. 133 ảnh bìa, 133 logo được xác minh; CSS SHA256 `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` **không đổi**.
+- **Không sửa bố cục:** HTML/CSS, thứ tự mục, giới hạn dòng và dàn chữ v2.2.2 được giữ nguyên. Không thay đổi chính sách stop −5%/−7%, không thay lịch chạy EOD/watchdog, không thay Sổ lịch sử đã ghi.
+- **Điểm chưa tự động hóa:** hiện chưa xác minh được luồng **tự sinh và tự đăng nhận định v3.3.1** theo lịch độc lập. Bản ngày 03/11 được bổ sung từ yêu cầu này. Không coi việc EOD chạy tự động là bằng chứng bài nhận định tự chạy.
+- **Giới hạn dữ liệu vẫn công khai:** đáy VNINDEX 03/11 khác nhau giữa nguồn, khớp/độ rộng khác phạm vi, ngoại KHỚP, tự doanh và basis chưa xác minh cùng phương pháp; không được biến thành con số chắc chắn.
