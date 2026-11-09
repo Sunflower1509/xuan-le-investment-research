@@ -101,7 +101,7 @@ Lịch sử **274 dòng** thực, 01/10/2025 – 05/11/2026, chỉ `code=VNINDEX
 | 16 | Không ghi vùng mua khi KHÔNG | ĐẠT | Không tạo điểm mua |
 | 17 | Mốc/R:R và ba kịch bản | ĐẠT CÓ GIỚI HẠN | Thấp 05 bất đồng; R:R không áp dụng |
 | 18 | Nhóm ngành chỉ theo bằng chứng | ĐẠT | Mô tả sức giá ngành HOSE |
-| 19 | Giữ khung web và trùng Zalo | CHỜ HẬU KIỂM | Chỉ nâng ĐẠT khi triển khai website thành công |
+| 19 | Giữ khung web và trùng Zalo | ĐẠT | Pages 42538046322: 181/181 kiểm thử, 58 bài; byte HTML/JS/CSS khớp sau triển khai, 133 bìa + 133 logo, guard bố cục thành công |
 | 20 | Sổ mới giữ cũ | ĐẠT | E |
 
 ## E. Sổ tự lưu bổ sung — **không xuất bản website/Zalo**
@@ -134,3 +134,10 @@ Không tự ý sửa Sổ gốc chưa được cung cấp.
 - **Giá mới hơn đã tự cập nhật:** ngày 06/11 có run 42254736511 SUCCESS, khóa đủ 133/133 giá và 181 kiểm thử, byte hậu triển khai đạt. `src/data/research-data.js` hiện có `meta.updated=2026-11-06`. **Không được quay ngược dữ liệu sang 05/11** để phục vụ bài nhận định lịch sử.
 - **Kiểm toán thị trường 05/11 độc lập:** run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42537583243 SUCCESS, 274 dòng. Bản nhận định sẽ chèn riêng entry 05/11 trên `src/data/daily-insights-auto.js`, giữ toàn bộ bài cũ và khóa giao diện.
 - **Cơ chế tự động tạo bài v3.3.1 theo lịch:** chưa có workflow đã xác minh; EOD tự chạy không đồng nghĩa bài nhận định đã tự sinh. Không báo sai là đã tự động hóa hoàn toàn.
+
+## G. Kết quả xác minh Pages sau xuất bản (hoàn thành)
+
+- Đã thêm đúng một bản `market-view-20261105` vào đầu `src/data/daily-insights-auto.js` cùng bài Zalo **365 chữ**, giữ 57 bản cũ, tổng **58** bài. Mục phân tích phản ánh **chỉ phiên 05/11** trong khi tệp giá website được giữ mới hơn ở **06/11**. Phạm vi thay đổi đã qua guard, không sửa HTML/CSS hoặc quy tắc quản trị.
+- GitHub Pages deploy https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42538046322 **SUCCESS** sau khi kiểm byte hậu triển khai: **181/181 kiểm thử đạt, 0 fail**; `Site audit passed: 133 báo cáo, 133 mã, 58 nhận định, 67 sự kiện vị thế`. SHA-256 `index.html`, `assets/js/site.min.js`, `assets/css/site.min.css` khớp bản live lần thử **1**. **133 ảnh bìa và 133 logo** xác minh đạt. CSS SHA256 `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` không đổi.
+- Không thay đổi cấu trúc 6 khu vực công khai, thứ tự mục, dàn chữ, kiểu trang, quy tắc dừng lỗ hay lịch EOD/watchdog. Chỉ ghi nhật ký, đổi 2 giá trị ngày workflow **read-only**, thêm một entry nhận định có nguồn.
+- **Giới hạn chưa giải quyết:** giá thấp ngày 05/11 còn bất đồng nguồn và các điều kiện ngoại KHỚP/basis chưa xác minh; nguồn KBS tạm thiếu dữ liệu OIL/VGI trong lần tái kiểm EOD 05/11 nhưng phiên đã được khóa chính xác từ lượt SUCCESS. Đây không phải lý do hợp lệ để nới cổng xác minh. Luồng tự tạo nhận định v3.3.1 hàng ngày chưa có lịch độc lập đã xác minh.
