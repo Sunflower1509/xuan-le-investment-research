@@ -100,7 +100,7 @@
 | 16 | Không đăng vùng mua mới khi KHÔNG | ĐẠT | Không có vùng mua |
 | 17 | Mốc có nguồn; R:R và 3 kịch bản | ĐẠT CÓ GIỚI HẠN | R:R không áp dụng vì thiếu mốc vô hiệu Sổ |
 | 18 | Ngành không suy tiền ròng | ĐẠT | Chỉ công bố sức giá ngành có nguồn |
-| 19 | Bài Zalo, web đúng khung và số | CHỜ HẬU KIỂM | Chỉ ĐẠT sau Github Pages thành công và byte audit |
+| 19 | Bài Zalo, web đúng khung và số | ĐẠT | Pages 42540213538 SUCCESS; 181/181 test; 59 bài, 133 bìa/logo; byte HTML/JS/CSS khớp và guard bố cục đạt |
 | 20 | Sổ chỉ bổ sung mới, không chép dòng cũ | ĐẠT | Mục VI |
 
 ## VI. Sổ tự lưu bổ sung chỉ dành cho người dùng, KHÔNG đăng web/Zalo
@@ -132,3 +132,12 @@ Chưa sửa dòng nào vì không có Sổ gốc người dùng.
 - Watchdog sau EOD ngày 06/11, runs 42257078887 và 42262375507, **SUCCESS**. Đồng bộ giá và trạng thái sau xuất bản đã được đối chiếu.
 - **Không sửa** các workflow EOD/watchdog, script kiểm chứng giá, cấu trúc web, CSS, HTML hay quy tắc dừng lỗ. Workflow audit *chỉ đọc* thay 2 mốc ngày từ 05 sang 06 để lấy đúng 275 phiên, không sửa thuật toán.
 - **Chưa xác minh lịch độc lập sinh bài v3.3.1 tự động hằng ngày**, không đồng nhất EOD đã tự khóa với bài nhận định tự sinh.
+
+## VIII. Xác minh sau triển khai — ĐÃ HOÀN THÀNH
+
+- Đã thêm đúng 1 entry `market-view-20261106`, số 56, vào đầu `src/data/daily-insights-auto.js`, giữ nguyên 58 bản trước và dữ liệu hiện hành 06/11 ở `src/data/research-data.js`. Bài Zalo trong `zaloPost` dài **396 chữ**; tất cả con số và trạng thái KHÔNG tương ứng bài web.
+- GitHub Pages run https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42540213538 hoàn thành **SUCCESS**. Kiểm thử **181/181 ĐẠT, 0 lỗi**, `Site audit passed: 133 báo cáo, 133 mã, 59 nhận định, 67 sự kiện vị thế`.
+- `Guard public layout and mutation scope` **SUCCESS**; `Post-deploy byte verification` **SUCCESS ngay lần đầu**. SHA-256 `index.html` = `026065a92a2b387f3326184c865c79e2ec6ea8b6e6a0019c180a63f61fc8b7d6`, `assets/js/site.min.js` = `8c8498c9a3e280e01739d92d513b4a5825430e232ae96d1cb9e1faf7f3156be0`, `assets/css/site.min.css` = `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb`; CSS có cùng checksum như các phiên trước. **133 bìa báo cáo và 133 logo** được xác minh.
+- Không sửa HTML, CSS, thứ tự mục, tiêu đề khu vực, cấu hình dàn chữ hay ngưỡng stop-loss; không chạy tác vụ EOD trùng lặp khi ngày 06/11 đã khóa. Thay đổi có chủ đích: 2 chuỗi ngày ở workflow **chỉ đọc**, một hồ sơ audit này, một bài nhận định mới.
+- Lỗi GitHub Pages `deployment_queued` của lượt EOD đầu tiên 06/11 là lỗi chờ/hết giờ trên nền tảng, đã được lượt tự động thứ hai giải quyết thành công; không cần đổi logic. Nếu lặp lại trong tương lai có thể xem xét xử lý retry, nhưng **không tự ý sửa giờ hoặc thứ tự các workflow** khi chưa có lý do và đồng thuận.
+- Giới hạn xác minh còn nguyên: ngoại **KHỚP** HOSE chuỗi liên tiếp, phái sinh basis và Sổ mốc vô hiệu không được suy đoán. Chưa có lịch độc lập tạo bài v3.3.1 được kiểm chứng; cập nhật giá EOD tự động không đồng nghĩa nhận định đã được sinh tự động.
