@@ -103,7 +103,7 @@ Chuỗi lấy từ `vnmarket_prices`, **276 dòng thực** ngày đầu **01/10/
 | 16 | Không có vùng mua khi KHÔNG | ĐẠT | Không đưa vùng mua |
 | 17 | Mốc, kịch bản, R:R | ĐẠT CÓ GIỚI HẠN | R:R không áp dụng, mốc vô hiệu Sổ không có |
 | 18 | Nhóm ngành không bịa tiền ròng | ĐẠT | Chỉ nói sức giá và cảnh báo ngành |
-| 19 | Web, Zalo, giữ bố cục | CHỜ HẬU KIỂM | Chỉ nâng ĐẠT khi Pages/byte audit xong |
+| 19 | Web, Zalo, giữ bố cục | ĐẠT | Pages 42647477489 SUCCESS: 181/181 kiểm thử, 60 bài, 133 bìa/logo, kiểm byte HTML/JS/CSS và guard bố cục thành công |
 | 20 | Sổ chỉ bổ sung dòng mới | ĐẠT | Mục 6 |
 
 ## 6. Sổ dữ liệu bổ sung nội bộ — KHÔNG đăng web/Zalo
@@ -134,3 +134,12 @@ Không có đính chính từ Sổ gốc chưa được cung cấp.
 - Kiểm toán VNINDEX riêng https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42645983196 **SUCCESS**, đọc một chuỗi 276 phiên; workflow chỉ đổi đúng hai ngày tham số từ 06/11 sang 09/11 để kích hoạt **read-only**.
 - Lịch EOD tự động từng có các lượt thành công trước đó, nhưng **không phát hiện lượt 09/11 theo cron** trước khi kích hoạt thủ công trong yêu cầu này. Đây là **vấn đề lịch chạy/khả năng trễ GitHub Actions cần tiếp tục theo dõi**, không tự ý thay đổi thời điểm cron hoặc workflow logic trong lượt này. Watchdog 09/11 cũng chưa có log tại lúc chốt nghiên cứu. Không được báo sai là lịch chạy 09/11 đã tự thành công.
 - Lịch tự sinh **nhận định v3.3.1** độc lập vẫn chưa được chứng minh hoạt động. Yêu cầu này tạo bản 09/11 thủ công theo quy trình có kiểm toán, chỉ thêm entry ngày mới, giữ cấu trúc HTML/CSS/chuẩn dàn chữ.
+
+## 8. Kết quả hậu kiểm triển khai 09/11 — xác minh thành công
+
+- Bổ sung đúng một entry `market-view-20261109`, **Số 57**, tại đầu `src/data/daily-insights-auto.js` sau khi dữ liệu giá `src/data/research-data.js` đã được khóa `2026-11-09`. Bài `zaloPost` trong entry dài **393 chữ**; cùng số liệu, cùng trạng thái KHÔNG và điều kiện NẾU–THÌ với bài đăng tại cuộc trò chuyện.
+- GitHub Pages https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42647477489 **SUCCESS**; kiểm thử **181/181 ĐẠT, 0 fail**. `Site audit passed: 133 báo cáo, 133 mã, 60 nhận định, 68 sự kiện vị thế`.
+- `Guard public layout and mutation scope`: SUCCESS. `Post-deploy byte verification`: SUCCESS ngay lần thử đầu; HTML `index.html` SHA256 `311483d4fbb0ad633ed31658040e0676cf77936a5ebbd5667ec8e06ccc9ca892`, JavaScript `assets/js/site.min.js` SHA256 `7bfef383094f1c4822a04ce07b32fd7a18fa6d755e2a99d45e8c50c9b6a46aa0`, CSS `assets/css/site.min.css` SHA256 `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb` (KHÔNG ĐỔI). 133 bìa báo cáo và 133 logo xác minh đủ.
+- **Không sửa cấu trúc, HTML/CSS, thứ tự mục, dàn chữ, tên mục, stop-loss, script EOD hoặc cron/watchdog.** Lượt EOD cần kích hoạt bằng chú thích đầu workflow (không đổi logic), do lịch chạy ngày 09/11 không xuất hiện trong danh sách kết quả trước đó.
+- **Ngoại lệ vận hành:** lịch cron ngày 09/11 không có run được phát hiện; chưa đủ nguồn để kết luận tại sao. Phiên EOD đã được phục hồi và hậu kiểm thành công, nhưng **không tuyên bố độ tin cậy tương lai của lịch đã được khắc phục**. Cơ chế tự sinh bài v3.3.1 theo lịch chưa được xác minh hoạt động độc lập.
+- Các giới hạn về chuỗi ngoại KHỚP HOSE, basis, tự doanh, Sổ gốc và chênh phạm vi khớp/độ rộng vẫn giữ nhãn đúng. Chưa có bằng chứng để tự nới hoặc sửa quy tắc phân tích.
