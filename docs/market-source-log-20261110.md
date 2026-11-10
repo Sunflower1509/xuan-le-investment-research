@@ -103,7 +103,7 @@ Dữ liệu `code:VNINDEX`, **277 bản ghi** từ **01/10/2025 đến 10/11/202
 | 16 | Không có vùng mua mới khi KHÔNG | ĐẠT | Chỉ mốc quan sát |
 | 17 | Mốc có nguồn và R:R | ĐẠT CÓ GIỚI HẠN | R:R không áp dụng vì thiếu mốc vô hiệu Sổ |
 | 18 | Nhóm ngành theo sức giá có chứng cứ | ĐẠT | Không nói tiền ròng ngành |
-| 19 | Bài Zalo/web/bố cục | CHỜ HẬU KIỂM | Chỉ ĐẠT sau GitHub Pages byte verification |
+| 19 | Bài Zalo/web/bố cục | ĐẠT | Pages 42834439921 SUCCESS, 181/181 kiểm thử, 61 bài; byte HTML/JS/CSS và cổng bảo vệ cấu trúc thành công |
 | 20 | Sổ bổ sung chỉ dòng mới | ĐẠT | Mục VI |
 
 ## VI. Phần Sổ bổ sung, chỉ dành lưu nội bộ — KHÔNG đăng web/Zalo
@@ -135,3 +135,13 @@ Không tự sửa Sổ gốc người dùng chưa được cung cấp.
 - EOD 10/11 đã khóa `meta.updated=2026-11-10` 133/133 mã: **133/133 giá đóng khớp CafeF trực tiếp**, 0 ngoại lệ cần KBS; khối lượng khớp trực tiếp 110/133, số chênh khối lượng đã ghi trong meta, không che khuất. Link workflow https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42832657130
 - Kiểm toán lịch sử VNINDEX read-only https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42832705255 thành công: 277 dòng, không ghép nguồn; chỉ đổi 2 mốc ngày workflow chứng cứ để chạy đúng 10/11.
 - **Chưa xác định nguyên nhân việc cron EOD không có run sau giờ giao dịch 10/11 trong danh sách kiểm tra** trước khi phục hồi; cần theo dõi lịch kế tiếp, không tự sửa cron. Cơ chế tự viết bài v3.3.1 hàng ngày cũng chưa có tác vụ độc lập được chứng minh. Không tuyên bố đã tự động hoá triệt để.
+
+## VIII. Kết quả hậu kiểm ngày 10/11 — ĐÃ HOÀN THÀNH
+
+- Giá EOD `src/data/research-data.js` đã khóa 10/11/2026, **133/133 giá đóng khớp trực tiếp CafeF**, 0 ngoại lệ phải dùng KBS; **110/133 khối lượng khớp trực tiếp**, các ngoại lệ còn lại được ghi trong meta. Ngày được xác nhận lại sau thao tác: `meta.updated=2026-11-10`.
+- **Lượt xác minh EOD đầu tiên** https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42832657130: bước khóa giá, **181/181 kiểm thử**, xây dựng asset, kiểm trang, cổng bảo vệ bố cục đều **ĐẠT**; tuy nhiên kết luận workflow **FAILURE** ở `Deploy to GitHub Pages`: trạng thái `deployment_queued` chuyển `syncing_files` kéo dài tới timeout, tự hủy deployment. **Không gọi lượt này thành công hoàn toàn, không sửa logic EOD để che lỗi.**
+- **Lượt xuất bản nhận định tiếp theo** https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/42834439921 **SUCCESS** và triển khai đúng giá EOD 10/11 kèm bài `market-view-20261110`, Số 58, vào đầu `src/data/daily-insights-auto.js`; giữ nguyên **60 bài trước**, tổng **61 bài**. Bản Zalo 371 chữ nằm trong trường `zaloPost`, trùng số, trạng thái KHÔNG và kịch bản của web.
+- **181/181 kiểm thử, 0 fail**; `Site audit passed: 133 báo cáo, 133 mã, 61 nhận định, 68 sự kiện vị thế`. Guard cấu trúc, kiểm toán ảnh bìa và logo thành công; **133 bìa, 133 logo** xác minh đủ.
+- **Hậu kiểm byte sau triển khai đạt ở lần thứ nhất**: `index.html` SHA-256 `355ac04e670ab01da3337cbcf499e20ce649faf1170592dda0946ad65e15445b`; `assets/js/site.min.js` `532f339dc4e23854287ac47e7ac570ffb0f5d7af1a8e3b633ee60d84baba4716`; `assets/css/site.min.css` `c70d18bba556b3f426bfb9a5e094a18727e5d9765d857bd0e9f167fb3e9472bb`. **CSS SHA giữ nguyên** so với các bản đã duyệt; không sửa HTML, bố cục, dàn chữ, thứ tự mục hoặc quy tắc dừng lỗ.
+- **Lịch tự động:** không ghi nhận lượt EOD chạy theo cron ngày 10/11 sau đóng cửa trước thao tác; phục hồi bằng sửa đúng một dòng chú thích đầu workflow, không đổi cron hay script. Chưa xác minh nguyên nhân thiếu lượt cron, chưa thể tuyên bố hệ thống tự động sẽ không tái diễn. Lịch tự sinh bài v3.3.1 cũng chưa được chứng minh; bài ngày 10/11 được xuất bản theo tác vụ yêu cầu này.
+- **Giới hạn dữ liệu đã công bố:** ngoại KHỚP HOSE 5 phiên và tự doanh cùng tập chưa đủ, mốc vô hiệu Sổ gốc người dùng chưa được cung cấp; không tự chấm/đặt mốc. Độ rộng VNDIRECT 217/92/50 không trộn VNIndex.ai 219/93/92. Basis −4,63 điểm có đối chiếu hai cổng phái sinh, ngày đáo hạn từ một cổng. **Cổng 6 phân phối/25 vẫn giữ KHÔNG dù VN-Index tăng và điểm đồng thuận +1/7.**
