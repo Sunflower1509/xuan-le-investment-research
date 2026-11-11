@@ -119,12 +119,12 @@
       "change": "−23,92% so 10/11",
       "tone": "negative",
       "direction": "down",
-      "snapshotState": "liquidity_below_average"
+      "snapshotState": "neutral"
     },
     {
       "label": "ĐỘ RỘNG HOSE (VNDIRECT)",
       "value": "134 tăng / 154 giảm",
-      "change": "76 đứng giá • 2 trần / 3 sàn ở phạm vi khác: không trộn",
+      "change": "76 đứng giá • theo tập VNDIRECT",
       "tone": "negative",
       "direction": "down",
       "snapshotState": "breadth_negative"
