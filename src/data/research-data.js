@@ -8856,4 +8856,3 @@ window.RESEARCH_DATA = {
     }
   ]
 };
-

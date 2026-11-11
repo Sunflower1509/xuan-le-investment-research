@@ -586,11 +586,11 @@
         "POW": {
           "date": "2026-11-10",
           "close": 12500,
-          "relation": "above",
-          "zoneLow": 6019,
-          "zoneHigh": 6449,
-          "zoneBasisDate": "2026-08-22",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-02",
+          "eligibility": "inactive"
         },
         "STB": {
           "date": "2026-11-10",
@@ -1213,6 +1213,15 @@
           "zoneLow": null,
           "zoneHigh": null,
           "zoneBasisDate": "2026-10-05",
+          "eligibility": "veto"
+        },
+        "TIG": {
+          "date": "2026-11-10",
+          "close": 3600,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-11",
           "eligibility": "veto"
         }
       },
