@@ -100,6 +100,46 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "id": "VGS-20261111",
+      "ticker": "VGS",
+      "company": "CTCP Ống Thép Việt Đức VG PIPE",
+      "sector": "Công nghiệp",
+      "exchange": "HNX",
+      "date": "2026-11-11",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 19300,
+      "marketPriceDate": "2026-11-10",
+      "baseValue": 21720,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 14565,
+      "rangeHigh": 27810,
+      "gapLabel": "P0 19.300 đồng/cp thấp hơn GTKV 21.720 đồng/cp khoảng 11,1% nhưng vẫn cao hơn ngưỡng M 14.565 đồng/cp; tín hiệu định giá THEO DÕI, giao dịch 1-3 tuần CHỜ và độ tin cậy dữ liệu THẤP.",
+      "method": "PP-14 + PP-13 + PP-01 trọng số 45,5% và PP-16 P/B trọng số 54,5%; PP-18 kiểm tra ngược trọng số 0%",
+      "summary": "VGS cải thiện kết quả kinh doanh 9T2026 nhưng CFO/LNST chỉ khoảng 0,20 lần, vay ngắn hạn tăng và giá trị Legend City còn phụ thuộc dữ liệu dự án cùng nghĩa vụ đối tác. Cổng dữ liệu chưa đạt; vùng giá 14.565-27.810 đồng/cp chỉ là định giá có điều kiện. Trạng thái thực chiến 1-3 tuần là CHỜ, chưa phát sinh điểm mua.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21720,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-11",
+        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+        "eligibility": "inactive",
+        "condition": "IF P0 <=14.565 đồng/cp và dữ liệu dự án được cập nhật THEN chỉ rà xét lại luận điểm định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ đánh giá CÓ MUA khi MA50, sức mạnh tương đối so VN-Index và khối lượng được xác minh, có nền/kháng cự rõ, stop 3-7% và R/R >=2. Hiện chưa kích hoạt vùng mua, stoploss, mục tiêu hay R/R."
+      },
+      "file": "reports/VGS_2026-11-11.pdf",
+      "edition": "Bản định giá 11.11.2026",
+      "visual": {
+        "src": "assets/images/reports/vgs.webp?v=20261111-cover1",
+        "alt": "Trang bìa báo cáo định giá VGS ngày 11/11/2026",
+        "caption": "Bìa báo cáo định giá VGS",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VGS_2026-11-11.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "FPT-20261102",
       "ticker": "FPT",
       "company": "Công ty Cổ phần FPT",
@@ -3719,50 +3759,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/HSG_2026-08-25.pdf",
       "edition": "Bản định giá 25.08.2026"
-    },
-    {
-      "id": "VGS-20260825",
-      "ticker": "VGS",
-      "company": "CTCP Ống Thép Việt Đức VG PIPE",
-      "sector": "Công nghiệp",
-      "exchange": "HNX",
-      "date": "2026-08-25",
-      "recommendation": "CHỜ / THEO DÕI - CHƯA CÓ MUA",
-      "status": "wait",
-      "marketPrice": 18400,
-      "marketPriceDate": "2026-08-25",
-      "baseValue": 21129,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 16434,
-      "rangeHigh": 26174,
-      "gapLabel": "Giá 18.400 đồng/cp nằm trong fair range; MOS so midpoint 21.304 đồng/cp khoảng 13,63%, chưa đạt chuẩn 25-30%.",
-      "method": "Lợi nhuận chuẩn hóa chu kỳ 5 năm; Normalized P/E + P/B + Normalized EV/EBITDA",
-      "summary": "VGS được phân loại doanh nghiệp chu kỳ thép/vật liệu. Re-audit cho thấy lợi nhuận TTM cao hơn đáng kể bình quân chu kỳ và chất lượng chuyển đổi lợi nhuận thành dòng tiền còn hạn chế; tại 18.400 đồng/cp chưa đủ biên an toàn.",
-      "action": {
-        "zoneLow": 11503,
-        "zoneHigh": 12325,
-        "baseValue": 21129,
-        "stop": 11709,
-        "targets": [
-          16434,
-          21129,
-          26174
-        ],
-        "basisDate": "2026-08-25",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "IF giá 11.503-12.325 đồng/cp và thesis không xấu đi THEN có thể giải ngân từng phần. Nếu entry tại 12.325, stop tham chiếu 11.709 (~5%). T1 16.434; T2 21.129; T3 26.174. Giá trong fair range: CHỜ; trên 26.174 nếu không nâng định giá: LOẠI."
-      },
-      "file": "reports/VGS_2026-08-25.pdf",
-      "edition": "Bản re-audit 25.08.2026",
-      "visual": {
-        "src": "assets/images/reports/vgs.webp?v=20260825-cover1",
-        "alt": "Trang bìa báo cáo định giá VGS ngày 25/08/2026",
-        "caption": "Bìa báo cáo định giá VGS",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VGS_2026-08-25.pdf",
-        "kind": "report-cover"
-      }
     },
     {
       "id": "ORS-20260823",
@@ -8434,7 +8430,7 @@ window.RESEARCH_DATA = {
       "company": "CTCP Ống Thép Việt Đức VG PIPE",
       "sector": "Công nghiệp",
       "exchange": "HNX",
-      "reportId": "VGS-20260825",
+      "reportId": "VGS-20261111",
       "close": 19300,
       "priceDate": "2026-11-10",
       "changePct": 1.0471,
@@ -8442,19 +8438,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGS~date:2026-11-10&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGS",
       "action": {
-        "zoneLow": 11503,
-        "zoneHigh": 12325,
-        "baseValue": 21129,
-        "stop": 11709,
-        "targets": [
-          16434,
-          21129,
-          26174
-        ],
-        "basisDate": "2026-08-25",
-        "recommendation": "CÓ THỂ MUA KHI VÀO VÙNG MOS",
-        "eligibility": "active",
-        "condition": "IF giá 11.503-12.325 đồng/cp và thesis không xấu đi THEN có thể giải ngân từng phần. Nếu entry tại 12.325, stop tham chiếu 11.709 (~5%). T1 16.434; T2 21.129; T3 26.174. Giá trong fair range: CHỜ; trên 26.174 nếu không nâng định giá: LOẠI."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 21720,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-11",
+        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+        "eligibility": "inactive",
+        "condition": "IF P0 <=14.565 đồng/cp và dữ liệu dự án được cập nhật THEN chỉ rà xét lại luận điểm định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ đánh giá CÓ MUA khi MA50, sức mạnh tương đối so VN-Index và khối lượng được xác minh, có nền/kháng cự rõ, stop 3-7% và R/R >=2. Hiện chưa kích hoạt vùng mua, stoploss, mục tiêu hay R/R."
       }
     },
     {
