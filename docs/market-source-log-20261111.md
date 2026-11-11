@@ -31,6 +31,8 @@ Ngày phân tích: 11/11/2026 (phiên HOSE có giao dịch, đóng +3,83). Ngày
 
 **Ghi chú phạm vi:** dữ liệu VNDIRECT ghi rổ 364 mã 134/154/76; VNIndex.ai tính 404 mã 136/155/113. Khớp 9.946,44670919 tỷ là giá trị khớp rổ VNINDEX/VNSignal, không cộng thỏa thuận. Bản sao điểm tin HOSE được tìm trên Stockbiz nhưng mở thất bại, vì thế không đưa số liệu chưa đọc toàn văn vào kết quả. Dữ liệu EOD 134/134 mã của website đã được workflow chính thức khóa, xem https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/43002921554.
 
+**Bổ sung đối chiếu cho các ô 1 NGUỒN:** bảng top5 điểm VNIndex.ai đã thử đối chiếu với (a) Tuổi Trẻ cùng phiên — có các mã nhưng điểm từng mã khác phương pháp; (b) Tài chính.com ngày 11/11 — không công bố bảng điểm đóng góp top5 cùng phạm vi. VNMID đã thử đối chiếu thêm Tuổi Trẻ (không công bố VNMID) và bản tin HOSE qua Stockbiz (không mở được). Nhóm ngành gia quyền đã thử với Tuổi Trẻ (khác hệ phân ngành) và Tài chính.com (không có bảng ngành cùng phương pháp). Không tự nâng nhãn 1 NGUỒN.
+
 ## III. Chuỗi giá cùng một gốc và phép tính bằng Python
 
 Nguồn (a) = https://vnindex.ai/vnindex-hom-nay, mục "VN-Index 60 phiên gần nhất", **đã đọc đủ 60 hàng thực hiển thị** từ 17/08/2026 đến 11/11/2026. Hai hàng neo nguyên văn: "11/11/2026 | 1.746,90 | +3,83"; "10/11/2026 | 1.743,07 | +28,75". Hàng cuối: "17/08/2026 | 1.727,46". Giá cuối trùng số lõi đã đối chiếu.
