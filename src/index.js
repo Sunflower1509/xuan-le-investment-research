@@ -8,6 +8,7 @@ import "./data/daily-insights-20260826.js";
 import "./data/daily-insights-20260911.js";
 import "./data/daily-insights-20260914.js";
 import "./data/daily-insights-auto.js";
+import "./data/daily-insights-20261111.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
 import "./scripts/reference-portfolio.mjs";
