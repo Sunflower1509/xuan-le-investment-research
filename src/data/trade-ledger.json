@@ -667,11 +667,11 @@
         "VGS": {
           "date": "2026-11-10",
           "close": 19300,
-          "relation": "above",
-          "zoneLow": 11503,
-          "zoneHigh": 12325,
-          "zoneBasisDate": "2026-08-25",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-11",
+          "eligibility": "inactive"
         },
         "VJC": {
           "date": "2026-11-10",
