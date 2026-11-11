@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 134/134 mã được khóa tại phiên 11/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 133/134 mã; không dùng fallback KBS. không phát sinh ngoại lệ ngày không có giao dịch. 1/134 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: G36: CafeF 8.100 khác VNDIRECT 8.200; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=11-11-2026&edate=11-11-2026). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 125/134 mã; ABB: VNDIRECT 637.100 vs CafeF 635.600 (chênh 1.500); CEO: VNDIRECT 5.614.700 vs CafeF 5.603.700 (chênh 11.000); DDV: VNDIRECT 488.800 vs CafeF 482.600 (chênh 6.200); DRI: VNDIRECT 439.800 vs CafeF 434.600 (chênh 5.200); MSR: VNDIRECT 1.394.200 vs CafeF 1.363.100 (chênh 31.100); OIL: VNDIRECT 548.300 vs CafeF 548.100 (chênh 200); PHP: VNDIRECT 457.300 vs CafeF 456.300 (chênh 1.000); SHS: VNDIRECT 7.345.100 vs CafeF 7.339.500 (chênh 5.600); TIG: VNDIRECT 518.000 vs CafeF 517.000 (chênh 1.000). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 134/134 mã được khóa tại phiên 11/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 133/134 mã; không dùng fallback KBS. không phát sinh ngoại lệ ngày không có giao dịch. 1/134 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: G36: CafeF 8.100 khác VNDIRECT 8.200; nguồn thứ ba xác nhận VNDIRECT (https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=11-11-2026&edate=11-11-2026). Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 111/134 mã; ABB: VNDIRECT 637.993 vs CafeF 635.600 (chênh 2.393); BVS: VNDIRECT 451.099 vs CafeF 450.800 (chênh 299); CEO: VNDIRECT 5.619.201 vs CafeF 5.603.700 (chênh 15.501); DDV: VNDIRECT 489.064 vs CafeF 482.600 (chênh 6.464); DRI: VNDIRECT 440.192 vs CafeF 434.600 (chênh 5.592); G36: VNDIRECT 25.481 vs KBS 25.400 (chênh 81); HUT: VNDIRECT 1.401.885 vs CafeF 1.401.600 (chênh 285); ICG: VNDIRECT 14.713 vs CafeF 14.700 (chênh 13); IDC: VNDIRECT 572.825 vs CafeF 571.500 (chênh 1.325); KSV: VNDIRECT 31.420 vs CafeF 31.200 (chênh 220); MSR: VNDIRECT 1.402.672 vs CafeF 1.363.100 (chênh 39.572); OIL: VNDIRECT 549.444 vs CafeF 548.100 (chênh 1.344); PHP: VNDIRECT 458.058 vs CafeF 456.300 (chênh 1.758); PLC: VNDIRECT 169.841 vs CafeF 169.800 (chênh 41); PVB: VNDIRECT 77.635 vs CafeF 77.400 (chênh 235); PVC: VNDIRECT 141.350 vs CafeF 140.900 (chênh 450); PVS: VNDIRECT 1.618.571 vs CafeF 1.616.600 (chênh 1.971); QNS: VNDIRECT 176.146 vs CafeF 176.100 (chênh 46); SHS: VNDIRECT 7.348.648 vs CafeF 7.339.500 (chênh 9.148); TIG: VNDIRECT 518.941 vs CafeF 517.000 (chênh 1.941); TNG: VNDIRECT 432.541 vs CafeF 431.800 (chênh 741); VGI: VNDIRECT 64.000 vs CafeF 63.400 (chênh 600); VGS: VNDIRECT 950.640 vs CafeF 949.100 (chênh 1.540). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -30,8 +30,8 @@ window.RESEARCH_DATA = {
       {
         "code": "HNX-INDEX",
         "close": 255.73,
-        "change": -0.530000000000001,
-        "changePct": -0.206821197221574
+        "change": -0.53,
+        "changePct": -0.20682
       }
     ],
     "breadth": {
@@ -5493,7 +5493,7 @@ window.RESEARCH_DATA = {
       "reportId": "ABB-20261003",
       "close": 16700,
       "changePct": -0.5952,
-      "volume": 637100,
+      "volume": 637993,
       "priceDate": "2026-11-11",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ABB~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=ABB",
@@ -5747,7 +5747,7 @@ window.RESEARCH_DATA = {
       "close": 27800,
       "priceDate": "2026-11-11",
       "changePct": 0.7246,
-      "volume": 450800,
+      "volume": 451099,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:BVS~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=BVS",
       "action": {
@@ -5768,7 +5768,7 @@ window.RESEARCH_DATA = {
       "close": 12300,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 5614700,
+      "volume": 5619201,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:CEO~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=CEO",
       "action": {
@@ -6028,7 +6028,7 @@ window.RESEARCH_DATA = {
       "close": 15500,
       "priceDate": "2026-11-11",
       "changePct": 0.6494,
-      "volume": 488800,
+      "volume": 489064,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DDV~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DDV",
       "action": {
@@ -6175,7 +6175,7 @@ window.RESEARCH_DATA = {
       "close": 13300,
       "priceDate": "2026-11-11",
       "changePct": 0.7576,
-      "volume": 439800,
+      "volume": 440192,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DRI~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DRI",
       "action": {
@@ -6346,7 +6346,7 @@ window.RESEARCH_DATA = {
       "close": 8200,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 25400,
+      "volume": 25481,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:G36~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://kbbuddywts.kbsec.com.vn/iis-server/investment/stocks/G36/data_day?sdate=11-11-2026&edate=11-11-2026",
       "action": {
@@ -6755,7 +6755,7 @@ window.RESEARCH_DATA = {
       "close": 12900,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 1401600,
+      "volume": 1401885,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:HUT~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=HUT",
       "action": {
@@ -6778,7 +6778,7 @@ window.RESEARCH_DATA = {
       "close": 10900,
       "priceDate": "2026-11-11",
       "changePct": -0.9091,
-      "volume": 14700,
+      "volume": 14713,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:ICG~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=ICG",
       "action": {
@@ -6805,7 +6805,7 @@ window.RESEARCH_DATA = {
       "close": 35800,
       "priceDate": "2026-11-11",
       "changePct": -0.5556,
-      "volume": 571500,
+      "volume": 572825,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:IDC~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=IDC",
       "action": {
@@ -6911,7 +6911,7 @@ window.RESEARCH_DATA = {
       "close": 101300,
       "priceDate": "2026-11-11",
       "changePct": -1.4591,
-      "volume": 31200,
+      "volume": 31420,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:KSV~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=KSV",
       "action": {
@@ -7087,7 +7087,7 @@ window.RESEARCH_DATA = {
       "close": 58700,
       "priceDate": "2026-11-11",
       "changePct": -2.9752,
-      "volume": 1394200,
+      "volume": 1402672,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:MSR~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=MSR",
       "action": {
@@ -7264,7 +7264,7 @@ window.RESEARCH_DATA = {
       "close": 12600,
       "priceDate": "2026-11-11",
       "changePct": 0.8,
-      "volume": 548300,
+      "volume": 549444,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:OIL~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=OIL",
       "action": {
@@ -7420,7 +7420,7 @@ window.RESEARCH_DATA = {
       "close": 44500,
       "priceDate": "2026-11-11",
       "changePct": 2.7714,
-      "volume": 457300,
+      "volume": 458058,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PHP~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PHP",
       "action": {
@@ -7474,7 +7474,7 @@ window.RESEARCH_DATA = {
       "close": 20200,
       "priceDate": "2026-11-11",
       "changePct": -0.4926,
-      "volume": 169800,
+      "volume": 169841,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PLC~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PLC",
       "action": {
@@ -7578,7 +7578,7 @@ window.RESEARCH_DATA = {
       "close": 18700,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 77400,
+      "volume": 77635,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVB~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVB",
       "action": {
@@ -7605,7 +7605,7 @@ window.RESEARCH_DATA = {
       "close": 10800,
       "priceDate": "2026-11-11",
       "changePct": 0.9346,
-      "volume": 140900,
+      "volume": 141350,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVC~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVC",
       "action": {
@@ -7682,7 +7682,7 @@ window.RESEARCH_DATA = {
       "close": 28600,
       "priceDate": "2026-11-11",
       "changePct": 0.7042,
-      "volume": 1616600,
+      "volume": 1618571,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:PVS~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=PVS",
       "action": {
@@ -7745,7 +7745,7 @@ window.RESEARCH_DATA = {
       },
       "close": 48800,
       "changePct": 0,
-      "volume": 176100,
+      "volume": 176146,
       "priceDate": "2026-11-11",
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:QNS~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=QNS"
@@ -7857,7 +7857,7 @@ window.RESEARCH_DATA = {
       "close": 13600,
       "priceDate": "2026-11-11",
       "changePct": -0.7299,
-      "volume": 7345100,
+      "volume": 7348648,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:SHS~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=SHS",
       "action": {
@@ -8125,7 +8125,7 @@ window.RESEARCH_DATA = {
       "close": 3300,
       "priceDate": "2026-11-11",
       "changePct": -8.3333,
-      "volume": 518000,
+      "volume": 518941,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TIG~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TIG",
       "action": {
@@ -8149,7 +8149,7 @@ window.RESEARCH_DATA = {
       "close": 17500,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 431800,
+      "volume": 432541,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TNG~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TNG",
       "action": {
@@ -8406,7 +8406,7 @@ window.RESEARCH_DATA = {
       "close": 73600,
       "priceDate": "2026-11-11",
       "changePct": 0,
-      "volume": 63400,
+      "volume": 64000,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGI~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGI",
       "action": {
@@ -8434,7 +8434,7 @@ window.RESEARCH_DATA = {
       "close": 20300,
       "priceDate": "2026-11-11",
       "changePct": 5.1813,
-      "volume": 949100,
+      "volume": 950640,
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:VGS~date:2026-11-11&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=VGS",
       "action": {
