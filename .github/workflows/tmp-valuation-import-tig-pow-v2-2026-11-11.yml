@@ -192,6 +192,34 @@ jobs:
           node scripts/sync-company-logos.mjs
           node scripts/ensure-company-visual-candidates.mjs
 
+      - name: Synchronize the two static universe counters only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path("index.html")
+          s=p.read_text()
+          pairs=[
+            ('data-role="report-tab-count">133','data-role="report-tab-count">134'),
+            ('data-role="coverage-tab-count">133','data-role="coverage-tab-count">134')
+          ]
+          for old,new in pairs:
+              if s.count(old)!=1:
+                  raise SystemExit(f"Expected exactly one token: {old}")
+              s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+          git show HEAD:index.html > /tmp/index-before.html
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path("/tmp/index-before.html").read_text()
+          s=s.replace('data-role="report-tab-count">133','data-role="report-tab-count">134',1)
+          s=s.replace('data-role="coverage-tab-count">133','data-role="coverage-tab-count">134',1)
+          Path("/tmp/index-expected.html").write_text(s)
+          PY
+          cmp -s /tmp/index-expected.html index.html
+
       - name: Rebuild POW and TIG report covers
         shell: bash
         run: |
@@ -210,7 +238,8 @@ jobs:
           node scripts/audit-report-covers.mjs
           node scripts/audit-company-logos.mjs
           node scripts/audit-company-visuals.mjs
-          git diff --exit-code -- index.html src/index.css src/styles
+          git diff --exit-code -- src/index.css src/styles
+          cmp -s /tmp/index-expected.html index.html
 
       - name: Guard mutation scope, delete both temporary workflows, commit and push atomically
         shell: bash
@@ -219,7 +248,7 @@ jobs:
           trigger_sha="${GITHUB_SHA}"
           rm -f ".github/workflows/tmp-valuation-import-tig-pow-2026-11-11.yml"
           rm -f ".github/workflows/tmp-valuation-import-tig-pow-v2-2026-11-11.yml"
-          allowed='^(\.github/workflows/tmp-valuation-import-tig-pow(-v2)?-2026-11-11\.yml|src/data/(research-data\.js|company-logos\.js|company-visuals\.js|company-visual-candidates\.json)|scripts/(ensure-company-visual-candidates|sync-company-visuals-core|audit-company-visuals-core)\.mjs|tests/company-visuals\.test\.mjs|docs/company-identity-visual-standard\.md|reports/(TIG_2026-11-11|POW_2026-11-02|POW_2026-08-22)\.pdf|assets/images/reports/(tig|pow)\.webp|assets/images/logos/tig\.svg)$'
+          allowed='^(\.github/workflows/tmp-valuation-import-tig-pow(-v2)?-2026-11-11\.yml|src/data/(research-data\.js|company-logos\.js|company-visuals\.js|company-visual-candidates\.json)|scripts/(ensure-company-visual-candidates|sync-company-visuals-core|audit-company-visuals-core)\.mjs|tests/company-visuals\.test\.mjs|docs/company-identity-visual-standard\.md|index\.html|reports/(TIG_2026-11-11|POW_2026-11-02|POW_2026-08-22)\.pdf|assets/images/reports/(tig|pow)\.webp|assets/images/logos/tig\.svg)$'
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then echo "Unexpected changed paths:" >&2; echo "$unexpected" >&2; exit 2; fi
