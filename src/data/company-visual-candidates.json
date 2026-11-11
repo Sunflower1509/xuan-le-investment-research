@@ -1,9 +1,9 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 133,
-    "candidateCount": 124,
-    "updated": "2026-10-05",
+    "coverageTarget": 134,
+    "candidateCount": 125,
+    "updated": "2026-11-11",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
@@ -1323,6 +1323,21 @@
         "văn phòng",
         "trading",
         "chứng khoán"
+      ]
+    },
+    {
+      "ticker": "TIG",
+      "sourceUrl": "https://tig.vn/vi/du-an.spp",
+      "officialDomain": "tig.vn",
+      "sourceTier": "A",
+      "identityType": "real-estate-projects",
+      "keywords": [
+        "TIG",
+        "dự án",
+        "bất động sản",
+        "Vườn Vua",
+        "TIG Tower",
+        "khu nhà ở"
       ]
     },
     {

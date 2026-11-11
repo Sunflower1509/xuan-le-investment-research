@@ -9,8 +9,8 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA = "verified-core-asset-webp-v1";
-const EXPECTED = 133;
-const REGISTRY_EXPECTED = 124;
+const EXPECTED = 134;
+const REGISTRY_EXPECTED = 125;
 const WIDTH = 960;
 const HEIGHT = 540;
 const MIN_SCORE = 8;

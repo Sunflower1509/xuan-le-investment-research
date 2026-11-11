@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 133/133 mã được khóa tại phiên 10/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 133/133 mã; không dùng fallback KBS. không phát sinh ngoại lệ ngày không có giao dịch. 0/133 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 110/133 mã; ABB: VNDIRECT 317.375 vs CafeF 316.200 (chênh 1.175); BVS: VNDIRECT 1.017.574 vs CafeF 1.016.300 (chênh 1.274); CEO: VNDIRECT 9.790.042 vs CafeF 9.724.700 (chênh 65.342); DDV: VNDIRECT 336.928 vs CafeF 329.600 (chênh 7.328); DRI: VNDIRECT 380.710 vs CafeF 380.300 (chênh 410); DXP: VNDIRECT 430.108 vs CafeF 429.900 (chênh 208); G36: VNDIRECT 65.388 vs CafeF 65.300 (chênh 88); HUT: VNDIRECT 1.768.725 vs CafeF 1.768.600 (chênh 125); ICG: VNDIRECT 5.142 vs CafeF 5.100 (chênh 42); IDC: VNDIRECT 1.550.706 vs CafeF 1.547.100 (chênh 3.606); KSV: VNDIRECT 29.409 vs CafeF 29.100 (chênh 309); MSR: VNDIRECT 1.042.925 vs CafeF 1.029.800 (chênh 13.125); OIL: VNDIRECT 2.192.177 vs CafeF 2.186.700 (chênh 5.477); PHP: VNDIRECT 1.511.760 vs CafeF 1.511.200 (chênh 560); PLC: VNDIRECT 177.552 vs CafeF 177.500 (chênh 52); PVB: VNDIRECT 100.961 vs CafeF 100.800 (chênh 161); PVC: VNDIRECT 312.929 vs CafeF 312.200 (chênh 729); PVS: VNDIRECT 4.190.601 vs CafeF 4.183.800 (chênh 6.801); QNS: VNDIRECT 102.288 vs CafeF 102.200 (chênh 88); SHS: VNDIRECT 16.824.609 vs CafeF 16.818.800 (chênh 5.809); TNG: VNDIRECT 411.356 vs CafeF 410.900 (chênh 456); VGI: VNDIRECT 101.691 vs CafeF 100.800 (chênh 891); VGS: VNDIRECT 404.699 vs CafeF 404.300 (chênh 399). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 133 mã nền được khóa tại phiên 10/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Trong bộ 133 mã nền, giá đóng cửa khớp trực tiếp CafeF 133/133 mã; không dùng fallback KBS. không phát sinh ngoại lệ ngày không có giao dịch. 0/133 ngoại lệ CafeF trong bộ nền được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Trong bộ nền, khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 110/133 mã; ABB: VNDIRECT 317.375 vs CafeF 316.200 (chênh 1.175); BVS: VNDIRECT 1.017.574 vs CafeF 1.016.300 (chênh 1.274); CEO: VNDIRECT 9.790.042 vs CafeF 9.724.700 (chênh 65.342); DDV: VNDIRECT 336.928 vs CafeF 329.600 (chênh 7.328); DRI: VNDIRECT 380.710 vs CafeF 380.300 (chênh 410); DXP: VNDIRECT 430.108 vs CafeF 429.900 (chênh 208); G36: VNDIRECT 65.388 vs CafeF 65.300 (chênh 88); HUT: VNDIRECT 1.768.725 vs CafeF 1.768.600 (chênh 125); ICG: VNDIRECT 5.142 vs CafeF 5.100 (chênh 42); IDC: VNDIRECT 1.550.706 vs CafeF 1.547.100 (chênh 3.606); KSV: VNDIRECT 29.409 vs CafeF 29.100 (chênh 309); MSR: VNDIRECT 1.042.925 vs CafeF 1.029.800 (chênh 13.125); OIL: VNDIRECT 2.192.177 vs CafeF 2.186.700 (chênh 5.477); PHP: VNDIRECT 1.511.760 vs CafeF 1.511.200 (chênh 560); PLC: VNDIRECT 177.552 vs CafeF 177.500 (chênh 52); PVB: VNDIRECT 100.961 vs CafeF 100.800 (chênh 161); PVC: VNDIRECT 312.929 vs CafeF 312.200 (chênh 729); PVS: VNDIRECT 4.190.601 vs CafeF 4.183.800 (chênh 6.801); QNS: VNDIRECT 102.288 vs CafeF 102.200 (chênh 88); SHS: VNDIRECT 16.824.609 vs CafeF 16.818.800 (chênh 5.809); TNG: VNDIRECT 411.356 vs CafeF 410.900 (chênh 456); VGI: VNDIRECT 101.691 vs CafeF 100.800 (chênh 891); VGS: VNDIRECT 404.699 vs CafeF 404.300 (chênh 399). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố. TIG được bổ sung vào Coverage ngày 11/11/2026 bằng EOD 10/11/2026: VNDIRECT Finfo và CafeF cùng xác nhận giá đóng cửa 3.600 đồng; tổng Báo cáo định giá/Coverage hiện 134/134 mã.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -60,6 +60,46 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "TIG-20261111",
+      "ticker": "TIG",
+      "company": "CTCP Tập đoàn Đầu tư Thăng Long",
+      "sector": "Bất động sản",
+      "exchange": "HNX",
+      "date": "2026-11-11",
+      "recommendation": "THEO DÕI / LOẠI",
+      "status": "reject",
+      "marketPrice": 3600,
+      "marketPriceDate": "2026-11-10",
+      "baseValue": 5262,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 3704,
+      "rangeHigh": 6381,
+      "gapLabel": "P0 3.600 đồng/cp thấp hơn GTKV có điều kiện 5.262 đồng/cp khoảng 31,6%, nhưng trạng thái giao dịch 1-3 tuần là LOẠI do rủi ro tài chính mức CAO và kỹ thuật chưa đạt.",
+      "method": "PP-15 tài sản thuần điều chỉnh 55,6% + PP-16 P/B 44,4%; PP-09 RNAV/PP-14 từng mảng/PP-18 chưa khóa",
+      "summary": "TIG có khoảng giá trị có điều kiện 3.704-6.381 đồng/cp và GTKV 5.262 đồng/cp, nhưng độ tin cậy THẤP và Cổng dữ liệu 1.5 không đạt. EBIT/chi phí lãi vay 9T2026 rất thấp, giá giảm mạnh và dòng tiền xác nhận yếu; trạng thái giao dịch 1-3 tuần là LOẠI, không có điểm mua hợp lệ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 5262,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-11",
+        "recommendation": "LOẠI - KHÔNG CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R khi trạng thái còn LOẠI. Chỉ đánh giá lại bằng dữ liệu mới nếu MA20 và MA50 tăng, có phiên vượt nền với khối lượng >=1,5x Vol20, sức mạnh tương đối so VN-Index được xác minh, stop 3-7%, R/R >=2 và rủi ro tài chính mức CAO đã được giải quyết."
+      },
+      "file": "reports/TIG_2026-11-11.pdf",
+      "edition": "Bản định giá 11.11.2026",
+      "visual": {
+        "src": "assets/images/reports/tig.webp?v=20261111-cover1",
+        "alt": "Trang bìa báo cáo định giá TIG ngày 11/11/2026",
+        "caption": "Bìa báo cáo định giá TIG",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/TIG_2026-11-11.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "FPT-20261102",
       "ticker": "FPT",
       "company": "Công ty Cổ phần FPT",
@@ -96,6 +136,46 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá FPT",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/FPT_2026-11-02.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "POW-20261102",
+      "ticker": "POW",
+      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "date": "2026-11-02",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 12200,
+      "marketPriceDate": "2026-10-30",
+      "baseValue": 16146,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 10207,
+      "rangeHigh": 23267,
+      "gapLabel": "P0 12.200 đồng/cp thấp hơn GTKV có điều kiện 16.146 đồng/cp khoảng 24,4%; tín hiệu định giá THEO DÕI nhưng giao dịch 1-3 tuần vẫn CHỜ vì kỹ thuật chưa kích hoạt và cổng dữ liệu chưa đạt.",
+      "method": "PP-01 FCFF hợp nhất 60% + PP-16 P/B cùng ngành 40%; PP-18 kiểm chứng ngược trọng số 0, PP-12 dự án trọng số 0",
+      "summary": "POW có khoảng giá trị có điều kiện 10.207-23.267 đồng/cp và GTKV 16.146 đồng/cp. Dữ liệu quý III và một số giả định dòng tiền chưa khóa; tại ngày định giá P0 dưới MA20 và khối lượng chỉ 0,79 lần bình quân 20 phiên, nên trạng thái thực chiến 1-3 tuần là CHỜ, chưa thiết lập vùng mua, stop hay mục tiêu.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 16146,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-02",
+        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+        "eligibility": "inactive",
+        "condition": "Không phát lệnh chỉ vì giá dưới GTKV. Chỉ xem xét điểm mua khi giá vượt nền với khối lượng >=1,5x TB20, đồng thời xác nhận MA20/MA50 và sức mạnh tương đối; lệnh tương lai phải có stop 3-7% và R/R tối thiểu 2. Khi chưa đủ, tiếp tục CHỜ."
+      },
+      "file": "reports/POW_2026-11-02.pdf",
+      "edition": "Bản định giá 02.11.2026",
+      "visual": {
+        "src": "assets/images/reports/pow.webp?v=20261102-cover1",
+        "alt": "Trang bìa báo cáo định giá POW ngày 02/11/2026",
+        "caption": "Bìa báo cáo định giá POW",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/POW_2026-11-02.pdf",
         "kind": "report-cover"
       }
     },
@@ -3767,48 +3847,6 @@ window.RESEARCH_DATA = {
       },
       "file": "reports/TPB_2026-08-23.pdf",
       "edition": "Bản định giá 23.08.2026"
-    },
-    {
-      "id": "POW-20260822",
-      "ticker": "POW",
-      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
-      "sector": "Năng lượng",
-      "exchange": "HOSE",
-      "date": "2026-08-22",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 13600,
-      "marketPriceDate": "2026-08-21",
-      "baseValue": 13226,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 8598,
-      "rangeHigh": 21949,
-      "gapLabel": "Giá đóng cửa cao hơn giá trị kỳ vọng 2,8%; vùng mua strict là 6.019–6.449 đồng/cp",
-      "method": "DDM trọng số chính; DCF FCFF, EV/EBITDA, P/E và P/B kiểm chứng",
-      "summary": "POW có vùng giá trị hợp lý 8.598–21.949 đồng/cp và giá trị kỳ vọng 13.226 đồng/cp. Giá đóng cửa 21/08/2026 là 13.600 đồng/cp; trạng thái THEO DÕI / CHỜ vì chưa đạt vùng mua strict 6.019–6.449 đồng/cp.",
-      "action": {
-        "zoneLow": 6019,
-        "zoneHigh": 6449,
-        "baseValue": 13226,
-        "stop": null,
-        "targets": [
-          8598
-        ],
-        "basisDate": "2026-08-22",
-        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG STRICT",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 6.019–6.449 đồng/cp khi EBITDA, cash flow và NWC không xấu đi. Entry minh họa 6.234, stop 5.891 (-5,5%) và target định giá thấp nhất 8.598; stop thực tế phải bám giá khớp và xác nhận kỹ thuật/dòng tiền tại thời điểm kích hoạt. Trên 21.949 nếu payout/FCFF không được nâng: TRÁNH mua mới."
-      },
-      "visual": {
-        "src": "assets/images/reports/pow.webp?v=20260822-cover1",
-        "alt": "Trang bìa báo cáo định giá POW ngày 22/08/2026",
-        "caption": "Bìa báo cáo định giá POW",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/POW_2026-08-22.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/POW_2026-08-22.pdf",
-      "edition": "Bản định giá 22.08.2026"
     },
     {
       "id": "DPR-20260821",
@@ -7516,7 +7554,7 @@ window.RESEARCH_DATA = {
       "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
       "sector": "Năng lượng",
       "exchange": "HOSE",
-      "reportId": "POW-20260822",
+      "reportId": "POW-20261102",
       "close": 12500,
       "priceDate": "2026-11-10",
       "changePct": -0.3984,
@@ -7524,17 +7562,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:POW~date:2026-11-10&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=POW",
       "action": {
-        "zoneLow": 6019,
-        "zoneHigh": 6449,
-        "baseValue": 13226,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 16146,
         "stop": null,
-        "targets": [
-          8598
-        ],
-        "basisDate": "2026-08-22",
-        "recommendation": "CÓ THỂ XEM XÉT KHI VÀO VÙNG STRICT",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét 6.019–6.449 đồng/cp khi EBITDA, cash flow và NWC không xấu đi. Entry minh họa 6.234, stop 5.891 (-5,5%) và target định giá thấp nhất 8.598; stop thực tế phải bám giá khớp và xác nhận kỹ thuật/dòng tiền tại thời điểm kích hoạt. Trên 21.949 nếu payout/FCFF không được nâng: TRÁNH mua mới."
+        "targets": [],
+        "basisDate": "2026-11-02",
+        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+        "eligibility": "inactive",
+        "condition": "Không phát lệnh chỉ vì giá dưới GTKV. Chỉ xem xét điểm mua khi giá vượt nền với khối lượng >=1,5x TB20, đồng thời xác nhận MA20/MA50 và sức mạnh tương đối; lệnh tương lai phải có stop 3-7% và R/R tối thiểu 2. Khi chưa đủ, tiếp tục CHỜ."
       }
     },
     {
@@ -8082,6 +8118,30 @@ window.RESEARCH_DATA = {
         "recommendation": "LOẠI - KHÔNG MUA THEO ĐỊNH GIÁ",
         "eligibility": "veto",
         "condition": "Giá trên 32.200 đồng/cp: loại/không mua. 23.000–32.200: chờ. 16.600–17.800: theo dõi sát nếu ROE, tỷ lệ an toàn tài chính và chất lượng margin không xấu đi. Chỉ xem xét mua theo kỷ luật định giá tại 12.500–13.400 đồng/cp nếu thesis không xấu đi; midpoint entry 12.927, stop 12.281. Các mức 17.830, 23.755 và 32.243 đồng/cp là mốc định giá, không phải mục tiêu kỹ thuật 1–3 tuần."
+      }
+    },
+    {
+      "ticker": "TIG",
+      "company": "CTCP Tập đoàn Đầu tư Thăng Long",
+      "sector": "Bất động sản",
+      "exchange": "HNX",
+      "reportId": "TIG-20261111",
+      "close": 3600,
+      "priceDate": "2026-11-10",
+      "changePct": -10,
+      "volume": 297956,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:TIG~date:2026-11-10&size=10",
+      "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=TIG",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 5262,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-11",
+        "recommendation": "LOẠI - KHÔNG CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "veto",
+        "condition": "Không thiết lập vùng mua, stoploss, mục tiêu hay R/R khi trạng thái còn LOẠI. Chỉ đánh giá lại bằng dữ liệu mới nếu MA20 và MA50 tăng, có phiên vượt nền với khối lượng >=1,5x Vol20, sức mạnh tương đối so VN-Index được xác minh, stop 3-7%, R/R >=2 và rủi ro tài chính mức CAO đã được giải quyết."
       }
     },
     {

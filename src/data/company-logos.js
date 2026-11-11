@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 133,
+    "count": 134,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -1160,6 +1160,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=TCX&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "d3ac919e9f259010ac4676c78abe1ea22eda061022e4072eb5ec706357c807c0",
       "bytes": 297
+    },
+    "TIG": {
+      "path": "assets/images/logos/tig.svg?v=20260916-logo3",
+      "alt": "Logo Thang Long Investment Group (TIG)",
+      "exchange": "HNX",
+      "isin": "VN000000TIG4",
+      "company": "Thang Long Investment Group",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/thang-long-investment--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=TIG&hl=1&exchange=HNX&lang=en&search_type=stock&domain=production",
+      "sha256": "ae9788c5c8d9079b70701fd22a5cbcf19c1d368f95f998e6a600892302b2c253",
+      "bytes": 466
     },
     "TNG": {
       "path": "assets/images/logos/tng.svg?v=20260916-logo3",
