@@ -1,0 +1,224 @@
+name: Temporary valuation import VGS 2026-11-11
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-valuation-import-vgs-2026-11-11.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tmp-valuation-import-vgs-2026-11-11
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out exact triggering main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and byte-verify VGS PDF
+        shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+          SHARE_ID: "OJR4OTE9GWWH"
+        run: |
+          set -euo pipefail
+          listing="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL "${FIRE_API}/shares/${SHARE_ID}/files?maxResults=1000")"
+          file_id="$(printf '%s' "$listing" | python3 -c 'import json,sys; d=json.load(sys.stdin); m=[f for f in d.get("files",[]) if f.get("fileName")=="VGS_2026-11-11.pdf" or f.get("name")=="VGS_2026-11-11.pdf"]; assert len(m)==1,len(m); print(m[0].get("fileId") or m[0].get("id"))')"
+          payload="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL -X POST "${FIRE_API}/shares/${SHARE_ID}/files/$file_id/download")"
+          url="$(printf '%s' "$payload" | python3 -c 'import json,sys; print(json.load(sys.stdin)["downloadUrl"])')"
+          curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$url" -o reports/VGS_2026-11-11.pdf
+          test "$(wc -c < reports/VGS_2026-11-11.pdf | tr -d ' ')" = "604777"
+          echo "fd88857b51dc6ee955864fc415e9f498e4ac300cd019c06da4122423cc26f783  reports/VGS_2026-11-11.pdf" | sha256sum -c -
+          test "$(head -c 5 reports/VGS_2026-11-11.pdf)" = "%PDF-"
+          command -v pdfinfo >/dev/null 2>&1 || { sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends poppler-utils >/dev/null; }
+          test "$(pdfinfo reports/VGS_2026-11-11.pdf | awk '/^Pages:/ {print $2}')" = "27"
+          rm -f reports/VGS_2026-08-25.pdf
+
+      - name: Re-verify VGS locked EOD 10 Nov
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = await import("node:fs");
+          const vm = await import("node:vm");
+          const { parseVndirect, parseCafeF } = await import("./scripts/update-eod-market-data.mjs");
+
+          const code=fs.readFileSync("src/data/research-data.js","utf8");
+          const sandbox={window:{}};
+          vm.runInNewContext(code,sandbox,{filename:"src/data/research-data.js"});
+          const coverage=sandbox.window.RESEARCH_DATA.coverage.find(x=>x.ticker==="VGS");
+          if(!coverage) throw new Error("Missing VGS coverage baseline");
+          if(coverage.priceDate!=="2026-11-10" || coverage.close!==19300 || Math.abs(coverage.changePct-1.0471)>0.0001 || coverage.volume!==404699) {
+            throw new Error("VGS locked EOD baseline drift "+JSON.stringify(coverage));
+          }
+
+          const date="2026-11-10", ticker="VGS";
+          const priceSource="https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:"+ticker+"~date:"+date+"&size=10";
+          const cafeFSource="https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol="+ticker;
+          const headers={accept:"text/html,application/json,text/plain,*/*","user-agent":"Mozilla/5.0 XuanLeTVS-Report-Import/3.0"};
+          const [p,h]=await Promise.all([
+            fetch(priceSource,{headers}).then(r=>{if(!r.ok) throw new Error("VNDIRECT HTTP "+r.status); return r.json();}),
+            fetch(cafeFSource,{headers}).then(r=>{if(!r.ok) throw new Error("CafeF HTTP "+r.status); return r.text();})
+          ]);
+          const primary=parseVndirect(p,ticker,date);
+          const secondary=parseCafeF(h,date);
+          if(primary.close!==coverage.close || primary.volume!==coverage.volume || Math.abs(primary.changePct-coverage.changePct)>0.0001) {
+            throw new Error("VNDIRECT no longer matches locked VGS EOD "+JSON.stringify({primary,coverage}));
+          }
+          if(secondary.close!==19300 || secondary.volume!==404300 || Math.abs(secondary.changePct-1.05)>0.001) {
+            throw new Error("CafeF VGS secondary mismatch "+JSON.stringify(secondary));
+          }
+          fs.writeFileSync("/tmp/vgs-eod.json",JSON.stringify({primary,secondary,priceSource,cafeFSource},null,2));
+          console.log(JSON.stringify({ok:true,primary,secondary},null,2));
+          NODE
+
+      - name: Replace VGS valuation latest-only without changing layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const p="src/data/research-data.js";
+          const s={window:{}};
+          vm.runInNewContext(fs.readFileSync(p,"utf8"),s,{filename:p});
+          const d=s.window.RESEARCH_DATA;
+          if(!d||!Array.isArray(d.reports)||!Array.isArray(d.coverage)) throw new Error("RESEARCH_DATA invalid");
+
+          const vals0=d.reports.filter(r=>r.reportType!=="trading");
+          if(vals0.length!==134||d.coverage.length!==134) throw new Error("Expected 134/134 baseline");
+          const old=vals0.find(r=>r.ticker==="VGS");
+          const cov=d.coverage.find(c=>c.ticker==="VGS");
+          if(!old||old.id!=="VGS-20260825"||old.file!=="reports/VGS_2026-08-25.pdf") throw new Error("VGS report baseline drift");
+          if(!cov||cov.reportId!=="VGS-20260825"||cov.priceDate!=="2026-11-10") throw new Error("VGS coverage baseline drift");
+
+          const report={
+            id:"VGS-20261111",
+            ticker:"VGS",
+            company:old.company,
+            sector:old.sector,
+            exchange:old.exchange,
+            date:"2026-11-11",
+            recommendation:"THEO DÕI / CHỜ",
+            status:"wait",
+            marketPrice:19300,
+            marketPriceDate:"2026-11-10",
+            baseValue:21720,
+            valueLabel:"Giá trị kỳ vọng có điều kiện",
+            rangeLow:14565,
+            rangeHigh:27810,
+            gapLabel:"P0 19.300 đồng/cp thấp hơn GTKV 21.720 đồng/cp khoảng 11,1% nhưng vẫn cao hơn ngưỡng M 14.565 đồng/cp; tín hiệu định giá THEO DÕI, giao dịch 1-3 tuần CHỜ và độ tin cậy dữ liệu THẤP.",
+            method:"PP-14 + PP-13 + PP-01 trọng số 45,5% và PP-16 P/B trọng số 54,5%; PP-18 kiểm tra ngược trọng số 0%",
+            summary:"VGS cải thiện kết quả kinh doanh 9T2026 nhưng CFO/LNST chỉ khoảng 0,20 lần, vay ngắn hạn tăng và giá trị Legend City còn phụ thuộc dữ liệu dự án cùng nghĩa vụ đối tác. Cổng dữ liệu chưa đạt; vùng giá 14.565-27.810 đồng/cp chỉ là định giá có điều kiện. Trạng thái thực chiến 1-3 tuần là CHỜ, chưa phát sinh điểm mua.",
+            action:{
+              zoneLow:null,
+              zoneHigh:null,
+              baseValue:21720,
+              stop:null,
+              targets:[],
+              basisDate:"2026-11-11",
+              recommendation:"CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+              eligibility:"inactive",
+              condition:"IF P0 <=14.565 đồng/cp và dữ liệu dự án được cập nhật THEN chỉ rà xét lại luận điểm định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ đánh giá CÓ MUA khi MA50, sức mạnh tương đối so VN-Index và khối lượng được xác minh, có nền/kháng cự rõ, stop 3-7% và R/R >=2. Hiện chưa kích hoạt vùng mua, stoploss, mục tiêu hay R/R."
+            },
+            file:"reports/VGS_2026-11-11.pdf",
+            edition:"Bản định giá 11.11.2026",
+            visual:{
+              src:"assets/images/reports/vgs.webp?v=20261111-cover1",
+              alt:"Trang bìa báo cáo định giá VGS ngày 11/11/2026",
+              caption:"Bìa báo cáo định giá VGS",
+              sourceLabel:"Xuân Lê TVS Equity Research",
+              sourceUrl:"reports/VGS_2026-11-11.pdf",
+              kind:"report-cover"
+            }
+          };
+
+          d.reports=d.reports.filter(r=>!(r.reportType!=="trading"&&r.ticker==="VGS")).concat([report]);
+          d.reports.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(a.ticker||"").localeCompare(String(b.ticker||""))||String(a.reportType||"valuation").localeCompare(String(b.reportType||"valuation")));
+          cov.reportId=report.id;
+          cov.action=structuredClone(report.action);
+
+          const vals=d.reports.filter(r=>r.reportType!=="trading");
+          if(vals.length!==134||d.coverage.length!==134) throw new Error("Count changed unexpectedly");
+          if(new Set(vals.map(r=>r.ticker)).size!==134||new Set(d.coverage.map(c=>c.ticker)).size!==134) throw new Error("Ticker uniqueness invariant failed");
+          const rows=vals.filter(r=>r.ticker==="VGS");
+          if(rows.length!==1||rows[0].id!==report.id) throw new Error("VGS latest-only invariant failed");
+          const c=d.coverage.find(x=>x.ticker==="VGS");
+          if(c.reportId!==report.id||c.action?.basisDate!==report.date||c.action?.eligibility!=="inactive") throw new Error("VGS coverage/action sync failed");
+          if(c.close!==19300||c.priceDate!=="2026-11-10"||c.volume!==404699) throw new Error("VGS EOD mutated unexpectedly");
+
+          fs.writeFileSync(p,"window.RESEARCH_DATA = "+JSON.stringify(d,null,2)+";\n");
+          console.log(JSON.stringify({
+            old:{id:old.id,date:old.date,file:old.file},
+            next:{id:report.id,date:report.date,file:report.file,recommendation:report.recommendation},
+            coverage:{reportId:c.reportId,close:c.close,priceDate:c.priceDate,action:c.action},
+            valuations:vals.length,
+            coverageCount:d.coverage.length
+          },null,2));
+          NODE
+
+      - name: Rebuild only VGS report cover
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f assets/images/reports/vgs.webp
+          node scripts/sync-report-covers.mjs
+
+      - name: Run full tests and integrity audits before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/report-coverage-sync.test.mjs
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          git diff --exit-code -- index.html src/index.css src/styles src/data/company-logos.js src/data/company-visuals.js src/data/company-visual-candidates.json
+
+      - name: Guard mutation scope, delete temporary workflow, commit and push atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          trigger_sha="${GITHUB_SHA}"
+          rm -f ".github/workflows/tmp-valuation-import-vgs-2026-11-11.yml"
+
+          allowed='^(\.github/workflows/tmp-valuation-import-vgs-2026-11-11\.yml|src/data/research-data\.js|reports/VGS_2026-(08-25|11-11)\.pdf|assets/images/reports/vgs\.webp)$'
+          changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths; refusing commit:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+
+          test -s reports/VGS_2026-11-11.pdf
+          test ! -e reports/VGS_2026-08-25.pdf
+          test -s assets/images/reports/vgs.webp
+          echo "fd88857b51dc6ee955864fc415e9f498e4ac300cd019c06da4122423cc26f783  reports/VGS_2026-11-11.pdf" | sha256sum -c -
+
+          git fetch origin main --quiet
+          remote_sha="$(git rev-parse origin/main)"
+          if [[ "$remote_sha" != "$trigger_sha" ]]; then
+            echo "main advanced during guarded import; refusing stale write: trigger=$trigger_sha remote=$remote_sha" >&2
+            exit 3
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Update VGS valuation to 11 Nov 2026 latest-only"
+          git push origin HEAD:main
