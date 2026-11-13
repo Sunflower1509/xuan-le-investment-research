@@ -38,8 +38,8 @@
 
 | Chỉ báo | Phép tính trên chuỗi phù hợp | Kết quả | Nhãn |
 |---|---|---|---|
-| MA20 | TB 20 đóng cửa 17/10? bảng 20 phiên 13/11→19/10; dùng 20 hàng mới nhất VNIndex.ai | 1.736,399 → **1.736,40** | TỰ TÍNH |
-| MA50 | TB 50 đóng cửa 13/11→05/09 theo dãy đủ 50 phiên | 1.759,2258 → **1.759,23** | TỰ TÍNH |
+| MA20 | TB 20 giá đóng của đúng 20 phiên 19/10–13/11, dùng 20 hàng mới nhất VNIndex.ai | 1.736,399 → **1.736,40** | TỰ TÍNH |
+| MA50 | TB 50 giá đóng gần nhất, gồm ngày 13/11, từ chuỗi VNIndex.ai đủ 60 phiên | 1.759,2258 → **1.759,23** | TỰ TÍNH |
 | MA20 lùi 5 phiên | TB 20 đóng cửa 06/11 và 19 phiên trước đó cùng VNIndex.ai | 1.730,177 | TỰ TÍNH |
 | Dốc MA20 / 5 | 1.736,399 − 1.730,177 | **+6,222 → +6,22 điểm** | TỰ TÍNH |
 | MA200 | Không có 200 hàng liên tục từ một gốc đã đọc | —, chưa có MA200; không quyết định chế độ | CHƯA XÁC MINH |
