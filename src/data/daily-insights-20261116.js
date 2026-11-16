@@ -228,14 +228,17 @@
   ],
   "playbook": [
     {
+      "state": "positive",
       "if": "TỐT — khả năng THẤP: đóng trên 1.753,01 và MA50 1.757,53; khớp ≥1,2×TB20, tỷ lệ tăng/giảm ≥1,5, phân phối còn ≤4 và các cổng chặn được kiểm đủ.",
       "then": "Chạy lại toàn bộ điều kiện và chỉ cân nhắc mở mua khi trạng thái chuyển CÓ, chưa tự đặt vùng mua mới."
     },
     {
+      "state": "neutral",
       "if": "CƠ SỞ — khả năng TRUNG BÌNH: vẫn giữ trên đáy phiên 16/11 là 1.733,71 nhưng hồi dưới MA50 1.757,53 và khớp dưới TB20.",
       "then": "Giữ các mã thật sự khỏe với mốc dừng lỗ riêng, ưu tiên hạ các mã yếu, không mua đuổi trụ và không tăng đòn bẩy."
     },
     {
+      "state": "risk_off",
       "if": "XẤU — khả năng CAO: đóng dưới 1.733,71, sau đó kiểm định vùng đáy 13/11 1.724,03 hoặc 09/11 1.701,90 cùng độ rộng tiếp tục xấu.",
       "then": "Phòng thủ, thực hiện cắt giảm vị thế đã vi phạm stop riêng, không bình quân giá xuống; không bán đồng loạt khi chưa chạm quy tắc mã."
     }
