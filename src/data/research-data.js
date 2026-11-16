@@ -8850,4 +8850,3 @@ window.RESEARCH_DATA = {
     }
   ]
 };
-

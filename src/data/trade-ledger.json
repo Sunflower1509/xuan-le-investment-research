@@ -60,11 +60,11 @@
         "GMD": {
           "date": "2026-11-13",
           "close": 55000,
-          "relation": "above",
-          "zoneLow": 36200,
-          "zoneHigh": 38800,
-          "zoneBasisDate": "2026-08-10",
-          "eligibility": "active"
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-16",
+          "eligibility": "inactive"
         },
         "VSC": {
           "date": "2026-11-13",
@@ -589,7 +589,7 @@
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
-          "zoneBasisDate": "2026-11-02",
+          "zoneBasisDate": "2026-11-16",
           "eligibility": "inactive"
         },
         "STB": {
