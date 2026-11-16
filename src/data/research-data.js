@@ -60,6 +60,86 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "GMD-20261116",
+      "ticker": "GMD",
+      "company": "Gemadept Corporation",
+      "sector": "Cảng biển & logistics",
+      "exchange": "HOSE",
+      "date": "2026-11-16",
+      "recommendation": "THẬN TRỌNG / CHỜ",
+      "status": "wait",
+      "marketPrice": 55000,
+      "marketPriceDate": "2026-11-13",
+      "baseValue": 44437,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 27894,
+      "rangeHigh": 59811,
+      "gapLabel": "P0 55.000 đồng/cp cao hơn GTKV 44.437 đồng/cp khoảng 23,8%; giá đang trong vùng THẬN TRỌNG theo định giá, độ tin cậy THẤP và giao dịch 1-3 tuần CHỜ.",
+      "method": "PP-14 theo từng mảng (có PP-01 DCF hoạt động) 55,6% + PP-16 P/B ngành 44,4%; PP-18 kiểm tra ngược trọng số 0%",
+      "summary": "GMD có khoảng giá trị điều kiện 27.894-59.811 đồng/cp và GTKV 44.437 đồng/cp. Giá 55.000 đồng đã cao hơn GTKV; lợi nhuận chuyển nhượng 2026 không được ngoại suy, giá trị liên doanh/NCI và giá trị cuối kỳ còn nhạy với giả định. Kỹ thuật có P0 trên MA20/MA50 và thanh khoản mạnh nhưng sức mạnh tương đối 20 phiên chưa vượt VN-Index, R/R thử chỉ 0,71; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 44437,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-16",
+        "recommendation": "CHỜ - KHÔNG CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=27.894 đồng/cp thì chỉ xem lại vùng tích lũy dài hạn sau khi khóa dữ liệu, không tự động mua. Với giao dịch 1-3 tuần, chỉ kiểm tra CÓ MUA khi giá vượt nền với khối lượng >=1,5x TB20, MA20 đi lên, sức mạnh tương đối 20 phiên vượt VN-Index, stop 3-7% và R/R >=2. Hiện R/R không đạt nên tiếp tục CHỜ."
+      },
+      "file": "reports/GMD_2026-11-16.pdf",
+      "edition": "Bản định giá 16.11.2026",
+      "visual": {
+        "src": "assets/images/reports/gmd.webp?v=20261116-cover1",
+        "alt": "Trang bìa báo cáo định giá GMD ngày 16/11/2026",
+        "caption": "Bìa báo cáo định giá GMD",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/GMD_2026-11-16.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "POW-20261116",
+      "ticker": "POW",
+      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
+      "sector": "Năng lượng",
+      "exchange": "HOSE",
+      "date": "2026-11-16",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 13050,
+      "marketPriceDate": "2026-11-13",
+      "baseValue": 14200,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 7500,
+      "rangeHigh": 23500,
+      "gapLabel": "P0 13.050 đồng/cp thấp hơn GTKV 14.200 đồng/cp khoảng 8,4%, nhưng chưa đạt biên an toàn và cổng dữ liệu chưa đạt; tín hiệu định giá THEO DÕI, giao dịch 1-3 tuần CHỜ.",
+      "method": "PP-01 DCF FCFF 45,5% + PP-16 P/B cùng ngành 54,5%; PP-18 kiểm tra ngược trọng số 0%, PP-12 dự án chỉ tham chiếu",
+      "summary": "POW có khoảng giá trị điều kiện 7.500-23.500 đồng/cp và GTKV 14.200 đồng/cp. Nhơn Trạch 3&4 cải thiện triển vọng nhưng CFO 9T chỉ bằng khoảng 39,7% LNST, phải thu và nợ vay tăng; DCF còn phụ thuộc giả định dài hạn và khác đáng kể P/B. Kỹ thuật 13/11 mạnh hơn nhưng nền giá, stop hợp lệ và R/R >=2 chưa được khóa; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14200,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-16",
+        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=7.500 đồng/cp thì chỉ đánh giá lại vùng biên an toàn sau khi kiểm tra chất lượng dòng tiền. Với giao dịch 1-3 tuần, dù MA20/MA50, khối lượng và sức mạnh tương đối đã cải thiện, chỉ CÓ MUA khi khóa được nền/hỗ trợ, stop 3-7%, mục tiêu theo kháng cự và R/R >=2. Hiện chưa đủ nên tiếp tục CHỜ."
+      },
+      "file": "reports/POW_2026-11-16.pdf",
+      "edition": "Bản định giá 16.11.2026",
+      "visual": {
+        "src": "assets/images/reports/pow.webp?v=20261116-cover1",
+        "alt": "Trang bìa báo cáo định giá POW ngày 16/11/2026",
+        "caption": "Bìa báo cáo định giá POW",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/POW_2026-11-16.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "TIG-20261111",
       "ticker": "TIG",
       "company": "CTCP Tập đoàn Đầu tư Thăng Long",
@@ -176,46 +256,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá FPT",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/FPT_2026-11-02.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "POW-20261102",
-      "ticker": "POW",
-      "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
-      "sector": "Năng lượng",
-      "exchange": "HOSE",
-      "date": "2026-11-02",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 12200,
-      "marketPriceDate": "2026-10-30",
-      "baseValue": 16146,
-      "valueLabel": "Giá trị kỳ vọng có điều kiện",
-      "rangeLow": 10207,
-      "rangeHigh": 23267,
-      "gapLabel": "P0 12.200 đồng/cp thấp hơn GTKV có điều kiện 16.146 đồng/cp khoảng 24,4%; tín hiệu định giá THEO DÕI nhưng giao dịch 1-3 tuần vẫn CHỜ vì kỹ thuật chưa kích hoạt và cổng dữ liệu chưa đạt.",
-      "method": "PP-01 FCFF hợp nhất 60% + PP-16 P/B cùng ngành 40%; PP-18 kiểm chứng ngược trọng số 0, PP-12 dự án trọng số 0",
-      "summary": "POW có khoảng giá trị có điều kiện 10.207-23.267 đồng/cp và GTKV 16.146 đồng/cp. Dữ liệu quý III và một số giả định dòng tiền chưa khóa; tại ngày định giá P0 dưới MA20 và khối lượng chỉ 0,79 lần bình quân 20 phiên, nên trạng thái thực chiến 1-3 tuần là CHỜ, chưa thiết lập vùng mua, stop hay mục tiêu.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 16146,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-11-02",
-        "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
-        "eligibility": "inactive",
-        "condition": "Không phát lệnh chỉ vì giá dưới GTKV. Chỉ xem xét điểm mua khi giá vượt nền với khối lượng >=1,5x TB20, đồng thời xác nhận MA20/MA50 và sức mạnh tương đối; lệnh tương lai phải có stop 3-7% và R/R tối thiểu 2. Khi chưa đủ, tiếp tục CHỜ."
-      },
-      "file": "reports/POW_2026-11-02.pdf",
-      "edition": "Bản định giá 02.11.2026",
-      "visual": {
-        "src": "assets/images/reports/pow.webp?v=20261102-cover1",
-        "alt": "Trang bìa báo cáo định giá POW ngày 02/11/2026",
-        "caption": "Bìa báo cáo định giá POW",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/POW_2026-11-02.pdf",
         "kind": "report-cover"
       }
     },
@@ -5106,45 +5146,6 @@ window.RESEARCH_DATA = {
       "edition": "Bản định giá 11.08.2026"
     },
     {
-      "id": "GMD-20260810",
-      "ticker": "GMD",
-      "company": "Gemadept Corporation",
-      "sector": "Cảng biển & logistics",
-      "exchange": "HOSE",
-      "date": "2026-08-10",
-      "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-      "status": "wait",
-      "marketPrice": 80600,
-      "marketPriceDate": "2026-08-10",
-      "baseValue": 70600,
-      "valueLabel": "Điểm giữa",
-      "rangeLow": 51800,
-      "rangeHigh": 89400,
-      "gapLabel": "Giá thị trường cao hơn midpoint khoảng 14,2%; upside tới cận trên khoảng 9,8% tại ngày định giá",
-      "method": "DCF/FCFF; P/E, P/B và EV/EBITDA dùng kiểm chứng",
-      "summary": "Vùng giá trị hợp lý 51.800–89.400 đồng/cp và midpoint khoảng 70.600 đồng/cp. P0 intraday 80.600 đồng/cp cao hơn midpoint khoảng 14,2%, chưa đạt biên an toàn 25–30%; báo cáo giữ trạng thái CHỜ - KHÔNG MUA ĐUỔI. Vùng ưu tiên theo MOS là 36.200–38.800 đồng/cp nếu thesis và nền tảng cơ bản không suy yếu.",
-      "action": {
-        "zoneLow": 36200,
-        "zoneHigh": 38800,
-        "baseValue": 70600,
-        "stop": null,
-        "basisDate": "2026-08-10",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên."
-      },
-      "visual": {
-        "src": "assets/images/reports/gmd.webp?v=20260810-cover1",
-        "alt": "Trang bìa báo cáo định giá GMD ngày 10/08/2026",
-        "caption": "Bìa báo cáo định giá GMD",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf",
-        "kind": "report-cover"
-      },
-      "file": "reports/GMD_Equity_Valuation_Research_2026-08-10.pdf",
-      "edition": "Bản định giá 10.08.2026"
-    },
-    {
       "id": "SSI-20260805",
       "ticker": "SSI",
       "company": "Công ty Cổ phần Chứng khoán SSI",
@@ -6452,7 +6453,7 @@ window.RESEARCH_DATA = {
       "company": "Gemadept Corporation",
       "sector": "Cảng biển & logistics",
       "exchange": "HOSE",
-      "reportId": "GMD-20260810",
+      "reportId": "GMD-20261116",
       "close": 55000,
       "priceDate": "2026-11-13",
       "changePct": 2.4209,
@@ -6460,14 +6461,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:GMD~date:2026-11-13&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=GMD",
       "action": {
-        "zoneLow": 36200,
-        "zoneHigh": 38800,
-        "baseValue": 70600,
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 44437,
         "stop": null,
-        "basisDate": "2026-08-10",
-        "recommendation": "CHỜ - KHÔNG MUA ĐUỔI",
-        "eligibility": "active",
-        "condition": "Chỉ xem xét khi giá không vượt 38.800 đồng/cp và thesis không suy yếu; vùng ưu tiên 36.200–38.800 đồng/cp khi nền tảng cơ bản giữ nguyên."
+        "targets": [],
+        "basisDate": "2026-11-16",
+        "recommendation": "CHỜ - KHÔNG CÓ ĐIỂM MUA HỢP LỆ",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=27.894 đồng/cp thì chỉ xem lại vùng tích lũy dài hạn sau khi khóa dữ liệu, không tự động mua. Với giao dịch 1-3 tuần, chỉ kiểm tra CÓ MUA khi giá vượt nền với khối lượng >=1,5x TB20, MA20 đi lên, sức mạnh tương đối 20 phiên vượt VN-Index, stop 3-7% và R/R >=2. Hiện R/R không đạt nên tiếp tục CHỜ."
       }
     },
     {
@@ -7550,7 +7552,7 @@ window.RESEARCH_DATA = {
       "company": "Tổng công ty Điện lực Dầu khí Việt Nam - CTCP",
       "sector": "Năng lượng",
       "exchange": "HOSE",
-      "reportId": "POW-20261102",
+      "reportId": "POW-20261116",
       "close": 13050,
       "priceDate": "2026-11-13",
       "changePct": 3.5714,
@@ -7560,13 +7562,13 @@ window.RESEARCH_DATA = {
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 16146,
+        "baseValue": 14200,
         "stop": null,
         "targets": [],
-        "basisDate": "2026-11-02",
+        "basisDate": "2026-11-16",
         "recommendation": "CHỜ - CHƯA KÍCH HOẠT ĐIỂM MUA",
         "eligibility": "inactive",
-        "condition": "Không phát lệnh chỉ vì giá dưới GTKV. Chỉ xem xét điểm mua khi giá vượt nền với khối lượng >=1,5x TB20, đồng thời xác nhận MA20/MA50 và sức mạnh tương đối; lệnh tương lai phải có stop 3-7% và R/R tối thiểu 2. Khi chưa đủ, tiếp tục CHỜ."
+        "condition": "Nếu giá <=7.500 đồng/cp thì chỉ đánh giá lại vùng biên an toàn sau khi kiểm tra chất lượng dòng tiền. Với giao dịch 1-3 tuần, dù MA20/MA50, khối lượng và sức mạnh tương đối đã cải thiện, chỉ CÓ MUA khi khóa được nền/hỗ trợ, stop 3-7%, mục tiêu theo kháng cự và R/R >=2. Hiện chưa đủ nên tiếp tục CHỜ."
       }
     },
     {
