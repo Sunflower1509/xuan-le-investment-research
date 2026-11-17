@@ -438,7 +438,13 @@ jobs:
           trigger_sha="${GITHUB_SHA}"
           rm -f ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
 
-          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/(company-visuals|civs-fetch-fallback)\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
+          allowed='^(\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\.yml|index\.html|src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visual-candidates\.json|src/data/company-visuals\.js|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\.mjs|tests/(company-visuals|civs-fetch-fallback)\.test\.mjs|docs/company-identity-visual-standard\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\.pdf|assets/images/reports/(nab|vhm|vic)\.webp|assets/images/logos/nab\.svg|assets/images/company-visuals/[a-z0-9-]+\.webp)$'
+          for probe in "index.html" "reports/NAB_2026-11-12.pdf" "assets/images/company-visuals/nab.webp" "scripts/sync-company-visuals.mjs"; do
+            if ! printf '%s\n' "$probe" | grep -Eq "$allowed"; then
+              echo "Mutation allowlist self-test failed for $probe" >&2
+              exit 9
+            fi
+          done
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
