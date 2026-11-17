@@ -292,6 +292,60 @@ jobs:
           console.log("INDEX_ONLY_COUNTERS_CHANGED",order.join(" > "));
           NODE
 
+      - name: Expand CIVS universe guard from 134 to 135 without changing page structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs");
+          const replacements={
+            "scripts/sync-company-visuals-core.mjs":[
+              ["const EXPECTED = 134;","const EXPECTED = 135;"],
+              ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
+            ],
+            "scripts/audit-company-visuals-core.mjs":[
+              ["const EXPECTED = 134;","const EXPECTED = 135;"],
+              ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
+            ],
+            "scripts/ensure-company-visual-candidates.mjs":[
+              ["const EXPECTED = 134;","const EXPECTED = 135;"],
+              ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
+            ],
+            "tests/company-visuals.test.mjs":[
+              ["complete 134-code coverage","complete 135-code coverage"],
+              ["visuals.meta.coverageTarget, 134","visuals.meta.coverageTarget, 135"],
+              ["research.coverage.length, 134","research.coverage.length, 135"],
+              ["registry.meta.coverageTarget, 134","registry.meta.coverageTarget, 135"],
+              ["registry.meta.candidateCount, 125","registry.meta.candidateCount, 126"],
+              ["registry.candidates.length, 125","registry.candidates.length, 126"],
+              ["registryTickers.size, 125","registryTickers.size, 126"],
+              ["union.size, 134","union.size, 135"],
+              ["exactly 134 unique tickers","exactly 135 unique tickers"],
+              ["resumable, 134-aware","resumable, 135-aware"],
+              ["/const EXPECTED = 134/","/const EXPECTED = 135/"],
+              ["/const REGISTRY_EXPECTED = 125/","/const REGISTRY_EXPECTED = 126/"],
+              ["/134\\/134/","/135\\/135/"]
+            ],
+            "docs/company-identity-visual-standard.md":[
+              ["Coverage Universe 134","Coverage Universe 135"],
+              ["**134/134 mã trong Coverage Universe**","**135/135 mã trong Coverage Universe**"],
+              ["rollout 134 mã","rollout 135 mã"],
+              ["coverageTarget = 134","coverageTarget = 135"],
+              ["**125 mã bổ sung**","**126 mã bổ sung**"],
+              ["đúng **134 mã**","đúng **135 mã**"]
+            ]
+          };
+          for(const [path,pairs] of Object.entries(replacements)){
+            let s=fs.readFileSync(path,"utf8");
+            for(const [from,to] of pairs){
+              if(!s.includes(from)) throw new Error(path+" missing expected token: "+from);
+              s=s.replace(from,to);
+            }
+            fs.writeFileSync(path,s);
+          }
+          console.log("CIVS_UNIVERSE_GUARD_UPDATED 135 coverage / 126 candidates + 9 baseline");
+          NODE
+
       - name: Rebuild report covers and synchronize supporting registries
         shell: bash
         run: |
@@ -335,7 +389,7 @@ jobs:
           trigger_sha="${GITHUB_SHA}"
           rm -f ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
 
-          allowed='^(\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\.yml|index\.html|src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visual-candidates\.json|src/data/company-visuals\.js|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\.pdf|assets/images/reports/(nab|vhm|vic)\.webp|assets/images/logos/nab\.svg|assets/images/company-visuals/nab\.webp)$'
+          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/company-visuals\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
@@ -366,5 +420,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Update NAB VHM VIC valuations latest-only to 17 Nov 2026"
+          git commit -m "Update NAB VHM VIC valuations and expand CIVS universe to 135"
           git push origin HEAD:main
