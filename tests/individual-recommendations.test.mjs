@@ -44,7 +44,7 @@ test("Check midpoint, five-seven loss thresholds and model-only 2R/3R expected o
 test("Latest verified EOD preserves independent dated NT2 snapshot and never treats stale NT2 as fresh",()=>{
   assert.equal(validateNt2Snapshot(nt2),true);
   const currentDate=research.meta.updated;
-  assert.match(currentDate,/^20\\d{2}-\\d{2}-\\d{2}$/);
+  assert.match(currentDate,/^20\d{2}-\d{2}-\d{2}$/);
   assert.equal(research.marketSession.date,currentDate);
   assert.ok(research.coverage.every(item=>item.priceDate===currentDate));
   for(const ticker of ["POW","VIX","SHS"]){
