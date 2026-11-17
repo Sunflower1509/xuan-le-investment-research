@@ -54,7 +54,7 @@ test("A -5% close triggers one exclusion; -7% or lower triggers critical severit
   future.meta.updated="2026-11-17";
   for(const q of future.coverage)q.priceDate="2026-11-17";
   future.coverage.find(q=>q.ticker==="POW").close=11637.5;
-  const nextNt2={...nt2,priceDate:"2026-11-17",close:23000};
+  const nextNt2={...nt2,priceDate:"2026-11-17",close:23000,low:22950};
   const breach=planIndividualExits(CONFIG,future,nextNt2,empty());
   assert.deepEqual(breach.added.map(x=>x.ticker),["POW"]);
   assert.equal(breach.added[0].severity,"stop-5");
@@ -76,7 +76,7 @@ test("Never backdate loss events to previous session or compare stale NT2 snapsh
   const future=structuredClone(research);
   future.meta.updated="2026-11-17";
   for(const q of future.coverage)q.priceDate="2026-11-17";
-  const oldNt2={...nt2,close:19000};
+  const oldNt2={...nt2,close:19000,low:18900};
   assert.equal(planIndividualExits(CONFIG,future,oldNt2,empty()).added.length,0);
   const nt2Row=buildIndividualRows(CONFIG,future,oldNt2,empty()).find(x=>x.ticker==="NT2");
   assert.equal(nt2Row.fresh,false);
