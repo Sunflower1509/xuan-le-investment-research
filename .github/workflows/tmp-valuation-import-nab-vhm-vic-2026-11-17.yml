@@ -1,0 +1,370 @@
+name: Temporary valuation import NAB VHM VIC 2026-11-17
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tmp-valuation-import-nab-vhm-vic-2026-11-17
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out exact triggering main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Download and byte-verify valuation PDFs
+        shell: bash
+        env:
+          FIRE_API: "https://api.firestorage.ai/dev/file"
+        run: |
+          set -euo pipefail
+
+          download_one() {
+            local share_id="$1" wanted="$2" output="$3" expected_sha="$4" expected_size="$5" expected_pages="$6"
+            local listing file_id payload url
+            listing="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL "${FIRE_API}/shares/${share_id}/files?maxResults=1000")"
+            file_id="$(printf '%s' "$listing" | python3 -c 'import json,sys; w=sys.argv[1]; d=json.load(sys.stdin); m=[f for f in d.get("files",[]) if f.get("fileName")==w or f.get("name")==w]; assert len(m)==1,(w,len(m)); print(m[0].get("fileId") or m[0].get("id"))' "$wanted")"
+            payload="$(curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 60 -fsSL -X POST "${FIRE_API}/shares/${share_id}/files/$file_id/download")"
+            url="$(printf '%s' "$payload" | python3 -c 'import json,sys; print(json.load(sys.stdin)["downloadUrl"])')"
+            curl --retry 4 --retry-all-errors --connect-timeout 15 --max-time 120 -fsSL "$url" -o "$output"
+            test "$(wc -c < "$output" | tr -d ' ')" = "$expected_size"
+            echo "$expected_sha  $output" | sha256sum -c -
+            test "$(head -c 5 "$output")" = "%PDF-"
+            command -v pdfinfo >/dev/null 2>&1 || { sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends poppler-utils >/dev/null; }
+            test "$(pdfinfo "$output" | awk '/^Pages:/ {print $2}')" = "$expected_pages"
+          }
+
+          download_one "ELUYsOes1i7S" "NAB_2026-11-12.pdf" "reports/NAB_2026-11-12.pdf" "ebbff6bf8e9a18e5dd1aa9cc9a824402bcb54aadc2aada705a6863f3daab5efa" "471044" "23"
+          download_one "QUhe8MWDsuN4" "VHM_2026-11-17.pdf" "reports/VHM_2026-11-17.pdf" "6c83e26613723b7da67fcafef35f83893f4bb4a1f59b6d1b0a3ac585089817ff" "701235" "37"
+          download_one "htu4N-BmaclQ" "VIC_2026-11-17.pdf" "reports/VIC_2026-11-17.pdf" "016593cdaee2e17d5fe0f34ba9e997d74ec15ef8bb1197fb7787c79201c70010" "351986" "21"
+
+          rm -f reports/VHM_2026-10-03.pdf
+          rm -f reports/VIC_2026-10-02.pdf
+
+      - name: Re-verify locked EOD 16 Nov for NAB VHM VIC
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = await import("node:fs");
+          const vm = await import("node:vm");
+          const { parseVndirect } = await import("./scripts/update-eod-market-data.mjs");
+
+          const sandbox={window:{}};
+          vm.runInNewContext(fs.readFileSync("src/data/research-data.js","utf8"),sandbox,{filename:"src/data/research-data.js"});
+          const d=sandbox.window.RESEARCH_DATA;
+          if (d?.meta?.updated !== "2026-11-16") throw new Error("Expected repository EOD 2026-11-16");
+          const expected={
+            NAB:{close:12950,changePct:-1.8939,volume:2595000},
+            VHM:{close:62500,changePct:0.4823,volume:3927200},
+            VIC:{close:248000,changePct:2.0576,volume:1949000}
+          };
+          const date="2026-11-16";
+          const headers={accept:"application/json,text/plain,*/*","user-agent":"Mozilla/5.0 XuanLeTVS-Valuation-Import/5.0"};
+          const out={};
+          for (const ticker of ["NAB","VHM","VIC"]) {
+            const exp=expected[ticker];
+            const priceSource="https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:"+ticker+"~date:"+date+"&size=10";
+            const payload=await fetch(priceSource,{headers}).then(r=>{if(!r.ok) throw new Error(ticker+" VNDIRECT HTTP "+r.status); return r.json();});
+            const primary=parseVndirect(payload,ticker,date);
+            if(primary.close!==exp.close || primary.volume!==exp.volume || Math.abs(primary.changePct-exp.changePct)>0.0001) {
+              throw new Error(ticker+" VNDIRECT mismatch "+JSON.stringify(primary));
+            }
+            const existing=d.coverage.find(x=>x.ticker===ticker);
+            if(existing && (existing.close!==exp.close || existing.volume!==exp.volume || existing.priceDate!==date || Math.abs(existing.changePct-exp.changePct)>0.0001)) {
+              throw new Error(ticker+" locked coverage drift "+JSON.stringify(existing));
+            }
+            out[ticker]={primary,priceSource};
+          }
+          fs.writeFileSync("/tmp/eod-nab-vhm-vic.json",JSON.stringify(out,null,2));
+          console.log(JSON.stringify({ok:true,out},null,2));
+          NODE
+
+      - name: Replace latest-only reports and add NAB coverage without layout changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp index.html /tmp/index-before.html
+          node <<'NODE'
+          const fs=require("node:fs"),vm=require("node:vm");
+          const p="src/data/research-data.js";
+          const s={window:{}};
+          vm.runInNewContext(fs.readFileSync(p,"utf8"),s,{filename:p});
+          const d=s.window.RESEARCH_DATA;
+          if(!d||!Array.isArray(d.reports)||!Array.isArray(d.coverage)) throw new Error("RESEARCH_DATA invalid");
+          const vals0=d.reports.filter(r=>r.reportType!=="trading");
+          if(vals0.length!==134||d.coverage.length!==134) throw new Error("Expected 134/134 baseline");
+          if(d.reports.some(r=>r.ticker==="NAB")||d.coverage.some(c=>c.ticker==="NAB")) throw new Error("NAB unexpectedly exists before import");
+
+          const oldVHM=vals0.find(r=>r.ticker==="VHM");
+          const oldVIC=vals0.find(r=>r.ticker==="VIC");
+          const covVHM=d.coverage.find(c=>c.ticker==="VHM");
+          const covVIC=d.coverage.find(c=>c.ticker==="VIC");
+          if(!oldVHM||oldVHM.id!=="VHM-20261003"||oldVHM.file!=="reports/VHM_2026-10-03.pdf") throw new Error("VHM baseline drift");
+          if(!oldVIC||oldVIC.id!=="VIC-20261002"||oldVIC.file!=="reports/VIC_2026-10-02.pdf") throw new Error("VIC baseline drift");
+          if(!covVHM||covVHM.reportId!=="VHM-20261003"||covVHM.priceDate!=="2026-11-16") throw new Error("VHM coverage baseline drift");
+          if(!covVIC||covVIC.reportId!=="VIC-20261002"||covVIC.priceDate!=="2026-11-16") throw new Error("VIC coverage baseline drift");
+
+          const visual=(ticker,date,file)=>({
+            src:"assets/images/reports/"+ticker.toLowerCase()+".webp?v="+date.replaceAll("-","")+"-cover1",
+            alt:"Trang bìa báo cáo định giá "+ticker+" ngày "+date.split("-").reverse().join("/"),
+            caption:"Bìa báo cáo định giá "+ticker,
+            sourceLabel:"Xuân Lê TVS Equity Research",
+            sourceUrl:file,
+            kind:"report-cover"
+          });
+
+          const nab={
+            id:"NAB-20261112",
+            ticker:"NAB",
+            company:"Ngân hàng TMCP Nam Á",
+            sector:"Ngân hàng",
+            exchange:"HOSE",
+            date:"2026-11-12",
+            recommendation:"THEO DÕI / CHỜ",
+            status:"wait",
+            marketPrice:13000,
+            marketPriceDate:"2026-11-12",
+            baseValue:14600,
+            valueLabel:"Giá trị kỳ vọng có điều kiện",
+            rangeLow:11700,
+            rangeHigh:17900,
+            gapLabel:"P0 13.000 đồng/cp thấp hơn GTKV 14.600 đồng/cp khoảng 11%; tín hiệu định giá THEO DÕI nhưng độ tin cậy THẤP và R/R kiểm tra chỉ 0,39 nên giao dịch 1-3 tuần CHỜ.",
+            method:"PP-06 thu nhập thặng dư 53,8% + PP-16 P/B ngân hàng 46,2%; PP-07 và PP-18 trọng số 0%",
+            summary:"NAB có dải giá trị có điều kiện 11.700-17.900 đồng/cp và GTKV 14.600 đồng/cp. Hồ sơ còn bất đồng Beta/BVPS và đợt phát hành riêng lẻ 100 triệu cổ phiếu giá 13.200 đồng chưa hoàn tất. Tại P0 13.000 đồng, vùng kháng cự gần 13.100-13.350/13.400 khiến phép thử R/R chỉ 0,39; trạng thái 1-3 tuần là CHỜ.",
+            action:{
+              zoneLow:null,zoneHigh:null,baseValue:14600,stop:null,targets:[],
+              basisDate:"2026-11-12",
+              recommendation:"CHỜ - R/R CHƯA ĐẠT",
+              eligibility:"inactive",
+              condition:"Nếu giá <=10.900 đồng/cp thì chỉ theo dõi tích lũy theo định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ xét CÓ MUA khi kỹ thuật xác nhận, stop 3-7% và R/R >=2. Phép thử tại 13.000 đồng với stop minh họa 12.100 và mục tiêu gần 13.350 chỉ cho R/R 0,39 nên hiện tiếp tục CHỜ."
+            },
+            file:"reports/NAB_2026-11-12.pdf",
+            edition:"Bản định giá 12.11.2026"
+          };
+          nab.visual=visual(nab.ticker,nab.date,nab.file);
+
+          const vhm={
+            id:"VHM-20261117",
+            ticker:"VHM",
+            company:oldVHM.company,
+            sector:oldVHM.sector,
+            exchange:oldVHM.exchange,
+            date:"2026-11-17",
+            recommendation:"THEO DÕI / CHỜ",
+            status:"wait",
+            marketPrice:62500,
+            marketPriceDate:"2026-11-16",
+            baseValue:70048,
+            valueLabel:"Giá trị kỳ vọng có điều kiện",
+            rangeLow:59679,
+            rangeHigh:78509,
+            gapLabel:"P0 62.500 đồng/cp thấp hơn GTKV 70.048 đồng/cp khoảng 10,8%, nhưng Cổng dữ liệu KHÔNG ĐẠT và chưa đủ bộ lọc kỹ thuật; trạng thái giao dịch 1-3 tuần CHỜ.",
+            method:"PP-09 RNAV có điều kiện 100%; PP-16 P/B và PP-18 trọng số 0%",
+            summary:"VHM có dải kịch bản RNAV 59.679-78.509 đồng/cp và GTKV 70.048 đồng/cp, dựa trên bảng RNAV của Guotai Haitong nên độ tin cậy THẤP. P0 62.500 đồng cao hơn MA20 nhưng dưới MA50; khối lượng và sức mạnh tương đối chưa được xác nhận đồng thời. Không xác lập vùng mua, stop, target hay R/R; trạng thái 1-3 tuần là CHỜ.",
+            action:{
+              zoneLow:null,zoneHigh:null,baseValue:70048,stop:null,targets:[],
+              basisDate:"2026-11-17",
+              recommendation:"CHỜ - CHƯA ĐỦ XÁC NHẬN KỸ THUẬT",
+              eligibility:"inactive",
+              condition:"Nếu giá <=52.536 đồng/cp thì chỉ quan sát tích lũy khi dữ liệu RNAV được khóa, không mua chỉ vì chạm ngưỡng. Chỉ xét CÓ MUA khi giá đồng thời trên MA20/MA50, MA20 dốc lên, khối lượng >=1,5x TB20, sức mạnh tương đối vượt VN-Index, nền giá rõ, stop 3-7% và R/R >=2. Hiện chưa đạt nên tiếp tục CHỜ."
+            },
+            file:"reports/VHM_2026-11-17.pdf",
+            edition:"Bản định giá 17.11.2026"
+          };
+          vhm.visual=visual(vhm.ticker,vhm.date,vhm.file);
+
+          const vic={
+            id:"VIC-20261117",
+            ticker:"VIC",
+            company:oldVIC.company,
+            sector:oldVIC.sector,
+            exchange:oldVIC.exchange,
+            date:"2026-11-17",
+            recommendation:"TRÁNH / CHỜ",
+            status:"reject",
+            marketPrice:248000,
+            marketPriceDate:"2026-11-16",
+            baseValue:65215,
+            valueLabel:"Giá trị kỳ vọng có điều kiện",
+            rangeLow:34243,
+            rangeHigh:97765,
+            gapLabel:"P0 248.000 đồng/cp cao hơn cận trên U 97.765 đồng/cp khoảng 153,7% và cao hơn GTKV 65.215 đồng/cp khoảng 280,3%; tín hiệu mô hình là TRÁNH có điều kiện, kỹ thuật vẫn CHỜ.",
+            method:"PP-14 SOTP có điều kiện 100%; PP-15, PP-16 và PP-18 kiểm chứng trọng số 0%",
+            summary:"Bản 17/11 thay thế kết luận cũ sau khi tách đúng cổ phần phổ thông VFS khỏi cổ phần ưu đãi VinFast Việt Nam. Dải giá trị có điều kiện là 34.243-97.765 đồng/cp, GTKV 65.215 đồng/cp; P0 248.000 đồng vượt xa U. Cổng dữ liệu vẫn KHÔNG ĐẠT và khối lượng 16/11 chỉ khoảng 0,93 lần bình quân 20 phiên, nên không có điểm CÓ MUA.",
+            action:{
+              zoneLow:null,zoneHigh:null,baseValue:65215,stop:null,targets:[],
+              basisDate:"2026-11-17",
+              recommendation:"TRÁNH - KHÔNG MUA MỚI",
+              eligibility:"veto",
+              condition:"Khi P0 vẫn vượt U theo mô hình có điều kiện, không xác lập vùng mua mới. Chỉ tính lại toàn bộ PP-14 khi khóa được dữ liệu cổ phần ưu đãi và RNAV dự án. Khối lượng xác nhận dưới 1,5x TB20 hoặc R/R <2 thì tiếp tục CHỜ; không công bố stop/target thực thi khi trạng thái CÓ MUA chưa hợp lệ."
+            },
+            file:"reports/VIC_2026-11-17.pdf",
+            edition:"Bản thẩm định lại 17.11.2026"
+          };
+          vic.visual=visual(vic.ticker,vic.date,vic.file);
+
+          d.reports=d.reports.filter(r=>!(r.reportType!=="trading"&&["VHM","VIC"].includes(r.ticker))).concat([nab,vhm,vic]);
+          d.reports.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(a.ticker||"").localeCompare(String(b.ticker||""))||String(a.reportType||"valuation").localeCompare(String(b.reportType||"valuation")));
+
+          const nabCoverage={
+            ticker:"NAB",
+            company:nab.company,
+            sector:nab.sector,
+            exchange:nab.exchange,
+            reportId:nab.id,
+            close:12950,
+            priceDate:"2026-11-16",
+            changePct:-1.8939,
+            volume:2595000,
+            priceSource:"https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NAB~date:2026-11-16&size=10",
+            priceSourceSecondary:"https://web.stockbiz.vn/Stocks/NAB/LookupQuote.aspx?Date=16%2F11%2F2026",
+            action:structuredClone(nab.action)
+          };
+          covVHM.reportId=vhm.id; covVHM.action=structuredClone(vhm.action);
+          covVIC.reportId=vic.id; covVIC.action=structuredClone(vic.action);
+          d.coverage.push(nabCoverage);
+          d.coverage.sort((a,b)=>String(a.ticker||"").localeCompare(String(b.ticker||"")));
+
+          const vals=d.reports.filter(r=>r.reportType!=="trading");
+          if(vals.length!==135||d.coverage.length!==135) throw new Error("Expected 135/135 after NAB addition");
+          if(new Set(vals.map(r=>r.ticker)).size!==135||new Set(d.coverage.map(c=>c.ticker)).size!==135) throw new Error("Ticker uniqueness invariant failed");
+          for(const r of [nab,vhm,vic]){
+            const rows=vals.filter(x=>x.ticker===r.ticker);
+            const c=d.coverage.find(x=>x.ticker===r.ticker);
+            if(rows.length!==1||rows[0].id!==r.id) throw new Error(r.ticker+" latest-only invariant failed");
+            if(!c||c.reportId!==r.id||c.action?.basisDate!==r.date) throw new Error(r.ticker+" coverage/action sync failed");
+          }
+          if(covVHM.close!==62500||covVHM.priceDate!=="2026-11-16"||covVHM.volume!==3927200) throw new Error("VHM EOD mutated");
+          if(covVIC.close!==248000||covVIC.priceDate!=="2026-11-16"||covVIC.volume!==1949000) throw new Error("VIC EOD mutated");
+
+          fs.writeFileSync(p,"window.RESEARCH_DATA = "+JSON.stringify(d,null,2)+";\n");
+
+          const htmlPath="index.html";
+          let html=fs.readFileSync(htmlPath,"utf8");
+          const before=html;
+          html=html.replace('data-role="report-tab-count">134</span>','data-role="report-tab-count">135</span>');
+          html=html.replace('data-role="coverage-tab-count">134</span>','data-role="coverage-tab-count">135</span>');
+          if(html===before) throw new Error("Index counters were not updated");
+          if((html.match(/data-role="report-tab-count">135<\/span>/g)||[]).length!==1) throw new Error("Report count marker invalid");
+          if((html.match(/data-role="coverage-tab-count">135<\/span>/g)||[]).length!==1) throw new Error("Coverage count marker invalid");
+          fs.writeFileSync(htmlPath,html);
+
+          console.log(JSON.stringify({
+            oldVHM:{id:oldVHM.id,date:oldVHM.date,file:oldVHM.file},
+            oldVIC:{id:oldVIC.id,date:oldVIC.date,file:oldVIC.file},
+            addedNAB:{id:nab.id,date:nab.date,file:nab.file},
+            nextVHM:{id:vhm.id,date:vhm.date,file:vhm.file},
+            nextVIC:{id:vic.id,date:vic.date,file:vic.file},
+            valuations:vals.length,coverage:d.coverage.length
+          },null,2));
+          NODE
+
+          node <<'NODE'
+          const fs=require("node:fs");
+          const before=fs.readFileSync("/tmp/index-before.html","utf8");
+          const after=fs.readFileSync("index.html","utf8");
+          const restored=after
+            .replace('data-role="report-tab-count">135</span>','data-role="report-tab-count">134</span>')
+            .replace('data-role="coverage-tab-count">135</span>','data-role="coverage-tab-count">134</span>');
+          if(restored!==before) throw new Error("index.html changed outside two numeric counters");
+          const order=[...after.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
+          const expected=["overview","daily-market","reference-portfolio","position-ledger","action-radar","research"];
+          if(order.join(",")!==expected.join(",")) throw new Error("Section order changed");
+          console.log("INDEX_ONLY_COUNTERS_CHANGED",order.join(" > "));
+          NODE
+
+      - name: Rebuild report covers and synchronize supporting registries
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f assets/images/reports/{nab,vhm,vic}.webp
+          node scripts/sync-report-covers.mjs
+          node scripts/sync-company-logos.mjs
+          node scripts/ensure-company-visual-candidates.mjs
+          node scripts/sync-company-visuals.mjs
+
+      - name: Run full tests and audits before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/*.test.mjs
+          bash scripts/build/build-assets.sh
+          node scripts/audit-site.mjs
+          node scripts/audit-report-covers.mjs
+          node scripts/audit-company-logos.mjs
+          if ! command -v identify >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends imagemagick >/dev/null
+          fi
+          node scripts/audit-company-visuals.mjs
+
+          git diff --exit-code -- src/index.css src/styles
+          node <<'NODE'
+          const fs=require("node:fs");
+          const before=fs.readFileSync("/tmp/index-before.html","utf8");
+          const after=fs.readFileSync("index.html","utf8");
+          const restored=after
+            .replace('data-role="report-tab-count">135</span>','data-role="report-tab-count">134</span>')
+            .replace('data-role="coverage-tab-count">135</span>','data-role="coverage-tab-count">134</span>');
+          if(restored!==before) throw new Error("HTML changed beyond count text");
+          NODE
+
+      - name: Guard mutation scope, remove temporary workflow, commit and push atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          trigger_sha="${GITHUB_SHA}"
+          rm -f ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
+
+          allowed='^(\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\.yml|index\.html|src/data/research-data\.js|src/data/company-logos\.js|src/data/company-visual-candidates\.json|src/data/company-visuals\.js|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\.pdf|assets/images/reports/(nab|vhm|vic)\.webp|assets/images/logos/nab\.svg|assets/images/company-visuals/nab\.webp)$'
+          changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected changed paths; refusing commit:" >&2
+            echo "$unexpected" >&2
+            exit 2
+          fi
+
+          test -s reports/NAB_2026-11-12.pdf
+          test -s reports/VHM_2026-11-17.pdf
+          test -s reports/VIC_2026-11-17.pdf
+          test ! -e reports/VHM_2026-10-03.pdf
+          test ! -e reports/VIC_2026-10-02.pdf
+          test -s assets/images/reports/nab.webp
+          test -s assets/images/reports/vhm.webp
+          test -s assets/images/reports/vic.webp
+          echo "ebbff6bf8e9a18e5dd1aa9cc9a824402bcb54aadc2aada705a6863f3daab5efa  reports/NAB_2026-11-12.pdf" | sha256sum -c -
+          echo "6c83e26613723b7da67fcafef35f83893f4bb4a1f59b6d1b0a3ac585089817ff  reports/VHM_2026-11-17.pdf" | sha256sum -c -
+          echo "016593cdaee2e17d5fe0f34ba9e997d74ec15ef8bb1197fb7787c79201c70010  reports/VIC_2026-11-17.pdf" | sha256sum -c -
+
+          git fetch origin main --quiet
+          remote_sha="$(git rev-parse origin/main)"
+          if [[ "$remote_sha" != "$trigger_sha" ]]; then
+            echo "main advanced during guarded import; refusing stale write: trigger=$trigger_sha remote=$remote_sha" >&2
+            exit 3
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Update NAB VHM VIC valuations latest-only to 17 Nov 2026"
+          git push origin HEAD:main
