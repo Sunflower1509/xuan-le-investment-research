@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "ticker": "NT2",
+  "priceDate": "2026-11-16",
+  "close": 23700,
+  "changePct": 0.4237,
+  "volume": 815700,
+  "open": 23650,
+  "high": 23750,
+  "low": 23300,
+  "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NT2~date:2026-11-16&size=10",
+  "priceSourceSecondary": "https://cafef.vn/du-lieu/nt2/thong-tin-chung.chn",
+  "verifiedBy": "VNDIRECT (via taichinh.com) + CafeF + Simplize, archived 2026-11-16",
+  "verificationStatus": "crosschecked-manual",
+  "explanation": "Đóng cửa và khối lượng phiên 16/11 xác nhận bởi CafeF, Simplize, dữ liệu VNDIRECT qua taichinh.com. Từ EOD tiếp theo chỉ cập nhật nếu VNDIRECT và CafeF đối chiếu đúng ngày."
+}

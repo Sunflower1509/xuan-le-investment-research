@@ -10,6 +10,8 @@ import { validateDailyPlaybookPolicy } from "../src/scripts/daily-market-policy.
 import { validateMarketDecisionBrief } from "../src/scripts/market-decision-brief.mjs";
 import { REFERENCE_PORTFOLIO } from "../src/data/reference-portfolio.mjs";
 import { planReferencePortfolioExits } from "../src/scripts/reference-portfolio-core.mjs";
+import { INDIVIDUAL_RECOMMENDATIONS } from "../src/data/individual-recommendations.mjs";
+import { planIndividualExits, validateNt2Snapshot } from "../src/scripts/individual-recommendations-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://sunflower1509.github.io/xuan-le-investment-research/";
@@ -125,6 +127,28 @@ if (research && typeof research === "object") {
     }
   } catch (error) {
     fail("Reference portfolio", error.message);
+  }
+}
+
+// Independent public research scenarios: no fictitious report for NT2, no changes to valuation zones.
+if (research && typeof research === "object") {
+  try {
+    const nt2 = JSON.parse(readText("src/data/individual-nt2-eod.json"));
+    const individualExits = JSON.parse(readText("src/data/individual-recommendations-exits.json"));
+    if (!validateNt2Snapshot(nt2)) fail("Individual recommendations", "snapshot NT2 chưa được xác minh.");
+    if (nt2.priceDate > research.meta.updated) fail("Individual recommendations", "giá NT2 vượt ngày EOD Research Terminal.");
+    const { rows, added } = planIndividualExits(INDIVIDUAL_RECOMMENDATIONS, research, nt2, individualExits);
+    if (added.length) fail("Individual recommendations", "mã đã chạm −5% nhưng chưa lưu lịch sử: " + added.map(item => item.ticker).join(", "));
+    if (rows.map(item => item.ticker).join(",") !== "POW,NT2,VIX,SHS") fail("Individual recommendations", "danh sách riêng không đúng bốn mã.");
+    for (const row of rows) {
+      if (!Number.isFinite(row.midpoint) || row.rr1 < 2 || row.rr2 < 3) fail("Individual recommendations", "mục tiêu mô hình/RR không hợp lệ: " + row.ticker);
+      if (row.priceDate > research.meta.updated) fail("Individual recommendations", "ngày giá tương lai: " + row.ticker);
+      if (row.exclusion && row.exclusion.date > research.meta.updated) fail("Individual recommendations", "ngày loại trong tương lai: " + row.ticker);
+    }
+    if (!readText("index.html").includes('id="individual-recommendations"')) fail("Individual recommendations", "thiếu khối công khai.");
+    if (!readText("src/index.js").includes('import "./scripts/individual-recommendations.mjs";')) fail("Individual recommendations", "thiếu module giao diện.");
+  } catch (error) {
+    fail("Individual recommendations", error.message);
   }
 }
 
