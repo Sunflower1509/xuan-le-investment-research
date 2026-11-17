@@ -48,7 +48,7 @@ jobs:
         id: market
         shell: bash
         env:
-          TARGET_DATE: ${{ inputs.date }}
+          TARGET_DATE: '2026-11-17' # one-off, explicit user-requested EOD verification; revert after run
         run: |
           set -euo pipefail
           if [[ -n "${TARGET_DATE:-}" ]]; then
