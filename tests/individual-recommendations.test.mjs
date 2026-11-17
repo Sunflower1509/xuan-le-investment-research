@@ -41,12 +41,26 @@ test("Check midpoint, five-seven loss thresholds and model-only 2R/3R expected o
   assert.equal(r.target1,25600);assert.equal(r.target2,26750);
   assert.ok(r.rr1>=2 && r.rr2>=3);
 });
-test("Nov 16 prices and independent NT2 quote are date-stamped, not real investments",()=>{
+test("Latest verified EOD preserves independent dated NT2 snapshot and never treats stale NT2 as fresh",()=>{
   assert.equal(validateNt2Snapshot(nt2),true);
-  assert.equal(research.meta.updated,"2026-11-16");
-  assert.deepEqual(["POW","NT2","VIX","SHS"].map(t=>by.get(t).close),[12850,23700,12800,13000]);
-  assert.ok(rows.every(r=>r.fresh && r.relation==="above"));
-  assert.ok(rows.every(r=>r.deltaPct>0 && r.exclusion===null));
+  const currentDate=research.meta.updated;
+  assert.match(currentDate,/^20\\d{2}-\\d{2}-\\d{2}$/);
+  assert.equal(research.marketSession.date,currentDate);
+  assert.ok(research.coverage.every(item=>item.priceDate===currentDate));
+  for(const ticker of ["POW","VIX","SHS"]){
+    const quote=research.coverage.find(item=>item.ticker===ticker);
+    assert.ok(quote && Number.isFinite(quote.close));
+    assert.equal(by.get(ticker).close,quote.close);
+    assert.equal(by.get(ticker).fresh,true);
+  }
+  const independent=by.get("NT2");
+  assert.equal(independent.close,nt2.close);
+  assert.equal(independent.fresh,nt2.priceDate===currentDate);
+  if(nt2.priceDate<currentDate) assert.equal(independent.deltaPct,null);
+  if(currentDate==="2026-11-16"){
+    assert.deepEqual(["POW","NT2","VIX","SHS"].map(t=>by.get(t).close),[12850,23700,12800,13000]);
+    assert.ok(rows.every(r=>r.fresh && r.relation==="above" && r.deltaPct>0 && r.exclusion===null));
+  }
   assert.ok(validateIndividualExitState(CONFIG,exits));
 });
 test("A -5% close triggers one exclusion; -7% or lower triggers critical severity",()=>{
@@ -71,6 +85,8 @@ test("A -5% close triggers one exclusion; -7% or lower triggers critical severit
 });
 test("Never backdate loss events to previous session or compare stale NT2 snapshot",()=>{
   const historical=structuredClone(research);
+  historical.meta.updated="2026-11-16";
+  for(const q of historical.coverage) q.priceDate="2026-11-16";
   historical.coverage.find(q=>q.ticker==="SHS").close=11000;
   assert.equal(planIndividualExits(CONFIG,historical,nt2,empty()).added.length,0);
   const future=structuredClone(research);
