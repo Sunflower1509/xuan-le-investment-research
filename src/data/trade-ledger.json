@@ -81,7 +81,7 @@
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
-          "zoneBasisDate": "2026-10-03",
+          "zoneBasisDate": "2026-11-17",
           "eligibility": "inactive"
         },
         "SSI": {
@@ -344,7 +344,7 @@
           "relation": "unavailable",
           "zoneLow": null,
           "zoneHigh": null,
-          "zoneBasisDate": "2026-10-02",
+          "zoneBasisDate": "2026-11-17",
           "eligibility": "veto"
         },
         "VCK": {
@@ -1223,6 +1223,15 @@
           "zoneHigh": null,
           "zoneBasisDate": "2026-11-11",
           "eligibility": "veto"
+        },
+        "NAB": {
+          "date": "2026-11-16",
+          "close": 12950,
+          "relation": "unavailable",
+          "zoneLow": null,
+          "zoneHigh": null,
+          "zoneBasisDate": "2026-11-12",
+          "eligibility": "inactive"
         }
       },
       "exitPolicy": {
