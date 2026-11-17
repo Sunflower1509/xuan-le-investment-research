@@ -29,6 +29,8 @@
 .rp-table tbody tr.rp-archived-row{background:#fff4f2}
 .rp-table tbody tr.rp-archived-row:hover{background:#fae9e9}
 .rp-table .rp-code{font-size:.89rem;color:var(--navy);font-weight:850;white-space:nowrap;text-align:left}
+.rp-origin{display:block;color:#4b6472;font-size:.61rem;font-weight:650;letter-spacing:.015em;margin-top:4px;line-height:1.4}
+.rp-reward-grid{margin-top:9px}
 .rp-table .rp-number{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:760}
 .rp-table .rp-zone{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:740}
 .rp-table .rp-date{white-space:nowrap;color:#40545f;font-variant-numeric:tabular-nums}
