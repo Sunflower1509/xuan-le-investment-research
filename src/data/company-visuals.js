@@ -3,39 +3,31 @@ window.COMPANY_VISUALS = {
     "schema": "verified-core-asset-webp-v1",
     "standardVersion": "CIVS-1.0",
     "rollout": true,
-    "coverageTarget": 134,
-    "count": 95,
-    "verifiedCount": 95,
-    "pendingCount": 39,
-    "rolloutProgressPct": 70.9,
+    "coverageTarget": 135,
+    "count": 107,
+    "verifiedCount": 107,
+    "pendingCount": 28,
+    "rolloutProgressPct": 79.3,
     "updated": "2026-09-12",
     "policy": "CIVS 1.0 — official first-party source only; real core operations/assets preferred, verified headquarters/workplace or product/network identity only when economically appropriate; minimum quality gate 8/10; no generative, stock or third-party editorial imagery.",
     "display": "Research cards only; valuation dialogs keep the dated report cover. Unverified tickers retain report-cover fallback.",
-    "synced": "2026-09-28",
+    "synced": "2026-11-17",
     "target": "960x540",
     "quality": 84,
-    "verification": "CIVS 1.0 RESUMABLE: 95/134 visuals verified; 39 remain on safe report-cover fallback until first-party verification passes.",
-    "candidateCount": 134,
+    "verification": "CIVS 1.0 RESUMABLE: 107/135 visuals verified; 28 remain on safe report-cover fallback until first-party verification passes.",
+    "candidateCount": 135,
     "pendingTickers": [
-      "ABB",
-      "BCM",
       "BFC",
-      "BSR",
       "BVH",
-      "BVS",
       "CMG",
       "CTG",
       "CTR",
       "D2D",
       "DCL",
-      "G36",
       "GEE",
       "GEL",
       "HCM",
       "HDB",
-      "HHP",
-      "ICG",
-      "KOS",
       "KSV",
       "LPB",
       "NKG",
@@ -47,14 +39,11 @@ window.COMPANY_VISUALS = {
       "PNJ",
       "PVP",
       "PVT",
-      "TIG",
       "TNH",
       "VGC",
       "VGI",
       "VIB",
       "VNM",
-      "VPL",
-      "VTO",
       "VTP"
     ],
     "complete": false
@@ -467,19 +456,13 @@ window.COMPANY_VISUALS = {
       "sector": "Bất động sản",
       "subject": "Becamex Investment And Industrial Development Group — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://becamex.com.vn/",
-      "sourceImageUrl": "",
+      "sourceImageUrl": "https://becamex.com.vn/wp-content/uploads/2025/05/11.jpg",
       "sourceLabel": "Becamex Investment And Industrial Development Group — website chính thức",
       "officialDomain": "becamex.com.vn",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "industrial-park-infrastructure",
-      "keywords": [
-        "khu công nghiệp",
-        "industrial park",
-        "hạ tầng",
-        "Becamex"
-      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -487,18 +470,41 @@ window.COMPANY_VISUALS = {
           "industrial park",
           "hạ tầng",
           "Becamex"
-        ]
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "Becamex IDC kiến tạo mô hình khu công nghiệp sinh thái, thông minh thế hệ mới",
+        "resolvedHost": "becamex.com.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 12,
+        "sourcePageKeywordHits": 3,
+        "entropy": 0.7057,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
-      "qualityScore": null,
+      "qualityScore": 10,
       "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Becamex Investment And Industrial Development Group (BCM) từ nguồn chính thức",
       "caption": "Becamex Investment And Industrial Development Group — hoạt động/tài sản cốt lõi",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "BCM: không có ảnh >=640x360 đạt Quality Gate. https://becamex.com.vn/wp-content/uploads/2024/12/ha-tang-2.jpg: BCM: ảnh https://becamex.com.vn/wp-content/uploads/2024/12/ha-tang-2.jpg không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: unable to get local"
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/bcm.webp?v=df30c2c83f97",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 2098,
+      "sourceHeight": 1399,
+      "sha256": "df30c2c83f9752fd980a08f0980a1039e629fb7e7c98c4f5d1affcb417369def",
+      "bytes": 83050,
+      "sourceBytes": 580178,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "BFC": {
       "ticker": "BFC",
@@ -664,41 +670,59 @@ window.COMPANY_VISUALS = {
       "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "refinery",
-      "keywords": [
-        "Nhà máy Lọc dầu Dung Quất",
-        "lọc dầu",
-        "refinery",
-        "Dung Quất"
-      ],
       "sourceDiscovery": {
         "type": "manual-official",
         "resolvedFromOfficialPage": true,
         "strategy": "exact-first-party-core-asset-v1",
-        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất"
+        "resolvedLabel": "Vận hành nhập dầu thô tại SPM của NMLD Dung Quất",
+        "resolvedOn": "2026-11-17",
+        "entropy": 0.433,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
       "qualityScore": 10,
       "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Petrovietnam Refining And Petrochemical Corporation. (BSR) từ nguồn chính thức",
       "caption": "Petrovietnam Refining And Petrochemical Corporation. — hoạt động/tài sản cốt lõi",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "BSR: ảnh https://www.bsr.com.vn/documents/37629/38824/hmct-1-1.png/87c58672-65bb-d7c1-cf9c-5abaf20efb40?t=1735974095496 không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: unable to get local issuer certificate\nMore details here: https://curl.se/docs/sslc"
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/bsr.webp?v=d64871609523",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1024,
+      "sourceHeight": 682,
+      "sha256": "d64871609523612003258b17d64cec62611bd1762fbbb06b0e9c731f9ec535a1",
+      "bytes": 44688,
+      "sourceBytes": 1331237,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "BVH": {
       "ticker": "BVH",
       "sector": "Bảo hiểm",
       "subject": "Bao Viet Holdings — nhận diện doanh nghiệp",
       "sourceUrl": "https://www.baoviet.com.vn/",
-      "sourceImageUrl": "https://www.baoviet.com.vn/themes/md_baoviet/img/hero-sharp.png",
+      "sourceImageUrl": "",
       "sourceLabel": "Bao Viet Holdings — website chính thức",
       "officialDomain": "baoviet.com.vn",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "B",
       "identityType": "insurance-corporate",
+      "keywords": [
+        "Bảo Việt",
+        "trụ sở",
+        "văn phòng",
+        "insurance",
+        "bảo hiểm"
+      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -707,24 +731,10 @@ window.COMPANY_VISUALS = {
           "văn phòng",
           "insurance",
           "bảo hiểm"
-        ],
-        "strategy": "official-page-embedded-image-v3",
-        "resolvedLabel": " ",
-        "resolvedHost": "www.baoviet.com.vn",
-        "resolvedFromOfficialPage": true,
-        "resolvedOn": "2026-09-28",
-        "candidateScore": 5,
-        "sourcePageKeywordHits": 4,
-        "entropy": 0.7745,
-        "qualityBreakdown": {
-          "identityAccuracy": 2,
-          "economicRelevance": 2,
-          "sourceAuthority": 2,
-          "visualQuality": 1,
-          "recencyNonMisleading": 2
-        }
+        ]
       },
-      "qualityScore": 9,
+      "fallbackSourceUrls": [],
+      "qualityScore": null,
       "alt": "Hình ảnh nhận diện doanh nghiệp của Bao Viet Holdings (BVH) từ nguồn chính thức",
       "caption": "Bao Viet Holdings — nhận diện doanh nghiệp",
       "kind": "company-asset",
@@ -732,26 +742,20 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "BVH: normalized WebP 4168 bytes dưới CIVS publish floor 10001 bytes; giữ report-cover fallback."
+      "lastFailure": "BVH: source page không có image candidate."
     },
     "BVS": {
       "ticker": "BVS",
       "sector": "Chứng khoán",
       "subject": "Bao Viet Securities JSC — nhận diện doanh nghiệp",
       "sourceUrl": "https://www.bvsc.com.vn/",
-      "sourceImageUrl": "",
+      "sourceImageUrl": "https://www.bvsc.com.vn/media/qxzkdks0/bannerr-web.png",
       "sourceLabel": "Bao Viet Securities JSC — website chính thức",
       "officialDomain": "bvsc.com.vn",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "B",
       "identityType": "securities-corporate",
-      "keywords": [
-        "BVSC",
-        "chứng khoán",
-        "trụ sở",
-        "văn phòng"
-      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -759,18 +763,41 @@ window.COMPANY_VISUALS = {
           "chứng khoán",
           "trụ sở",
           "văn phòng"
-        ]
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "Image 45: trang chu banner",
+        "resolvedHost": "www.bvsc.com.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 8,
+        "sourcePageKeywordHits": 2,
+        "entropy": 0.4421,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
-      "qualityScore": null,
+      "qualityScore": 10,
       "alt": "Hình ảnh nhận diện doanh nghiệp của Bao Viet Securities JSC (BVS) từ nguồn chính thức",
       "caption": "Bao Viet Securities JSC — nhận diện doanh nghiệp",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "BVS: không tải được source page chính thức. https://www.bvsc.com.vn/: CIVS page discovery exhausted: https://www.bvsc.com.vn/: HTML quá ngắn (189) | https://bvsc.com.vn/: HTML quá ngắn (191) | reader: Reader output quá ngắn (171); curl=HTML quá ngắn (189)"
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/bvs.webp?v=78c4be094077",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 3168,
+      "sourceHeight": 1344,
+      "sha256": "78c4be09407793f7069ef8e680287870e5efec500237272159b616287a2df150",
+      "bytes": 62726,
+      "sourceBytes": 3250757,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "CEO": {
       "ticker": "CEO",
@@ -1017,7 +1044,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "CTG: source page không có image candidate."
+      "lastFailure": "CTG: không tải được source page chính thức. https://www.vietinbank.vn/vi/ve-chung-toi/thong-tin-chung: CIVS page discovery exhausted: https://www.vietinbank.vn/vi/ve-chung-toi/thong-tin-chung: HTTP 405 | https://vietinbank.vn/vi/ve-chung-toi/thong-tin-chung: HTTP 405 | reader: Re"
     },
     "CTR": {
       "ticker": "CTR",
@@ -1057,7 +1084,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "CTR: không có ảnh >=640x360 đạt Quality Gate. https://viettelconstruction.com.vn/wp-content/uploads.bak/2020/03/service1.png: CTR: ảnh https://viettelconstruction.com.vn/wp-content/uploads.bak/2020/03/service1.png không tải được; fetch=fetch failed; curl=curl: (28) Failed to conn"
+      "lastFailure": "CTR: không có ảnh >=640x360 đạt Quality Gate. "
     },
     "D2D": {
       "ticker": "D2D",
@@ -1097,7 +1124,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "D2D: không có ảnh >=640x360 đạt Quality Gate. "
+      "lastFailure": "D2D: không tải được source page chính thức. https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2: CIVS page discovery exhausted: https://www.d2d.com.vn/du-an-da-hoan-thanh/du-an-khu-cong-nghiep-nhon-trach-2: HTTP 500 | https://d2d.com.vn/du-an-da-hoan-tha"
     },
     "DCM": {
       "ticker": "DCM",
@@ -1696,7 +1723,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "GEE: không có ảnh >=640x360 đạt Quality Gate. https://gelex-electric.com/wp-content/uploads/2026/08/THIBIDI-1.webp: GEE: ảnh https://gelex-electric.com/wp-content/uploads/2026/08/THIBIDI-1.webp không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: unable to"
+      "lastFailure": "GEE: không có ảnh >=640x360 đạt Quality Gate. https://gelexindustries.com/wp-content/uploads/2026/08/THIBIDI-1.webp: GEE: ảnh https://gelexindustries.com/wp-content/uploads/2026/08/THIBIDI-1.webp không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate OpenSSL verify r"
     },
     "GEL": {
       "ticker": "GEL",
@@ -1736,7 +1763,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "GEL: không có ảnh >=640x360 đạt Quality Gate. https://gelex-infra.vn/wp-content/uploads/2025/09/Ha-tang-tien-ich.webp: GEL: ảnh https://gelex-infra.vn/wp-content/uploads/2025/09/Ha-tang-tien-ich.webp không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: una"
+      "lastFailure": "GEL: không có ảnh >=640x360 đạt Quality Gate. https://gelex-infra.vn/wp-content/uploads/2025/09/Ha-tang-tien-ich.webp: GEL: ảnh https://gelex-infra.vn/wp-content/uploads/2025/09/Ha-tang-tien-ich.webp không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate OpenSSL veri"
     },
     "GEX": {
       "ticker": "GEX",
@@ -2026,7 +2053,7 @@ window.COMPANY_VISUALS = {
         "resolvedLabel": "background image",
         "resolvedHost": "hdbank.com.vn",
         "resolvedFromOfficialPage": true,
-        "resolvedOn": "2026-09-28",
+        "resolvedOn": "2026-11-17",
         "candidateScore": 7,
         "sourcePageKeywordHits": 3,
         "entropy": 0.6955,
@@ -2164,20 +2191,13 @@ window.COMPANY_VISUALS = {
       "sector": "Giấy & vật liệu",
       "subject": "Hai Phong Hoang Ha Paper JSC — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://hhpglobaljsc.com/",
-      "sourceImageUrl": "",
+      "sourceImageUrl": "https://hhpglobaljsc.com/wp-content/uploads/2023/11/block-bg-1.png",
       "sourceLabel": "Hai Phong Hoang Ha Paper JSC — website chính thức",
       "officialDomain": "hhpglobaljsc.com",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "paper-production",
-      "keywords": [
-        "nhà máy giấy",
-        "paper",
-        "kraftliner",
-        "testliner",
-        "dây chuyền"
-      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -2186,18 +2206,41 @@ window.COMPANY_VISUALS = {
           "kraftliner",
           "testliner",
           "dây chuyền"
-        ]
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "promo-banner-image",
+        "resolvedHost": "hhpglobaljsc.com",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 5,
+        "sourcePageKeywordHits": 3,
+        "entropy": 0.9808,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 1,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
-      "qualityScore": null,
+      "qualityScore": 9,
       "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Hai Phong Hoang Ha Paper JSC (HHP) từ nguồn chính thức",
       "caption": "Hai Phong Hoang Ha Paper JSC — hoạt động/tài sản cốt lõi",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "HHP: không có ảnh >=640x360 đạt Quality Gate. https://hhpglobaljsc.com/wp-content/uploads/2023/11/block-bg-1.png: HHP: ảnh https://hhpglobaljsc.com/wp-content/uploads/2023/11/block-bg-1.png không tải được; fetch=fetch failed; curl=curl: (28) Failed to connect to hhpglobaljsc.com "
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/hhp.webp?v=bc76b6ba599f",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1200,
+      "sourceHeight": 439,
+      "sha256": "bc76b6ba599f507b277dd73f5aee8c90ecbf1db74b5397f7d44a8bfc7d320986",
+      "bytes": 76552,
+      "sourceBytes": 433312,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "HHS": {
       "ticker": "HHS",
@@ -2428,19 +2471,13 @@ window.COMPANY_VISUALS = {
       "sector": "Bất động sản",
       "subject": "Song Hong Construction Joint Stock Company — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://incomex.com.vn/",
-      "sourceImageUrl": "",
+      "sourceImageUrl": "https://incomex.com.vn/wp-content/uploads/2025/08/19.-mat-truoc1_xong.jpg",
       "sourceLabel": "Song Hong Construction Joint Stock Company — website chính thức",
       "officialDomain": "incomex.com.vn",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "construction-real-estate",
-      "keywords": [
-        "dự án",
-        "xây dựng",
-        "công trình",
-        "Incomex"
-      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -2448,18 +2485,41 @@ window.COMPANY_VISUALS = {
           "xây dựng",
           "công trình",
           "Incomex"
-        ]
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "Northern Emerald",
+        "resolvedHost": "incomex.com.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 10,
+        "sourcePageKeywordHits": 4,
+        "entropy": 0.8923,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
-      "qualityScore": null,
+      "qualityScore": 10,
       "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Song Hong Construction Joint Stock Company (ICG) từ nguồn chính thức",
       "caption": "Song Hong Construction Joint Stock Company — hoạt động/tài sản cốt lõi",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "ICG: không tải được source page chính thức. https://incomex.com.vn/: CIVS page discovery exhausted: https://incomex.com.vn/: HTTP 500 | https://www.incomex.com.vn/: HTTP 500 | reader: Reader output quá ngắn (303); curl=curl: (22) The requested URL returned error: 500\ncurl: (22) T"
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/icg.webp?v=55f2ea8bd5cd",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 2160,
+      "sourceHeight": 1440,
+      "sha256": "55f2ea8bd5cdb0b4926a5b61ed44a7365402f0e253bea689eb9c7acbce1d3c63",
+      "bytes": 107358,
+      "sourceBytes": 582230,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "IDC": {
       "ticker": "IDC",
@@ -2705,9 +2765,9 @@ window.COMPANY_VISUALS = {
         "resolvedLabel": "QR_deeplink _APP_Plus1",
         "resolvedHost": "lpbank.com.vn",
         "resolvedFromOfficialPage": true,
-        "resolvedOn": "2026-09-28",
+        "resolvedOn": "2026-11-17",
         "candidateScore": 8,
-        "sourcePageKeywordHits": 2,
+        "sourcePageKeywordHits": 3,
         "entropy": 0.2703,
         "qualityBreakdown": {
           "identityAccuracy": 2,
@@ -3066,7 +3126,7 @@ window.COMPANY_VISUALS = {
     },
     "NKG": {
       "ticker": "NKG",
-      "sector": "Công nghiệp",
+      "sector": "Thép & sản phẩm thép",
       "subject": "Nam Kim Steel Joint Stock Company — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://namkimsteel.com/",
       "sourceImageUrl": "",
@@ -3102,7 +3162,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "NKG: không tải được source page chính thức. https://namkimsteel.com/: CIVS page discovery exhausted: https://namkimsteel.com/: This operation was aborted | https://www.namkimsteel.com/: This operation was aborted | reader: Reader HTTP 422; curl=curl: (28) Failed to connect to nam"
+      "lastFailure": "NKG: không tải được source page chính thức. https://namkimsteel.com/: CIVS page discovery exhausted: https://namkimsteel.com/: fetch failed | https://www.namkimsteel.com/: This operation was aborted | reader: Reader HTTP 422; curl=curl: (28) Connection timed out after 8001 millis"
     },
     "NLG": {
       "ticker": "NLG",
@@ -3196,7 +3256,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "NTC: không tải được source page chính thức. https://namtanuyen.com.vn/: CIVS page discovery exhausted: https://namtanuyen.com.vn/: fetch failed | https://www.namtanuyen.com.vn/: fetch failed | reader: Reader output quá ngắn (283); curl=curl: (60) SSL certificate problem: unable t"
+      "lastFailure": "NTC: không có ảnh >=640x360 đạt Quality Gate. https://api.namtanuyen.com.vn//Upload/Post/cb64d3e1-0429-4249-880d-1394ca279e03/20260817084806218_image1.jpeg: NTC: ảnh https://api.namtanuyen.com.vn//Upload/Post/cb64d3e1-0429-4249-880d-1394ca279e03/20260817084806218_image1.jpeg khôn"
     },
     "NVL": {
       "ticker": "NVL",
@@ -4099,7 +4159,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "PVP: không có ảnh >=640x360 đạt Quality Gate. https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png: PVP: ảnh https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: unable to get local"
+      "lastFailure": "PVP: không có ảnh >=640x360 đạt Quality Gate. https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png: PVP: ảnh https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate OpenSSL verify result: unabl"
     },
     "PVS": {
       "ticker": "PVS",
@@ -4193,7 +4253,7 @@ window.COMPANY_VISUALS = {
       "cropGravity": "center",
       "verified": false,
       "pending": true,
-      "lastFailure": "PVT: không có ảnh >=640x360 đạt Quality Gate. https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png: PVT: ảnh https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate problem: unable to get local"
+      "lastFailure": "PVT: không có ảnh >=640x360 đạt Quality Gate. https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png: PVT: ảnh https://www.pvtrans.com/sg_pvtrans_web/static/src/img/en_US.png không tải được; fetch=fetch failed; curl=curl: (60) SSL certificate OpenSSL verify result: unabl"
     },
     "REE": {
       "ticker": "REE",
@@ -6023,20 +6083,13 @@ window.COMPANY_VISUALS = {
       "sector": "Du lịch",
       "subject": "Vinpearl Joint Stock Company — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://vinpearl.com/vi/about-us",
-      "sourceImageUrl": "",
+      "sourceImageUrl": "https://statics.vinpearl.com/vinholidays-fiesta-phu-quoc_1681207870_1692195923.jpg",
       "sourceLabel": "Vinpearl Joint Stock Company — website chính thức",
       "officialDomain": "vinpearl.com",
       "allowedImageHosts": [],
       "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "hospitality-assets",
-      "keywords": [
-        "resort",
-        "hotel",
-        "Vinpearl",
-        "Nha Trang",
-        "Phú Quốc"
-      ],
       "sourceDiscovery": {
         "type": "hero-auto",
         "keywords": [
@@ -6045,18 +6098,41 @@ window.COMPANY_VISUALS = {
           "Vinpearl",
           "Nha Trang",
           "Phú Quốc"
-        ]
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "Image 45",
+        "resolvedHost": "statics.vinpearl.com",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 12,
+        "sourcePageKeywordHits": 5,
+        "entropy": 0.9001,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "fallbackSourceUrls": [],
-      "qualityScore": null,
+      "qualityScore": 10,
       "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Vinpearl Joint Stock Company (VPL) từ nguồn chính thức",
       "caption": "Vinpearl Joint Stock Company — hoạt động/tài sản cốt lõi",
       "kind": "company-asset",
       "objectPosition": "center center",
       "cropGravity": "center",
-      "verified": false,
-      "pending": true,
-      "lastFailure": "VPL: không tải được source page chính thức. https://vinpearl.com/vi/about-us: CIVS page discovery exhausted: https://vinpearl.com/vi/about-us: HTTP 403 | https://www.vinpearl.com/vi/about-us: HTTP 403 | reader: Reader output quá ngắn (268); curl=curl: (22) The requested URL retur"
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/vpl.webp?v=0fda282d67ab",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1920,
+      "sourceHeight": 1080,
+      "sha256": "0fda282d67abb0bf97433d72d3ff28e07cd1a6cb3abcd007c80e57d6d0d587dd",
+      "bytes": 121346,
+      "sourceBytes": 399209,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "VPX": {
       "ticker": "VPX",
@@ -6420,16 +6496,16 @@ window.COMPANY_VISUALS = {
     },
     "DCL": {
       "ticker": "DCL",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "DCL — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Dược phẩm",
+      "subject": "Cuu Long Pharmaceutical JSC — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://pharimexco.com.vn/",
-      "sourceLabel": "DCL — nguồn chính thức",
+      "sourceImageUrl": "",
+      "sourceLabel": "Cuu Long Pharmaceutical JSC — website chính thức",
       "officialDomain": "pharimexco.com.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "pharmaceutical-manufacturing",
-      "allowedImageHosts": [],
       "keywords": [
         "Dược phẩm Cửu Long",
         "Pharimexco",
@@ -6438,24 +6514,38 @@ window.COMPANY_VISUALS = {
         "medical devices"
       ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "Dược phẩm Cửu Long",
+          "Pharimexco",
+          "nhà máy dược phẩm",
+          "viên nang",
+          "medical devices"
+        ]
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "fallbackSourceUrls": [],
+      "qualityScore": null,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Cuu Long Pharmaceutical JSC (DCL) từ nguồn chính thức",
+      "caption": "Cuu Long Pharmaceutical JSC — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": false,
+      "pending": true,
+      "lastFailure": "DCL: không tải được source page chính thức. https://pharimexco.com.vn/: CIVS page discovery exhausted: https://pharimexco.com.vn/: fetch failed | https://www.pharimexco.com.vn/: This operation was aborted | reader: Reader HTTP 422; curl=curl: (28) Connection timed out after 8002 "
     },
     "KSV": {
       "ticker": "KSV",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "KSV — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Khai khoáng & hàng hóa",
+      "subject": "Vinacomin - Minerals Holding Corporation — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://vimico.vn/",
-      "sourceLabel": "KSV — nguồn chính thức",
+      "sourceImageUrl": "",
+      "sourceLabel": "Vinacomin - Minerals Holding Corporation — website chính thức",
       "officialDomain": "vimico.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "mining-metallurgy",
-      "allowedImageHosts": [],
       "keywords": [
         "VIMICO",
         "khai khoáng",
@@ -6464,142 +6554,364 @@ window.COMPANY_VISUALS = {
         "luyện kim"
       ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "VIMICO",
+          "khai khoáng",
+          "Sin Quyền",
+          "đồng",
+          "luyện kim"
+        ]
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "fallbackSourceUrls": [],
+      "qualityScore": null,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Vinacomin - Minerals Holding Corporation (KSV) từ nguồn chính thức",
+      "caption": "Vinacomin - Minerals Holding Corporation — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": false,
+      "pending": true,
+      "lastFailure": "KSV: không có ảnh >=640x360 đạt Quality Gate. "
     },
     "VTO": {
       "ticker": "VTO",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "VTO — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Vận tải biển xăng dầu",
+      "subject": "Vietnam Tanker Joint Stock Company — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://vitaco.petrolimex.com.vn/",
-      "sourceLabel": "VTO — nguồn chính thức",
+      "sourceImageUrl": "https://files.petrolimex.com.vn/thumbnailwebps/8fb3004feb6e476ab3d74cd47d96c59b/0/0/0/50085e1819c34af8837b90e356ba16dc/0/2024/8402706081704/to-chuc-thanh-cong-dai-hoi-dong-co-dong-thuong-nien-nam-2024.webp",
+      "sourceLabel": "Vietnam Tanker Joint Stock Company — website chính thức",
       "officialDomain": "vitaco.petrolimex.com.vn",
+      "allowedImageHosts": [
+        "files.petrolimex.com.vn"
+      ],
+      "embeddedImageHostVerified": true,
       "sourceTier": "A",
       "identityType": "shipping-fleet",
-      "allowedImageHosts": [],
-      "keywords": [
-        "VITACO",
-        "tàu",
-        "vessel",
-        "fleet",
-        "vận tải xăng dầu"
-      ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "VITACO",
+          "tàu",
+          "vessel",
+          "fleet",
+          "vận tải xăng dầu"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": " ",
+        "resolvedHost": "files.petrolimex.com.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 2,
+        "sourcePageKeywordHits": 2,
+        "entropy": 0.8128,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "qualityScore": 10,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Vietnam Tanker Joint Stock Company (VTO) từ nguồn chính thức",
+      "caption": "Vietnam Tanker Joint Stock Company — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/vto.webp?v=a9acb3208206",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1920,
+      "sourceHeight": 1440,
+      "sha256": "a9acb3208206cbe92e5db030956d3411c660eb5f9842bee3aaa294bfe6634926",
+      "bytes": 76602,
+      "sourceBytes": 166980,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "ABB": {
       "ticker": "ABB",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "ABB — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Ngân hàng",
+      "subject": "An Binh Commercial Joint Stock Bank — nhận diện doanh nghiệp",
       "sourceUrl": "https://www.abbank.vn/",
-      "sourceLabel": "ABB — nguồn chính thức",
+      "sourceImageUrl": "https://www.abbank.vn/uploads/images/2026/09/05/website-ag-1440x635-6a9b5bb43b1ac.jpg",
+      "sourceLabel": "An Binh Commercial Joint Stock Bank — website chính thức",
       "officialDomain": "abbank.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "B",
       "identityType": "corporate-banking",
-      "allowedImageHosts": [],
-      "keywords": [
-        "ABBank",
-        "ngân hàng",
-        "chi nhánh",
-        "trụ sở",
-        "bank"
-      ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "ABBank",
+          "ngân hàng",
+          "chi nhánh",
+          "trụ sở",
+          "bank"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "Giải pháp Tích lũy An Gia",
+        "resolvedHost": "www.abbank.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 8,
+        "sourcePageKeywordHits": 4,
+        "entropy": 0.6847,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "qualityScore": 10,
+      "alt": "Hình ảnh nhận diện doanh nghiệp của An Binh Commercial Joint Stock Bank (ABB) từ nguồn chính thức",
+      "caption": "An Binh Commercial Joint Stock Bank — nhận diện doanh nghiệp",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/abb.webp?v=72d5a547fbae",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 6000,
+      "sourceHeight": 2646,
+      "sha256": "72d5a547fbae5f2b24dd5a951919452f3dc51a4f95f360481f7875c8e5194a80",
+      "bytes": 48588,
+      "sourceBytes": 1354026,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "G36": {
       "ticker": "G36",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "G36 — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Xây dựng - hạ tầng",
+      "subject": "36 Corp. — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://36corp.com/",
-      "sourceLabel": "G36 — nguồn chính thức",
+      "sourceImageUrl": "https://36corp.com/wp-content/uploads/2024/10/thap-khong-luu-san-bay-long-thanh11-09532382-sao-ch%C3%A9p.jpg",
+      "sourceLabel": "36 Corp. — website chính thức",
       "officialDomain": "36corp.com",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "construction-infrastructure",
-      "allowedImageHosts": [],
-      "keywords": [
-        "Tổng Công ty 36",
-        "36corp",
-        "xây dựng",
-        "hạ tầng",
-        "công trình"
-      ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "Tổng Công ty 36",
+          "36corp",
+          "xây dựng",
+          "hạ tầng",
+          "công trình"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "default",
+        "resolvedHost": "36corp.com",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 8,
+        "sourcePageKeywordHits": 5,
+        "entropy": 0.9299,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "qualityScore": 10,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của 36 Corp. (G36) từ nguồn chính thức",
+      "caption": "36 Corp. — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/g36.webp?v=21b5ef6a1b15",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1920,
+      "sourceHeight": 1440,
+      "sha256": "21b5ef6a1b1550a744f68f9c45472b1424ab43b27aaefd1ec46aae079ea1a64d",
+      "bytes": 162340,
+      "sourceBytes": 1948688,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "KOS": {
       "ticker": "KOS",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "KOS — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Bất động sản",
+      "subject": "Kosy JSC — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://kosy.vn/gioi-thieu/",
-      "sourceLabel": "KOS — nguồn chính thức",
+      "sourceImageUrl": "https://kosy.vn/wp-content/uploads/2021/08/banner.jpg",
+      "sourceLabel": "Kosy JSC — website chính thức",
       "officialDomain": "kosy.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "energy-real-estate-assets",
-      "allowedImageHosts": [],
-      "keywords": [
-        "Kosy",
-        "bất động sản",
-        "dự án",
-        "thủy điện",
-        "năng lượng"
-      ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "Kosy",
+          "bất động sản",
+          "dự án",
+          "thủy điện",
+          "năng lượng"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "og:image",
+        "resolvedHost": "kosy.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 9,
+        "sourcePageKeywordHits": 5,
+        "entropy": 0.8281,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 1
+        }
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "qualityScore": 9,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Kosy JSC (KOS) từ nguồn chính thức",
+      "caption": "Kosy JSC — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/kos.webp?v=cc50851c3a96",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1439,
+      "sourceHeight": 720,
+      "sha256": "cc50851c3a962780c567121c05ef504120777494b446f6bd6628102971b24f0c",
+      "bytes": 39874,
+      "sourceBytes": 879835,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     },
     "TIG": {
       "ticker": "TIG",
-      "kind": "company-asset",
-      "verified": false,
-      "pending": true,
-      "subject": "TIG — hình ảnh doanh nghiệp chờ xác minh",
+      "sector": "Bất động sản",
+      "subject": "Thang Long Investment Group — hoạt động/tài sản cốt lõi",
       "sourceUrl": "https://tig.vn/vi/du-an.spp",
-      "sourceLabel": "TIG — nguồn chính thức",
+      "sourceImageUrl": "https://tig.vn/files/ccdc57be7de857107c804351f4e78a24/du-an.jpg",
+      "sourceLabel": "Thang Long Investment Group — website chính thức",
       "officialDomain": "tig.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
       "sourceTier": "A",
       "identityType": "real-estate-projects",
-      "allowedImageHosts": [],
-      "keywords": [
-        "TIG",
-        "dự án",
-        "bất động sản",
-        "Vườn Vua",
-        "TIG Tower",
-        "khu nhà ở"
-      ],
       "sourceDiscovery": {
-        "type": "registry-pending",
-        "strategy": "candidate-registry-v1",
-        "resolvedFromOfficialPage": false
+        "type": "hero-auto",
+        "keywords": [
+          "TIG",
+          "dự án",
+          "bất động sản",
+          "Vườn Vua",
+          "TIG Tower",
+          "khu nhà ở"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": " ",
+        "resolvedHost": "tig.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 8,
+        "sourcePageKeywordHits": 6,
+        "entropy": 0.972,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 1
+        }
       },
-      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
+      "qualityScore": 9,
+      "alt": "Hình ảnh hoạt động/tài sản cốt lõi của Thang Long Investment Group (TIG) từ nguồn chính thức",
+      "caption": "Thang Long Investment Group — hoạt động/tài sản cốt lõi",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/tig.webp?v=a5604c751306",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 2560,
+      "sourceHeight": 762,
+      "sha256": "a5604c751306674ba98839e86ea71d7070d15cc63433c8720932872fc3646982",
+      "bytes": 176644,
+      "sourceBytes": 544494,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
+    },
+    "NAB": {
+      "ticker": "NAB",
+      "sector": "Ngân hàng",
+      "subject": "Nam A Commercial Joint Stock Bank — nhận diện doanh nghiệp",
+      "sourceUrl": "https://www.namabank.com.vn/",
+      "sourceImageUrl": "https://www.namabank.com.vn/Data/Sites/1/News/7015/nab_1920x1080.png",
+      "sourceLabel": "Nam A Commercial Joint Stock Bank — website chính thức",
+      "officialDomain": "namabank.com.vn",
+      "allowedImageHosts": [],
+      "embeddedImageHostVerified": false,
+      "sourceTier": "B",
+      "identityType": "corporate-banking",
+      "sourceDiscovery": {
+        "type": "hero-auto",
+        "keywords": [
+          "Nam A Bank",
+          "NAB",
+          "ngân hàng",
+          "chi nhánh",
+          "trụ sở"
+        ],
+        "strategy": "official-page-embedded-image-v3",
+        "resolvedLabel": "ĐẶT GRAB BAO LA ƯU ĐÃI KHI LIÊN KẾT THẺ NAM A BANK",
+        "resolvedHost": "www.namabank.com.vn",
+        "resolvedFromOfficialPage": true,
+        "resolvedOn": "2026-11-17",
+        "candidateScore": 10,
+        "sourcePageKeywordHits": 3,
+        "entropy": 0.4269,
+        "qualityBreakdown": {
+          "identityAccuracy": 2,
+          "economicRelevance": 2,
+          "sourceAuthority": 2,
+          "visualQuality": 2,
+          "recencyNonMisleading": 2
+        }
+      },
+      "qualityScore": 10,
+      "alt": "Hình ảnh nhận diện doanh nghiệp của Nam A Commercial Joint Stock Bank (NAB) từ nguồn chính thức",
+      "caption": "Nam A Commercial Joint Stock Bank — nhận diện doanh nghiệp",
+      "kind": "company-asset",
+      "objectPosition": "center center",
+      "cropGravity": "center",
+      "verified": true,
+      "pending": false,
+      "src": "assets/images/company-visuals/nab.webp?v=467544eaaf0b",
+      "width": 960,
+      "height": 540,
+      "sourceWidth": 1920,
+      "sourceHeight": 1080,
+      "sha256": "467544eaaf0be17ea58fff394723a408c122e2da8e297ec7751ecdb54f514dd1",
+      "bytes": 93318,
+      "sourceBytes": 2863280,
+      "syncedOn": "2026-11-17",
+      "verifiedOn": "2026-11-17"
     }
   }
 };

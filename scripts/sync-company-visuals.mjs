@@ -10,7 +10,7 @@ import "./sync-company-visuals-core.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
-const EXPECTED = 127;
+const EXPECTED = 135;
 const deadline = Date.now() + 25 * 60 * 1000;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];

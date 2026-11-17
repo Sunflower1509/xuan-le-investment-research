@@ -1,9 +1,9 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 134,
-    "candidateCount": 125,
-    "updated": "2026-11-11",
+    "coverageTarget": 135,
+    "candidateCount": 126,
+    "updated": "2026-11-17",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
@@ -798,6 +798,20 @@
         "Bách Hóa Xanh",
         "cửa hàng",
         "store"
+      ]
+    },
+    {
+      "ticker": "NAB",
+      "sourceUrl": "https://www.namabank.com.vn/",
+      "officialDomain": "namabank.com.vn",
+      "sourceTier": "B",
+      "identityType": "corporate-banking",
+      "keywords": [
+        "Nam A Bank",
+        "NAB",
+        "ngân hàng",
+        "chi nhánh",
+        "trụ sở"
       ]
     },
     {

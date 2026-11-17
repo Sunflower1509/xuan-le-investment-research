@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 134,
+    "count": 135,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -731,6 +731,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=MWG&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "c6f6439cfa1ef4dc4c94aefdfe58ad92175bc33c551af8497039bf720e054dad",
       "bytes": 449
+    },
+    "NAB": {
+      "path": "assets/images/logos/nab.svg?v=20260916-logo3",
+      "alt": "Logo Nam A Commercial Joint Stock Bank (NAB)",
+      "exchange": "HOSE",
+      "isin": "VN000000NAB5",
+      "company": "Nam A Commercial Joint Stock Bank",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/nam-a-commercial-joint-stock-bank--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=NAB&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "80251cbdf9fc440d036d52de9c1c6d2b56c36984da69c6595038817bda06489e",
+      "bytes": 1047
     },
     "NKG": {
       "path": "assets/images/logos/nkg.svg?v=20260916-logo3",

@@ -60,6 +60,86 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "VHM-20261117",
+      "ticker": "VHM",
+      "company": "Công ty Cổ phần Vinhomes",
+      "sector": "Bất động sản",
+      "exchange": "HOSE",
+      "date": "2026-11-17",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 62500,
+      "marketPriceDate": "2026-11-16",
+      "baseValue": 70048,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 59679,
+      "rangeHigh": 78509,
+      "gapLabel": "P0 62.500 đồng/cp thấp hơn GTKV 70.048 đồng/cp khoảng 10,8%, nhưng Cổng dữ liệu KHÔNG ĐẠT và chưa đủ bộ lọc kỹ thuật; trạng thái giao dịch 1-3 tuần CHỜ.",
+      "method": "PP-09 RNAV có điều kiện 100%; PP-16 P/B và PP-18 trọng số 0%",
+      "summary": "VHM có dải kịch bản RNAV 59.679-78.509 đồng/cp và GTKV 70.048 đồng/cp, dựa trên bảng RNAV của Guotai Haitong nên độ tin cậy THẤP. P0 62.500 đồng cao hơn MA20 nhưng dưới MA50; khối lượng và sức mạnh tương đối chưa được xác nhận đồng thời. Không xác lập vùng mua, stop, target hay R/R; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 70048,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-17",
+        "recommendation": "CHỜ - CHƯA ĐỦ XÁC NHẬN KỸ THUẬT",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=52.536 đồng/cp thì chỉ quan sát tích lũy khi dữ liệu RNAV được khóa, không mua chỉ vì chạm ngưỡng. Chỉ xét CÓ MUA khi giá đồng thời trên MA20/MA50, MA20 dốc lên, khối lượng >=1,5x TB20, sức mạnh tương đối vượt VN-Index, nền giá rõ, stop 3-7% và R/R >=2. Hiện chưa đạt nên tiếp tục CHỜ."
+      },
+      "file": "reports/VHM_2026-11-17.pdf",
+      "edition": "Bản định giá 17.11.2026",
+      "visual": {
+        "src": "assets/images/reports/vhm.webp?v=20261117-cover1",
+        "alt": "Trang bìa báo cáo định giá VHM ngày 17/11/2026",
+        "caption": "Bìa báo cáo định giá VHM",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VHM_2026-11-17.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "VIC-20261117",
+      "ticker": "VIC",
+      "company": "Tập đoàn Vingroup - Công ty CP",
+      "sector": "Đa ngành",
+      "exchange": "HOSE",
+      "date": "2026-11-17",
+      "recommendation": "TRÁNH / CHỜ",
+      "status": "reject",
+      "marketPrice": 248000,
+      "marketPriceDate": "2026-11-16",
+      "baseValue": 65215,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 34243,
+      "rangeHigh": 97765,
+      "gapLabel": "P0 248.000 đồng/cp cao hơn cận trên U 97.765 đồng/cp khoảng 153,7% và cao hơn GTKV 65.215 đồng/cp khoảng 280,3%; tín hiệu mô hình là TRÁNH có điều kiện, kỹ thuật vẫn CHỜ.",
+      "method": "PP-14 SOTP có điều kiện 100%; PP-15, PP-16 và PP-18 kiểm chứng trọng số 0%",
+      "summary": "Bản 17/11 thay thế kết luận cũ sau khi tách đúng cổ phần phổ thông VFS khỏi cổ phần ưu đãi VinFast Việt Nam. Dải giá trị có điều kiện là 34.243-97.765 đồng/cp, GTKV 65.215 đồng/cp; P0 248.000 đồng vượt xa U. Cổng dữ liệu vẫn KHÔNG ĐẠT và khối lượng 16/11 chỉ khoảng 0,93 lần bình quân 20 phiên, nên không có điểm CÓ MUA.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 65215,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-17",
+        "recommendation": "TRÁNH - KHÔNG MUA MỚI",
+        "eligibility": "veto",
+        "condition": "Khi P0 vẫn vượt U theo mô hình có điều kiện, không xác lập vùng mua mới. Chỉ tính lại toàn bộ PP-14 khi khóa được dữ liệu cổ phần ưu đãi và RNAV dự án. Khối lượng xác nhận dưới 1,5x TB20 hoặc R/R <2 thì tiếp tục CHỜ; không công bố stop/target thực thi khi trạng thái CÓ MUA chưa hợp lệ."
+      },
+      "file": "reports/VIC_2026-11-17.pdf",
+      "edition": "Bản thẩm định lại 17.11.2026",
+      "visual": {
+        "src": "assets/images/reports/vic.webp?v=20261117-cover1",
+        "alt": "Trang bìa báo cáo định giá VIC ngày 17/11/2026",
+        "caption": "Bìa báo cáo định giá VIC",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/VIC_2026-11-17.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "GMD-20261116",
       "ticker": "GMD",
       "company": "Gemadept Corporation",
@@ -136,6 +216,46 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá POW",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/POW_2026-11-16.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
+      "id": "NAB-20261112",
+      "ticker": "NAB",
+      "company": "Ngân hàng TMCP Nam Á",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "date": "2026-11-12",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 13000,
+      "marketPriceDate": "2026-11-12",
+      "baseValue": 14600,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 11700,
+      "rangeHigh": 17900,
+      "gapLabel": "P0 13.000 đồng/cp thấp hơn GTKV 14.600 đồng/cp khoảng 11%; tín hiệu định giá THEO DÕI nhưng độ tin cậy THẤP và R/R kiểm tra chỉ 0,39 nên giao dịch 1-3 tuần CHỜ.",
+      "method": "PP-06 thu nhập thặng dư 53,8% + PP-16 P/B ngân hàng 46,2%; PP-07 và PP-18 trọng số 0%",
+      "summary": "NAB có dải giá trị có điều kiện 11.700-17.900 đồng/cp và GTKV 14.600 đồng/cp. Hồ sơ còn bất đồng Beta/BVPS và đợt phát hành riêng lẻ 100 triệu cổ phiếu giá 13.200 đồng chưa hoàn tất. Tại P0 13.000 đồng, vùng kháng cự gần 13.100-13.350/13.400 khiến phép thử R/R chỉ 0,39; trạng thái 1-3 tuần là CHỜ.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14600,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-12",
+        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=10.900 đồng/cp thì chỉ theo dõi tích lũy theo định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ xét CÓ MUA khi kỹ thuật xác nhận, stop 3-7% và R/R >=2. Phép thử tại 13.000 đồng với stop minh họa 12.100 và mục tiêu gần 13.350 chỉ cho R/R 0,39 nên hiện tiếp tục CHỜ."
+      },
+      "file": "reports/NAB_2026-11-12.pdf",
+      "edition": "Bản định giá 12.11.2026",
+      "visual": {
+        "src": "assets/images/reports/nab.webp?v=20261112-cover1",
+        "alt": "Trang bìa báo cáo định giá NAB ngày 12/11/2026",
+        "caption": "Bìa báo cáo định giá NAB",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/NAB_2026-11-12.pdf",
         "kind": "report-cover"
       }
     },
@@ -869,46 +989,6 @@ window.RESEARCH_DATA = {
       }
     },
     {
-      "id": "VHM-20261003",
-      "ticker": "VHM",
-      "company": "Công ty Cổ phần Vinhomes",
-      "sector": "Bất động sản",
-      "exchange": "HOSE",
-      "date": "2026-10-03",
-      "recommendation": "THEO DÕI / CHỜ",
-      "status": "wait",
-      "marketPrice": 67900,
-      "marketPriceDate": "2026-10-02",
-      "baseValue": 72536,
-      "valueLabel": "Giá trị hợp lý tổng hợp",
-      "rangeLow": 54143,
-      "rangeHigh": 90928,
-      "gapLabel": "P0 67.900 đồng/cp thấp hơn GTKV 72.536 đồng/cp khoảng 6,4% nhưng biên an toàn chưa đủ rộng; tín hiệu định giá là THEO DÕI.",
-      "method": "PP-09 RNAV 63,6% + PP-16 P/B lịch sử 36,4%; PP-18 reverse DCF trọng số 0",
-      "summary": "VHM có GTKV tổng hợp 72.536 đồng/cp và dải hợp lý 54.143-90.928 đồng/cp. Giá dưới MA20/MA50 và R/R tới kháng cự gần nhất dưới 2; trạng thái giao dịch 1-3 tuần là CHỜ.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 72536,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-10-03",
-        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
-        "eligibility": "inactive",
-        "condition": "67.500-68.200 chỉ là vùng quan sát chưa kích hoạt. Stop tham chiếu 65.900 và target 69.100/70.000 cho R/R chỉ khoảng 0,39/0,78. Chỉ IF vượt MA20 và MA50, MA20 dốc lên, KL >=1,5x TB20 và có vùng vào mới với stop 3-7%, R/R >=2 THEN mới đánh giá CÓ MUA. IF thủng 65.900 với cấu trúc xấu THEN không bắt đáy."
-      },
-      "file": "reports/VHM_2026-10-03.pdf",
-      "edition": "Bản định giá 03.10.2026",
-      "visual": {
-        "src": "assets/images/reports/vhm.webp?v=20261003-cover1",
-        "alt": "Trang bìa báo cáo định giá VHM ngày 03/10/2026",
-        "caption": "Bìa báo cáo định giá VHM",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VHM_2026-10-03.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
       "id": "BVH-20261002",
       "ticker": "BVH",
       "company": "Tập đoàn Bảo Việt",
@@ -1105,46 +1185,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá SSB",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/SSB_2026-10-02.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "VIC-20261002",
-      "ticker": "VIC",
-      "company": "Tập đoàn Vingroup - Công ty CP",
-      "sector": "Đa ngành",
-      "exchange": "HOSE",
-      "date": "2026-10-02",
-      "recommendation": "TRÁNH / LOẠI",
-      "status": "reject",
-      "marketPrice": 220000,
-      "marketPriceDate": "2026-10-01",
-      "baseValue": 82100,
-      "valueLabel": "Giá trị kỳ vọng",
-      "rangeLow": 56600,
-      "rangeHigh": 115700,
-      "gapLabel": "P0 của phiên hoàn tất gần nhất trong báo cáo là 220.000 đồng/cp, cao hơn cận trên 115.700 đồng/cp khoảng 90,2%; tín hiệu định giá là TRÁNH.",
-      "method": "PP-14 định giá theo từng mảng/SOTP là chính; PP-15 tài sản và PP-21 quyền chọn vốn chủ kiểm chứng/tham chiếu; PP-18 trọng số 0",
-      "summary": "VIC có vùng giá trị 56.600-115.700 đồng/cp và GTKV 82.100 đồng/cp. P0 trong báo cáo vượt xa cận trên, đồng thời đòn bẩy, khả năng trả lãi và FCF âm là cụm rủi ro trọng yếu; trạng thái 1-3 tuần là LOẠI.",
-      "action": {
-        "zoneLow": null,
-        "zoneHigh": null,
-        "baseValue": 82100,
-        "stop": null,
-        "targets": [],
-        "basisDate": "2026-10-02",
-        "recommendation": "LOẠI - KHÔNG MUA MỚI",
-        "eligibility": "veto",
-        "condition": "Không lập vùng mua, stoploss, mục tiêu hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH và cảnh báo tài chính ở mức CAO. Chỉ khi luận điểm/định giá được cập nhật và trạng thái chuyển sang CÓ MUA mới áp stop 3-7% và R/R >=2."
-      },
-      "file": "reports/VIC_2026-10-02.pdf",
-      "edition": "Bản định giá 02.10.2026",
-      "visual": {
-        "src": "assets/images/reports/vic.webp?v=20261002-cover1",
-        "alt": "Trang bìa báo cáo định giá VIC ngày 02/10/2026",
-        "caption": "Bìa báo cáo định giá VIC",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/VIC_2026-10-02.pdf",
         "kind": "report-cover"
       }
     },
@@ -7133,6 +7173,30 @@ window.RESEARCH_DATA = {
       }
     },
     {
+      "ticker": "NAB",
+      "company": "Ngân hàng TMCP Nam Á",
+      "sector": "Ngân hàng",
+      "exchange": "HOSE",
+      "reportId": "NAB-20261112",
+      "close": 12950,
+      "priceDate": "2026-11-16",
+      "changePct": -1.8939,
+      "volume": 2595000,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NAB~date:2026-11-16&size=10",
+      "priceSourceSecondary": "https://web.stockbiz.vn/Stocks/NAB/LookupQuote.aspx?Date=16%2F11%2F2026",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 14600,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-12",
+        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
+        "eligibility": "inactive",
+        "condition": "Nếu giá <=10.900 đồng/cp thì chỉ theo dõi tích lũy theo định giá, không tự động mua. Với giao dịch 1-3 tuần, chỉ xét CÓ MUA khi kỹ thuật xác nhận, stop 3-7% và R/R >=2. Phép thử tại 13.000 đồng với stop minh họa 12.100 và mục tiêu gần 13.350 chỉ cho R/R 0,39 nên hiện tiếp tục CHỜ."
+      }
+    },
+    {
       "ticker": "NKG",
       "company": "Công ty Cổ phần Thép Nam Kim",
       "sector": "Thép & sản phẩm thép",
@@ -8456,7 +8520,7 @@ window.RESEARCH_DATA = {
       "company": "Công ty Cổ phần Vinhomes",
       "sector": "Bất động sản",
       "exchange": "HOSE",
-      "reportId": "VHM-20261003",
+      "reportId": "VHM-20261117",
       "close": 62500,
       "priceDate": "2026-11-16",
       "changePct": 0.4823,
@@ -8466,13 +8530,13 @@ window.RESEARCH_DATA = {
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 72536,
+        "baseValue": 70048,
         "stop": null,
         "targets": [],
-        "basisDate": "2026-10-03",
-        "recommendation": "CHỜ - R/R CHƯA ĐẠT",
+        "basisDate": "2026-11-17",
+        "recommendation": "CHỜ - CHƯA ĐỦ XÁC NHẬN KỸ THUẬT",
         "eligibility": "inactive",
-        "condition": "67.500-68.200 chỉ là vùng quan sát chưa kích hoạt. Stop tham chiếu 65.900 và target 69.100/70.000 cho R/R chỉ khoảng 0,39/0,78. Chỉ IF vượt MA20 và MA50, MA20 dốc lên, KL >=1,5x TB20 và có vùng vào mới với stop 3-7%, R/R >=2 THEN mới đánh giá CÓ MUA. IF thủng 65.900 với cấu trúc xấu THEN không bắt đáy."
+        "condition": "Nếu giá <=52.536 đồng/cp thì chỉ quan sát tích lũy khi dữ liệu RNAV được khóa, không mua chỉ vì chạm ngưỡng. Chỉ xét CÓ MUA khi giá đồng thời trên MA20/MA50, MA20 dốc lên, khối lượng >=1,5x TB20, sức mạnh tương đối vượt VN-Index, nền giá rõ, stop 3-7% và R/R >=2. Hiện chưa đạt nên tiếp tục CHỜ."
       }
     },
     {
@@ -8507,7 +8571,7 @@ window.RESEARCH_DATA = {
       "company": "Tập đoàn Vingroup - Công ty CP",
       "sector": "Đa ngành",
       "exchange": "HOSE",
-      "reportId": "VIC-20261002",
+      "reportId": "VIC-20261117",
       "close": 248000,
       "priceDate": "2026-11-16",
       "changePct": 2.0576,
@@ -8517,13 +8581,13 @@ window.RESEARCH_DATA = {
       "action": {
         "zoneLow": null,
         "zoneHigh": null,
-        "baseValue": 82100,
+        "baseValue": 65215,
         "stop": null,
         "targets": [],
-        "basisDate": "2026-10-02",
-        "recommendation": "LOẠI - KHÔNG MUA MỚI",
+        "basisDate": "2026-11-17",
+        "recommendation": "TRÁNH - KHÔNG MUA MỚI",
         "eligibility": "veto",
-        "condition": "Không lập vùng mua, stoploss, mục tiêu hay R/R cho vị thế mới khi tín hiệu định giá còn TRÁNH và cảnh báo tài chính ở mức CAO. Chỉ khi luận điểm/định giá được cập nhật và trạng thái chuyển sang CÓ MUA mới áp stop 3-7% và R/R >=2."
+        "condition": "Khi P0 vẫn vượt U theo mô hình có điều kiện, không xác lập vùng mua mới. Chỉ tính lại toàn bộ PP-14 khi khóa được dữ liệu cổ phần ưu đãi và RNAV dự án. Khối lượng xác nhận dưới 1,5x TB20 hoặc R/R <2 thì tiếp tục CHỜ; không công bố stop/target thực thi khi trạng thái CÓ MUA chưa hợp lệ."
       }
     },
     {

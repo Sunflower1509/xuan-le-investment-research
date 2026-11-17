@@ -7,8 +7,8 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataPath = path.join(root, "src/data/company-visuals.js");
 const registryPath = path.join(root, "src/data/company-visual-candidates.json");
-const EXPECTED = 134;
-const REGISTRY_EXPECTED = 125;
+const EXPECTED = 135;
+const REGISTRY_EXPECTED = 126;
 const localPath = (value) => String(value || "").split(/[?#]/, 1)[0];
 
 const code = fs.readFileSync(dataPath, "utf8");

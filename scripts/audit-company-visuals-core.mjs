@@ -9,8 +9,8 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA = "verified-core-asset-webp-v1";
-const EXPECTED = 134;
-const REGISTRY_EXPECTED = 125;
+const EXPECTED = 135;
+const REGISTRY_EXPECTED = 126;
 const WIDTH = 960;
 const HEIGHT = 540;
 const MIN_SCORE = 8;
@@ -115,7 +115,7 @@ const run = () => {
   const coverageTickers = new Set(coverage.map((item) => String(item?.ticker || "").toUpperCase()));
   assert(coverageTickers.size === EXPECTED, "Coverage ticker bị trùng hoặc trống.");
   const logoMap = logos?.logos || {};
-  assert(Object.keys(logoMap).length === EXPECTED, "COMPANY_LOGOS không đủ 133.");
+  assert(Object.keys(logoMap).length === EXPECTED, `COMPANY_LOGOS không đủ ${EXPECTED}.`);
 
   const entries = Object.values(visuals?.visuals || {});
   assert(entries.length === EXPECTED, `CIVS candidate set phải có ${EXPECTED} mã sau sync, hiện ${entries.length}.`);
