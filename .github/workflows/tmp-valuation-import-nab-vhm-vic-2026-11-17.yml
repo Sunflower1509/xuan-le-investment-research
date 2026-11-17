@@ -346,6 +346,33 @@ jobs:
           console.log("CIVS_UNIVERSE_GUARD_UPDATED 135 coverage / 126 candidates + 9 baseline");
           NODE
 
+      - name: Add NAB to CIVS candidate registry and raise registry metadata to 135
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require("node:fs");
+          const p="src/data/company-visual-candidates.json";
+          const j=JSON.parse(fs.readFileSync(p,"utf8"));
+          if(j?.meta?.schema!=="civs-candidate-registry-v1"||!Array.isArray(j.candidates)) throw new Error("candidate registry schema invalid");
+          if(j.candidates.some(x=>x.ticker==="NAB")) throw new Error("NAB candidate unexpectedly exists on baseline");
+          j.candidates.push({
+            ticker:"NAB",
+            sourceUrl:"https://www.namabank.com.vn/",
+            officialDomain:"namabank.com.vn",
+            sourceTier:"B",
+            identityType:"corporate-banking",
+            keywords:["Nam A Bank","NAB","ngân hàng","chi nhánh","trụ sở"]
+          });
+          j.candidates.sort((a,b)=>String(a.ticker).localeCompare(String(b.ticker)));
+          j.meta.coverageTarget=135;
+          j.meta.candidateCount=126;
+          j.meta.updated="2026-11-17";
+          if(j.candidates.length!==126||new Set(j.candidates.map(x=>x.ticker)).size!==126) throw new Error("candidate registry 126 uniqueness invariant failed");
+          fs.writeFileSync(p,JSON.stringify(j,null,2)+"\n");
+          console.log("CIVS_CANDIDATE_REGISTRY_UPDATED",JSON.stringify({coverageTarget:j.meta.coverageTarget,candidateCount:j.meta.candidateCount,nab:j.candidates.find(x=>x.ticker==="NAB")}));
+          NODE
+
       - name: Rebuild report covers and synchronize supporting registries
         shell: bash
         run: |
