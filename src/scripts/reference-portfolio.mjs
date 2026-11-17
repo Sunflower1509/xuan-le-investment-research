@@ -1,6 +1,10 @@
 import { REFERENCE_PORTFOLIO } from "../data/reference-portfolio.mjs";
 import referenceExits from "../data/reference-portfolio-exits.json";
 import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
+import { INDIVIDUAL_RECOMMENDATIONS } from "../data/individual-recommendations.mjs";
+import individualExits from "../data/individual-recommendations-exits.json";
+import nt2Snapshot from "../data/individual-nt2-eod.json";
+import { buildIndividualRows } from "./individual-recommendations-core.mjs";
 
 // Read-only public dashboard: it never modifies Research action zones or Trade Ledger.
 (() => {
@@ -43,7 +47,13 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   };
   const notes = (row) => {
     const statements = [];
-    if (row.exclusion) statements.push(`Tự động loại khỏi danh mục theo dõi sau EOD ${dateVi(row.exclusion.date)}: giá đóng cửa ${money(row.exclusion.close)} đồng/cp, chênh lệch ${percent(row.exclusion.differencePct)} so với giá trung bình vùng mua. Không ghi nhận lệnh bán và không tự đưa mã trở lại khi giá hồi phục.`);
+    if (row.exclusion) statements.push(`Tự động loại khỏi danh mục theo dõi sau EOD ${dateVi(row.exclusion.date)}: giá đóng cửa ${money(row.exclusion.close)} đồng/cp, chênh lệch ${percent(row.exclusion.differencePct ?? row.exclusion.deltaPct)} so với giá trung bình vùng mua. Không ghi nhận lệnh bán và không tự đưa mã trở lại khi giá hồi phục.`);
+    if (row.group === "individual") {
+      statements.push("Vùng bổ sung do người quản lý nhập ngày 17/11/2026. Kỳ vọng T1/T2 là kịch bản số học 2R/3R, chưa xác nhận trên đồ thị AmiBroker; không tự động phát tín hiệu CÓ MUA.");
+      if (row.note) statements.push(row.note);
+      if (row.valuationStatus === "inactive") statements.push("Báo cáo định giá hiện hành đang ở trạng thái CHỜ; vùng kỹ thuật bổ sung không được dùng để ghi đè đánh giá này.");
+      if (!row.quoteFresh && !row.exclusion) statements.push("Dữ liệu đóng cửa chưa cùng phiên EOD đã khóa; ngày giá vẫn hiển thị để minh bạch, chưa tính chênh lệch hoặc trạng thái mới.");
+    }
     if (row.reportVeto) statements.push("Báo cáo định giá hiện hành đang chặn mua mới. Vùng AmiBroker là vùng theo dõi riêng, không gỡ bỏ cảnh báo hoặc kích hoạt giao dịch.");
     if (row.ticker === "HDB" || row.ticker === "GMD") statements.push("Đã có sự kiện quyền cổ đông gần đây. Khi cập nhật vùng trong AmiBroker cần kiểm tra cơ sở giá điều chỉnh để tránh lệch mốc.");
     if (row.stopBreached) statements.push("Giá EOD đã chạm hoặc dưới ngưỡng cảnh báo −5% lý thuyết. Đây không phải xác nhận đã bán hay khớp lệnh.");
@@ -55,9 +65,15 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
       <div class="rp-detail-grid">
         <div><span>Giá TB vùng mua</span><strong>${money(row.midpoint)} đ/cp</strong></div>
         <div><span>Ngưỡng tham chiếu −5%</span><strong>${money(row.stopReference)} đ/cp</strong></div>
-        <div><span>Ngày xác lập vùng</span><strong>${dateVi(row.exclusion?.zoneApprovedOn || REFERENCE_PORTFOLIO.approvedOn)}</strong></div>
+        <div><span>Ngày xác lập vùng</span><strong>${dateVi(row.exclusion?.zoneApprovedOn || (row.group === "individual" ? INDIVIDUAL_RECOMMENDATIONS.publishedOn : REFERENCE_PORTFOLIO.approvedOn))}</strong></div>
         <div><span>${row.exclusion ? "Giá tại phiên bị loại" : "Giá đóng cửa / phiên"}</span><strong>${money(row.close)} đ • ${dateVi(row.priceDate)}</strong></div>
       </div>
+      ${row.group === "individual" ? `<div class="rp-detail-grid rp-reward-grid">
+        <div><span>Mốc tham chiếu −7%</span><strong>${money(row.stopSeven)} đ/cp</strong></div>
+        <div><span>T1 • Kịch bản 2R</span><strong>${money(row.target1)} đ/cp</strong></div>
+        <div><span>T2 • Kịch bản 3R</span><strong>${money(row.target2)} đ/cp</strong></div>
+        <div><span>Ý nghĩa mục tiêu</span><strong>Kịch bản R/R, chưa xác nhận kháng cự</strong></div>
+      </div>` : ""}
       <div class="rp-detail-notes">${notes(row)}</div>
       <div class="rp-detail-links">
         ${reportLink(report)}
@@ -67,7 +83,24 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
 
   let rows;
   try {
-    rows = buildReferencePortfolio(REFERENCE_PORTFOLIO, source, referenceExits);
+    const original = buildReferencePortfolio(REFERENCE_PORTFOLIO, source, referenceExits)
+      .map((row) => ({ ...row, group: "reference", quoteFresh: row.close !== null }));
+    const added = buildIndividualRows(INDIVIDUAL_RECOMMENDATIONS, source, nt2Snapshot, individualExits)
+      .map((row) => ({
+        ...row, group: "individual",
+        stopReference: row.stopFive, differencePct: row.deltaPct,
+        zoneRelation: row.relation, priceSource: row.source,
+        reportVeto: row.valuationStatus === "veto",
+        stopBreached: row.fresh && row.close !== null && row.close <= row.stopFive,
+        quoteFresh: row.fresh,
+        researchState: !row.fresh ? "data-unavailable"
+          : row.relation === "below" ? "below-zone"
+          : row.relation === "inside" ? "inside-zone" : "above-zone"
+      }));
+    rows = [...original, ...added];
+    if (rows.length !== 10 || new Set(rows.map((row) => row.ticker)).size !== 10) {
+      throw new Error("Số lượng mã hoặc dữ liệu trùng lặp trong danh mục.");
+    }
   } catch (error) {
     root.innerHTML = `<div class="rp-integrity-error" role="alert">Chưa thể xác minh dữ liệu danh mục. Hệ thống không hiển thị mức giá suy đoán.</div>`;
     return;
@@ -83,7 +116,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   const warning = document.querySelector("[data-role='reference-portfolio-note']");
   if (!desktop || !mobile || !summary || !asOf || !warning) return;
 
-  asOf.textContent = `Giá EOD khóa ngày ${dateVi(source.meta.updated)} • Vùng AmiBroker xác lập ${dateVi(REFERENCE_PORTFOLIO.approvedOn)} • Loại tự động khi giảm từ 5%`;
+  asOf.textContent = `EOD ${dateVi(source.meta.updated)} • Vùng gốc ${dateVi(REFERENCE_PORTFOLIO.approvedOn)} • Vùng bổ sung ${dateVi(INDIVIDUAL_RECOMMENDATIONS.publishedOn)} • Loại tự động từ −5%`;
   warning.textContent = source.meta.updated < REFERENCE_PORTFOLIO.approvedOn
     ? "Giá EOD đang hiển thị thuộc phiên trước ngày công bố vùng mua. Phần trăm là chênh lệch tham chiếu, không phải lợi nhuận kể từ khuyến nghị."
     : "Chênh lệch so với giá trung bình vùng mua chỉ là phép so sánh giá, không phải hiệu suất giao dịch hoặc tỷ lệ lãi/lỗ đã thực hiện.";
@@ -92,25 +125,29 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   const excludedRows = rows.filter((row) => row.exclusion).map((row) => ({
     ...row,
     close: row.exclusion.close,
-    changePct: row.exclusion.changePct,
-    differencePct: row.exclusion.differencePct,
+    changePct: row.exclusion.changePct ?? null,
+    differencePct: row.exclusion.differencePct ?? row.exclusion.deltaPct,
     priceDate: row.exclusion.date,
     priceSource: row.exclusion.priceSource,
     zoneLow: row.exclusion.zoneLow,
     zoneHigh: row.exclusion.zoneHigh,
     midpoint: row.exclusion.midpoint,
-    stopReference: row.exclusion.stopReference,
+    stopReference: row.exclusion.stopReference ?? row.exclusion.stopFive,
     zoneRelation: row.exclusion.close < row.exclusion.zoneLow ? "below" : row.exclusion.close > row.exclusion.zoneHigh ? "above" : "inside",
-    stopBreached: true
+    stopBreached: true,
+    quoteFresh: true,
+    researchState: "stop-warning"
   }));
   const rowPasses = (row, filter) => filter === "all"
+    || filter === "original" && row.group === "reference"
+    || filter === "additional" && row.group === "individual"
     || filter === row.zoneRelation
-    || filter === "attention" && (row.reportVeto || row.stopBreached || !row.close);
+    || filter === "attention" && (row.reportVeto || row.stopBreached || !row.quoteFresh);
   const stockRow = (row) => {
     const status = statusInfo(row);
     const report = byId.get(byTicker.get(row.ticker)?.reportId);
     return `<tr${row.exclusion ? ' class="rp-archived-row"' : ""}>
-      <th scope="row" class="rp-code">${escapeHtml(row.ticker)}</th>
+      <th scope="row" class="rp-code">${escapeHtml(row.ticker)}<small class="rp-origin">${row.group === "individual" ? "Bổ sung 17/11" : "Danh mục gốc"}</small></th>
       <td class="rp-number">${money(row.close)}</td>
       <td class="rp-number ${tone(row.changePct)}">${percent(row.changePct)}</td>
       <td class="rp-zone">${money(row.zoneLow)} – ${money(row.zoneHigh)}</td>
@@ -125,7 +162,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
     const status = statusInfo(row);
     const report = byId.get(byTicker.get(row.ticker)?.reportId);
     return `<article class="rp-mobile-card${row.exclusion ? " rp-archived-card" : ""}">
-      <div class="rp-mobile-head"><strong>${escapeHtml(row.ticker)}</strong><span class="rp-status ${status.css}">${escapeHtml(status.label)}</span></div>
+      <div class="rp-mobile-head"><div><strong>${escapeHtml(row.ticker)}</strong><small class="rp-origin">${row.group === "individual" ? "Bổ sung 17/11" : "Danh mục gốc"}</small></div><span class="rp-status ${status.css}">${escapeHtml(status.label)}</span></div>
       <div class="rp-mobile-grid">
         <div><span>Giá EOD</span><strong>${money(row.close)}</strong><small class="${tone(row.changePct)}">${percent(row.changePct)} phiên</small></div>
         <div><span>Vùng mua kỹ thuật</span><strong>${money(row.zoneLow)} – ${money(row.zoneHigh)}</strong><small>Đồng/cp</small></div>
@@ -136,10 +173,12 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
     </article>`;
   };
 
+  let visibleByTicker = new Map();
   const render = () => {
     const filter = select?.value || "all";
     const visible = filter === "excluded" ? excludedRows : activeRows.filter((row) => rowPasses(row, filter));
-    const attention = activeRows.filter((row) => row.reportVeto || row.stopBreached || !row.close).length;
+    visibleByTicker = new Map(visible.map((row) => [row.ticker, row]));
+    const attention = activeRows.filter((row) => row.reportVeto || row.stopBreached || !row.quoteFresh).length;
     summary.innerHTML = `<div class="rp-summary-card"><span>Đang theo dõi</span><strong>${activeRows.length.toString().padStart(2, "0")}</strong></div>
       <div class="rp-summary-card"><span>Đã loại (có lịch sử)</span><strong>${excludedRows.length.toString().padStart(2, "0")}</strong></div>
       <div class="rp-summary-card rp-summary-attention"><span>Cảnh báo còn theo dõi</span><strong>${attention.toString().padStart(2, "0")}</strong></div>`;
@@ -147,7 +186,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
       ? "LỊCH SỬ ĐÃ LOẠI: giá và phần trăm trong bảng được giữ cố định tại phiên phát sinh cảnh báo. Đây không phải giao dịch bán thực tế; mã không tự quay lại khi giá phục hồi."
       : source.meta.updated < REFERENCE_PORTFOLIO.approvedOn
         ? "Giá EOD đang hiển thị thuộc phiên trước ngày công bố vùng mua. Phần trăm là chênh lệch tham chiếu, không phải lợi nhuận kể từ khuyến nghị."
-        : "Các mã giảm từ 5% so với giá TB được tự động đưa ra khỏi danh mục hiện hành sau EOD xác minh; xem mục Đã loại để truy vết. Chênh lệch giá không phải hiệu suất giao dịch.";
+        : "Toàn bộ 10 mã được hiển thị trong một bảng chung. Các mã giảm từ 5% so với giá TB được chuyển vào lịch sử sau EOD xác minh. Giá trước ngày công bố vùng riêng 17/11 chỉ là so sánh, không phải hiệu suất giao dịch.";
     desktop.innerHTML = visible.length
       ? `<table class="rp-table"><caption class="sr-only">${filter === "excluded" ? "Lịch sử mã tự động loại theo nguyên tắc giảm từ 5%" : "Danh mục kỹ thuật đang theo dõi, giá EOD và vùng mua AmiBroker"}</caption>
       <thead><tr><th scope="col">MÃ</th><th scope="col" class="rp-number">${filter === "excluded" ? "GIÁ EOD KHI LOẠI" : "GIÁ EOD"}</th><th scope="col" class="rp-number">+/− PHIÊN</th>
@@ -162,7 +201,7 @@ import { buildReferencePortfolio } from "./reference-portfolio-core.mjs";
   desktop.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-rp-ticker]");
     if (!button) return;
-    const row = rows.find((item) => item.ticker === button.dataset.rpTicker);
+    const row = visibleByTicker.get(button.dataset.rpTicker);
     if (!row || !detail) return;
     const report = byId.get(byTicker.get(row.ticker)?.reportId);
     detail.innerHTML = `<div class="rp-detail-panel-title"><strong>HỒ SƠ ${escapeHtml(row.ticker)} • VÙNG KỸ THUẬT AMIBROKER</strong>
