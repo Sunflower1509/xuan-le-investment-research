@@ -308,11 +308,16 @@ jobs:
             ],
             "scripts/audit-company-visuals-core.mjs":[
               ["const EXPECTED = 134;","const EXPECTED = 135;"],
-              ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
+              ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"],
+              ["assert(Object.keys(logoMap).length === EXPECTED, \"COMPANY_LOGOS không đủ 133.\");","assert(Object.keys(logoMap).length === EXPECTED, `COMPANY_LOGOS không đủ ${EXPECTED}.`);"]
             ],
             "scripts/ensure-company-visual-candidates.mjs":[
               ["const EXPECTED = 134;","const EXPECTED = 135;"],
               ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
+            ],
+            "tests/civs-fetch-fallback.test.mjs":[
+              ["127-candidate state","135-candidate state"],
+              ["/const EXPECTED = 127/","/const EXPECTED = 135/"]
             ],
             "tests/company-visuals.test.mjs":[
               ["complete 134-code coverage","complete 135-code coverage"],
@@ -336,16 +341,29 @@ jobs:
               ["rollout 134 mã","rollout 135 mã"],
               ["coverageTarget = 134","coverageTarget = 135"],
               ["**125 mã bổ sung**","**126 mã bổ sung**"],
-              ["đúng **134 mã**","đúng **135 mã**"]
+              ["đúng **134 mã**","đúng **135 mã**"],
+              ["quay về universe 133","quay về universe 134"]
             ]
           };
           for(const [path,pairs] of Object.entries(replacements)){
             let s=fs.readFileSync(path,"utf8");
             for(const [from,to] of pairs){
               if(!s.includes(from)) throw new Error(path+" missing expected token: "+from);
-              s=s.replace(from,to);
+              s=s.split(from).join(to);
             }
             fs.writeFileSync(path,s);
+          }
+          const staleChecks=[
+            ["scripts/sync-company-visuals.mjs","const EXPECTED = 127;"],
+            ["scripts/sync-company-visuals-core.mjs","const EXPECTED = 134;"],
+            ["scripts/audit-company-visuals-core.mjs","const EXPECTED = 134;"],
+            ["scripts/ensure-company-visual-candidates.mjs","const EXPECTED = 134;"],
+            ["tests/civs-fetch-fallback.test.mjs","/const EXPECTED = 127/"],
+            ["tests/company-visuals.test.mjs","/const EXPECTED = 134/"],
+            ["tests/company-visuals.test.mjs","/const REGISTRY_EXPECTED = 125/"]
+          ];
+          for(const [p,t] of staleChecks){
+            if(fs.readFileSync(p,"utf8").includes(t)) throw new Error("stale CIVS guard remains: "+p+" :: "+t);
           }
           console.log("CIVS_UNIVERSE_GUARD_UPDATED 135 coverage / 126 candidates + 9 baseline");
           NODE
@@ -420,7 +438,7 @@ jobs:
           trigger_sha="${GITHUB_SHA}"
           rm -f ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
 
-          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/company-visuals\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
+          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/(company-visuals|civs-fetch-fallback)\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
