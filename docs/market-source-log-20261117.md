@@ -2,7 +2,7 @@
 
 **Ngày phân tích:** Thứ Ba 17/11/2026. **Giờ cắt:** kết thúc phiên 17/11 giờ Việt Nam; lượt đối chiếu bổ sung sau giờ đóng, dùng dữ liệu của CHÍNH phiên này, không dùng ngày giao dịch tương lai. **Sổ dữ liệu tự lưu người dùng dán:** KHÔNG CÓ. Không thay Sổ gốc bằng bản nhận định ngày 16/11 hoặc hồ sơ kiểm toán.
 
-**Prompt nguồn đã đọc ba lượt:** `docs/prompt-nhan-dinh-vnindex-v3.md`, tiêu đề v3.3.1, SHA `d3776d82a27f643bdc40b13729f564003417e2d0`. Lượt 1: mục 0–I, số lõi, cột KHỚP vs tổng, hai nguồn, nhật ký; lượt 2: II–VI, 7 yếu tố, nền, phân phối, veto, ba bước; lượt 3: VII–XII, khuôn website, văn phong Zalo, tự kiểm 20 mục, Sổ và bảo vệ bố cục. Tệp đính kèm rời cùng tên chưa hiển thị trong tập Files truy cập được; tài liệu trong repository là tài liệu nguồn được thực đọc.
+**Prompt đính kèm đã được đọc trực tiếp đủ ba lượt:** `/mnt/data/Prompt_Nhan_Dinh_VNINDEX_V3_3_1.md` (54.099 byte, 41.504 ký tự, SHA-256 `beebdecf878237a57edcda89cd34b5d50a78d81c232859883e2f94c527070184`). Lượt 1: đọc mục 0–I, cổng dữ liệu và phạm vi khớp lệnh; lượt 2: II–VI, 7 yếu tố, nền, phân phối, veto, ba bước; lượt 3: VII–XII, khuôn website, văn phong Zalo, tự kiểm 20 mục, Sổ và bảo vệ bố cục. Đối chiếu tài liệu điều khiển cùng phiên bản trên website `docs/prompt-nhan-dinh-vnindex-v3.md` (SHA GitHub `d3776d82a27f643bdc40b13729f564003417e2d0`); tài liệu kho có phần phụ lục kỹ thuật dài hơn, không sử dụng để thay quy tắc của tệp đính kèm.
 
 ## I. Cổng số liệu lõi, nguyên văn và phạm vi
 
