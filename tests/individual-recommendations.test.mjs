@@ -94,16 +94,29 @@ test("Duplicate, retroactive and edited event evidence fails integrity validatio
   assert.equal(validateIndividualExitState(CONFIG,corrupted),false);
   assert.throws(()=>planIndividualExits(CONFIG,future,nt2,corrupted));
 });
-test("Panel is a nested div and does not add a top-level section or alter previous modules",()=>{
+test("Ten tracked configurations share exactly one reference portfolio table with one filter",()=>{
   const html=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
   const sections=[...html.matchAll(/<section\b[^>]*\bid=(['"])([^'"]+)\1[^>]*>/g)].map(m=>m[2]);
   assert.deepEqual(sections,["overview","daily-market","reference-portfolio","position-ledger","action-radar","research"]);
-  assert.match(html,/id="individual-recommendations"/);
-  assert.match(html,/Mục tiêu là kịch bản 2R\/3R/i);
-  const source=fs.readFileSync(new URL("../src/index.js",import.meta.url),"utf8");
-  assert.match(source,/individual-recommendations\.mjs/);
-  const style=fs.readFileSync(new URL("../src/index.css",import.meta.url),"utf8");
-  assert.match(style,/individual-recommendations\.css/);
+  assert.match(html,/id="reference-portfolio"/);
+  assert.match(html,/id="individual-recommendations"/); // backward-compatible old anchor
+  assert.doesNotMatch(html,/data-role="individual-recommendations-root"/);
+  assert.match(html,/value="additional">Bốn mã bổ sung/);
+  assert.match(html,/value="original">Sáu mã gốc/);
+  assert.equal((html.match(/data-role="reference-portfolio-desktop"/g)||[]).length,1);
+  assert.equal((html.match(/data-role="reference-portfolio-filter"/g)||[]).length,1);
+  const entry=fs.readFileSync(new URL("../src/index.js",import.meta.url),"utf8");
+  assert.match(entry,/import "\.\/scripts\/reference-portfolio\.mjs"/);
+  assert.doesNotMatch(entry,/import "\.\/scripts\/individual-recommendations\.mjs"/);
+  const css=fs.readFileSync(new URL("../src/index.css",import.meta.url),"utf8");
+  assert.doesNotMatch(css,/individual-recommendations\.css/);
+  const renderer=fs.readFileSync(new URL("../src/scripts/reference-portfolio.mjs",import.meta.url),"utf8");
+  assert.match(renderer,/buildReferencePortfolio/);
+  assert.match(renderer,/buildIndividualRows/);
+  assert.match(renderer,/rows = \[\.\.\.original, \.\.\.added\]/);
+  assert.match(renderer,/visibleByTicker/);
+  assert.match(renderer,/T1 • Kịch bản 2R/);
+  assert.match(renderer,/T2 • Kịch bản 3R/);
   const workflows=["pages.yml","eod-daily.yml"].map(p=>fs.readFileSync(new URL("../.github/workflows/"+p,import.meta.url),"utf8"));
   assert.ok(workflows.every(x=>x.includes("process-individual-recommendations-exits.mjs")));
   assert.match(workflows[1],/update-individual-nt2-eod\.mjs/);

@@ -145,8 +145,12 @@ if (research && typeof research === "object") {
       if (row.priceDate > research.meta.updated) fail("Individual recommendations", "ngày giá tương lai: " + row.ticker);
       if (row.exclusion && row.exclusion.date > research.meta.updated) fail("Individual recommendations", "ngày loại trong tương lai: " + row.ticker);
     }
-    if (!readText("index.html").includes('id="individual-recommendations"')) fail("Individual recommendations", "thiếu khối công khai.");
-    if (!readText("src/index.js").includes('import "./scripts/individual-recommendations.mjs";')) fail("Individual recommendations", "thiếu module giao diện.");
+    const unifiedHtml = readText("index.html");
+    const unifiedRuntime = readText("src/scripts/reference-portfolio.mjs");
+    if (!unifiedHtml.includes('id="reference-portfolio"') || !unifiedHtml.includes('id="individual-recommendations"')) fail("Individual recommendations", "không tìm thấy danh mục tham khảo hoặc anchor tương thích.");
+    if (unifiedHtml.includes('data-role="individual-recommendations-root"')) fail("Individual recommendations", "không được tạo bảng khuyến nghị riêng thứ hai.");
+    if (!unifiedRuntime.includes("buildIndividualRows") || !unifiedRuntime.includes("rows = [...original, ...added]")) fail("Individual recommendations", "bốn mã chưa được gộp vào bảng danh mục tham khảo.");
+    if (readText("src/index.js").includes('import "./scripts/individual-recommendations.mjs";')) fail("Individual recommendations", "còn nạp module giao diện khuyến nghị riêng độc lập.");
   } catch (error) {
     fail("Individual recommendations", error.message);
   }

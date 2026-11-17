@@ -1,6 +1,6 @@
 # Khuyến nghị riêng (công khai): POW, NT2, VIX, SHS
 
-**Ngày chủ website cung cấp vùng mua:** 17/11/2026. Danh sách này được hiển thị thành một khối độc lập trong section `reference-portfolio`, dưới bảng sáu mã hiện hữu. Dữ liệu được xuất bản trên GitHub Pages **là công khai**, không phải tài khoản cá nhân có quyền riêng tư.
+**Ngày chủ website cung cấp vùng mua:** 17/11/2026. Bốn mã này được hiển thị thành **bốn dòng trong chính bảng `DANH MỤC THAM KHẢO ĐẦU TƯ`**, cùng sáu mã gốc, không còn bảng hay bộ lọc riêng. Bộ lọc chung vẫn cho phép xem riêng nhóm bổ sung và lịch sử loại. Dữ liệu được xuất bản trên GitHub Pages **là công khai**, không phải tài khoản cá nhân có quyền riêng tư.
 
 ## Nguồn gốc dữ liệu và ý nghĩa các mốc
 

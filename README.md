@@ -43,6 +43,14 @@ Nhánh `main` được triển khai lên GitHub Pages bằng workflow `.github/w
 - CIVS dùng một invariant duy nhất: **127 mã**, gồm 9 visual baseline đã xác minh + 118 candidate registry; runtime không còn chấp nhận universe 125.
 - Daily Market, Trade Ledger và các nhãn first-paint EOD được audit theo runtime thực tế trước deploy.
 - Bố cục công khai (đã được chủ website phê duyệt bổ sung 12/10/2026) khóa theo thứ tự `overview → daily-market → reference-portfolio → position-ledger → action-radar → research`. Bảo toàn tất cả section cũ; mọi thay đổi bố cục sau này phải được phê duyệt riêng.
+## Danh mục tham khảo đầu tư — giao diện thống nhất 10 mã
+
+- Một bảng duy nhất tại `#reference-portfolio`: sáu mã gốc BSR/VPB/HDB/DGW/GMD/GVR và bốn mã bổ sung POW/NT2/VIX/SHS. Không dựng khung "Khuyến nghị riêng" thứ hai.
+- Bộ lọc chung cho tất cả mã và lịch sử loại. Mã vi phạm quy tắc EOD −5% ở bất kỳ nhóm nào được lưu riêng theo đúng chính sách gốc; không tự tái gia nhập.
+- `src/scripts/reference-portfolio.mjs` hợp nhất hai luồng dữ liệu và hiển thị cùng cột giá EOD, vùng kỹ thuật, giá TB, chênh lệch và trạng thái. Mục tiêu mô hình T1/T2 cùng −7% của bốn mã bổ sung nằm trong **Chi tiết**, không coi là mục tiêu kỹ thuật đã xác nhận.
+- `src/scripts/individual-recommendations-core.mjs` và các JSON riêng vẫn phục vụ tính toán, kiểm soát lịch sử và nguồn EOD độc lập cho NT2; không thêm NT2 giả vào bộ báo cáo định giá.
+- Liên kết cũ `#individual-recommendations` được giữ làm neo tới chính mục danh mục thống nhất.
+
 ## Danh mục tham khảo kỹ thuật 1–3 tuần (12/10/2026)
 
 - `src/data/reference-portfolio.mjs` lưu **sáu vùng AmiBroker do người quản lý phê duyệt**: BSR 29.500–30.000; VPB 23.000–24.000; HDB 22.000–22.800; DGW 46.000–47.500; GMD 53.000–54.500; GVR 32.000–33.000 (đồng/cp). Không có NVB.
