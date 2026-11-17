@@ -299,6 +299,9 @@ jobs:
           node <<'NODE'
           const fs=require("node:fs");
           const replacements={
+            "scripts/sync-company-visuals.mjs":[
+              ["const EXPECTED = 127;","const EXPECTED = 135;"]
+            ],
             "scripts/sync-company-visuals-core.mjs":[
               ["const EXPECTED = 134;","const EXPECTED = 135;"],
               ["const REGISTRY_EXPECTED = 125;","const REGISTRY_EXPECTED = 126;"]
@@ -322,6 +325,7 @@ jobs:
               ["union.size, 134","union.size, 135"],
               ["exactly 134 unique tickers","exactly 135 unique tickers"],
               ["resumable, 134-aware","resumable, 135-aware"],
+              ["assert.match(syncWrapper, /sync-company-visuals-core\\.mjs/);","assert.match(syncWrapper, /sync-company-visuals-core\\.mjs/);\n  assert.match(syncWrapper, /const EXPECTED = 135/);"],
               ["/const EXPECTED = 134/","/const EXPECTED = 135/"],
               ["/const REGISTRY_EXPECTED = 125/","/const REGISTRY_EXPECTED = 126/"],
               ["/134\\/134/","/135\\/135/"]
@@ -416,7 +420,7 @@ jobs:
           trigger_sha="${GITHUB_SHA}"
           rm -f ".github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17.yml"
 
-          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/company-visuals\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
+          allowed='^(\\.github/workflows/tmp-valuation-import-nab-vhm-vic-2026-11-17\\.yml|index\\.html|src/data/research-data\\.js|src/data/company-logos\\.js|src/data/company-visual-candidates\\.json|src/data/company-visuals\\.js|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\\.mjs|tests/company-visuals\\.test\\.mjs|docs/company-identity-visual-standard\\.md|reports/(NAB_2026-11-12|VHM_2026-10-03|VHM_2026-11-17|VIC_2026-10-02|VIC_2026-11-17)\\.pdf|assets/images/reports/(nab|vhm|vic)\\.webp|assets/images/logos/nab\\.svg|assets/images/company-visuals/nab\\.webp)$'
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
