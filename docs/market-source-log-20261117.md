@@ -18,7 +18,7 @@
 | Độ rộng HOSE theo Finfo | **107 tăng / 199 giảm / 62 đứng** | VNDIRECT Finfo `marketSession.breadth` 17/11 trong tệp EOD đã khóa; nguồn gốc https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-11-17&size=500 | VNIndex.ai bản cập nhật **trong phiên 13:35** đếm 65/226/113 trên 404 mã, khác thời điểm/phạm vi, **không dùng để đối chiếu**; https://vnindex.ai/vnindex-hom-nay | **1 NGUỒN** cho phạm vi EOD Finfo |
 | **GT khớp lệnh HOSE EOD 17/11** (không thỏa thuận, tỷ đồng) | **KHÔNG CÓ GIÁ TRỊ ĐƯỢC XÁC MINH** | nmquan trang `Lịch sử VN-Index`, truy xuất 15:29, bảng cuối mới tới **16-11-2026**, cột `GT khớp lệnh (tỉ)`, https://nmquan.vn/data/chi-so/vn-index/lich-su | HOSE điểm tin 17/11 chưa thấy công bố trong nguồn đã mở; CafeF trang lịch sử vẫn ghi **16/11**; Stockbiz chỉ có tổng không tách khớp, Dalink 4.058 tỷ lúc **12:46**, không phải EOD. | **CHƯA XÁC MINH** |
 | Giá trị giao dịch **TỔNG**, khác số khớp | **14.639 tỷ** theo Stockbiz, phạm vi `nhóm VN-Index`; không dùng cho công thức khớp | Stockbiz 17/11: `Thanh khoản nhóm VN-Index đạt 14.639 tỷ đồng`, https://stockbiz.vn/thi-truong | Không có xác nhận 14.639 tỷ là giá trị **KHỚP không gồm thỏa thuận**; trang VNIndex.ai đang hiển thị **giá trị GD trong phiên 13:35**. | **1 NGUỒN** cho tổng có phạm vi riêng; **KHÔNG THAY KHỚP** |
-| Khối ngoại HOSE **TỔNG** | **Bán ròng 358 tỷ** theo Stockbiz, chưa tách KHỚP | Stockbiz: `Khối ngoại bán ròng 358 tỷ đồng`, https://stockbiz.vn/thi-truong | Không có chuỗi khớp HOSE 5 phiên cùng phạm vi; không chấm hay gọi là khớp | **1 NGUỒN**, không dùng kích hoạt veto |
+| Khối ngoại HOSE **TỔNG** | **Bán ròng 421 tỷ** theo Stockbiz tại lần mở sau, chưa tách KHỚP | Stockbiz mục cập nhật sau phiên 17/11: `Khối ngoại bán ròng 421 tỷ đồng`, https://stockbiz.vn/thi-truong?trang=9 | Chênh so với số 358 tỷ được ghi ở lượt kiểm trước; bản mới chỉ 1 nguồn cùng mốc, không có chuỗi khớp HOSE 5 phiên cùng phạm vi | **1 NGUỒN** cho bản mới, không dùng kích hoạt veto |
 
 **Đính chính minh bạch đối với nhật ký lập lúc 15:20:** trang `vnindex.ai/vnindex-hom-nay` khi mở lại **vẫn ghi "Đang giao dịch · 13:35"** và chỉ số 1.718,25, **không phải EOD**. Vì vậy KHÔNG giữ nhãn đã đối chiếu từ VNIndex.ai EOD mà nhật ký trước từng gán. Thay bằng số EOD thực có nguồn Stockbiz + VNDIRECT. Không tiếp tục viện dẫn con số OHLC/MA được trích từ trang đang trong phiên để làm báo cáo EOD.
 
@@ -33,6 +33,8 @@
 7. **Bài báo tổng hợp 17/11** — https://vov.vn/thi-truong/nhan-dinh-chung-khoan-1711-dong-tien-suy-yeu-nha-dau-tu-nen-han-che-mua-them-post1350702.vov — **có số nhưng sai phiên**: nhận định trước mở phiên 17 về ngày 16, không phải EOD 17.
 
 Không lấy tổng giao dịch trừ ước lượng thỏa thuận, không nội suy thanh khoản từ khối lượng, không tự dựng số trong thiếu hụt.
+
+**Bổ sung lượt tìm 15:43–15:44 ngày 17/11/2026:** mở lại nmquan (vẫn dừng 16/11); báo cáo HDBS 17/11 và PSI Morning 17/11 đều phân tích *phiên 16/11*; Vietstock/FILI trang 17/11 chỉ có cập nhật đến cuối phiên sáng, không có giá trị khớp EOD; tìm thông cáo HOSE 17/11 nhưng chưa truy xuất được toàn văn; mở Stockbiz sau phiên chỉ có tổng 14.639 tỷ cho nhóm VN-Index. Khối ngoại Stockbiz mới hiển thị −421 tỷ, đã thay số −358 tỷ từ lượt trước và ghi nhận lệch giờ cập nhật, không dùng cho phép tính ngoại KHỚP. **Không có số khớp HOSE 17/11 được xác nhận từ các nguồn này.**
 
 ## IV. Cổng và quyết định
 
