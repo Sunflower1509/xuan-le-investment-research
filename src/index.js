@@ -12,6 +12,7 @@ import "./data/daily-insights-20261111.js";
 import "./data/daily-insights-20261112.js";
 import "./data/daily-insights-20261113.js";
 import "./data/daily-insights-20261116.js";
+import "./data/daily-insights-20261117.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
 import "./scripts/reference-portfolio.mjs";
