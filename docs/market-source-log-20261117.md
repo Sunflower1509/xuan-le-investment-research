@@ -1,83 +1,143 @@
-# KIỂM TOÁN NGUỒN VÀ CỔNG XUẤT BẢN VN-INDEX — PHIÊN 17/11/2026
+# KIỂM TOÁN NGUỒN & NHẬN ĐỊNH VN-INDEX — PHIÊN 17/11/2026 — PROMPT v3.3.1
 
-**Giờ đối chiếu bổ sung:** 17/11/2026, khoảng 15:29–15:31 giờ Việt Nam. **Mốc phân tích:** dữ kiện phiên 17/11 đã chốt, không lấy số phiên 18/11 hoặc số đo trong phiên làm số chốt. **Tài liệu điều khiển:** `docs/prompt-nhan-dinh-vnindex-v3.md`, Prompt v3.3.1, SHA `d3776d82a27f643bdc40b13729f564003417e2d0`. Tệp đính kèm riêng cùng tên chưa truy xuất được, sử dụng bản đã có trong repository.
+**Ngày phân tích:** Thứ Ba 17/11/2026. **Giờ cắt:** kết thúc phiên 17/11 giờ Việt Nam; lượt đối chiếu bổ sung sau giờ đóng, dùng dữ liệu của CHÍNH phiên này, không dùng ngày giao dịch tương lai. **Sổ dữ liệu tự lưu người dùng dán:** KHÔNG CÓ. Không thay Sổ gốc bằng bản nhận định ngày 16/11 hoặc hồ sơ kiểm toán.
 
-## I. Ba lượt rà Prompt
+**Prompt nguồn đã đọc ba lượt:** `docs/prompt-nhan-dinh-vnindex-v3.md`, tiêu đề v3.3.1, SHA `d3776d82a27f643bdc40b13729f564003417e2d0`. Lượt 1: mục 0–I, số lõi, cột KHỚP vs tổng, hai nguồn, nhật ký; lượt 2: II–VI, 7 yếu tố, nền, phân phối, veto, ba bước; lượt 3: VII–XII, khuôn website, văn phong Zalo, tự kiểm 20 mục, Sổ và bảo vệ bố cục. Tệp đính kèm rời cùng tên chưa hiển thị trong tập Files truy cập được; tài liệu trong repository là tài liệu nguồn được thực đọc.
 
-1. **Lượt 1 — dữ liệu:** mục 0–I; số lõi, thứ bậc nguồn, khớp/tổng, cùng phạm vi, nhật ký số thiếu, cấm dùng dữ liệu trong phiên.
-2. **Lượt 2 — quyết định:** mục II–VI; chỉ chấm 7 yếu tố, đếm phân phối, veto và ba bước trạng thái SAU khi cổng lõi đạt.
-3. **Lượt 3 — công bố:** mục VII–XII; cổng chưa đạt phải dừng, không viết Zalo hay đăng bản phân tích, giữ nguyên cấu trúc và dữ liệu cũ.
+## I. Cổng số liệu lõi, nguyên văn và phạm vi
 
-## II. Dữ liệu lõi và nguồn đã mở
-
-| Hạng mục | Số / phạm vi | Nguồn 1 (đọc thật) | Nguồn 2 / kiểm tra phạm vi | Nhãn |
+| Ô số liệu | Giá trị (đơn vị/phạm vi) | Nguồn 1 + trích ngắn thực mở | Nguồn 2 + trích ngắn thực mở | Nhãn |
 |---|---|---|---|---|
-| VN-Index đóng | **1.726,72**, giảm **10,17** (**−0,59%**) | Stockbiz, kết phiên 17/11: `VN-Index 1.726,72▼10,17 (−0,59%)`, https://stockbiz.vn/thi-truong | VNDIRECT Finfo được hệ thống EOD khóa `close: 1726.72`, `changePct: -0.585529...`, 17/11 trong `src/data/research-data.js`, https://github.com/Sunflower1509/xuan-le-investment-research/blob/main/src/data/research-data.js | **ĐÃ ĐỐI CHIẾU** |
-| VN30 | **1.837,13**, **−0,39%** | Stockbiz: `VN30 1.837,13▼7,12 (−0,39%)`, https://stockbiz.vn/thi-truong | VNDIRECT Finfo EOD 17/11: `close:1837.13`, `changePct:-0.386...` | **ĐÃ ĐỐI CHIẾU** |
-| HNX-Index | **248,60**, **−2,48%** | Stockbiz: `HNX-Index 248,60▼6,31 (−2,48%)` | Finfo EOD 17/11: `close:248.6`, `changePct:-2.475...` | **ĐÃ ĐỐI CHIẾU** |
-| Độ rộng HOSE theo Finfo | **107 tăng / 199 giảm / 62 đứng** | VNDIRECT Finfo `marketSession.breadth` 17/11 trong tệp EOD đã khóa; nguồn gốc https://api-finfo.vndirect.com.vn/v4/vnmarket_prices?sort=code&q=date:2026-11-17&size=500 | VNIndex.ai bản cập nhật **trong phiên 13:35** đếm 65/226/113 trên 404 mã, khác thời điểm/phạm vi, **không dùng để đối chiếu**; https://vnindex.ai/vnindex-hom-nay | **1 NGUỒN** cho phạm vi EOD Finfo |
-| **GT khớp lệnh HOSE EOD 17/11** (không thỏa thuận, tỷ đồng) | **KHÔNG CÓ GIÁ TRỊ ĐƯỢC XÁC MINH** | nmquan trang `Lịch sử VN-Index`, truy xuất 15:29, bảng cuối mới tới **16-11-2026**, cột `GT khớp lệnh (tỉ)`, https://nmquan.vn/data/chi-so/vn-index/lich-su | HOSE điểm tin 17/11 chưa thấy công bố trong nguồn đã mở; CafeF trang lịch sử vẫn ghi **16/11**; Stockbiz chỉ có tổng không tách khớp, Dalink 4.058 tỷ lúc **12:46**, không phải EOD. | **CHƯA XÁC MINH** |
-| Giá trị giao dịch **TỔNG**, khác số khớp | **14.639 tỷ** theo Stockbiz, phạm vi `nhóm VN-Index`; không dùng cho công thức khớp | Stockbiz 17/11: `Thanh khoản nhóm VN-Index đạt 14.639 tỷ đồng`, https://stockbiz.vn/thi-truong | Không có xác nhận 14.639 tỷ là giá trị **KHỚP không gồm thỏa thuận**; trang VNIndex.ai đang hiển thị **giá trị GD trong phiên 13:35**. | **1 NGUỒN** cho tổng có phạm vi riêng; **KHÔNG THAY KHỚP** |
-| Khối ngoại HOSE **TỔNG** | **Bán ròng 421 tỷ** theo Stockbiz tại lần mở sau, chưa tách KHỚP | Stockbiz mục cập nhật sau phiên 17/11: `Khối ngoại bán ròng 421 tỷ đồng`, https://stockbiz.vn/thi-truong?trang=9 | Chênh so với số 358 tỷ được ghi ở lượt kiểm trước; bản mới chỉ 1 nguồn cùng mốc, không có chuỗi khớp HOSE 5 phiên cùng phạm vi | **1 NGUỒN** cho bản mới, không dùng kích hoạt veto |
+| VN-Index đóng/đổi | **1.726,72 điểm; −10,17; −0,59%** | VNIndex.ai EOD 17/11 lúc 15:00: `1.726,72 điểm-10,17 (-0,59%)`, https://vnindex.ai/vnindex-hom-nay | VNSignal lịch sử `17/11/2026 ... 1.726,72 ... -0.59%`, https://vnsignal.vn/chi-so/vnindex/lich-su-gia ; Stockbiz cùng 1.726,72 | **ĐÃ ĐỐI CHIẾU** |
+| **KHỚP LỆNH HOSE** chính xác, không thỏa thuận, toàn HOSE | **9.607,97 tỷ đồng** | Vietnam.vn đăng lại **Thời báo Ngân hàng** ngày 17/11: `giao dịch khớp lệnh đạt hơn 9.607,97 tỷ đồng`; https://www.vietnam.vn/vn-index-mat-moc-1-730-diem-dong-tien-tiep-tuc-dung-ngoai | VNSignal 17/11 ghi `9.596.847.153.780` đồng (~9.596,85 tỷ) là **giá trị rổ chỉ số VNINDEX**, không bao gồm toàn bộ chứng khoán giao dịch HOSE; không ép khác phạm vi thành 2 nguồn cùng số. Tin nhanh Chứng khoán báo tổng 14.961,5 tỷ và thỏa thuận 5.362 tỷ, khác cách tổng hợp, không là số KHỚP trực tiếp. | **1 NGUỒN** cho số chính xác toàn HOSE |
+| Độ rộng HOSE theo tập VNDIRECT, mã cổ phiếu | **107 tăng / 199 giảm / 62 đứng giá** | Dữ liệu VNDIRECT Finfo khóa EOD 17/11 `marketSession.breadth` 107/199/62, https://github.com/Sunflower1509/xuan-le-investment-research/blob/main/src/data/research-data.js | Tài chính.com EOD 17/11: `8 sàn199 giảm62 đứng107 tăng3 trần`, https://taichinh.com/chung-khoan ; Thời báo Tài chính 17:23 cũng nêu 199 giảm/62 tham chiếu/107 tăng | **ĐÃ ĐỐI CHIẾU**, cùng cách đếm |
+| Độ rộng tập khác | VNIndex.ai **110 tăng/202 giảm/92 đứng, 404 mã** | VNIndex.ai EOD `404 mã` `110` `202` `92`, https://vnindex.ai/vnindex-hom-nay | Tin nhanh Chứng khoán đếm **110 tăng/207 giảm** toàn HOSE theo phạm vi khác; không trộn với VNDIRECT | 1 NGUỒN cho phạm vi 404 mã; chỉ minh họa chênh phạm vi |
+| Giá mở/cao phiên 17/11 | **1.733,58 / 1.735,04** | VNIndex.ai EOD `Mở cửa 1.733,58` / `Cao nhất 1.735,04` | VNSignal lịch sử 17/11 `1.733,58` / `1.735,04` | **ĐÃ ĐỐI CHIẾU** |
+| Thấp phiên 17/11 | **CHƯA XÁC MINH** (không công bố một giá tuyệt đối) | VNIndex.ai EOD **1.717,16** | VNSignal bảng lịch sử **1.711,37**, lệch thật; Thời báo Ngân hàng mô tả `vùng 1.717`; không nâng nhãn số thấp, không gán stop | **CHƯA XÁC MINH** |
+| VN30 | **1.837,13; −0,39%** | Stockbiz EOD 17/11 `VN30 1.837,13▼7,12 (−0,39%)`, https://stockbiz.vn/thi-truong | Finfo trong research-data.js `close:1837.13`, `changePct:-0.386...` | **ĐÃ ĐỐI CHIẾU** |
+| HNX | **248,60; −2,48%** | Stockbiz `HNX-Index 248,60▼6,31 (−2,48%)` | Finfo nghiên cứu ngày 17/11 `close:248.6` | **ĐÃ ĐỐI CHIẾU** |
+| Tổng giao dịch HOSE, có thỏa thuận | Thời báo NH **khoảng 14.638,59 tỷ**, thỏa thuận **khoảng 5.030,63 tỷ** | Thời báo NH qua Vietnam.vn `14.638,59 tỷ đồng`, `5.030,63 tỷ đồng`; URL phía trên | Tin nhanh Chứng khoán 15:29 `14.961,5 tỷ đồng` `5.362 tỷ đồng`, khác phạm vi/thời điểm; VNIndex.ai ghi `14,96 nghìn tỷ` tổng | **1 NGUỒN** số chi tiết; không dùng tổng làm KHỚP |
+| Giao dịch ròng nước ngoài HOSE TỔNG, có thỏa thuận | Thời báo NH khoảng **−420,8 tỷ**, không phải KHỚP | Vietnam.vn: `bán ròng khoảng 420,8 tỷ đồng` | Thời báo Tài chính 17:23 `-360 tỷ đồng`, khác phạm vi/cách chốt; không tự đồng nhất | **1 NGUỒN** từng phương pháp, không chấm ngoại KHỚP |
+| Ngoại **KHỚP HOSE** chuỗi năm phiên | — | Stockbiz chỉ tổng ròng; VNIndex.ai ước tính theo giá; Thời báo Ngân hàng tổng có thỏa thuận | Không đủ chuỗi đúng phạm vi | **CHƯA XÁC MINH** |
+| Top5 mã kéo giảm, cùng một bảng VNIndex.ai | VCB −1,89; GAS −1,34; BSR −1,24; VHM −1,19; BID −1,04 (điểm) | VNIndex.ai mục `Ghì chỉ số giảm`, https://vnindex.ai/vnindex-hom-nay | Thời báo NH và Thời báo Tài chính xác nhận VCB/GAS/BID cùng chiều nhưng không có bảng đóng góp điểm cùng phép tính | **1 NGUỒN** cho điểm cụ thể |
+| Ngành sức giá | Ngân hàng, dầu khí yếu; nhóm điện, KDH, POW, DBC có điểm sáng riêng | Thời báo Tài chính 17:23 ghi `27/35 nhóm ngành đóng cửa giảm điểm`, ngân hàng/dầu khí giảm; https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-17-11-ap-luc-ban-gia-tang-vn-index-giam-diem-tro-lai-207104.html | Thời báo Ngân hàng ghi POW +3,11%, KDH +3,64%, PVT −5,26%; cùng chủ đề nhưng không khẳng định tiền vào ròng toàn ngành | ĐÃ ĐỐI CHIẾU về chiều diễn biến |
+| Hỗ trợ dưới chỉ số | **1.701,90** — thấp phiên 09/11 | VNSignal lịch sử `9/11/2026 ... 1.701,9`, https://vnsignal.vn/chi-so/vnindex/lich-su-gia | Dữ liệu hồ sơ thị trường 09/11 trong các bản kiểm toán cũ, có nguồn lịch sử same; đây là mốc hỗ trợ kỹ thuật, **không** tự ghi thành mốc vô hiệu từ Sổ | 1 NGUỒN truy xuất trực tiếp hiện tại |
+| Cờ ETF/đáo hạn và basis 17/11 | — | Tin nhanh Chứng khoán ngày 17/11 cho hợp đồng 41I1GB000 1.837,3; Thời báo Tài chính không ghi basis | Chưa có lịch HNX chính thức đầy đủ và chuỗi 3 phiên; không chấm điểm phái sinh | **CHƯA XÁC MINH** |
 
-**Đính chính minh bạch đối với nhật ký lập lúc 15:20:** trang `vnindex.ai/vnindex-hom-nay` khi mở lại **vẫn ghi "Đang giao dịch · 13:35"** và chỉ số 1.718,25, **không phải EOD**. Vì vậy KHÔNG giữ nhãn đã đối chiếu từ VNIndex.ai EOD mà nhật ký trước từng gán. Thay bằng số EOD thực có nguồn Stockbiz + VNDIRECT. Không tiếp tục viện dẫn con số OHLC/MA được trích từ trang đang trong phiên để làm báo cáo EOD.
+**Khác phạm vi không được lấp khoảng trống:** con số **9.607,97** là toàn HOSE theo Thời báo Ngân hàng; số VNSignal **9.596,84715378** tỷ ghi trên **bảng VNINDEX** — khác 11,12 tỷ. Tin nhanh Chứng khoán còn có tổng giao dịch khác ~323 tỷ. Không trộn các trường trên để kết luận khớp 2 nguồn, không tạo nguồn đối chiếu giả.
 
-## III. Nhật ký tìm chỉ tiêu KHỚP bị thiếu (ít nhất ba trang)
+## II. Chuỗi lịch sử đủ cho MA, thiếu cho thanh khoản
 
-1. **nmquan** — https://nmquan.vn/data/chi-so/vn-index/lich-su — **có số nhưng sai phiên**: hàng mới nhất 16-11-2026, chưa có khớp 17/11.
-2. **CafeF HOSE/stock history** — https://cafef.vn/du-lieu/lich-su-giao-dich-hvn-1.chn — **có số nhưng sai phiên**: trang còn thông báo dữ liệu đóng phiên 16/11, khớp 8.566,75 tỷ thuộc ngày cũ.
-3. **Stockbiz** — https://stockbiz.vn/thi-truong — **có số, khác phạm vi**: 14.639 tỷ tổng GD nhóm VN-Index, không tách thỏa thuận.
-4. **VNIndex.ai** — https://vnindex.ai/vnindex-hom-nay — **có số nhưng sai mốc giờ**: trang 13:35 đang giao dịch, giá trị giao dịch TỔNG không khớp.
-5. **Dalink** — https://dalink.net/thi-truong/chi-so/VNINDEX — **có số nhưng sai mốc giờ**: giá trị khớp 4.058 tỷ lúc 12:46, không phải EOD.
-6. **Thời báo / báo sáng và HDBS bản tin 17/11** — https://hdbs.vn/ban-tin-thi-truong-ngay-17-11-2026/ — **có số nhưng sai phiên**: bản tin hôm nay nhắc phiên 13/11, không dùng cho 17/11.
-7. **Bài báo tổng hợp 17/11** — https://vov.vn/thi-truong/nhan-dinh-chung-khoan-1711-dong-tien-suy-yeu-nha-dau-tu-nen-han-che-mua-them-post1350702.vov — **có số nhưng sai phiên**: nhận định trước mở phiên 17 về ngày 16, không phải EOD 17.
+**Gốc giá (a):** VNIndex.ai `VN-Index 60 phiên gần nhất`; thực đọc **60 dòng**, từ **21/08/2026 tới 17/11/2026**, khóa ngày mới nhất `17/11/2026 | 1.726,72` và dòng thứ hai `16/11/2026 | 1.736,89`. Giá mới nhất khớp lõi đã đối chiếu. Chuỗi dùng **giá đóng**, không dùng cột giá trị giao dịch của VNIndex.ai vì là **tổng gồm thỏa thuận**.
 
-Không lấy tổng giao dịch trừ ước lượng thỏa thuận, không nội suy thanh khoản từ khối lượng, không tự dựng số trong thiếu hụt.
+TÍNH BẰNG CÔNG CỤ PYTHON (giá mới nhất trước, gồm ngày 17/11):
+- MA20 = trung bình giá 20 phiên 21/10–17/11 = **1.740,489 -> 1.740,49** (TỰ TÍNH).
+- MA50 = trung bình giá 50 phiên 09/09–17/11 = **1.755,4564 -> 1.755,46** (TỰ TÍNH).
+- MA20 5 phiên trước = trung bình 20 giá từ 14/10–10/11 = **1.731,0265**; dốc MA20 = 1.740,489 - 1.731,0265 = **+9,4625 -> +9,46 điểm** (TỰ TÍNH).
+- MA200 không đủ 200 dòng từ một nguồn đã đọc ⇒ CHƯA XÁC MINH; không quyết định chế độ.
+- Độ rộng ratio = **107/199 = 0,537688 -> 0,538** ⇒ −1 (TỰ TÍNH).
+- Top 5 mã kéo giảm theo một bảng VNIndex.ai = 1,89+1,34+1,24+1,19+1,04 = **6,70 điểm**; tỷ lệ = 6,70/10,17 = **65,88%** (TỰ TÍNH). Phiên giảm không đạt ngưỡng bán dàn trải ≤50% ⇒ điểm chất lượng 0, không phải +1.
+- Chỉ số **1.726,72** nằm dưới cả MA20 1.740,49 và MA50 1.755,46 ⇒ điểm giá/MA = −1.
+- Giá trị khớp HOSE **9.607,97** có một nguồn đúng phạm vi và đúng phiên, **NHƯNG** chưa có chuỗi KHỚP **cùng một gốc** đủ 21 và 26 phiên. VNSignal hiển thị bảng 20 dòng, dòng 20/10 thuộc trang khác không mở trực tiếp; nmquan trang lịch sử timeout; bảng VNIndex.ai 60 phiên là giá trị TỔNG. Không dùng TB20 KHỚP hay phiên phân phối/25 từ nhiều nguồn ghép bất hợp lệ.
+- **TB20 KHỚP, bội số, số phiên phân phối/25: CHƯA XÁC MINH**. Không khẳng định phiên 17 mới phát sinh phân phối hay chặn ≥6. Dữ liệu hồ sơ ngày 16/11 ghi năm phân phối có nguồn khác nhưng không thay Sổ gốc.
 
-**Bổ sung lượt tìm 15:43–15:44 ngày 17/11/2026:** mở lại nmquan (vẫn dừng 16/11); báo cáo HDBS 17/11 và PSI Morning 17/11 đều phân tích *phiên 16/11*; Vietstock/FILI trang 17/11 chỉ có cập nhật đến cuối phiên sáng, không có giá trị khớp EOD; tìm thông cáo HOSE 17/11 nhưng chưa truy xuất được toàn văn; mở Stockbiz sau phiên chỉ có tổng 14.639 tỷ cho nhóm VN-Index. Khối ngoại Stockbiz mới hiển thị −421 tỷ, đã thay số −358 tỷ từ lượt trước và ghi nhận lệch giờ cập nhật, không dùng cho phép tính ngoại KHỚP. **Không có số khớp HOSE 17/11 được xác nhận từ các nguồn này.**
+## III. Cổng, chế độ và 7 yếu tố
 
-## IV. Cổng và quyết định
+**Cổng lõi: ĐẠT có giới hạn** — đóng/% đa nguồn; độ rộng Finfo + Tài chính.com; khớp toàn HOSE 9.607,97 tỷ **1 NGUỒN** có trích nguyên văn thực mở. Quy tắc 0.7 cho 1 NGUỒN qua cổng nhưng **không được trạng thái CÓ**.
 
-Đúng mục **0.7 và VII.0** của Prompt v3.3.1, **thiếu giá trị KHỚP LỆNH HOSE đúng phiên 17/11** là thiếu **số lõi**. **Cổng KHÔNG ĐẠT** ⇒ câu bắt buộc:
+**CHẾ ĐỘ RÚT GỌN — thiếu chuỗi dữ liệu: TB20 khớp lệnh HOSE, số phiên phân phối/25. Xu hướng nền chưa đánh giá được; trạng thái tối đa CHỜ. Đây là giới hạn dữ liệu, không phải tín hiệu thị trường xấu.**
 
-**KHÔNG ĐỦ DỮ LIỆU — KHÔNG NHẬN ĐỊNH**
+Bảy yếu tố chính xác:
+1. Giá/MA **−1**: dưới cả MA20 và MA50, có chuỗi 60 giá để kiểm.
+2. Thanh khoản **0**: thiếu TB20 KHỚP, không chia tổng, không tự chấm −1 chỉ vì thanh khoản có vẻ thấp.
+3. Độ rộng **−1**: 107/199 = 0,538 ≤0,67.
+4. Chất lượng dòng tiền **0**: phiên giảm, top 5 ghì 65,88% > ngưỡng ≤50% để chấm bán dàn trải; số điểm thuộc một nguồn.
+5. Ngoại KHỚP **0**: chưa có chuỗi giao dịch khớp đồng phạm vi.
+6. Sức khỏe xu hướng **0**: thiếu 26 khớp cùng gốc tính phân phối/25.
+7. Phái sinh/vĩ mô **0**: chưa khóa lịch hợp đồng và basis theo lịch HNX, không có đánh giá vĩ mô đã đủ nguồn để chấm +1.
+**Tổng = −2/7**.
 
-Không chấm 7 yếu tố, không khẳng định số phân phối mới hay trạng thái CÓ/CHỜ/KHÔNG, không đăng nhận định 17/11 hoặc viết bản Zalo 250–400 chữ mang tính khuyến nghị. Các phép tính trung bình từ nguồn chưa chốt đúng ngày không được dùng vượt cổng. Bản 16/11 vẫn giữ nguyên để khách không nhận nhầm báo cáo chưa đủ số.
+**Chặn mềm:** giá dưới các kháng cự gần 1.735,04/MA20 1.740,49; chưa có căn cứ chặn mềm tăng điểm với mã giảm bởi chỉ số phiên này **đỏ**. **Chặn cứng:** không đủ dữ liệu bội số khớp/biên thấp (thấp ngày 17 bị lệch giữa nguồn), không kiểm được chặn ngoại khớp 5 phiên hay phân phối ≥6, chặn mang sang từ Sổ gốc **KHÔNG KIỂM ĐƯỢC**. Thiếu điều kiện không được coi là đã qua hay tự kích hoạt.
 
-**Đầu vào còn cần:** giá trị khớp lệnh HOSE **cuối phiên 17/11/2026**, tỷ đồng, **không bao gồm thỏa thuận**, kèm nguồn và phạm vi thống kê để nối vào chuỗi khớp lệnh đã có. Người dùng không bị yêu cầu tự tìm nếu nguồn công bố sau; hiện chưa tìm được nên không giả số.
+Ba bước trạng thái theo II.H **RÚT GỌN**:
+- Bước 1: **KHÔNG — dòng R2** vì tổng −2≤−2, có căn cứ từ giá/MA và độ rộng.
+- Bước 2: nền **CHƯA ĐÁNH GIÁ**, trần **CHỜ** ⇒ giữ mức thấp hơn là **KHÔNG**.
+- Bước 3: chống đảo chiều **bỏ qua vì không có Sổ gốc**, không coi chặn cũ đã gỡ ⇒ **CHỐT KHÔNG — R2**.
+- **Không có vùng mua mới; R:R chỉ số KHÔNG ÁP DỤNG** do không có mốc vô hiệu đang hiệu lực từ Sổ gốc và KHÔNG cho phép mở mua.
+- **Định hướng phòng thủ ≤20% cổ phiếu**, không tăng margin, ưu tiên xử lý mã đã mất cấu trúc/vi phạm dừng lỗ riêng (theo 3–7% từng mã nếu áp dụng), không bán tháo đồng loạt.
 
-## V. Kiểm tra kỹ thuật và đồng bộ
+## IV. Mốc kỹ thuật và ba kịch bản NẾU–THÌ
 
-- EOD giá 17/11 đã **khóa 135/135 mã**, đối chiếu VNDIRECT Finfo với **KBS đúng ngày 135/135 mã**, 0/135 trực tiếp với CafeF do nguồn CafeF chưa có dòng đúng ngày tại thời điểm khóa, không gọi đó là đối chiếu CafeF thành công.
-- Workflow GitHub `44045509869` **thành công**, 188/188 phép thử đạt; kiểm toán website, kiểm soát phạm vi sửa đổi và so khớp byte sau triển khai **đạt**. https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/44045509869
-- Cổng thời gian của push maintenance trước 15:15 chọn ngày 16/11 là **đúng quy tắc an toàn**, không phải giá 17 đã cập nhật. Lượt đặt đích 17/11 sau đó phát hiện 2 test cố định ngày 16; đã chỉnh thành test theo ngày hiện hành, giữ kiểm tra stale NT2, sửa Regex test, **không bỏ phép thử**.
-- Bộ lịch EOD `TARGET_DATE: ${{ inputs.date }}` đã được khôi phục; lịch chạy 15:27/16:07 giờ Việt Nam giữ nguyên; không sửa quy tắc market stop, HTML/CSS, thứ tự mục hoặc danh mục.
-- `src/data/research-data.js` đã có `meta.updated=2026-11-17`, `marketSession.date=2026-11-17`; `src/data/individual-nt2-eod.json` giữ snapshot **16/11** và không đưa dữ liệu cũ làm EOD NT2 17.
-- **Không có module nhận định 17/11**, không thay bản 16/11. Đây là cổng xuất bản có chủ đích, không phải lỗi hiển thị.
+Các mốc được dùng trong báo cáo:
+- Hỗ trợ dưới có xuất xứ: **1.701,90**, thấp 09/11 VNSignal; giá thấp ngày 17/11 đang **CHƯA XÁC MINH** (nguồn lệch), không dùng để đặt lệnh.
+- Cản sát: **1.735,04**, cao 17/11 được VNIndex.ai và VNSignal đối chiếu.
+- Cản kế: **1.740,49**, MA20 TỰ TÍNH; tiếp theo **1.755,46**, MA50 TỰ TÍNH.
 
-## VI. Tự kiểm kiểm soát 20 mục theo Prompt
+TỐT — khả năng **THẤP**: NẾU đóng vượt 1.740,49 rồi MA50 1.755,46 cùng thanh khoản KHỚP và độ rộng cải thiện, toàn bộ cổng chặn rà được ⇒ THÌ tính lại 7 yếu tố và ba bước; không tự mua khi chưa chuyển CÓ.
 
-| Tiêu chí | Tình trạng |
+CƠ SỞ — khả năng **TRUNG BÌNH**: NẾU giằng co giữa hỗ trợ 1.701,90 và vùng cản 1.735,04–1.740,49, KHỚP chưa xác nhận TB20 ⇒ THÌ không mở mua, chỉ quản trị vị thế hiện hữu.
+
+XẤU — khả năng **TRUNG BÌNH/CAO** định tính dựa trên −2 và sức giá yếu: NẾU đóng dưới hỗ trợ 1.701,90 với nhiều mã giảm ⇒ THÌ giảm các mã yếu có tín hiệu vi phạm stop riêng và không dùng margin/bình quân xuống. Không ghi xác suất phần trăm.
+
+**Dòng tiền ngành (chỉ nói sức giá, không suy vốn ròng):** ngân hàng lớn VCB/BID yếu, dầu khí GAS/BSR/PVT giảm; sức giá riêng tại POW, KDH, DBC, điện và một số bất động sản. Không kết luận tiền ròng vào toàn ngành vì thiếu bảng giá + KHỚP + ngoại đồng phạm vi. Giá ngành/vốn ngoại phần thiếu không bịa.
+
+## V. Nhật ký tìm số 1 NGUỒN / CHƯA XÁC MINH
+
+| Trường | Trang đã thử và kết quả |
 |---|---|
-| 1. Đúng ngày, chốt giờ | ĐẠT có ghi giờ |
-| 2. Không dùng tương lai | ĐẠT |
-| 3. Số lõi có trích nguồn thật | ĐẠT với số có được |
-| 4. Trang được mở thực sự | ĐẠT với trang đã dẫn |
-| 5. Đủ mọi số lõi | **KHÔNG ĐẠT — thiếu KHỚP 17/11** |
-| 6. Nhật ký 3+ nguồn cho số thiếu | ĐẠT |
-| 7. Chuỗi một gốc | KHÔNG thực hiện vượt cổng |
-| 8. Số xuất bản có nguồn | ĐẠT — không xuất bản số chưa khóa |
-| 9. Không sửa Sổ cũ | ĐẠT |
-| 10. Ngày theo lệnh | ĐẠT |
-| 11. Xác định chế độ | KHÔNG thực hiện do cổng lõi |
-| 12. Nền xu hướng | KHÔNG thực hiện do cổng lõi |
-| 13. 7 yếu tố | KHÔNG thực hiện do cổng lõi |
-| 14. Kiểm cổng chặn | KHÔNG thực hiện do cổng lõi |
-| 15. Đường trạng thái ba bước | KHÔNG thực hiện do cổng lõi |
-| 16. Vùng mua | KHÔNG công bố |
-| 17. Mốc/R:R | KHÔNG công bố |
-| 18. Bản đồ dòng tiền ngành | KHÔNG xuất bản nhận định |
-| 19. Đồng nhất web/Zalo, giữ bố cục | Bảo toàn bố cục ĐẠT; Zalo không viết theo nguyên tắc dừng |
-| 20. Bổ sung Sổ dữ liệu | CHƯA thực hiện vì dữ liệu lõi thiếu và Sổ gốc chưa được cung cấp |
+| Khớp HOSE 9.607,97 tỷ | Vietnam.vn/Thời báo NH có số, đã dùng; VNSignal 9.596,84715378 tỷ giá trị VNINDEX khác rổ; Tin nhanh Chứng khoán tổng 14.961,5 và thỏa thuận 5.362 khác phạm vi; VNIndex.ai chỉ có tổng ~14,96 nghìn tỷ; nmquan timeout |
+| Giá thấp ngày 17 | VNIndex.ai 1.717,16; VNSignal 1.711,37; Thời báo Ngân hàng mô tả vùng 1.717, không xác nhận đủ độ chính xác; không dùng |
+| TB20 KHỚP / phân phối | VNSignal hiển thị 20 hàng, chưa mở được đủ 21/26; nmquan lịch sử timeout; VNIndex.ai bảng 60 là tổng có thỏa thuận; Dalink biểu đồ lịch sử theo tháng thiếu 26 giá trị KHỚP |
+| Ngoại KHỚP HOSE 5 phiên | Thời báo NH có tổng giao dịch; VNIndex.ai giá trị ròng ước tính từ khối lượng nhân giá; Stockbiz có tổng giao dịch; không có chuỗi khớp đầy đủ |
+| Basis, HNX đáo hạn chính thức | Tin nhanh Chứng khoán có hợp đồng 41I1GB000, chỉ 1 nguồn về giá; iWinStock là công bố khác, chưa khóa lịch HNX gốc; Stockbiz phái sinh không đủ phép phân xử; yếu tố 0 |
+| MA200 | VNIndex.ai 60 giá, VNSignal 20 giá; nmquan truy xuất timeout; không có bảng một gốc 200 ngày |
+| Mốc vô hiệu/chặn đang hiệu lực từ Sổ gốc | Không có Sổ người dùng cung cấp; hồ sơ web các phiên trước không thay thế Sổ; không tự tuyên bố gỡ |
 
-**Hồ sơ này là tài liệu kiểm toán nội bộ trong `docs/`, không nạp vào mục nhận định công khai.** Không đổi cấu trúc website.
+## VI. Bảng tự kiểm 20 tiêu chí
+
+| # | Kết quả | Ghi chú |
+|---|---|---|
+| 1 | ĐẠT | Đúng phiên 17/11, sau giờ giao dịch |
+| 2 | ĐẠT | Không dùng dữ kiện phiên sau |
+| 3 | ĐẠT | Số lõi trích nguyên văn ngắn thực đọc |
+| 4 | ĐẠT | URL đã mở qua web; nguồn bank đọc tại bản đăng lại được nêu rõ |
+| 5 | ĐẠT CÓ GIỚI HẠN | Giá, độ rộng đối chiếu; KHỚP 1 NGUỒN và nhãn có giới hạn |
+| 6 | ĐẠT | Có nhật ký >=2–3 nguồn thử cho các ô thiếu |
+| 7 | ĐẠT CÓ GIỚI HẠN | MA dùng 60 giá một gốc; không tính TB20/phân phối thiếu chuỗi |
+| 8 | ĐẠT | Số dùng trong báo cáo có trong log hoặc ngưỡng Prompt |
+| 9 | ĐẠT | Không sao/sửa Sổ cũ |
+| 10 | ĐẠT | Ngày phân tích từ lệnh user |
+| 11 | ĐẠT | RÚT GỌN vì thiếu TB20 + phân phối |
+| 12 | ĐẠT | Nền chưa đánh giá, MA200 thiếu rõ |
+| 13 | ĐẠT | 7 yếu tố −2/7, thiếu chấm 0 |
+| 14 | ĐẠT CÓ GIỚI HẠN | Veto thiếu không coi đã gỡ, không suy kích hoạt |
+| 15 | ĐẠT | R2 KHÔNG → trần CHỜ vẫn KHÔNG → bỏ chống đảo chiều |
+| 16 | ĐẠT | Không ghi vùng mua mới |
+| 17 | ĐẠT CÓ GIỚI HẠN | Mốc từ dữ liệu; không áp R:R thiếu Sổ |
+| 18 | ĐẠT | Ghi nhóm sức giá, không suy vốn ròng |
+| 19 | ĐẠT | Website + Zalo đồng bộ số, không hứa lợi nhuận, giữ khuôn |
+| 20 | KHÔNG ĐẠT HOÀN TOÀN | Sổ gốc không được dán, chỉ bổ sung được dòng mới có nhãn và Phần B có giới hạn |
+
+## VII. Sổ dữ liệu tự lưu — chỉ bổ sung, không chép cũ
+
+```
+=== SỔ DỮ LIỆU VNINDEX — cập nhật đến phiên 17/11/2026 ===
+PHẦN A — DÒNG MỚI
+Ngày;Đóng cửa;Cao;Thấp;% thay đổi;GT khớp HOSE (tỷ);Mã tăng;Mã giảm;Đứng giá;KN ròng KHỚP HOSE (tỷ);VN30;VN30F1M;Cờ sự kiện;Phân phối;Nhãn
+17/11/2026;1726,72;1735,04;;-0,59;9607,97;107;199;62;;1837,13;;;;ĐÃ ĐỐI CHIẾU: đóng/%, cao, độ rộng, VN30; 1 NGUỒN: KHỚP HOSE; CHƯA XÁC MINH: thấp, ngoại KHỚP, phái sinh, phân phối
+PHẦN B — TRẠNG THÁI MANG SANG
+Trạng thái chốt: KHÔNG (R2, -2/7)
+Chế độ: RÚT GỌN (thiếu TB20 khớp, phân phối/25)
+Nền: CHƯA ĐÁNH GIÁ; MA20 1740,49; MA50 1755,46; dốc MA20/5 +9,46; MA200 chưa có
+Mốc vô hiệu đang hiệu lực của Sổ gốc: KHÔNG KIỂM ĐƯỢC
+Kháng cự gần: 1735,04, sau đó MA20 1740,49 / MA50 1755,46
+Hỗ trợ: 1701,90, thấp phiên 09/11
+Chặn cứng từ phiên trước: KHÔNG KIỂM ĐƯỢC vì không có Sổ gốc
+Phiên phân phối còn hiệu lực: KHÔNG KIỂM ĐƯỢC
+Khối ngoại KHỚP 5 phiên: KHÔNG KIỂM ĐƯỢC
+Basis 3 phiên: KHÔNG KIỂM ĐƯỢC
+PHẦN C — ĐÍNH CHÍNH
+Không có Sổ gốc để lập dòng đính chính.
+```
+
+**Giới hạn thao tác web:** chỉ thêm một module dữ liệu nhận định 17/11 và một dòng nạp vào src/index.js; không thay HTML/CSS/khung, không sửa giá EOD, vùng mua, target, stoploss hoặc nội dung lịch sử. Đầu ra Zalo biên tập từ chính các số và trạng thái nêu trên.
