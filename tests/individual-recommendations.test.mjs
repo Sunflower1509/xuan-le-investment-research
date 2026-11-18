@@ -93,7 +93,8 @@ test("Never backdate loss events to previous session or compare stale NT2 snapsh
   future.meta.updated="2026-11-17";
   for(const q of future.coverage)q.priceDate="2026-11-17";
   const oldNt2={...nt2,close:19000,low:18900};
-  assert.equal(planIndividualExits(CONFIG,future,oldNt2,empty()).added.length,0);
+  const stalePlan=planIndividualExits(CONFIG,future,oldNt2,empty());
+  assert.equal(stalePlan.added.some(event=>event.ticker==="NT2"),false, "Stale NT2 cannot create a stop event, while other current-price tickers remain eligible for their real stops");
   const nt2Row=buildIndividualRows(CONFIG,future,oldNt2,empty()).find(x=>x.ticker==="NT2");
   assert.equal(nt2Row.fresh,false);
   assert.equal(nt2Row.deltaPct,null);
