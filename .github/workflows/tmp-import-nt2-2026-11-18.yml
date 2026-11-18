@@ -95,7 +95,7 @@ jobs:
           rm -f .github/workflows/tmp-import-nt2-2026-11-18.yml
           rm -f .github/workflows/tmp-import-nt2-2026-11-18.mjs
 
-          allowed='^(\.github/workflows/tmp-import-nt2-2026-11-18\.(yml|mjs)|index\.html|src/data/(research-data|company-logos|company-visuals)\.js|src/data/company-visual-candidates\.json|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\.mjs|tests/(company-visuals|civs-fetch-fallback)\.test\.mjs|docs/company-identity-visual-standard\.md|reports/NT2_2026-11-18\.pdf|assets/images/reports/nt2\.webp|assets/images/logos/nt2\.svg)$'
+          allowed='^(\.github/workflows/tmp-import-nt2-2026-11-18\.(yml|mjs)|index\.html|src/data/(research-data|company-logos|company-visuals)\.js|src/data/company-visual-candidates\.json|scripts/(sync-company-visuals|sync-company-visuals-core|audit-company-visuals-core|ensure-company-visual-candidates)\.mjs|tests/(company-visuals|civs-fetch-fallback|individual-recommendations)\.test\.mjs|docs/company-identity-visual-standard\.md|reports/NT2_2026-11-18\.pdf|assets/images/reports/nt2\.webp|assets/images/logos/nt2\.svg)$'
           changed="$(git status --porcelain --untracked-files=all | sed -E 's/^.. //')"
           unexpected="$(printf '%s\n' "$changed" | grep -Ev "$allowed" || true)"
           if [[ -n "$unexpected" ]]; then
