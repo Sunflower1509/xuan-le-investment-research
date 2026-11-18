@@ -8984,4 +8984,3 @@ window.RESEARCH_DATA = {
     }
   ]
 };
-

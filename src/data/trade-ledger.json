@@ -1232,6 +1232,15 @@
           "zoneHigh": null,
           "zoneBasisDate": "2026-11-12",
           "eligibility": "inactive"
+        },
+        "NT2": {
+          "date": "2026-11-17",
+          "close": 24200,
+          "relation": "above",
+          "zoneLow": 22300,
+          "zoneHigh": 22500,
+          "zoneBasisDate": "2026-11-18",
+          "eligibility": "inactive"
         }
       },
       "exitPolicy": {
