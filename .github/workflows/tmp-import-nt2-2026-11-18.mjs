@@ -122,6 +122,10 @@ const replacements={
   "scripts/audit-company-visuals-core.mjs":[["const EXPECTED = 135;","const EXPECTED = 136;"],["const REGISTRY_EXPECTED = 126;","const REGISTRY_EXPECTED = 127;"],["meta.candidateCount phải 133.","meta.candidateCount không khớp EXPECTED."],["133/133 complete phải có 133 unique hashes.","CIVS complete phải có EXPECTED unique hashes."]],
   "scripts/ensure-company-visual-candidates.mjs":[["const EXPECTED = 135;","const EXPECTED = 136;"],["const REGISTRY_EXPECTED = 126;","const REGISTRY_EXPECTED = 127;"]],
   "tests/civs-fetch-fallback.test.mjs":[["135-candidate state","136-candidate state"],["/const EXPECTED = 135/","/const EXPECTED = 136/"]],
+  "tests/individual-recommendations.test.mjs":[
+    ["Exactly four user-specified technical zones; preserve Research Terminal without fake NT2 coverage","Exactly four user-specified technical zones; official NT2 coverage must be linked to the latest valuation"],
+    ["  assert.equal(research.coverage.find(x=>x.ticker===\"NT2\"),undefined);","  const officialNt2=research.coverage.find(x=>x.ticker===\"NT2\");\n  assert.ok(officialNt2);\n  assert.equal(officialNt2.reportId,\"NT2-20261118\");\n  assert.equal(officialNt2.priceDate,research.meta.updated);\n  assert.equal(officialNt2.close,24200);\n  assert.match(officialNt2.priceSource,/vndirect/i);"]
+  ],
   "tests/company-visuals.test.mjs":[
     ["complete 135-code coverage","complete 136-code coverage"],
     ["visuals.meta.coverageTarget, 135","visuals.meta.coverageTarget, 136"],
