@@ -1,4 +1,4 @@
-/* Bản nhận định 17/11/2026 — chỉ bổ sung dữ liệu vào bộ nạp hiện hữu. */
+/* Bản nhận định 17/11/2026 — chỉ bổ sung dữ liệu vào bộ nạp hiện hữu. Kiểm toán lại 18/11, không sửa số/khung. */
 (function () {
   const store = window.DAILY_MARKET_INSIGHTS;
   if (!store || !Array.isArray(store.entries)) return;
