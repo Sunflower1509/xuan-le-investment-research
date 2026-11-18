@@ -1,7 +1,7 @@
 window.COMPANY_LOGOS = {
   "meta": {
     "schema": "tradingview-exact-symbol-svg-v1",
-    "count": 135,
+    "count": 136,
     "synced": "2026-09-16",
     "source": "TradingView exact symbol search locked by ticker + exchange + ISIN; unchanged verified local SVGs are reused and only missing tickers are resolved/downloaded"
   },
@@ -764,6 +764,17 @@ window.COMPANY_LOGOS = {
       "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3/?text=NLG&hl=1&exchange=HOSE&lang=en&domain=production",
       "sha256": "48f0c6f390b70bbfde295d6aea578a87ab23fada78de871c18ce13d40682dc74",
       "bytes": 541
+    },
+    "NT2": {
+      "path": "assets/images/logos/nt2.svg?v=20260916-logo3",
+      "alt": "Logo PetroVietnam Power Nhon Trach 2 JSC (NT2)",
+      "exchange": "HOSE",
+      "isin": "VN000000NT22",
+      "company": "PetroVietnam Power Nhon Trach 2 JSC",
+      "sourceUrl": "https://s3-symbol-logo.tradingview.com/petrovietnam-power-nhon-trach-2-joint-stock-company--big.svg",
+      "queryUrl": "https://symbol-search.tradingview.com/symbol_search/v3?text=NT2&hl=1&exchange=HOSE&lang=en&search_type=stock&domain=production",
+      "sha256": "da3bb82486a5b144652c4036dd37881a949b2af17414695cf838cd833c808d85",
+      "bytes": 3365
     },
     "NTC": {
       "path": "assets/images/logos/ntc.svg?v=20260916-logo3",

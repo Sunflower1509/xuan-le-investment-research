@@ -18,13 +18,18 @@ const rows=buildIndividualRows(CONFIG,research,nt2,exits);
 const by=new Map(rows.map(r=>[r.ticker,r]));
 const nearly=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,String(a)+" differs from "+String(b));
 
-test("Exactly four user-specified technical zones; preserve Research Terminal without fake NT2 coverage",()=>{
+test("Exactly four user-specified technical zones; official NT2 coverage must be linked to the latest valuation",()=>{
   assert.equal(validateIndividualRecommendations(CONFIG),true);
   assert.deepEqual(CONFIG.entries.map(x=>[x.ticker,x.zoneLow,x.zoneHigh]),[
     ["POW",12000,12500],["NT2",23000,23500],["VIX",12000,12500],["SHS",12000,12500]
   ]);
   assert.equal(CONFIG.publishedOn,"2026-11-17");
-  assert.equal(research.coverage.find(x=>x.ticker==="NT2"),undefined);
+  const officialNt2=research.coverage.find(x=>x.ticker==="NT2");
+  assert.ok(officialNt2);
+  assert.equal(officialNt2.reportId,"NT2-20261118");
+  assert.equal(officialNt2.priceDate,research.meta.updated);
+  assert.equal(officialNt2.close,24200);
+  assert.match(officialNt2.priceSource,/vndirect/i);
   assert.equal(rows.length,4);
 });
 test("Check midpoint, five-seven loss thresholds and model-only 2R/3R expected outcomes",()=>{

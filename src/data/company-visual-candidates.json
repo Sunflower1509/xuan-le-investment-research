@@ -1,9 +1,9 @@
 {
   "meta": {
     "schema": "civs-candidate-registry-v1",
-    "coverageTarget": 135,
-    "candidateCount": 126,
-    "updated": "2026-11-17",
+    "coverageTarget": 136,
+    "candidateCount": 127,
+    "updated": "2026-11-18",
     "policy": "First-party official source pages only; hero-auto discovery validates image provenance."
   },
   "candidates": [
@@ -840,6 +840,21 @@
         "Izumi",
         "dự án",
         "Nam Long"
+      ]
+    },
+    {
+      "ticker": "NT2",
+      "sourceUrl": "https://www.pvpnt2.vn/",
+      "officialDomain": "pvpnt2.vn",
+      "sourceTier": "A",
+      "identityType": "gas-power-plant",
+      "keywords": [
+        "NT2",
+        "Nhơn Trạch 2",
+        "nhà máy điện",
+        "điện khí",
+        "power plant",
+        "turbine"
       ]
     },
     {

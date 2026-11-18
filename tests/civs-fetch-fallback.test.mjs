@@ -23,13 +23,13 @@ test("CIVS core is awaited so wrapper post-sync demotion runs after generation c
   assert.match(wrapper, /demoteAuditInvalidLocalOutputs\(\)/);
 });
 
-test("sync wrapper keeps the process alive until the 135-candidate state is persisted", () => {
+test("sync wrapper keeps the process alive until the 136-candidate state is persisted", () => {
   assert.match(wrapper, /candidateCount/);
   assert.match(wrapper, /verifiedCount/);
   assert.match(wrapper, /pendingCount/);
   assert.match(wrapper, /await sleep\(250\)/);
   assert.match(wrapper, /persistence confirmed/);
-  assert.match(wrapper, /const EXPECTED = 135/);
+  assert.match(wrapper, /const EXPECTED = 136/);
   assert.match(wrapper, /candidate set \$\{EXPECTED\} mã/);
   assert.doesNotMatch(wrapper, /\b125\b/);
 });

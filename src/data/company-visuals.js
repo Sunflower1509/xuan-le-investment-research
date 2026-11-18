@@ -3,19 +3,19 @@ window.COMPANY_VISUALS = {
     "schema": "verified-core-asset-webp-v1",
     "standardVersion": "CIVS-1.0",
     "rollout": true,
-    "coverageTarget": 135,
+    "coverageTarget": 136,
     "count": 107,
     "verifiedCount": 107,
-    "pendingCount": 28,
-    "rolloutProgressPct": 79.3,
+    "pendingCount": 29,
+    "rolloutProgressPct": 78.7,
     "updated": "2026-09-12",
     "policy": "CIVS 1.0 — official first-party source only; real core operations/assets preferred, verified headquarters/workplace or product/network identity only when economically appropriate; minimum quality gate 8/10; no generative, stock or third-party editorial imagery.",
     "display": "Research cards only; valuation dialogs keep the dated report cover. Unverified tickers retain report-cover fallback.",
     "synced": "2026-11-17",
     "target": "960x540",
     "quality": 84,
-    "verification": "CIVS 1.0 RESUMABLE: 107/135 visuals verified; 28 remain on safe report-cover fallback until first-party verification passes.",
-    "candidateCount": 135,
+    "verification": "CIVS 1.0 RESUMABLE: 107/136 visuals verified; 29 remain on safe report-cover fallback until first-party verification passes.",
+    "candidateCount": 136,
     "pendingTickers": [
       "BFC",
       "BVH",
@@ -31,6 +31,7 @@ window.COMPANY_VISUALS = {
       "KSV",
       "LPB",
       "NKG",
+      "NT2",
       "NTC",
       "OCB",
       "OIL",
@@ -6912,6 +6913,33 @@ window.COMPANY_VISUALS = {
       "sourceBytes": 2863280,
       "syncedOn": "2026-11-17",
       "verifiedOn": "2026-11-17"
+    },
+    "NT2": {
+      "ticker": "NT2",
+      "kind": "company-asset",
+      "verified": false,
+      "pending": true,
+      "subject": "NT2 — hình ảnh doanh nghiệp chờ xác minh",
+      "sourceUrl": "https://www.pvpnt2.vn/",
+      "sourceLabel": "NT2 — nguồn chính thức",
+      "officialDomain": "pvpnt2.vn",
+      "sourceTier": "A",
+      "identityType": "gas-power-plant",
+      "allowedImageHosts": [],
+      "keywords": [
+        "NT2",
+        "Nhơn Trạch 2",
+        "nhà máy điện",
+        "điện khí",
+        "power plant",
+        "turbine"
+      ],
+      "sourceDiscovery": {
+        "type": "registry-pending",
+        "strategy": "candidate-registry-v1",
+        "resolvedFromOfficialPage": false
+      },
+      "lastFailure": "Chưa chạy xác minh hình ảnh đầy đủ trong lần deploy này; giữ report-cover fallback an toàn."
     }
   }
 };

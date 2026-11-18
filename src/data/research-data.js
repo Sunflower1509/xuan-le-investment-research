@@ -6,7 +6,7 @@ window.RESEARCH_DATA = {
     "role": "Môi giới và tư vấn đầu tư",
     "phone": "0977.811.398",
     "zalo": "https://zalo.me/0977811398",
-    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 135/135 mã được khóa tại phiên 17/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/135 mã; 135/135 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. không phát sinh ngoại lệ ngày không có giao dịch. 0/135 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 131/135 mã; CEO: VNDIRECT 7.214.700 vs KBS 7.213.000 (chênh 1.700); PVS: VNDIRECT 3.349.600 vs KBS 3.349.500 (chênh 100); SHS: VNDIRECT 5.979.400 vs KBS 5.972.300 (chênh 7.100); TIG: VNDIRECT 3.674.100 vs KBS 3.671.600 (chênh 2.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
+    "note": "Giá đóng cửa, biến động và khối lượng khớp lệnh của 136/136 mã được khóa tại phiên 17/11/2026. VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF 0/136 mã; 135/136 mã dùng KBS date-specific vì CafeF chưa có dòng EOD đúng ngày; NT2 dùng Stockbiz exact-date làm nguồn đối chiếu phụ; từng dòng KBS có OHLC hợp lệ và giá đóng cửa trùng VNDIRECT. không phát sinh ngoại lệ ngày không có giao dịch. 0/136 ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: không có ngoại lệ. Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu 132/136 mã; CEO: VNDIRECT 7.214.700 vs KBS 7.213.000 (chênh 1.700); PVS: VNDIRECT 3.349.600 vs KBS 3.349.500 (chênh 100); SHS: VNDIRECT 5.979.400 vs KBS 5.972.300 (chênh 7.100); TIG: VNDIRECT 3.674.100 vs KBS 3.671.600 (chênh 2.500). Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.",
     "coverSchema": "pdf-page-1-webp-v1",
     "coverWidth": 900,
     "coverSource": "First page of each referenced valuation PDF, rendered deterministically by pdftoppm + cwebp; landscape pages are centered on a white portrait canvas without distortion"
@@ -59,6 +59,49 @@ window.RESEARCH_DATA = {
     ]
   },
   "reports": [
+    {
+      "id": "NT2-20261118",
+      "ticker": "NT2",
+      "company": "CTCP Điện lực Dầu khí Nhơn Trạch 2",
+      "sector": "Tiện ích / nhiệt điện khí",
+      "exchange": "HOSE",
+      "date": "2026-11-18",
+      "recommendation": "THEO DÕI / CHỜ",
+      "status": "wait",
+      "marketPrice": 23900,
+      "marketPriceDate": "2026-11-18",
+      "baseValue": 27572,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 18158,
+      "rangeHigh": 35799,
+      "gapLabel": "P0 23.900 đồng/cp thấp hơn GTKV 27.572 đồng/cp khoảng 13,3%, nhưng giá vẫn cao hơn ngưỡng biên an toàn M 18.158 đồng và phiên 18/11 chưa có xác nhận khối lượng; trạng thái 1-3 tuần CHỜ.",
+      "method": "PP-12 DCF dự án hữu hạn đến 2036 60% + PP-16 EV/EBITDA nhiệt điện 40%; PP-18 chỉ kiểm tra, trọng số 0%",
+      "summary": "NT2 có dải giá trị có điều kiện 18.158-35.799 đồng/cp và GTKV 27.572 đồng/cp. Báo cáo tự đánh giá độ tin cậy THẤP, cổng dữ liệu CHƯA ĐẠT; hợp đồng bán điện hữu hạn tới 2036 và công nợ EPTC là rủi ro trọng yếu. Giá 18/11 ở trên MA20/MA50 nhưng khối lượng chỉ 0,71 lần bình quân 20 phiên, nên không có trạng thái CÓ MUA.",
+      "action": {
+        "zoneLow": 22300,
+        "zoneHigh": 22500,
+        "baseValue": 27572,
+        "stop": 21600,
+        "targets": [
+          24500,
+          25300
+        ],
+        "basisDate": "2026-11-18",
+        "recommendation": "CHỜ - CHƯA XÁC NHẬN KHỐI LƯỢNG",
+        "eligibility": "inactive",
+        "condition": "Nếu giá hồi về 22.300-22.500 đồng/cp và đồng thời có xác nhận xu hướng, dòng tiền, sức mạnh tương đối, nền giá và thanh khoản thì mới xét CÓ MUA. Stop tham chiếu 21.600 đồng, thấp hơn cận trên vùng mua 4,0%; mục tiêu 24.500 và 25.300 đồng; R/R theo mục tiêu 1 tại cận trên là 2,22. Nếu chưa đủ khối lượng/xác nhận thì tiếp tục CHỜ và không đặt lệnh chỉ vì giá thấp hơn GTKV."
+      },
+      "file": "reports/NT2_2026-11-18.pdf",
+      "edition": "Bản định giá 18.11.2026",
+      "visual": {
+        "src": "assets/images/reports/nt2.webp?v=20261118-cover1",
+        "alt": "Trang bìa báo cáo định giá NT2 ngày 18/11/2026",
+        "caption": "Bìa báo cáo định giá NT2",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/NT2_2026-11-18.pdf",
+        "kind": "report-cover"
+      }
+    },
     {
       "id": "VHM-20261117",
       "ticker": "VHM",
@@ -7242,6 +7285,33 @@ window.RESEARCH_DATA = {
         "recommendation": "CHỜ - ĐỊNH GIÁ MUA NHƯNG KỸ THUẬT CHƯA XÁC NHẬN",
         "eligibility": "inactive",
         "condition": "Không mua chủ động tại 21.900 chỉ vì định giá rẻ. Chỉ đánh giá điểm mua khi giá lấy lại vùng EMA50 quanh 23.600, hình thành nền chặt/điểm vượt rõ ràng và khối lượng >=1,5x TB20; sau đó kiểm tra sức mạnh tương đối trên AmiBroker. Lệnh tương lai phải có stop 3-7% và R/R >=2."
+      }
+    },
+    {
+      "ticker": "NT2",
+      "company": "CTCP Điện lực Dầu khí Nhơn Trạch 2",
+      "sector": "Điện",
+      "exchange": "HOSE",
+      "reportId": "NT2-20261118",
+      "close": 24200,
+      "priceDate": "2026-11-17",
+      "changePct": 2.1097,
+      "volume": 2785900,
+      "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:NT2~date:2026-11-17&size=10",
+      "priceSourceSecondary": "https://web.stockbiz.vn/Stocks/NT2/LookupQuote.aspx?Date=17%2F11%2F2026",
+      "action": {
+        "zoneLow": 22300,
+        "zoneHigh": 22500,
+        "baseValue": 27572,
+        "stop": 21600,
+        "targets": [
+          24500,
+          25300
+        ],
+        "basisDate": "2026-11-18",
+        "recommendation": "CHỜ - CHƯA XÁC NHẬN KHỐI LƯỢNG",
+        "eligibility": "inactive",
+        "condition": "Nếu giá hồi về 22.300-22.500 đồng/cp và đồng thời có xác nhận xu hướng, dòng tiền, sức mạnh tương đối, nền giá và thanh khoản thì mới xét CÓ MUA. Stop tham chiếu 21.600 đồng, thấp hơn cận trên vùng mua 4,0%; mục tiêu 24.500 và 25.300 đồng; R/R theo mục tiêu 1 tại cận trên là 2,22. Nếu chưa đủ khối lượng/xác nhận thì tiếp tục CHỜ và không đặt lệnh chỉ vì giá thấp hơn GTKV."
       }
     },
     {
