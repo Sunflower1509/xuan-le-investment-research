@@ -1,4 +1,4 @@
-# Verified EOD recovery audit request for 2026-11-17 after close; recheck strict verification and date-aware tests with unchanged risk and layout guards
+# Verified EOD audit request for 2026-11-19 after close; retain strict verification, user-approved page structure and risk gates
 name: Verified EOD market lock and deploy
 
 on:
