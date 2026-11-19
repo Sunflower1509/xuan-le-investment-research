@@ -48,7 +48,7 @@ jobs:
         id: market
         shell: bash
         env:
-          TARGET_DATE: ${{ inputs.date }}
+          TARGET_DATE: '2026-11-18' # one-off date explicitly requested; revert with skip-ci once verified
         run: |
           set -euo pipefail
           if [[ -n "${TARGET_DATE:-}" ]]; then
