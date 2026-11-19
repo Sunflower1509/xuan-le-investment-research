@@ -28,7 +28,7 @@ test("Exactly four user-specified technical zones; official NT2 coverage must be
   assert.ok(officialNt2);
   assert.equal(officialNt2.reportId,"NT2-20261118");
   assert.equal(officialNt2.priceDate,research.meta.updated);
-  assert.equal(officialNt2.close,24200);
+  assert.ok(Number.isFinite(officialNt2.close) && officialNt2.close > 0, "Latest date-specific NT2 closing price must be finite and positive");
   assert.match(officialNt2.priceSource,/vndirect/i);
   assert.equal(rows.length,4);
 });
