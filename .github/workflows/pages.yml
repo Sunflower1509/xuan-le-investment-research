@@ -17,6 +17,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: write
   pages: write
   id-token: write
@@ -221,10 +222,39 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: ${{ runner.temp }}/site
+          name: github-pages-${{ github.run_attempt }}
+
+      - name: Wait for Pages artifact visibility
+        if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_NAME: github-pages-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 15); do
+            if payload=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts?name=${ARTIFACT_NAME}&per_page=100"); then
+              count=$(jq --arg name "$ARTIFACT_NAME" '[.artifacts[] | select(.name == $name and .expired == false)] | length' <<< "$payload")
+              if [[ "$count" == "1" ]]; then
+                echo "Verified unique Pages artifact: $ARTIFACT_NAME"
+                exit 0
+              fi
+              if (( count > 1 )); then
+                echo "::error::Multiple active Pages artifacts named $ARTIFACT_NAME"
+                exit 1
+              fi
+            fi
+            echo "Artifact not visible yet (attempt $attempt/15)."
+            if (( attempt < 15 )); then sleep 5; fi
+          done
+          echo "::error::Pages artifact never became visible; deployment stopped safely."
+          exit 1
       - name: Deploy to GitHub Pages
         if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
       - name: Post-deploy byte verification
         if: steps.persist.outputs.stale != 'true' && steps.freshness.outputs.fresh == 'true'
         run: |

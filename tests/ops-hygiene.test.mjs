@@ -114,3 +114,19 @@ test("Automatic EOD push respects last completed trading session before 15:15", 
   assert.match(daily, /OFFICIAL_TRADING_HOLIDAYS_2026="[^"\n]* 2026-11-24 /);
   assert.match(watchdog, /holidays2026 = new Set\(\[[\s\S]*?'2026-11-24'[\s\S]*?\]\)/);
 });
+
+
+test("Pages deploy waits for a unique visible artifact scoped to the current attempt", () => {
+  for (const path of [".github/workflows/pages.yml", ".github/workflows/eod-daily.yml"]) {
+    const workflow = read(path);
+    const upload = workflow.indexOf("- name: Upload website artifact");
+    const visibility = workflow.indexOf("- name: Wait for Pages artifact visibility");
+    const deploy = workflow.indexOf("- name: Deploy to GitHub Pages");
+    assert.ok(upload >= 0 && upload < visibility && visibility < deploy);
+    assert.ok(workflow.includes("actions: read"));
+    assert.ok(workflow.includes('name: github-pages-${{ github.run_attempt }}'));
+    assert.ok(workflow.includes('artifact_name: github-pages-${{ github.run_attempt }}'));
+    assert.ok(workflow.includes("Multiple active Pages artifacts"));
+    assert.ok(workflow.includes("deployment stopped safely"));
+  }
+});
