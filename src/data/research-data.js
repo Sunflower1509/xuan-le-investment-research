@@ -60,6 +60,46 @@ window.RESEARCH_DATA = {
   },
   "reports": [
     {
+      "id": "DCL-20261125",
+      "ticker": "DCL",
+      "company": "Công ty Cổ phần Dược phẩm Cửu Long",
+      "sector": "Dược phẩm",
+      "exchange": "HOSE",
+      "date": "2026-11-25",
+      "recommendation": "TRÁNH / LOẠI",
+      "status": "reject",
+      "marketPrice": 30700,
+      "marketPriceDate": "2026-11-25",
+      "baseValue": 8000,
+      "valueLabel": "Giá trị kỳ vọng có điều kiện",
+      "rangeLow": 1600,
+      "rangeHigh": 15100,
+      "gapLabel": "P0 30.700 đồng/cp vượt cận trên 15.100 đồng/cp của mô hình có điều kiện. Cổng dữ liệu KHÔNG ĐẠT, độ tin cậy THẤP.",
+      "method": "PP-01 FCFF 44,4% + PP-16 EV/EBITDA 55,6%; PP-18 kiểm tra, trọng số 0%",
+      "summary": "Báo cáo có điều kiện, độ tin cậy THẤP, cổng dữ liệu KHÔNG ĐẠT. GTKV 8.000 đồng/cp; dải giá trị 1.600–15.100 đồng/cp. Khối lượng phiên 25/11 trong PDF là 1.000 cp, khác lịch sử BSC 1.200 cp, cần đối chiếu. Trang 11 có lỗi diễn giải so sánh 1,03 và 0,8. Không thiết lập kịch bản giao dịch.",
+      "action": {
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 8000,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-25",
+        "recommendation": "LOẠI - KHÔNG THIẾT LẬP KỊCH BẢN GIAO DỊCH",
+        "eligibility": "veto",
+        "condition": "Theo báo cáo có điều kiện ngày 25/11/2026, cổng dữ liệu và bộ lọc thanh khoản chưa đạt; không xác lập vùng mua, dừng lỗ, mục tiêu hoặc R/R. Ngưỡng M chỉ là kết quả mô hình, không phải điểm đặt lệnh."
+      },
+      "file": "reports/DCL_2026-11-25.pdf",
+      "edition": "Bản định giá 25.11.2026",
+      "visual": {
+        "src": "assets/images/reports/dcl.webp?v=20261125-cover1",
+        "alt": "Trang bìa báo cáo định giá DCL ngày 25/11/2026",
+        "caption": "Bìa báo cáo định giá DCL",
+        "sourceLabel": "Xuân Lê TVS Equity Research",
+        "sourceUrl": "reports/DCL_2026-11-25.pdf",
+        "kind": "report-cover"
+      }
+    },
+    {
       "id": "NT2-20261118",
       "ticker": "NT2",
       "company": "CTCP Điện lực Dầu khí Nhơn Trạch 2",
@@ -1559,49 +1599,6 @@ window.RESEARCH_DATA = {
         "caption": "Bìa báo cáo định giá KSV",
         "sourceLabel": "Xuân Lê TVS Equity Research",
         "sourceUrl": "reports/KSV_2026-09-22.pdf",
-        "kind": "report-cover"
-      }
-    },
-    {
-      "id": "DCL-20260918",
-      "ticker": "DCL",
-      "company": "Công ty Cổ phần Dược phẩm Cửu Long",
-      "sector": "Dược phẩm",
-      "exchange": "HOSE",
-      "date": "2026-09-18",
-      "recommendation": "TRÁNH / LOẠI MUA MỚI",
-      "status": "reject",
-      "marketPrice": 42450,
-      "marketPriceDate": "2026-09-17",
-      "baseValue": 24568,
-      "valueLabel": "Expected-value anchor",
-      "rangeLow": 17300,
-      "rangeHigh": 37500,
-      "gapLabel": "Giá 42.450 đồng/cp cao hơn cận trên 37.500 đồng/cp khoảng 13,2%; chưa có biên an toàn cho mua mới.",
-      "method": "DCF theo FCFF; kiểm chứng P/E, P/B và EV/EBITDA",
-      "summary": "DCL có khoảng giá trị hợp lý 17.300-37.500 đồng/cp và expected-value anchor 24.568 đồng/cp. Tại 42.450 đồng/cp ngày 17/09/2026, báo cáo xác định TRÁNH / LOẠI mua mới.",
-      "action": {
-        "zoneLow": 17198,
-        "zoneHigh": 18426,
-        "baseValue": 24568,
-        "stop": 17000,
-        "targets": [
-          24600,
-          31248
-        ],
-        "basisDate": "2026-09-18",
-        "recommendation": "TRÁNH / LOẠI MUA MỚI",
-        "eligibility": "active",
-        "condition": "IF giá >37.500 THEN LOẠI mua mới, không đuổi giá. IF giá 24.600-37.500 THEN CHỜ. IF giá 17.198-18.426 và nền tảng cơ bản không xấu thêm, thanh khoản xác nhận THEN CÓ THỂ MUA; entry tham chiếu 18.000, stop 17.000 (~-5,6%), target 24.600 rồi 31.248. IF EBIT margin/FCFF thấp hơn bear case hoặc nợ tăng mạnh THEN hủy luận điểm, không bình quân giá xuống."
-      },
-      "file": "reports/DCL_2026-09-18.pdf",
-      "edition": "Bản định giá 18.09.2026",
-      "visual": {
-        "src": "assets/images/reports/dcl.webp?v=20260918-cover1",
-        "alt": "Trang bìa báo cáo định giá DCL ngày 18/09/2026",
-        "caption": "Bìa báo cáo định giá DCL",
-        "sourceLabel": "Xuân Lê TVS Equity Research",
-        "sourceUrl": "reports/DCL_2026-09-18.pdf",
         "kind": "report-cover"
       }
     },
@@ -6054,7 +6051,7 @@ window.RESEARCH_DATA = {
       "company": "Công ty Cổ phần Dược phẩm Cửu Long",
       "sector": "Dược phẩm",
       "exchange": "HOSE",
-      "reportId": "DCL-20260918",
+      "reportId": "DCL-20261125",
       "close": 33000,
       "priceDate": "2026-11-23",
       "changePct": -6.9111,
@@ -6062,18 +6059,15 @@ window.RESEARCH_DATA = {
       "priceSource": "https://api-finfo.vndirect.com.vn/v4/stock_prices?sort=date&q=code:DCL~date:2026-11-23&size=10",
       "priceSourceSecondary": "https://cafef.vn/du-lieu/DuLieu.aspx?cat_id=1009&symbol=DCL",
       "action": {
-        "zoneLow": 17198,
-        "zoneHigh": 18426,
-        "baseValue": 24568,
-        "stop": 17000,
-        "targets": [
-          24600,
-          31248
-        ],
-        "basisDate": "2026-09-18",
-        "recommendation": "TRÁNH / LOẠI MUA MỚI",
-        "eligibility": "active",
-        "condition": "IF giá >37.500 THEN LOẠI mua mới, không đuổi giá. IF giá 24.600-37.500 THEN CHỜ. IF giá 17.198-18.426 và nền tảng cơ bản không xấu thêm, thanh khoản xác nhận THEN CÓ THỂ MUA; entry tham chiếu 18.000, stop 17.000 (~-5,6%), target 24.600 rồi 31.248. IF EBIT margin/FCFF thấp hơn bear case hoặc nợ tăng mạnh THEN hủy luận điểm, không bình quân giá xuống."
+        "zoneLow": null,
+        "zoneHigh": null,
+        "baseValue": 8000,
+        "stop": null,
+        "targets": [],
+        "basisDate": "2026-11-25",
+        "recommendation": "LOẠI - KHÔNG THIẾT LẬP KỊCH BẢN GIAO DỊCH",
+        "eligibility": "veto",
+        "condition": "Theo báo cáo có điều kiện ngày 25/11/2026, cổng dữ liệu và bộ lọc thanh khoản chưa đạt; không xác lập vùng mua, dừng lỗ, mục tiêu hoặc R/R. Ngưỡng M chỉ là kết quả mô hình, không phải điểm đặt lệnh."
       }
     },
     {
