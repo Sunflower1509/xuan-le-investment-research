@@ -12,3 +12,9 @@
 - HNX xác nhận 24/11 nghỉ và giao dịch trở lại 25/11. https://knowledge.hnx.vn/vi-vn/chi-tiet-lich-nghi-gd-60023839.html?_page=1
 - Trang phiên VNIndex.ai riêng không truy cập lại được; giữ nguồn bảng lịch sử đã mở. Không dùng làm nguồn đối chiếu mới.
 - Kiểm thử Visual smoke QA lần trước thất bại do thiếu signalParts/detailParts độ rộng; bổ sung đúng hợp đồng renderer, không sửa CSS hoặc bài test.
+
+## Kiểm toán bổ sung — nguồn cố định và QA
+- HOSE (25/11, 16:50:52): dòng VNINDEX 1687,45; -9,69; -0,57%; khớp toàn sàn 8809 tỷ; thỏa thuận 7979 tỷ; tổng 16788 tỷ. https://web.stockbiz.vn/News/2026/11/25/1927143/hose-diem-tin-giao-dich-ngay-25-11-2026.aspx
+- Thời báo Tài chính Việt Nam (25/11, 17:28): 84 tăng, 227 giảm, 53 tham chiếu; chỉ số đóng 1687,45 (-0,57%). Bài có ngày cố định: https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-25-11-luc-cau-suy-yeu-vn-index-quay-dau-giam-diem-207506.html. Thay link trang tổng hợp thay đổi theo ngày trong nội dung công khai. Chưa xác định được phạm vi đếm chi tiết giữa nguồn này và BSC, giữ số nguồn riêng biệt.
+- VNIndex.ai bảng lịch sử đã mở: 25/11 đóng 1687,45; 23/11 đóng 1697,14; giá trị GD bao gồm thỏa thuận. https://vnindex.ai/vnindex-hom-nay
+- Kiểm thử giao diện của commit 886a37e1a93d4ef35bf17de53aa1832a8a1bf4f5 đã hoàn tất thành công: https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/45612891124. Bản sửa nguồn tiếp theo cần kiểm thử lại; chưa hợp nhất nhánh chính.

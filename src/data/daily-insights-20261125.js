@@ -10,7 +10,7 @@
   "rulebookVersion": "v3.3.1",
   "sentiment": "cautious",
   "sentimentLabel": "CHỜ XÁC MINH",
-  "dataStatus": "Dữ liệu chỉ số đối chiếu HOSE, BSC và VNIndex.ai. Khớp toàn sàn HOSE lấy từ thông báo chính thức; chuỗi so sánh nmquan khác phương pháp, không ghép nguồn. Giá 136 mã chưa khóa ngày 25/11 tại thời điểm lập bản rà soát. Thiếu Sổ gốc, MA200 đã xác minh, chuỗi ngoại khớp và basis; lịch sự kiện chưa bao phủ đầy đủ.",
+  "dataStatus": "Dữ liệu chỉ số đối chiếu HOSE, BSC và VNIndex.ai. Khớp toàn sàn HOSE lấy từ thông báo chính thức; chuỗi so sánh nmquan khác phương pháp, không ghép nguồn. Giá 136 mã chưa khóa ngày 25/11 tại thời điểm lập bản rà soát. Thiếu Sổ gốc, MA200 đã xác minh, chuỗi ngoại khớp và basis; lịch sự kiện chưa bao phủ đầy đủ. Độ rộng 84/227/53 được Thời báo Tài chính Việt Nam xác nhận trong bài đăng đúng ngày 25/11.",
   "title": "VN-Index mất 1.700 điểm, độ rộng suy yếu, thanh khoản khớp thấp",
   "thesis": "VN-Index đóng cửa 1.687,45 điểm, giảm 9,69 điểm (−0,57%). Độ rộng theo phạm vi thống kê 84 tăng, 227 giảm, 53 đứng giá. HOSE công bố giá trị khớp toàn sàn 8.809 tỷ đồng, thỏa thuận 7.979 tỷ; chuỗi thống kê riêng của nmquan cho khớp 8.431,6 tỷ, bằng 0,736 lần trung bình 20 phiên trước của chính chuỗi đó. Giá dưới MA20 và MA50 đang phản ánh nền kỹ thuật yếu. Chưa khóa đủ dữ liệu để kết luận trạng thái tác nghiệp theo toàn bộ quy tắc V3.3.1.",
   "author": "Xuân Lê TVS",
@@ -133,8 +133,9 @@
     "HOSE công bố 8.809 tỷ khớp và 7.979 tỷ thỏa thuận, tổng toàn thị trường 16.788 tỷ; giá trị giao dịch của VNINDEX là 16.091,20 tỷ. Không đánh đồng hai phạm vi. nmquan ghi 8.431,6 tỷ khớp, thấp hơn trung bình 20 phiên trước của chính nguồn đó là 11.452,58 tỷ.",
     "MA20 1.723,85; MA50 1.743,76; MA20 5 phiên trước 1.740,49. Dữ liệu đóng cửa cùng nguồn VNIndex.ai, tự tính; không có kết luận xác nhận MA200. Theo HOSE, năng lượng giảm 2,08%, công nghệ thông tin và nguyên vật liệu cùng giảm 1,55%.",
     "Độ rộng nguồn thống kê khác nhau; dùng 84/227/53 của phạm vi báo cáo nêu trên, không cộng ghép với tập 404 mã VNIndex.ai. Chưa xác nhận ngoại khớp riêng và basis. Không đưa điểm tổng hay kết luận chặn cứng khi chưa kiểm đủ sự kiện.",
-    "BSC ghi nhận giá trị khớp lệnh rổ VN-Index 8.786 tỷ đồng, thấp hơn 23,4% so với bình quân 20 phiên theo phương pháp BSC. Con số này khác phạm vi khớp lệnh toàn HOSE 8.809 tỷ đồng. BSC ghi 87 mã tăng, 238 giảm, 82 đứng giá theo phạm vi báo cáo; không trộn với bộ số 84/227/53 của taichinh.com.",
-    "BSC ghi nhận khối ngoại bán ròng 5.674,4 tỷ đồng theo tổng giao dịch HOSE. Không sử dụng số tổng này thay cho giao dịch khớp lệnh ròng."
+    "BSC ghi nhận giá trị khớp lệnh rổ VN-Index 8.786 tỷ đồng, thấp hơn 23,4% so với bình quân 20 phiên theo phương pháp BSC. Con số này khác phạm vi khớp lệnh toàn HOSE 8.809 tỷ đồng. BSC ghi 87 mã tăng, 238 giảm, 82 đứng giá theo phạm vi báo cáo; không trộn với bộ số 84/227/53 của Thời báo Tài chính Việt Nam.",
+    "BSC ghi nhận khối ngoại bán ròng 5.674,4 tỷ đồng theo tổng giao dịch HOSE. Không sử dụng số tổng này thay cho giao dịch khớp lệnh ròng.",
+    "Bản tin HOSE lúc 16:50:52 xác nhận tổng giao dịch toàn sàn gồm 476.569.354 chứng khoán khớp lệnh, giá trị 8.809 tỷ đồng; giá trị thỏa thuận 7.979 tỷ đồng. Thời báo Tài chính Việt Nam lúc 17:28 xác nhận độ rộng 84 tăng, 227 giảm, 53 tham chiếu. Khác biệt phạm vi với BSC được giữ nguyên, không ghép số liệu."
   ],
   "levels": [
     {
@@ -186,8 +187,8 @@
       "url": "https://nmquan.vn/data/chi-so/vn-index/lich-su"
     },
     {
-      "label": "Taichinh.com — độ rộng 25/11; nhãn ngày so sánh sai, không dùng nhãn đó",
-      "url": "https://taichinh.com/chung-khoan"
+      "label": "Thời báo Tài chính Việt Nam — độ rộng HOSE 25/11, bài đăng 17:28",
+      "url": "https://thoibaotaichinhvietnam.vn/chung-khoan-ngay-25-11-luc-cau-suy-yeu-vn-index-quay-dau-giam-diem-207506.html"
     },
     {
       "label": "BSC — báo cáo thị trường 25/11, chỉ số và thanh khoản rổ VN-Index",
