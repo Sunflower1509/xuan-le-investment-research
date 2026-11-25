@@ -595,6 +595,38 @@ const verifyDate = async (coverage, date) => {
   };
 };
 
+/* Keep only same-run, exact-date, fully verified quotes; every new job starts empty. */
+export async function verifyWithRetries(coverage, date, {verify, maxAttempts=3, wait=async()=>{}, onAttempt=()=>{}}) {
+  const tickerOf = item => String(item.ticker || "").toUpperCase();
+  const expected = new Map(coverage.map(item=>[tickerOf(item),item]));
+  if (expected.size !== coverage.length || !Number.isInteger(maxAttempts) || maxAttempts < 1) throw new Error("Invalid retry configuration");
+  const locked = new Map();
+  let errors = [];
+  for (let attempt=1; attempt<=maxAttempts; attempt++) {
+    const pending = coverage.filter(item=>!locked.has(tickerOf(item)));
+    const pendingSet = new Set(pending.map(tickerOf));
+    const result = await verify(pending,date);
+    const seen = new Set();
+    for (const quote of result.quotes) {
+      const ticker=tickerOf(quote);
+      if (!pendingSet.has(ticker) || seen.has(ticker) || quote.priceDate !== date) throw new Error("Invalid retry quote "+ticker);
+      seen.add(ticker);
+      locked.set(ticker,quote);
+    }
+    errors=result.errors;
+    for (const error of errors) {
+      const ticker=tickerOf(error);
+      if (!pendingSet.has(ticker) || seen.has(ticker)) throw new Error("Invalid retry error "+ticker);
+      seen.add(ticker);
+    }
+    if (seen.size!==pending.length) throw new Error("Incomplete retry result");
+    onAttempt({attempt,requested:pending.length,verified:locked.size,total:coverage.length});
+    if (locked.size===coverage.length || attempt===maxAttempts) break;
+    await wait();
+  }
+  return {quotes:coverage.filter(item=>locked.has(tickerOf(item))).map(item=>locked.get(tickerOf(item))),errors};
+}
+
 const immutableProjection = (input) => {
   const clone = structuredClone(input);
   delete clone.meta.updated;
@@ -661,29 +693,22 @@ const run = async () => {
     return;
   }
 
-  let verified = null;
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    const result = await verifyDate(before.coverage, targetDate);
-    console.log(`EOD verification attempt ${attempt}/${maxAttempts}: ${result.quotes.length}/${tickers.length}`);
-    if (result.quotes.length === tickers.length && result.errors.length === 0) {
-      verified = result;
-      break;
-    }
-    const onlyMissingRows = result.quotes.length === 0 && result.errors.length === tickers.length
-      && result.errors.every((entry) => /missing row/i.test(entry.error));
-    if (attempt < maxAttempts) {
-      await sleep(waitMs);
-      continue;
-    }
+  const verified = await verifyWithRetries(before.coverage, targetDate, {
+    verify: verifyDate, maxAttempts, wait: () => sleep(waitMs),
+    onAttempt: ({attempt,requested,verified,total}) => console.log(`EOD verification attempt ${attempt}/${maxAttempts}: ${verified}/${total}; requested ${requested}`)
+  });
+  if (verified.quotes.length !== tickers.length || verified.errors.length) {
+    const onlyMissingRows = verified.quotes.length === 0 && verified.errors.length === tickers.length
+      && verified.errors.every((entry) => /missing row/i.test(entry.error));
     if (onlyMissingRows) {
-      const payload = { status: "not-ready", date: targetDate, coverageCount: tickers.length, errors: result.errors };
+      const payload = { status: "not-ready", date: targetDate, coverageCount: tickers.length, errors: verified.errors };
       await writeStatus(statusFile, payload);
       await writeOutput("status", payload.status);
       await writeOutput("date", targetDate);
       console.log(JSON.stringify(payload));
       return;
     }
-    throw new Error(`EOD ${targetDate} không vượt Data Gate: verified=${result.quotes.length}/${tickers.length}; ${JSON.stringify(result.errors)}`);
+    throw new Error(`EOD ${targetDate} không vượt Data Gate: verified=${verified.quotes.length}/${tickers.length}; ${JSON.stringify(verified.errors)}`);
   }
 
   const quoteMap = new Map(verified.quotes.map((quote) => [quote.ticker, quote]));

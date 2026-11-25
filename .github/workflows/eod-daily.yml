@@ -44,6 +44,9 @@ jobs:
           node-version: 22
           package-manager-cache: false
 
+      - name: Validate EOD verification and retry regression tests
+        run: node --test tests/eod-market-data.test.mjs
+
       - name: Cross-check and lock EOD market data
         id: market
         shell: bash

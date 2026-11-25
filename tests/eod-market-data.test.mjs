@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict, parseCophieu68NoTrade } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict, parseCophieu68NoTrade, verifyWithRetries } from "../scripts/update-eod-market-data.mjs";
 import { updateCacheTokenHtml } from "../scripts/update-cache-token.mjs";
 
 const date = "2026-08-20";
@@ -225,4 +225,32 @@ test("Cophieu68 no-trade confirmation validates precise date, price and zero vol
   assert.throws(()=>parseCophieu68NoTrade(html,"2026-10-13"),/missing exact-date row/);
   assert.throws(()=>parseCophieu68NoTrade(html.replace('>0</td>', '>100</td>'),date),/not a zero-volume/);
   assert.throws(()=>parseCophieu68NoTrade(html.replace('<strong>10.40', '<strong>10.50'),date),/not a zero-volume/);
+});
+
+test("EOD retries only unverified symbols, preserving original coverage order", async () => {
+  const coverage = [{ticker:"AAA"},{ticker:"BBB"},{ticker:"CCC"}];
+  const calls = [];
+  const result = await verifyWithRetries(coverage,date,{
+    verify: async (items,d) => {
+      calls.push(items.map(x=>x.ticker));
+      const ok=items.filter(x=>x.ticker!=="BBB" || calls.length>1);
+      return {quotes:ok.map(x=>({...x,priceDate:d})),errors:items.filter(x=>!ok.includes(x)).map(x=>({...x,error:"timeout"}))};
+    }
+  });
+  assert.deepEqual(calls,[["AAA","BBB","CCC"],["BBB"]]);
+  assert.deepEqual(result.quotes.map(x=>x.ticker),["AAA","BBB","CCC"]);
+  assert.deepEqual(result.errors,[]);
+});
+test("EOD retry never locks wrong-date, duplicate or incomplete results",async()=>{
+  const coverage=[{ticker:"AAA"}];
+  await assert.rejects(verifyWithRetries(coverage,date,{verify:async()=>({quotes:[{ticker:"AAA",priceDate:"2026-08-19"}],errors:[]})}),/Invalid retry quote/);
+  await assert.rejects(verifyWithRetries(coverage,date,{verify:async()=>({quotes:[{ticker:"AAA",priceDate:date},{ticker:"AAA",priceDate:date}],errors:[]})}),/Invalid retry quote/);
+  await assert.rejects(verifyWithRetries(coverage,date,{verify:async()=>({quotes:[],errors:[]})}),/Incomplete retry result/);
+});
+test("EOD retry reports unresolved symbols without claiming complete verification",async()=>{
+  const coverage=[{ticker:"AAA"},{ticker:"BBB"}];
+  const result=await verifyWithRetries(coverage,date,{maxAttempts:2,verify:async(items,d)=>({quotes:items.filter(x=>x.ticker==="AAA").map(x=>({...x,priceDate:d})),errors:items.filter(x=>x.ticker==="BBB").map(x=>({...x,error:"timeout"}))})});
+  assert.equal(result.quotes.length,1);
+  assert.equal(result.errors.length,1);
+  assert.equal(result.errors[0].ticker,"BBB");
 });
