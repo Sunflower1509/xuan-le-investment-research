@@ -107,3 +107,10 @@ test("Automatic EOD push respects last completed trading session before 15:15", 
   assert.ok(workflow.includes("date -d 'yesterday' +%F"));
   assert.ok(workflow.includes('while (( $(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u) >= 6 )); do'));
 });
+
+ test("2026 Vietnam Culture Day closure is recognized by both EOD and watchdog", () => {
+  const daily = read(".github/workflows/eod-daily.yml");
+  const watchdog = read(".github/workflows/eod-watchdog.yml");
+  assert.match(daily, /OFFICIAL_TRADING_HOLIDAYS_2026="[^"\n]* 2026-11-24 /);
+  assert.match(watchdog, /holidays2026 = new Set\(\[[\s\S]*?'2026-11-24'[\s\S]*?\]\)/);
+});

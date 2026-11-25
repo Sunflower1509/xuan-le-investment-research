@@ -76,7 +76,8 @@ jobs:
           # Official 2026 exchange closures, sourced from HNX/HOSE/VSDC notices.
           # HNX annual calendar: https://hnx.vn/en-gb/chi-tiet-lich-nghi-gd-60021971.html?_page=1
           # HNX New-Year adjustment: https://www.gov.hnx.vn/vi-vn/chi-tiet-lich-nghi-gd-60022084.html?_page=1
-          OFFICIAL_TRADING_HOLIDAYS_2026=" 2026-01-01 2026-01-02 2026-02-16 2026-02-17 2026-02-18 2026-02-19 2026-02-20 2026-04-27 2026-04-30 2026-05-01 2026-08-31 2026-09-01 2026-09-02 "
+          # 24/11: Ngày Văn hóa Việt Nam — HOSE thông báo 11/11/2026, VSDC: https://vsdc.vn/vi/ad/202680
+          OFFICIAL_TRADING_HOLIDAYS_2026=" 2026-01-01 2026-01-02 2026-02-16 2026-02-17 2026-02-18 2026-02-19 2026-02-20 2026-04-27 2026-04-30 2026-05-01 2026-08-31 2026-09-01 2026-09-02 2026-11-24 "
           weekday="$(TZ=Asia/Ho_Chi_Minh date -d "$RESOLVED_DATE" +%u)"
           if (( 10#$weekday >= 6 )); then
             echo "Resolved EOD target $RESOLVED_DATE is a weekend; safe no-op."
