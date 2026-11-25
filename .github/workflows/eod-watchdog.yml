@@ -3,6 +3,7 @@ name: EOD schedule watchdog
 
 on:
   push:
+    branches: [main]
     paths:
       - ".github/workflows/eod-watchdog.yml"
   schedule:
@@ -20,6 +21,7 @@ concurrency:
 
 jobs:
   watchdog:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -34,6 +36,7 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import vm from 'node:vm';
+          import { inspectRepositorySession } from './scripts/eod-watchdog-health.mjs';
           const now = new Date();
           const parts = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit',
@@ -69,9 +72,9 @@ jobs:
           const code = fs.readFileSync('src/data/research-data.js', 'utf8');
           const sandbox = { window: {} };
           vm.runInNewContext(code, sandbox, { filename: 'src/data/research-data.js' });
-          const current = sandbox.window.RESEARCH_DATA?.meta?.updated || '';
-          // Never re-dispatch an earlier session over a newer verified lock.
-          const stale = marketOpen && afterClose && (!current || current < target);
+          const { current, needsEod } = inspectRepositorySession(sandbox.window.RESEARCH_DATA, target);
+          // A current meta date alone does not establish completeness.
+          const stale = marketOpen && afterClose && needsEod;
           fs.appendFileSync(
             process.env.GITHUB_OUTPUT,
             `target=${target}\ncurrent=${current}\nmarket_open=${marketOpen ? 'true' : 'false'}\nafter_close=${afterClose ? 'true' : 'false'}\nstale=${stale ? 'true' : 'false'}\n`
@@ -94,10 +97,54 @@ jobs:
           gh workflow run eod-daily.yml --ref main -f date="${{ steps.freshness.outputs.target }}"
           echo "Dispatched verified EOD recovery for ${{ steps.freshness.outputs.target }}"
 
+      - name: Check published EOD freshness
+        id: live
+        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'false'
+        env:
+          EXPECTED_DATE: ${{ steps.freshness.outputs.current }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { comparePublicSession } from './scripts/eod-watchdog-health.mjs';
+          const current = process.env.EXPECTED_DATE;
+          const local = comparePublicSession(fs.readFileSync('index.html','utf8'),current);
+          if (local.needsPages) throw new Error('Repository first-paint date is stale; audit before deploy');
+          const url = 'https://sunflower1509.github.io/xuan-le-investment-research/';
+          let result;
+          for (let i=0;i<3;i++) {
+            const request = new URL(url);
+            request.searchParams.set('watchdog',String(Date.now()));
+            const response = await fetch(request,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+            if (!response.ok) throw new Error('Public site HTTP '+response.status);
+            result = comparePublicSession(await response.text(),current);
+            if (!result.needsPages) break;
+            if (i<2) await new Promise(resolve=>setTimeout(resolve,5000));
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,`needs_pages=${result.needsPages}\nlive_date=${result.liveDate}\n`);
+          console.log(JSON.stringify({expectedDate:current,...result}));
+          NODE
+
+      - name: Recover stale published Pages without refetching quotes
+        if: steps.live.outputs.needs_pages == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for workflow in eod-daily.yml pages.yml; do
+            active_runs="$(gh run list --workflow "$workflow" --branch main --limit 30 --json status --jq '[.[] | select(.status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting" or .status == "requested")] | length')"
+            if (( active_runs > 0 )); then
+              echo "Production workflow $workflow already active; skip duplicate recovery."
+              exit 0
+            fi
+          done
+          gh workflow run pages.yml --ref main
+          echo "Dispatched Pages-only recovery from verified repository data."
+
       - name: Market closed - watchdog no-op
         if: steps.freshness.outputs.market_open == 'false'
         run: echo "Market closed for ${{ steps.freshness.outputs.target }}; watchdog will not dispatch EOD recovery."
 
       - name: Already current
-        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'false'
+        if: steps.freshness.outputs.market_open == 'true' && steps.freshness.outputs.stale == 'false' && steps.live.outputs.needs_pages == 'false'
         run: echo "EOD already current for ${{ steps.freshness.outputs.target }}; no action required."

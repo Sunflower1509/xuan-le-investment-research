@@ -130,3 +130,26 @@ test("Pages deploy waits for a unique visible artifact scoped to the current att
     assert.ok(workflow.includes("deployment stopped safely"));
   }
 });
+
+
+test("EOD schedules and fail-closed branch use the declared UTC first-pass cron",()=>{
+  const eod=read(".github/workflows/eod-daily.yml");
+  assert.ok(eod.includes('cron: "27 8 * * 1-5"'));
+  assert.ok(eod.includes('cron: "7 9 * * 1-5"'));
+  assert.ok(eod.includes("github.event.schedule == '27 8 * * 1-5'"));
+  assert.ok(eod.includes("github.event.schedule != '27 8 * * 1-5'"));
+  assert.ok(!eod.includes("github.event.schedule == '27 15 * * 1-5'"));
+});
+test("production workflows cannot execute on feature branches",()=>{
+  for(const file of ["pages.yml","eod-daily.yml","eod-watchdog.yml"]){
+    assert.ok(read(".github/workflows/"+file).includes("if: github.ref == 'refs/heads/main'"));
+  }
+});
+test("watchdog checks live date before a Pages-only recovery and avoids active production jobs",()=>{
+  const w=read(".github/workflows/eod-watchdog.yml");
+  assert.ok(w.includes("inspectRepositorySession"));
+  assert.ok(w.includes("comparePublicSession"));
+  assert.ok(w.includes("for workflow in eod-daily.yml pages.yml"));
+  assert.ok(w.includes("gh workflow run pages.yml --ref main"));
+  assert.ok(w.indexOf("Check published EOD freshness")<w.indexOf("Recover stale published Pages"));
+});

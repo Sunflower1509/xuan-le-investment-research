@@ -3,6 +3,7 @@ name: Verified EOD market lock and deploy
 
 on:
   push:
+    branches: [main]
     paths:
       - ".github/workflows/eod-daily.yml" # Verified EOD recovery on workflow maintenance, gated by full cross-check
   schedule:
@@ -28,6 +29,7 @@ concurrency:
 
 jobs:
   eod:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -428,11 +430,11 @@ jobs:
         run: echo "No trading session for ${{ steps.market.outputs.date }} (${{ steps.market.outputs.reason }}); repository and live site remain unchanged."
 
       - name: First scheduled pass not ready - wait for final pass
-        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 15 * * 1-5'
+        if: steps.market.outputs.status == 'not-ready' && github.event_name == 'schedule' && github.event.schedule == '27 8 * * 1-5'
         run: echo "EOD sources are not complete yet; the 16:07 Asia/Ho_Chi_Minh retry will re-check."
 
       - name: Fail closed when final pass is still not ready
-        if: steps.market.outputs.status == 'not-ready' && (github.event_name == 'workflow_dispatch' || github.event.schedule == '7 16 * * 1-5')
+        if: steps.market.outputs.status == 'not-ready' && (github.event_name != 'schedule' || github.event.schedule != '27 8 * * 1-5')
         run: |
           echo "EOD sources are still not complete. No data was written and no deployment was performed." >&2
           exit 2
