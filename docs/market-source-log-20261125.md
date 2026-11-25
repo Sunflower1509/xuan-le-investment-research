@@ -5,3 +5,10 @@
 - nmquan: 8431,6 tỷ khớp ngày 25/11; TB20 liền trước, 27/10–23/11 = 11452,575 tỷ, tỷ số 0,7362187; không chia 8809 cho TB20 nmquan. URL: https://nmquan.vn/data/chi-so/vn-index/lich-su.
 - Độ rộng 84 tăng, 227 giảm, 53 đứng: https://taichinh.com/chung-khoan; trang có lỗi nhãn ngày so sánh 24/11; ngày 24/11 là nghỉ giao dịch, không sử dụng nhãn đó. VNIndex.ai tập 404 mã khác phạm vi.
 - Không có Sổ gốc; chưa đối chiếu đủ ngoại khớp 5 phiên, basis, lịch sự kiện để chốt số phiên phân phối, MA200. Không tự lấp. Dữ liệu 136 mã chưa khóa tại lúc lập; không ghi đè giá cũ hoặc xác nhận đã triển khai. 
+
+## Đối chiếu bổ sung
+- BSC 25/11: VN-Index 1.687,45; -9,69 (-0,57%); khớp rổ VN-Index 8.786 tỷ, dưới MA20 thanh khoản 23,4%; MA20 giá 1.723,85. Độ rộng báo cáo 87/238/82 khác bộ 84/227/53 của taichinh.com. Không khẳng định hai phạm vi đồng nhất. https://www.bsc.com.vn/en/Report/ReportFile/16213
+- BSC tổng ngoại HOSE −5.674,4 tỷ; VOH xác nhận số tổng trên 5.674 tỷ; không gán thành ngoại khớp ròng. https://voh.com.vn/kinh-te/khoi-ngoai-ban-rong-ky-luc-gan-5-700-ty-dong-trong-phien-25-11-682274.html
+- HNX xác nhận 24/11 nghỉ và giao dịch trở lại 25/11. https://knowledge.hnx.vn/vi-vn/chi-tiet-lich-nghi-gd-60023839.html?_page=1
+- Trang phiên VNIndex.ai riêng không truy cập lại được; giữ nguồn bảng lịch sử đã mở. Không dùng làm nguồn đối chiếu mới.
+- Kiểm thử Visual smoke QA lần trước thất bại do thiếu signalParts/detailParts độ rộng; bổ sung đúng hợp đồng renderer, không sửa CSS hoặc bài test.
