@@ -13,7 +13,7 @@ export const LEGACY_STATUS = Object.freeze({
  "CHỜ / PHÒNG THỦ":"defensive","PHÒNG THỦ":"defensive","PHÒNG THỦ / CHỜ XÁC NHẬN":"defensive","PHÒNG THỦ / GIẢM RỦI RO":"defensive","PHÒNG THỦ / HẠ RỦI RO":"defensive","GIẢM RỦI RO":"defensive",
  "CHƯA ĐÁNH GIÁ":"insufficient_data"
 });
-const list = x => Array.isArray(x) ? x : [];
+const list = x => Array.isArray(x) ? Array.from(x) : [];
 const clean = x => typeof x === "string" ? x.trim() : "";
 const present = x => x !== null && x !== undefined && !["","—","–","N/A"].includes(String(x).trim());
 const unique = xs => [...new Set(xs.filter(present))];
@@ -30,7 +30,7 @@ export function publicText(value) {
  [/Sổ gốc/giu,"hồ sơ theo dõi lịch sử"],[/\bTB(5|10|20)\b/giu,"bình quân $1 phiên"],[/\bEOD\b/giu,"cuối phiên"],
  [/nghiên cứu rút gọn/giu,"phạm vi đánh giá còn giới hạn"],[/rút gọn/giu,"phạm vi đánh giá còn giới hạn"],
  [/\bv3\.3\.1\b/giu,"phương pháp nghiên cứu"],[/\bPrompt\b/giu,"phương pháp đánh giá"],[/\brulebook\b/giu,"bộ nguyên tắc nghiên cứu"],
- [/\bIndex\b(?<!VN-Index)/gu,"VN-Index"],[/\bScore\b/giu,"điểm đánh giá"],[/\bR\s*:\s*R\b/giu,"tỷ lệ lợi nhuận/rủi ro"],
+ [/(^|\s)Index(?=\s)/gu,"$1VN-Index"],[/\bScore\b/giu,"điểm đánh giá"],[/\bR\s*:\s*R\b/giu,"tỷ lệ lợi nhuận/rủi ro"],
  [/\bstoploss\b/giu,"ngưỡng cắt lỗ"],[/\bmargin\b/giu,"đòn bẩy tài chính"],[/\bleaders?\b/giu,"cổ phiếu dẫn dắt"],
  [/\btrading\b/giu,"giao dịch ngắn hạn"],[/\bretest\b/giu,"kiểm định lại vùng giá"],[/\bbreakout\b/giu,"vượt vùng kháng cự"],
  [/\brisk[- ]off\b/giu,"suy yếu"],[/\bmid[- ]cap\b/giu,"nhóm vốn hóa trung bình"],[/\bcoverage\b/giu,"phạm vi cổ phiếu theo dõi"],

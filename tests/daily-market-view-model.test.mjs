@@ -23,7 +23,12 @@ test("historical records are immutable and all labels mapped",()=>{
      assert.equal(m.scenarios[i].condition,e.playbook[i].if.trim());
      assert.equal(m.scenarios[i].conclusion,e.playbook[i].then.trim());
    }
-   assert.deepEqual(m.sources.map(x=>x.url),Array.from(e.sources,x=>x.url),e.date+" source links");
+   assert.deepEqual(Array.from(m.sources,x=>x.url),Array.from(e.sources,x=>x.url),e.date+" source links");
+   for(const raw of e.metrics||[]){
+     if(!raw.value||raw.value.trim()==="—")continue;
+     assert.ok([...m.metrics,...m.extraMetrics].some(x=>x.label===publicText(raw.label)&&x.value===publicText(raw.value.trim())&&x.change===publicText((raw.change||"").trim())),e.date+" "+raw.label);
+   }
+   assert.deepEqual(Array.from(m.levels,x=>x.value),Array.from(e.levels||[],x=>x.value),e.date+" levels");
  }
  assert.equal(JSON.stringify(entries),before);
 });
@@ -38,7 +43,7 @@ test("four representative records retain exact source values",()=>{
      assert.equal(displayed.value,publicText(raw.value));
      assert.equal(displayed.change,publicText(raw.change));
    }
-   assert.deepEqual(m.levels.map(x=>x.value),Array.from(e.levels||[],x=>x.value));
+   assert.deepEqual(Array.from(m.levels,x=>x.value),Array.from(e.levels||[],x=>x.value));
  }
 });
 test("latest insufficient assessment stays grey; no duplicate dataStatus",()=>{

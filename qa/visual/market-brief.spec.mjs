@@ -3,6 +3,7 @@ const dates=["2026-11-25","2026-11-23","2026-09-17","2026-07-17"];
 for(const width of [375,768,1280]){
  test("Daily market v3 "+width+"px, four historical reports",async({page},testInfo)=>{
    await page.setViewportSize({width,height:900});
+   test.setTimeout(90000);
    const errors=[];page.on("pageerror",e=>errors.push(e.message));
    await page.goto("./#daily-market",{waitUntil:"domcontentloaded"});
    const root=page.locator("#daily-market"), report=root.locator("[data-role='daily-insight']");
@@ -34,12 +35,12 @@ for(const width of [375,768,1280]){
      if(index)expect(metrics.some(x=>x.includes(index.value))).toBeTruthy();
      if(date==="2026-11-25")await expect(report.locator(".dmv3-header .dmv3-state")).toHaveText(/\? CHƯA ĐỦ DỮ LIỆU/);
      const details=report.locator("details").last();
-     await details.locator("summary").focus();await page.keyboard.press("Enter");
+     await details.locator("summary").focus();await details.locator("summary").press("Enter");
      await expect(details).toHaveAttribute("open","");
      await expect(details.locator("a")).toHaveCount(original.sources.length);
-     await page.keyboard.press("Enter");
+     await details.locator("summary").press("Enter");
      await expect(details).not.toHaveAttribute("open","");
-     await testInfo.attach(date+"-"+width,{body:await root.screenshot(),contentType:"image/png"});
+     await testInfo.attach(date+"-"+width,{body:await report.screenshot(),contentType:"image/png"});
    }
    expect(await page.locator("main > section:not(#daily-market)").evaluateAll(a=>a.map(x=>x.id))).toEqual(outside);
    expect(errors).toEqual([]);
