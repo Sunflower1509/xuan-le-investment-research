@@ -1,17 +1,17 @@
 // Layout v2.2.2: fill-first wrapping for headline and executive thesis; natural word spacing; regression-locked.
 export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
-  version: "2.2.2",
-  effectiveDate: "2026-10-05",
-  name: "Daily Market Research Brief v2.2.2 — Fill-first Headline & Full-width Thesis",
+  version: "3.0.0",
+  effectiveDate: "2026-11-26",
+  name: "Daily Market Research Brief v3.0 — Verified facts and archive",
   layout: Object.freeze({
-    shellArchive: "220px",
-    desktop: "analysis:minmax(0,1fr) + snapshot:340px; decision:full-width row",
-    tablet: "single-column narrative-action-snapshot",
-    mobile: "regime-session-headline-thesis-evidence-action-snapshot-playbook-audit"
+    shellArchive: "245–270px",
+    desktop: "header → facts → analysis → scenarios → levels → sources",
+    tablet: "single-column report with date selector",
+    mobile: "date selector → report, single-column facts"
   }),
   typography: Object.freeze({
-    headline: Object.freeze({ min: "34px", preferred: "2.4vw", max: "38px", lineHeight: 1.12, family: "editorial", wrap: "wrap" }),
-    headlineDate: Object.freeze({ format: "DD/MM", size: "13px", lineHeight: 1.35, family: "ui", position: "kicker-above-headline", source: "entry.date" }),
+    headline: Object.freeze({ min: "26px", preferred: "2.3vw", max: "32px", lineHeight: 1.12, family: "editorial", wrap: "wrap" }),
+    headlineDate: Object.freeze({ format: "weekday DD/MM/YYYY", size: "13px", lineHeight: 1.35, family: "ui", position: "kicker-above-headline", source: "entry.date" }),
     thesis: Object.freeze({ size: "16px", lineHeight: 1.58, measure: "full narrative width", family: "ui", wrap: "wrap" }),
     evidence: Object.freeze({ size: "14px", lineHeight: 1.48, family: "ui" }),
     meta: Object.freeze({ size: "11px", lineHeight: 1.4, family: "ui" }),
@@ -50,8 +50,8 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
       forbid: Object.freeze(["max-width:64ch", "max-width:66ch", "max-width:68ch", "text-wrap:pretty", "text-wrap:balance"])
     }),
     decisionBar: Object.freeze({
-      desktop: "full-width row spanning narrative + snapshot",
-      responsiveOrder: "narrative-action-snapshot"
+      desktop: "scenario rows after facts and analysis",
+      responsiveOrder: "facts-analysis-scenarios"
     })
   }),
   semanticParts: Object.freeze({
@@ -72,7 +72,7 @@ export const MARKET_DECISION_BRIEF_STANDARD = Object.freeze({
     breadth_positive: Object.freeze({ label: "Độ rộng tích cực", symbol: "▲", tone: "positive" }),
     breadth_negative: Object.freeze({ label: "Độ rộng tiêu cực", symbol: "▼", tone: "negative" }),
     liquidity_above_average: Object.freeze({ label: "Trên trung bình", symbol: "▲", tone: "positive" }),
-    liquidity_below_average: Object.freeze({ label: "Dưới TB20", symbol: "▼", tone: "warning" }),
+    liquidity_below_average: Object.freeze({ label: "Dưới bình quân 20 phiên", symbol: "▼", tone: "warning" }),
     technical_positive: Object.freeze({ label: "Kỹ thuật tích cực", symbol: "▲", tone: "positive" }),
     technical_negative: Object.freeze({ label: "Kỹ thuật yếu", symbol: "▼", tone: "negative" }),
     neutral: Object.freeze({ label: "Trung tính", symbol: "•", tone: "neutral" })
