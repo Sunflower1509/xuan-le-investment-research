@@ -590,14 +590,10 @@ PHẦN C — ĐÍNH CHÍNH
 
 ---
 
-## PHỤ LỤC KỸ THUẬT — BẢO TOÀN BỐ CỤC WEBSITE (không sửa quy tắc v3.3.1)
-
-- Tệp này giữ nguyên đường dẫn cũ để các tác vụ đang tham chiếu không bị đứt. Nội dung nhận định chính từ tệp người dùng `Prompt_Nhan_Dinh_VNINDEX_V3_3_1.md` phiên bản v3.3.1.
-- Quy chuẩn bố cục hiện hành vẫn là `docs/market-decision-brief-standard.md` v2.2.2 và cấu hình `MARKET_DECISION_BRIEF_STANDARD.layoutGuards` trong `src/scripts/market-decision-brief.mjs`.
-- KHÔNG sửa HTML, CSS, thứ tự khu vực, giới hạn dòng hay cấu hình dàn chữ. Nếu phải thay đổi trình bày: dừng và xin phê duyệt, sau đó mới cập nhật đồng bộ quy chuẩn, mã nguồn và kiểm thử.
-- Đây chỉ là cập nhật tài liệu điều khiển nhận định, không phải thao tác xuất bản dữ liệu hoặc bản nhận định của bất kỳ phiên nào.
-- MARKET DECISION BRIEF v2.2.2: đây là quy chuẩn hiển thị hiện hành; không tự thay đổi khi cập nhật nhận định.
-- Headline và Executive Thesis trải đủ chiều ngang cột nội dung, không khóa 64ch/66ch/68ch.
-- Thanh quyết định (Decision Bar) phải span toàn bộ chiều rộng brief ở desktop.
-- Dùng signalParts và detailParts để phân biệt tín hiệu tăng/giảm trong cùng một hàng dữ liệu.
-- Tone của row không được nhuộm sai màu child value.
+## PHỤ LỤC KỸ THUẬT — HIỂN THỊ BẢN TIN v3.0 (không sửa phương pháp v3.3.1)
+- Không chỉnh sửa cấu trúc website khi cập nhật bản nhận định. Giữ nguyên các trường lịch sử, kiểm toán và chính sách hiện hành.
+- Bổ sung displayBrief.schemaVersion = 3 theo docs/daily-market-research-brief-v3.0-spec.md; không thay thế trường cũ.
+- Trạng thái: positive, neutral, cautious, defensive, insufficient_data; không đồng nhất trạng thái thị trường với hành động.
+- Kết luận một câu, ba ý phân tích không nhắc lại số liệu thẻ; mỗi số liệu phải có nguồn và phạm vi. Không ghép các chuỗi khớp lệnh khác phạm vi.
+- Kịch bản tách điều kiện, xác nhận và kết luận; khi thiếu căn cứ không tạo mốc, hành động hay giờ phát hành.
+- Không sử dụng thuật ngữ nội bộ ở phần chính; giữ nguyên hồ sơ nguồn và giới hạn dữ liệu.

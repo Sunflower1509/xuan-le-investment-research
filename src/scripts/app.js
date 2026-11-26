@@ -1,8 +1,7 @@
 import { projectTradeLedger } from "./trade-ledger.mjs";
 import { dataPageSizeForViewport, normalizePageSize, paginateItems, paginationTokens } from "./pagination.mjs";
 import { distanceToTrigger, triggerDisplayModel } from "./action-trigger.mjs";
-import { dailyPlaybookStateMeta } from "./daily-market-policy.mjs";
-import { marketSnapshotStateMeta } from "./market-decision-brief.mjs";
+import { mountDailyMarket } from "./daily-market-renderer.mjs";
 import {
   buildPriorityUniverse,
   latestReportDates,
@@ -261,234 +260,10 @@ import {
   const dailyEntries = Array.isArray(dailySource?.entries)
     ? [...dailySource.entries].sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))
     : [];
-  let activeDailyId = dailyEntries[0]?.id || null;
-
-  const DAILY_DISCLAIMER = "Nội dung mang tính tham khảo, không phải khuyến nghị mua/bán; nhà đầu tư tự chịu trách nhiệm với quyết định của mình.";
-
-  const dailyLegacyActionMeta = (value) => {
-    const text = normalize(value).replaceAll("đ", "d");
-    if (/khong mua duoi|tuyet doi khong mua/.test(text)) return { label: "KHÔNG MUA ĐUỔI", tone: "avoid" };
-    if (/tham do/.test(text)) return { label: "THĂM DÒ NHỎ", tone: "probe" };
-    if (/giam|ha margin|dung mua|huy view|phong thu/.test(text)) return { label: "GIẢM RỦI RO", tone: "defensive" };
-    if (/giu|nam giu/.test(text)) return { label: "GIỮ", tone: "hold" };
-    if (/mua xac nhan|gia tang|co the mua|mo vi the|mua/.test(text)) return { label: "MUA CÓ ĐIỀU KIỆN", tone: "conditional" };
-    return { label: "CHỜ XÁC NHẬN", tone: "wait" };
-  };
-
-  const dailyActionMeta = (item) => dailyPlaybookStateMeta(item?.state) || dailyLegacyActionMeta(item?.then);
-
-  const dailyInference = (value) => String(value ?? "")
-    .replace(DAILY_DISCLAIMER, "")
-    .trim();
-
-  const dailyToneClass = (value) => ["positive", "negative", "warning", "neutral"].includes(value) ? value : "neutral";
-  const dailyToneCssClass = (value) => `daily-tone-${dailyToneClass(value)}`;
-
-  const dailySemanticPartsHtml = (parts, fallback, fallbackTone = "neutral") => {
-    const values = Array.isArray(parts) && parts.length
-      ? parts
-      : [{ text: fallback, tone: fallbackTone }];
-    return values.map((part) => `<span class="daily-semantic-text ${dailyToneCssClass(part?.tone)}">${escapeHtml(part?.text ?? "")}</span>`).join("");
-  };
-
-  const dailyRegimeTone = (entry) => {
-    const text = normalize(`${entry?.sentimentLabel || ""} ${entry?.brief?.actions?.join(" ") || ""}`).replaceAll("đ", "d");
-    if (/phong thu|giam rui ro|ha ty trong|khong mo mua/.test(text)) return "negative";
-    if (/mua|tang dan|tich cuc/.test(text)) return "positive";
-    return entry?.sentiment === "positive" ? "positive" : entry?.sentiment === "cautious" ? "negative" : "warning";
-  };
-
-  const dailyHeadlineDate = (value) => {
-    const formatted = date(value);
-    if (!formatted || formatted === "—") return "";
-    const parts = formatted.split("/");
-    return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : formatted;
-  };
-
-  const dailyHeadlineTitle = (entry) => {
-    const explicit = String(entry?.brief?.headline || "").trim();
-    if (explicit) return explicit;
-    const title = String(entry?.title || "").trim();
-    const clauses = title.split(/\s+—\s+/);
-    if (clauses.length < 2) return title;
-    const tail = normalize(clauses.at(-1)).replaceAll("đ", "d");
-    const actionLike = /phong thu|giam rui ro|cho xac nhan|khong mua duoi|khong tang don bay|giu tien|bao toan suc mua|uu tien phong thu/.test(tail);
-    return actionLike ? clauses.slice(0, -1).join(" — ") : title;
-  };
-
-  const dailyBriefModel = (entry) => {
-    const brief = entry?.brief || {};
-    return {
-      thesis: brief.thesis || entry.thesis,
-      evidence: Array.isArray(brief.evidence) ? brief.evidence : [],
-      actions: Array.isArray(brief.actions) ? brief.actions : [],
-      integrity: {
-        tone: dailyToneClass(brief.dataIntegrity?.tone || "neutral"),
-        label: brief.dataIntegrity?.label || entry.dataStatus,
-        shortLabel: brief.dataIntegrity?.shortLabel || "Dữ liệu phiên đã khóa • xem chi tiết nguồn"
-      }
-    };
-  };
-
-  const renderDailyInsight = (id = activeDailyId) => {
-    if (!refs.dailyInsight || !refs.dailyArchive) return;
-    const entry = dailyEntries.find((item) => item.id === id) || dailyEntries[0];
-    if (!entry) {
-      refs.dailyInsight.innerHTML = `<div class="daily-empty"><strong>Chưa có bản nhận định.</strong><p>Thêm bản đầu tiên vào assets/daily-insights.js.</p></div>`;
-      refs.dailyArchive.innerHTML = "";
-      if (refs.dailyIssueCount) refs.dailyIssueCount.textContent = "0";
-      return;
-    }
-    activeDailyId = entry.id;
-    if (refs.dailyIssueCount) refs.dailyIssueCount.textContent = dailyEntries.length;
-    refs.dailyArchive.innerHTML = dailyEntries.map((item, index) => `
-      <button class="daily-archive-item${item.id === activeDailyId ? " active" : ""}" type="button" data-action="show-daily-insight" data-id="${escapeHtml(item.id)}" aria-pressed="${item.id === activeDailyId}">
-        <span class="daily-archive-meta">${index === 0 ? '<i>MỚI NHẤT</i>' : ""}<time datetime="${escapeHtml(item.date)}">${date(item.date)}</time></span>
-        <strong>${escapeHtml(dailyHeadlineTitle(item))}</strong>
-        <small>${escapeHtml(item.sentimentLabel)}</small>
-      </button>`).join("");
-
-    const inference = dailyInference(entry.inference);
-    const brief = dailyBriefModel(entry);
-    const regimeTone = dailyRegimeTone(entry);
-
-    refs.dailyInsight.innerHTML = `
-      <header class="daily-insight-header daily-decision-brief">
-        <div class="daily-brief-topline">
-          <div class="daily-insight-meta">
-            <span class="daily-sentiment ${escapeHtml(entry.sentiment)}"><i></i>${escapeHtml(entry.sentimentLabel)}</span>
-            <span class="daily-session-lock">EOD</span>
-          </div>
-          <span class="daily-integrity-chip ${dailyToneCssClass(brief.integrity.tone)}" title="${escapeHtml(brief.integrity.label)}">
-            <span aria-hidden="true">${brief.integrity.tone === "warning" ? "!" : "✓"}</span>
-            ${escapeHtml(brief.integrity.shortLabel)}
-          </span>
-        </div>
-
-        <div class="daily-brief-grid">
-          <section class="daily-brief-narrative" aria-labelledby="daily-brief-title-${escapeHtml(entry.id)}">
-            <div class="daily-title-line">
-              <time class="daily-title-date" datetime="${escapeHtml(entry.date)}">${escapeHtml(dailyHeadlineDate(entry.date))}</time>
-              <h3 id="daily-brief-title-${escapeHtml(entry.id)}">${escapeHtml(dailyHeadlineTitle(entry))}</h3>
-            </div>
-
-            <section class="daily-executive-thesis" aria-labelledby="daily-thesis-title-${escapeHtml(entry.id)}">
-              <h4 id="daily-thesis-title-${escapeHtml(entry.id)}">Luận điểm chính</h4>
-              <p class="daily-thesis">${escapeHtml(brief.thesis)}</p>
-            </section>
-
-            ${brief.evidence.length ? `
-              <section class="daily-evidence-strip" aria-labelledby="daily-evidence-title-${escapeHtml(entry.id)}">
-                <div class="daily-subsection-heading">
-                  <h4 id="daily-evidence-title-${escapeHtml(entry.id)}">Bằng chứng thị trường</h4>
-                </div>
-                <div class="daily-key-readings">
-                  ${brief.evidence.slice(0, 3).map((item) => `
-                    <article class="${dailyToneCssClass(item.tone)}">
-                      <span class="daily-reading-label">${escapeHtml(item.label)}</span>
-                      <div class="daily-reading-content">
-                        <strong class="daily-reading-signal">${dailySemanticPartsHtml(item.signalParts, item.signal || item.text, item.tone)}</strong>
-                        <p>${dailySemanticPartsHtml(item.detailParts, item.detail || item.text, "neutral")}</p>
-                      </div>
-                    </article>`).join("")}
-                </div>
-              </section>` : ""}
-          </section>
-
-          <section class="daily-decision-bar ${dailyToneCssClass(regimeTone)}" aria-label="Hành động hiện tại">
-              <div class="daily-decision-state">
-                <small>TRẠNG THÁI TÁC NGHIỆP</small>
-                <strong>${escapeHtml(entry.sentimentLabel)}</strong>
-              </div>
-              <div class="daily-decision-actions">
-                ${(brief.actions.length ? brief.actions : ["Bám điều kiện trong kế hoạch tác nghiệp trước khi thay đổi tỷ trọng."]).map((item) => `
-                  <span><i aria-hidden="true"></i>${escapeHtml(item)}</span>`).join("")}
-              </div>
-          </section>
-
-          <aside class="daily-market-snapshot" aria-labelledby="daily-snapshot-title-${escapeHtml(entry.id)}">
-            <div class="daily-snapshot-heading">
-              <div><small>MARKET SNAPSHOT</small><h4 id="daily-snapshot-title-${escapeHtml(entry.id)}">Số liệu khóa cuối phiên</h4></div>
-              <span>${entry.metrics.length} chỉ báo</span>
-            </div>
-            <div class="daily-snapshot-list">
-              ${entry.metrics.map((metric) => {
-                const stateMeta = marketSnapshotStateMeta(metric.snapshotState, metric.direction, metric.tone);
-                const tone = dailyToneClass(metric.tone || stateMeta.tone);
-                return `
-                  <article class="daily-snapshot-row ${dailyToneCssClass(tone)}">
-                    <div class="daily-snapshot-label">
-                      <span>${escapeHtml(metric.label)}</span>
-                      <i class="daily-direction ${dailyToneCssClass(stateMeta.tone)}" aria-label="${escapeHtml(stateMeta.label)}"><b aria-hidden="true">${escapeHtml(stateMeta.symbol)}</b>${escapeHtml(stateMeta.label)}</i>
-                    </div>
-                    <strong class="daily-snapshot-value">${dailySemanticPartsHtml(metric.valueParts, metric.value, tone)}</strong>
-                    <small>${dailySemanticPartsHtml(metric.changeParts, metric.change, stateMeta.tone)}</small>
-                  </article>`;
-              }).join("")}
-            </div>
-          </aside>
-        </div>
-      </header>
-
-      <section class="daily-action-panel" aria-labelledby="daily-action-title-${escapeHtml(entry.id)}">
-        <div class="daily-action-heading">
-          <div><small>KẾ HOẠCH TÁC NGHIỆP</small><h4 id="daily-action-title-${escapeHtml(entry.id)}">Điều kiện → hành động</h4></div>
-          <span>${entry.playbook.length} kịch bản đã khóa</span>
-        </div>
-        <div class="daily-action-list">${entry.playbook.map((item, index) => {
-          const action = dailyActionMeta(item);
-          return `
-            <article class="daily-action-row ${action.tone}">
-              <div class="daily-action-signal"><span>${action.label}</span><small>${String(index + 1).padStart(2, "0")}</small></div>
-              <div class="daily-action-condition"><small>KHI</small><p>${escapeHtml(item.if)}</p></div>
-              <div class="daily-action-decision"><small>THÌ</small><p>${escapeHtml(item.then)}</p></div>
-            </article>`;
-        }).join("")}</div>
-      </section>
-
-      <details class="daily-evidence">
-        <summary>
-          <span class="daily-evidence-icon"><svg><use href="#i-shield"></use></svg></span>
-          <span class="daily-evidence-label"><strong>Dữ liệu, phương pháp và ${entry.sources.length} nguồn kiểm chứng</strong><small>Bối cảnh phiên • mốc kỹ thuật • sai khác dữ liệu</small></span>
-          <span class="daily-evidence-toggle" aria-hidden="true">+</span>
-        </summary>
-        <div class="daily-evidence-body">
-          ${entry.brief?.thesis && entry.thesis !== entry.brief.thesis ? `
-            <section class="daily-full-narrative">
-              <div><small>LUẬN GIẢI ĐẦY ĐỦ</small><h5>Diễn biến và hàm ý của phiên</h5></div>
-              <p>${escapeHtml(entry.thesis)}</p>
-            </section>` : ""}
-          <div class="daily-evidence-grid">
-            <section class="daily-evidence-panel">
-              <div class="daily-evidence-heading"><small>01 • BỐI CẢNH THỊ TRƯỜNG</small><h5>Bối cảnh và dòng tiền</h5></div>
-              <ul class="daily-backdrop-list">${entry.backdrop.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-              <p class="daily-focus"><svg><use href="#i-chart"></use></svg>${escapeHtml(entry.focus)}</p>
-            </section>
-            <section class="daily-evidence-panel">
-              <div class="daily-evidence-heading"><small>02 • CÁC MỐC QUAN TRỌNG</small><h5>Mốc kỹ thuật đã khóa</h5></div>
-              <div class="daily-levels">${entry.levels.map((item) => `
-                <article><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong><p>${escapeHtml(item.note)}</p></article>`).join("")}</div>
-            </section>
-          </div>
-          <div class="daily-method-row">
-            <div class="daily-data-integrity">
-              <span>ĐỘ TIN CẬY DỮ LIỆU</span>
-              <strong class="${dailyToneCssClass(brief.integrity.tone)}">${escapeHtml(brief.integrity.label)}</strong>
-              <small>${escapeHtml(entry.dataStatus)}</small>
-            </div>
-            ${inference ? `<div class="daily-inference"><svg><use href="#i-shield"></use></svg><p><strong>Phương pháp và giới hạn dữ liệu</strong>${escapeHtml(inference)}</p></div>` : ""}
-            <div class="daily-sources"><span>Nguồn kiểm chứng</span><div>${entry.sources.map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a>`).join("")}</div></div>
-          </div>
-        </div>
-      </details>
-
-      <footer class="daily-quick-footer">
-        <p class="daily-disclaimer"><svg><use href="#i-shield"></use></svg><span>${DAILY_DISCLAIMER}</span></p>
-        <nav class="daily-next-actions" aria-label="Đi tiếp từ nhận định thị trường">
-          <a href="#action-radar">Xem bảng ưu tiên <svg><use href="#i-arrow"></use></svg></a>
-          <a href="#research">Mở thư viện báo cáo <svg><use href="#i-arrow"></use></svg></a>
-        </nav>
-      </footer>`;
+  let dailyMarketController = null;
+  const renderDailyInsight = (id) => {
+    if (!dailyMarketController) dailyMarketController = mountDailyMarket(document.getElementById("daily-market"), dailyEntries);
+    if (id) dailyMarketController?.select(id);
   };
 
   const statusText = {
@@ -1225,10 +1000,6 @@ import {
     if (action === "set-status") { state.status = target.dataset.status; state.researchPage = 1; renderFilters(); syncNavigationUrl({ push: true }); renderResearch(); }
     if (action === "set-ledger-tab") { state.ledgerTab = target.dataset.ledgerTab; renderPositionLedger(); }
     if (action === "share-report") shareReport(target.dataset.id);
-    if (action === "show-daily-insight") {
-      renderDailyInsight(target.dataset.id);
-      if (window.matchMedia("(max-width: 980px)").matches) refs.dailyInsight?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
     if (action === "no-report") toast("Mã này đã được phân tích nhưng chưa có báo cáo PDF trong thư viện.");
     if (action === "focus-ticker") {
       setTab("coverage");

@@ -137,17 +137,19 @@
             <p class="terminal-eyebrow">NHẬN ĐỊNH THỊ TRƯỜNG • XUÂN LÊ TVS</p>
             <h2 id="daily-market-title">NHẬN ĐỊNH THỊ TRƯỜNG HÀNG NGÀY</h2>
           </div>
-          <div class="daily-market-promise">
-            <span class="signal-dot"></span>
-            <div><strong>Bản mới nhất luôn hiển thị đầu tiên</strong><small>Khóa dữ liệu theo phiên • Lưu lịch sử • Dẫn nguồn</small></div>
-          </div>
         </div>
 
         <div class="daily-market-shell">
           <section class="daily-archive" aria-label="Lịch sử nhận định thị trường">
             <div class="daily-archive-head"><span>LỊCH SỬ NHẬN ĐỊNH</span><strong><span data-role="daily-issue-count">0</span> bản</strong></div>
+            <div class="dmv3-controls">
+              <div><label for="dmv3-search">Tìm bản tin</label><input id="dmv3-search" data-dmv3-search type="search" placeholder="Ngày, tiêu đề"></div>
+              <div><label for="dmv3-month">Tháng</label><select id="dmv3-month" data-dmv3-month></select></div>
+            </div>
+            <div class="dmv3-picker-wrap"><label for="dmv3-picker">Chọn ngày nhận định</label><select id="dmv3-picker" class="dmv3-picker" data-dmv3-picker></select></div>
             <div class="daily-archive-list" data-role="daily-archive-list"><div class="panel-loading">Đang nạp lịch sử…</div></div>
-            <p class="daily-archive-note"><svg><use href="#i-shield"></use></svg>Mỗi bản giữ nguyên dữ liệu và nguồn tại thời điểm phát hành.</p>
+            <p class="dmv3-archive-count" data-dmv3-count aria-live="polite"></p>
+            <button type="button" class="dmv3-more" data-dmv3-more hidden>Xem thêm</button>
           </section>
           <article class="daily-insight" data-role="daily-insight" aria-live="polite">
             <div class="panel-loading">Đang nạp nhận định mới nhất…</div>
