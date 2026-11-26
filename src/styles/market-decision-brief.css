@@ -93,6 +93,7 @@
 }
 @media print{
  body.dmv3-printing>*{visibility:hidden}
+ body.dmv3-printing main>section:not(#daily-market){display:none!important}
  body.dmv3-printing #daily-market,body.dmv3-printing #daily-market *{visibility:visible}
  body.dmv3-printing #daily-market{position:absolute;inset:0 auto auto 0;width:100%;background:white;padding:0;overflow:visible}
  body.dmv3-printing #daily-market>.terminal-container{width:100%;max-width:none}

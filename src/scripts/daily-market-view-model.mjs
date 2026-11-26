@@ -19,7 +19,7 @@ const present = x => x !== null && x !== undefined && !["","—","–","N/A"].in
 const unique = xs => [...new Set(xs.filter(present))];
 export const searchKey = x => String(x ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/đ/g,"d").trim();
 export function publicText(value) {
- let s=clean(value);
+ let s=typeof value==="string"?value:"";
  const replacements=[
  [/EOD đã khóa/giu,"Số liệu cuối phiên đã chốt"],[/MARKET SNAPSHOT/giu,"Số liệu phiên"],
  [/cổng (?:số )?lõi đạt có giới hạn/giu,"Số liệu chính đã kiểm chứng, còn một số giới hạn"],
@@ -30,7 +30,7 @@ export function publicText(value) {
  [/Sổ gốc/giu,"hồ sơ theo dõi lịch sử"],[/\bTB(5|10|20)\b/giu,"bình quân $1 phiên"],[/\bEOD\b/giu,"cuối phiên"],
  [/nghiên cứu rút gọn/giu,"phạm vi đánh giá còn giới hạn"],[/rút gọn/giu,"phạm vi đánh giá còn giới hạn"],
  [/\bv3\.3\.1\b/giu,"phương pháp nghiên cứu"],[/\bPrompt\b/giu,"phương pháp đánh giá"],[/\brulebook\b/giu,"bộ nguyên tắc nghiên cứu"],
- [/\bScore\b/giu,"điểm đánh giá"],[/\bR\s*:\s*R\b/giu,"tỷ lệ lợi nhuận/rủi ro"],
+ [/\bIndex\b(?<!VN-Index)/gu,"VN-Index"],[/\bScore\b/giu,"điểm đánh giá"],[/\bR\s*:\s*R\b/giu,"tỷ lệ lợi nhuận/rủi ro"],
  [/\bstoploss\b/giu,"ngưỡng cắt lỗ"],[/\bmargin\b/giu,"đòn bẩy tài chính"],[/\bleaders?\b/giu,"cổ phiếu dẫn dắt"],
  [/\btrading\b/giu,"giao dịch ngắn hạn"],[/\bretest\b/giu,"kiểm định lại vùng giá"],[/\bbreakout\b/giu,"vượt vùng kháng cự"],
  [/\brisk[- ]off\b/giu,"suy yếu"],[/\bmid[- ]cap\b/giu,"nhóm vốn hóa trung bình"],[/\bcoverage\b/giu,"phạm vi cổ phiếu theo dõi"],
@@ -56,10 +56,10 @@ export function publication(entry){
 }
 const keyFor = label => {
  const s=searchKey(label);
- if(/^vn[- ]?index$/.test(s))return "vnIndex";
- if(/khop lenh.*hose|thanh khoan.*hose/.test(s))return "liquidity";
+ if(/^(vn[- ]?index|chi so vn)$/.test(s))return "vnIndex";
+ if(/khop.*hose|thanh khoan.*hose|^gia tri khop lenh$|khop lenh ro vnindex|^thanh khoan$/.test(s))return "liquidity";
  if(/do rong/.test(s))return "breadth";
- if(/nen ky thuat|xu huong ky thuat|trang thai ky thuat|vi tri.*ma/.test(s))return "technical";
+ if(/nen ky thuat|xu huong ky thuat|trang thai ky thuat|vi the ky thuat|vi tri.*ma/.test(s))return "technical";
  return "";
 };
 const fmt=x=>Number.isFinite(x)?new Intl.NumberFormat("vi-VN",{maximumFractionDigits:8}).format(x):"";
@@ -87,6 +87,9 @@ const attribution = {
 };
 // Curated, non-numeric excerpts for the latest report; source text remains intact below.
 const excerpts={
+ "2026-11-23":{conclusion:"Sức hồi chưa đều; trụ nâng điểm rõ hơn thị trường.",movement:"Hồi phục sau khi giảm trong phiên.",implication:"Thanh khoản mỏng, nền kỹ thuật còn yếu.",nextSession:"Theo dõi chất lượng phục hồi và độ rộng thị trường."},
+ "2026-09-17":{conclusion:"Nội lực cải thiện, nhưng áp lực bán cuối phiên còn hiện diện.",movement:"Độ rộng và thanh khoản cải thiện.",implication:"Nhịp tăng không chỉ đến từ nhóm cổ phiếu trụ.",nextSession:"Theo dõi khả năng vượt vùng kháng cự và sự đồng thuận của thanh khoản."},
+ "2026-07-17":{conclusion:"Trạng thái ngắn hạn chưa đủ mạnh để nâng mức rủi ro danh mục.",movement:"Áp lực cung tiếp tục chiếm ưu thế.",implication:"Vùng điểm tựa chưa phải xác nhận đảo chiều.",nextSession:"Ưu tiên quan sát mức độ đồng thuận của thanh khoản và độ rộng khi chỉ số thử phục hồi."},
  "2026-11-25":{conclusion:"Chưa có đủ bằng chứng về một nhịp hồi phục bền vững.",movement:"Áp lực bán lan rộng.",implication:"Thanh khoản khớp thấp; nhịp hồi chưa được xác nhận.",nextSession:"Kiểm chứng sức cầu, độ rộng và sự phân hóa."}
 };
 const archivedDisclaim = /^Nội dung mang tính tham khảo,\s*không phải khuyến nghị mua\/bán[^\n]*$/iu;
@@ -109,9 +112,9 @@ function legacyAnalysis(e){
  if(excerpts[e.date])return excerpts[e.date];
  // Keep the narrative intact below; only extract whole non-numeric sentences, not generated advice.
  const thesis=clean(e.brief?.thesis||e.thesis);
- const sentences=thesis.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ])/u).filter(s=>!/\d/.test(s)&&!archivedDisclaim.test(s));
+ const sentences=unique([thesis,...list(e.backdrop)].flatMap(s=>s.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ])/u))).filter(s=>!/\d/.test(s)&&!archivedDisclaim.test(s)&&s.length<=220);
  const focus=clean(e.focus);
- const conclusion=sentences.pop()||"";
+ const conclusion=sentences.shift()||"";
  return {conclusion:publicText(conclusion),movement:publicText(sentences.shift()),implication:publicText(sentences.shift()),nextSession:!/\d/.test(focus)?publicText(focus):""};
 }
 export function normalizeDailyInsight(e={}){
@@ -122,8 +125,9 @@ export function normalizeDailyInsight(e={}){
  const sources=sourceItems.filter(s=>present(s?.label)&&safeSource(s?.url)).map(s=>({id:s.id,label:s.label,url:s.url}));
  const all=list(e.metrics).filter(m=>present(m?.value)).map(m=>legacyMetric(m,e));
  let metrics=v?newMetrics(v.marketFacts,sources):all.filter(m=>m.key);
- const extraMetrics=v?[]:all.filter(m=>!m.key);
+ const extraMetrics=v?[]:all.filter((m,i)=>!m.key||all.findIndex(x=>x.key===m.key)!==i);
  if(!v&&e.date==="2026-09-17"&&!metrics.some(m=>m.key==="technical"))metrics.push({key:"technical",label:"Xu hướng kỹ thuật",value:"Trên MA20, MA50 và MA200",change:"",source:"VNDIRECT",tone:"positive"});
+ if(!v&&e.date==="2026-11-23"&&!metrics.some(m=>m.key==="technical"))metrics.push({key:"technical",label:"Xu hướng kỹ thuật",value:"Dưới MA20 và MA50",change:"MA20 dốc xuống",source:"VNIndex.ai",tone:"negative"});
  const rank=["vnIndex","liquidity","breadth","technical"];
  metrics=metrics.filter((m,i,a)=>a.findIndex(x=>x.key===m.key)===i).sort((a,b)=>rank.indexOf(a.key)-rank.indexOf(b.key));
  const a=v?{conclusion:clean(v.conclusion),...v.analysis}:legacyAnalysis(e);

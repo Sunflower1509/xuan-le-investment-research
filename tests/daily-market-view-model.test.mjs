@@ -32,6 +32,7 @@ test("four representative records retain exact source values",()=>{
    const e=entry(date);assert.ok(e,date);
    const m=normalizeDailyInsight(e);
    for(const raw of e.metrics||[]){
+     if(!raw.value||raw.value.trim()==="—")continue;
      const displayed=[...m.metrics,...m.extraMetrics].find(x=>x.label===publicText(raw.label));
      assert.ok(displayed,date+" "+raw.label);
      assert.equal(displayed.value,publicText(raw.value));

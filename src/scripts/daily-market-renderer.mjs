@@ -18,7 +18,7 @@ function renderReport(m){
  const extras=m.extraMetrics.length?'<div class="dmv3-facts">'+m.extraMetrics.map(metric).join("")+'</div>':"";
  const analysis=rows.length?'<section class="dmv3-section"><h4>Nhận định chính</h4><dl class="dmv3-analysis">'+rows.map(([l,v])=>'<div><dt>'+esc(l)+'</dt><dd>'+esc(v)+'</dd></div>').join("")+'</dl></section>':"";
  const scenarios=m.scenarios.filter(s=>show(s.condition)||show(s.conclusion));
- const playbook=scenarios.length?'<section class="dmv3-section"><h4>Kịch bản Nếu – Thì</h4><div class="dmv3-scenarios">'+scenarios.map((s,i)=>'<article class="dmv3-scenario"><div><span class="dmv3-scenario-name">'+esc(scenarioNames[s.state]||"Kịch bản "+(i+1))+'</span><strong>'+esc(s.condition)+'</strong></div>'+(show(s.confirmation)?'<div><span class="dmv3-label">Xác nhận</span><p>'+esc(s.confirmation)+'</p></div>':"")+'<div><span class="dmv3-label">Kết luận / hành động</span><p>'+esc(s.conclusion)+'</p></div></article>').join("")+'</div></section>':"";
+ const playbook=scenarios.length?'<section class="dmv3-section"><h4>Kịch bản Nếu – Thì</h4><div class="dmv3-scenarios">'+scenarios.map((s,i)=>'<article class="dmv3-scenario"><div><span class="dmv3-scenario-name">'+esc(scenarioNames[s.state]||"Kịch bản "+(i+1))+'</span><strong>'+esc(publicText(s.condition))+'</strong></div>'+(show(s.confirmation)?'<div><span class="dmv3-label">Xác nhận</span><p>'+esc(s.confirmation)+'</p></div>':"")+'<div><span class="dmv3-label">Kết luận / hành động</span><p>'+esc(publicText(s.conclusion))+'</p></div></article>').join("")+'</div></section>':"";
  const levels=m.levels.length?'<section class="dmv3-section"><h4>Các mốc kỹ thuật</h4><dl class="dmv3-levels">'+m.levels.map(l=>'<div><dt>'+esc(l.label)+'</dt><dd><strong>'+esc(l.value)+'</strong>'+(show(l.note)?'<small>'+esc(l.note)+'</small>':"")+(show(l.source)?'<small>Nguồn: '+esc(l.source)+'</small>':"")+'</dd></div>').join("")+'</dl></section>':"";
  const sourceLinks=m.sources.map(s=>'<li><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label)+'</a></li>').join("");
  const legend='<dl class="dmv3-legend">'+Object.keys(STATUS).map(k=>'<div><dt>'+badge(k)+'</dt><dd>'+esc(STATUS[k].description)+'</dd></div>').join("")+'</dl>';
@@ -61,7 +61,7 @@ export function mountDailyMarket(root,entries){
      const closed=[...report.querySelectorAll("details:not([open])")];closed.forEach(d=>d.open=true);
      document.body.classList.add("dmv3-printing");
      const restore=()=>{closed.forEach(d=>d.open=false);document.body.classList.remove("dmv3-printing");};
-     window.addEventListener("afterprint",restore,{once:true});try{window.print();}finally{restore();}
+     window.addEventListener("afterprint",restore,{once:true});try{window.print();}catch(error){restore();throw error;}
    }
  });
  select(active);return {select};
