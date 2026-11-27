@@ -18,6 +18,7 @@ import "./data/daily-insights-20261119.js";
 import "./data/daily-insights-20261120.js";
 import "./data/daily-insights-20261123.js";
 import "./data/daily-insights-20261125.js";
+import "./data/daily-insights-20261126.js";
 import "./data/trade-ledger.js";
 import "./scripts/app.js";
 import "./scripts/reference-portfolio.mjs";
