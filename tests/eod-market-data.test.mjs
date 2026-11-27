@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict, parseCophieu68NoTrade, verifyWithRetries } from "../scripts/update-eod-market-data.mjs";
+import { isCoverageCurrent, parseCafeF, parseKbsDaily, parseVndirect, secondaryCloseDecision, reconcileCafeFConflict, parseCophieu68NoTrade, verifyWithRetries, reviewedStockbizFallback } from "../scripts/update-eod-market-data.mjs";
 import { updateCacheTokenHtml } from "../scripts/update-cache-token.mjs";
 
 const date = "2026-08-20";
@@ -253,4 +253,17 @@ test("EOD retry reports unresolved symbols without claiming complete verificatio
   assert.equal(result.quotes.length,1);
   assert.equal(result.errors.length,1);
   assert.equal(result.errors[0].ticker,"BBB");
+});
+
+test("reviewed Stockbiz fallback requires exact date, ticker, matching primary close and missing KBS row",()=>{
+  const input={ticker:"DDV",date:"2026-11-27",primary:{close:14100},kbsError:Error("KBS missing row")};
+  const ok=reviewedStockbizFallback(input);
+  assert.equal(ok.quote.close,14100);
+  assert.equal(ok.quote.volume,168700);
+  assert.equal(ok.decision.mode,"reviewed-stockbiz");
+  assert.equal(reviewedStockbizFallback({...input,date:"2026-11-26"}),null);
+  assert.equal(reviewedStockbizFallback({...input,ticker:"MSR"}),null);
+  assert.equal(reviewedStockbizFallback({...input,primary:{close:14000}}),null);
+  assert.equal(reviewedStockbizFallback({...input,kbsError:Error("KBS conflicting price")}),null);
+  assert.equal(reviewedStockbizFallback({...input,ticker:"OIL",primary:{close:12000}}).quote.volume,1502000);
 });

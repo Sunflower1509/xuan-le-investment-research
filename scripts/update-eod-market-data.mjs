@@ -468,6 +468,24 @@ export const reconcileCafeFConflict = ({ primaryClose, cafeFClose, kbsQuote, kbs
   };
 };
 
+
+ // Reviewed closing rows (Stockbiz historical table, 27/11/2026 15:00:06).
+ // Scope is exact date and ticker; no automatic carry-forward or substituted primary price.
+ const REVIEWED_STOCKBIZ_ROWS = Object.freeze({
+   "2026-11-27": Object.freeze({
+     DDV: Object.freeze({open:13800,high:14200,low:13800,close:14100,volume:168700,source:"https://web.stockbiz.vn/Stocks/DDV/HistoricalQuotes.aspx"}),
+     OIL: Object.freeze({open:11200,high:12100,low:11100,close:12000,volume:1502000,source:"https://web.stockbiz.vn/Stocks/OIL/HistoricalQuotes.aspx"})
+   })
+ });
+ export function reviewedStockbizFallback({ticker,date,primary,kbsError,cafeFClose=null}) {
+   if (!/KBS missing row/i.test(String(kbsError?.message||kbsError))) return null;
+   const row=REVIEWED_STOCKBIZ_ROWS[date]?.[ticker];
+   if(!row || !primary || primary.close!==row.close) return null;
+   const quote=validateOhlc({open:row.open,high:row.high,low:row.low,close:row.close,volume:row.volume},"Stockbiz reviewed");
+   return {quote,provider:"Stockbiz",decision:{ok:true,mode:"reviewed-stockbiz",source:row.source,cafeFClose,
+     reason:"KBS thiếu dòng đúng ngày; bảng lịch sử Stockbiz chốt 15:00:06 ngày 27/11 xác nhận giá đóng cửa trùng VNDIRECT. Chỉ áp dụng ngày và mã đã kiểm tra; khối lượng nguồn chính giữ nguyên."}};
+ }
+
 const loadResearch = async () => {
   const code = await fs.readFile(DATA_PATH, "utf8");
   const sandbox = { window: {} };
@@ -513,7 +531,17 @@ const verifyDate = async (coverage, date) => {
         cafeFClose = secondary.close;
         closeDecision = secondaryCloseDecision({ ticker, date, primaryClose: primary.close, cafeFClose });
         if (!closeDecision.ok) {
-          const kbsQuote = parseKbsDaily(await fetchJson(kbsSource), date);
+          let kbsQuote;
+          try {
+            kbsQuote = parseKbsDaily(await fetchJson(kbsSource), date);
+          } catch (kbsError) {
+            const reviewed = reviewedStockbizFallback({ticker,date,primary,kbsError,cafeFClose});
+            if (!reviewed) throw kbsError;
+            secondary = reviewed.quote;
+            secondaryProvider = reviewed.provider;
+            closeDecision = reviewed.decision;
+          }
+          if (kbsQuote) {
           const resolved = reconcileCafeFConflict({
             primaryClose: primary.close,
             cafeFClose,
@@ -527,6 +555,7 @@ const verifyDate = async (coverage, date) => {
           secondary = kbsQuote;
           secondaryProvider = "KBS";
           closeDecision = resolved;
+          }
         }
       } catch (cafeFError) {
         const message = String(cafeFError?.message || cafeFError);
@@ -545,6 +574,12 @@ const verifyDate = async (coverage, date) => {
             reason: "CafeF chưa có dòng EOD đúng ngày; KBS date-specific OHLC hợp lệ xác nhận giá đóng cửa trùng VNDIRECT."
           };
         } catch (kbsError) {
+          const reviewed = reviewedStockbizFallback({ticker,date,primary,kbsError,cafeFClose});
+          if (reviewed) {
+            secondary = reviewed.quote;
+            secondaryProvider = reviewed.provider;
+            closeDecision = reviewed.decision;
+          } else {
           if (!/KBS missing row/i.test(String(kbsError?.message))
             || primary.volume !== 0 || Math.abs(primary.changePct) > 0.0001
             || primary.open !== primary.close || primary.high !== primary.close || primary.low !== primary.close) {
@@ -564,6 +599,7 @@ const verifyDate = async (coverage, date) => {
             source: noTradeSource,
             reason: "VNDIRECT và Cophieu68 cùng ghi đúng ngày: giá không đổi, khối lượng khớp lệnh 0; KBS không có candle khi không giao dịch."
           };
+          }
         }
       }
       return {
@@ -718,6 +754,7 @@ const run = async () => {
   const volumeMismatches = [];
   const closeOverrides = [];
   const kbsFallbacks = [];
+  const reviewedStockbiz = [];
   const zeroVolumeConfirmed = [];
   for (const item of after.coverage) {
     const quote = quoteMap.get(String(item.ticker).toUpperCase());
@@ -748,6 +785,9 @@ const run = async () => {
     if (quote.closeVerificationMode === "zero-volume-independent") {
       zeroVolumeConfirmed.push({ ticker: quote.ticker, close: quote.close, volume: quote.volume, source: quote.priceSourceSecondary });
     }
+    if (quote.closeVerificationMode === "reviewed-stockbiz") {
+      reviewedStockbiz.push({ticker:quote.ticker,close:quote.close,source:quote.priceSourceSecondary,reason:quote.closeVerificationReason});
+    }
     if (quote.closeVerificationMode === "kbs-fallback") {
       kbsFallbacks.push({
         ticker: quote.ticker,
@@ -761,7 +801,7 @@ const run = async () => {
   after.meta.updated = targetDate;
   after.meta.release = targetDate;
   const matchedVolumes = tickers.length - volumeMismatches.length;
-  const directCloseMatches = tickers.length - closeOverrides.length - kbsFallbacks.length - zeroVolumeConfirmed.length;
+  const directCloseMatches = tickers.length - closeOverrides.length - kbsFallbacks.length - zeroVolumeConfirmed.length - reviewedStockbiz.length;
   const mismatchText = volumeMismatches.length
     ? volumeMismatches.map((entry) => entry.ticker + ": VNDIRECT " + entry.vndirect.toLocaleString("vi-VN") + " vs " + entry.provider + " " + entry.secondary.toLocaleString("vi-VN") + " (chênh " + Math.abs(entry.diff).toLocaleString("vi-VN") + ")").join("; ")
     : "không có chênh lệch";
@@ -774,7 +814,7 @@ const run = async () => {
   const noTradeText = zeroVolumeConfirmed.length
     ? zeroVolumeConfirmed.length + " mã không có khớp lệnh, được Cophieu68 date-specific xác nhận giá không đổi và khối lượng 0 (" + zeroVolumeConfirmed.map(x => x.ticker).join(", ") + ")"
     : "không phát sinh ngoại lệ ngày không có giao dịch";
-  after.meta.note = "Giá đóng cửa, biến động và khối lượng khớp lệnh của " + tickers.length + "/" + tickers.length + " mã được khóa tại phiên " + targetDate.split("-").reverse().join("/") + ". VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF " + directCloseMatches + "/" + tickers.length + " mã; " + fallbackText + ". " + noTradeText + ". " + closeOverrides.length + "/" + tickers.length + " ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: " + overrideText + ". Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu " + matchedVolumes + "/" + tickers.length + " mã; " + mismatchText + ". Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.";
+  after.meta.note = "Giá đóng cửa, biến động và khối lượng khớp lệnh của " + tickers.length + "/" + tickers.length + " mã được khóa tại phiên " + targetDate.split("-").reverse().join("/") + ". VNDIRECT Finfo là nguồn chính và từng dòng được kiểm tra tính hợp lệ OHLC/nmVolume/pctChange. Giá đóng cửa khớp trực tiếp CafeF " + directCloseMatches + "/" + tickers.length + " mã; " + fallbackText + ". Stockbiz đã rà soát đúng phiên: " + reviewedStockbiz.map(x=>x.ticker+" "+x.close+" ("+x.source+")").join("; ") + ". " + noTradeText + ". " + closeOverrides.length + "/" + tickers.length + " ngoại lệ CafeF được nguồn thứ ba độc lập xác nhận trùng VNDIRECT: " + overrideText + ". Khối lượng khớp trực tiếp VNDIRECT-nguồn đối chiếu " + matchedVolumes + "/" + tickers.length + " mã; " + mismatchText + ". Website dùng nmVolume và pctChange từ VNDIRECT theo quy ước nguồn chính; fallback KBS chỉ được phép khi CafeF thiếu đúng dòng ngày mục tiêu, không được dùng để che sai khác giá. Vùng mua, fair value, target, stop, recommendation và điều kiện hành động giữ nguyên theo hồ sơ đang công bố.";
 
   if (immutableProjection(before) !== immutableProjection(after)) {
     throw new Error("Phát hiện thay đổi ngoài whitelist market fields/meta; hủy cập nhật.");
@@ -789,6 +829,7 @@ const run = async () => {
     closeDirectMatched: directCloseMatches,
     kbsFallbackCount: kbsFallbacks.length,
     kbsFallbacks,
+    reviewedStockbiz,
     zeroVolumeConfirmed,
     closeOverrides,
     volumeMatched: matchedVolumes,

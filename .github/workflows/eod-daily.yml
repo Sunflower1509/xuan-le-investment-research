@@ -1,4 +1,4 @@
-# Verified EOD audit request for 2026-11-23 after close; retain strict verification, existing layout and risk gates
+# Verified EOD audit: reviewed exact-date fallback for 27/11/2026; strict verification retained
 name: Verified EOD market lock and deploy
 
 on:
