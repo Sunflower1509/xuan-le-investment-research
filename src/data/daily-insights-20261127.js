@@ -10,7 +10,7 @@
   "rulebookVersion": "v3.3.1",
   "sentiment": "cautious",
   "sentimentLabel": "CHƯA ĐÁNH GIÁ",
-  "dataStatus": "Dữ liệu đến hết phiên 27/11/2026; bản tổng hợp HOSE công bố 16:34:03. Bản nghiên cứu rút gọn. Chưa xác minh đầy đủ chuỗi thanh khoản toàn HOSE, lịch sự kiện, phiên phân phối, MA200, khối ngoại khớp lệnh 5 phiên và Sổ gốc. Giá 136 mã đang được kiểm tra lại tại thời điểm soạn; không dùng bộ giá 26/11 làm dữ liệu 27/11.",
+  "dataStatus": "Dữ liệu đến hết phiên 27/11/2026; bản tổng hợp HOSE công bố 16:34:03. Bản nghiên cứu rút gọn. Chưa xác minh đầy đủ chuỗi thanh khoản toàn HOSE, lịch sự kiện, phiên phân phối, MA200, khối ngoại khớp lệnh 5 phiên và Sổ gốc. Giá đóng cửa 136/136 mã đã khóa và triển khai đúng phiên 27/11; nhật ký chênh lệch khối lượng được lưu riêng.",
   "title": "VN-Index hồi 24,22 điểm, thanh khoản chưa xác nhận đảo chiều",
   "thesis": "VN-Index đóng cửa 1.653,90 điểm, tăng 24,22 điểm (+1,49%). HOSE công bố giá trị khớp lệnh 9.291 tỷ đồng, giảm 33,66% so với phiên 26/11. Độ rộng cải thiện với 208 mã tăng, 83 mã giảm và 59 mã tham chiếu theo Thời báo Tài chính Việt Nam và taichinh.com. Chỉ số vẫn dưới MA20 1.711,91 và MA50 1.736,77. Nhịp hồi tích cực về điểm số nhưng chưa đủ xác nhận đảo chiều.",
   "author": "Xuân Lê TVS",
@@ -70,8 +70,8 @@
     ],
     "dataIntegrity": {
       "tone": "warning",
-      "label": "Dữ liệu đến hết phiên 27/11/2026; bản tổng hợp HOSE công bố 16:34:03. Bản nghiên cứu rút gọn. Chưa xác minh đầy đủ chuỗi thanh khoản toàn HOSE, lịch sự kiện, phiên phân phối, MA200, khối ngoại khớp lệnh 5 phiên và Sổ gốc. Giá 136 mã đang được kiểm tra lại tại thời điểm soạn; không dùng bộ giá 26/11 làm dữ liệu 27/11.",
-      "shortLabel": "Nghiên cứu rút gọn • chưa khóa toàn bộ giá cổ phiếu"
+      "label": "Dữ liệu đến hết phiên 27/11/2026; bản tổng hợp HOSE công bố 16:34:03. Bản nghiên cứu rút gọn. Chưa xác minh đầy đủ chuỗi thanh khoản toàn HOSE, lịch sự kiện, phiên phân phối, MA200, khối ngoại khớp lệnh 5 phiên và Sổ gốc. Giá đóng cửa 136/136 mã đã khóa và triển khai đúng phiên 27/11; nhật ký chênh lệch khối lượng được lưu riêng.",
+      "shortLabel": "Nghiên cứu rút gọn • đã khóa giá cổ phiếu"
     }
   },
   "metrics": [

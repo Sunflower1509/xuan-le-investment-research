@@ -12,3 +12,7 @@ Ngày thực hiện 28/11/2026. Mốc cắt hết 27/11 giờ Việt Nam. Không
 - Lịch ETF: lịch CTCK có thông tin không đồng nhất 27/11 hoặc 30/11; chưa mở được thông báo chính thức từ đơn vị chỉ số, không gắn cờ hoặc đếm phân phối. MA200 không có đủ dòng đã đọc. Chưa hoàn tất nhật ký tìm kiếm đủ 3 trang cho từng mục thiếu, chưa đạt toàn bộ 20 tiêu chí tự kiểm.
 - Giá DDV và OIL tham chiếu để đối chiếu hệ thống: Stockbiz bảng lịch sử chốt 15:00:06: DDV 14,10 nghìn đồng, KL 168.700; OIL 12,00 nghìn đồng, KL 1.502.000. https://web.stockbiz.vn/Stocks/DDV/HistoricalQuotes.aspx ; https://web.stockbiz.vn/Stocks/OIL/HistoricalQuotes.aspx . Nguồn khác có bản chụp trong phiên; chỉ sử dụng nếu VNDIRECT exact-date khớp giá; không khẳng định đã khóa 136 mã.
 - Chưa nghiệm thu dữ liệu EOD hoặc xuất bản. Bản Zalo và web cùng dữ liệu; không thay giao diện, không công bố dữ liệu chưa đủ căn cứ hoặc tỷ trọng/vùng giao dịch.
+
+## Cập nhật nghiệm thu EOD ngày 28/11
+- GitHub Actions 46084961334 kết thúc success, 136/136 ngay lượt đầu; 134 giá trùng CafeF, 2 giá Stockbiz đã đối chiếu với VNDIRECT, 113 khối lượng trùng và 23 chênh lệch. 199 bài kiểm thử đạt; kiểm tra trực tuyến sau triển khai đạt. Commit EOD: 1570654a7e39a15991aea00ff8fac193eb23551b. https://github.com/Sunflower1509/xuan-le-investment-research/actions/runs/46084961334
+- Bản nghiên cứu mới vẫn nằm ở nhánh rà soát; chưa xác nhận xuất bản bản tin.
