@@ -1,0 +1,49 @@
+name: Auto Market Research V1.0 — shadow audit
+on:
+  pull_request:
+    paths:
+      - "scripts/market-research-*.mjs"
+      - "tests/market-research.test.mjs"
+      - ".github/workflows/market-research-daily.yml"
+  schedule:
+    - cron: "37 10 * * 1-5" # 17:37 Vietnam
+    - cron: "17 14 * * 1-5" # 21:17 Vietnam
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Exact already-locked session (blank uses locked date)"
+        required: false
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: market-research-shadow-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Run focused regression tests
+        run: node --test tests/market-research.test.mjs
+      - name: Collect real evidence without writing repository
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          RESEARCH_DATE: ${{ inputs.date }}
+        run: node scripts/market-research-shadow.mjs
+      - name: Save private-to-workflow audit evidence (repository visibility applies)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-research-preview-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/market-research-preview/
+          retention-days: 7
+          if-no-files-found: warn
